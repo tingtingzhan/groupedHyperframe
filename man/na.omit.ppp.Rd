@@ -12,13 +12,13 @@
 \item{...}{additional parameters, currently not in use}
 }
 \value{
-Function \link{na.omit.ppp} returns a \link[spatstat.geom]{ppp.object}.
+Function \code{\link[=na.omit.ppp]{na.omit.ppp()}} returns a \link[spatstat.geom]{ppp.object}.
 }
 \description{
 Handle Missing \link[spatstat.geom]{marks} in \link[spatstat.geom]{ppp.object}.
 }
 \details{
-Function \link{na.omit.ppp} omits missing \link[spatstat.geom]{marks} in a \link[spatstat.geom]{ppp.object}.
+Function \code{\link[=na.omit.ppp]{na.omit.ppp()}} omits missing \link[spatstat.geom]{marks} in a \link[spatstat.geom]{ppp.object}.
 }
 \note{
 tzh suppose missing \verb{$x} and \verb{$y} are
@@ -38,5 +38,5 @@ nbfires_julian = unstack.ppp(nbfires)$out.julian
 suppressWarnings(print.ppp(nbfires_julian))
 suppressWarnings(plot.ppp(nbfires_julian))
 na.omit.ppp(nbfires_julian)
-
 }
+\keyword{internal}

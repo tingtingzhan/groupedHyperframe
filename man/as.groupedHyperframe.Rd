@@ -3,7 +3,7 @@
 \name{as.groupedHyperframe}
 \alias{as.groupedHyperframe}
 \alias{as.groupedHyperframe.hyperframe}
-\title{as.groupedHyperframe}
+\title{Creation of \code{groupedHyperframe}}
 \usage{
 as.groupedHyperframe(x, ...)
 
@@ -16,8 +16,11 @@ as.groupedHyperframe(x, ...)
 
 \item{group}{\link[stats]{formula}}
 }
+\value{
+Function \code{\link[=as.groupedHyperframe]{as.groupedHyperframe()}} returns a \code{groupedHyperframe}.
+}
 \description{
-as.groupedHyperframe
+To create a \code{groupedHyperframe} object
 }
 \examples{
 library(spatstat.data)
@@ -36,3 +39,4 @@ head(tmp <- with(unclass(flu)$df, expr = data.frame(
 head(flu2 <- spatstat.geom::cbind.hyperframe(flu, tmp))
 head(as.groupedHyperframe(flu2, group = ~ virus.stain/frameid))
 }
+\keyword{internal}

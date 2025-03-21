@@ -12,13 +12,13 @@
 \item{base}{\link[base]{numeric} scalar}
 }
 \value{
-Function \link{log.ppp} returns a \link[spatstat.geom]{ppp.object}.
+Function \code{\link[=log.ppp]{log.ppp()}} returns a \link[spatstat.geom]{ppp.object}.
 }
 \description{
 ...
 }
 \details{
-Function \link{log.ppp} takes a \link[base]{log} of continuous marks
+Function \code{\link[=log.ppp]{log.ppp()}} takes a \link[base]{log} of continuous marks
 of a \link[spatstat.geom]{ppp.object}.
 }
 \examples{
@@ -26,3 +26,4 @@ data(longleaf, package = 'spatstat.data')
 plot(longleaf)
 plot(log.ppp(longleaf))
 }
+\keyword{internal}

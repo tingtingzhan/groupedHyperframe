@@ -1,13 +1,17 @@
 
-#' @title as.groupedHyperframe
+#' @title Creation of `groupedHyperframe`
 #' 
 #' @description
-#' as.groupedHyperframe
+#' To create a `groupedHyperframe` object
 #' 
 #' @param x see Usage
 #' 
 #' @param ... additional parameters
 #' 
+#' @returns
+#' Function [as.groupedHyperframe()] returns a `groupedHyperframe`.
+#' 
+#' @keywords internal
 #' @name as.groupedHyperframe
 #' @export
 as.groupedHyperframe <- function(x, ...) UseMethod(generic = 'as.groupedHyperframe')

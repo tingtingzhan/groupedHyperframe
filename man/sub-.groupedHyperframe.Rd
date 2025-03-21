@@ -17,3 +17,4 @@ Function \link{[.groupedHyperframe} returns a \link{groupedHyperframe} or a \lin
 \description{
 Extract Subset of \link{groupedHyperframe}
 }
+\keyword{internal}

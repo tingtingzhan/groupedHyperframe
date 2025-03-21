@@ -19,7 +19,7 @@
 #' }
 #' 
 #' @returns 
-#' Function [check_fvlist] does not have a returned value.
+#' Function [check_fvlist()] does not have a returned value.
 #' 
 #' @keywords internal
 #' @export
@@ -60,6 +60,7 @@ key1_fvlist <- function(X, ...) {
 #' @returns
 #' All functions return a \link[base]{double} \link[base]{matrix}.
 #' 
+#' @keywords internal
 #' @name fvlist
 #' @export
 key1val.fvlist <- function(X, check = TRUE, ...) {

@@ -5,7 +5,7 @@
 \alias{groupedHyperframe-package}
 \title{Grouped Hyperframe}
 \description{
-...
+An S3 class groupedHyperframe that inherits from hyperframe (defined by package spatstat.geom). Batch processes on ppp-hypercolumn. Aggregation of fv-hypercolumn(s) and numeric-hypercolumn(s) over nested grouping structure.
 }
 \author{
 \strong{Maintainer}: Tingting Zhan \email{tingtingzhan@gmail.com} (\href{https://orcid.org/0000-0001-9971-4844}{ORCID})

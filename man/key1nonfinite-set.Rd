@@ -12,6 +12,9 @@ key1nonfinite(x) <- value
 \item{value}{\link[base]{numeric} scalar, to replace
 the \code{NaN} and \code{Inf} elements. Default \code{0}.}
 }
+\value{
+Function \code{\link[=key1nonfinite<-]{key1nonfinite<-()}} returns an \link[spatstat.explore]{fv.object}.
+}
 \description{
 ..
 }
@@ -24,9 +27,6 @@ r2 = seq.int(from = 0, to = 250, by = 10)
 markcorr(spruces, r = r1) |> key1val.fv()
 markcorr(spruces, r = r2) |> key1val.fv()
 
-\dontrun{
-debug(sewsmod); markcorr(spruces, r = r2)} # reason found
-
 a = markcorr(spruces, r = r2)
 key1val.fv(a)
 key1nonfinite(a) = 0
@@ -37,3 +37,4 @@ markcorr(spruces, r = r2) |>
  `key1nonfinite<-`(value = 0) |>
  key1val.fv()
 }
+\keyword{internal}

@@ -31,6 +31,7 @@ NULL
 #' 
 #' @seealso `?nlme:::print.groupedData`
 #' 
+#' @keywords internal
 #' @importFrom cli col_blue
 #' @importFrom spatstat.geom as.data.frame.hyperframe as.list.hyperframe
 #' @importFrom utils head
@@ -82,6 +83,7 @@ print.groupedHyperframe <- function(x, ...) {
 #' @returns
 #' Function \link{[.groupedHyperframe} returns a [groupedHyperframe] or a \link[spatstat.geom]{hyperframe}.
 #' 
+#' @keywords internal
 #' @importFrom spatstat.geom [.hyperframe
 #' @export [.groupedHyperframe
 #' @export

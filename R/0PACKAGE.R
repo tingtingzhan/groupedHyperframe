@@ -2,8 +2,6 @@
 
 #' @title Grouped Hyperframe
 #'
-#' @description
-#' ...
 #'
 # @references none yet
 #'

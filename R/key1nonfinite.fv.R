@@ -12,6 +12,9 @@
 #' @param value \link[base]{numeric} scalar, to replace
 #' the `NaN` and `Inf` elements. Default `0`.
 #' 
+#' @returns 
+#' Function [key1nonfinite<-()] returns an \link[spatstat.explore]{fv.object}.
+#' 
 #' @examples
 #' library(spatstat.data)
 #' library(spatstat.explore)
@@ -20,9 +23,6 @@
 #' r2 = seq.int(from = 0, to = 250, by = 10)
 #' markcorr(spruces, r = r1) |> key1val.fv()
 #' markcorr(spruces, r = r2) |> key1val.fv()
-#' 
-#' \dontrun{
-#' debug(sewsmod); markcorr(spruces, r = r2)} # reason found
 #' 
 #' a = markcorr(spruces, r = r2)
 #' key1val.fv(a)
@@ -33,6 +33,7 @@
 #' markcorr(spruces, r = r2) |>
 #'  `key1nonfinite<-`(value = 0) |>
 #'  key1val.fv()
+#' @keywords internal
 #' @export
 `key1nonfinite<-` <- function(x, value = 0) {
   key1. <- key1.fv(x)
@@ -40,3 +41,8 @@
   return(x)
 }
 
+
+if (FALSE) {
+ debug(sewsmod); markcorr(spruces, r = r2)
+} # reason found
+ 

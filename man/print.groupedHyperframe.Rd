@@ -20,3 +20,4 @@ Print \link{groupedHyperframe}
 \seealso{
 \code{?nlme:::print.groupedData}
 }
+\keyword{internal}

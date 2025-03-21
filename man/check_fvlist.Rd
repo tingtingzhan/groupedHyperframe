@@ -12,7 +12,7 @@ check_fvlist(X, ...)
 \item{...}{additional parameters, currently not in use}
 }
 \value{
-Function \link{check_fvlist} does not have a returned value.
+Function \code{\link[=check_fvlist]{check_fvlist()}} does not have a returned value.
 }
 \description{
 check_fvlist

@@ -10,16 +10,17 @@
 #' @param x an \link[spatstat.explore]{fv.object}
 #' 
 #' @details
-#' Function [is.finite.fv] is an S3 method dispatch of the generic function 
+#' Function [is.finite.fv()] is an S3 method dispatch of the generic function 
 #' \link[base]{is.finite}.
 #' 
-#' Function [is.finite.fv] finds the \link[base]{finite},
+#' Function [is.finite.fv()] finds the \link[base]{finite},
 #' i.e., non-`NA`, non-`NaN` and non-`Inf`,
 #' indices of the *black solid curve* of an \link[spatstat.explore]{fv.object}.
 #' 
 #' @returns 
-#' Function [is.finite.fv] returns a \link[base]{logical} \link[base]{vector}.
+#' Function [is.finite.fv()] returns a \link[base]{logical} \link[base]{vector}.
 #' 
+#' @keywords internal
 #' @method is.finite fv
 #' @export is.finite.fv
 #' @export

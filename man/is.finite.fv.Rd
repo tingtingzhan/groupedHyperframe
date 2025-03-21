@@ -10,7 +10,7 @@
 \item{x}{an \link[spatstat.explore]{fv.object}}
 }
 \value{
-Function \link{is.finite.fv} returns a \link[base]{logical} \link[base]{vector}.
+Function \code{\link[=is.finite.fv]{is.finite.fv()}} returns a \link[base]{logical} \link[base]{vector}.
 }
 \description{
 Finite indices of the \emph{black solid curve}
@@ -18,10 +18,11 @@ as shown in \link[spatstat.explore]{plot.fv}
 of an \link[spatstat.explore]{fv.object}.
 }
 \details{
-Function \link{is.finite.fv} is an S3 method dispatch of the generic function
+Function \code{\link[=is.finite.fv]{is.finite.fv()}} is an S3 method dispatch of the generic function
 \link[base]{is.finite}.
 
-Function \link{is.finite.fv} finds the \link[base]{finite},
+Function \code{\link[=is.finite.fv]{is.finite.fv()}} finds the \link[base]{finite},
 i.e., non-\code{NA}, non-\code{NaN} and non-\code{Inf},
 indices of the \emph{black solid curve} of an \link[spatstat.explore]{fv.object}.
 }
+\keyword{internal}

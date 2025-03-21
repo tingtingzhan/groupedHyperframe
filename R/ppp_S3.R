@@ -10,16 +10,17 @@
 #' @param base \link[base]{numeric} scalar
 #' 
 #' @details
-#' Function [log.ppp] takes a \link[base]{log} of continuous marks 
+#' Function [log.ppp()] takes a \link[base]{log} of continuous marks 
 #' of a \link[spatstat.geom]{ppp.object}.
 #' 
 #' @return 
-#' Function [log.ppp] returns a \link[spatstat.geom]{ppp.object}.
+#' Function [log.ppp()] returns a \link[spatstat.geom]{ppp.object}.
 #' 
 #' @examples
 #' data(longleaf, package = 'spatstat.data')
 #' plot(longleaf)
 #' plot(log.ppp(longleaf))
+#' @keywords internal
 #' @importFrom spatstat.geom markformat.ppp
 #' @export log.ppp
 #' @export
@@ -54,10 +55,10 @@ log.ppp <- function(x, base = exp(1)) {
 #' @param ... additional parameters, currently not in use
 #' 
 #' @details
-#' Function [na.omit.ppp] omits missing \link[spatstat.geom]{marks} in a \link[spatstat.geom]{ppp.object}.
+#' Function [na.omit.ppp()] omits missing \link[spatstat.geom]{marks} in a \link[spatstat.geom]{ppp.object}.
 #' 
 #' @returns
-#' Function [na.omit.ppp] returns a \link[spatstat.geom]{ppp.object}.
+#' Function [na.omit.ppp()] returns a \link[spatstat.geom]{ppp.object}.
 #' 
 #' @note
 #' tzh suppose missing `$x` and `$y` are 
@@ -77,7 +78,7 @@ log.ppp <- function(x, base = exp(1)) {
 #' suppressWarnings(print.ppp(nbfires_julian))
 #' suppressWarnings(plot.ppp(nbfires_julian))
 #' na.omit.ppp(nbfires_julian)
-#' 
+#' @keywords internal
 #' @importFrom stats na.omit
 #' @importFrom spatstat.geom subset.ppp markformat.ppp
 #' @method na.omit ppp

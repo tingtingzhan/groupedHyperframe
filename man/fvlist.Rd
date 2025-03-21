@@ -31,3 +31,4 @@ of the \link[spatstat.explore]{fv.object}s.
 
 Function \link{cumtrapz.fvlist} is a batch process of function \link{cumtrapz.fv}.
 }
+\keyword{internal}
