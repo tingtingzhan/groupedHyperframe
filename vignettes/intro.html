@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>Grouped Hyperframe</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Grouped Hyperframe</h1>
+
+
+
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(groupedHyperframe)</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">library</span>(survival) <span class="co"># to help ?spatstat.geom::hyperframe understand ?survival::Surv object</span></span></code></pre></div>
+<div id="introduction" class="section level1">
+<h1>Introduction</h1>
+<p>Development version of package <code>groupedHyperframe</code> is
+hosted on <a href="https://github.com/tingtingzhan/groupedHyperframe">Github</a>.</p>
+<p>Development versions of <code>spatstat</code> family of packages are
+required.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&#39;spatstat/spatstat&#39;</span>); <span class="fu">packageDate</span>(<span class="st">&#39;spatstat&#39;</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&#39;spatstat/spatstat.data&#39;</span>); <span class="fu">packageDate</span>(<span class="st">&#39;spatstat.data&#39;</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&#39;spatstat/spatstat.explore&#39;</span>); <span class="fu">packageDate</span>(<span class="st">&#39;spatstat.explore&#39;</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&#39;spatstat/spatstat.geom&#39;</span>); <span class="fu">packageDate</span>(<span class="st">&#39;spatstat.geom&#39;</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&#39;spatstat/spatstat.linnet&#39;</span>); <span class="fu">packageDate</span>(<span class="st">&#39;spatstat.linnet&#39;</span>)</span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&#39;spatstat/spatstat.model&#39;</span>); <span class="fu">packageDate</span>(<span class="st">&#39;spatstat.model&#39;</span>)</span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&#39;spatstat/spatstat.random&#39;</span>); <span class="fu">packageDate</span>(<span class="st">&#39;spatstat.random&#39;</span>)</span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&#39;spatstat/spatstat.sparse&#39;</span>); <span class="fu">packageDate</span>(<span class="st">&#39;spatstat.sparse&#39;</span>)</span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&#39;spatstat/spatstat.univar&#39;</span>); <span class="fu">packageDate</span>(<span class="st">&#39;spatstat.univar&#39;</span>)</span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&#39;spatstat/spatstat.utils&#39;</span>); <span class="fu">packageDate</span>(<span class="st">&#39;spatstat.utils&#39;</span>)</span></code></pre></div>
+</div>
+<div id="methods" class="section level1">
+<h1>Methods</h1>
+<div id="groupedhyperframe-object" class="section level2">
+<h2><code>groupedHyperframe</code> object</h2>
+<p>The <code>groupedHyperframe</code> object inherits from
+<code>spatstat.geom::hyperframe</code> object, in a similar fashion as
+<code>nlme::groupedData</code> inherits from
+<code>base::data.frame</code>. In addition to
+<code>spatstat.geom::hyperframe</code> object,</p>
+<ul>
+<li><code>attr(., &#39;group&#39;)</code>, a formula to specify the grouping
+structure</li>
+</ul>
+<div id="with-one-and-only-one-spatstat.geomppp-hypercolumn" class="section level3">
+<h3>With one-and-only-one
+<code>spatstat.geom::ppp</code>-hypercolumn</h3>
+<p>Function <code>grouped_ppp()</code> creates a
+<code>groupedHyperframe</code> with one-and-only-one marked point
+pattern (<code>spatstat.geom::ppp</code>) hypercolumn.</p>
+<p>Following example shows that the argument <code>formula</code>
+specifies</p>
+<ul>
+<li>the marks (e.g., numeric <code>hladr</code> and multitype
+<code>phenotype</code>) on the left-hand-side</li>
+<li>additional predictors and/or endpoints (e.g., <code>OS</code>,
+<code>gender</code> and <code>age</code>) before the <code>|</code> on
+the right-hand-side</li>
+<li>(nested) grouping structure (e.g., <code>image_id</code> nested in
+<code>patient_id</code>) after the <code>|</code> on the
+right-hand-side. This grammar follows the <code>nlme::groupedData</code>
+object.</li>
+</ul>
+<p>Parameter <code>coords</code> of function <code>grouped_ppp()</code>
+specifies the column name of <span class="math inline">\(x\)</span>- and
+<span class="math inline">\(y\)</span>-coordinates in the input
+<code>data</code>. Default <code>coords = ~ x + y</code> indicates using
+<code>data$x</code> and <code>data$y</code> for <span class="math inline">\(x\)</span>- and <span class="math inline">\(y\)</span>-coordinates, respectively.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>(<span class="at">s =</span> <span class="fu">grouped_ppp</span>(<span class="at">formula =</span> hladr <span class="sc">+</span> phenotype <span class="sc">~</span> OS <span class="sc">+</span> gender <span class="sc">+</span> age <span class="sc">|</span> patient_id<span class="sc">/</span>image_id, </span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>                 <span class="at">data =</span> wrobel_lung))</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="co">#&gt; Grouped Hyperframe: ~patient_id/image_id</span></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a><span class="co">#&gt; 199 image_id nested in</span></span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a><span class="co">#&gt; 40 patient_id</span></span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a><span class="co">#&gt;       OS gender age    patient_id          image_id  ppp.</span></span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a><span class="co">#&gt; 1  3488+      F  85 #01 0-889-121 [40864,18015].im3 (ppp)</span></span>
+<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a><span class="co">#&gt; 2  3488+      F  85 #01 0-889-121 [42689,19214].im3 (ppp)</span></span>
+<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a><span class="co">#&gt; 3  3488+      F  85 #01 0-889-121 [42806,16718].im3 (ppp)</span></span>
+<span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a><span class="co">#&gt; 4  3488+      F  85 #01 0-889-121 [44311,17766].im3 (ppp)</span></span>
+<span id="cb3-14"><a href="#cb3-14" tabindex="-1"></a><span class="co">#&gt; 5  3488+      F  85 #01 0-889-121 [45366,16647].im3 (ppp)</span></span>
+<span id="cb3-15"><a href="#cb3-15" tabindex="-1"></a><span class="co">#&gt; 6   1605      M  66 #02 1-037-393 [56576,16907].im3 (ppp)</span></span>
+<span id="cb3-16"><a href="#cb3-16" tabindex="-1"></a><span class="co">#&gt; 7   1605      M  66 #02 1-037-393 [56583,15235].im3 (ppp)</span></span>
+<span id="cb3-17"><a href="#cb3-17" tabindex="-1"></a><span class="co">#&gt; 8   1605      M  66 #02 1-037-393 [57130,16082].im3 (ppp)</span></span>
+<span id="cb3-18"><a href="#cb3-18" tabindex="-1"></a><span class="co">#&gt; 9   1605      M  66 #02 1-037-393 [57396,17896].im3 (ppp)</span></span>
+<span id="cb3-19"><a href="#cb3-19" tabindex="-1"></a><span class="co">#&gt; 10  1605      M  66 #02 1-037-393 [57403,16934].im3 (ppp)</span></span></code></pre></div>
+<p>End users may use <code>coords = FALSE</code> for input
+<code>data</code> without <span class="math inline">\(x\)</span>- and
+<span class="math inline">\(y\)</span>-coordinates. In this case, the
+coordinates are filled with randomly generated numbers, and the output
+has a <code>pseudo.ppp</code> hypercolumn.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>Ki67_ <span class="ot">=</span> Ki67 <span class="sc">|&gt;</span> <span class="fu">within.data.frame</span>(<span class="at">expr =</span> {</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>  x <span class="ot">=</span> y <span class="ot">=</span> <span class="cn">NULL</span> <span class="co"># remove x- and y-coordinates</span></span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>})</span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>(<span class="at">s_a =</span> <span class="fu">grouped_ppp</span>(Ki67 <span class="sc">~</span> <span class="fu">Surv</span>(recfreesurv_mon, recurrence) <span class="sc">+</span> race <span class="sc">+</span> age <span class="sc">|</span> patientID<span class="sc">/</span>tissueID, </span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>                  <span class="at">data =</span> Ki67_, <span class="at">coords =</span> <span class="cn">FALSE</span>))</span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="co">#&gt; Grouped Hyperframe: ~patientID/tissueID</span></span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a><span class="co">#&gt; 645 tissueID nested in</span></span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a><span class="co">#&gt; 622 patientID</span></span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a><span class="co">#&gt;    recfreesurv_mon recurrence  race age patientID tissueID         ppp.</span></span>
+<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a><span class="co">#&gt; 1              100          0 White  66   PT00037 TJUe_I17 (pseudo.ppp)</span></span>
+<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a><span class="co">#&gt; 2               22          1 Black  42   PT00039 TJUe_G17 (pseudo.ppp)</span></span>
+<span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a><span class="co">#&gt; 3               99          0 White  60   PT00040 TJUe_F17 (pseudo.ppp)</span></span>
+<span id="cb4-16"><a href="#cb4-16" tabindex="-1"></a><span class="co">#&gt; 4               99          0 White  53   PT00042 TJUe_D17 (pseudo.ppp)</span></span>
+<span id="cb4-17"><a href="#cb4-17" tabindex="-1"></a><span class="co">#&gt; 5              112          1 White  52   PT00054 TJUe_J18 (pseudo.ppp)</span></span>
+<span id="cb4-18"><a href="#cb4-18" tabindex="-1"></a><span class="co">#&gt; 6               12          1 Black  51   PT00059 TJUe_N17 (pseudo.ppp)</span></span>
+<span id="cb4-19"><a href="#cb4-19" tabindex="-1"></a><span class="co">#&gt; 7               64          0 Asian  50   PT00062 TJUe_J17 (pseudo.ppp)</span></span>
+<span id="cb4-20"><a href="#cb4-20" tabindex="-1"></a><span class="co">#&gt; 8               56          0 White  37   PT00068 TJUe_F19 (pseudo.ppp)</span></span>
+<span id="cb4-21"><a href="#cb4-21" tabindex="-1"></a><span class="co">#&gt; 9               79          0 White  68   PT00082 TJUe_P19 (pseudo.ppp)</span></span>
+<span id="cb4-22"><a href="#cb4-22" tabindex="-1"></a><span class="co">#&gt; 10              26          1 Black  55   PT00084 TJUe_O19 (pseudo.ppp)</span></span></code></pre></div>
+</div>
+</div>
+<div id="batch-processes-to-obtain-spatstat.explorefv.objects" class="section level2">
+<h2>Batch Processes to Obtain
+<code>spatstat.explore::fv.object</code>s</h2>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>r <span class="ot">=</span> <span class="fu">seq.int</span>(<span class="at">from =</span> <span class="dv">0</span>, <span class="at">to =</span> <span class="dv">250</span>, <span class="at">by =</span> <span class="dv">10</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>pt10 <span class="ot">=</span> <span class="fu">unique</span>(wrobel_lung<span class="sc">$</span>patient_id)[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>] <span class="co"># to save time</span></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>s0 <span class="ot">=</span> spatstat.geom<span class="sc">::</span><span class="fu">subset.hyperframe</span>(s, patient_id <span class="sc">%in%</span> pt10)</span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>lung_spat <span class="ot">=</span> s0 <span class="sc">|&gt;</span></span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>  <span class="fu">Emark_</span>(<span class="at">r =</span> r, <span class="at">correction =</span> <span class="st">&#39;best&#39;</span>) <span class="sc">|&gt;</span> <span class="co"># slow</span></span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>  <span class="co"># Vmark_(r = r, correction = &#39;best&#39;) |&gt; # slow</span></span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a>  <span class="co"># markcorr_(r = r, correction = &#39;best&#39;) |&gt; # slow</span></span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a>  <span class="co"># markvario_(r = r, correction = &#39;best&#39;) |&gt; # slow</span></span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a>  <span class="fu">Gcross_</span>(<span class="at">i =</span> <span class="st">&#39;CK+.CD8-&#39;</span>, <span class="at">j =</span> <span class="st">&#39;CK-.CD8+&#39;</span>, <span class="at">r =</span> r, <span class="at">correction =</span> <span class="st">&#39;best&#39;</span>) <span class="sc">|&gt;</span> <span class="co"># fast</span></span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a>  <span class="fu">Kcross_</span>(<span class="at">i =</span> <span class="st">&#39;CK+.CD8-&#39;</span>, <span class="at">j =</span> <span class="st">&#39;CK-.CD8+&#39;</span>, <span class="at">r =</span> r, <span class="at">correction =</span> <span class="st">&#39;best&#39;</span>) <span class="sc">|&gt;</span> <span class="co"># fast</span></span>
+<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a>  <span class="fu">nncross_</span>(<span class="at">i =</span> <span class="st">&#39;CK+.CD8-&#39;</span>, <span class="at">j =</span> <span class="st">&#39;CK-.CD8+&#39;</span>, <span class="at">correction =</span> <span class="st">&#39;best&#39;</span>) <span class="co"># fast</span></span>
+<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a><span class="co">#if (FALSE) {</span></span>
+<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a><span class="co">#  head(lung_spat)</span></span>
+<span id="cb5-17"><a href="#cb5-17" tabindex="-1"></a><span class="co">#  head(lengths(lung_spat$phenotype.nncross))</span></span>
+<span id="cb5-18"><a href="#cb5-18" tabindex="-1"></a><span class="co">#}</span></span></code></pre></div>
+</div>
+<div id="aggregate-spatstat.explorefv.object-over-nexted-grouping-structure" class="section level2">
+<h2>Aggregate <code>spatstat.explore::fv.object</code> Over Nexted
+Grouping Structure</h2>
+</div>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
