@@ -41,7 +41,7 @@ devtools::install_github('spatstat/spatstat.utils'); packageDate('spatstat.utils
 
 # Methods
 
-## `groupedHyperframe` object
+## `groupedHyperframe` Object
 
 The `groupedHyperframe` object inherits from `spatstat.geom::hyperframe` object, in a similar fashion as `nlme::groupedData` inherits from `base::data.frame`.
 In addition to `spatstat.geom::hyperframe` object,
@@ -56,9 +56,9 @@ Function `grouped_ppp()` creates a `groupedHyperframe` with one-and-only-one mar
 
 Following example shows that the argument `formula` specifies
 
-* the marks (e.g., numeric `hladr` and multitype `phenotype`) on the left-hand-side
-* additional predictors and/or endpoints (e.g., `OS`, `gender` and `age`) before the `|` on the right-hand-side
-* (nested) grouping structure (e.g., `image_id` nested in `patient_id`) after the `|` on the right-hand-side. This grammar follows the `nlme::groupedData` object.
+* the marks (e.g., `numeric` mark *`hladr`* and `spatstat.geom::is.multitype` mark *`phenotype`*) on the left-hand-side
+* additional predictors and/or endpoints (e.g., *`OS`*, *`gender`* and *`age`*) before the `|` on the right-hand-side
+* (nested) grouping structure (e.g., *`image_id`* nested in *`patient_id`*) after the `|` on the right-hand-side. This grammar follows the `nlme::groupedData` object.
 
 Parameter `coords` of function `grouped_ppp()` specifies the column name of $x$- and $y$-coordinates in the input `data`. Default `coords = ~ x + y` indicates using `data$x` and `data$y` for $x$- and $y$-coordinates, respectively.
 
@@ -79,26 +79,86 @@ Ki67_ = Ki67 |> within.data.frame(expr = {
 ```
 
 
-## Batch Processes to Obtain `spatstat.explore::fv.object`s
+## Batch Processes on `ppp`-Hypercolumn 
+
+Batch processes could be applied to the one-and-only-one `ppp`-hypercolumn of a `hyperframe`.  
+
+### Batch processes that return `fv`-hypercolumn
+
+Batch process(es) that return a `spatstat.explore::fv.object`-hypercolumn include
+
+* `Emark_()`, from function `spatstat.explore::Emark()`, applicable to the `numeric` marks (e.g., *`hladr`*) in the `ppp`-hypercolumn
+* `Vmark_()`, from function `spatstat.explore::Vmark()`, applicable to the `numeric` marks
+* `markcorr_()`, from function `spatstat.explore::markcorr()`, applicable to the `numeric` marks
+* `markvario_()`, from function `spatstat.explore::markvario()`, applicable to the `numeric` marks
+* `Gcross_()`, from function `spatstat.explore::Gcross()`, applicable to the `multitype` marks (e.g., *`phenotype`*) in the `ppp`-hypercolumn
+* `Kcross_()`, from function `spatstat.explore::Kcross()`, applicable to the `multitype` marks
+* `Jcross_()`, from function `spatstat.explore::Jcross()`, applicable to the `multitype` marks
+
+### Batch processes that return `numeric`-hypercolumn
+
+Batch process(es) that return a `numeric`-hypercolumn include
+
+* `nncross_()`, from function `spatstat.geom::nncross.ppp(., what = 'dist')`, applicable to the `multitype` marks
+
+### Batch processes: Example
+
+Following example shows that the batch process(es) may be applied to a `groupedHyperframe` in a pipeline (`|>`).
 
 ```{r}
 r = seq.int(from = 0, to = 250, by = 10)
-pt10 = unique(wrobel_lung$patient_id)[1:10] # to save time
-s0 = spatstat.geom::subset.hyperframe(s, patient_id %in% pt10)
-
-lung_spat = s0 |>
+lung_fv = s |>
   Emark_(r = r, correction = 'best') |> # slow
   # Vmark_(r = r, correction = 'best') |> # slow
   # markcorr_(r = r, correction = 'best') |> # slow
   # markvario_(r = r, correction = 'best') |> # slow
   Gcross_(i = 'CK+.CD8-', j = 'CK-.CD8+', r = r, correction = 'best') |> # fast
-  Kcross_(i = 'CK+.CD8-', j = 'CK-.CD8+', r = r, correction = 'best') |> # fast
+  # Kcross_(i = 'CK+.CD8-', j = 'CK-.CD8+', r = r, correction = 'best') |> # fast
   nncross_(i = 'CK+.CD8-', j = 'CK-.CD8+', correction = 'best') # fast
-#if (FALSE) {
-#  head(lung_spat)
-#  head(lengths(lung_spat$phenotype.nncross))
-#}
 ```
 
-## Aggregate `spatstat.explore::fv.object` Over Nexted Grouping Structure
+The returned `groupedHyperframe` has new hypercolumns
 
+* *`hladr.E`*, created by function `Emark()` on `numeric` mark *`hladr`*
+* *`phenotype.G`*, created by function `Gcross_()` on `multitype` mark *`phenotype`*
+* *`phenotype.nncross`*, created by function `nncross_()` on `multitype` mark *`phenotype`*
+
+```{r}
+lung_fv
+```
+
+## Aggregation Over Nested Grouping Structure
+
+```{r}
+lung_afv = lung_fv |>
+  aggregate_fv(by = ~ patient_id, f_aggr_ = 'mean')
+class(lung_afv) # 'hyperframe' does not support 'matrix' column
+dim(lung_afv)
+names(lung_afv)
+dim(lung_afv$hladr.E.cumarea)
+```
+
+
+
+```{r}
+lung_q = lung_fv |>
+  aggregate_quantile(by = ~ patient_id, probs = seq.int(from = 0, to = 1, by = .1))
+
+  class(lung_q)
+  dim(lung_q)
+  names(lung_q)
+  dim(lung_q$phenotype.nncross.quantile)
+  dim(lung_q$hladr.quantile)
+```
+
+
+```{r}
+(mdist = max(unlist(lung_fv$phenotype.nncross)))
+lung_d = lung_fv |> 
+  aggregate_kerndens(by = ~ patient_id, from = 0, to = mdist)
+# NEXT: [aggregate_kerndens] should detect `to` for numerical information of different source
+class(lung_d)
+dim(lung_d)
+names(lung_d)
+dim(lung_d$phenotype.nncross.kerndens) # Inna's original [clusterNNDD]
+```

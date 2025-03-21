@@ -7,8 +7,6 @@
 #'
 # @references none yet
 #'
-#' @import groupedHyperframe.data
-#' 
 '_PACKAGE'
 
 

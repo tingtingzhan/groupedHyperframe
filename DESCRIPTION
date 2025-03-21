@@ -7,9 +7,11 @@ Maintainer: Tingting Zhan <tingtingzhan@gmail.com>
 Description: A story about groupedHyperframe.
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
+LazyData: true
+LazyDataCompression: xz
 Encoding: UTF-8
 License: GPL-2
-Depends: R (>= 4.4), groupedHyperframe.data
+Depends: R (>= 4.4)
 Language: en-US
 Authors@R: c(person(given = 'Tingting', family = 'Zhan', role =
        c('aut', 'cre'), email = 'tingtingzhan@gmail.com', comment
