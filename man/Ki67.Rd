@@ -11,8 +11,6 @@
 \item{\code{recurrence}}{\link[base]{integer}, recurrence indicator, 1 = Recurred, 0 = not Recurred}
 \item{\code{recfreesurv_mon}}{\link[base]{integer}, recurrence-free survival time in months}
 \item{\code{Ki67}}{\link[base]{double}, cell signal intensity of the protein immunofloerscence signal}
-\item{\code{x}}{\link[base]{numeric}, \eqn{x}-coordinate in the cell centroid in the TMA core}
-\item{\code{y}}{\link[base]{numeric}, \eqn{y}-coordinate in the cell centroid in the TMA core}
 \item{\code{age}}{\link[base]{integer}, age at diagnosis}
 \item{\code{Tstage}}{\link[base]{integer}, tumor stage}
 \item{\code{node}}{\link[base]{factor}, node stage}
@@ -22,8 +20,6 @@
 \item{\code{race}}{\link[base]{character}, race, White, Black, Asian, Native Hawaiian or Other Pacific Islander, American Indian or Alaska Native, Unknown}
 \item{\code{adj_chemo}}{\link[base]{logical}, whether completed adjuvant chemo treatment}
 \item{\code{adj_rad}}{\link[base]{integer}, adjuvant radiation treatment, 0 = unknown,  1 = done, 2 = NOT done}
-\item{\code{horm}}{\link[base]{integer}, hormone treatment, 0 = unknown, 1 = not indicated, 2 = done, 3 = recommended, but not done}
-\item{\code{MSI}}{\link[base]{double}, mean signal intensity (mean over all cells in the TMA core)}
 }
 }
 \usage{
