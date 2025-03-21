@@ -9,7 +9,7 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
 Encoding: UTF-8
 License: GPL-2
-Depends: R (>= 4.4),
+Depends: R (>= 4.4), groupedHyperframe.data
 Language: en-US
 Authors@R: c(person(given = 'Tingting', family = 'Zhan', role =
        c('aut', 'cre'), email = 'tingtingzhan@gmail.com', comment
@@ -19,5 +19,10 @@ Authors@R: c(person(given = 'Tingting', family = 'Zhan', role =
        '0000-0002-9104-4505')))
 Imports: cli, parallel, stats, nlme, matrixStats, pracma,
        spatstat.explore, spatstat.geom
-Suggests: knitr, survival, spatstat.data, spatstat.univar,
-       groupedHyperframe.data
+Suggests: 
+    knitr,
+    survival,
+    spatstat.data,
+    spatstat.univar,
+    rmarkdown
+VignetteBuilder: knitr

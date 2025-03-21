@@ -27,12 +27,13 @@ NULL
 #' @param ... additional parameters, currently not in use
 #' 
 #' @returns 
-#' Function [print.groupedHyperframe] does not have a returned value.
+#' Function [print.groupedHyperframe()] does not have a returned value.
 #' 
 #' @seealso `?nlme:::print.groupedData`
 #' 
-#' @importFrom spatstat.geom as.data.frame.hyperframe as.list.hyperframe
 #' @importFrom cli col_blue
+#' @importFrom spatstat.geom as.data.frame.hyperframe as.list.hyperframe
+#' @importFrom utils head
 #' @export print.groupedHyperframe
 #' @export
 print.groupedHyperframe <- function(x, ...) {
@@ -57,7 +58,12 @@ print.groupedHyperframe <- function(x, ...) {
   cat('\n')
   cat(rev.default(txt), sep = ' nested in\n')
   cat('\n')
-  print(as.data.frame.hyperframe(x, discard = FALSE), ...) # see inside ?spatstat.geom::print.hyperframe
+  
+  # see inside ?spatstat.geom::print.hyperframe
+  x |>
+    as.data.frame.hyperframe(discard = FALSE) |> 
+    head(n = 10L) |>
+    print(...) 
 }
 
 

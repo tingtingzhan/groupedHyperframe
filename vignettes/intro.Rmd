@@ -1,0 +1,103 @@
+---
+title: "Grouped Hyperframe"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{intro}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(groupedHyperframe)
+library(survival) # to help ?spatstat.geom::hyperframe understand ?survival::Surv object
+```
+
+# Introduction
+
+Development version of package `groupedHyperframe` is hosted on [Github](https://github.com/tingtingzhan/groupedHyperframe).
+
+Development versions of `spatstat` family of packages are required.
+```{r eval = FALSE}
+devtools::install_github('spatstat/spatstat'); packageDate('spatstat')
+devtools::install_github('spatstat/spatstat.data'); packageDate('spatstat.data')
+devtools::install_github('spatstat/spatstat.explore'); packageDate('spatstat.explore')
+devtools::install_github('spatstat/spatstat.geom'); packageDate('spatstat.geom')
+devtools::install_github('spatstat/spatstat.linnet'); packageDate('spatstat.linnet')
+devtools::install_github('spatstat/spatstat.model'); packageDate('spatstat.model')
+devtools::install_github('spatstat/spatstat.random'); packageDate('spatstat.random')
+devtools::install_github('spatstat/spatstat.sparse'); packageDate('spatstat.sparse')
+devtools::install_github('spatstat/spatstat.univar'); packageDate('spatstat.univar')
+devtools::install_github('spatstat/spatstat.utils'); packageDate('spatstat.utils')
+```
+
+
+# Methods
+
+## `groupedHyperframe` object
+
+The `groupedHyperframe` object inherits from `spatstat.geom::hyperframe` object, in a similar fashion as `nlme::groupedData` inherits from `base::data.frame`.
+In addition to `spatstat.geom::hyperframe` object,
+
+* `attr(., 'group')`, a formula to specify the grouping structure
+
+
+
+### With one-and-only-one `spatstat.geom::ppp`-hypercolumn
+
+Function `grouped_ppp()` creates a `groupedHyperframe` with one-and-only-one marked point pattern (`spatstat.geom::ppp`) hypercolumn.  
+
+Following example shows that the argument `formula` specifies
+
+* the marks (e.g., numeric `hladr` and multitype `phenotype`) on the left-hand-side
+* additional predictors and/or endpoints (e.g., `OS`, `gender` and `age`) before the `|` on the right-hand-side
+* (nested) grouping structure (e.g., `image_id` nested in `patient_id`) after the `|` on the right-hand-side. This grammar follows the `nlme::groupedData` object.
+
+Parameter `coords` of function `grouped_ppp()` specifies the column name of $x$- and $y$-coordinates in the input `data`. Default `coords = ~ x + y` indicates using `data$x` and `data$y` for $x$- and $y$-coordinates, respectively.
+
+```{r}
+(s = grouped_ppp(formula = hladr + phenotype ~ OS + gender + age | patient_id/image_id, 
+                 data = wrobel_lung))
+```
+
+End users may use `coords = FALSE` for input `data` without $x$- and $y$-coordinates. In this case, the coordinates are filled with randomly generated numbers, and the output has a 
+`pseudo.ppp` hypercolumn.
+
+```{r}
+Ki67_ = Ki67 |> within.data.frame(expr = {
+  x = y = NULL # remove x- and y-coordinates
+})
+(s_a = grouped_ppp(Ki67 ~ Surv(recfreesurv_mon, recurrence) + race + age | patientID/tissueID, 
+                  data = Ki67_, coords = FALSE))
+```
+
+
+## Batch Processes to Obtain `spatstat.explore::fv.object`s
+
+```{r}
+r = seq.int(from = 0, to = 250, by = 10)
+pt10 = unique(wrobel_lung$patient_id)[1:10] # to save time
+s0 = spatstat.geom::subset.hyperframe(s, patient_id %in% pt10)
+
+lung_spat = s0 |>
+  Emark_(r = r, correction = 'best') |> # slow
+  # Vmark_(r = r, correction = 'best') |> # slow
+  # markcorr_(r = r, correction = 'best') |> # slow
+  # markvario_(r = r, correction = 'best') |> # slow
+  Gcross_(i = 'CK+.CD8-', j = 'CK-.CD8+', r = r, correction = 'best') |> # fast
+  Kcross_(i = 'CK+.CD8-', j = 'CK-.CD8+', r = r, correction = 'best') |> # fast
+  nncross_(i = 'CK+.CD8-', j = 'CK-.CD8+', correction = 'best') # fast
+#if (FALSE) {
+#  head(lung_spat)
+#  head(lengths(lung_spat$phenotype.nncross))
+#}
+```
+
+## Aggregate `spatstat.explore::fv.object` Over Nexted Grouping Structure
+
