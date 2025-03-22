@@ -38,7 +38,7 @@
 #' x1 = shapley |> 
 #'  subset.ppp(select = c('Mag', 'SigV')) |>
 #'  split.ppp(f = Vc) |>
-#'  fv_ppplist(fn = markcorr, mc.cores = 2L)
+#'  fv_ppplist(fn = markcorr, mc.cores = 1L)
 #' names(x1)
 #' names(x1$L)
 #' 
@@ -47,8 +47,8 @@
 #'   subset.ppp(select = c('fire.type', 'cause', 'ign.src')) |>
 #'   na.omit.ppp() |> 
 #'   split.ppp(f = 'fire.type')
-#' dist_ppplist(x2, fn = .nncross, i = 'rrds', j = 'ltning', mc.cores = 2L)
-#' dist_ppplist(x2, fn = .nncross, i = 'unknown', j = 'burn.no.perm', mc.cores = 2L)
+#' dist_ppplist(x2, fn = .nncross, i = 'rrds', j = 'ltning', mc.cores = 1L)
+#' dist_ppplist(x2, fn = .nncross, i = 'unknown', j = 'burn.no.perm', mc.cores = 1L)
 #' @keywords internal
 #' @name op_ppplist
 #' @export

@@ -46,9 +46,9 @@ flu$pattern[] = flu$pattern |>
 r = seq.int(from = 0, to = 100, by = 5)
 m = flu |>
  subset(stain == 'M2-M1') |>
- Gcross_(i = 'M1', j = 'M2', r = r, correction = 'best') |>
+ Gcross_(i = 'M1', j = 'M2', r = r, correction = 'best', mc.cores = 1L) |>
  as.groupedHyperframe(group = ~ virustype/frameid) |>
- aggregate_fv(by = ~ virustype, mc.cores = 2L)
+ aggregate_fv(by = ~ virustype, mc.cores = 1L)
 names(m)
 dim(m$pattern.G.value)
 dim(m$pattern.G.cumarea)

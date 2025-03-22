@@ -34,11 +34,11 @@
 #' r = seq.int(from = 0, to = 100, by = 5)
 #' flu |>
 #'  subset(stain == 'M2-M1') |>
-#'  Gcross_(i = 'M1', j = 'M2', r = r, correction = 'best', mc.cores = 2L)
+#'  Gcross_(i = 'M1', j = 'M2', r = r, correction = 'best', mc.cores = 1L)
 #'  
 #' flu |>
 #'  subset(stain == 'M2-M1') |>
-#'  nncross_(i = 'M1', j = 'M2', mc.cores = 2L)
+#'  nncross_(i = 'M1', j = 'M2', mc.cores = 1L)
 #' @name user_hyperframe
 #' @importFrom spatstat.explore Emark
 #' @export

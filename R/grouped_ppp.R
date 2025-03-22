@@ -43,7 +43,7 @@
 #' @examples
 #' library(survival) # to help ?spatstat.geom::hyperframe understand ?survival::Surv
 #' grouped_ppp(hladr + phenotype ~ OS + gender + age | patient_id/image_id, 
-#'   data = wrobel_lung, mc.cores = 2L)
+#'   data = wrobel_lung, mc.cores = 1L)
 #' @importFrom spatstat.geom owin ppp as.hyperframe.data.frame
 #' @importFrom stats runif
 #' @export
