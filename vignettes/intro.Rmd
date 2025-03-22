@@ -112,7 +112,7 @@ Function `grouped_ppp()` has parameter `coords` which specifies the column name 
 
 # Batch Process on `ppp`-Hypercolumn 
 
-In this section, we outline the batch process of spatial point pattern analyses applicable to the one-and-only-one `ppp`-hypercolumn of a `hyperframe`.  
+In this section, we outline the batch process of spatial point pattern analyses applicable to the `ppp`-hypercolumn of a `hyperframe`.  
 
 Note that these spatial point pattern analyses should **not** be applied to a `pseudo.ppp`-hypercolumn, as the $x$- and $y$-coordinates are randomly generated psuedo numbers.
 
