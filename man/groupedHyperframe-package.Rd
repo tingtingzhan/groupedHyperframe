@@ -3,7 +3,7 @@
 \docType{package}
 \name{groupedHyperframe-package}
 \alias{groupedHyperframe-package}
-\title{groupedHyperframe: Grouped Hyper Data Frame: An Extension of Hyper Data Frame Object.}
+\title{groupedHyperframe: Grouped Hyper Data Frame: An Extension of Hyper Data Frame Object}
 \description{
 An S3 class groupedHyperframe that inherits from hyper data frame (defined in package spatstat.geom). Batch processes on point-pattern hyper column. Aggregation of function-value-table hyper column(s) and numeric hyper column(s) over a nested grouping structure.
 }
