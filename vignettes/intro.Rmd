@@ -55,6 +55,7 @@ c(
   '`inherits`', 'Class inheritance', '`base::inherits`',
   '`kerndens`', 'Kernel density', '`stats::density.default()$y`',
   '`matrix`', 'Matrix', '`base::matrix`',
+  '`mc.cores`', 'Number of CPU cores to use', '`parallel::mclapply`, `parallel::detectCores`',
   '`multitype`', 'Multitype object', '`spatstat.geom::is.multitype`',
   '`ppp`', '(Marked) point pattern', '`spatstat.geom::ppp.object`',
   '`~ g1/.../gm`', 'Nested grouping structure', '`nlme::groupedData`; `nlme::lme`',
@@ -76,6 +77,8 @@ library(groupedHyperframe)
 library(survival) # to help hyperframe understand Surv object
 ```
 
+Also, end user should remove parameter `mc.cores = 1L` in all examples and use the default option, which makes use of all CPU cores on the current host for macOS. We are forced to have `mc.cores = 1L` in this vignette just to pass CRAN's submission requirement.
+
 # `groupedHyperframe` Class
 
 The `S3` class `groupedHyperframe` `inherits` from `hyperframe` class, in a similar fashion as `groupedData` class inherits from `data.frame` class.
@@ -96,14 +99,14 @@ In the following example, the argument `formula` specifies
 
 ```{r}
 (s = grouped_ppp(formula = hladr + phenotype ~ OS + gender + age | patient_id/image_id, 
-                 data = wrobel_lung))
+                 data = wrobel_lung, mc.cores = 1L))
 ```
 
 Function `grouped_ppp()` has parameter `coords` which specifies the column name of $x$- and $y$-coordinates in the input `data`. Default `coords = ~ x + y` indicates the use of `data$x` and `data$y` for $x$- and $y$-coordinates, respectively. Users may use `coords = FALSE` for data without $x$- and $y$-coordinates. In this case, the coordinates are filled with randomly generated numbers, and the returned `groupedHyperframe` has a `pseudo.ppp`-hypercolumn.
 
 ```{r}
 (s_a = grouped_ppp(Ki67 ~ Surv(recfreesurv_mon, recurrence) + race + age | patientID/tissueID, 
-                  data = Ki67, coords = FALSE))
+                  data = Ki67, coords = FALSE, mc.cores = 1L))
 ```
 
 # Batch Process on `ppp`-Hypercolumn
@@ -147,13 +150,13 @@ Following example shows that multiple batch processes may be applied to a `hyper
 ```{r}
 r = seq.int(from = 0, to = 250, by = 10)
 out = s |>
-  Emark_(r = r, correction = 'best') |> # slow
-  # Vmark_(r = r, correction = 'best') |> # slow
-  # markcorr_(r = r, correction = 'best') |> # slow
-  # markvario_(r = r, correction = 'best') |> # slow
-  Gcross_(i = 'CK+.CD8-', j = 'CK-.CD8+', r = r, correction = 'best') |> # fast
-  # Kcross_(i = 'CK+.CD8-', j = 'CK-.CD8+', r = r, correction = 'best') |> # fast
-  nncross_(i = 'CK+.CD8-', j = 'CK-.CD8+', correction = 'best') # fast
+  Emark_(r = r, correction = 'best', mc.cores = 1L) |> # slow
+  # Vmark_(r = r, correction = 'best', mc.cores = 1L) |> # slow
+  # markcorr_(r = r, correction = 'best', mc.cores = 1L) |> # slow
+  # markvario_(r = r, correction = 'best', mc.cores = 1L) |> # slow
+  Gcross_(i = 'CK+.CD8-', j = 'CK-.CD8+', r = r, correction = 'best', mc.cores = 1L) |> # fast
+  # Kcross_(i = 'CK+.CD8-', j = 'CK-.CD8+', r = r, correction = 'best', mc.cores = 1L) |> # fast
+  nncross_(i = 'CK+.CD8-', j = 'CK-.CD8+', correction = 'best', mc.cores = 1L) # fast
 ```
 
 The returned `hyperframe` (or `groupedHyperframe`) has
@@ -191,7 +194,7 @@ Function `aggregate_fv()` aggregates
 
 ```{r}
 afv = out |>
-  aggregate_fv(by = ~ patient_id, f_aggr_ = 'mean')
+  aggregate_fv(by = ~ patient_id, f_aggr_ = 'mean', mc.cores = 1L)
 nrow(afv) # number of patients
 names(afv)
 dim(afv$hladr.E.cumarea) # N(patient) by length(r)
@@ -208,7 +211,7 @@ Function `aggregate_quantile()` aggregates
 
 ```{r}
 q = out |>
-  aggregate_quantile(by = ~ patient_id, probs = seq.int(from = 0, to = 1, by = .1))
+  aggregate_quantile(by = ~ patient_id, probs = seq.int(from = 0, to = 1, by = .1), mc.cores = 1L)
 nrow(q)
 names(q)
 dim(q$phenotype.nncross.quantile)
@@ -225,7 +228,7 @@ Function `aggregate_kerndens()` aggregates
 ```{r}
 (mdist = out$phenotype.nncross |> unlist() |> max())
 d = out |> 
-  aggregate_kerndens(by = ~ patient_id, from = 0, to = mdist)
+  aggregate_kerndens(by = ~ patient_id, from = 0, to = mdist, mc.cores = 1L)
 nrow(d)
 names(d)
 dim(d$phenotype.nncross.kerndens)
