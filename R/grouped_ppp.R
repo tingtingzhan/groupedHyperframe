@@ -95,6 +95,8 @@ grouped_ppp <- function(
   # additional attributes to mimic ?nlme::groupedData
   # also see example 'groupedData's from package datasets
   attr(hf, which = 'group') <- call('~', group) # for ?nlme::getGroupsFormula
+  # let `attr(,'group')` be ?base::call instead of ?stats::formula
+  # formula's environment is very annoying!!
   # end of additional attributes
   
   class(hf) <- unique.default(c('groupedHyperframe', class(hf)))

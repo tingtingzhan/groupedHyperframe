@@ -57,7 +57,7 @@ c(
   '`matrix`', 'Matrix', '`base::matrix`',
   '`mc.cores`', 'Number of CPU cores to use', '`parallel::mclapply`, `parallel::detectCores`',
   '`multitype`', 'Multitype object', '`spatstat.geom::is.multitype`',
-  '`ppp`', '(Marked) point pattern', '`spatstat.geom::ppp.object`',
+  '`ppp`, `ppp.object`', '(Marked) point pattern', '`spatstat.geom::ppp.object`',
   '`~ g1/.../gm`', 'Nested grouping structure', '`nlme::groupedData`; `nlme::lme`',
   '', 'Quantile', '`stats::quantile`',
   '`S3`', 'R\'s first and simplest object oriented system', 'https://adv-r.hadley.nz/s3.html',
