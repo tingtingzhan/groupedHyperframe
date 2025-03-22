@@ -45,22 +45,23 @@ Below is a list of terms used in this vignette.
 
 ```{r echo = FALSE, results = 'asis'}
 c(
-  '`attr`', 'Attributes', '`?base::attr`; `?base::attributes`',
-  '`data.frame`', 'Data frame', '`?base::data.frame`',
-  '`formula`', 'Formula', '`?stats::formula`',
-  '`fv`', 'Function value table', '`?spatstat.explore::fv.object`',
-  '`groupedData`', 'Grouped data frame', '`?nlme::groupedData`',
-  '`hypercolumn`', 'Column of hyper data frame', '`?spatstat.geom::hyperframe`',
-  '`hyperframe`', 'Hyper data frame', '`?spatstat.geom::hyperframe`',
-  '`inherits`', 'Class inheritance', '`?base::inherits`',
+  '`attr`', 'Attributes', '`base::attr`; `base::attributes`',
+  '`data.frame`', 'Data frame', '`base::data.frame`',
+  '`formula`', 'Formula', '`stats::formula`',
+  '`fv`', 'Function value table', '`spatstat.explore::fv.object`',
+  '`groupedData`', 'Grouped data frame', '`nlme::groupedData`',
+  '`hypercolumn`', 'Column of hyper data frame', '`spatstat.geom::hyperframe`',
+  '`hyperframe`', 'Hyper data frame', '`spatstat.geom::hyperframe`',
+  '`inherits`', 'Class inheritance', '`base::inherits`',
   '`kerndens`', 'Kernel density', '`stats::density.default()$y`',
-  '`matrix`', 'Matrix', '`?base::matrix`',
-  '`multitype`', 'Multitype object', '`?spatstat.geom::is.multitype`',
-  '`ppp`', '(Marked) point pattern', '`?spatstat.geom::ppp.object`',
-  '`~ g1/.../gm`', 'Nested grouping structure', '`?nlme::groupedData`; `?nlme::lme`',
-  '', 'Quantile', '`?stats::quantile`',
+  '`matrix`', 'Matrix', '`base::matrix`',
+  '`multitype`', 'Multitype object', '`spatstat.geom::is.multitype`',
+  '`ppp`', '(Marked) point pattern', '`spatstat.geom::ppp.object`',
+  '`~ g1/.../gm`', 'Nested grouping structure', '`nlme::groupedData`; `nlme::lme`',
+  '', 'Quantile', '`stats::quantile`',
   '`S3`', 'R\'s first and simplest object oriented system', 'https://adv-r.hadley.nz/s3.html',
-  '`Surv`', 'Survival object', '`?survival::Surv`'
+  '`Surv`', 'Survival object', '`survival::Surv`',
+  '`trapz`, `cumtrapz`, `cumarea`', '(Cumulative) trapezoidal integration', '`pracma::trapz`; `pracma::cumtrapz`'
 ) |>
   matrix(nrow = 3L, dimnames = list(c('Term', 'Description', 'Reference'), NULL)) |>
   t.default() |>
@@ -184,7 +185,7 @@ Function `aggregate_fv()` aggregates
 -   the **function values**, i.e., the black-solid-curve of `spatstat.explore::plot.fv`. In the following example, we have
     -   `matrix`-column *`hladr.E.value`*, aggregated function value from `fv`-hypercolumn *`hladr.E`*
     -   `matrix`-column *`phenotype.G.value`*, aggregated function value from `fv`-hypercolumn *`phenotype.G`*
--   the **cumulative trapezoid area** under the black-solid-curve, via function `pracma::cumtrapz`. In the following example, we have
+-   the **cumulative trapezoid area** under the black-solid-curve. In the following example, we have
     -   `matrix`-column *`hladr.E.cumarea`*, aggregated cumulative trapezoid area from `fv`-hypercolumn *`hladr.E`*
     -   `matrix`-column *`phenotype.G.cumarea`*, aggregated cumulative trapezoid area from `fv`-hypercolumn *`phenotype.G`*
 
