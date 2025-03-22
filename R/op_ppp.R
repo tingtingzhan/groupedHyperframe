@@ -14,11 +14,7 @@
 #' or a \link[base]{function} that returns an \link[spatstat.explore]{fv.object}, 
 #' see **Details**
 #' 
-#' @param mark_nm (optional) \link[base]{character} scalar,
-#' name of \link[spatstat.geom]{marks},
-#' when `markformat.ppp(x) == 'vector'`
-#' 
-#' @param ... additional parameters of \link[base]{function} `fn`
+#' @param ... additional parameters of function `fn`
 #' 
 #' @details
 #' First, the input \link[spatstat.geom]{ppp.object} is \link[spatstat.geom]{unstack.ppp}-ed.
@@ -47,18 +43,18 @@
 #' }
 #' or by following functions that return a distance,
 #' \itemize{
-#' \item {[nncross_.ppp]}
+#' \item {[.nncross()]}
 #' }
 #' If one of the functions above are provided 
 #' but there is no \link[spatstat.geom]{marks} \link[spatstat.geom]{is.multitype} in the input,
 #' a `NULL` value will be returned.
 #' 
 #' @returns 
-#' Function [fv_ppp] returns a \link[base]{list} of 
+#' Function [fv_ppp()] returns a \link[base]{list} of 
 #' \link[spatstat.explore]{fv.object}s, 
 #' one for each eligible \link[spatstat.geom]{marks}.
 #' 
-#' Function [dist_ppp] returns a \link[base]{list} of 
+#' Function [dist_ppp()] returns a \link[base]{list} of 
 #' \link[base]{double} \link[base]{vector}s,
 #' one for each eligible \link[spatstat.geom]{marks}.
 #' 
@@ -69,23 +65,23 @@
 #' fv_ppp(betacells, fn = Emark) # applicable to numeric mark
 #' fv_ppp(betacells, fn = Gcross, i = 'off', j = 'on') # applicable to multitype mark
 #' 
-#' dist_ppp(betacells, fn = nncross_.ppp, i = 'off', j = 'on')
-#' dist_ppp(gorillas, fn = nncross_.ppp, i = 'major', j = 'minor')
-#' dist_ppp(gorillas, fn = nncross_.ppp, i = 'rainy', j = 'dry')
+#' dist_ppp(betacells, fn = .nncross, i = 'off', j = 'on')
+#' dist_ppp(gorillas, fn = .nncross, i = 'major', j = 'minor')
+#' dist_ppp(gorillas, fn = .nncross, i = 'rainy', j = 'dry')
 #' @keywords internal
 #' @name op_ppp
-#' @importFrom spatstat.geom unstack.ppp
+#' @importFrom spatstat.geom unstack.ppp is.multitype.ppp
 #' @export
-dist_ppp <- function(x, fn, mark_nm, ...) {
+dist_ppp <- function(x, fn, ...) {
   
   x. <- unstack.ppp(x)
-  if (length(x.) == 1L && !length(names(x.))) names(x.) <- mark_nm
+  if (length(x.) == 1L && !length(names(x.))) stop('unstacked `x` must be named, see ?mark_names')
   
   mtp <- vapply(x., FUN = is.multitype.ppp, FUN.VALUE = NA)
   if (!any(mtp)) return(invisible())
   
   fn_mtp_ <- c(
-    nncross = 'nncross_.ppp'
+    nncross = '.nncross'
   )
   fn_mtp <- lapply(fn_mtp_, FUN = get)
   id_mtp <- vapply(fn_mtp, FUN = identical, x = fn, FUN.VALUE = NA)
@@ -106,12 +102,12 @@ dist_ppp <- function(x, fn, mark_nm, ...) {
 #' @rdname op_ppp
 #' @importFrom spatstat.explore Emark Vmark markcorr markvario
 #' @importFrom spatstat.explore Gcross Jcross Kcross Lcross markconnect
-#' @importFrom spatstat.geom unstack.ppp
+#' @importFrom spatstat.geom unstack.ppp is.multitype.ppp
 #' @export
-fv_ppp <- function(x, fn, mark_nm, ...) {
+fv_ppp <- function(x, fn, ...) {
   
   x. <- unstack.ppp(x)
-  if (length(x.) == 1L && !length(names(x.))) names(x.) <- mark_nm
+  if (length(x.) == 1L && !length(names(x.))) stop('unstacked `x` must be named, see ?mark_names')
   
   mtp <- vapply(x., FUN = is.multitype.ppp, FUN.VALUE = NA)
   num <- vapply(x., FUN = function(i) is.numeric(i$marks), FUN.VALUE = NA)

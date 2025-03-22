@@ -8,19 +8,17 @@
 #' @param x a `'ppplist'` object
 #' 
 #' @param ... additional parameters of workhorse functions 
-#' [fv_ppp] or [dist_ppp]
+#' [fv_ppp()] or [dist_ppp()]
 #' 
 #' @details
-#' Function [fv_ppplist] is a batch process of the workhorse function [fv_ppp],
-#' with the help of R-core package \pkg{parallel}.
+#' Function [fv_ppplist()] is a \pkg{parallel} batch process of the workhorse function [fv_ppp()].
 #' 
-#' Function [dist_ppplist] is a batch process of the workhorse function [dist_ppp],
-#' with the help of R-core package \pkg{parallel}.
+#' Function [dist_ppplist()] is a \pkg{parallel} batch process of the workhorse function [dist_ppp()].
 #' 
 #' @returns 
-#' Function [fv_ppplist] returns a \link[base]{list} of function [fv_ppp] returns.
+#' Function [fv_ppplist()] returns a \link[base]{list} of function [fv_ppp] returns.
 #' 
-#' Function [dist_ppplist] returns a \link[base]{list} of function [dist_ppp] returns.
+#' Function [dist_ppplist()] returns a \link[base]{list} of function [dist_ppp] returns.
 #' 
 #' @examples
 #' library(spatstat.data)
@@ -44,8 +42,8 @@
 #'   subset.ppp(select = c('fire.type', 'cause', 'ign.src')) |>
 #'   na.omit.ppp()
 #' x2 = split.ppp(nbf, f = nbf$marks$fire.type)
-#' dist_ppplist(x2, fn = nncross_.ppp, i = 'rrds', j = 'ltning')
-#' dist_ppplist(x2, fn = nncross_.ppp, i = 'unknown', j = 'burn.no.perm')
+#' dist_ppplist(x2, fn = .nncross, i = 'rrds', j = 'ltning')
+#' dist_ppplist(x2, fn = .nncross, i = 'unknown', j = 'burn.no.perm')
 #' @keywords internal
 #' @name op_ppplist
 #' @export

@@ -14,22 +14,20 @@ dist_ppplist(x, ...)
 \item{x}{a \code{'ppplist'} object}
 
 \item{...}{additional parameters of workhorse functions
-\link{fv_ppp} or \link{dist_ppp}}
+\code{\link[=fv_ppp]{fv_ppp()}} or \code{\link[=dist_ppp]{dist_ppp()}}}
 }
 \value{
-Function \link{fv_ppplist} returns a \link[base]{list} of function \link{fv_ppp} returns.
+Function \code{\link[=fv_ppplist]{fv_ppplist()}} returns a \link[base]{list} of function \link{fv_ppp} returns.
 
-Function \link{dist_ppplist} returns a \link[base]{list} of function \link{dist_ppp} returns.
+Function \code{\link[=dist_ppplist]{dist_ppplist()}} returns a \link[base]{list} of function \link{dist_ppp} returns.
 }
 \description{
 Batch operations of function \link{fv_ppp} or \link{dist_ppp}, for a \code{'ppplist'} input.
 }
 \details{
-Function \link{fv_ppplist} is a batch process of the workhorse function \link{fv_ppp},
-with the help of R-core package \pkg{parallel}.
+Function \code{\link[=fv_ppplist]{fv_ppplist()}} is a \pkg{parallel} batch process of the workhorse function \code{\link[=fv_ppp]{fv_ppp()}}.
 
-Function \link{dist_ppplist} is a batch process of the workhorse function \link{dist_ppp},
-with the help of R-core package \pkg{parallel}.
+Function \code{\link[=dist_ppplist]{dist_ppplist()}} is a \pkg{parallel} batch process of the workhorse function \code{\link[=dist_ppp]{dist_ppp()}}.
 }
 \examples{
 library(spatstat.data)
@@ -53,7 +51,7 @@ nbf = nbfires |>
   subset.ppp(select = c('fire.type', 'cause', 'ign.src')) |>
   na.omit.ppp()
 x2 = split.ppp(nbf, f = nbf$marks$fire.type)
-dist_ppplist(x2, fn = nncross_.ppp, i = 'rrds', j = 'ltning')
-dist_ppplist(x2, fn = nncross_.ppp, i = 'unknown', j = 'burn.no.perm')
+dist_ppplist(x2, fn = .nncross, i = 'rrds', j = 'ltning')
+dist_ppplist(x2, fn = .nncross, i = 'unknown', j = 'burn.no.perm')
 }
 \keyword{internal}

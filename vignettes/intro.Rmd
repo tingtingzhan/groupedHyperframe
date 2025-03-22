@@ -56,7 +56,7 @@ c(
   '', 'Kernel density', '`stats::density.default()$y`',
   '`matrix`', 'Matrix', '`?base::matrix`',
   '`multitype`', 'Multitype object', '`?spatstat.geom::is.multitype`',
-  '`ppp`', '(Marked) point pattern', '`?spatstat.geom::ppp`',
+  '`ppp`', '(Marked) point pattern', '`?spatstat.geom::ppp.object`',
   '`~ g1/.../gm`', 'Nested grouping structure', '`?nlme::groupedData`; `?nlme::lme`',
   '', 'Quantile', '`?stats::quantile`',
   '`S3`', 'R\'s first and simplest object oriented system', 'https://adv-r.hadley.nz/s3.html',
@@ -87,9 +87,11 @@ A `groupedHyperframe` object, in addition to `hyperframe` object, has attribute(
 
 
 
-## With one-and-only-one `ppp`-hypercolumn
+## `groupedHyperframe` with `ppp`-hypercolumn
 
-Function `grouped_ppp()` creates a `groupedHyperframe` with one-and-only-one `ppp`-hypercolumn.  In the following example, the argument `formula` specifies
+Function `grouped_ppp()` creates a `groupedHyperframe` with ***one-and-only-one*** `ppp`-hypercolumn. Multiple `ppp`-hypercolumns will *not* be supported in foreseeable future, as we would need to check for name clash in `$marks` from the multiple `ppp`-hypercolumns, which is too much trouble.
+
+In the following example, the argument `formula` specifies
 
 * the marks, e.g., `numeric` mark *`hladr`* and `multitype` mark *`phenotype`*, on the left-hand-side
 * additional predictors and/or endpoints, e.g., *`OS`*, *`gender`* and *`age`*, before the `|` separator on the right-hand-side

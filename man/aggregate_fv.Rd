@@ -41,6 +41,8 @@ by sample clustering.
 \examples{
 library(spatstat.data)
 library(spatstat.geom)
+flu$pattern[] = flu$pattern |> 
+ lapply(FUN = `mark_name<-`, value = 'stain') # read ?flu carefully
 r = seq.int(from = 0, to = 100, by = 5)
 m = flu |>
  subset(stain == 'M2-M1') |>

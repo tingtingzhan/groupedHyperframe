@@ -1,32 +1,28 @@
 
-#' @title Alternative Interface of \link[spatstat.geom]{nncross}
+#' @title Alternative Interface of \link[spatstat.geom]{nncross.ppp}
 #' 
 #' @description
-#' An alternative interface of function \link[spatstat.geom]{nncross}.
+#' An alternative interface of function \link[spatstat.geom]{nncross.ppp}.
 #' 
 #' @param X see **Details**
 #' 
 #' @param i,j \link[base]{character} or \link[base]{integer} scalars. 
-#' See functions \link[spatstat.explore]{Gcross},
-#' and \link[spatstat.explore]{Kcross} for more details
+#' See functions \link[spatstat.explore]{Gcross}, etc. for more details
 #' 
-#' @param ... additional parameters, 
-#' including `i` and `j` for function [nncross_.hyperframe]
+#' @param ... additional parameters of \link[spatstat.geom]{nncross.ppp}
 #' 
 #' @details
-#' Function [nncross_.ppp] creates an interface similar to 
-#' functions \link[spatstat.explore]{Gcross},
-#' \link[spatstat.explore]{Jcross},
-#' and \link[spatstat.explore]{Kcross}, etc.,
+#' Function [.nncross()] creates an interface similar to 
+#' functions \link[spatstat.explore]{Gcross}, etc.,
 #' which takes an \link[spatstat.geom]{is.multitype} \link[spatstat.geom]{ppp.object}
 #' and two mark values `i` and `j`, 
 #' then calls the workhorse function 
-#' \link[spatstat.geom]{nncross} with parameter `what = 'dist'`.
+#' \link[spatstat.geom]{nncross.ppp} with parameter `what = 'dist'`.
 #' If mark values `i` and `j` does not exist in the \link[spatstat.geom]{ppp.object},
 #' a `NULL` value will be returned.
 #' 
 #' @returns
-#' Function [nncross_.ppp] returns
+#' Function [.nncross()] returns
 #' a \link[base]{numeric} \link[base]{vector} 
 #' if `i` and `j` are valid mark values of \link[spatstat.geom]{ppp.object} `X`;
 #' otherwise returns a `NULL` value.
@@ -37,20 +33,14 @@
 #' 
 #' (xs = split.ppp(amacrine))
 #' (a1 = nncross(X = xs$off, Y = xs$on, what = 'dist'))
-#' a2 = nncross_.ppp(amacrine, i = 'off', j = 'on')
-#' a3 = nncross_.ppp(amacrine, i = 1L, j = 2L)
+#' a2 = .nncross(amacrine, i = 'off', j = 'on')
+#' a3 = .nncross(amacrine, i = 1L, j = 2L)
 #' stopifnot(identical(a1, a2), identical(a1, a3))
 #' 
-#' nncross_.ppp(amacrine, i = 'a', j = 'b') # exception handling
-#' @name nncross_
-#' @export
-nncross_ <- function(X, ...) UseMethod(generic = 'nncross_')
-
-#' @rdname nncross_
+#' .nncross(amacrine, i = 'a', j = 'b') # exception handling
 #' @importFrom spatstat.geom nncross.ppp is.marked.ppp is.multitype.ppp marks.ppp split.ppp
-#' @export nncross_.ppp
 #' @export
-nncross_.ppp <- function(X, i, j, ...) {
+.nncross <- function(X, i, j, ...) {
   
   # see ?spatstat.explore::Gcross carefully
   if (!is.marked.ppp(X, dfok = FALSE)) stop(paste('point pattern has no', sQuote('marks')))

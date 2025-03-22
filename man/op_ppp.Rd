@@ -6,9 +6,9 @@
 \alias{fv_ppp}
 \title{Operations on \link[spatstat.geom]{ppp.object}}
 \usage{
-dist_ppp(x, fn, mark_nm, ...)
+dist_ppp(x, fn, ...)
 
-fv_ppp(x, fn, mark_nm, ...)
+fv_ppp(x, fn, ...)
 }
 \arguments{
 \item{x}{a \link[spatstat.geom]{ppp.object}}
@@ -17,18 +17,14 @@ fv_ppp(x, fn, mark_nm, ...)
 or a \link[base]{function} that returns an \link[spatstat.explore]{fv.object},
 see \strong{Details}}
 
-\item{mark_nm}{(optional) \link[base]{character} scalar,
-name of \link[spatstat.geom]{marks},
-when \code{markformat.ppp(x) == 'vector'}}
-
-\item{...}{additional parameters of \link[base]{function} \code{fn}}
+\item{...}{additional parameters of function \code{fn}}
 }
 \value{
-Function \link{fv_ppp} returns a \link[base]{list} of
+Function \code{\link[=fv_ppp]{fv_ppp()}} returns a \link[base]{list} of
 \link[spatstat.explore]{fv.object}s,
 one for each eligible \link[spatstat.geom]{marks}.
 
-Function \link{dist_ppp} returns a \link[base]{list} of
+Function \code{\link[=dist_ppp]{dist_ppp()}} returns a \link[base]{list} of
 \link[base]{double} \link[base]{vector}s,
 one for each eligible \link[spatstat.geom]{marks}.
 }
@@ -66,7 +62,7 @@ by following functions that return an \link[spatstat.explore]{fv.object},
 }
 or by following functions that return a distance,
 \itemize{
-\item {\link{nncross_.ppp}}
+\item {\code{\link[=.nncross]{.nncross()}}}
 }
 If one of the functions above are provided
 but there is no \link[spatstat.geom]{marks} \link[spatstat.geom]{is.multitype} in the input,
@@ -79,8 +75,8 @@ library(spatstat.explore)
 fv_ppp(betacells, fn = Emark) # applicable to numeric mark
 fv_ppp(betacells, fn = Gcross, i = 'off', j = 'on') # applicable to multitype mark
 
-dist_ppp(betacells, fn = nncross_.ppp, i = 'off', j = 'on')
-dist_ppp(gorillas, fn = nncross_.ppp, i = 'major', j = 'minor')
-dist_ppp(gorillas, fn = nncross_.ppp, i = 'rainy', j = 'dry')
+dist_ppp(betacells, fn = .nncross, i = 'off', j = 'on')
+dist_ppp(gorillas, fn = .nncross, i = 'major', j = 'minor')
+dist_ppp(gorillas, fn = .nncross, i = 'rainy', j = 'dry')
 }
 \keyword{internal}

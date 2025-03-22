@@ -14,14 +14,14 @@ dist_hyperframe(X, ...)
 \item{X}{a \link[spatstat.geom]{hyperframe}, containing \emph{\strong{one-and-only-one}} \link[spatstat.geom]{ppp}-\link[spatstat.geom:hyperframe]{hypercolumn}}
 
 \item{...}{additional parameters of workhorse functions
-\link{fv_ppplist} or \link{dist_ppplist}}
+\code{\link[=fv_ppplist]{fv_ppplist()}} or \code{\link[=dist_ppplist]{dist_ppplist()}}}
 }
 \value{
-Function \link{fv_hyperframe} returns a \link[spatstat.geom]{hyperframe} with
+Function \code{\link[=fv_hyperframe]{fv_hyperframe()}} returns a \link[spatstat.geom]{hyperframe} with
 additional \link[spatstat.explore]{fv.object} \link[spatstat.geom:hyperframe]{hypercolumns},
 \emph{\strong{one hypercolumn per \link[base]{numeric} mark}} in the \link[spatstat.geom]{ppp}-\link[spatstat.geom:hyperframe]{hypercolumn}.
 
-Function \link{dist_hyperframe} returns a \link[spatstat.geom]{hyperframe} with
+Function \code{\link[=dist_hyperframe]{dist_hyperframe()}} returns a \link[spatstat.geom]{hyperframe} with
 additional \link[base]{numeric} \link[spatstat.geom:hyperframe]{hypercolumns},
 \emph{\strong{one hypercolumn per \link[spatstat.geom]{is.multitype} mark}}
 in the \link[spatstat.geom]{ppp}-\link[spatstat.geom:hyperframe]{hypercolumn}.
@@ -36,11 +36,6 @@ one-and-only-one \link[spatstat.geom]{ppp}-\link[spatstat.geom:hyperframe]{hyper
 inside a \link[spatstat.geom]{hyperframe}.
 }
 \details{
-See details in workhorse functions \link{fv_ppplist} or \link{dist_ppplist}.
-}
-\note{
-In near future, TZhan will \strong{not} support multiple \link[spatstat.geom]{ppp}-\link[spatstat.geom:hyperframe]{hypercolumn}s in input \code{X}.
-Otherwise, we need to check for name clash in \verb{$marks} from multiple \link[spatstat.geom]{ppp}-\link[spatstat.geom:hyperframe]{hypercolumn}s,
-which is too much trouble.
+See details in workhorse functions \code{\link[=fv_ppplist]{fv_ppplist()}} or \code{\link[=dist_ppplist]{dist_ppplist()}}.
 }
 \keyword{internal}
