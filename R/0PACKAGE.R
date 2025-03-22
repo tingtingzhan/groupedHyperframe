@@ -1,10 +1,11 @@
 
 
-#' @title Grouped Hyperframe
-#'
-#'
-# @references none yet
-#'
+#' 
+#' 
+#' 
+#' @references 
+#' To be added.
+#' 
 '_PACKAGE'
 
 

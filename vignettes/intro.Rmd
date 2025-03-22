@@ -41,31 +41,56 @@ A development version of package **`groupedHyperframe`** is hosted on [Github](h
 devtools::install_github('tingtingzhan/groupedHyperframe'); packageDate('groupedHyperframe')
 ```
 
+Below is a list of terms used in this vignette.
+
+```{r echo = FALSE, results = 'asis'}
+c(
+  '`attr`', 'Attributes', '`?base::attr`; `?base::attributes`',
+  '`data.frame`', 'Data frame', '`?base::data.frame`',
+  '`formula`', 'Formula', '`?stats::formula`',
+  '`fv`', 'Function value table', '`?spatstat.explore::fv.object`',
+  '`groupedData`', 'Grouped data frame', '`?nlme::groupedData`',
+  '`hyperframe`', 'Hyper data frame', '`?spatstat.geom::hyperframe`',
+  '', 'Kernel density', '`stats::density.default()$y`',
+  '`matrix`', 'Matrix', '`?base::matrix`',
+  '`multitype`', 'Multitype object', '`?spatstat.geom::is.multitype`',
+  '`ppp`', '(Marked) point pattern', '`?spatstat.geom::ppp`',
+  '`~ g1/.../gm`', 'Nested grouping structure', '`?nlme::groupedData`; `?nlme::lme`',
+  '', 'Quantile', '`?stats::quantile`',
+  '`Surv`', 'Survival object', '`?survival::Surv`'
+) |>
+  matrix(nrow = 3L, dimnames = list(c('Term', 'Description', 'Reference'), NULL)) |>
+  t.default() |>
+  as.data.frame.matrix() |> 
+  kable(caption = 'Terms used in this vignette')
+```
+
 Examples in this vignette require the **`survival`** package.
 
 ```{r setup}
 library(groupedHyperframe)
-library(survival) # to help ?spatstat.geom::hyperframe understand ?survival::Surv object
+library(survival) # to help hyperframe understand Surv object
 ```
+
 
 
 # `groupedHyperframe` Class
 
-The S3 class `groupedHyperframe` inherits from `spatstat.geom::hyperframe`, in a similar fashion as `nlme::groupedData` inherits from `base::data.frame`.
+The S3 class `groupedHyperframe` inherits from `hyperframe` class, in a similar fashion as `groupedData` class inherits from `data.frame` class.
 
-A `groupedHyperframe` object, in addition to `spatstat.geom::hyperframe` object, has attribute(s)
+A `groupedHyperframe` object, in addition to `hyperframe` object, has attribute(s)
 
 * `attr(., 'group')`, a `formula` to specify the grouping structure
 
 
 
-## With one-and-only-one `spatstat.geom::ppp`-hypercolumn
+## With one-and-only-one `ppp`-hypercolumn
 
-Function `grouped_ppp()` creates a `groupedHyperframe` with one-and-only-one marked point pattern (`spatstat.geom::ppp`) hypercolumn.  In the following example, the argument `formula` specifies
+Function `grouped_ppp()` creates a `groupedHyperframe` with one-and-only-one `ppp`-hypercolumn.  In the following example, the argument `formula` specifies
 
-* the marks, e.g., `numeric` mark *`hladr`* and `spatstat.geom::is.multitype` mark *`phenotype`*, on the left-hand-side
+* the marks, e.g., `numeric` mark *`hladr`* and `multitype` mark *`phenotype`*, on the left-hand-side
 * additional predictors and/or endpoints, e.g., *`OS`*, *`gender`* and *`age`*, before the `|` separator on the right-hand-side
-* grouping structure, e.g., *`image_id`* nested in *`patient_id`*, after the `|` separator on the right-hand-side. Users may see `?nlme::groupedData` or `?nlme::lme` for a thorough discussion on the syntax of nested grouping structure `~g1/.../gm`. 
+* grouping structure, e.g., *`image_id`* nested in *`patient_id`*, after the `|` separator on the right-hand-side.
 
 ```{r}
 (s = grouped_ppp(formula = hladr + phenotype ~ OS + gender + age | patient_id/image_id, 
@@ -80,36 +105,44 @@ Function `grouped_ppp()` has parameter `coords` which specifies the column name 
 ```
 
 
-# Batch Processes on `ppp`-Hypercolumn 
+# Batch Process on `ppp`-Hypercolumn 
 
-In this section, we outline the batch processes of spatial point pattern analyses applicable to the one-and-only-one `ppp`-hypercolumn of a `hyperframe`.  
+In this section, we outline the batch process of spatial point pattern analyses applicable to the one-and-only-one `ppp`-hypercolumn of a `hyperframe`.  
 
 Note that these spatial point pattern analyses should **not** be applied to a `pseudo.ppp`-hypercolumn, as the $x$- and $y$-coordinates are randomly generated psuedo numbers.
 
 
-Batch process(es) that return a `spatstat.explore::fv.object`-hypercolumn include
+Batch processes that return a `fv`-hypercolumn include
 
 ```{r echo = FALSE, results = 'asis'}
-data.frame(
-  Function = c('`Emark_()`', '`Vmark_()`', '`markcorr_()`', '`markvario_()`', '`Gcross_()`', '`Kcross_()`', '`Jcross_()`'),
-  Workhorse = c('`spatstat.explore::Emark`', '`spatstat.explore::Vmark`', '`spatstat.explore::markcorr`', '`spatstat.explore::markvario`', '`spatstat.explore::Gcross`', '`spatstat.explore::Kcross`', '`spatstat.explore::Jcross`'),
-  Applicable = c('`numeric` marks (e.g., *`hladr`*) in `ppp`-hypercolumn', '`numeric` marks', '`numeric` marks', '`numeric` marks', '`multitype` marks (e.g., *`phenotype`*)', '`multitype` marks', '`multitype` marks')
-) |> kable(caption = 'Batch processes that return `fv`-hypercolumn')
+c(
+  '`Emark_()`', '`spatstat.explore::Emark`', '`numeric` marks (e.g., *`hladr`*) in `ppp`-hypercolumn',
+  '`Vmark_()`', '`spatstat.explore::Vmark`', '`numeric` marks',
+  '`markcorr_()`', '`spatstat.explore::markcorr`', '`numeric` marks', 
+  '`markvario_()`', '`spatstat.explore::markvario`', '`numeric` marks', 
+  '`Gcross_()`', '`spatstat.explore::Gcross`', '`multitype` marks (e.g., *`phenotype`*)', 
+  '`Kcross_()`', '`spatstat.explore::Kcross`', '`multitype` marks', 
+  '`Jcross_()`', '`spatstat.explore::Jcross`', '`multitype` marks'
+) |>
+  matrix(nrow = 3L, dimnames = list(c('Function', 'Workhorse', 'Applicable To'), NULL)) |>
+  t.default() |>
+  as.data.frame.matrix() |> 
+  kable(caption = 'Batch process that returns `fv`-hypercolumn')
 ```
 
 
-Batch process(es) that return a `numeric`-hypercolumn include
+Batch processes that return a `numeric`-hypercolumn include
 
 ```{r echo = FALSE, results = 'asis'}
 data.frame(
   Function = c('`nncross_()`'),
   Workhorse = c('`spatstat.geom::nncross.ppp(., what = \'dist\')`'),
   Applicable = c('`multitype` marks (e.g., *`phenotype`*)')
-) |> kable(caption = 'Batch processes that return `numeric`-hypercolumn')
+) |> kable(caption = 'Batch process that returns `numeric`-hypercolumn')
 ```
 
 
-Following example shows that the batch process(es) may be applied to a `groupedHyperframe` in a pipeline (`|>`).
+Following example shows that multiple batch processes may be applied to a `groupedHyperframe` in a pipeline (`|>`).
 
 ```{r}
 r = seq.int(from = 0, to = 250, by = 10)
@@ -123,7 +156,7 @@ out = s |>
   nncross_(i = 'CK+.CD8-', j = 'CK-.CD8+', correction = 'best') # fast
 ```
 
-The returned `groupedHyperframe` has new hypercolumns
+The returned `groupedHyperframe` has 
 
 * `fv`-hypercolumn *`hladr.E`*, created by function `Emark()` on `numeric` mark *`hladr`*
 * `fv`-hypercolumn *`phenotype.G`*, created by function `Gcross_()` on `multitype` mark *`phenotype`*
@@ -143,7 +176,7 @@ When nested grouping structure `~g1/g2/.../gm` is present, we may aggregate over
 
 by either one of the grouping levels `~g1`, `~g2`, ..., or `~gm`. If the lowest grouping `~gm` is specified, then no aggregation is performed.
 
-The returned object of various aggregation functions, `aggregate_fv()`, `aggregate_quantile()` and `aggregate_kerndens()`, is `base::data.frame` instead of `spatstat.geom::hyperframe`.  This is because the aggregated results are stored in `matrix`-columns, while `spatstat.geom::hyperframe` does not support `matrix`-column.
+The returned object of various aggregation functions, `aggregate_fv()`, `aggregate_quantile()` and `aggregate_kerndens()`, is `data.frame` instead of `hyperframe`.  This is because the aggregated results are stored in `matrix`-columns, while the `hyperframe` class does not support `matrix`-column.
 
 
 ## Aggregation of `fv`-hypercolumn(s)
@@ -169,10 +202,10 @@ dim(afv$hladr.E.cumarea) # N(patient) by length(r)
 
 Function `aggregate_quantile()` aggregates 
 
-* the `stats::quantile` of the `numeric`-hypercolumn(s).  In the following example, we have
-  + `matrix`-column *`phenotype.nncross.quantile`*, aggregated `quantile` of `numeric`-hypercolumn *`phenotype.nncross`*
-* the `quantile` of the `numeric` mark(s) in the `ppp`-hypercolumn.  In the following example, we have
-  + `matrix`-column *`hladr.quantile`*, aggregated `quantile` of `numeric` mark *`hladr`* in `ppp`-hypercolumn
+* the quantile of the `numeric`-hypercolumn(s).  In the following example, we have
+  + `matrix`-column *`phenotype.nncross.quantile`*, aggregated quantile of `numeric`-hypercolumn *`phenotype.nncross`*
+* the quantile of the `numeric` mark(s) in the `ppp`-hypercolumn.  In the following example, we have
+  + `matrix`-column *`hladr.quantile`*, aggregated quantile of `numeric` mark *`hladr`* in `ppp`-hypercolumn
 
 ```{r}
 q = out |>
@@ -185,7 +218,7 @@ dim(q$hladr.quantile)
 
 Function `aggregate_kerndens()` aggregates 
 
-* the kernel density `stats::density.default()$y` from the `numeric`-hypercolumn(s).  In the following example, we have
+* the kernel density of the `numeric`-hypercolumn(s).  In the following example, we have
   + `matrix`-column *`phenotype.nncross.kerndens`*, aggregated kernel density of `numeric`-hypercolumn *`phenotype.nncross`*
 * the kernel density of the `numeric` mark(s) in the `ppp`-hypercolumn.  In the following example, we have
   + `matrix`-column *`hladr.kerndens`*, aggregated kernel density of `numeric` mark *`hladr`* in `ppp`-hypercolumn

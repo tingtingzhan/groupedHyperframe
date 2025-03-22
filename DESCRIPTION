@@ -1,7 +1,7 @@
 Package: groupedHyperframe
 Type: Package
-Title: Grouped Hyperframe: an Extension to
-      spatstat.geom::hyperframe
+Title: Grouped Hyperframe: an Extension of
+      hyperframe Object in Package spatstat.geom.
 Version: 0.1.0
 Date: 2025-03-21
 Maintainer: Tingting Zhan <tingtingzhan@gmail.com>
