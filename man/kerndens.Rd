@@ -21,10 +21,6 @@ Function \code{\link[=kerndens]{kerndens()}} finds
 the estimated density values,
 i.e., element \verb{$y} of function \link[stats]{density.default} return.
 }
-\note{
-TZhan does not think any function from package \CRANpkg{spatstat.univar}
-has the same functionality. She could be wrong.
-}
 \examples{
 d = density(faithful$eruptions, bw = 'sj')
 stopifnot(identical(d$y, kerndens(faithful$eruptions, bw = 'sj')))
