@@ -51,6 +51,7 @@ c(
   '`fv`', 'Function value table', '`?spatstat.explore::fv.object`',
   '`groupedData`', 'Grouped data frame', '`?nlme::groupedData`',
   '`hypercolumn`', 'Column of hyper data frame', '`?spatstat.geom::hyperframe`',
+  '`inherits`', 'Class inheritance', '`?base::inherits`',
   '`hyperframe`', 'Hyper data frame', '`?spatstat.geom::hyperframe`',
   '', 'Kernel density', '`stats::density.default()$y`',
   '`matrix`', 'Matrix', '`?base::matrix`',
@@ -58,6 +59,7 @@ c(
   '`ppp`', '(Marked) point pattern', '`?spatstat.geom::ppp`',
   '`~ g1/.../gm`', 'Nested grouping structure', '`?nlme::groupedData`; `?nlme::lme`',
   '', 'Quantile', '`?stats::quantile`',
+  '`S3`', 'R\'s first and simplest object oriented system', 'https://adv-r.hadley.nz/s3.html',
   '`Surv`', 'Survival object', '`?survival::Surv`'
 ) |>
   matrix(nrow = 3L, dimnames = list(c('Term', 'Description', 'Reference'), NULL)) |>
@@ -77,7 +79,7 @@ library(survival) # to help hyperframe understand Surv object
 
 # `groupedHyperframe` Class
 
-The S3 class `groupedHyperframe` inherits from `hyperframe` class, in a similar fashion as `groupedData` class inherits from `data.frame` class.
+The `S3` class `groupedHyperframe` `inherits` from `hyperframe` class, in a similar fashion as `groupedData` class inherits from `data.frame` class.
 
 A `groupedHyperframe` object, in addition to `hyperframe` object, has attribute(s)
 
