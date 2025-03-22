@@ -53,7 +53,7 @@ c(
   '`hypercolumn`', 'Column of hyper data frame', '`?spatstat.geom::hyperframe`',
   '`hyperframe`', 'Hyper data frame', '`?spatstat.geom::hyperframe`',
   '`inherits`', 'Class inheritance', '`?base::inherits`',
-  'kerndens', 'Kernel density', '`stats::density.default()$y`',
+  '`kerndens`', 'Kernel density', '`stats::density.default()$y`',
   '`matrix`', 'Matrix', '`?base::matrix`',
   '`multitype`', 'Multitype object', '`?spatstat.geom::is.multitype`',
   '`ppp`', '(Marked) point pattern', '`?spatstat.geom::ppp.object`',
