@@ -30,6 +30,10 @@
 #' within cluster, currently supports
 #' `'mean'`, `'median'`, `'max'`, and `'min'`.
 #' 
+#' @param mc.cores \link[base]{integer} scalar, see function \link[parallel]{mclapply}.
+#' Default is 1L on Windows, or \link[parallel]{detectCores} on Mac.
+#' CRAN requires `mc.cores <= 2L` in examples.
+#' 
 #' @param ... additional parameters of function `FUN`
 #' 
 #' @returns
@@ -45,6 +49,7 @@ aggregate_num <- function(
     FUN,
     FUN.name = deparse1(substitute(FUN)),
     f_aggr_ = c('mean', 'median', 'max', 'min'), 
+    mc.cores = switch(.Platform$OS.type, windows = 1L, detectCores()), # must prevent `mc.cores` from going into `...`, e.g., ?stats::density.default warns on extra parameter
     ...
 ) {
   
@@ -78,12 +83,13 @@ aggregate_num <- function(
   x <- c(hyper_num_, mark_num_)
   names(x) <- paste(names(x), FUN.name, sep = '.')
   ret0 <- lapply(x, FUN = function(x) {
-    do.call(what = rbind, args = lapply(x, FUN = FUN, ...))
+    lapply(x, FUN = FUN, ...) |> 
+      do.call(what = rbind)
   })
   
   # Step 2: aggregation
   
-  aggregate_by_(dots = ret0, X = X, by = by, f_aggr_ = f_aggr_, ...)
+  aggregate_by_(dots = ret0, X = X, by = by, f_aggr_ = f_aggr_, mc.cores = mc.cores, ...)
   
 }
 
