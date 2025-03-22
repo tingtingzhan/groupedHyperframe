@@ -1,14 +1,15 @@
 Package: groupedHyperframe
 Type: Package
-Title: Grouped Hyperframe: an Extension of
-      hyperframe Object in Package spatstat.geom.
+Title: Grouped Hyper Data Frame: An Extension of Hyper Data
+      Frame Object.
 Version: 0.1.0
 Date: 2025-03-21
 Maintainer: Tingting Zhan <tingtingzhan@gmail.com>
 Description: An S3 class groupedHyperframe that inherits
-      from hyperframe (defined by package spatstat.geom).
-      Batch processes on ppp-hypercolumn. Aggregation of
-      fv-hypercolumn(s) and numeric-hypercolumn(s) over
+      from hyper data frame (defined in package
+      spatstat.geom). Batch processes on point-pattern
+      hyper column. Aggregation of function-value-table
+      hyper column(s) and numeric hyper column(s) over a
       nested grouping structure.
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
