@@ -8,12 +8,12 @@
 #' @param ... parameters of function \link[stats]{density.default}
 #' 
 #' @details
-#' Function [kerndens] finds 
+#' Function [kerndens()] finds 
 #' the estimated density values,
 #' i.e., element `$y` of function \link[stats]{density.default} return.
 #' 
 #' @returns 
-#' Function [kerndens] returns
+#' Function [kerndens()] returns
 #' a \link[base]{numeric} \link[base]{vector}.
 #' 
 #' @note

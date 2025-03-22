@@ -26,7 +26,7 @@ To check
 
 Note that
 \itemize{
-\item {function \link{key1.fv} returns of all \link[spatstat.explore]{fv.object}s are not required to be all same}
+\item {function \code{\link[=key1.fv]{key1.fv()}} returns of all \link[spatstat.explore]{fv.object}s are not required to be all same}
 }
 }
 \keyword{internal}

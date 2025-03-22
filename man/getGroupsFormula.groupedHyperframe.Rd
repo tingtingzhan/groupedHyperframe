@@ -12,7 +12,7 @@
 \item{asList, sep}{place holders for S3 generic \link[nlme]{getGroupsFormula}}
 }
 \value{
-Function \link{getGroupsFormula.groupedHyperframe} returns a one-sided \link[stats]{formula}
+Function \code{\link[=getGroupsFormula.groupedHyperframe]{getGroupsFormula.groupedHyperframe()}} returns a one-sided \link[stats]{formula}
 }
 \description{
 ..

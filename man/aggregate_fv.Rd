@@ -26,12 +26,12 @@ within cluster, currently supports
 \item{...}{additional parameters, currently not in use}
 }
 \value{
-Function \link{aggregate_fv} returns a \link[base]{data.frame}, with
+Function \code{\link[=aggregate_fv]{aggregate_fv()}} returns a \link[base]{data.frame}, with
 aggregated information stored in \link[base]{matrix}-columns.
 
 Note that \link[spatstat.geom]{hyperframe} does not support
 \link[base]{matrix}-column (for good reasons!).
-Therefore, function \link{aggregate_fv} must return a \link[base]{data.frame},
+Therefore, function \code{\link[=aggregate_fv]{aggregate_fv()}} must return a \link[base]{data.frame},
 instead of a \link[spatstat.geom]{hyperframe}.
 }
 \description{
@@ -48,7 +48,7 @@ m = flu |>
  subset(stain == 'M2-M1') |>
  Gcross_(i = 'M1', j = 'M2', r = r, correction = 'best') |>
  as.groupedHyperframe(group = ~ virustype/frameid) |>
- aggregate_fv(by = ~ virustype)
+ aggregate_fv(by = ~ virustype, mc.cores = 2L)
 names(m)
 dim(m$pattern.G.value)
 dim(m$pattern.G.cumarea)

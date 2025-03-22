@@ -53,12 +53,12 @@ NULL
 #' @rdname op_fv
 #' 
 #' @details
-#' Function [key1.fv] finds the name of primary outcome,
+#' Function [key1.fv()] finds the name of primary outcome,
 #' i.e., the *black solid curve* as shown in \link[spatstat.explore]{plot.fv},
 #' of an \link[spatstat.explore]{fv.object}.
 #' 
 #' @returns
-#' Function [key1.fv] returns a \link[base]{character} scalar.
+#' Function [key1.fv()] returns a \link[base]{character} scalar.
 #' 
 #' @importFrom grDevices dev.off png
 #' @importFrom spatstat.explore plot.fv
@@ -72,7 +72,7 @@ key1.fv <- function(X, ...) {
 #' @rdname op_fv
 #' 
 #' @returns
-#' Function [key1val.fv] returns a \link[base]{numeric} \link[base]{vector}.
+#' Function [key1val.fv()] returns a \link[base]{numeric} \link[base]{vector}.
 #' 
 #' @export
 key1val.fv <- function(X, ...) {
@@ -94,7 +94,7 @@ key1val.fv <- function(X, ...) {
 #' of a function value \link[spatstat.explore]{fv.object}.
 #' 
 #' @returns
-#' Function [trapz.fv] returns a \link[base]{numeric} scalar.
+#' Function [trapz.fv()] returns a \link[base]{numeric} scalar.
 #' 
 #' @examples
 #' library(spatstat.data)
@@ -164,7 +164,7 @@ trapz.fv <- function(X, ...) {
 #' @rdname op_fv
 #' 
 #' @returns 
-#' Function [cumtrapz.fv] returns a \link[base]{numeric} \link[base]{vector}.
+#' Function [cumtrapz.fv()] returns a \link[base]{numeric} \link[base]{vector}.
 #' 
 #' @importFrom pracma cumtrapz
 #' @export 

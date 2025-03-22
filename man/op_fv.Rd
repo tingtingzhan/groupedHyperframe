@@ -22,19 +22,19 @@ cumtrapz.fv(X, ...)
 \item{...}{additional parameters, currently not in use}
 }
 \value{
-Function \link{key1.fv} returns a \link[base]{character} scalar.
+Function \code{\link[=key1.fv]{key1.fv()}} returns a \link[base]{character} scalar.
 
-Function \link{key1val.fv} returns a \link[base]{numeric} \link[base]{vector}.
+Function \code{\link[=key1val.fv]{key1val.fv()}} returns a \link[base]{numeric} \link[base]{vector}.
 
-Function \link{trapz.fv} returns a \link[base]{numeric} scalar.
+Function \code{\link[=trapz.fv]{trapz.fv()}} returns a \link[base]{numeric} scalar.
 
-Function \link{cumtrapz.fv} returns a \link[base]{numeric} \link[base]{vector}.
+Function \code{\link[=cumtrapz.fv]{cumtrapz.fv()}} returns a \link[base]{numeric} \link[base]{vector}.
 }
 \description{
 Various operations on a function value \link[spatstat.explore]{fv.object}.
 }
 \details{
-Function \link{key1.fv} finds the name of primary outcome,
+Function \code{\link[=key1.fv]{key1.fv()}} finds the name of primary outcome,
 i.e., the \emph{black solid curve} as shown in \link[spatstat.explore]{plot.fv},
 of an \link[spatstat.explore]{fv.object}.
 

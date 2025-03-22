@@ -42,7 +42,8 @@
 #' 
 #' @examples
 #' library(survival) # to help ?spatstat.geom::hyperframe understand ?survival::Surv
-#' grouped_ppp(hladr + phenotype ~ OS + gender + age | patient_id/image_id, data = wrobel_lung)
+#' grouped_ppp(hladr + phenotype ~ OS + gender + age | patient_id/image_id, 
+#'   data = wrobel_lung, mc.cores = 2L)
 #' @importFrom spatstat.geom owin ppp as.hyperframe.data.frame
 #' @importFrom stats runif
 #' @export
@@ -66,7 +67,7 @@ grouped_ppp <- function(
   fg <- interaction(data[g], drop = TRUE, sep = '.', lex.order = TRUE) # one or more hierarchy
 
   hf <- data[all.vars(formula[[3L]])] |>
-    mc_aggregate_unique(f = fg) |>
+    mc_aggregate_unique(f = fg, ...) |>
     as.hyperframe.data.frame()
   
   # Step 2: grouped ppp
@@ -132,7 +133,12 @@ split_ppp_dataframe <- function(x, f) {
 # ?collapse::collap does not support 'Surv' column
 #' @importFrom cli col_blue
 #' @importFrom parallel mclapply detectCores
-mc_aggregate_unique <- function(data, f) {
+mc_aggregate_unique <- function(
+    data, 
+    f,
+    mc.cores = switch(.Platform$OS.type, windows = 1L, detectCores()),
+    ...
+) {
   
   nr <- .row_names_info(data, type = 2L)
   if (nr != length(f)) stop('`data` and `f` different length')
@@ -140,7 +146,7 @@ mc_aggregate_unique <- function(data, f) {
   ids <- split.default(seq_len(nr), f = f)
   
   .ident <- vapply(data, FUN = function(d) { # (d = data[[1L]])
-    tmp <- mclapply(ids, mc.cores = switch(.Platform$OS.type, windows = 1L, detectCores()), FUN = function(id) {
+    tmp <- mclapply(ids, mc.cores = mc.cores, FUN = function(id) {
     #tmp <- lapply(ids, FUN = function(id) {
       all(duplicated(unclass(d[id]))[-1L])
     })

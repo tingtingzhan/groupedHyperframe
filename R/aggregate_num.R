@@ -33,7 +33,7 @@
 #' @param ... additional parameters of function `FUN`
 #' 
 #' @returns
-#' Function [aggregate_num] returns a \link[base]{data.frame}, with
+#' Function [aggregate_num()] returns a \link[base]{data.frame}, with
 #' aggregated information stored in \link[base]{matrix}-columns.
 #' 
 #' @name aggregate_num
@@ -83,7 +83,7 @@ aggregate_num <- function(
   
   # Step 2: aggregation
   
-  aggregate_by_(dots = ret0, X = X, by = by, f_aggr_ = f_aggr_)
+  aggregate_by_(dots = ret0, X = X, by = by, f_aggr_ = f_aggr_, ...)
   
 }
 
@@ -95,13 +95,15 @@ aggregate_num <- function(
 #' 
 #' @param X a [groupedHyperframe]
 #' 
-#' @param by,f_aggr_ see function [aggregate_num]
+#' @param by,f_aggr_ see function [aggregate_num()]
+#' 
+#' @param ... additional parameters
 #' 
 #' @details
-#' Function [aggregate_by_] checks `by` against `attr(X,'group')`.
+#' Function [aggregate_by_()] checks `by` against `attr(X,'group')`.
 #' 
 #' @returns 
-#' Function [aggregate_by_] returns 
+#' Function [aggregate_by_()] returns 
 #' a \link[base]{list} of \link[base]{numeric} \link[base]{matrix}es.
 #'  
 #' @keywords internal
@@ -112,7 +114,8 @@ aggregate_by_ <- function(
     dots, # 
     X, # 
     by, # 'formula'
-    f_aggr_ = c('mean', 'median', 'max', 'min')
+    f_aggr_ = c('mean', 'median', 'max', 'min'),
+    ...
 ) {
   
   x <- unclass(X)$df
@@ -149,7 +152,7 @@ aggregate_by_ <- function(
     
   } else {
     
-    x <- mc_aggregate_unique(data = x, f = f)
+    x <- mc_aggregate_unique(data = x, f = f, ...)
     fn <- switch(match.arg(f_aggr_), mean = colMeans, median = colMedians, max = colMaxs, min = colMins)
     x[names(dots)] <- lapply(dots, FUN = function(m) {
       do.call(what = rbind, args = lapply(ids, FUN = function(i) fn(m[i,,drop = FALSE])))
@@ -171,14 +174,11 @@ aggregate_by_ <- function(
 
 
 
-# @section Step 1. Cluster-Specific Sample Quantiles [clusterQp] 
-# (superseded by grouped_ppp() |> aggregate_quantile):
-# Function [clusterQp] calculates user-selected sample quantiles in each cluster of observations.
 #' @rdname aggregate_num
 #' 
 #' @details
-#' Function [aggregate_quantile] is a wrapper of 
-#' workhorse function [aggregate_num] with `FUN = quantile`.
+#' Function [aggregate_quantile()] is a wrapper of 
+#' workhorse function [aggregate_num()] with `FUN = quantile`.
 #' 
 #' @importFrom stats quantile
 #' @export
@@ -200,8 +200,8 @@ aggregate_quantile <- function(X, ...) aggregate_num(X, FUN = .quantile_num_name
 #' @rdname aggregate_num
 #' 
 #' @details
-#' Function [aggregate_kerndens] is a wrapper of 
-#' workhorse function [aggregate_num] with `FUN = kerndens`.
+#' Function [aggregate_kerndens()] is a wrapper of 
+#' workhorse function [aggregate_num()] with `FUN = kerndens`.
 #' 
 #' @export
 aggregate_kerndens <- function(X, ...) aggregate_num(X, FUN = kerndens, ...)

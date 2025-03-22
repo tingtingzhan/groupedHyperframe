@@ -24,12 +24,12 @@
 # -- Inna is correct: we do not aggregate-hyperframe, we aggregate-fv-columns-inside-hyperframe.
 #' 
 #' @returns
-#' Function [aggregate_fv] returns a \link[base]{data.frame}, with
+#' Function [aggregate_fv()] returns a \link[base]{data.frame}, with
 #' aggregated information stored in \link[base]{matrix}-columns.
 #' 
 #' Note that \link[spatstat.geom]{hyperframe} does not support
 #' \link[base]{matrix}-column (for good reasons!).
-#' Therefore, function [aggregate_fv] must return a \link[base]{data.frame}, 
+#' Therefore, function [aggregate_fv()] must return a \link[base]{data.frame}, 
 #' instead of a \link[spatstat.geom]{hyperframe}.
 #' 
 #' @examples
@@ -42,7 +42,7 @@
 #'  subset(stain == 'M2-M1') |>
 #'  Gcross_(i = 'M1', j = 'M2', r = r, correction = 'best') |>
 #'  as.groupedHyperframe(group = ~ virustype/frameid) |>
-#'  aggregate_fv(by = ~ virustype)
+#'  aggregate_fv(by = ~ virustype, mc.cores = 2L)
 #' names(m)
 #' dim(m$pattern.G.value)
 #' dim(m$pattern.G.cumarea)
@@ -65,7 +65,7 @@ aggregate_fv <- function(
   ret0 <- lapply(setNames(nm = names(fv)), FUN = function(nm) {
     x <- fv[[nm]]
     check_fvlist(x)
-    cumtrapz. <- cumtrapz.fvlist(x, check = FALSE)
+    cumtrapz. <- cumtrapz.fvlist(x, check = FALSE, ...)
     if (anyNA(cumtrapz.)) {
       id <- min(rowSums(!is.na(cumtrapz.)))
       message(col_cyan(nm), ': please limit ', col_magenta('r'), ' from ', x[[1L]]$r[1L], ' to ', x[[1L]]$r[id])
@@ -79,7 +79,7 @@ aggregate_fv <- function(
   ret1 <- ret0 |>
     unlist(recursive = FALSE, use.names = TRUE) # smart!!
   
-  aggregate_by_(dots = ret1, X = X, by = by, f_aggr_ = f_aggr_)
+  aggregate_by_(dots = ret1, X = X, by = by, f_aggr_ = f_aggr_, ...)
 
 }
 

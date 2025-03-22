@@ -8,16 +8,25 @@
 \usage{
 key1val.fvlist(X, check = TRUE, ...)
 
-cumtrapz.fvlist(X, check = TRUE, ...)
+cumtrapz.fvlist(
+  X,
+  check = TRUE,
+  mc.cores = switch(.Platform$OS.type, windows = 1L, detectCores()),
+  ...
+)
 }
 \arguments{
 \item{X}{a \link[base]{list} of \link[spatstat.explore]{fv.object}s}
 
 \item{check}{\link[base]{logical} scalar, an option to suppress
-function \link{check_fvlist} in a batch process.
+function \code{\link[=check_fvlist]{check_fvlist()}} in a batch process.
 Default \code{TRUE}}
 
 \item{...}{additional parameters, currently not in use}
+
+\item{mc.cores}{\link[base]{integer} scalar, see function \link[parallel]{mclapply}.
+Default is 1L on Windows, or \link[parallel]{detectCores} on Mac.
+CRAN requires \code{mc.cores <= 2L} in examples.}
 }
 \value{
 All functions return a \link[base]{double} \link[base]{matrix}.
@@ -26,9 +35,9 @@ All functions return a \link[base]{double} \link[base]{matrix}.
 Operations on a \link[base]{list} of \link[spatstat.explore]{fv.object}s
 }
 \details{
-Function \link{key1val.fvlist} gathers the primary outcome (via \link{key1.fv})
+Function \code{\link[=key1val.fvlist]{key1val.fvlist()}} gathers the primary outcome (via \link{key1.fv})
 of the \link[spatstat.explore]{fv.object}s.
 
-Function \link{cumtrapz.fvlist} is a batch process of function \link{cumtrapz.fv}.
+Function \code{\link[=cumtrapz.fvlist]{cumtrapz.fvlist()}} is a batch process of function \link{cumtrapz.fv}.
 }
 \keyword{internal}

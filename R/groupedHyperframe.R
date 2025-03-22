@@ -119,7 +119,7 @@ subset.groupedHyperframe <- function(x, ...) {
 #' @param object a [groupedHyperframe]
 #' @param asList,sep place holders for S3 generic \link[nlme]{getGroupsFormula}
 #' @returns 
-#' Function [getGroupsFormula.groupedHyperframe] returns a one-sided \link[stats]{formula}
+#' Function [getGroupsFormula.groupedHyperframe()] returns a one-sided \link[stats]{formula}
 #' @keywords internal
 #' @importFrom nlme getGroupsFormula
 #' @export getGroupsFormula.groupedHyperframe

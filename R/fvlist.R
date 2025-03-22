@@ -15,7 +15,7 @@
 #' 
 #' Note that
 #' \itemize{
-#' \item {function [key1.fv] returns of all \link[spatstat.explore]{fv.object}s are not required to be all same}
+#' \item {function [key1.fv()] returns of all \link[spatstat.explore]{fv.object}s are not required to be all same}
 #' }
 #' 
 #' @returns 
@@ -48,13 +48,17 @@ key1_fvlist <- function(X, ...) {
 #' @param X a \link[base]{list} of \link[spatstat.explore]{fv.object}s
 #' 
 #' @param check \link[base]{logical} scalar, an option to suppress 
-#' function [check_fvlist] in a batch process.
+#' function [check_fvlist()] in a batch process.
 #' Default `TRUE`
+#' 
+#' @param mc.cores \link[base]{integer} scalar, see function \link[parallel]{mclapply}.
+#' Default is 1L on Windows, or \link[parallel]{detectCores} on Mac.
+#' CRAN requires `mc.cores <= 2L` in examples.
 #' 
 #' @param ... additional parameters, currently not in use
 #' 
 #' @details
-#' Function [key1val.fvlist] gathers the primary outcome (via [key1.fv])
+#' Function [key1val.fvlist()] gathers the primary outcome (via [key1.fv])
 #' of the \link[spatstat.explore]{fv.object}s.
 #' 
 #' @returns
@@ -87,11 +91,16 @@ key1val.fvlist <- function(X, check = TRUE, ...) {
 #' @rdname fvlist
 #' 
 #' @details 
-#' Function [cumtrapz.fvlist] is a batch process of function [cumtrapz.fv].
+#' Function [cumtrapz.fvlist()] is a batch process of function [cumtrapz.fv].
 #' 
 #' @importFrom parallel mclapply detectCores
 #' @export
-cumtrapz.fvlist <- function(X, check = TRUE, ...) {
+cumtrapz.fvlist <- function(
+    X, 
+    check = TRUE, 
+    mc.cores = switch(.Platform$OS.type, windows = 1L, detectCores()), 
+    ...
+) {
   
   if (check) check_fvlist(X, ...)
   
@@ -102,7 +111,7 @@ cumtrapz.fvlist <- function(X, check = TRUE, ...) {
   
   r <- X[[1L]][[1L]][-1L]
   
-  ret <- mclapply(X = X, mc.cores = switch(.Platform$OS.type, windows = 1L, detectCores()), FUN = cumtrapz.fv, ...) |>
+  ret <- mclapply(X = X, mc.cores = mc.cores, FUN = cumtrapz.fv, ...) |>
       unlist(use.names = FALSE)
   dim(ret) <- c(length(r), length(X))
   dimnames(ret) <- list(r, NULL)
@@ -124,7 +133,7 @@ cumtrapz.fvlist <- function(X, check = TRUE, ...) {
 # @param ... additional parameters, currently not in use
 # 
 # @returns 
-# Function [trapz.fvlist] returns a \link[base]{numeric} \link[base]{vector}.
+# Function [trapz.fvlist()] returns a \link[base]{numeric} \link[base]{vector}.
 # 
 # @keywords internal
 # @export trapz.fvlist

@@ -46,7 +46,7 @@ within cluster, currently supports
 \item{...}{additional parameters of function \code{FUN}}
 }
 \value{
-Function \link{aggregate_num} returns a \link[base]{data.frame}, with
+Function \code{\link[=aggregate_num]{aggregate_num()}} returns a \link[base]{data.frame}, with
 aggregated information stored in \link[base]{matrix}-columns.
 }
 \description{
@@ -55,9 +55,9 @@ and/or \link[spatstat.geom]{marks}
 by sample clustering.
 }
 \details{
-Function \link{aggregate_quantile} is a wrapper of
-workhorse function \link{aggregate_num} with \code{FUN = quantile}.
+Function \code{\link[=aggregate_quantile]{aggregate_quantile()}} is a wrapper of
+workhorse function \code{\link[=aggregate_num]{aggregate_num()}} with \code{FUN = quantile}.
 
-Function \link{aggregate_kerndens} is a wrapper of
-workhorse function \link{aggregate_num} with \code{FUN = kerndens}.
+Function \code{\link[=aggregate_kerndens]{aggregate_kerndens()}} is a wrapper of
+workhorse function \code{\link[=aggregate_num]{aggregate_num()}} with \code{FUN = kerndens}.
 }

@@ -9,12 +9,25 @@
 fv_ppplist(x, ...)
 
 dist_ppplist(x, ...)
+
+op_ppplist(
+  x,
+  op,
+  mc.cores = switch(.Platform$OS.type, windows = 1L, detectCores()),
+  ...
+)
 }
 \arguments{
 \item{x}{a \code{'ppplist'} object}
 
 \item{...}{additional parameters of workhorse functions
 \code{\link[=fv_ppp]{fv_ppp()}} or \code{\link[=dist_ppp]{dist_ppp()}}}
+
+\item{op}{workhorse \link[base]{function}, either \code{\link[=fv_ppp]{fv_ppp()}} or \code{\link[=dist_ppp]{dist_ppp()}}}
+
+\item{mc.cores}{\link[base]{integer} scalar, see function \link[parallel]{mclapply}.
+Default is 1L on Windows, or \link[parallel]{detectCores} on Mac.
+CRAN requires \code{mc.cores <= 2L} in examples.}
 }
 \value{
 Function \code{\link[=fv_ppplist]{fv_ppplist()}} returns a \link[base]{list} of function \link{fv_ppp} returns.
@@ -22,7 +35,7 @@ Function \code{\link[=fv_ppplist]{fv_ppplist()}} returns a \link[base]{list} of 
 Function \code{\link[=dist_ppplist]{dist_ppplist()}} returns a \link[base]{list} of function \link{dist_ppp} returns.
 }
 \description{
-Batch operations of function \link{fv_ppp} or \link{dist_ppp}, for a \code{'ppplist'} input.
+Batch operations of function \code{\link[=fv_ppp]{fv_ppp()}} or \code{\link[=dist_ppp]{dist_ppp()}}, for a \code{'ppplist'} input.
 }
 \details{
 Function \code{\link[=fv_ppplist]{fv_ppplist()}} is a \pkg{parallel} batch process of the workhorse function \code{\link[=fv_ppp]{fv_ppp()}}.
@@ -38,20 +51,19 @@ library(spatstat.explore) # for ?spatstat.explore::Emark, etc.
 Vc = with(shapley$marks, expr = {
  cut.default(V, breaks = quantile(V, probs = c(0, 1/3, 2/3, 1)), labels = c('L', 'M', 'H'))
 })
-x0 = shapley; x0$marks$V = NULL
-plot(x <- split.ppp(x0, f = Vc))
-
-xE = fv_ppplist(x, fn = Emark)
-names(xE)
-names(xE$L)
-stopifnot(inherits(xE$L$Mag.E, what = 'fv'))
+x1 = shapley |> 
+ subset.ppp(select = c('Mag', 'SigV')) |>
+ split.ppp(f = Vc) |>
+ fv_ppplist(fn = markcorr, mc.cores = 2L)
+names(x1)
+names(x1$L)
 
 # create another 'ppplist' object
-nbf = nbfires |> 
+x2 = nbfires |> 
   subset.ppp(select = c('fire.type', 'cause', 'ign.src')) |>
-  na.omit.ppp()
-x2 = split.ppp(nbf, f = nbf$marks$fire.type)
-dist_ppplist(x2, fn = .nncross, i = 'rrds', j = 'ltning')
-dist_ppplist(x2, fn = .nncross, i = 'unknown', j = 'burn.no.perm')
+  na.omit.ppp() |> 
+  split.ppp(f = 'fire.type')
+dist_ppplist(x2, fn = .nncross, i = 'rrds', j = 'ltning', mc.cores = 2L)
+dist_ppplist(x2, fn = .nncross, i = 'unknown', j = 'burn.no.perm', mc.cores = 2L)
 }
 \keyword{internal}

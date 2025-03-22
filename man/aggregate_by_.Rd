@@ -4,23 +4,25 @@
 \alias{aggregate_by_}
 \title{Aggregate-By, for \link{groupedHyperframe}}
 \usage{
-aggregate_by_(dots, X, by, f_aggr_ = c("mean", "median", "max", "min"))
+aggregate_by_(dots, X, by, f_aggr_ = c("mean", "median", "max", "min"), ...)
 }
 \arguments{
 \item{dots}{a \link[base]{list} of \link[base]{numeric} \link[base]{matrix}es}
 
 \item{X}{a \link{groupedHyperframe}}
 
-\item{by, f_aggr_}{see function \link{aggregate_num}}
+\item{by, f_aggr_}{see function \code{\link[=aggregate_num]{aggregate_num()}}}
+
+\item{...}{additional parameters}
 }
 \value{
-Function \link{aggregate_by_} returns
+Function \code{\link[=aggregate_by_]{aggregate_by_()}} returns
 a \link[base]{list} of \link[base]{numeric} \link[base]{matrix}es.
 }
 \description{
 Aggregate-By, for \link{groupedHyperframe}
 }
 \details{
-Function \link{aggregate_by_} checks \code{by} against \code{attr(X,'group')}.
+Function \code{\link[=aggregate_by_]{aggregate_by_()}} checks \code{by} against \code{attr(X,'group')}.
 }
 \keyword{internal}

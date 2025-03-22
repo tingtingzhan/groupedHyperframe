@@ -64,9 +64,9 @@ flu$pattern[] = flu$pattern |>
 r = seq.int(from = 0, to = 100, by = 5)
 flu |>
  subset(stain == 'M2-M1') |>
- Gcross_(i = 'M1', j = 'M2', r = r, correction = 'best')
+ Gcross_(i = 'M1', j = 'M2', r = r, correction = 'best', mc.cores = 2L)
  
 flu |>
  subset(stain == 'M2-M1') |>
- nncross_(flu0, i = 'M1', j = 'M2')
+ nncross_(i = 'M1', j = 'M2', mc.cores = 2L)
 }

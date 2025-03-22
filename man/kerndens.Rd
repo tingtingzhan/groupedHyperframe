@@ -10,14 +10,14 @@ kerndens(...)
 \item{...}{parameters of function \link[stats]{density.default}}
 }
 \value{
-Function \link{kerndens} returns
+Function \code{\link[=kerndens]{kerndens()}} returns
 a \link[base]{numeric} \link[base]{vector}.
 }
 \description{
 Kernel density estimates only.
 }
 \details{
-Function \link{kerndens} finds
+Function \code{\link[=kerndens]{kerndens()}} finds
 the estimated density values,
 i.e., element \verb{$y} of function \link[stats]{density.default} return.
 }
