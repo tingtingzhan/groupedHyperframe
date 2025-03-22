@@ -56,10 +56,12 @@ op_hyperframe <- function(X, op, ...) {
     what = cbind.hyperframe, 
     args = c(list(X), ret1)
   )
+  
   if (inherits(X, what = 'groupedHyperframe')) {
     attr(ret, which = 'group') <- attr(X, which = 'group', exact = TRUE)
     class(ret) <- unique.default(c('groupedHyperframe', class(X)))
   } # a bandage fix, for now
+  
   return(ret)
   
 }

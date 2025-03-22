@@ -117,7 +117,7 @@ In this section, we outline the batch process of spatial point pattern analyses 
 Note that these spatial point pattern analyses should **not** be applied to a `pseudo.ppp`-hypercolumn, as the $x$- and $y$-coordinates are randomly generated psuedo numbers.
 
 
-Batch processes that return a `fv`-hypercolumn include
+Batch processes that add a `fv`-hypercolumn to the input `hyperframe` include
 
 ```{r echo = FALSE, results = 'asis'}
 c(
@@ -132,11 +132,11 @@ c(
   matrix(nrow = 3L, dimnames = list(c('Function', 'Workhorse', 'Applicable To'), NULL)) |>
   t.default() |>
   as.data.frame.matrix() |> 
-  kable(caption = 'Batch process that returns `fv`-hypercolumn')
+  kable(caption = 'Batch process that adds an `fv`-hypercolumn')
 ```
 
 
-Batch processes that return a `numeric`-hypercolumn include
+Batch processes that add a `numeric`-hypercolumn to the input `hyperframe` include
 
 ```{r echo = FALSE, results = 'asis'}
 c(
@@ -145,11 +145,11 @@ c(
   matrix(nrow = 3L, dimnames = list(c('Function', 'Workhorse', 'Applicable To'), NULL)) |>
   t.default() |>
   as.data.frame.matrix() |> 
-  kable(caption = 'Batch process that returns `numeric`-hypercolumn')
+  kable(caption = 'Batch process that adds a `numeric`-hypercolumn')
 ```
 
 
-Following example shows that multiple batch processes may be applied to a `groupedHyperframe` in a pipeline (`|>`).
+Following example shows that multiple batch processes may be applied to a `hyperframe` (or `groupedHyperframe`) in a pipeline (`|>`).
 
 ```{r}
 r = seq.int(from = 0, to = 250, by = 10)
@@ -163,7 +163,7 @@ out = s |>
   nncross_(i = 'CK+.CD8-', j = 'CK-.CD8+', correction = 'best') # fast
 ```
 
-The returned `groupedHyperframe` has 
+The returned `hyperframe` (or `groupedHyperframe`) has 
 
 * `fv`-hypercolumn *`hladr.E`*, created by function `Emark()` on `numeric` mark *`hladr`*
 * `fv`-hypercolumn *`phenotype.G`*, created by function `Gcross_()` on `multitype` mark *`phenotype`*
