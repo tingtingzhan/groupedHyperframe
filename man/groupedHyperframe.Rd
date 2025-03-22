@@ -2,7 +2,7 @@
 % Please edit documentation in R/groupedHyperframe.R
 \name{groupedHyperframe}
 \alias{groupedHyperframe}
-\title{Grouped Hyperframe}
+\title{Grouped Hyper Data Frame}
 \value{
 A \link{groupedHyperframe}
 }

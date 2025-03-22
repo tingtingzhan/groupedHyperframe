@@ -38,7 +38,7 @@ devtools::install_github('spatstat/spatstat.utils'); packageDate('spatstat.utils
 A development version of package **`groupedHyperframe`** is hosted on [Github](https://github.com/tingtingzhan/groupedHyperframe).
 
 ```{r eval = FALSE}
-devtools::install_github('tingtingzhan/groupedHyperframe'); packageDate('groupedHyperframe')
+devtools::install_github('tingtingzhan/groupedHyperframe', build_vignettes = TRUE)
 ```
 
 Below is a list of terms used in this vignette.
@@ -50,6 +50,7 @@ c(
   '`formula`', 'Formula', '`?stats::formula`',
   '`fv`', 'Function value table', '`?spatstat.explore::fv.object`',
   '`groupedData`', 'Grouped data frame', '`?nlme::groupedData`',
+  '`hypercolumn`', 'Column of hyper data frame', '`?spatstat.geom::hyperframe`',
   '`hyperframe`', 'Hyper data frame', '`?spatstat.geom::hyperframe`',
   '', 'Kernel density', '`stats::density.default()$y`',
   '`matrix`', 'Matrix', '`?base::matrix`',
@@ -134,11 +135,13 @@ c(
 Batch processes that return a `numeric`-hypercolumn include
 
 ```{r echo = FALSE, results = 'asis'}
-data.frame(
-  Function = c('`nncross_()`'),
-  Workhorse = c('`spatstat.geom::nncross.ppp(., what = \'dist\')`'),
-  Applicable = c('`multitype` marks (e.g., *`phenotype`*)')
-) |> kable(caption = 'Batch process that returns `numeric`-hypercolumn')
+c(
+  '`nncross_()`', '`spatstat.geom::nncross.ppp(., what = \'dist\')`', '`multitype` marks (e.g., *`phenotype`*)'
+) |>
+  matrix(nrow = 3L, dimnames = list(c('Function', 'Workhorse', 'Applicable To'), NULL)) |>
+  t.default() |>
+  as.data.frame.matrix() |> 
+  kable(caption = 'Batch process that returns `numeric`-hypercolumn')
 ```
 
 

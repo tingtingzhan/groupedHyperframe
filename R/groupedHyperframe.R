@@ -1,5 +1,5 @@
 
-#' @title Grouped Hyperframe
+#' @title Grouped Hyper Data Frame
 #' 
 #' @description
 #' A class [groupedHyperframe] to represent \link[spatstat.geom]{hyperframe} 
