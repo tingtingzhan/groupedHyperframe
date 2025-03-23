@@ -82,7 +82,7 @@ c(
   '`S3`', '`R`\'s simplest object oriented system', 'https://adv-r.hadley.nz/s3.html',
   '`search`', 'Search path', '`base::search`',
   '`Surv`', 'Survival object', '`survival::Surv`',
-  '`trapz`, `cumtrapz`', '(Cumulative) trapezoidal integration', '`pracma::trapz`; `pracma::cumtrapz`'
+  '`trapz`, `cumtrapz`', '(Cumulative) trapezoidal integration', '`pracma::trapz`; `pracma::cumtrapz`; https://en.wikipedia.org/wiki/Trapezoidal_rule'
 ) |>
   matrix(nrow = 3L, dimnames = list(c('Term / Abbreviation', 'Description', 'Reference'), NULL)) |>
   t.default() |>
