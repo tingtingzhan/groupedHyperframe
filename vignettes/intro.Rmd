@@ -82,7 +82,7 @@ c(
   '`S3`', '`R`\'s simplest object oriented system', 'https://adv-r.hadley.nz/s3.html',
   '`search`', 'Search path', '`base::search`',
   '`Surv`', 'Survival object', '`survival::Surv`',
-  '`trapz`, `cumtrapz`, `cumarea`', '(Cumulative) trapezoidal integration', '`pracma::trapz`; `pracma::cumtrapz`'
+  '`trapz`, `cumtrapz`', '(Cumulative) trapezoidal integration', '`pracma::trapz`; `pracma::cumtrapz`'
 ) |>
   matrix(nrow = 3L, dimnames = list(c('Term / Abbreviation', 'Description', 'Reference'), NULL)) |>
   t.default() |>
@@ -201,15 +201,15 @@ Function `aggregate_fv()` aggregates
     -   `matrix`-column *`hladr.E.value`*, aggregated function value from `fv`-hypercolumn *`hladr.E`*
     -   `matrix`-column *`phenotype.G.value`*, aggregated function value from `fv`-hypercolumn *`phenotype.G`*
 -   the **cumulative trapezoid area** under the black-solid-curve. In the following example, we have
-    -   `matrix`-column *`hladr.E.cumarea`*, aggregated cumulative trapezoid area from `fv`-hypercolumn *`hladr.E`*
-    -   `matrix`-column *`phenotype.G.cumarea`*, aggregated cumulative trapezoid area from `fv`-hypercolumn *`phenotype.G`*
+    -   `matrix`-column *`hladr.E.cumtrapz`*, aggregated cumulative trapezoid area from `fv`-hypercolumn *`hladr.E`*
+    -   `matrix`-column *`phenotype.G.cumtrapz`*, aggregated cumulative trapezoid area from `fv`-hypercolumn *`phenotype.G`*
 
 ```{r}
 afv = out |>
   aggregate_fv(by = ~ patient_id, f_aggr_ = 'mean', mc.cores = 1L)
 nrow(afv) # number of patients
 names(afv)
-dim(afv$hladr.E.cumarea) # N(patient) by length(r)
+dim(afv$hladr.E.cumtrapz) # N(patient) by length(r)
 ```
 
 ## Aggregation of `numeric`-hypercolumn(s) and `numeric` mark(s) in `ppp`-hypercolumn

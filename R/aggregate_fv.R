@@ -45,7 +45,7 @@
 #'  aggregate_fv(by = ~ virustype, mc.cores = 1L)
 #' names(m)
 #' dim(m$pattern.G.value)
-#' dim(m$pattern.G.cumarea)
+#' dim(m$pattern.G.cumtrapz)
 #' @importFrom spatstat.geom names.hyperframe
 #' @importFrom stats setNames
 #' @export
@@ -72,7 +72,7 @@ aggregate_fv <- function(
     }
     return(list(
       value = key1val.fvlist(x, check = FALSE), 
-      cumarea = cumtrapz.
+      cumtrapz = cumtrapz.
     ))
   })
 

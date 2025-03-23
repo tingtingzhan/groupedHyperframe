@@ -51,5 +51,5 @@ m = flu |>
  aggregate_fv(by = ~ virustype, mc.cores = 1L)
 names(m)
 dim(m$pattern.G.value)
-dim(m$pattern.G.cumarea)
+dim(m$pattern.G.cumtrapz)
 }
