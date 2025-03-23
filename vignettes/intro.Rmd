@@ -20,6 +20,8 @@ options(rmarkdown.html_vignette.check_title = FALSE)
 
 This vignette for package **`groupedHyperframe`** documents the creation of `groupedHyperframe` object, the batch processes defined for a `groupedHyperframe`, and aggregations over multi-level grouping structure.
 
+## Prerequisite 
+
 Package **`groupedHyperframe`** requires the development versions of **`spatstat`** family of packages.
 
 ```{r eval = FALSE}
@@ -35,20 +37,37 @@ devtools::install_github('spatstat/spatstat.univar'); packageDate('spatstat.univ
 devtools::install_github('spatstat/spatstat.utils'); packageDate('spatstat.utils')
 ```
 
+## Note to Users
+
+Examples in this vignette require that the `search` path has
+
+```{r setup}
+library(groupedHyperframe)
+library(survival) # to help hyperframe understand Surv object
+```
+
+Users should remove parameter `mc.cores = 1L` from all examples and use the default option, which engages all CPU cores on the current host for macOS. The authors are forced to have `mc.cores = 1L` in this vignette in order to pass `CRAN`'s submission check.
+
+
+## Additional Resources
+
 A development version of package **`groupedHyperframe`** is hosted on [Github](https://github.com/tingtingzhan/groupedHyperframe).
 
 ```{r eval = FALSE}
 devtools::install_github('tingtingzhan/groupedHyperframe', build_vignettes = TRUE)
+vignette('intro', package = 'groupedHyperframe')
 ```
 
-Below is a list of terms used in this vignette.
+
+## List of Terms and Abbreviations
 
 ```{r echo = FALSE, results = 'asis'}
 c(
   '`attr`', 'Attributes', '`base::attr`; `base::attributes`',
+  '`CRAN`, `R`', 'The Comprehensive R Archive Network', 'https://cran.r-project.org',
   '`data.frame`', 'Data frame', '`base::data.frame`',
   '`formula`', 'Formula', '`stats::formula`',
-  '`fv`', 'Function value table', '`spatstat.explore::fv.object`',
+  '`fv`, `fv.object`', 'Function value table', '`spatstat.explore::fv.object`',
   '`groupedData`', 'Grouped data frame', '`nlme::groupedData`',
   '`hypercolumn`', 'Column of hyper data frame', '`spatstat.geom::hyperframe`',
   '`hyperframe`', 'Hyper data frame', '`spatstat.geom::hyperframe`',
@@ -59,25 +78,18 @@ c(
   '`multitype`', 'Multitype object', '`spatstat.geom::is.multitype`',
   '`ppp`, `ppp.object`', '(Marked) point pattern', '`spatstat.geom::ppp.object`',
   '`~ g1/.../gm`', 'Nested grouping structure', '`nlme::groupedData`; `nlme::lme`',
-  '', 'Quantile', '`stats::quantile`',
-  '`S3`', 'R\'s first and simplest object oriented system', 'https://adv-r.hadley.nz/s3.html',
+  '`quantile`', 'Quantile', '`stats::quantile`',
+  '`S3`', '`R`\'s simplest object oriented system', 'https://adv-r.hadley.nz/s3.html',
+  '`search`', 'Search path', '`base::search`',
   '`Surv`', 'Survival object', '`survival::Surv`',
   '`trapz`, `cumtrapz`, `cumarea`', '(Cumulative) trapezoidal integration', '`pracma::trapz`; `pracma::cumtrapz`'
 ) |>
-  matrix(nrow = 3L, dimnames = list(c('Term', 'Description', 'Reference'), NULL)) |>
+  matrix(nrow = 3L, dimnames = list(c('Term / Abbreviation', 'Description', 'Reference'), NULL)) |>
   t.default() |>
   as.data.frame.matrix() |> 
-  kable(caption = 'Terms used in this vignette')
+  kable()
 ```
 
-Examples in this vignette require the **`survival`** package.
-
-```{r setup}
-library(groupedHyperframe)
-library(survival) # to help hyperframe understand Surv object
-```
-
-Also, end user should remove parameter `mc.cores = 1L` in all examples and use the default option, which makes use of all CPU cores on the current host for macOS. We are forced to have `mc.cores = 1L` in this vignette just to pass CRAN's submission requirement.
 
 # `groupedHyperframe` Class
 
