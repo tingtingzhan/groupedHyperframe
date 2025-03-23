@@ -38,10 +38,10 @@ Function \code{\link[=key1.fv]{key1.fv()}} finds the name of primary outcome,
 i.e., the \emph{black solid curve} as shown in \link[spatstat.explore]{plot.fv},
 of an \link[spatstat.explore]{fv.object}.
 
-Functions \link{trapz.fv} and \link{cumtrapz.fv}
+Functions \code{\link[=trapz.fv]{trapz.fv()}} and \code{\link[=cumtrapz.fv]{cumtrapz.fv()}}
 obtain the (cumulative)
 \link[pracma]{trapz}oidal integration of
-the area under the \emph{\strong{black solid curve}} (see function \link{key1.fv})
+the area under the \emph{\strong{black solid curve}} (see function \code{\link[=key1.fv]{key1.fv()}})
 of a function value \link[spatstat.explore]{fv.object}.
 }
 \examples{

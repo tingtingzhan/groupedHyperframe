@@ -35,9 +35,9 @@ All functions return a \link[base]{double} \link[base]{matrix}.
 Operations on a \link[base]{list} of \link[spatstat.explore]{fv.object}s
 }
 \details{
-Function \code{\link[=key1val.fvlist]{key1val.fvlist()}} gathers the primary outcome (via \link{key1.fv})
+Function \code{\link[=key1val.fvlist]{key1val.fvlist()}} gathers the primary outcome (via function \code{\link[=key1.fv]{key1.fv()}})
 of the \link[spatstat.explore]{fv.object}s.
 
-Function \code{\link[=cumtrapz.fvlist]{cumtrapz.fvlist()}} is a batch process of function \link{cumtrapz.fv}.
+Function \code{\link[=cumtrapz.fvlist]{cumtrapz.fvlist()}} is a batch process of function \code{\link[=cumtrapz.fv]{cumtrapz.fv()}}.
 }
 \keyword{internal}

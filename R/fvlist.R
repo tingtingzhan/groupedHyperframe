@@ -58,7 +58,7 @@ key1_fvlist <- function(X, ...) {
 #' @param ... additional parameters, currently not in use
 #' 
 #' @details
-#' Function [key1val.fvlist()] gathers the primary outcome (via [key1.fv])
+#' Function [key1val.fvlist()] gathers the primary outcome (via function [key1.fv()])
 #' of the \link[spatstat.explore]{fv.object}s.
 #' 
 #' @returns
@@ -91,7 +91,7 @@ key1val.fvlist <- function(X, check = TRUE, ...) {
 #' @rdname fvlist
 #' 
 #' @details 
-#' Function [cumtrapz.fvlist()] is a batch process of function [cumtrapz.fv].
+#' Function [cumtrapz.fvlist()] is a batch process of function [cumtrapz.fv()].
 #' 
 #' @importFrom parallel mclapply detectCores
 #' @export

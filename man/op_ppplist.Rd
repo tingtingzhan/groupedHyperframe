@@ -30,9 +30,9 @@ Default is 1L on Windows, or \link[parallel]{detectCores} on Mac.
 CRAN requires \code{mc.cores <= 2L} in examples.}
 }
 \value{
-Function \code{\link[=fv_ppplist]{fv_ppplist()}} returns a \link[base]{list} of function \link{fv_ppp} returns.
+Function \code{\link[=fv_ppplist]{fv_ppplist()}} returns a \link[base]{list} of function \code{\link[=fv_ppp]{fv_ppp()}} returns.
 
-Function \code{\link[=dist_ppplist]{dist_ppplist()}} returns a \link[base]{list} of function \link{dist_ppp} returns.
+Function \code{\link[=dist_ppplist]{dist_ppplist()}} returns a \link[base]{list} of function \code{\link[=dist_ppp]{dist_ppp()}} returns.
 }
 \description{
 Batch operations of function \code{\link[=fv_ppp]{fv_ppp()}} or \code{\link[=dist_ppp]{dist_ppp()}}, for a \code{'ppplist'} input.
@@ -47,7 +47,6 @@ library(spatstat.data)
 library(spatstat.geom) # for ?spatstat.geom::split.ppp
 library(spatstat.explore) # for ?spatstat.explore::Emark, etc.
 
-# create a 'ppplist' object
 Vc = with(shapley$marks, expr = {
  cut.default(V, breaks = quantile(V, probs = c(0, 1/3, 2/3, 1)), labels = c('L', 'M', 'H'))
 })
@@ -58,7 +57,6 @@ x1 = shapley |>
 names(x1)
 names(x1$L)
 
-# create another 'ppplist' object
 x2 = nbfires |> 
   subset.ppp(select = c('fire.type', 'cause', 'ign.src')) |>
   na.omit.ppp() |> 

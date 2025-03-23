@@ -22,16 +22,15 @@
 #' Function [dist_ppplist()] is a \pkg{parallel} batch process of the workhorse function [dist_ppp()].
 #' 
 #' @returns 
-#' Function [fv_ppplist()] returns a \link[base]{list} of function [fv_ppp] returns.
+#' Function [fv_ppplist()] returns a \link[base]{list} of function [fv_ppp()] returns.
 #' 
-#' Function [dist_ppplist()] returns a \link[base]{list} of function [dist_ppp] returns.
+#' Function [dist_ppplist()] returns a \link[base]{list} of function [dist_ppp()] returns.
 #' 
 #' @examples
 #' library(spatstat.data)
 #' library(spatstat.geom) # for ?spatstat.geom::split.ppp
 #' library(spatstat.explore) # for ?spatstat.explore::Emark, etc.
 #' 
-#' # create a 'ppplist' object
 #' Vc = with(shapley$marks, expr = {
 #'  cut.default(V, breaks = quantile(V, probs = c(0, 1/3, 2/3, 1)), labels = c('L', 'M', 'H'))
 #' })
@@ -42,7 +41,6 @@
 #' names(x1)
 #' names(x1$L)
 #' 
-#' # create another 'ppplist' object
 #' x2 = nbfires |> 
 #'   subset.ppp(select = c('fire.type', 'cause', 'ign.src')) |>
 #'   na.omit.ppp() |> 

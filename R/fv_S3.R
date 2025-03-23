@@ -87,10 +87,10 @@ key1val.fv <- function(X, ...) {
 #' @rdname op_fv
 #' 
 #' @details
-#' Functions [trapz.fv] and [cumtrapz.fv] 
+#' Functions [trapz.fv()] and [cumtrapz.fv()] 
 #' obtain the (cumulative) 
 #' \link[pracma]{trapz}oidal integration of 
-#' the area under the ***black solid curve*** (see function [key1.fv]) 
+#' the area under the ***black solid curve*** (see function [key1.fv()]) 
 #' of a function value \link[spatstat.explore]{fv.object}.
 #' 
 #' @returns
