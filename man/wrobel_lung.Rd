@@ -13,4 +13,4 @@ wrobel_lung
 \description{
 From \url{http://juliawrobel.com/MI_tutorial/Data/lung.RDA}.
 }
-\keyword{datasets}
+\keyword{internal}

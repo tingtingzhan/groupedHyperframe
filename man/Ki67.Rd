@@ -28,4 +28,4 @@ Ki67
 \description{
 Ki67 cell data containing 622 patients.
 }
-\keyword{datasets}
+\keyword{internal}

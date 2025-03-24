@@ -25,7 +25,7 @@
 #'   \item{`adj_rad`}{\link[base]{integer}, adjuvant radiation treatment, 0 = unknown,  1 = done, 2 = NOT done}
 #' }
 #' 
-#' @name Ki67
+#' @keywords internal
 'Ki67'
 
 
@@ -41,6 +41,7 @@
 #' @format 
 #' A \link[base]{data.frame}
 #' 
+#' @keywords internal
 'wrobel_lung'
 
 

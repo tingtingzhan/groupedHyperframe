@@ -1,13 +1,15 @@
 Package: groupedHyperframe
 Type: Package
-Title: Grouped Hyper Data Frame: An Extension of Hyper Data Frame Object
+Title: Grouped Hyper Data Frame: An Extension of Hyper Data
+       Frame Object
 Version: 0.1.0
-Date: 2025-03-23
+Date: 2025-03-24
 Maintainer: Tingting Zhan <tingtingzhan@gmail.com>
-Description: An S3 class groupedHyperframe that inherits from hyper data
-        frame. Batch processes on point-pattern hyper column. Aggregation
-        of function-value-table hyper column(s) and numeric hyper
-        column(s) over a nested grouping structure.
+Description: An S3 class groupedHyperframe that inherits from
+       hyper data frame. Batch processes on point-pattern hyper
+       column. Aggregation of function-value-table hyper
+       column(s) and numeric hyper column(s) over a nested
+       grouping structure.
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
 LazyData: true
@@ -16,13 +18,14 @@ Encoding: UTF-8
 License: GPL-2
 Depends: R (>= 4.4)
 Language: en-US
-Authors@R: c(person(given = 'Tingting', family = 'Zhan', role = c('aut',
-        'cre'), email = 'tingtingzhan@gmail.com', comment = c(ORCID =
-        '0000-0001-9971-4844')), person(given = 'Inna', family =
-        'Chervoneva', role = c('aut'), email =
-        'Inna.Chervoneva@jefferson.edu', comment = c(ORCID =
-        '0000-0002-9104-4505')))
+Authors@R: c(person(given = 'Tingting', family = 'Zhan', role =
+       c('aut', 'cre'), email = 'tingtingzhan@gmail.com',
+       comment = c(ORCID = '0000-0001-9971-4844')), person(given
+       = 'Inna', family = 'Chervoneva', role = c('aut'), email =
+       'Inna.Chervoneva@jefferson.edu', comment = c(ORCID =
+       '0000-0002-9104-4505')))
 Imports: cli, parallel, stats, nlme, matrixStats, pracma,
-        spatstat.explore, spatstat.geom
-Suggests: knitr, survival, spatstat.data, spatstat.univar, rmarkdown
+       spatstat.explore, spatstat.geom
+Suggests: knitr, survival, spatstat.data, spatstat.univar,
+       rmarkdown
 VignetteBuilder: knitr
