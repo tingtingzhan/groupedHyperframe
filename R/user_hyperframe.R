@@ -3,7 +3,7 @@
 #' @title User Interface of Operations on \link[spatstat.geom]{hyperframe} with One-and-Only-One \link[spatstat.geom]{ppp}-\link[spatstat.geom:hyperframe]{hypercolumn}
 #' 
 #' @description
-#' See workhorse functions [fv_hyperframe()] and [dist_hyperframe()].
+#' See workhorse function [op_hyperframe()].
 #' 
 #' @param X a \link[spatstat.geom]{hyperframe}
 #' 
@@ -17,10 +17,10 @@
 #' @param ... additional parameters of user operation
 #' 
 #' @details
-#' See explanations in workhorse functions [fv_hyperframe()] and [dist_hyperframe()].
+#' See explanations in workhorse function [op_hyperframe()].
 #' 
 #' @returns 
-#' See explanations in workhorse functions [fv_hyperframe()] and [dist_hyperframe()].
+#' See explanations in workhorse function [op_hyperframe()].
 #' 
 #' @examples
 #' library(spatstat.data)
@@ -42,42 +42,42 @@
 #' @name user_hyperframe
 #' @importFrom spatstat.explore Emark
 #' @export
-Emark_ <- function(X, correction = 'none', ...) fv_hyperframe(X, fn = Emark, correction = correction, ...)
+Emark_ <- function(X, correction = 'none', ...) X |> op_hyperframe(op = fv_ppplist, fn = Emark, correction = correction, ...)
 
 #' @rdname user_hyperframe
 #' @importFrom spatstat.explore Vmark
 #' @export
-Vmark_ <- function(X, correction = 'none', ...) fv_hyperframe(X, fn = Vmark, correction = correction, ...)
+Vmark_ <- function(X, correction = 'none', ...) X |> op_hyperframe(op = fv_ppplist, fn = Vmark, correction = correction, ...)
 
 #' @rdname user_hyperframe
 #' @importFrom spatstat.explore markcorr
 #' @export
-markcorr_ <- function(X, correction = 'none', ...) fv_hyperframe(X, fn = markcorr, correction = correction, ...)
+markcorr_ <- function(X, correction = 'none', ...) X |> op_hyperframe(op = fv_ppplist, fn = markcorr, correction = correction, ...)
 
 #' @rdname user_hyperframe
 #' @importFrom spatstat.explore markvario
 #' @export
-markvario_ <- function(X, correction = 'none', ...) fv_hyperframe(X, fn = markvario, correction = correction, ...)
+markvario_ <- function(X, correction = 'none', ...) X |> op_hyperframe(op = fv_ppplist, fn = markvario, correction = correction, ...)
 
 #' @rdname user_hyperframe
 #' @importFrom spatstat.explore Gcross
 #' @export
-Gcross_ <- function(X, correction = 'none', ...) fv_hyperframe(X, fn = Gcross, correction = correction, ...)
+Gcross_ <- function(X, correction = 'none', ...) X |> op_hyperframe(op = fv_ppplist, fn = Gcross, correction = correction, ...)
 
 #' @rdname user_hyperframe
 #' @importFrom spatstat.explore Jcross
 #' @export
-Jcross_ <- function(X, correction = 'none', ...) fv_hyperframe(X, fn = Jcross, correction = correction, ...)
+Jcross_ <- function(X, correction = 'none', ...) X |> op_hyperframe(op = fv_ppplist, fn = Jcross, correction = correction, ...)
 
 #' @rdname user_hyperframe
 #' @importFrom spatstat.explore Kcross
 #' @export
-Kcross_ <- function(X, correction = 'none', ...) fv_hyperframe(X, fn = Kcross, correction = correction, ...)
+Kcross_ <- function(X, correction = 'none', ...) X |> op_hyperframe(op = fv_ppplist, fn = Kcross, correction = correction, ...)
 
 #' @rdname user_hyperframe
 #' @importFrom spatstat.explore Lcross
 #' @export
-Lcross_ <- function(X, correction = 'none', ...) fv_hyperframe(X, fn = Lcross, correction = correction, ...)
+Lcross_ <- function(X, correction = 'none', ...) X |> op_hyperframe(op = fv_ppplist, fn = Lcross, correction = correction, ...)
 
 # Inside \link[spatstat.explore]{Gcross} and \link[spatstat.explore]{Kcross}
 # @param i type of the points *from* which distances are measured,
@@ -88,7 +88,7 @@ Lcross_ <- function(X, correction = 'none', ...) fv_hyperframe(X, fn = Lcross, c
 
 #' @rdname user_hyperframe
 #' @export
-nncross_ <- function(X, ...) dist_hyperframe(X, fn = .nncross, ...)
+nncross_ <- function(X, ...) X |> op_hyperframe(op = dist_ppplist, fn = .nncross, ...)
 
 
 

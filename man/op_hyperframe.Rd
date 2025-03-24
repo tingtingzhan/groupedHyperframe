@@ -2,29 +2,30 @@
 % Please edit documentation in R/op_hyperframe.R
 \name{op_hyperframe}
 \alias{op_hyperframe}
-\alias{fv_hyperframe}
-\alias{dist_hyperframe}
 \title{Operations on \link[spatstat.geom]{hyperframe} with One-and-Only-One \link[spatstat.geom]{ppp}-\link[spatstat.geom:hyperframe]{hypercolumn}}
 \usage{
-fv_hyperframe(X, ...)
-
-dist_hyperframe(X, ...)
+op_hyperframe(X, op, ...)
 }
 \arguments{
 \item{X}{a \link[spatstat.geom]{hyperframe}, containing \emph{\strong{one-and-only-one}} \link[spatstat.geom]{ppp}-\link[spatstat.geom:hyperframe]{hypercolumn}}
+
+\item{op}{\link[base]{function}, currently functions \code{\link[=fv_ppplist]{fv_ppplist()}} or \code{\link[=dist_ppplist]{dist_ppplist()}} are accepted}
 
 \item{...}{additional parameters of workhorse functions
 \code{\link[=fv_ppplist]{fv_ppplist()}} or \code{\link[=dist_ppplist]{dist_ppplist()}}}
 }
 \value{
-Function \code{\link[=fv_hyperframe]{fv_hyperframe()}} returns a \link[spatstat.geom]{hyperframe} with
-additional \link[spatstat.explore]{fv.object} \link[spatstat.geom:hyperframe]{hypercolumns},
-\emph{\strong{one hypercolumn per \link[base]{numeric} mark}} in the \link[spatstat.geom]{ppp}-\link[spatstat.geom:hyperframe]{hypercolumn}.
+Function \code{\link[=op_hyperframe]{op_hyperframe()}} returns a \link[spatstat.geom]{hyperframe} with additional
+\itemize{
 
-Function \code{\link[=dist_hyperframe]{dist_hyperframe()}} returns a \link[spatstat.geom]{hyperframe} with
-additional \link[base]{numeric} \link[spatstat.geom:hyperframe]{hypercolumns},
-\emph{\strong{one hypercolumn per \link[spatstat.geom]{is.multitype} mark}}
+\item \link[spatstat.explore]{fv.object} \link[spatstat.geom:hyperframe]{hypercolumns} if \code{op = fv_ppplist}.
+\emph{\strong{One hypercolumn per \link[base]{numeric} mark}} in the \link[spatstat.geom]{ppp}-\link[spatstat.geom:hyperframe]{hypercolumn}.
+
+\item \link[base]{numeric} \link[spatstat.geom:hyperframe]{hypercolumns} if \code{op = dist_ppplist}.
+\emph{\strong{One hypercolumn per \link[spatstat.geom]{is.multitype} mark}}
 in the \link[spatstat.geom]{ppp}-\link[spatstat.geom:hyperframe]{hypercolumn}.
+
+}
 }
 \description{
 Create

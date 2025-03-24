@@ -12,6 +12,8 @@
 #' 
 #' @param X a \link[spatstat.geom]{hyperframe}, containing ***one-and-only-one*** \link[spatstat.geom]{ppp}-\link[spatstat.geom:hyperframe]{hypercolumn}
 #' 
+#' @param op \link[base]{function}, currently functions [fv_ppplist()] or [dist_ppplist()] are accepted
+#' 
 #' @param ... additional parameters of workhorse functions 
 #' [fv_ppplist()] or [dist_ppplist()]
 #' 
@@ -19,26 +21,22 @@
 #' See details in workhorse functions [fv_ppplist()] or [dist_ppplist()].
 #' 
 #' @returns
-#' Function [fv_hyperframe()] returns a \link[spatstat.geom]{hyperframe} with
-#' additional \link[spatstat.explore]{fv.object} \link[spatstat.geom:hyperframe]{hypercolumns}, 
-#' ***one hypercolumn per \link[base]{numeric} mark*** in the \link[spatstat.geom]{ppp}-\link[spatstat.geom:hyperframe]{hypercolumn}.
+#' Function [op_hyperframe()] returns a \link[spatstat.geom]{hyperframe} with additional
+#' \itemize{
 #' 
-#' Function [dist_hyperframe()] returns a \link[spatstat.geom]{hyperframe} with
-#' additional \link[base]{numeric} \link[spatstat.geom:hyperframe]{hypercolumns}, 
-#' ***one hypercolumn per \link[spatstat.geom]{is.multitype} mark*** 
+#' \item \link[spatstat.explore]{fv.object} \link[spatstat.geom:hyperframe]{hypercolumns} if `op = fv_ppplist`. 
+#' ***One hypercolumn per \link[base]{numeric} mark*** in the \link[spatstat.geom]{ppp}-\link[spatstat.geom:hyperframe]{hypercolumn}.
+#' 
+#' \item \link[base]{numeric} \link[spatstat.geom:hyperframe]{hypercolumns} if `op = dist_ppplist`.
+#' ***One hypercolumn per \link[spatstat.geom]{is.multitype} mark*** 
 #' in the \link[spatstat.geom]{ppp}-\link[spatstat.geom:hyperframe]{hypercolumn}.
 #' 
+#' }
+#' 
+#'  
 #' @keywords internal
-#' @name op_hyperframe
-#' @export
-fv_hyperframe <- function(X, ...) op_hyperframe(X, op = fv_ppplist, ...)
-
-#' @rdname op_hyperframe
-#' @export
-dist_hyperframe <- function(X, ...) op_hyperframe(X, op = dist_ppplist, ...)
-
-
 #' @importFrom spatstat.geom is.ppplist as.list.hyperframe cbind.hyperframe
+#' @export
 op_hyperframe <- function(X, op, ...) {
   
   id <- vapply(X, FUN = is.ppplist, FUN.VALUE = NA)
