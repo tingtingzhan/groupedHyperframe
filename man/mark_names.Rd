@@ -10,15 +10,29 @@ mark_names(x)
 mark_name(x) <- value
 }
 \arguments{
-\item{x}{\link[spatstat.geom]{ppp.object}}
+\item{x}{a \link[spatstat.geom]{ppp.object}}
+}
+\value{
+Function \code{\link[=mark_names]{mark_names()}} returns the names of the \link[spatstat.geom]{marks}
+of a \link[spatstat.geom]{ppp.object}, when its \link[spatstat.geom]{markformat} is \code{'dataframe'}.
+Otherwise, an error is returned.
+
+Syntactic sugar \code{\link[=mark_name<-]{mark_name<-()}} returns a \link[spatstat.geom]{ppp.object}
+of \link[spatstat.geom]{markformat} \code{'dataframe'}.
 }
 \description{
-Mark Names
+Get the names of \link[spatstat.geom]{marks}.
+Assign a name to \link[spatstat.geom]{marks}, when \link[spatstat.geom]{markformat} is \code{'vector'}.
+}
+\details{
+Syntactic sugar \code{\link[=mark_name<-]{mark_name<-()}} converts a \link[spatstat.geom]{ppp.object}
+of \link[spatstat.geom]{markformat} \code{'vector'} into \link[spatstat.geom]{markformat} \code{'dataframe'},
+and name this \link[base]{ncol}-\code{1L} \link[base]{data.frame} \link[spatstat.geom]{marks}
+by the user-specified \code{value}.
 }
 \examples{
 library(spatstat.data)
 mark_names(betacells)
-
 # ?waka
 tryCatch(mark_names(waka), error = identity)
 waka2 = waka

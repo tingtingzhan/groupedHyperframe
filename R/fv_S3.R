@@ -105,60 +105,61 @@ key1val.fv <- function(X, ...) {
 #' plot(x <- Emark(spruces))
 #' key1.fv(x)
 #' trapz.fv(x)
-#' tail(cumtrapz.fv(x))
+#' x |> cumtrapz.fv() |> tail()
 #' 
 #' plot(x <- Vmark(spruces))
 #' trapz.fv(x)
-#' tail(cumtrapz.fv(x))
+#' x |> cumtrapz.fv() |> tail()
 #' 
 #' plot(x <- markcorr(spruces))
 #' trapz.fv(x)
-#' tail(cumtrapz.fv(x))
+#' x |> cumtrapz.fv() |> tail()
 #' 
 #' plot(x <- markvario(spruces))
 #' trapz.fv(x)
-#' tail(cumtrapz.fv(x))
+#' x |> cumtrapz.fv() |> tail()
 #' 
 #' # multitype
 #' (btc = subset.ppp(betacells, select = 'type'))
 #' plot(x <- Gcross(btc, i = 'off', j = 'on'))
-#' key1.fv(x)
 #' trapz.fv(x)
-#' tail(cumtrapz.fv(x))
+#' x |> cumtrapz.fv() |> tail()
 #' 
 #' plot(x <- Kcross(btc, i = 'off', j = 'on'))
 #' trapz.fv(x)
-#' tail(cumtrapz.fv(x))
+#' x |> cumtrapz.fv() |> tail()
 #' 
 #' plot(x <- Lcross(btc, i = 'off', j = 'on'))
 #' trapz.fv(x)
-#' tail(cumtrapz.fv(x))
+#' x |> cumtrapz.fv() |> tail()
 #' 
-#' plot(x <- Jcross(btc, i = 'off', j = 'on'))
-#' x$km # um.. bug?
-#' #trapz.fv(x)
-#' #tail(cumtrapz.fv(x))
-#' 
-#' plot(x <- pcfcross(btc, i = 'off', j = 'on'))
-#' head(x$iso)
-#' head(is.finite(x))
+#' plot(x <- Jcross(btc, i = 'off', j = 'on', r = 0:60))
 #' trapz.fv(x)
-#' tail(cumtrapz.fv(x))
+#' x |> cumtrapz.fv() |> tail()
 #' 
 #' plot(x <- markconnect(btc, i = 'off', j = 'on'))
 #' trapz.fv(x)
-#' tail(cumtrapz.fv(x))
+#' x |> cumtrapz.fv() |> tail()
 #' 
-#' # roc
 #' plot(x <- roc.ppp(swedishpines, covariate = 'x'))
 #' trapz.fv(x)
-#' tail(cumtrapz.fv(x))
+#' x |> cumtrapz.fv() |> tail()
 #' @importFrom pracma trapz
 #' @export
 trapz.fv <- function(X, ...) {
   #key1nonfinite(X) <- 0
   return(trapz(x = X[[1L]], y = X[[key1.fv(X)]]))
 }
+
+
+
+# plot(x <- pcfcross(btc, i = 'off', j = 'on')) 
+# head(x$iso) # why first is Inf ??
+# trapz.fv(x)
+# x |> cumtrapz.fv() |> tail()
+
+
+
 
 
 #' @rdname op_fv
