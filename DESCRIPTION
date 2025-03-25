@@ -26,6 +26,5 @@ Authors@R: c(person(given = 'Tingting', family = 'Zhan', role =
        '0000-0002-9104-4505')))
 Imports: cli, parallel, stats, nlme, matrixStats, pracma,
        spatstat.explore, spatstat.geom
-Suggests: knitr, survival, spatstat.data, spatstat.univar,
-       rmarkdown
+Suggests: knitr, rmarkdown, survival, spatstat.data
 VignetteBuilder: knitr
