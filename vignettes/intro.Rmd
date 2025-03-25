@@ -69,8 +69,7 @@ c(
   '`formula`', 'Formula', '`stats::formula`',
   '`fv`, `fv.object`', 'Function value table', '`spatstat.explore::fv.object`',
   '`groupedData`', 'Grouped data frame', '`nlme::groupedData`',
-  '`hypercolumn`', 'Column of hyper data frame', '`spatstat.geom::hyperframe`',
-  '`hyperframe`', 'Hyper data frame', '`spatstat.geom::hyperframe`',
+  '`hypercolumn`, `hyperframe`', '(Column of) hyper data frame', '`spatstat.geom::hyperframe`',
   '`inherits`', 'Class inheritance', '`base::inherits`',
   '`kerndens`', 'Kernel density', '`stats::density.default()$y`',
   '`matrix`', 'Matrix', '`base::matrix`',
@@ -97,11 +96,11 @@ The `S3` class `groupedHyperframe` `inherits` from `hyperframe` class, in a simi
 
 A `groupedHyperframe` object, in addition to `hyperframe` object, has attribute(s)
 
--   `attr(., 'group')`, a `formula` to specify the grouping structure
+-   `attr(., 'group')`, a `formula` to specify the (nested) grouping structure
 
 ## `groupedHyperframe` with `ppp`-hypercolumn
 
-Function `grouped_ppp()` creates a `groupedHyperframe` with ***one-and-only-one*** `ppp`-hypercolumn. Multiple `ppp`-hypercolumns will *not* be supported in foreseeable future, as we would need to check for name clash in `$marks` from the multiple `ppp`-hypercolumns, which is too much trouble.
+Function `grouped_ppp()` creates a `groupedHyperframe` with *one-and-only-one* `ppp`-hypercolumn. Multiple `ppp`-hypercolumns will *not* be supported in foreseeable future, as we would need to check for name clash in `$marks` from the multiple `ppp`-hypercolumns, which is too much trouble.
 
 In the following example, the argument `formula` specifies
 
