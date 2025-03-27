@@ -6,6 +6,8 @@
 #' 
 #' @param x see Usage
 #' 
+#' @param group \link[stats]{formula}
+#' 
 #' @param ... additional parameters
 #' 
 #' @returns
@@ -14,32 +16,10 @@
 #' @keywords internal
 #' @name as.groupedHyperframe
 #' @export
-as.groupedHyperframe <- function(x, ...) UseMethod(generic = 'as.groupedHyperframe')
-
-
-
+as.groupedHyperframe <- function(x, group, ...) UseMethod(generic = 'as.groupedHyperframe')
 
 
 #' @rdname as.groupedHyperframe
-#' 
-#' @param group \link[stats]{formula}
-#' 
-#' @examples
-#' library(spatstat.data)
-#' 
-#' # ?spatstat.data::osteo
-#' # `brick`: serial number (1 to 10) of sampling volume within this bone sample (`id`)
-#' head(as.groupedHyperframe(osteo, group = ~ id/brick))
-#' 
-#' # ?spatstat.data::flu
-#' # `frameid`: not unique across different values of `virustype` and `stain`.
-#' # currently not supporting
-#' # group = ~ virustype*stain/flu
-#' head(tmp <- with(unclass(flu)$df, expr = data.frame(
-#'   virus.stain = interaction(virustype, stain, drop = TRUE, sep = '_', lex.order = TRUE)
-#' )))
-#' head(flu2 <- spatstat.geom::cbind.hyperframe(flu, tmp))
-#' head(as.groupedHyperframe(flu2, group = ~ virus.stain/frameid))
 #' @importFrom spatstat.geom names.hyperframe
 #' @export as.groupedHyperframe.hyperframe
 #' @export
@@ -55,4 +35,42 @@ as.groupedHyperframe.hyperframe <- function(x, group, ...) {
   class(x) <- unique.default(c('groupedHyperframe', class(x)))
   return(x)
   
+}
+
+
+#' @rdname as.groupedHyperframe
+#' @importFrom spatstat.geom hyperframe cbind.hyperframe
+#' @export as.groupedHyperframe.data.frame
+#' @export
+as.groupedHyperframe.data.frame <- function(x, group, ...) {
+  
+  # copie as much as possible from [grouped_ppp()]
+  
+  g <- all.vars(group)
+  x[g] <- lapply(x[g], FUN = function(i) {
+    if (is.factor(i)) return(factor(i)) # drop empty levels!!
+    factor(i, levels = unique(i))
+  }) 
+  
+  fg <- interaction(x[g], drop = TRUE, sep = '.', lex.order = TRUE) # one or more hierarchy
+  
+  suppressMessages(x1 <- x |> mc_aggregate_unique(f = fg, ...))
+  
+  hf <- x1 |>
+    as.hyperframe.data.frame()
+  
+  nm <- x1 |> attr(which = 'non_identical', exact = TRUE)
+  if (length(nm)) {
+    hf <- x[nm] |> 
+      split.data.frame(f = fg) |>
+      c(FUN = list, SIMPLIFY = FALSE, USE.NAMES = TRUE) |> 
+      do.call(what = mapply) |>
+      do.call(what = hyperframe) |>
+      cbind.hyperframe(hf) # crazy pipeline!!!
+  }
+  
+  attr(hf, which = 'group') <- call('~', group) # for ?nlme::getGroupsFormula
+  class(hf) <- unique.default(c('groupedHyperframe', class(hf)))
+  return(hf)
+
 }

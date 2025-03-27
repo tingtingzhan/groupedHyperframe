@@ -3,40 +3,26 @@
 \name{as.groupedHyperframe}
 \alias{as.groupedHyperframe}
 \alias{as.groupedHyperframe.hyperframe}
+\alias{as.groupedHyperframe.data.frame}
 \title{Creation of \code{groupedHyperframe}}
 \usage{
-as.groupedHyperframe(x, ...)
+as.groupedHyperframe(x, group, ...)
 
 \method{as.groupedHyperframe}{hyperframe}(x, group, ...)
+
+\method{as.groupedHyperframe}{data.frame}(x, group, ...)
 }
 \arguments{
 \item{x}{see Usage}
 
-\item{...}{additional parameters}
-
 \item{group}{\link[stats]{formula}}
+
+\item{...}{additional parameters}
 }
 \value{
 Function \code{\link[=as.groupedHyperframe]{as.groupedHyperframe()}} returns a \code{groupedHyperframe}.
 }
 \description{
 To create a \code{groupedHyperframe} object
-}
-\examples{
-library(spatstat.data)
-
-# ?spatstat.data::osteo
-# `brick`: serial number (1 to 10) of sampling volume within this bone sample (`id`)
-head(as.groupedHyperframe(osteo, group = ~ id/brick))
-
-# ?spatstat.data::flu
-# `frameid`: not unique across different values of `virustype` and `stain`.
-# currently not supporting
-# group = ~ virustype*stain/flu
-head(tmp <- with(unclass(flu)$df, expr = data.frame(
-  virus.stain = interaction(virustype, stain, drop = TRUE, sep = '_', lex.order = TRUE)
-)))
-head(flu2 <- spatstat.geom::cbind.hyperframe(flu, tmp))
-head(as.groupedHyperframe(flu2, group = ~ virus.stain/frameid))
 }
 \keyword{internal}

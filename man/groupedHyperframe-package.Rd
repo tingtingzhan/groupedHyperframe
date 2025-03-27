@@ -2,6 +2,7 @@
 % Please edit documentation in R/0PACKAGE.R
 \docType{package}
 \name{groupedHyperframe-package}
+\alias{groupedHyperframe}
 \alias{groupedHyperframe-package}
 \title{groupedHyperframe: Grouped Hyper Data Frame: An Extension of Hyper Data Frame Object}
 \description{

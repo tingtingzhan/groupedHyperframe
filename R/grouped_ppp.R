@@ -18,7 +18,6 @@
 #' @param coords \link[stats]{formula}, variable names
 #' of \eqn{x}- and \eqn{y}-coordinates in `data`.
 #' Default `~x+y`.  
-#' End-user may use `coords = FALSE` to indicate the absence of coordinates information in `data`.
 #' 
 #' @param window an observation window \link[spatstat.geom]{owin}, 
 #' default is the \eqn{x}- and \eqn{y}-span of `coords` in `data`.
@@ -35,15 +34,7 @@
 #' with ***one-and-only-one*** 
 #' \link[spatstat.geom]{ppp}-\link[spatstat.geom:hyperframe]{hypercolumn}.
 #' 
-#' If `coords = FALSE`, then a [groupedHyperframe]
-#' with ***one-and-only-one*** 
-#' `'pseudo.ppp'`-\link[spatstat.geom:hyperframe]{hypercolumn} is returned.
-#' 
-#' 
-#' @examples
-#' library(survival) # to help ?spatstat.geom::hyperframe understand ?survival::Surv
-#' grouped_ppp(hladr + phenotype ~ OS + gender + age | patient_id/image_id, 
-#'   data = wrobel_lung, mc.cores = 1L)
+#' @keywords internal
 #' @importFrom spatstat.geom owin ppp as.hyperframe.data.frame
 #' @importFrom stats runif
 #' @export
@@ -73,7 +64,7 @@ grouped_ppp <- function(
   # Step 2: grouped ppp
   
   if (isFALSE(coords)) {
-    # end-user indicates there is no (x,y) information in the data
+    # .Deprecated(new = 'as.groupedHyperframe.data.frame')
     .x <- runif(n = nrow(data))
     .y <- runif(n = nrow(data))
   } else {
@@ -88,7 +79,6 @@ grouped_ppp <- function(
   force(window)
   
   tmp <- ppp(x = .x, y = .y, window = window, marks = data[all.vars(formula[[2L]])], checkdup = FALSE, drop = FALSE) # `drop = FALSE` important!!!
-  if (isFALSE(coords)) class(tmp) <- c('pseudo.ppp', class(tmp))
   hf$ppp. <- tmp |> 
     split_ppp_dataframe(f = fg)
   
@@ -145,27 +135,31 @@ mc_aggregate_unique <- function(
   nr <- .row_names_info(data, type = 2L)
   if (nr != length(f)) stop('`data` and `f` different length')
   
-  ids <- split.default(seq_len(nr), f = f)
+  ids <- nr |> seq_len() |> split.default(f = f)
   
   .ident <- vapply(data, FUN = function(d) { # (d = data[[1L]])
-    tmp <- mclapply(ids, mc.cores = mc.cores, FUN = function(id) {
-    #tmp <- lapply(ids, FUN = function(id) {
-      all(duplicated(unclass(d[id]))[-1L])
-    })
-    return(all(unlist(tmp)))
+    ids |> 
+      mclapply(mc.cores = mc.cores, FUN = function(id) {
+        all(duplicated(unclass(d[id]))[-1L])
+      }) |> 
+      unlist() |> 
+      all()
   }, FUN.VALUE = NA)
   
   if (any(!.ident)) {
     nm <- names(data)[!.ident]
-    message(col_blue(
-      'Column(s) ', paste(sQuote(nm), collapse = ', '), 
-      ' removed; as they are not identical per aggregation-group'))
+    nm |> 
+      col_blue() |> 
+      paste(collapse = ';') |>
+      sprintf(fmt = 'Column(s) %s removed; as they are not identical per aggregation-group') |>
+      message()
     data[nm] <- NULL
-  }
+  } else nm <- NULL
 
   ret <- data[vapply(ids, FUN = `[`, 1L, FUN.VALUE = NA_integer_),]
   # do.call(rbind.data.frame, args = .) # ?base::rbind.data.frame does not respect 'Surv', etc.
   .rowNamesDF(ret) <- NULL
+  attr(ret, which = 'non_identical') <- nm
   return(ret)
 
 }

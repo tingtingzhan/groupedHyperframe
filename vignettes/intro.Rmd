@@ -18,23 +18,23 @@ options(rmarkdown.html_vignette.check_title = FALSE)
 
 # Introduction
 
-This vignette for package **`groupedHyperframe`** documents the creation of `groupedHyperframe` object, the batch processes defined for a `groupedHyperframe`, and aggregations over multi-level grouping structure.
+This vignette for package **`groupedHyperframe`** ([CRAN](https://cran.r-project.org/package=groupedHyperframe), [Github](https://github.com/tingtingzhan/groupedHyperframe)) documents the creation of `groupedHyperframe` object, the batch processes defined for a `groupedHyperframe`, and aggregations over multi-level grouping structure.
 
-## Prerequisite 
+## Prerequisite
 
-Package **`groupedHyperframe`** requires the development versions of **`spatstat`** family of packages.
+Package **`groupedHyperframe`** may require the development versions of **`spatstat`** family of packages.
 
 ```{r eval = FALSE}
-devtools::install_github('spatstat/spatstat'); packageDate('spatstat')
-devtools::install_github('spatstat/spatstat.data'); packageDate('spatstat.data')
-devtools::install_github('spatstat/spatstat.explore'); packageDate('spatstat.explore')
-devtools::install_github('spatstat/spatstat.geom'); packageDate('spatstat.geom')
-devtools::install_github('spatstat/spatstat.linnet'); packageDate('spatstat.linnet')
-devtools::install_github('spatstat/spatstat.model'); packageDate('spatstat.model')
-devtools::install_github('spatstat/spatstat.random'); packageDate('spatstat.random')
-devtools::install_github('spatstat/spatstat.sparse'); packageDate('spatstat.sparse')
-devtools::install_github('spatstat/spatstat.univar'); packageDate('spatstat.univar')
-devtools::install_github('spatstat/spatstat.utils'); packageDate('spatstat.utils')
+devtools::install_github('spatstat/spatstat')
+devtools::install_github('spatstat/spatstat.data')
+devtools::install_github('spatstat/spatstat.explore')
+devtools::install_github('spatstat/spatstat.geom')
+devtools::install_github('spatstat/spatstat.linnet')
+devtools::install_github('spatstat/spatstat.model')
+devtools::install_github('spatstat/spatstat.random')
+devtools::install_github('spatstat/spatstat.sparse')
+devtools::install_github('spatstat/spatstat.univar')
+devtools::install_github('spatstat/spatstat.utils')
 ```
 
 ## Note to Users
@@ -42,22 +42,12 @@ devtools::install_github('spatstat/spatstat.utils'); packageDate('spatstat.utils
 Examples in this vignette require that the `search` path has
 
 ```{r setup}
+library(spatstat.data)
 library(groupedHyperframe)
 library(survival) # to help hyperframe understand Surv object
 ```
 
 Users should remove parameter `mc.cores = 1L` from all examples and use the default option, which engages all CPU cores on the current host for macOS. The authors are forced to have `mc.cores = 1L` in this vignette in order to pass `CRAN`'s submission check.
-
-
-## Additional Resources
-
-A development version of package **`groupedHyperframe`** is hosted on [Github](https://github.com/tingtingzhan/groupedHyperframe).
-
-```{r eval = FALSE}
-devtools::install_github('tingtingzhan/groupedHyperframe', build_vignettes = TRUE)
-vignette('intro', package = 'groupedHyperframe')
-```
-
 
 ## List of Terms and Abbreviations
 
@@ -89,7 +79,6 @@ c(
   kable()
 ```
 
-
 # `groupedHyperframe` Class
 
 The `S3` class `groupedHyperframe` `inherits` from `hyperframe` class, in a similar fashion as `groupedData` class inherits from `data.frame` class.
@@ -98,7 +87,23 @@ A `groupedHyperframe` object, in addition to `hyperframe` object, has attribute(
 
 -   `attr(., 'group')`, a `formula` to specify the (nested) grouping structure
 
-## `groupedHyperframe` with `ppp`-hypercolumn
+## Create a `groupedHyperframe`
+
+### From a `hyperframe`
+The S3 method dispatch `as.groupedHyperframe.hyperframe()` converts a `hyperframe` to `groupedHyperframe`. Data set `spatstat.data::osteo` has the serial number of sampling volume `brick` nested in the bone sample `id`,
+
+```{r}
+osteo |> as.groupedHyperframe(group = ~ id/brick)
+```
+
+### From a `data.frame`
+The S3 method dispatch `as.groupedHyperframe.data.frame()` inspects the input data by the (nested) grouping structure, identifies the column(s) which are not identical within the lowest group, and converts them into `hypercolumns`.  Data set `Ki67` in this package has non-identical column `Ki67` in the nested grouping structure, thus column `Ki67` is converted into a `hypercolumn`.
+
+```{r}
+Ki67 |> as.groupedHyperframe(group = ~ patientID/tissueID, mc.cores = 1L)
+```
+
+## Create a `groupedHyperframe` with `ppp`-hypercolumn
 
 Function `grouped_ppp()` creates a `groupedHyperframe` with *one-and-only-one* `ppp`-hypercolumn. Multiple `ppp`-hypercolumns will *not* be supported in foreseeable future, as we would need to check for name clash in `$marks` from the multiple `ppp`-hypercolumns, which is too much trouble.
 
@@ -113,18 +118,9 @@ In the following example, the argument `formula` specifies
                  data = wrobel_lung, mc.cores = 1L))
 ```
 
-Function `grouped_ppp()` has parameter `coords` which specifies the column name of $x$- and $y$-coordinates in the input `data`. Default `coords = ~ x + y` indicates the use of `data$x` and `data$y` for $x$- and $y$-coordinates, respectively. Users may use `coords = FALSE` for data without $x$- and $y$-coordinates. In this case, the coordinates are filled with randomly generated numbers, and the returned `groupedHyperframe` has a `pseudo.ppp`-hypercolumn.
-
-```{r}
-(s_a = grouped_ppp(Ki67 ~ Surv(recfreesurv_mon, recurrence) + race + age | patientID/tissueID, 
-                  data = Ki67, coords = FALSE, mc.cores = 1L))
-```
-
 # Batch Process on `ppp`-Hypercolumn
 
 In this section, we outline the batch process of spatial point pattern analyses applicable to the `ppp`-hypercolumn of a `hyperframe`.
-
-Note that these spatial point pattern analyses should **not** be applied to a `pseudo.ppp`-hypercolumn, as the $x$- and $y$-coordinates are randomly generated psuedo numbers.
 
 Batch processes that add a `fv`-hypercolumn to the input `hyperframe` include
 

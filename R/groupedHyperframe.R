@@ -1,24 +1,4 @@
 
-#' @title Grouped Hyper Data Frame
-#' 
-#' @description
-#' A class [groupedHyperframe] to represent \link[spatstat.geom]{hyperframe} 
-#' with a (multilevel) hierarchical structure.
-#' 
-#' @details
-#' The class [groupedHyperframe] inherits from class \link[spatstat.geom]{hyperframe}.
-#' This class has additional \link[base]{attributes} 
-#' \describe{
-#' \item{`attr(,'group')`}{\link[stats]{formula}}
-#' }
-#' 
-#' @returns 
-#' A [groupedHyperframe]
-#' 
-#' @name groupedHyperframe
-NULL
-
-
 
 #' @title Print [groupedHyperframe]
 #' 
@@ -38,7 +18,7 @@ NULL
 #' @export print.groupedHyperframe
 #' @export
 print.groupedHyperframe <- function(x, ...) {
-  cat('\nGrouped Hyperframe: ')
+  'Grouped Hyperframe: ' |> cat()
   grp <- attr(x, which = 'group', exact = TRUE)
   #if (identical(emptyenv(), environment(grp))) {
   #  environment(grp) <- globalenv()
@@ -46,18 +26,22 @@ print.groupedHyperframe <- function(x, ...) {
   print(grp, ...)
   
   g <- all.vars(grp)
-  ns <- vapply(seq_along(g), FUN = function(i) { # (i = 1L)
-    f <- do.call(what = interaction, args = c(
-      as.list.hyperframe(x[j = g[seq_len(i)], drop = FALSE]),
-      list(drop = TRUE, lex.order = TRUE)
-    ))
-    length(levels(f))
-  }, FUN.VALUE = NA_integer_)
-  txt <- mapply(FUN = function(n, g) {
-    paste(n, col_blue(g))
-  }, n = ns, g = g, SIMPLIFY = TRUE)
+  ns <- g |> 
+    seq_along() |> 
+    vapply(FUN = function(i) { # (i = 1L)
+      f <- do.call(what = interaction, args = c(
+        as.list.hyperframe(x[j = g[seq_len(i)], drop = FALSE]),
+        list(drop = TRUE, lex.order = TRUE)
+      ))
+      length(levels(f))
+    }, FUN.VALUE = NA_integer_)
+  
   cat('\n')
-  cat(rev.default(txt), sep = ' nested in\n')
+  mapply(FUN = function(n, g) {
+    paste(n, col_blue(g))
+  }, n = ns, g = g, SIMPLIFY = TRUE) |> 
+    rev.default() |> 
+    cat(sep = ' nested in\n')
   cat('\n')
   
   # see inside ?spatstat.geom::print.hyperframe

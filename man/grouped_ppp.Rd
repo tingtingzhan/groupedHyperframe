@@ -24,8 +24,7 @@ and \eqn{g_k} are one or more hierarchical grouping structure
 
 \item{coords}{\link[stats]{formula}, variable names
 of \eqn{x}- and \eqn{y}-coordinates in \code{data}.
-Default \code{~x+y}.
-End-user may use \code{coords = FALSE} to indicate the absence of coordinates information in \code{data}.}
+Default \code{~x+y}.}
 
 \item{window}{an observation window \link[spatstat.geom]{owin},
 default is the \eqn{x}- and \eqn{y}-span of \code{coords} in \code{data}.}
@@ -36,10 +35,6 @@ default is the \eqn{x}- and \eqn{y}-span of \code{coords} in \code{data}.}
 Function \code{\link[=grouped_ppp]{grouped_ppp()}} returns a \link{groupedHyperframe}
 with \emph{\strong{one-and-only-one}}
 \link[spatstat.geom]{ppp}-\link[spatstat.geom:hyperframe]{hypercolumn}.
-
-If \code{coords = FALSE}, then a \link{groupedHyperframe}
-with \emph{\strong{one-and-only-one}}
-\code{'pseudo.ppp'}-\link[spatstat.geom:hyperframe]{hypercolumn} is returned.
 }
 \description{
 ..
@@ -47,8 +42,4 @@ with \emph{\strong{one-and-only-one}}
 \details{
 ...
 }
-\examples{
-library(survival) # to help ?spatstat.geom::hyperframe understand ?survival::Surv
-grouped_ppp(hladr + phenotype ~ OS + gender + age | patient_id/image_id, 
-  data = wrobel_lung, mc.cores = 1L)
-}
+\keyword{internal}
