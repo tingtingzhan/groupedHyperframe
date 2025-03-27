@@ -19,6 +19,8 @@ mc_identical_by(
 \item{mc.cores}{\link[base]{integer} scalar, see function \link[parallel]{mclapply}.
 Default is 1L on Windows, or \link[parallel]{detectCores} on Mac.
 CRAN requires \code{mc.cores <= 2L} in examples.}
+
+\item{...}{additional parameters, currently not in use}
 }
 \description{
 Check if Data Column is Identical by Grouping

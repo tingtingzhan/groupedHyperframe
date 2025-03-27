@@ -9,6 +9,8 @@
 #' Default is 1L on Windows, or \link[parallel]{detectCores} on Mac.
 #' CRAN requires `mc.cores <= 2L` in examples.
 #' 
+#' @param ... additional parameters, currently not in use
+#' 
 #' @note
 #' Function \link[stats]{aggregate.data.frame} does not do parallel computing.
 #' 
