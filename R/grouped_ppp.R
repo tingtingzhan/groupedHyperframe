@@ -58,7 +58,7 @@ grouped_ppp <- function(
   fg <- interaction(data[g], drop = TRUE, sep = '.', lex.order = TRUE) # one or more hierarchy
 
   hf <- data[all.vars(formula[[3L]])] |>
-    mc_aggregate_unique(f = fg, ...) |>
+    mc_identical_by(f = fg, ...) |>
     as.hyperframe.data.frame()
   
   # Step 2: grouped ppp
@@ -119,48 +119,4 @@ split_ppp_dataframe <- function(x, f) {
 
 
 
-
-
-# ?stats::aggregate.data.frame is not parallel computing
-# ?collapse::collap does not support 'Surv' column
-#' @importFrom cli col_blue
-#' @importFrom parallel mclapply detectCores
-mc_aggregate_unique <- function(
-    data, 
-    f,
-    mc.cores = switch(.Platform$OS.type, windows = 1L, detectCores()),
-    ...
-) {
-  
-  nr <- .row_names_info(data, type = 2L)
-  if (nr != length(f)) stop('`data` and `f` different length')
-  
-  ids <- nr |> seq_len() |> split.default(f = f)
-  
-  .ident <- vapply(data, FUN = function(d) { # (d = data[[1L]])
-    ids |> 
-      mclapply(mc.cores = mc.cores, FUN = function(id) {
-        all(duplicated(unclass(d[id]))[-1L])
-      }) |> 
-      unlist() |> 
-      all()
-  }, FUN.VALUE = NA)
-  
-  if (any(!.ident)) {
-    nm <- names(data)[!.ident]
-    nm |> 
-      col_blue() |> 
-      paste(collapse = ';') |>
-      sprintf(fmt = 'Column(s) %s removed; as they are not identical per aggregation-group') |>
-      message()
-    data[nm] <- NULL
-  } else nm <- NULL
-
-  ret <- data[vapply(ids, FUN = `[`, 1L, FUN.VALUE = NA_integer_),]
-  # do.call(rbind.data.frame, args = .) # ?base::rbind.data.frame does not respect 'Surv', etc.
-  .rowNamesDF(ret) <- NULL
-  attr(ret, which = 'non_identical') <- nm
-  return(ret)
-
-}
 

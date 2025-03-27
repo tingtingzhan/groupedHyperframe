@@ -54,7 +54,7 @@ as.groupedHyperframe.data.frame <- function(x, group, ...) {
   
   fg <- interaction(x[g], drop = TRUE, sep = '.', lex.order = TRUE) # one or more hierarchy
   
-  suppressMessages(x1 <- x |> mc_aggregate_unique(f = fg, ...))
+  suppressMessages(x1 <- x |> mc_identical_by(f = fg, ...))
   
   hf <- x1 |>
     as.hyperframe.data.frame()
