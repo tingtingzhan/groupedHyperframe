@@ -100,8 +100,15 @@ osteo |> as.groupedHyperframe(group = ~ id/brick)
 The S3 method dispatch `as.groupedHyperframe.data.frame()` inspects the input data by the (nested) grouping structure, identifies the column(s) which are not identical within the lowest group, and converts them into `hypercolumns`.  Data set `Ki67` in this package has non-identical column `Ki67` in the nested grouping structure, thus column `Ki67` is converted into a `hypercolumn`.
 
 ```{r}
-Ki67 |> as.groupedHyperframe(group = ~ patientID/tissueID, mc.cores = 1L)
+(Ki67g = Ki67 |> as.groupedHyperframe(group = ~ patientID/tissueID, mc.cores = 1L))
 ```
+
+Turning a `data.frame` with cell intensities, etc., into a `groupedHyperframe` is a great way to save storage
+
+```{r}
+unclass(object.size(Ki67g)) / unclass(object.size(Ki67))
+```
+
 
 ## Create a `groupedHyperframe` with `ppp`-hypercolumn
 
