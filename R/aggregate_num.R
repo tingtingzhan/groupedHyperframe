@@ -61,7 +61,7 @@ aggregate_num <- function(
   
   # 'numeric'-`hypercolumns`
   hc_num <- hc |>
-    vapply(FUN = function(x) {
+    vapply(FUN = \(x) {
       all(vapply(x, FUN = is.numeric, FUN.VALUE = NA))
     }, FUN.VALUE = NA)
   hyper_num_ <- if (any(hc_num)) hc[names(which(hc_num))] # else NULL
@@ -76,7 +76,7 @@ aggregate_num <- function(
     mk <- .mapply(FUN = list, dots = mk_, MoreArgs = NULL)
     names(mk) <- names(mk_[[1L]])
     mk_num <- mk |> 
-      vapply(FUN = function(x) {
+      vapply(FUN = \(x) {
         all(vapply(x, FUN = is.numeric, FUN.VALUE = NA))
       }, FUN.VALUE = NA)
     mark_num_ <- if (any(mk_num)) mk[mk_num] # else NULL
@@ -86,7 +86,7 @@ aggregate_num <- function(
   names(x) <- paste(names(x), FUN.name, sep = '.')
   
   x |>
-    lapply(FUN = function(i) {
+    lapply(FUN = \(i) {
       lapply(i, FUN = FUN, ...)
     }) |>
     aggregate_by_(X = X, by = by, f_aggr_ = f_aggr_, mc.cores = mc.cores, ...)
@@ -134,7 +134,7 @@ aggregate_by_ <- function(
   if (!is.symbol(by. <- by[[2L]])) {
     new_by <- by. |>
       all.vars() |>
-      vapply(FUN = function(x) deparse1(call(name = '~', as.symbol(x))), FUN.VALUE = '')
+      vapply(FUN = \(x) deparse1(call(name = '~', as.symbol(x))), FUN.VALUE = '')
     message('grouped structure ', paste('by =', deparse1(by)) |> col_cyan(), ' is not allowed')
     new_by_txt <- paste('by =', new_by) |> col_magenta()
     message('please use either one of ', paste(new_by_txt, collapse = ', '), '.')
@@ -171,9 +171,9 @@ aggregate_by_ <- function(
     fn <- switch(match.arg(f_aggr_), mean = colMeans, median = colMedians, max = colMaxs, min = colMins)
     
     newX <- dots |> 
-      lapply(FUN = function(m) {
+      lapply(FUN = \(m) {
         ids |>
-          lapply(FUN = function(i) {
+          lapply(FUN = \(i) {
             m[i] |> do.call(what = rbind) |> fn() 
             # rbind-then-colMeans is *very* slow!
             # however stats::density.default in markcorr() is the bottle neck anyway

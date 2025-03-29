@@ -47,7 +47,7 @@ as.groupedHyperframe.data.frame <- function(x, group, ...) {
   # copie as much as possible from [grouped_ppp()]
   
   g <- all.vars(group)
-  x[g] <- lapply(x[g], FUN = function(i) {
+  x[g] <- lapply(x[g], FUN = \(i) {
     if (is.factor(i)) return(factor(i)) # drop empty levels!!
     factor(i, levels = unique(i))
   }) 

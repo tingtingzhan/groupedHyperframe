@@ -112,7 +112,7 @@ fv_ppp <- function(x, fn, ...) {
   mtp <- x. |> 
     vapply(FUN = is.multitype.ppp, FUN.VALUE = NA)
   num <- x. |>
-    vapply(FUN = function(i) is.numeric(i$marks), FUN.VALUE = NA)
+    vapply(FUN = \(i) is.numeric(i$marks), FUN.VALUE = NA)
   # stopifnot(is.double(POSIXct), !is.numeric(POSIXct))
   
   fn_numeric <- list(

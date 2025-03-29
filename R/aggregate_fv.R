@@ -63,7 +63,7 @@ aggregate_fv <- function(
   fv <- as.list.hyperframe(X)[names.hyperframe(X)[id]] # one or more 'fv' column(s)
   
   setNames(nm = names(fv)) |> 
-    lapply(FUN = function(nm) {
+    lapply(FUN = \(nm) {
       x <- fv[[nm]]
       check_fvlist(x)
       cumtrapz. <- cumtrapz.fvlist(x, check = FALSE, ...)

@@ -28,7 +28,7 @@ print.groupedHyperframe <- function(x, ...) {
   g <- all.vars(grp)
   ns <- g |> 
     seq_along() |> 
-    vapply(FUN = function(i) { # (i = 1L)
+    vapply(FUN = \(i) { # (i = 1L)
       f <- do.call(what = interaction, args = c(
         as.list.hyperframe(x[j = g[seq_len(i)], drop = FALSE]),
         list(drop = TRUE, lex.order = TRUE)
@@ -37,7 +37,7 @@ print.groupedHyperframe <- function(x, ...) {
     }, FUN.VALUE = NA_integer_)
   
   cat('\n')
-  mapply(FUN = function(n, g) {
+  mapply(FUN = \(n, g) {
     paste(n, col_blue(g))
   }, n = ns, g = g, SIMPLIFY = TRUE) |> 
     rev.default() |> 

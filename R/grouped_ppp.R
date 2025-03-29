@@ -50,7 +50,7 @@ grouped_ppp <- function(
   
   group <- formula[[3L]][[3L]]
   g <- all.vars(group)
-  data[g] <- lapply(data[g], FUN = function(i) {
+  data[g] <- lapply(data[g], FUN = \(i) {
     if (is.factor(i)) return(factor(i)) # drop empty levels!!
     factor(i, levels = unique(i))
   }) 
@@ -101,7 +101,7 @@ grouped_ppp <- function(
 #' @importFrom spatstat.geom markformat.ppp
 split_ppp_dataframe <- function(x, f) {
   # `f` must be 'factor'
-  mapply(FUN = function(...) {
+  mapply(FUN = \(...) {
     ret <- list(...)
     class(ret) <- class(x)
     return(ret)

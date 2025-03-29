@@ -33,9 +33,9 @@ mc_identical_by <- function(
   ids <- nr |> seq_len() |> split.default(f = f)
   
   .ident <- data |>
-    vapply(FUN = function(d) { # (d = data[[1L]])
+    vapply(FUN = \(d) { # (d = data[[1L]])
       ids |> 
-        mclapply(mc.cores = mc.cores, FUN = function(i) {
+        mclapply(mc.cores = mc.cores, FUN = \(i) {
           all(duplicated(unclass(d[i]))[-1L]) # column `d` identical within split `i`
         }) |> 
         unlist(use.names = FALSE) |> # column `d` identical within all splits
