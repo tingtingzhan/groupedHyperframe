@@ -60,9 +60,10 @@ aggregate_num <- function(
   hc <- unclass(X)$hypercolumns
   
   # 'numeric'-`hypercolumns`
-  hc_num <- vapply(hc, FUN = function(x) {
-    all(vapply(x, FUN = is.numeric, FUN.VALUE = NA))
-  }, FUN.VALUE = NA)
+  hc_num <- hc |>
+    vapply(FUN = function(x) {
+      all(vapply(x, FUN = is.numeric, FUN.VALUE = NA))
+    }, FUN.VALUE = NA)
   hyper_num_ <- if (any(hc_num)) hc[names(which(hc_num))] # else NULL
   
   # 'numeric'-columns in a 'data.frame'-`hypercolumn`
@@ -74,22 +75,21 @@ aggregate_num <- function(
     mk_ <- lapply(X[[names(which(X_ppp))]], FUN = marks.ppp, drop = FALSE)
     mk <- .mapply(FUN = list, dots = mk_, MoreArgs = NULL)
     names(mk) <- names(mk_[[1L]])
-    mk_num <- vapply(mk, FUN = function(x) {
-      all(vapply(x, FUN = is.numeric, FUN.VALUE = NA))
-    }, FUN.VALUE = NA)
+    mk_num <- mk |> 
+      vapply(FUN = function(x) {
+        all(vapply(x, FUN = is.numeric, FUN.VALUE = NA))
+      }, FUN.VALUE = NA)
     mark_num_ <- if (any(mk_num)) mk[mk_num] # else NULL
   } else mark_num_ <- NULL
   
   x <- c(hyper_num_, mark_num_)
   names(x) <- paste(names(x), FUN.name, sep = '.')
-  ret0 <- lapply(x, FUN = function(x) {
-    lapply(x, FUN = FUN, ...) #|> 
-      #do.call(what = rbind)
-  })
   
-  # Step 2: aggregation
-  
-  aggregate_by_(dots = ret0, X = X, by = by, f_aggr_ = f_aggr_, mc.cores = mc.cores, ...)
+  x |>
+    lapply(FUN = function(i) {
+      lapply(i, FUN = FUN, ...)
+    }) |>
+    aggregate_by_(X = X, by = by, f_aggr_ = f_aggr_, mc.cores = mc.cores, ...)
   
 }
 
@@ -169,9 +169,6 @@ aggregate_by_ <- function(
       as.hyperframe.data.frame()
     
     fn <- switch(match.arg(f_aggr_), mean = colMeans, median = colMedians, max = colMaxs, min = colMins)
-    #x[names(dots)] <- lapply(dots, FUN = function(m) {
-    #  do.call(what = rbind, args = lapply(ids, FUN = function(i) fn(m[i,,drop = FALSE])))
-    #}) # was, when I use 'matrix'-column in `data.frame`
     
     newX <- dots |> 
       lapply(FUN = function(m) {

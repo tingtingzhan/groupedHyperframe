@@ -70,12 +70,13 @@ op_ppplist <- function(
   
   n <- length(x)
   
-  ret <- mclapply(X = seq_len(n), mc.cores = mc.cores, FUN = function(i) {
-  #ret <- lapply(X = seq_len(n), FUN = function(i) { # to debug inside
-    # echo-command does not work with '\r' (carriage return)
-    if (identical(Sys.getenv('RSTUDIO'), '1')) on.exit(system(command = sprintf(fmt = 'printf \'\r%d/%d done!    \'', i, n)))
-    return(op(x = x[[i]], ...))
-  })
+  ret <- n |>
+    seq_len() |>
+    mclapply(mc.cores = mc.cores, FUN = function(i) {
+      # echo-command does not work with '\r' (carriage return)
+      if (identical(Sys.getenv('RSTUDIO'), '1')) on.exit(system(command = sprintf(fmt = 'printf \'\r%d/%d done!    \'', i, n)))
+      return(op(x = x[[i]], ...))
+    })
   on.exit(message())
   
   names(ret) <- names(x)
