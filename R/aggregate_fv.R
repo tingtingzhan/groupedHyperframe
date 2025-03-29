@@ -62,24 +62,23 @@ aggregate_fv <- function(
   
   fv <- as.list.hyperframe(X)[names.hyperframe(X)[id]] # one or more 'fv' column(s)
   
-  ret0 <- lapply(setNames(nm = names(fv)), FUN = function(nm) {
-    x <- fv[[nm]]
-    check_fvlist(x)
-    cumtrapz. <- cumtrapz.fvlist(x, check = FALSE, ...)
-    if (anyNA(cumtrapz.)) {
-      id <- min(rowSums(!is.na(cumtrapz.)))
-      message(col_cyan(nm), ': please limit ', col_magenta('r'), ' from ', x[[1L]]$r[1L], ' to ', x[[1L]]$r[id])
-    }
-    return(list(
-      value = key1val.fvlist(x, check = FALSE), 
-      cumtrapz = cumtrapz.
-    ))
-  })
-
-  ret1 <- ret0 |>
-    unlist(recursive = FALSE, use.names = TRUE) # smart!!
-  
-  aggregate_by_(dots = ret1, X = X, by = by, f_aggr_ = f_aggr_, ...)
+  setNames(nm = names(fv)) |> 
+    lapply(FUN = function(nm) {
+      x <- fv[[nm]]
+      check_fvlist(x)
+      cumtrapz. <- cumtrapz.fvlist(x, check = FALSE, ...)
+      if (anyNA(cumtrapz., recursive = TRUE)) {
+        stop('quick fix for `listof` instead of `matrix`')
+        #id <- (!is.na(cumtrapz.)) |> rowSums() |> min()
+        #message(col_cyan(nm), ': please limit ', col_magenta('r'), ' from ', x[[1L]]$r[1L], ' to ', x[[1L]]$r[id])
+      }
+      return(list(
+        value = key1val.fvlist(x, check = FALSE), 
+        cumtrapz = cumtrapz.
+      ))
+    }) |>
+    unlist(recursive = FALSE, use.names = TRUE) |> # smart!!
+    aggregate_by_(X = X, by = by, f_aggr_ = f_aggr_, ...)
 
 }
 

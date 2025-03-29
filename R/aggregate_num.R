@@ -83,8 +83,8 @@ aggregate_num <- function(
   x <- c(hyper_num_, mark_num_)
   names(x) <- paste(names(x), FUN.name, sep = '.')
   ret0 <- lapply(x, FUN = function(x) {
-    lapply(x, FUN = FUN, ...) |> 
-      do.call(what = rbind)
+    lapply(x, FUN = FUN, ...) #|> 
+      #do.call(what = rbind)
   })
   
   # Step 2: aggregation
@@ -97,7 +97,7 @@ aggregate_num <- function(
 
 #' @title Aggregate-By, for [groupedHyperframe]
 #' 
-#' @param dots a \link[base]{list} of \link[base]{numeric} \link[base]{matrix}es
+#' @param dots a \link[stats]{listof} \link[base]{numeric} \link[base]{matrix}es
 #' 
 #' @param X a [groupedHyperframe]
 #' 
@@ -110,11 +110,12 @@ aggregate_num <- function(
 #' 
 #' @returns 
 #' Function [aggregate_by_()] returns 
-#' a \link[base]{list} of \link[base]{numeric} \link[base]{matrix}es.
+#' a \link[stats]{listof} \link[base]{numeric} \link[base]{matrix}es.
 #'  
 #' @keywords internal
 #' @importFrom cli col_cyan col_magenta
 #' @importFrom matrixStats colMedians colMaxs colMins
+#' @importFrom spatstat.geom cbind.hyperframe
 #' @export
 aggregate_by_ <- function(
     dots, # 
@@ -125,15 +126,17 @@ aggregate_by_ <- function(
 ) {
   
   x <- unclass(X)$df
-  if (any(names(dots) %in% names(x))) warning('Existing column(s) overwritten')
+  if (any(names(dots) %in% names(X))) warning('Existing hypercolumn(s) overwritten')
   
   group <- attr(X, which = 'group', exact = TRUE)
   
   if (!is.call(by) || by[[1L]] != '~' || length(by) != 2L) stop('`by` must be one-sided formula')
   if (!is.symbol(by. <- by[[2L]])) {
-    new_by <- vapply(all.vars(by.), FUN = function(x) deparse1(call(name = '~', as.symbol(x))), FUN.VALUE = '')
-    message('grouped structure ', col_cyan(paste('by =', deparse1(by))), ' is not allowed')
-    new_by_txt <- col_magenta(paste('by =', new_by))
+    new_by <- by. |>
+      all.vars() |>
+      vapply(FUN = function(x) deparse1(call(name = '~', as.symbol(x))), FUN.VALUE = '')
+    message('grouped structure ', paste('by =', deparse1(by)) |> col_cyan(), ' is not allowed')
+    new_by_txt <- paste('by =', new_by) |> col_magenta()
     message('please use either one of ', paste(new_by_txt, collapse = ', '), '.')
     stop('`by` must be a formula and right-hand-side must be a symbol')
   }
@@ -145,6 +148,7 @@ aggregate_by_ <- function(
   if (is.na(id)) stop('`by` must match one of the hierarchy in groupedHyperframe')
   # end of ugly bandage fix
   
+  # grouping structure must be specified by `$df` part!!
   f <- interaction(x[g[seq_len(id)]], drop = TRUE, sep = '.', lex.order = TRUE)
   ids <- split.default(seq_along(f), f = f)
   
@@ -154,15 +158,33 @@ aggregate_by_ <- function(
     # passing of `f_aggr_` is hard coded, because I need `...` in [aggregate_num]
     # if (!missing(f_aggr_)) warning('aggregation on lowest cluster; parameter `f_aggr_` ignored')
     
-    x[names(dots)] <- dots # done!
+    #x[names(dots)] <- dots # was, when I use 'matrix'-column in `data.frame`
+    ret <- cbind.hyperframe(X, dots |> do.call(what = hyperframe))
     
   } else {
     
-    x <- mc_identical_by(data = x, f = f, ...)
+    # aggregation *must* drop `fv`-hypercolumn !!!
+    newx <- x |> 
+      mc_identical_by(f = f, ...) |>
+      as.hyperframe.data.frame()
+    
     fn <- switch(match.arg(f_aggr_), mean = colMeans, median = colMedians, max = colMaxs, min = colMins)
-    x[names(dots)] <- lapply(dots, FUN = function(m) {
-      do.call(what = rbind, args = lapply(ids, FUN = function(i) fn(m[i,,drop = FALSE])))
-    })
+    #x[names(dots)] <- lapply(dots, FUN = function(m) {
+    #  do.call(what = rbind, args = lapply(ids, FUN = function(i) fn(m[i,,drop = FALSE])))
+    #}) # was, when I use 'matrix'-column in `data.frame`
+    
+    newX <- dots |> 
+      lapply(FUN = function(m) {
+        ids |>
+          lapply(FUN = function(i) {
+            m[i] |> do.call(what = rbind) |> fn() 
+            # rbind-then-colMeans is *very* slow!
+            # however stats::density.default in markcorr() is the bottle neck anyway
+          })
+      }) |>
+      do.call(what = hyperframe)
+    # class(newX$hladr.E.value) <- c('abc', class(newX$hladr.E.value)) # does not work!!!
+    ret <- cbind.hyperframe(newx, newX)
     
   }
   
@@ -173,7 +195,7 @@ aggregate_by_ <- function(
     #nlme::groupedData(formula = fom, data = x) # um, I need to know more about ?nlme::groupedData
   } # else: aggregated by highest cluster, returns 'data.frame'
   
-  return(x)
+  return(ret)
   
 }
 

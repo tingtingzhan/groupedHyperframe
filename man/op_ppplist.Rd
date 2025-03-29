@@ -30,9 +30,9 @@ Default is 1L on Windows, or \link[parallel]{detectCores} on Mac.
 CRAN requires \code{mc.cores <= 2L} in examples.}
 }
 \value{
-Function \code{\link[=fv_ppplist]{fv_ppplist()}} returns a \link[base]{list} of function \code{\link[=fv_ppp]{fv_ppp()}} returns.
+Function \code{\link[=fv_ppplist]{fv_ppplist()}} returns a \link[stats]{listof} function \code{\link[=fv_ppp]{fv_ppp()}} returns.
 
-Function \code{\link[=dist_ppplist]{dist_ppplist()}} returns a \link[base]{list} of function \code{\link[=dist_ppp]{dist_ppp()}} returns.
+Function \code{\link[=dist_ppplist]{dist_ppplist()}} returns a \link[stats]{listof} function \code{\link[=dist_ppp]{dist_ppp()}} returns.
 }
 \description{
 Batch operations of function \code{\link[=fv_ppp]{fv_ppp()}} or \code{\link[=dist_ppp]{dist_ppp()}}, for a \code{'ppplist'} input.

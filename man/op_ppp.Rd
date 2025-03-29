@@ -20,11 +20,11 @@ see \strong{Details}}
 \item{...}{additional parameters of function \code{fn}}
 }
 \value{
-Function \code{\link[=fv_ppp]{fv_ppp()}} returns a \link[base]{list} of
+Function \code{\link[=fv_ppp]{fv_ppp()}} returns a \link[stats]{listof}
 \link[spatstat.explore]{fv.object}s,
 one for each eligible \link[spatstat.geom]{marks}.
 
-Function \code{\link[=dist_ppp]{dist_ppp()}} returns a \link[base]{list} of
+Function \code{\link[=dist_ppp]{dist_ppp()}} returns a \link[stats]{listof}
 \link[base]{double} \link[base]{vector}s,
 one for each eligible \link[spatstat.geom]{marks}.
 }

@@ -22,9 +22,9 @@
 #' Function [dist_ppplist()] is a \pkg{parallel} batch process of the workhorse function [dist_ppp()].
 #' 
 #' @returns 
-#' Function [fv_ppplist()] returns a \link[base]{list} of function [fv_ppp()] returns.
+#' Function [fv_ppplist()] returns a \link[stats]{listof} function [fv_ppp()] returns.
 #' 
-#' Function [dist_ppplist()] returns a \link[base]{list} of function [dist_ppp()] returns.
+#' Function [dist_ppplist()] returns a \link[stats]{listof} function [dist_ppp()] returns.
 #' 
 #' @examples
 #' library(spatstat.data)

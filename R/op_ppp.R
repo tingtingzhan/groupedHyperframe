@@ -50,11 +50,11 @@
 #' a `NULL` value will be returned.
 #' 
 #' @returns 
-#' Function [fv_ppp()] returns a \link[base]{list} of 
+#' Function [fv_ppp()] returns a \link[stats]{listof} 
 #' \link[spatstat.explore]{fv.object}s, 
 #' one for each eligible \link[spatstat.geom]{marks}.
 #' 
-#' Function [dist_ppp()] returns a \link[base]{list} of 
+#' Function [dist_ppp()] returns a \link[stats]{listof} 
 #' \link[base]{double} \link[base]{vector}s,
 #' one for each eligible \link[spatstat.geom]{marks}.
 #' 

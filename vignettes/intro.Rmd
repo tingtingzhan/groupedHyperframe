@@ -50,24 +50,24 @@ library(survival) # to help hyperframe understand Surv object
 
 Users should remove the parameter `mc.cores = 1L` from all examples to engage all CPU cores on the current host under macOS. The authors of package **`groupedHyperframe`** are forced to have `mc.cores = 1L` in this vignette to pass `CRAN`'s submission check.
 
-## List of Terms and Abbreviations
+## Terms and Abbreviations
 
 ```{r echo = FALSE, results = 'asis'}
 c(
+  '', 'Forward pipe operator', '`?base::pipeOp` introduced in `R` 4.1.0', 
   '`attr`', 'Attributes', '`base::attr`; `base::attributes`',
   '`CRAN`, `R`', 'The Comprehensive R Archive Network', 'https://cran.r-project.org',
   '`data.frame`', 'Data frame', '`base::data.frame`',
   '`formula`', 'Formula', '`stats::formula`',
-  '`fv`, `fv.object`', 'Function value table', '`spatstat.explore::fv.object`',
-  '`groupedData`', 'Grouped data frame', '`nlme::groupedData`',
+  '`fv`, `fv.object`, `fv.plot`', '(Plot of) function value table', '`spatstat.explore::fv.object`, `spatstat.explore::plot.fv`',
+  '`groupedData`, `~ g1/.../gm`', 'Grouped data frame; nested grouping structure', '`nlme::groupedData`; `nlme::lme`',
   '`hypercolumns`, `hyperframe`', '(Hyper columns of) hyper data frame', '`spatstat.geom::hyperframe`',
   '`inherits`', 'Class inheritance', '`base::inherits`',
   '`kerndens`', 'Kernel density', '`stats::density.default()$y`',
-  '`matrix`', 'Matrix', '`base::matrix`',
+  # '`matrix`', 'Matrix', '`base::matrix`', # hahaha!!!
   '`mc.cores`', 'Number of CPU cores to use', '`parallel::mclapply`, `parallel::detectCores`',
   '`multitype`', 'Multitype object', '`spatstat.geom::is.multitype`',
   '`ppp`, `ppp.object`', '(Marked) point pattern', '`spatstat.geom::ppp.object`',
-  '`~ g1/.../gm`', 'Nested grouping structure', '`nlme::groupedData`; `nlme::lme`',
   '`quantile`', 'Quantile', '`stats::quantile`',
   '`S3`', '`R`\'s simplest object oriented system', 'https://adv-r.hadley.nz/s3.html',
   '`search`', 'Search path', '`base::search`',
@@ -77,7 +77,10 @@ c(
   matrix(nrow = 3L, dimnames = list(c('Term / Abbreviation', 'Description', 'Reference'), NULL)) |>
   t.default() |>
   as.data.frame.matrix() |> 
-  kable()
+  kable(format = 'html') 
+# ?knitr::kable
+# default: `|` shown as &...
+# format = 'html': `>` shown as &..
 ```
 
 # `groupedHyperframe` Class
@@ -98,7 +101,7 @@ osteo |> as.groupedHyperframe(group = ~ id/brick)
 ```
 
 ### From a `data.frame`
-The `S3` method dispatch `as.groupedHyperframe.data.frame()` inspects the input `data.frame` by the (nested) grouping structure, identifies the column(s) which are not identical within the lowest group, and converts them into `hypercolumns`.  Data set `Ki67` in this package has non-identical column `Ki67` in the nested grouping structure, thus column `Ki67` is converted into a `hypercolumn`.
+The `S3` method dispatch `as.groupedHyperframe.data.frame()` inspects the input `data.frame` by the (nested) grouping structure, identifies the column(s) which are not identical within the lowest group, and converts them into `hypercolumns`.  Data set **`Ki67`** in this package has non-identical column *`Ki67`* in the nested grouping structure *`~ patientID/tissueID`*, thus the column *`Ki67`* is converted into a `hypercolumn`.
 
 ```{r}
 (Ki67g = Ki67 |> as.groupedHyperframe(group = ~ patientID/tissueID, mc.cores = 1L))
@@ -158,7 +161,7 @@ c(
   kable()
 ```
 
-Following example shows that multiple batch processes may be applied to a `hyperframe` (or `groupedHyperframe`) in a pipeline (`|>`).
+Following example shows that multiple batch processes may be applied to a `hyperframe` (or `groupedHyperframe`) in a pipeline.
 
 ```{r}
 r = seq.int(from = 0, to = 250, by = 10)
@@ -192,25 +195,26 @@ When nested grouping structure `~g1/g2/.../gm` is present, we may aggregate over
 
 by either one of the grouping levels `~g1`, `~g2`, ..., or `~gm`. If the lowest grouping `~gm` is specified, then no aggregation is performed.
 
-The returned object of various aggregation functions, `aggregate_fv()`, `aggregate_quantile()` and `aggregate_kerndens()`, is `data.frame` instead of `hyperframe`. This is because the aggregated results are stored in `matrix`-columns, while the `hyperframe` class does not support `matrix`-column.
-
 ## Aggregation of `fv`-`hypercolumns`
 
 Function `aggregate_fv()` aggregates
 
--   the **function values**, i.e., the black-solid-curve of `spatstat.explore::plot.fv`. In the following example, we have
-    -   `matrix`-column *`hladr.E.value`*, aggregated function value from `fv`-`hypercolumn` *`hladr.E`*
-    -   `matrix`-column *`phenotype.G.value`*, aggregated function value from `fv`-`hypercolumn` *`phenotype.G`*
+-   the **function values**, i.e., the black-solid-curve of `fv.plot`. In the following example, we have
+    -   `numeric`-`hypercolumn` *`hladr.E.value`*, aggregated function value from `fv`-`hypercolumn` *`hladr.E`*
+    -   `numeric`-`hypercolumn` *`phenotype.G.value`*, aggregated function value from `fv`-`hypercolumn` *`phenotype.G`*
 -   the **cumulative trapezoid area** under the black-solid-curve. In the following example, we have
-    -   `matrix`-column *`hladr.E.cumtrapz`*, aggregated cumulative trapezoid area from `fv`-`hypercolumn` *`hladr.E`*
-    -   `matrix`-column *`phenotype.G.cumtrapz`*, aggregated cumulative trapezoid area from `fv`-`hypercolumn` *`phenotype.G`*
+    -   `numeric`-`hypercolumn` *`hladr.E.cumtrapz`*, aggregated cumulative trapezoid area from `fv`-`hypercolumn` *`hladr.E`*
+    -   `numeric`-`hypercolumn` *`phenotype.G.cumtrapz`*, aggregated cumulative trapezoid area from `fv`-`hypercolumn` *`phenotype.G`*
 
 ```{r}
-afv = out |>
-  aggregate_fv(by = ~ patient_id, f_aggr_ = 'mean', mc.cores = 1L)
-nrow(afv) # number of patients
-names(afv)
-dim(afv$hladr.E.cumtrapz) # N(patient) by length(r)
+(afv = out |>
+  aggregate_fv(by = ~ patient_id, f_aggr_ = 'mean', mc.cores = 1L))
+```
+
+Each of the `numeric`-`hypercolumns` contains tabulated values on the common grid of `r`. One "slice" of this grid may be extracted by
+
+```{r}
+afv$hladr.E.cumtrapz |> .slice(j = '50')
 ```
 
 ## Aggregation of `numeric`-`hypercolumns` and `numeric` mark(s) in `ppp`-`hypercolumn`
@@ -218,31 +222,24 @@ dim(afv$hladr.E.cumtrapz) # N(patient) by length(r)
 Function `aggregate_quantile()` aggregates
 
 -   the quantile of the `numeric`-`hypercolumns`. In the following example, we have
-    -   `matrix`-column *`phenotype.nncross.quantile`*, aggregated quantile of `numeric`-`hypercolumn` *`phenotype.nncross`*
+    -   `numeric`-`hypercolumn` *`phenotype.nncross.quantile`*, aggregated quantile of `numeric`-`hypercolumn` *`phenotype.nncross`*
 -   the quantile of the `numeric` mark(s) in the `ppp`-`hypercolumn.` In the following example, we have
-    -   `matrix`-column *`hladr.quantile`*, aggregated quantile of `numeric` mark *`hladr`* in `ppp`-`hypercolumn`
+    -   `numeric`-`hypercolumn` *`hladr.quantile`*, aggregated quantile of `numeric` mark *`hladr`* in `ppp`-`hypercolumn`
 
 ```{r}
-q = out |>
+out |>
   aggregate_quantile(by = ~ patient_id, probs = seq.int(from = 0, to = 1, by = .1), mc.cores = 1L)
-nrow(q)
-names(q)
-dim(q$phenotype.nncross.quantile)
-dim(q$hladr.quantile)
 ```
 
 Function `aggregate_kerndens()` aggregates
 
 -   the kernel density of the `numeric`-`hypercolumns`. In the following example, we have
-    -   `matrix`-column *`phenotype.nncross.kerndens`*, aggregated kernel density of `numeric`-`hypercolumn` *`phenotype.nncross`*
+    -   `numeric`-`hypercolumn` *`phenotype.nncross.kerndens`*, aggregated kernel density of `numeric`-`hypercolumn` *`phenotype.nncross`*
 -   the kernel density of the `numeric` mark(s) in the `ppp`-`hypercolumn`. In the following example, we have
-    -   `matrix`-column *`hladr.kerndens`*, aggregated kernel density of `numeric` mark *`hladr`* in `ppp`-`hypercolumn`
+    -   `numeric`-`hypercolumn` *`hladr.kerndens`*, aggregated kernel density of `numeric` mark *`hladr`* in `ppp`-`hypercolumn`
 
 ```{r}
 (mdist = out$phenotype.nncross |> unlist() |> max())
-d = out |> 
+out |> 
   aggregate_kerndens(by = ~ patient_id, from = 0, to = mdist, mc.cores = 1L)
-nrow(d)
-names(d)
-dim(d$phenotype.nncross.kerndens)
 ```
