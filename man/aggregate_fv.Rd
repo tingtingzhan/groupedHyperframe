@@ -8,6 +8,7 @@ aggregate_fv(
   X,
   by = stop("must specify `by`"),
   f_aggr_ = c("mean", "median", "max", "min"),
+  mc.cores = switch(.Platform$OS.type, windows = 1L, detectCores()),
   ...
 )
 }
@@ -22,6 +23,10 @@ Do not use multi-level hierarchy (e.g., \code{~patient/image})}
 \item{f_aggr_}{\link[base]{character} scalar, method to aggregate
 within cluster, currently supports
 \code{'mean'}, \code{'median'}, \code{'max'}, and \code{'min'}.}
+
+\item{mc.cores}{\link[base]{integer} scalar, see function \link[parallel]{mclapply}.
+Default is 1L on Windows, or \link[parallel]{detectCores} on Mac.
+CRAN requires \code{mc.cores <= 2L} in examples.}
 
 \item{...}{additional parameters, currently not in use}
 }

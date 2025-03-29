@@ -97,7 +97,7 @@ aggregate_num <- function(
 
 #' @title Aggregate-By, for [groupedHyperframe]
 #' 
-#' @param dots a \link[stats]{listof} \link[base]{numeric} \link[base]{matrix}es
+#' @param dots a \link[stats]{listof} ..
 #' 
 #' @param X a [groupedHyperframe]
 #' 

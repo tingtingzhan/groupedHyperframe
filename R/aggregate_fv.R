@@ -16,6 +16,10 @@
 #' within cluster, currently supports
 #' `'mean'`, `'median'`, `'max'`, and `'min'`.
 #' 
+#' @param mc.cores \link[base]{integer} scalar, see function \link[parallel]{mclapply}.
+#' Default is 1L on Windows, or \link[parallel]{detectCores} on Mac.
+#' CRAN requires `mc.cores <= 2L` in examples.
+#' 
 #' @param ... additional parameters, currently not in use
 #' 
 # @note 
@@ -52,7 +56,8 @@
 aggregate_fv <- function(
     X, 
     by = stop('must specify `by`'),
-    f_aggr_ = c('mean', 'median', 'max', 'min'), 
+    f_aggr_ = c('mean', 'median', 'max', 'min'),
+    mc.cores = switch(.Platform$OS.type, windows = 1L, detectCores()),
     ...
 ) {
   
@@ -66,14 +71,14 @@ aggregate_fv <- function(
     lapply(FUN = \(nm) {
       x <- fv[[nm]]
       check_fvlist(x)
-      cumtrapz. <- cumtrapz.fvlist(x, check = FALSE, ...)
+      cumtrapz. <- x |> mclapply(mc.cores = mc.cores, FUN = cumtrapz.fv)
       if (anyNA(cumtrapz., recursive = TRUE)) {
         stop('quick fix for `listof` instead of `matrix`')
         #id <- (!is.na(cumtrapz.)) |> rowSums() |> min()
         #message(col_cyan(nm), ': please limit ', col_magenta('r'), ' from ', x[[1L]]$r[1L], ' to ', x[[1L]]$r[id])
       }
       return(list(
-        value = key1val.fvlist(x, check = FALSE), 
+        value = x |> lapply(FUN = key1val.fv),
         cumtrapz = cumtrapz.
       ))
     }) |>

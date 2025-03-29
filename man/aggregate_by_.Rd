@@ -7,7 +7,7 @@
 aggregate_by_(dots, X, by, f_aggr_ = c("mean", "median", "max", "min"), ...)
 }
 \arguments{
-\item{dots}{a \link[stats]{listof} \link[base]{numeric} \link[base]{matrix}es}
+\item{dots}{a \link[stats]{listof} ..}
 
 \item{X}{a \link{groupedHyperframe}}
 
