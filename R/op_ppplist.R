@@ -45,8 +45,8 @@
 #'   subset.ppp(select = c('fire.type', 'cause', 'ign.src')) |>
 #'   na.omit.ppp() |> 
 #'   split.ppp(f = 'fire.type')
-#' dist_ppplist(x2, fn = .nncross, i = 'rrds', j = 'ltning', mc.cores = 1L)
-#' dist_ppplist(x2, fn = .nncross, i = 'unknown', j = 'burn.no.perm', mc.cores = 1L)
+#' x2 |> dist_ppplist(fn = .nncross, i = 'rrds', j = 'ltning', mc.cores = 1L)
+#' x2 |> dist_ppplist(fn = .nncross, i = 'unknown', j = 'burn.no.perm', mc.cores = 1L)
 #' @keywords internal
 #' @name op_ppplist
 #' @export
@@ -74,10 +74,10 @@ op_ppplist <- function(
     seq_len() |>
     mclapply(mc.cores = mc.cores, FUN = \(i) {
       # echo-command does not work with '\r' (carriage return)
-      if (identical(Sys.getenv('RSTUDIO'), '1')) on.exit(system(command = sprintf(fmt = 'printf \'\r%d/%d done!    \'', i, n)))
-      return(op(x = x[[i]], ...))
+      if (identical(Sys.getenv('RSTUDIO'), '1')) sprintf(fmt = 'printf \'\r%d/%d done!    \'', i, n) |> system() |> on.exit()
+      x[[i]] |> op(...)
     })
-  on.exit(message())
+  message() |> on.exit()
   
   names(ret) <- names(x)
   return(ret)

@@ -61,7 +61,7 @@ x2 = nbfires |>
   subset.ppp(select = c('fire.type', 'cause', 'ign.src')) |>
   na.omit.ppp() |> 
   split.ppp(f = 'fire.type')
-dist_ppplist(x2, fn = .nncross, i = 'rrds', j = 'ltning', mc.cores = 1L)
-dist_ppplist(x2, fn = .nncross, i = 'unknown', j = 'burn.no.perm', mc.cores = 1L)
+x2 |> dist_ppplist(fn = .nncross, i = 'rrds', j = 'ltning', mc.cores = 1L)
+x2 |> dist_ppplist(fn = .nncross, i = 'unknown', j = 'burn.no.perm', mc.cores = 1L)
 }
 \keyword{internal}

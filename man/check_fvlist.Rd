@@ -2,7 +2,7 @@
 % Please edit documentation in R/fvlist.R
 \name{check_fvlist}
 \alias{check_fvlist}
-\title{Check \link[stats]{listof} \link[spatstat.explore]{fv.object}s}
+\title{check_fvlist}
 \usage{
 check_fvlist(X)
 }
@@ -13,7 +13,7 @@ check_fvlist(X)
 Function \code{\link[=check_fvlist]{check_fvlist()}} does not have a returned value.
 }
 \description{
-Check \link[stats]{listof} \link[spatstat.explore]{fv.object}s
+check_fvlist
 }
 \details{
 Function \code{\link[=check_fvlist]{check_fvlist()}} checks that
