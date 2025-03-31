@@ -23,7 +23,7 @@
 \item{\code{adj_rad}}{\link[base]{integer}, adjuvant radiation treatment, 0 = unknown,  1 = done, 2 = NOT done}
 }
 
-An object of class \code{data.frame} with 4088 rows and 14 columns.
+An object of class \code{data.frame} with 4088 rows and 15 columns.
 }
 \usage{
 Ki67
