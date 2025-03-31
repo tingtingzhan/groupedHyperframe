@@ -69,7 +69,7 @@ as.groupedHyperframe.data.frame <- function(x, group, ...) {
       cbind.hyperframe(hf) # crazy pipeline!!!
   }
   
-  attr(hf, which = 'group') <- call('~', group) # for ?nlme::getGroupsFormula
+  attr(hf, which = 'group') <- group # for ?nlme::getGroupsFormula
   class(hf) <- unique.default(c('groupedHyperframe', class(hf)))
   return(hf)
 
