@@ -68,6 +68,8 @@ c(
   '`mc.cores`', 'Number of CPU cores to use', '`parallel::mclapply`; `parallel::detectCores`',
   '`multitype`', 'Multitype object', '`spatstat.geom::is.multitype`',
   '`object.size`', 'Memory allocation', '`utils::object.size`',
+  '`pmean`, `pmedian`', 'Parallel mean and median', '`groupedHyperframe::pmean`; `groupedHyperframe::pmedian`',
+  '`pmax`, `pmin`', 'Parallel maxima and minima', '`base::pmax`; `base::pmin`',
   '`ppp`, `ppp.object`', '(Marked) point pattern', '`spatstat.geom::ppp.object`',
   '`quantile`', 'Quantile', '`stats::quantile`',
   '`save`, `xz`', 'Save with `xz` compression', '`base::save(., compress = \'xz\')`; https://en.wikipedia.org/wiki/XZ_Utils', 
@@ -215,7 +217,7 @@ Function `aggregate_fv()` aggregates
 
 ```{r}
 (afv = out |>
-  aggregate_fv(by = ~ patient_id, f_aggr_ = 'mean', mc.cores = 1L))
+  aggregate_fv(by = ~ patient_id, f_aggr_ = pmean, mc.cores = 1L))
 ```
 
 Each of the `numeric`-`hypercolumns` contains tabulated values on the common grid of `r`. One "slice" of this grid may be extracted by

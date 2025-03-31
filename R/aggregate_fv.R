@@ -12,9 +12,7 @@
 #' Use only one-level hierarchy (e.g., `~patient` or `~image`).
 #' Do not use multi-level hierarchy (e.g., `~patient/image`)
 #' 
-#' @param f_aggr_ \link[base]{character} scalar, method to aggregate
-#' within cluster, currently supports
-#' `'mean'`, `'median'`, `'max'`, and `'min'`.
+#' @param f_aggr_ see function [aggregate_by_()]
 #' 
 #' @param mc.cores \link[base]{integer} scalar, see function \link[parallel]{mclapply}.
 #' Default is 1L on Windows, or \link[parallel]{detectCores} on Mac.
@@ -53,7 +51,7 @@
 aggregate_fv <- function(
     X, 
     by = stop('must specify `by`'),
-    f_aggr_ = c('mean', 'median', 'max', 'min'),
+    f_aggr_,
     mc.cores = switch(.Platform$OS.type, windows = 1L, detectCores()),
     ...
 ) {

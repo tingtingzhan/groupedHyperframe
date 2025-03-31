@@ -7,7 +7,7 @@
 aggregate_fv(
   X,
   by = stop("must specify `by`"),
-  f_aggr_ = c("mean", "median", "max", "min"),
+  f_aggr_,
   mc.cores = switch(.Platform$OS.type, windows = 1L, detectCores()),
   ...
 )
@@ -20,9 +20,7 @@ containing one or more \link[spatstat.explore]{fv.object} column(s)}
 Use only one-level hierarchy (e.g., \code{~patient} or \code{~image}).
 Do not use multi-level hierarchy (e.g., \code{~patient/image})}
 
-\item{f_aggr_}{\link[base]{character} scalar, method to aggregate
-within cluster, currently supports
-\code{'mean'}, \code{'median'}, \code{'max'}, and \code{'min'}.}
+\item{f_aggr_}{see function \code{\link[=aggregate_by_]{aggregate_by_()}}}
 
 \item{mc.cores}{\link[base]{integer} scalar, see function \link[parallel]{mclapply}.
 Default is 1L on Windows, or \link[parallel]{detectCores} on Mac.

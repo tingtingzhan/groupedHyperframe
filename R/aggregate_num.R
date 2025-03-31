@@ -26,9 +26,7 @@
 #' @param FUN.name (optional) \link[base]{character} scalar,
 #' user-friendly name of `FUN`
 #' 
-#' @param f_aggr_ \link[base]{character} scalar, method to aggregate
-#' within cluster, currently supports
-#' `'mean'`, `'median'`, `'max'`, and `'min'`.
+#' @param f_aggr_ see function [aggregate_by_()]
 #' 
 #' @param mc.cores \link[base]{integer} scalar, see function \link[parallel]{mclapply}.
 #' Default is 1L on Windows, or \link[parallel]{detectCores} on Mac.
@@ -48,7 +46,7 @@ aggregate_num <- function(
     by = stop('must specify `by`'),
     FUN,
     FUN.name = deparse1(substitute(FUN)),
-    f_aggr_ = c('mean', 'median', 'max', 'min'), 
+    f_aggr_, 
     mc.cores = switch(.Platform$OS.type, windows = 1L, detectCores()), # must prevent `mc.cores` from going into `...`, e.g., ?stats::density.default warns on extra parameter
     ...
 ) {
@@ -101,7 +99,11 @@ aggregate_num <- function(
 #' 
 #' @param X a [groupedHyperframe]
 #' 
-#' @param by,f_aggr_ see function [aggregate_num()]
+#' @param by see function [aggregate_num()]
+#' 
+#' @param f_aggr_ \link[base]{function}, method to aggregate
+#' within cluster, currently supports
+#' [pmean()], [pmedian()], \link[base]{pmax}, and \link[base]{pmin}.
 #' 
 #' @param ... additional parameters
 #' 
@@ -113,15 +115,15 @@ aggregate_num <- function(
 #' a \link[stats]{listof} \link[base]{numeric} \link[base]{matrix}es.
 #'  
 #' @keywords internal
-#' @importFrom cli col_cyan col_magenta
-#' @importFrom matrixStats colMedians colMaxs colMins
+#' @importFrom cli col_cyan col_magenta 
+#' @importFrom cli cli_text
 #' @importFrom spatstat.geom cbind.hyperframe
 #' @export
 aggregate_by_ <- function(
     dots, # 
     X, # 
     by, # 'formula'
-    f_aggr_ = c('mean', 'median', 'max', 'min'),
+    f_aggr_ = pmean,
     ...
 ) {
   
@@ -168,15 +170,23 @@ aggregate_by_ <- function(
       mc_identical_by(f = f, ...) |>
       as.hyperframe.data.frame()
     
-    fn <- switch(match.arg(f_aggr_), mean = colMeans, median = colMedians, max = colMaxs, min = colMins)
+    f_aggr_supported <- list(pmean, pmedian, pmax, pmin) |>
+      vapply(FUN = identical, y = f_aggr_, FUN.VALUE = NA) |>
+      any()
+    if (!f_aggr_supported) {
+      'f_aggr_' |> 
+        col_blue() |>
+        sprintf(fmt = '%s must be one of {.fun groupedHyperframe::pmean}, {.fun groupedHyperframe::pmedian}, {.fun base::pmax} or {.fun base::pmin}') |> 
+        cli_text() |> 
+        message(appendLF = FALSE)
+      stop()
+    }
     
     newX <- dots |> 
-      lapply(FUN = \(m) {
+      lapply(FUN = \(m) { # (m = dots[[1L]])
         ids |>
-          lapply(FUN = \(i) {
-            m[i] |> do.call(what = rbind) |> fn() 
-            # rbind-then-colMeans is *very* slow!
-            # however stats::density.default in markcorr() is the bottle neck anyway
+          lapply(FUN = \(i) { # (i = ids[[1L]])
+            m[i] |> do.call(what = f_aggr_)
           })
       }) |>
       do.call(what = hyperframe)
@@ -230,8 +240,6 @@ aggregate_quantile <- function(X, ...) aggregate_num(X, FUN = .quantile_num_name
 #' 
 #' @export
 aggregate_kerndens <- function(X, ...) aggregate_num(X, FUN = kerndens, ...)
-
-
 
 
 
