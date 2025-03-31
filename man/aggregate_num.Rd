@@ -11,7 +11,7 @@ aggregate_num(
   by = stop("must specify `by`"),
   FUN,
   FUN.name = deparse1(substitute(FUN)),
-  f_aggr_,
+  f_aggr_ = pmean,
   mc.cores = switch(.Platform$OS.type, windows = 1L, detectCores()),
   ...
 )

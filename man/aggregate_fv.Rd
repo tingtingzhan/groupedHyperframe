@@ -7,7 +7,7 @@
 aggregate_fv(
   X,
   by = stop("must specify `by`"),
-  f_aggr_,
+  f_aggr_ = pmean,
   mc.cores = switch(.Platform$OS.type, windows = 1L, detectCores()),
   ...
 )
