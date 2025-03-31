@@ -11,7 +11,7 @@
 \item{\code{tissueID}}{\link[base]{factor}, TMA core identifier}
 \item{\code{recurrence}}{\link[base]{integer}, recurrence indicator, 1 = Recurred, 0 = not Recurred}
 \item{\code{recfreesurv_mon}}{\link[base]{integer}, recurrence-free survival time in months}
-\item{\code{Ki67}}{\link[base]{double}, cell signal intensity of the protein immunofloerscence signal}
+\item{\code{logKi67}}{\link[base]{double}, log-transformed cell signal intensity of the protein immunofloerscence signal}
 \item{\code{age}}{\link[base]{integer}, age at diagnosis}
 \item{\code{Tstage}}{\link[base]{integer}, tumor stage}
 \item{\code{node}}{\link[base]{factor}, node stage}
@@ -32,6 +32,13 @@ Ki67.
 }
 \description{
 Ki67 cell data containing 622 patients.
+}
+\details{
+The \link{groupedHyperframe} \code{Ki67} is the complete data, to be used in examples of downstream packages
+\pkg{maxEff} and \pkg{hyper.gam}.
+
+The \link[base]{data.frame} \code{Ki67.} is a \link[base]{subset} of the complete data \code{Ki67},
+which consists only the first 6 patients.  This small data is used as examples for function \code{\link[=as.hyperframe.data.frame]{as.hyperframe.data.frame()}}
 }
 \keyword{datasets}
 \keyword{internal}

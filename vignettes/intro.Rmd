@@ -19,8 +19,7 @@ options(rmarkdown.html_vignette.check_title = FALSE)
 
 # Introduction
 
-This vignette of package **`groupedHyperframe`** ([CRAN](https://cran.r-project.org/package=groupedHyperframe), [Github](https://github.com/tingtingzhan/groupedHyperframe),
-[RPubs](https://rpubs.com/tingtingzhan/groupedHyperframe)) documents the creation of `groupedHyperframe` object, the batch processes for a `groupedHyperframe`, and aggregations over multi-level grouping structure.
+This vignette of package **`groupedHyperframe`** ([CRAN](https://cran.r-project.org/package=groupedHyperframe), [Github](https://github.com/tingtingzhan/groupedHyperframe), [RPubs](https://rpubs.com/tingtingzhan/groupedHyperframe)) documents the creation of `groupedHyperframe` object, the batch processes for a `groupedHyperframe`, and aggregations of various statistics over multi-level grouping structure.
 
 ## Prerequisite
 
@@ -66,11 +65,13 @@ c(
   '`inherits`', 'Class inheritance', '`base::inherits`',
   '`kerndens`', 'Kernel density', '`stats::density.default()$y`',
   # '`matrix`', 'Matrix', '`base::matrix`', # hahaha!!!
-  '`mc.cores`', 'Number of CPU cores to use', '`parallel::mclapply`, `parallel::detectCores`',
+  '`mc.cores`', 'Number of CPU cores to use', '`parallel::mclapply`; `parallel::detectCores`',
   '`multitype`', 'Multitype object', '`spatstat.geom::is.multitype`',
+  '`object.size`', 'Memory allocation', '`utils::object.size`',
   '`ppp`, `ppp.object`', '(Marked) point pattern', '`spatstat.geom::ppp.object`',
   '`quantile`', 'Quantile', '`stats::quantile`',
-  '`S3`', '`R`\'s simplest object oriented system', 'https://adv-r.hadley.nz/s3.html',
+  '`save`, `xz`', 'Save with `xz` compression', '`base::save(., compress = \'xz\')`; https://en.wikipedia.org/wiki/XZ_Utils', 
+  '`S3`, `generic`, `methods`', '`S3` object oriented system',  '`base::UseMethod`; `utils::methods`; `utils::getS3method`; https://adv-r.hadley.nz/s3.html',
   '`search`', 'Search path', '`base::search`',
   '`Surv`', 'Survival object', '`survival::Surv`',
   '`trapz`, `cumtrapz`', '(Cumulative) trapezoidal integration', '`pracma::trapz`; `pracma::cumtrapz`; https://en.wikipedia.org/wiki/Trapezoidal_rule'
@@ -86,14 +87,13 @@ c(
 
 ## Acknowledgement
 
-This work supported by NCI R01CA222847 ([I. Chervoneva](https://orcid.org/0000-0002-9104-4505), [T. Zhan](https://orcid.org/0000-0001-9971-4844), and [H. Rui](https://orcid.org/0000-0002-8778-261X)) and R01CA253977 (H. Rui and I. Chervoneva). 
-
+This work supported by NCI R01CA222847 ([I. Chervoneva](https://orcid.org/0000-0002-9104-4505), [T. Zhan](https://orcid.org/0000-0001-9971-4844), and [H. Rui](https://orcid.org/0000-0002-8778-261X)) and R01CA253977 (H. Rui and I. Chervoneva).
 
 # `groupedHyperframe` Class
 
-The `S3` class `groupedHyperframe` `inherits` from `hyperframe` class, in a similar fashion as `groupedData` class inherits from `data.frame` class.
+The `S3` class `groupedHyperframe` `inherits` from the `hyperframe` class, in a similar fashion as the `groupedData` class inherits from the `data.frame` class.
 
-A `groupedHyperframe` object, in addition to `hyperframe` object, has attribute(s)
+A `groupedHyperframe` object, in addition to a `hyperframe` object, has attribute(s)
 
 -   `attr(., 'group')`, a `formula` to specify the (nested) grouping structure
 
@@ -109,13 +109,13 @@ osteo |> as.groupedHyperframe(group = ~ id/brick)
 
 ### From a `data.frame`
 
-The `S3` method dispatch `as.groupedHyperframe.data.frame()` inspects the input `data.frame` by the (nested) grouping structure, identifies the column(s) which are not identical within the lowest group, and converts them into `hypercolumns`. Data set **`Ki67.`** in this package has non-identical column *`Ki67`* in the nested grouping structure *`~ patientID/tissueID`*, thus the column *`Ki67`* is converted into a `hypercolumn`.
+The `S3` method dispatch `as.groupedHyperframe.data.frame()` converts a `data.frame` to a `groupedHyperframe.` This function inspects the input by the (nested) grouping structure, identifies the column(s) with elements not identical within the lowest group, and converts them into `hypercolumns`. Data set **`Ki67.`** in this package has non-identical column *`logKi67`* in the nested grouping structure *`~ patientID/tissueID`*.
 
 ```{r}
 (Ki67g = Ki67. |> as.groupedHyperframe(group = ~ patientID/tissueID, mc.cores = 1L))
 ```
 
-Turning a `data.frame` with cell intensities, etc., into a `groupedHyperframe` is a great way to save storage
+Converting a `data.frame` with cell intensities, etc., into a `groupedHyperframe` reduces memory allocation, but does not reduce much the `save`d files size if `xz` compression is used.
 
 ```{r}
 unclass(object.size(Ki67g)) / unclass(object.size(Ki67))
