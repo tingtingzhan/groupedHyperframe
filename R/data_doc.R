@@ -26,7 +26,10 @@
 #' }
 #' 
 #' @keywords internal
+#' @name Ki67
 'Ki67'
+#' @rdname Ki67
+'Ki67.'
 
 
 

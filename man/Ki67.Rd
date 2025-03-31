@@ -3,6 +3,7 @@
 \docType{data}
 \name{Ki67}
 \alias{Ki67}
+\alias{Ki67.}
 \title{Ki67 Data}
 \format{
 \describe{
@@ -21,11 +22,16 @@
 \item{\code{adj_chemo}}{\link[base]{logical}, whether completed adjuvant chemo treatment}
 \item{\code{adj_rad}}{\link[base]{integer}, adjuvant radiation treatment, 0 = unknown,  1 = done, 2 = NOT done}
 }
+
+An object of class \code{data.frame} with 4088 rows and 14 columns.
 }
 \usage{
 Ki67
+
+Ki67.
 }
 \description{
 Ki67 cell data containing 622 patients.
 }
+\keyword{datasets}
 \keyword{internal}
