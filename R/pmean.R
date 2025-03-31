@@ -2,7 +2,7 @@
 
 #' @title Parallel \link[base]{mean} and \link[stats]{median}
 #' 
-#' @param ... \link[baes]{numeric} \link[base]{vector}s
+#' @param ... \link[base]{numeric} \link[base]{vector}s
 #' 
 #' @param na.rm \link[base]{logical} scalar, default `TRUE`
 #' 
