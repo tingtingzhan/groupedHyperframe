@@ -19,7 +19,8 @@ options(rmarkdown.html_vignette.check_title = FALSE)
 
 # Introduction
 
-This vignette of package **`groupedHyperframe`** ([CRAN](https://cran.r-project.org/package=groupedHyperframe), [Github](https://github.com/tingtingzhan/groupedHyperframe)) documents the creation of `groupedHyperframe` object, the batch processes for a `groupedHyperframe`, and aggregations over multi-level grouping structure.
+This vignette of package **`groupedHyperframe`** ([CRAN](https://cran.r-project.org/package=groupedHyperframe), [Github](https://github.com/tingtingzhan/groupedHyperframe),
+[RPubs](https://rpubs.com/tingtingzhan/groupedHyperframe)) documents the creation of `groupedHyperframe` object, the batch processes for a `groupedHyperframe`, and aggregations over multi-level grouping structure.
 
 ## Prerequisite
 
@@ -83,6 +84,11 @@ c(
 # format = 'html': `>` shown as &..
 ```
 
+## Acknowledgement
+
+This work supported by NCI R01CA222847 ([I. Chervoneva](https://orcid.org/0000-0002-9104-4505), [T. Zhan](https://orcid.org/0000-0001-9971-4844), and [H. Rui](https://orcid.org/0000-0002-8778-261X)) and R01CA253977 (H. Rui and I. Chervoneva). 
+
+
 # `groupedHyperframe` Class
 
 The `S3` class `groupedHyperframe` `inherits` from `hyperframe` class, in a similar fashion as `groupedData` class inherits from `data.frame` class.
@@ -103,10 +109,10 @@ osteo |> as.groupedHyperframe(group = ~ id/brick)
 
 ### From a `data.frame`
 
-The `S3` method dispatch `as.groupedHyperframe.data.frame()` inspects the input `data.frame` by the (nested) grouping structure, identifies the column(s) which are not identical within the lowest group, and converts them into `hypercolumns`. Data set **`Ki67`** in this package has non-identical column *`Ki67`* in the nested grouping structure *`~ patientID/tissueID`*, thus the column *`Ki67`* is converted into a `hypercolumn`.
+The `S3` method dispatch `as.groupedHyperframe.data.frame()` inspects the input `data.frame` by the (nested) grouping structure, identifies the column(s) which are not identical within the lowest group, and converts them into `hypercolumns`. Data set **`Ki67.`** in this package has non-identical column *`Ki67`* in the nested grouping structure *`~ patientID/tissueID`*, thus the column *`Ki67`* is converted into a `hypercolumn`.
 
 ```{r}
-(Ki67g = Ki67 |> as.groupedHyperframe(group = ~ patientID/tissueID, mc.cores = 1L))
+(Ki67g = Ki67. |> as.groupedHyperframe(group = ~ patientID/tissueID, mc.cores = 1L))
 ```
 
 Turning a `data.frame` with cell intensities, etc., into a `groupedHyperframe` is a great way to save storage
