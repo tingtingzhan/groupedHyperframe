@@ -72,7 +72,7 @@ c(
   '`pmax`, `pmin`', 'Parallel maxima and minima', '`base::pmax`; `base::pmin`',
   '`ppp`, `ppp.object`', '(Marked) point pattern', '`spatstat.geom::ppp.object`',
   '`quantile`', 'Quantile', '`stats::quantile`',
-  '`save`, `xz`', 'Save with `xz` compression', '`base::save(., compress = \'xz\')`; https://en.wikipedia.org/wiki/XZ_Utils', 
+  '`save`, `xz`', 'Save with `xz` compression', '`base::save(., compress = \'xz\')`; `base::saveRDS(., compress = \'xz\')`; https://en.wikipedia.org/wiki/XZ_Utils', 
   '`S3`, `generic`, `methods`', '`S3` object oriented system',  '`base::UseMethod`; `utils::methods`; `utils::getS3method`; https://adv-r.hadley.nz/s3.html',
   '`search`', 'Search path', '`base::search`',
   '`Surv`', 'Survival object', '`survival::Surv`',
@@ -120,7 +120,14 @@ The `S3` method dispatch `as.groupedHyperframe.data.frame()` converts a `data.fr
 Converting a `data.frame` with cell intensities, etc., into a `groupedHyperframe` reduces memory allocation, but does not reduce much the `save`d files size if `xz` compression is used.
 
 ```{r}
-unclass(object.size(Ki67g)) / unclass(object.size(Ki67))
+unclass(object.size(Ki67g)) / unclass(object.size(Ki67.))
+```
+```{r}
+f_g = tempfile(fileext = '.rds')
+Ki67g |> saveRDS(file = f_g, compress = 'xz')
+f = tempfile(fileext = '.rds')
+Ki67. |> saveRDS(file = f, compress = 'xz')
+file.size(f_g) / file.size(f) # not much reduction
 ```
 
 ## Create a `groupedHyperframe` with `ppp`-`hypercolumn`
