@@ -10,7 +10,7 @@ pmean(..., na.rm = TRUE)
 pmedian(..., na.rm = TRUE)
 }
 \arguments{
-\item{...}{\link[baes]{numeric} \link[base]{vectors}}
+\item{...}{\link[baes]{numeric} \link[base]{vector}s}
 
 \item{na.rm}{\link[base]{logical} scalar, default \code{TRUE}}
 }
