@@ -38,6 +38,7 @@
 #' stopifnot(identical(a1, a2), identical(a1, a3))
 #' 
 #' .nncross(amacrine, i = 'a', j = 'b') # exception handling
+#' @keywords internal
 #' @importFrom spatstat.geom nncross.ppp is.marked.ppp is.multitype.ppp marks.ppp split.ppp
 #' @export
 .nncross <- function(X, i, j, ...) {

@@ -8,8 +8,11 @@
 \description{
 An S3 class 'groupedHyperframe' that inherits from hyper data frame. Batch processes on point-pattern hyper column. Aggregation of function-value-table hyper column(s) and numeric hyper column(s) over a nested grouping structure.
 }
-\references{
-To be added.
+\note{
+Help files of individual functions are intentionally suppressed in the \code{pdf} manual.
+Users are encouraged to get started with
+
+\code{vignette('intro', package = 'groupedHyperframe')}
 }
 \author{
 \strong{Maintainer}: Tingting Zhan \email{tingtingzhan@gmail.com} (\href{https://orcid.org/0000-0001-9971-4844}{ORCID})

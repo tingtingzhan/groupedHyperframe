@@ -70,3 +70,4 @@ flu |>
  subset(stain == 'M2-M1') |>
  nncross_(i = 'M1', j = 'M2', mc.cores = 1L)
 }
+\keyword{internal}

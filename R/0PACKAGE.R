@@ -1,10 +1,10 @@
 
 
+#' @note
+#' Help files of individual functions are intentionally suppressed in the `pdf` manual.
+#' Users are encouraged to get started with 
 #' 
-#' 
-#' 
-#' @references 
-#' To be added.
+#' `vignette('intro', package = 'groupedHyperframe')`
 #' 
 '_PACKAGE'
 

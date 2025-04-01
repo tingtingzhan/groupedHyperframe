@@ -45,3 +45,4 @@ stopifnot(identical(a1, a2), identical(a1, a3))
 
 .nncross(amacrine, i = 'a', j = 'b') # exception handling
 }
+\keyword{internal}

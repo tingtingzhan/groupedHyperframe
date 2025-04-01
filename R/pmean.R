@@ -12,9 +12,12 @@
 #' They are written in a very naive way.
 #' The pipeline `cbind() |> rowMeans()` is extremely slow.
 #' 
+#' @returns
+#' Functions [pmean()] and [pmedian()] return a \link[base]{numeric} \link[base]{vector}.
+#' 
 #' @examples
 #' pmean(1:3, 11:13, 21:23)
-#' 
+#' @keywords internal
 #' @name pmean
 #' @export
 pmean <- function(..., na.rm = TRUE) {

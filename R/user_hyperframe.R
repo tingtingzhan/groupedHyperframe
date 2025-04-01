@@ -39,6 +39,7 @@
 #' flu |>
 #'  subset(stain == 'M2-M1') |>
 #'  nncross_(i = 'M1', j = 'M2', mc.cores = 1L)
+#' @keywords internal
 #' @name user_hyperframe
 #' @importFrom spatstat.explore Emark
 #' @export

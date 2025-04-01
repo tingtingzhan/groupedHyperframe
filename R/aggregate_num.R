@@ -38,6 +38,7 @@
 #' Function [aggregate_num()] returns a \link[base]{data.frame}, with
 #' aggregated information stored in \link[base]{matrix}-columns.
 #' 
+#' @keywords internal
 #' @name aggregate_num
 #' @importFrom spatstat.geom is.ppplist marks.ppp
 #' @export

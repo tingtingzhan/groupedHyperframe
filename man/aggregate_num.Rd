@@ -64,3 +64,4 @@ workhorse function \code{\link[=aggregate_num]{aggregate_num()}} with \code{FUN 
 Function \code{\link[=aggregate_kerndens]{aggregate_kerndens()}} is a wrapper of
 workhorse function \code{\link[=aggregate_num]{aggregate_num()}} with \code{FUN = kerndens}.
 }
+\keyword{internal}

@@ -14,6 +14,9 @@ pmedian(..., na.rm = TRUE)
 
 \item{na.rm}{\link[base]{logical} scalar, default \code{TRUE}}
 }
+\value{
+Functions \code{\link[=pmean]{pmean()}} and \code{\link[=pmedian]{pmedian()}} return a \link[base]{numeric} \link[base]{vector}.
+}
 \description{
 Parallel \link[base]{mean} and \link[stats]{median}
 }
@@ -24,5 +27,5 @@ The pipeline \code{cbind() |> rowMeans()} is extremely slow.
 }
 \examples{
 pmean(1:3, 11:13, 21:23)
-
 }
+\keyword{internal}

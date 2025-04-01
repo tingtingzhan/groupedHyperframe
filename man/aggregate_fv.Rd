@@ -53,3 +53,4 @@ flu |>
  as.groupedHyperframe(group = ~ virustype/frameid) |>
  aggregate_fv(by = ~ virustype, mc.cores = 1L)
 }
+\keyword{internal}

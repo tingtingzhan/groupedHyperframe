@@ -45,6 +45,7 @@
 #'  Gcross_(i = 'M1', j = 'M2', r = r, correction = 'best', mc.cores = 1L) |>
 #'  as.groupedHyperframe(group = ~ virustype/frameid) |>
 #'  aggregate_fv(by = ~ virustype, mc.cores = 1L)
+#' @keywords internal
 #' @importFrom spatstat.geom names.hyperframe
 #' @importFrom stats setNames
 #' @export
