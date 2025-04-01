@@ -27,6 +27,7 @@
 #' Function [dist_ppplist()] returns a \link[stats]{listof} function [dist_ppp()] returns.
 #' 
 #' @examples
+#' \donttest{
 #' library(spatstat.data)
 #' library(spatstat.geom) # for ?spatstat.geom::split.ppp
 #' library(spatstat.explore) # for ?spatstat.explore::Emark, etc.
@@ -46,7 +47,9 @@
 #'   na.omit.ppp() |> 
 #'   split.ppp(f = 'fire.type')
 #' x2 |> dist_ppplist(fn = .nncross, i = 'rrds', j = 'ltning', mc.cores = 1L)
-#' x2 |> dist_ppplist(fn = .nncross, i = 'unknown', j = 'burn.no.perm', mc.cores = 1L)
+#' x2 |> dist_ppplist(fn = .nncross, i = 'unknown', 
+#'   j = 'burn.no.perm', mc.cores = 1L)
+#' }
 #' @keywords internal
 #' @name op_ppplist
 #' @export

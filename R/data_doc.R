@@ -10,7 +10,7 @@
 #' \pkg{maxEff} and \pkg{hyper.gam}.
 #' 
 #' The \link[base]{data.frame} `Ki67.` is a \link[base]{subset} of the complete data `Ki67`,
-#' which consists only the first 6 patients.  This small data is used as examples for function [as.hyperframe.data.frame()] 
+#' which consists only the first 6 patients.  This small data is used as examples for function \link[spatstat.geom]{as.hyperframe.data.frame}. 
 #' 
 #' @format
 #' 

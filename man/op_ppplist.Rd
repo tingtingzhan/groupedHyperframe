@@ -43,6 +43,7 @@ Function \code{\link[=fv_ppplist]{fv_ppplist()}} is a \pkg{parallel} batch proce
 Function \code{\link[=dist_ppplist]{dist_ppplist()}} is a \pkg{parallel} batch process of the workhorse function \code{\link[=dist_ppp]{dist_ppp()}}.
 }
 \examples{
+\donttest{
 library(spatstat.data)
 library(spatstat.geom) # for ?spatstat.geom::split.ppp
 library(spatstat.explore) # for ?spatstat.explore::Emark, etc.
@@ -62,6 +63,8 @@ x2 = nbfires |>
   na.omit.ppp() |> 
   split.ppp(f = 'fire.type')
 x2 |> dist_ppplist(fn = .nncross, i = 'rrds', j = 'ltning', mc.cores = 1L)
-x2 |> dist_ppplist(fn = .nncross, i = 'unknown', j = 'burn.no.perm', mc.cores = 1L)
+x2 |> dist_ppplist(fn = .nncross, i = 'unknown', 
+  j = 'burn.no.perm', mc.cores = 1L)
+}
 }
 \keyword{internal}
