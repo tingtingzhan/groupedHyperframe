@@ -98,6 +98,8 @@ grouped_ppp <- function(
 
 # tzh is not ready to suggest changing ?spatstat.geom::split.ppp to Dr. Baddeley, yet..
 # [split_ppp_dataframe()] is a bandage-fix which respects ncol-1 dataframe
+# haha tzh now knows the real problem is ?spatstat.geom::`[.ppp`
+# and has written to Dr. Baddeley :)
 #' @importFrom spatstat.geom markformat.ppp
 split_ppp_dataframe <- function(x, f) {
   # `f` must be 'factor'

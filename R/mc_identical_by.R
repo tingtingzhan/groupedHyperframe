@@ -52,7 +52,7 @@ mc_identical_by <- function(
     data[nm] <- NULL
   } else nm <- NULL
   
-  ret <- data[vapply(ids, FUN = `[`, 1L, FUN.VALUE = NA_integer_),]
+  ret <- data[vapply(ids, FUN = `[`, 1L, FUN.VALUE = NA_integer_), , drop = FALSE]
   # do.call(rbind.data.frame, args = .) # ?base::rbind.data.frame does not respect 'Surv', etc.
   .rowNamesDF(ret) <- NULL
   attr(ret, which = 'non_identical') <- nm
