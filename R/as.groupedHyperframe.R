@@ -32,7 +32,7 @@ as.groupedHyperframe.hyperframe <- function(x, group, ...) {
   if (!all(all.vars(group) %in% names.hyperframe(x))) stop('`group` contains unknown variable')
   
   attr(x, which = 'group') <- group
-  class(x) <- unique.default(c('groupedHyperframe', class(x)))
+  class(x) <- c('groupedHyperframe', class(x)) |> unique.default()
   return(x)
   
 }
@@ -70,7 +70,7 @@ as.groupedHyperframe.data.frame <- function(x, group, ...) {
   }
   
   attr(hf, which = 'group') <- group # for ?nlme::getGroupsFormula
-  class(hf) <- unique.default(c('groupedHyperframe', class(hf)))
+  class(hf) <- c('groupedHyperframe', class(hf)) |> unique.default()
   return(hf)
 
 }

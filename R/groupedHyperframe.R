@@ -77,7 +77,7 @@ print.groupedHyperframe <- function(x, ...) {
   group <- attr(x, which = 'group', exact = TRUE)
   if (!all(all.vars(group) %in% names(ret))) return(ret) # just 'hyperframe'
   attr(ret, which = 'group') <- group
-  class(ret) <- unique.default(c('groupedHyperframe', class(ret)))
+  class(ret) <- c('groupedHyperframe', class(ret)) |> unique.default()
   return(ret)
 }
 
@@ -90,7 +90,7 @@ subset.groupedHyperframe <- function(x, ...) {
   group <- attr(x, which = 'group', exact = TRUE)
   if (!all(all.vars(group) %in% names(ret))) return(ret) # just 'hyperframe'
   attr(ret, which = 'group') <- group
-  class(ret) <- unique.default(c('groupedHyperframe', class(ret)))
+  class(ret) <- c('groupedHyperframe', class(ret)) |> unique.default()
   return(ret)
 }
 

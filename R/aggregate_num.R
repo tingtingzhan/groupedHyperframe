@@ -61,7 +61,9 @@ aggregate_num <- function(
   # 'numeric'-`hypercolumns`
   hc_num <- hc |>
     vapply(FUN = \(x) {
-      all(vapply(x, FUN = is.numeric, FUN.VALUE = NA))
+      x |>
+        vapply(FUN = is.numeric, FUN.VALUE = NA) |>
+        all()
     }, FUN.VALUE = NA)
   hyper_num_ <- if (any(hc_num)) hc[names(which(hc_num))] # else NULL
   

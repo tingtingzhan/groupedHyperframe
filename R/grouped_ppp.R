@@ -89,7 +89,7 @@ grouped_ppp <- function(
   # formula's environment is very annoying!!
   # end of additional attributes
   
-  class(hf) <- unique.default(c('groupedHyperframe', class(hf)))
+  class(hf) <- c('groupedHyperframe', class(hf)) |> unique.default()
   return(hf)
   
 }
