@@ -64,7 +64,7 @@ c(
   '`hypercolumns`, `hyperframe`', '(Hyper columns of) hyper data frame', '`spatstat.geom::hyperframe`',
   '`inherits`', 'Class inheritance', '`base::inherits`',
   '`kerndens`', 'Kernel density', '`stats::density.default()$y`',
-  # '`matrix`', 'Matrix', '`base::matrix`', # hahaha!!!
+  '`marks`', 'Marks of a point pattern', '`spatstat.geom::marks`',
   '`mc.cores`', 'Number of CPU cores to use', '`parallel::mclapply`; `parallel::detectCores`',
   '`multitype`', 'Multitype object', '`spatstat.geom::is.multitype`',
   '`object.size`', 'Memory allocation', '`utils::object.size`',

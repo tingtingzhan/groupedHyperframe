@@ -13,18 +13,14 @@
 #' 
 #' @keywords internal
 #' @name kmeans
+#' @importFrom stats kmeans
 #' @export
 .kmeans <- function(x, formula, ...) UseMethod(generic = '.kmeans')
 
 
 #' @rdname kmeans
-#' @examples
-#' library(spatstat.data)
-#' library(spatstat.geom)
-#' shapley |> plot()
-#' km = shapley |> .kmeans(formula = ~ x + y + Mag, centers = 3L)
-#' km |> class()
 #' @importFrom spatstat.geom marks.ppp markformat.ppp
+#' @export .kmeans.ppp
 #' @export
 .kmeans.ppp <- function(x, formula, ...) {
   

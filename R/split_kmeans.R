@@ -47,18 +47,6 @@ split_kmeans.default <- function(x, ...) {
 }
 
 #' @rdname split_kmeans
-#' @examples
-#' library(spatstat.data)
-#' library(spatstat.geom)
-#' flu$pattern[] = flu$pattern |> 
-#'  lapply(FUN = `mark_name<-`, value = 'stain') # read ?flu carefully
-#'  
-#' # split_kmeans.listof()  
-#' flu$pattern[1:2] |> split_kmeans(formula = ~ x + y, centers = 3L) 
-#' 
-#' # split_kmeans.hyperframe() (accepts 'groupedHyperframe'!!)
-#' flu[1:2,] |> split_kmeans(formula = ~ x + y, centers = 3L)
-#' 
 #' @export split_kmeans.listof
 #' @export
 split_kmeans.listof <- function(x, ...) {

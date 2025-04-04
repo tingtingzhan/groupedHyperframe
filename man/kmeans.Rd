@@ -23,11 +23,4 @@ Function \code{\link[=.kmeans]{.kmeans()}} returns a \link[stats]{kmeans} object
 \description{
 Extension of \link[stats]{kmeans}
 }
-\examples{
-library(spatstat.data)
-library(spatstat.geom)
-shapley |> plot()
-km = shapley |> .kmeans(formula = ~ x + y + Mag, centers = 3L)
-km |> class()
-}
 \keyword{internal}
