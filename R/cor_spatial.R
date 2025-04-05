@@ -36,7 +36,7 @@ pairwise_cor_spatial.ppp <- function(x, ...) {
   
   v <- m |> vapply(FUN = is.numeric, FUN.VALUE = NA) |> which() |> names()
   nv <- v |> length()
-  if (nv <= 1L) stop('must specify 2+ numeric marks')
+  if (nv <= 1L) stop('`x` must have 2+ numeric marks')
   
   #co <- x |> spatstat.geom::coords.ppp() |> as.matrix.data.frame() # nah..
   co <- cbind(x$x, x$y)
