@@ -24,6 +24,6 @@ Authors@R: c(person(given = 'Tingting', family = 'Zhan', role =
        'Inna.Chervoneva@jefferson.edu', comment = c(ORCID =
        '0000-0002-9104-4505')))
 Imports: cli, parallel, stats, nlme, matrixStats, pracma,
-       spatstat.explore, spatstat.geom
+       spatstat.explore, spatstat.geom, SpatialPack
 Suggests: knitr, rmarkdown, survival, spatstat.data
 VignetteBuilder: knitr

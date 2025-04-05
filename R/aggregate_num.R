@@ -199,7 +199,7 @@ aggregate_by_ <- function(
   }
   
   if (id > 1L) {
-    warning('tzh\'s next game: make this output an nlme::groupedData')
+    #warning('tzh\'s next game: make this output an nlme::groupedData')
     #group_ret <- str2lang(paste(g[seq_len(id)], collapse = '/'))
     #fom <- eval(call('~', quote(.), call('|', quote(.), group_ret)))
     #nlme::groupedData(formula = fom, data = x) # um, I need to know more about ?nlme::groupedData

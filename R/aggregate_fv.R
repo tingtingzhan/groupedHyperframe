@@ -46,6 +46,7 @@
 #'  Gcross_(i = 'M1', j = 'M2', r = r, correction = 'best', mc.cores = 1L) |>
 #'  aggregate_fv(by = ~ virustype, mc.cores = 1L)
 #' @keywords internal
+#' @importFrom cli col_blue col_cyan col_magenta style_bold
 #' @importFrom spatstat.geom names.hyperframe
 #' @importFrom stats setNames
 #' @export
@@ -69,9 +70,17 @@ aggregate_fv <- function(
       check_fvlist(x)
       cumtrapz. <- x |> mclapply(mc.cores = mc.cores, FUN = cumtrapz.fv)
       if (anyNA(cumtrapz., recursive = TRUE)) {
-        stop('quick fix for `listof` instead of `matrix`')
-        #id <- (!is.na(cumtrapz.)) |> rowSums() |> min()
-        #message(col_cyan(nm), ': please limit ', col_magenta('r'), ' from ', x[[1L]]$r[1L], ' to ', x[[1L]]$r[id])
+        #cumtrapz. <<- cumtrapz.
+        id <- cumtrapz. |>
+          vapply(FUN = \(i) {
+            (!is.na(i)) |> sum()
+          }, FUN.VALUE = NA_integer_) |>
+          min()
+        message(nm |> col_cyan(), 
+                ': please limit ', 
+                'r' |> col_magenta(), 
+                ' from ', x[[1L]]$r[1L], ' to ', 
+                x[[1L]]$r[id] |> col_blue() |> style_bold())
       }
       return(list(
         value = x |> lapply(FUN = key1val.fv),

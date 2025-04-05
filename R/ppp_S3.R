@@ -18,25 +18,61 @@
 #' 
 #' @examples
 #' data(longleaf, package = 'spatstat.data')
-#' plot(longleaf)
-#' plot(log.ppp(longleaf))
+#' longleaf |> plot()
+#' longleaf |> log() |> plot()
 #' @keywords internal
-#' @importFrom spatstat.geom markformat.ppp
+#' @name log_ppp
+#' @importFrom spatstat.geom markformat marks marks<-
 #' @export log.ppp
 #' @export
 log.ppp <- function(x, base = exp(1)) {
   
-  switch(markformat.ppp(x), dataframe = {
-    id <- vapply(x$marks, FUN = is.numeric, FUN.VALUE = NA)
-    x$marks[id] <- lapply(x$marks[id], FUN = log, base = base)
-  }, vector = {
-    if (is.numeric(x$marks)) x$marks <- log(x$marks, base = base)
-    # else do nothing
-  }, none = {
-    # do nothing
-  })
+  m <- x |>
+    marks(dfok = TRUE, drop = FALSE)
+  
+  x |>
+    markformat() |>
+    switch('dataframe' = {
+      id <- m |>
+        vapply(FUN = is.numeric, FUN.VALUE = NA)
+      marks(x, dfok = TRUE, drop = FALSE)[id] <- m[id] |> lapply(FUN = log, base = base)
+    }, 'vector' = {
+      if (is.numeric(m)) marks(x) <- log(m, base = base)
+      # else do nothing
+    }, 'none' = {
+      # do nothing
+    })
   
   return(x)
+  
+}
+
+
+# base::log1p is S3 generic!!
+#' @rdname log_ppp
+#' @importFrom spatstat.geom markformat marks marks<-
+#' @export log1p.ppp
+#' @export
+log1p.ppp <- function(x) {
+  
+  m <- x |>
+    marks(dfok = TRUE, drop = FALSE)
+  
+  x |>
+    markformat() |>
+    switch('dataframe' = {
+      id <- m |>
+        vapply(FUN = is.numeric, FUN.VALUE = NA)
+      marks(x, dfok = TRUE, drop = FALSE)[id] <- m[id] |> lapply(FUN = log1p)
+    }, 'vector' = {
+      if (is.numeric(m)) marks(x) <- m |> log1p()
+      # else do nothing
+    }, 'none' = {
+      # do nothing
+    })
+  
+  return(x)
+  
 }
 
 

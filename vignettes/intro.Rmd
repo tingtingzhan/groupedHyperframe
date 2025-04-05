@@ -184,13 +184,13 @@ Multiple batch processes may be applied to a `hyperframe` (or `groupedHyperframe
 ```{r}
 r = seq.int(from = 0, to = 250, by = 10)
 out = s |>
-  Emark_(r = r, correction = 'best', mc.cores = 1L) |> # slow
-  # Vmark_(r = r, correction = 'best', mc.cores = 1L) |> # slow
-  # markcorr_(r = r, correction = 'best', mc.cores = 1L) |> # slow
-  # markvario_(r = r, correction = 'best', mc.cores = 1L) |> # slow
-  Gcross_(i = 'CK+.CD8-', j = 'CK-.CD8+', r = r, correction = 'best', mc.cores = 1L) |> # fast
-  # Kcross_(i = 'CK+.CD8-', j = 'CK-.CD8+', r = r, correction = 'best', mc.cores = 1L) |> # fast
-  nncross_(i = 'CK+.CD8-', j = 'CK-.CD8+', correction = 'best', mc.cores = 1L) # fast
+  Emark_(r = r, correction = 'none', mc.cores = 1L) |> # slow
+  # Vmark_(r = r, correction = 'none', mc.cores = 1L) |> # slow
+  # markcorr_(r = r, correction = 'none', mc.cores = 1L) |> # slow
+  # markvario_(r = r, correction = 'none', mc.cores = 1L) |> # slow
+  Gcross_(i = 'CK+.CD8-', j = 'CK-.CD8+', r = r, correction = 'none', mc.cores = 1L) |> # fast
+  # Kcross_(i = 'CK+.CD8-', j = 'CK-.CD8+', r = r, correction = 'none', mc.cores = 1L) |> # fast
+  nncross_(i = 'CK+.CD8-', j = 'CK-.CD8+', correction = 'none', mc.cores = 1L) # fast
 ```
 
 The returned `hyperframe` (or `groupedHyperframe`) has
