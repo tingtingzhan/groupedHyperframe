@@ -7,14 +7,12 @@
 \usage{
 pairwise_cor_spatial(x, ...)
 
-\method{pairwise_cor_spatial}{ppp}(x, formula, ...)
+\method{pairwise_cor_spatial}{ppp}(x, ...)
 }
 \arguments{
 \item{x}{see \strong{Usage}}
 
 \item{...}{additional parameters, currently not in use}
-
-\item{formula}{\link[stats]{formula}}
 }
 \value{
 Function \code{\link[=pairwise_cor_spatial]{pairwise_cor_spatial()}} returns a \link[stats]{dist} object.
@@ -27,7 +25,7 @@ Workhorse function \link[SpatialPack]{cor.spatial}.
 }
 \examples{
 data(finpines, package = 'spatstat.data')
-(r = finpines |> pairwise_cor_spatial.ppp(formula = ~ diameter + height))
+(r = finpines |> pairwise_cor_spatial.ppp())
 r |> as.matrix()
 }
 \keyword{internal}

@@ -4,8 +4,6 @@
 #' 
 #' @param x see **Usage**
 #' 
-#' @param formula \link[stats]{formula}
-#' 
 #' @param ... additional parameters, currently not in use
 #' 
 #' @details
@@ -19,26 +17,26 @@
 #' @export
 pairwise_cor_spatial <- function(x, ...) UseMethod(generic = 'cor_spatial')
 
+
+
 #' @rdname pairwise_cor_spatial
 #' @examples
 #' data(finpines, package = 'spatstat.data')
-#' (r = finpines |> pairwise_cor_spatial.ppp(formula = ~ diameter + height))
+#' (r = finpines |> pairwise_cor_spatial.ppp())
 #' r |> as.matrix()
 #' @importFrom SpatialPack cor.spatial
 #' @importFrom spatstat.geom marks
 #' @export pairwise_cor_spatial.ppp
 #' @export
-pairwise_cor_spatial.ppp <- function(x, formula, ...) {
+pairwise_cor_spatial.ppp <- function(x, ...) {
   
-  if (!is.call(formula) || formula[[1L]] != '~' || length(formula) != 2L) stop('`formula` must be one-sided formula')
-  
-  v <- formula[[2L]] |> all.vars()
-  nv <- v |> length()
-  if (nv <= 1L) stop('must specify 2+ numeric marks')
+  # use of `formula` is defunct; `formula` will just be ignored
   
   m <- x |> marks()
-  if (!all(v %in% names(m))) stop('unknown marker specified in `formula`')  
-  m[v] |> vapply(FUN = is.numeric, FUN.VALUE = NA) |> all() |> stopifnot() # not compute intensive anyway
+  
+  v <- m |> vapply(FUN = is.numeric, FUN.VALUE = NA) |> which() |> names()
+  nv <- v |> length()
+  if (nv <= 1L) stop('must specify 2+ numeric marks')
   
   #co <- x |> spatstat.geom::coords.ppp() |> as.matrix.data.frame() # nah..
   co <- cbind(x$x, x$y)
