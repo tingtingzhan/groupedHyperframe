@@ -7,7 +7,7 @@
 #' Assign a name to \link[spatstat.geom]{marks}, when \link[spatstat.geom]{markformat} is `'vector'`.
 #' 
 #' 
-#' @param x a \link[spatstat.geom]{ppp.object}
+#' @param x only \link[spatstat.geom]{ppp.object} is tested, for now
 #' 
 #' @returns 
 #' Function [mark_names()] returns the names of the \link[spatstat.geom]{marks}

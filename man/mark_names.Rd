@@ -10,7 +10,7 @@ mark_names(x)
 mark_name(x) <- value
 }
 \arguments{
-\item{x}{a \link[spatstat.geom]{ppp.object}}
+\item{x}{only \link[spatstat.geom]{ppp.object} is tested, for now}
 }
 \value{
 Function \code{\link[=mark_names]{mark_names()}} returns the names of the \link[spatstat.geom]{marks}
