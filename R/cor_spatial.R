@@ -42,7 +42,7 @@ pairwise_cor_spatial.ppp <- function(x, formula, ...) {
   #co <- x |> spatstat.geom::coords.ppp() |> as.matrix.data.frame() # nah..
   co <- cbind(x$x, x$y)
 
-    ret <- numeric()
+  ret <- double()
   for (i in seq_len(nv-1L)) {
     for (j in (i+1):nv) {
       ret <- c(ret, cor.spatial(x = m[[v[i]]], y = m[[v[j]]], coords = co))
