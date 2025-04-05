@@ -25,6 +25,7 @@ pairwise_cor_spatial <- function(x, ...) UseMethod(generic = 'cor_spatial')
 #' (r = finpines |> pairwise_cor_spatial.ppp(formula = ~ diameter + height))
 #' r |> as.matrix()
 #' @importFrom SpatialPack cor.spatial
+#' @importFrom spatstat.geom marks
 #' @export pairwise_cor_spatial.ppp
 #' @export
 pairwise_cor_spatial.ppp <- function(x, formula, ...) {
