@@ -32,13 +32,13 @@ mark_names <- function(x) { # only for `ppp`, as for now
 #' 
 #' @details
 #' Syntactic sugar [mark_name<-()] converts a \link[spatstat.geom]{ppp.object}
-#' of \link[spatstat.geom]{markformat} `'vector'` into \link[spatstat.geom]{markformat} `'dataframe'`,
+#' of `'vector'` \link[spatstat.geom]{markformat} into `'dataframe'` \link[spatstat.geom]{markformat},
 #' and name this \link[base]{ncol}-`1L` \link[base]{data.frame} \link[spatstat.geom]{marks} 
-#' by the user-specified `value`.
+#' by `value`.
 #' 
 #' @returns 
 #' Syntactic sugar [mark_name<-()] returns a \link[spatstat.geom]{ppp.object}
-#' of \link[spatstat.geom]{markformat} `'dataframe'`.
+#' of `'dataframe'` \link[spatstat.geom]{markformat}.
 #' 
 #' @examples
 #' # ?waka
@@ -48,17 +48,33 @@ mark_names <- function(x) { # only for `ppp`, as for now
 #' mark_names(waka2)
 #' unstack(waka) # no name
 #' unstack(waka2) # has name
+#' @importFrom spatstat.geom marks marks<-
 #' @export
 `mark_name<-` <- function(x, value) {
-  if (markformat(x) == 'dataframe') stop('never try to rename `dataframe` `marks`!')
+
   if (!is.character(value) || length(value) != 1L || is.na(value) || !nzchar(value)) stop('illegal `value`')
   if (!identical(make.names(value), value)) stop('`value` is not syntactically valid')
-  # not sure if I want to use spatstat.geom::marks.ppp
-  x[['marks']] <- data.frame(x[['marks']])
-  names(x[['marks']]) <- value
-  x[['markformat']] <- 'dataframe'
-  # we do **not** have syntactic sugar spatstat.geom:::`markformat<-`
+
+  x |> 
+    markformat() |>
+    switch('dataframe' = {
+      m <- marks(x, dfok = TRUE, drop = FALSE)
+      if (!length(m)) stop('shouldnt happen')
+      if (length(m) > 1L) stop('original `marks` has >1 columns')
+    }, 'vector' = {
+      m <- marks(x) |> data.frame()
+    }, 'none' = {
+      stop('no marks')
+    })
+  
+  names(m) <- value
+  
+  marks(x, dfok = TRUE, drop = FALSE) <- m 
+  # already updates `x[['markformat']]`
+  # do not **need** syntactic sugar spatstat.geom:::`markformat<-` !!!
+  
   return(x)
+  
 } 
 
 

@@ -18,7 +18,7 @@ of a \link[spatstat.geom]{ppp.object}, when its \link[spatstat.geom]{markformat}
 Otherwise, an error is returned.
 
 Syntactic sugar \code{\link[=mark_name<-]{mark_name<-()}} returns a \link[spatstat.geom]{ppp.object}
-of \link[spatstat.geom]{markformat} \code{'dataframe'}.
+of \code{'dataframe'} \link[spatstat.geom]{markformat}.
 }
 \description{
 Get the names of \link[spatstat.geom]{marks}.
@@ -26,9 +26,9 @@ Assign a name to \link[spatstat.geom]{marks}, when \link[spatstat.geom]{markform
 }
 \details{
 Syntactic sugar \code{\link[=mark_name<-]{mark_name<-()}} converts a \link[spatstat.geom]{ppp.object}
-of \link[spatstat.geom]{markformat} \code{'vector'} into \link[spatstat.geom]{markformat} \code{'dataframe'},
+of \code{'vector'} \link[spatstat.geom]{markformat} into \code{'dataframe'} \link[spatstat.geom]{markformat},
 and name this \link[base]{ncol}-\code{1L} \link[base]{data.frame} \link[spatstat.geom]{marks}
-by the user-specified \code{value}.
+by \code{value}.
 }
 \examples{
 library(spatstat.data)
