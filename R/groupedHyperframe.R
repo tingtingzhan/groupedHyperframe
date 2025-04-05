@@ -12,7 +12,7 @@
 #' @seealso `?nlme:::print.groupedData`
 #' 
 #' @keywords internal
-#' @importFrom cli col_blue
+#' @importFrom cli col_blue col_magenta style_bold
 #' @importFrom spatstat.geom as.data.frame.hyperframe as.list.hyperframe
 #' @importFrom utils head
 #' @export print.groupedHyperframe
@@ -38,12 +38,12 @@ print.groupedHyperframe <- function(x, ...) {
   
   cat('\n')
   mapply(FUN = \(n, g) {
-    paste(n, col_blue(g))
+    paste(n, g |> col_blue() |> style_bold())
   }, n = ns, g = g, SIMPLIFY = TRUE) |> 
     rev.default() |> 
     cat(sep = ' nested in\n')
-  cat('\n')
   
+  '\nPreview of first 10 rows:\n\n' |> col_magenta() |> style_bold() |> cat()
   # see inside ?spatstat.geom::print.hyperframe
   x |>
     as.data.frame.hyperframe(discard = FALSE) |> 

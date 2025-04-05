@@ -93,7 +93,7 @@ split_kmeans.hyperframe <- function(x, ...) {
       .id = id,
       .cluster = tmp |> attr(which = 'cluster', exact = TRUE)
     ) |>
-      cbind.hyperframe(x.[id,])
+      cbind.hyperframe(x.[id, , drop = FALSE])
     
     names(ret)[1L] <- names(hc_ppp)
     
@@ -101,7 +101,10 @@ split_kmeans.hyperframe <- function(x, ...) {
       # haven't tested, but should be correct; very simple anyway!
       grp <- x |> 
         attr(which = 'group', exact = TRUE)
+      
       # `.id` should be equivalent to the existing lowest cluster!!!
+      ret$.id <- NULL
+      
       grp[[2L]] <- call('/', grp[[2L]], quote(.cluster))
       attr(ret, which = 'group') <- grp
     } else attr(ret, which = 'group') <- '~ .id/.cluster' |> str2lang()
