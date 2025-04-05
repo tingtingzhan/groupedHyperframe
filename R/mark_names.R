@@ -18,13 +18,15 @@
 #' library(spatstat.data)
 #' mark_names(betacells)
 #' @keywords internal
-#' @importFrom spatstat.geom markformat
+#' @importFrom spatstat.geom markformat marks
 #' @name mark_names
 #' @export
 mark_names <- function(x) { # only for `ppp`, as for now
   # trying to use S3 generic as much as possible
   if (markformat(x) != 'dataframe') stop('only applicable to `markformat == dataframe`')
-  names(x[['marks']])
+  x |> 
+    marks(dfok = TRUE, drop = FALSE) |> 
+    names()
 }
 
 
@@ -64,7 +66,7 @@ mark_names <- function(x) { # only for `ppp`, as for now
     }, 'vector' = {
       m <- marks(x) |> data.frame()
     }, 'none' = {
-      stop('no marks')
+      stop('input `x` has no `marks`')
     })
   
   names(m) <- value
