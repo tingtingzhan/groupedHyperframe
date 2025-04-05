@@ -38,7 +38,7 @@ The \link{groupedHyperframe} \code{Ki67} is the complete data, to be used in exa
 \pkg{maxEff} and \pkg{hyper.gam}.
 
 The \link[base]{data.frame} \code{Ki67.} is a \link[base]{subset} of the complete data \code{Ki67},
-which consists only the first 6 patients.  This small data is used as examples for function \link{as.groupedHyperframe.data.frame}.
+which consists only the first 6 patients.  This small data is used as examples for function \code{\link[=as.groupedHyperframe.data.frame]{as.groupedHyperframe.data.frame()}}.
 }
 \keyword{datasets}
 \keyword{internal}

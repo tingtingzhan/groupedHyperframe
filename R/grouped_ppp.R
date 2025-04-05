@@ -24,11 +24,6 @@
 #' 
 #' @param ... additional parameters, currently not in use
 #' 
-#' @details
-#' ...
-#' 
-#' 
-#' 
 #' @returns
 #' Function [grouped_ppp()] returns a [groupedHyperframe]
 #' with ***one-and-only-one*** 
@@ -63,18 +58,19 @@ grouped_ppp <- function(
   
   # Step 2: grouped ppp
   
-  if (isFALSE(coords)) {
-    # .Deprecated(new = 'as.groupedHyperframe.data.frame')
-    .x <- runif(n = nrow(data))
-    .y <- runif(n = nrow(data))
-  } else {
+  #if (isFALSE(coords)) {
+  #  # .Deprecated(new = 'as.groupedHyperframe.data.frame')
+  #  # tzh's downstream package not using this functionality
+  #  .x <- runif(n = nrow(data))
+  #  .y <- runif(n = nrow(data))
+  #} else {
     xy_ <- as.list.default(coords[[2L]])
     if ((xy_[[1L]] != '+') || (length(xy_) != 3L)) stop('Specify x and y coordinates names as ~x+y')
     if (!is.symbol(x <- xy_[[2L]])) stop('x-coordinates must be a symbol, for now')
     if (!is.symbol(y <- xy_[[3L]])) stop('y-coordinates must be a symbol, for now')
     if (!length(.x <- data[[x]]) || anyNA(.x)) stop('Do not allow missingness in x-coordinates')
     if (!length(.y <- data[[y]]) || anyNA(.y)) stop('Do not allow missingness in y-coordinates')
-  }
+  #}
   
   force(window)
   
@@ -111,7 +107,7 @@ split_ppp_dataframe <- function(x, f) {
   x = split.default(x$x, f = f),
   y = split.default(x$y, f = f),
   marks = split.data.frame(x$marks, f = f),
-  n = lengths(split.default(seq_along(f), f = f), use.names = FALSE),
+  n = split.default(seq_along(f), f = f) |> lengths(use.names = FALSE),
   MoreArgs = list(
     window = x$window,
     markformat = markformat.ppp(x)

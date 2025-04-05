@@ -9,34 +9,31 @@ op_hyperframe(X, op, ...)
 \arguments{
 \item{X}{a \link[spatstat.geom]{hyperframe}, containing \emph{\strong{one-and-only-one}} \link[spatstat.geom]{ppp}-\link[spatstat.geom:hyperframe]{hypercolumn}}
 
-\item{op}{\link[base]{function}, currently functions \code{\link[=fv_ppplist]{fv_ppplist()}} or \code{\link[=dist_ppplist]{dist_ppplist()}} are accepted}
+\item{op}{\link[base]{function}, currently functions \code{\link[=fv_ppp]{fv_ppp()}} or \code{\link[=dist_ppp]{dist_ppp()}} are accepted}
 
 \item{...}{additional parameters of workhorse functions
-\code{\link[=fv_ppplist]{fv_ppplist()}} or \code{\link[=dist_ppplist]{dist_ppplist()}}}
+\code{\link[=fv_ppp]{fv_ppp()}} or \code{\link[=dist_ppp]{dist_ppp()}}}
 }
 \value{
 Function \code{\link[=op_hyperframe]{op_hyperframe()}} returns a \link[spatstat.geom]{hyperframe} with additional
 \itemize{
 
-\item \link[spatstat.explore]{fv.object} \link[spatstat.geom:hyperframe]{hypercolumns} if \code{op = fv_ppplist}.
+\item \link[spatstat.explore]{fv.object} \link[spatstat.geom:hyperframe]{hypercolumns} if \code{op = fv_ppp}.
 \emph{\strong{One hypercolumn per \link[base]{numeric} mark}} in the \link[spatstat.geom]{ppp}-\link[spatstat.geom:hyperframe]{hypercolumn}.
 
-\item \link[base]{numeric} \link[spatstat.geom:hyperframe]{hypercolumns} if \code{op = dist_ppplist}.
+\item \link[base]{numeric} \link[spatstat.geom:hyperframe]{hypercolumns} if \code{op = dist_ppp}.
 \emph{\strong{One hypercolumn per \link[spatstat.geom]{is.multitype} mark}}
 in the \link[spatstat.geom]{ppp}-\link[spatstat.geom:hyperframe]{hypercolumn}.
 
 }
 }
 \description{
-Create
+Create hypercolumn(s) of
 \link[spatstat.explore]{fv.object}s
 or
 distances
 from
-one-and-only-one \link[spatstat.geom]{ppp}-\link[spatstat.geom:hyperframe]{hypercolumn}
+the one-and-only-one \link[spatstat.geom]{ppp}-\link[spatstat.geom:hyperframe]{hypercolumn}
 inside a \link[spatstat.geom]{hyperframe}.
-}
-\details{
-See details in workhorse functions \code{\link[=fv_ppplist]{fv_ppplist()}} or \code{\link[=dist_ppplist]{dist_ppplist()}}.
 }
 \keyword{internal}

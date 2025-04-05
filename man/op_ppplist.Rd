@@ -2,14 +2,8 @@
 % Please edit documentation in R/op_ppplist.R
 \name{op_ppplist}
 \alias{op_ppplist}
-\alias{fv_ppplist}
-\alias{dist_ppplist}
 \title{Batch Operations of \code{'ppplist'} Object}
 \usage{
-fv_ppplist(x, ...)
-
-dist_ppplist(x, ...)
-
 op_ppplist(
   x,
   op,
@@ -20,30 +14,30 @@ op_ppplist(
 \arguments{
 \item{x}{a \code{'ppplist'} object}
 
-\item{...}{additional parameters of workhorse functions
-\code{\link[=fv_ppp]{fv_ppp()}} or \code{\link[=dist_ppp]{dist_ppp()}}}
-
 \item{op}{workhorse \link[base]{function}, either \code{\link[=fv_ppp]{fv_ppp()}} or \code{\link[=dist_ppp]{dist_ppp()}}}
 
 \item{mc.cores}{\link[base]{integer} scalar, see function \link[parallel]{mclapply}.
 Default is 1L on Windows, or \link[parallel]{detectCores} on Mac.
 CRAN requires \code{mc.cores <= 2L} in examples.}
+
+\item{...}{additional parameters of workhorse functions
+\code{\link[=fv_ppp]{fv_ppp()}} or \code{\link[=dist_ppp]{dist_ppp()}}}
 }
 \value{
-Function \code{\link[=fv_ppplist]{fv_ppplist()}} returns a \link[stats]{listof} function \code{\link[=fv_ppp]{fv_ppp()}} returns.
-
-Function \code{\link[=dist_ppplist]{dist_ppplist()}} returns a \link[stats]{listof} function \code{\link[=dist_ppp]{dist_ppp()}} returns.
+Function \code{\link[=op_ppplist]{op_ppplist()}} returns a \link[stats]{listof}
+\itemize{
+\item function \code{\link[=fv_ppp]{fv_ppp()}} returns, if \code{op = fv_ppp}.
+\item function \code{\link[=dist_ppp]{dist_ppp()}} returns, if \code{op = dist_ppp}.
+}
 }
 \description{
 Batch operations of function \code{\link[=fv_ppp]{fv_ppp()}} or \code{\link[=dist_ppp]{dist_ppp()}}, for a \code{'ppplist'} input.
 }
 \details{
-Function \code{\link[=fv_ppplist]{fv_ppplist()}} is a \pkg{parallel} batch process of the workhorse function \code{\link[=fv_ppp]{fv_ppp()}}.
-
-Function \code{\link[=dist_ppplist]{dist_ppplist()}} is a \pkg{parallel} batch process of the workhorse function \code{\link[=dist_ppp]{dist_ppp()}}.
+Function \code{\link[=op_ppplist]{op_ppplist()}} is a \pkg{parallel} batch process of
+the workhorse function \code{\link[=fv_ppp]{fv_ppp()}} or \code{\link[=dist_ppp]{dist_ppp()}}.
 }
 \examples{
-\donttest{
 library(spatstat.data)
 library(spatstat.geom) # for ?spatstat.geom::split.ppp
 library(spatstat.explore) # for ?spatstat.explore::Emark, etc.
@@ -51,20 +45,20 @@ library(spatstat.explore) # for ?spatstat.explore::Emark, etc.
 Vc = with(shapley$marks, expr = {
  cut.default(V, breaks = quantile(V, probs = c(0, 1/3, 2/3, 1)), labels = c('L', 'M', 'H'))
 })
+\donttest{
 x1 = shapley |> 
  subset.ppp(select = c('Mag', 'SigV')) |>
  split.ppp(f = Vc) |>
- fv_ppplist(fn = markcorr, mc.cores = 1L)
+ op_ppplist(op = fv_ppp, fn = markcorr, mc.cores = 1L)
 names(x1)
 names(x1$L)
+}
 
 x2 = nbfires |> 
   subset.ppp(select = c('fire.type', 'cause', 'ign.src')) |>
   na.omit.ppp() |> 
   split.ppp(f = 'fire.type')
-x2 |> dist_ppplist(fn = .nncross, i = 'rrds', j = 'ltning', mc.cores = 1L)
-x2 |> dist_ppplist(fn = .nncross, i = 'unknown', 
-  j = 'burn.no.perm', mc.cores = 1L)
-}
+x2 |> op_ppplist(op = dist_ppp, fn = .nncross, i = 'rrds', j = 'ltning', mc.cores = 1L)
+x2 |> op_ppplist(op = dist_ppp, fn = .nncross, i = 'unknown', j = 'burn.no.perm', mc.cores = 1L)
 }
 \keyword{internal}

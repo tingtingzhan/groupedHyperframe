@@ -39,7 +39,4 @@ with \emph{\strong{one-and-only-one}}
 \description{
 ..
 }
-\details{
-...
-}
 \keyword{internal}
