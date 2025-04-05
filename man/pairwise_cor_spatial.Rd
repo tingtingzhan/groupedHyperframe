@@ -24,7 +24,7 @@ Pairwise Tjostheim's Coefficient
 }
 \examples{
 data(finpines, package = 'spatstat.data')
-finpines |> pairwise_cor_spatial.ppp(formula = ~ diameter + height)
-
+(r = finpines |> pairwise_cor_spatial.ppp(formula = ~ diameter + height))
+r |> as.matrix()
 }
 \keyword{internal}
