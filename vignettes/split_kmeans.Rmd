@@ -39,7 +39,7 @@ c(
   '`CRAN`, `R`', 'The Comprehensive R Archive Network', 'https://cran.r-project.org',
   '`data.frame`', 'Data frame', '`base::data.frame`',
   '`formula`', 'Formula', '`stats::formula`',
-  '`groupedHyperframe`', 'Grouped hyper data frame', 'groupedHyperframe::as.groupedHyperframe',
+  '`groupedHyperframe`', 'Grouped hyper data frame', '`groupedHyperframe::as.groupedHyperframe`',
   '`hypercolumns`, `hyperframe`', '(Hyper columns of) hyper data frame', '`spatstat.geom::hyperframe`',
   '`inherits`', 'Class inheritance', '`base::inherits`',
   '`kmeans`', '$k$-means clustering', '`stats::kmeans`',
@@ -99,6 +99,16 @@ km2 = shapley |> .kmeans(formula = ~ x + y, centers = 3L)
 km2 |> class()
 ```
 
+Example below shows a clustering specified by `clusterSize`.
+```{r}
+km3 = shapley |> .kmeans(formula = ~ x + y, clusterSize = 1e3L)
+km3 |> class()
+km3$centers # 5 clusters needed
+km3$cluster |> table()
+```
+
+
+
 # Split by $k$-Means Clustering
 
 Many functions in package **`groupedHyperframe`** requires a `'dataframe'` `markformat` for `ppp.object`s. 
@@ -130,7 +140,7 @@ The `S3` method dispatch `split_kmeans.listof()` splits a `listof` `ppp.object`s
 The returned object has `attributes`
 
 * `attr(.,'.id')`, indices of the `ppp.object`s before splitting.
-* `attr(.,'.cluster')`, indices of $k$-means clustering, nested in `.id`.
+* `attr(.,'.cluster')`, indices of $k$-means clusters, nested in `.id`.
 
 ```{r}
 flu$pattern[1:2] |> split_kmeans(formula = ~ x + y, centers = 3L) 

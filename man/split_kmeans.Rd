@@ -27,24 +27,4 @@ split_kmeans(x, ...)
 Function \code{\link[=split_kmeans.default]{split_kmeans.default()}} is supposed to work with
 \link[spatstat.geom]{ppp.object}.
 }
-\examples{
-library(spatstat.data)
-library(spatstat.geom)
-shapley |> plot()
-r = shapley |> split_kmeans(formula = ~ x + y + Mag, centers = 3L)
-r[[1L]] |> plot()
-r[[2L]] |> plot()
-r[[3L]] |> plot()
-library(spatstat.data)
-library(spatstat.geom)
-flu$pattern[] = flu$pattern |> 
- lapply(FUN = `mark_name<-`, value = 'stain') # read ?flu carefully
- 
-# split_kmeans.listof()  
-flu$pattern[1:2] |> split_kmeans(formula = ~ x + y, centers = 3L) 
-
-# split_kmeans.hyperframe() (accepts 'groupedHyperframe'!!)
-flu[1:2,] |> split_kmeans(formula = ~ x + y, centers = 3L)
-
-}
 \keyword{internal}

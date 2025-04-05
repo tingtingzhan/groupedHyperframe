@@ -8,7 +8,13 @@
 \usage{
 .kmeans(x, formula, ...)
 
-\method{.kmeans}{ppp}(x, formula, ...)
+\method{.kmeans}{ppp}(
+  x,
+  formula,
+  centers = as.integer(ceiling((x[["n"]]/clusterSize))),
+  clusterSize,
+  ...
+)
 }
 \arguments{
 \item{x}{see \strong{Usage}}
@@ -16,6 +22,10 @@
 \item{formula}{\link[stats]{formula}}
 
 \item{...}{additional parameters of function \link[stats]{kmeans}}
+
+\item{centers}{\link[base]{integer} scalar, number of clusters \eqn{k}, see function \link[stats]{kmeans}}
+
+\item{clusterSize}{\link[base]{integer} scalar, number of points per cluster}
 }
 \value{
 Function \code{\link[=.kmeans]{.kmeans()}} returns a \link[stats]{kmeans} object.

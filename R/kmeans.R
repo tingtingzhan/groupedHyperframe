@@ -19,10 +19,18 @@
 
 
 #' @rdname kmeans
+#' @param centers \link[base]{integer} scalar, number of clusters \eqn{k}, see function \link[stats]{kmeans}
+#' @param clusterSize \link[base]{integer} scalar, number of points per cluster
 #' @importFrom spatstat.geom marks.ppp markformat.ppp
 #' @export .kmeans.ppp
 #' @export
-.kmeans.ppp <- function(x, formula, ...) {
+.kmeans.ppp <- function(
+    x, 
+    formula, 
+    centers = (x[['n']]/clusterSize) |> ceiling() |> as.integer(),
+    clusterSize, 
+    ...
+) {
   
   if (!is.call(formula) || formula[[1L]] != '~' || length(formula) != 2L) stop('`formula` must be one-sided formula')
   
@@ -51,7 +59,8 @@
       do.call(what = cbind)
   )
   
-  tmp |> kmeans(...)
+  tmp |> 
+    kmeans(centers = centers, ...)
   
 }
 

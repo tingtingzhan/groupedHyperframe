@@ -21,14 +21,6 @@ split_kmeans <- function(x, ...) UseMethod(generic = 'split_kmeans')
 #' Function [split_kmeans.default()] is supposed to work with
 #' \link[spatstat.geom]{ppp.object}.
 #' 
-#' @examples
-#' library(spatstat.data)
-#' library(spatstat.geom)
-#' shapley |> plot()
-#' r = shapley |> split_kmeans(formula = ~ x + y + Mag, centers = 3L)
-#' r[[1L]] |> plot()
-#' r[[2L]] |> plot()
-#' r[[3L]] |> plot()
 #' @importFrom spatstat.geom split.ppp
 #' @export split_kmeans.default
 #' @export
