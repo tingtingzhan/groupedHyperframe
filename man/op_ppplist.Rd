@@ -4,12 +4,7 @@
 \alias{op_ppplist}
 \title{Batch Operations of \code{'ppplist'} Object}
 \usage{
-op_ppplist(
-  x,
-  op,
-  mc.cores = switch(.Platform$OS.type, windows = 1L, detectCores()),
-  ...
-)
+op_ppplist(x, op, mc.cores = getOption("mc.cores"), ...)
 }
 \arguments{
 \item{x}{a \code{'ppplist'} object}
@@ -38,6 +33,7 @@ Function \code{\link[=op_ppplist]{op_ppplist()}} is a \pkg{parallel} batch proce
 the workhorse function \code{\link[=fv_ppp]{fv_ppp()}} or \code{\link[=dist_ppp]{dist_ppp()}}.
 }
 \examples{
+\dontshow{options(mc.cores = 1L)}
 library(spatstat.data)
 library(spatstat.geom) # for ?spatstat.geom::split.ppp
 library(spatstat.explore) # for ?spatstat.explore::Emark, etc.

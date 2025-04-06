@@ -28,6 +28,7 @@
 #' }
 #' 
 #' @examples
+#' \dontshow{options(mc.cores = 1L)}
 #' library(spatstat.data)
 #' library(spatstat.geom) # for ?spatstat.geom::split.ppp
 #' library(spatstat.explore) # for ?spatstat.explore::Emark, etc.
@@ -39,7 +40,7 @@
 #' x1 = shapley |> 
 #'  subset.ppp(select = c('Mag', 'SigV')) |>
 #'  split.ppp(f = Vc) |>
-#'  op_ppplist(op = fv_ppp, fn = markcorr, mc.cores = 1L)
+#'  op_ppplist(op = fv_ppp, fn = markcorr)
 #' names(x1)
 #' names(x1$L)
 #' }
@@ -48,15 +49,15 @@
 #'   subset.ppp(select = c('fire.type', 'cause', 'ign.src')) |>
 #'   na.omit.ppp() |> 
 #'   split.ppp(f = 'fire.type')
-#' x2 |> op_ppplist(op = dist_ppp, fn = .nncross, i = 'rrds', j = 'ltning', mc.cores = 1L)
-#' x2 |> op_ppplist(op = dist_ppp, fn = .nncross, i = 'unknown', j = 'burn.no.perm', mc.cores = 1L)
+#' x2 |> op_ppplist(op = dist_ppp, fn = .nncross, i = 'rrds', j = 'ltning')
+#' x2 |> op_ppplist(op = dist_ppp, fn = .nncross, i = 'unknown', j = 'burn.no.perm')
 #' @keywords internal
 #' @importFrom parallel mclapply detectCores
 #' @export
 op_ppplist <- function(
     x, 
     op,
-    mc.cores = switch(.Platform$OS.type, windows = 1L, detectCores()),
+    mc.cores = getOption('mc.cores'),
     ...
 ) {
   

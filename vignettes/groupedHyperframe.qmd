@@ -1,21 +1,14 @@
 ---
 title: "Grouped Hyper Data Frame"
-output: rmarkdown::html_vignette
-author: Tingting Zhan
-vignette: >
-  %\VignetteIndexEntry{intro}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
+format: 
+  html:
+    page-layout: full
+toc: true
+toc-location: left
+toc-depth: 4
+toc-title: ''
+editor: visual
 ---
-
-```{r, include = FALSE}
-library(knitr)
-opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>"
-)
-options(rmarkdown.html_vignette.check_title = FALSE)
-```
 
 # Introduction
 
@@ -23,9 +16,21 @@ This vignette of package **`groupedHyperframe`** ([CRAN](https://cran.r-project.
 
 ## Prerequisite
 
+New features are first implemented on [Github](https://github.com/tingtingzhan/groupedHyperframe).
+
+```{r}
+#| warning: false
+#| eval: false
+devtools::install_github('tingtingzhan/groupedHyperframe')
+```
+
+
 Package **`groupedHyperframe`** may require the development versions of the **`spatstat`** family.
 
-```{r eval = FALSE}
+```{r}
+#| label: prerequisite
+#| warning: false
+#| eval: false
 devtools::install_github('spatstat/spatstat')
 devtools::install_github('spatstat/spatstat.data')
 devtools::install_github('spatstat/spatstat.explore')
@@ -38,34 +43,45 @@ devtools::install_github('spatstat/spatstat.univar')
 devtools::install_github('spatstat/spatstat.utils')
 ```
 
-## Note to Users
+## Getting Started
 
 Examples in this vignette require that the `search` path has
 
-```{r setup}
+```{r}
+#| label: load-packages
+#| message: false
 library(groupedHyperframe)
 library(spatstat.data)
+library(spatstat.geom)
 library(survival) # to help hyperframe understand Surv object
 ```
 
-```{r echo=FALSE}
-options(mc.cores = 1L) # for CRAN submission
+```{r}
+#| echo: false
+library(knitr) # for tables in this vignette
+#options(mc.cores = 1L) # for CRAN submission
 ```
 
 ## Terms and Abbreviations
 
-```{r echo = FALSE, results = 'asis'}
+```{r}
+#| echo: false
+#| results: asis
 c(
   '', 'Forward pipe operator', '`?base::pipeOp` introduced in `R` 4.1.0', 
   '`attr`', 'Attributes', '`base::attr`; `base::attributes`',
-  '`CRAN`, `R`', 'The Comprehensive R Archive Network', 'https://cran.r-project.org',
+  '`CRAN`, `R`', 'The Comprehensive R Archive Network', '<https://cran.r-project.org>',
   '`data.frame`', 'Data frame', '`base::data.frame`',
   '`formula`', 'Formula', '`stats::formula`',
   '`fv`, `fv.object`, `fv.plot`', '(Plot of) function value table', '`spatstat.explore::fv.object`, `spatstat.explore::plot.fv`',
   '`groupedData`, `~ g1/.../gm`', 'Grouped data frame; nested grouping structure', '`nlme::groupedData`; `nlme::lme`',
+  '`groupedHyperframe`', 'Grouped hyper data frame', '`groupedHyperframe::as.groupedHyperframe`',
   '`hypercolumns`, `hyperframe`', '(Hyper columns of) hyper data frame', '`spatstat.geom::hyperframe`',
   '`inherits`', 'Class inheritance', '`base::inherits`',
   '`kerndens`', 'Kernel density', '`stats::density.default()$y`',
+  '`kmeans`', '$k$-means clustering', '`stats::kmeans`',
+  '`listof`', 'Lists of objects', '`?stats::listof`',
+  '`markformat`', 'Storage mode of `marks`', '`spatstat.geom::markformat`',
   '`marks`', 'Marks of a point pattern', '`spatstat.geom::marks`',
   '`mc.cores`', 'Number of CPU cores to use', '`parallel::mclapply`; `parallel::detectCores`',
   '`multitype`', 'Multitype object', '`spatstat.geom::is.multitype`',
@@ -74,36 +90,34 @@ c(
   '`pmax`, `pmin`', 'Parallel maxima and minima', '`base::pmax`; `base::pmin`',
   '`ppp`, `ppp.object`', '(Marked) point pattern', '`spatstat.geom::ppp.object`',
   '`quantile`', 'Quantile', '`stats::quantile`',
-  '`save`, `xz`', 'Save with `xz` compression', '`base::save(., compress = \'xz\')`; `base::saveRDS(., compress = \'xz\')`; https://en.wikipedia.org/wiki/XZ_Utils', 
-  '`S3`, `generic`, `methods`', '`S3` object oriented system',  '`base::UseMethod`; `utils::methods`; `utils::getS3method`; https://adv-r.hadley.nz/s3.html',
+  '`save`, `xz`', 'Save with `xz` compression', '`base::save(., compress = \'xz\')`; `base::saveRDS(., compress = \'xz\')`; <https://en.wikipedia.org/wiki/XZ_Utils>', 
+  '`S3`, `generic`, `methods`', '`S3` object oriented system',  '`base::UseMethod`; `utils::methods`; `utils::getS3method`; <https://adv-r.hadley.nz/s3.html>',
   '`search`', 'Search path', '`base::search`',
   '`Surv`', 'Survival object', '`survival::Surv`',
-  '`trapz`, `cumtrapz`', '(Cumulative) trapezoidal integration', '`pracma::trapz`; `pracma::cumtrapz`; https://en.wikipedia.org/wiki/Trapezoidal_rule'
+  '`trapz`, `cumtrapz`', '(Cumulative) trapezoidal integration', '`pracma::trapz`; `pracma::cumtrapz`; <https://en.wikipedia.org/wiki/Trapezoidal_rule>'
 ) |>
   matrix(nrow = 3L, dimnames = list(c('Term / Abbreviation', 'Description', 'Reference'), NULL)) |>
   t.default() |>
   as.data.frame.matrix() |> 
-  kable(format = 'html') 
-# ?knitr::kable
-# default: `|` shown as &...
-# format = 'html': `>` shown as &..
+  kable() 
 ```
 
 ## Acknowledgement
 
 This work is supported by NCI R01CA222847 ([I. Chervoneva](https://orcid.org/0000-0002-9104-4505), [T. Zhan](https://orcid.org/0000-0001-9971-4844), and [H. Rui](https://orcid.org/0000-0002-8778-261X)) and R01CA253977 (H. Rui and I. Chervoneva).
 
+
 # `groupedHyperframe` Class
 
 The `S3` class `groupedHyperframe` `inherits` from the `hyperframe` class, in a similar fashion as the `groupedData` class inherits from the `data.frame` class.
 
-A `groupedHyperframe` object, in addition to a `hyperframe` object, has attribute(s)
+A `groupedHyperframe` object, in addition to a `hyperframe` object, has `attributes`
 
 -   `attr(., 'group')`, a `formula` to specify the (nested) grouping structure
 
 ## Create a `groupedHyperframe`
 
-### From a `hyperframe`
+### Create a `groupedHyperframe` from a `hyperframe`
 
 The `S3` method dispatch `as.groupedHyperframe.hyperframe()` converts a `hyperframe` to `groupedHyperframe`. Data set `spatstat.data::osteo` has the serial number of sampling volume `brick` nested in the bone sample `id`,
 
@@ -111,7 +125,7 @@ The `S3` method dispatch `as.groupedHyperframe.hyperframe()` converts a `hyperfr
 osteo |> as.groupedHyperframe(group = ~ id/brick)
 ```
 
-### From a `data.frame`
+### Create a `groupedHyperframe` from a `data.frame`
 
 The `S3` method dispatch `as.groupedHyperframe.data.frame()` converts a `data.frame` to a `groupedHyperframe.` This function inspects the input by the (nested) grouping structure, identifies the column(s) with elements not identical within the lowest group, and converts them into `hypercolumns`. Data set **`Ki67.`** in this package has non-identical column *`logKi67`* in the nested grouping structure *`~ patientID/tissueID`*.
 
@@ -149,9 +163,11 @@ Function `grouped_ppp()` creates a `groupedHyperframe` with *one-and-only-one* `
 
 In this section, we outline the batch processes of spatial point pattern analyses applicable to the *one-and-only-one* `ppp`-`hypercolumn` of a `hyperframe`. These batch processes are not intended for a `hyperframe` with multiple `ppp`-`hypercolumns` in the foreseeable future, as that would require checking for name clashes in the `$marks` from multiple `ppp`-`hypercolumns`.
 
-## ... which adds a `fv`-`hypercolumn`
+## Batch process which adds a `fv`-`hypercolumn`
 
-```{r echo = FALSE, results = 'asis'}
+```{r}
+#| echo: false
+#| results: asis
 c(
   '`Emark_()`', '`Emark()`', '`numeric` marks', '`.E`',
   '`Vmark_()`', '`Vmark()`', '`numeric` marks', '`.V`',
@@ -167,9 +183,11 @@ c(
   kable()
 ```
 
-## ... which adds a `numeric`-`hypercolumn`
+## Batch process which adds a `numeric`-`hypercolumn`
 
-```{r echo = FALSE, results = 'asis'}
+```{r}
+#| echo: false
+#| results: asis
 c(
   '`nncross_()`', '`nncross.ppp(., what = \'dist\')`', '`multitype` marks', '`.nncross`'
 ) |>
@@ -237,6 +255,8 @@ afv$hladr.E.cumtrapz |> .slice(j = '50')
 
 ## Aggregation of `numeric`-`hypercolumns` and `numeric` mark(s) in `ppp`-`hypercolumn`
 
+### Aggregation of `quantile`
+
 Function `aggregate_quantile()` aggregates the quantile of
 
 -   the `numeric`-`hypercolumns`. In the following example, we have
@@ -248,6 +268,8 @@ Function `aggregate_quantile()` aggregates the quantile of
 out |>
   aggregate_quantile(by = ~ patient_id, probs = seq.int(from = 0, to = 1, by = .1))
 ```
+
+### Aggregation of kernel density
 
 Function `aggregate_kerndens()` aggregates the kernel density of
 
@@ -261,3 +283,100 @@ Function `aggregate_kerndens()` aggregates the kernel density of
 out |> 
   aggregate_kerndens(by = ~ patient_id, from = 0, to = mdist)
 ```
+
+# Appendix
+
+## Split by $k$-Means Clustering
+
+This appendix documents the $k$-means clustering of `ppp.object`, and the `split`ting of `ppp.object`, `listof`, and `hyperframe` by $k$-means clustering.
+
+### $k$-Means Clustering
+
+S3 generic `.kmeans()` has the workhorse function `stats::kmeans`.
+
+#### $k$-means clustering on `ppp.object`
+
+Data set `spatstat.data::shapley`.
+```{r fig.width=5}
+shapley |> plot()
+```
+
+The `S3` method dispatch `.kmeans.ppp()` performs $k$-means clustering based on one-or-more user-specified `numeric` coordinates and/or `marks`.
+
+Example below shows a clustering based on the $x$- and $y$-coordinates, as well as the `numeric`-`mark` *`Mag`*.
+```{r}
+km = shapley |> .kmeans(formula = ~ x + y + Mag, centers = 3L)
+km |> class()
+```
+
+Example below shows a clustering based on $x$-coordinate and *`Mag`*.
+```{r}
+km1 = shapley |> .kmeans(formula = ~ x + Mag, centers = 3L)
+km1 |> class()
+```
+
+Example below shows a clustering based on $x$- and $y$-coordinates only.
+```{r}
+km2 = shapley |> .kmeans(formula = ~ x + y, centers = 3L)
+km2 |> class()
+```
+
+Example below shows a clustering specified by `clusterSize`.
+```{r}
+km3 = shapley |> .kmeans(formula = ~ x + y, clusterSize = 1e3L)
+km3 |> class()
+km3$centers # 5 clusters needed
+km3$cluster |> table()
+```
+
+### Split by $k$-Means Clustering
+
+Many functions in package **`groupedHyperframe`** requires a `'dataframe'` `markformat` for `ppp.object`s. 
+
+```{r}
+flu$pattern[[1L]] |> markformat()
+```
+
+User may convert a `'vector'` `markformat` to `'dataframe'` using the syntactic sugar `` `mark_name<-` ``,
+
+```{r}
+flu$pattern[] = flu$pattern |> 
+  lapply(FUN = `mark_name<-`, value = 'stain') # read ?flu carefully
+flu$pattern[[1L]] |> markformat()
+```
+
+#### Split `ppp.object`
+
+The `S3` method dispatch `split_kmeans.default()` splits a `ppp.object` (more to come in future) by $k$-means clustering.
+
+```{r}
+flu$pattern[[1L]] |> split_kmeans(formula = ~ x + y, centers = 3L)
+```
+
+#### Split a `listof` `ppp.object`s 
+
+The `S3` method dispatch `split_kmeans.listof()` splits a `listof` `ppp.object`s by $k$-means clustering.
+
+The returned object has `attributes`
+
+* `attr(.,'.id')`, indices of the `ppp.object`s before splitting.
+* `attr(.,'.cluster')`, indices of $k$-means clusters, nested in `.id`.
+
+```{r}
+flu$pattern[1:2] |> split_kmeans(formula = ~ x + y, centers = 3L) 
+```
+
+#### Split a `hyperframe` and/or `groupedHyperframe`
+
+The `S3` method dispatch `split_kmeans.hyperframe()` splits a `hyperframe` and/or `groupedHyperframe` by $k$-means clustering of the *one-and-only-one* `ppp`-`hypercolumn`.  
+
+The returned object is a `groupedHyperframe` with grouping structure
+
+* `~.id/.cluster`, if the input is a `hyperframe`
+* `~ existing/grouping/structure/.cluster`, if the input is a `groupedHyperframe`. Note that the grouping level `.id` is **believed** to be equivalent to *the lowest level of existing grouping structure*.
+
+```{r}
+flu[1:2,] |> split_kmeans(formula = ~ x + y, centers = 3L)
+```
+
+

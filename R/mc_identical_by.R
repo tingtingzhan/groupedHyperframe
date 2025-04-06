@@ -23,7 +23,7 @@
 mc_identical_by <- function(
     data, 
     f,
-    mc.cores = switch(.Platform$OS.type, windows = 1L, detectCores()),
+    mc.cores = getOption('mc.cores'),
     ...
 ) {
   

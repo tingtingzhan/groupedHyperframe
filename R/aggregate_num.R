@@ -48,7 +48,7 @@ aggregate_num <- function(
     FUN,
     FUN.name = deparse1(substitute(FUN)),
     f_aggr_ = pmean, 
-    mc.cores = switch(.Platform$OS.type, windows = 1L, detectCores()), # must prevent `mc.cores` from going into `...`, e.g., ?stats::density.default warns on extra parameter
+    mc.cores = getOption('mc.cores'), # must prevent `mc.cores` from going into `...`, e.g., ?stats::density.default warns on extra parameter
     ...
 ) {
   
