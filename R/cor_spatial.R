@@ -15,7 +15,7 @@
 #' @keywords internal
 #' @name pairwise_cor_spatial
 #' @export
-pairwise_cor_spatial <- function(x, ...) UseMethod(generic = 'cor_spatial')
+pairwise_cor_spatial <- function(x, ...) UseMethod(generic = 'pairwise_cor_spatial')
 
 
 
@@ -56,6 +56,15 @@ pairwise_cor_spatial.ppp <- function(x, ...) {
 }
 
 
+
+#' @title Convert [pairwise_cor_spatial] to \link[base]{matrix}
+#' 
+#' @param x a [pairwise_cor_spatial]
+#' 
+#' @param ... additional parameters, currently not in use
+#' 
+#' @method as.matrix pairwise_cor_spatial
+#' @export as.matrix.pairwise_cor_spatial
 #' @export
 as.matrix.pairwise_cor_spatial <- function(x, ...) {
   ret <- NextMethod(generic = 'as.matrix') # invokes ?stats:::as.matrix.dist
