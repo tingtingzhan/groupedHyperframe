@@ -1,8 +1,10 @@
 ---
 title: "Grouped Hyper Data Frame"
+author: Tingting Zhan
 format: 
   html:
     page-layout: full
+    html-math-method: katex
 toc: true
 toc-location: left
 toc-depth: 4
@@ -16,7 +18,7 @@ vignette: >
 
 # Introduction
 
-This vignette of package **`groupedHyperframe`** ([CRAN](https://cran.r-project.org/package=groupedHyperframe), [Github](https://github.com/tingtingzhan/groupedHyperframe), [RPubs](https://rpubs.com/tingtingzhan/groupedHyperframe)) documents the creation of `groupedHyperframe` object, the batch processes for a `groupedHyperframe`, and aggregations of various statistics over multi-level grouping structure.
+This vignette of package **`groupedHyperframe`** ([`CRAN`](https://cran.r-project.org/package=groupedHyperframe), [Github](https://github.com/tingtingzhan/groupedHyperframe), [RPubs](https://rpubs.com/tingtingzhan/groupedHyperframe)) documents the creation of `groupedHyperframe` object, the batch processes for a `groupedHyperframe`, and aggregations of various statistics over multi-level grouping structure.
 
 ## Prerequisite
 
@@ -26,6 +28,13 @@ New features are first implemented on [Github](https://github.com/tingtingzhan/g
 #| warning: false
 #| eval: false
 devtools::install_github('tingtingzhan/groupedHyperframe')
+```
+
+And eventually make their way to [`CRAN`](https://CRAN.R-project.org/package=groupedHyperframe).
+```{r}
+#| warning: false
+#| eval: false
+utils::install.packages('groupedHyperframe')
 ```
 
 Package **`groupedHyperframe`** may require the development versions of the **`spatstat`** family.
@@ -246,6 +255,7 @@ Function `aggregate_fv()` aggregates
     -   `numeric`-`hypercolumns` *`hladr.E.cumtrapz`* and *`phenotype.G.cumtrapz`*, aggregated cumulative trapezoidal integration from `fv`-`hypercolumns` *`hladr.E`* and *`phenotype.G`*
 
 ```{r}
+#| message: false
 (afv = out |>
   aggregate_fv(by = ~ patient_id, f_aggr_ = pmean))
 ```
@@ -268,6 +278,7 @@ Function `aggregate_quantile()` aggregates the quantile of
     -   `numeric`-`hypercolumn` *`hladr.quantile`*, aggregated quantile of `numeric` mark *`hladr`* in `ppp`-`hypercolumn`
 
 ```{r}
+#| message: false
 out |>
   aggregate_quantile(by = ~ patient_id, probs = seq.int(from = 0, to = 1, by = .1))
 ```
@@ -282,6 +293,7 @@ Function `aggregate_kerndens()` aggregates the kernel density of
     -   `numeric`-`hypercolumn` *`hladr.kerndens`*, aggregated kernel density of `numeric` mark *`hladr`* in `ppp`-`hypercolumn`
 
 ```{r}
+#| message: false
 (mdist = out$phenotype.nncross |> unlist() |> max())
 out |> 
   aggregate_kerndens(by = ~ patient_id, from = 0, to = mdist)
