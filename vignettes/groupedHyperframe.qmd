@@ -8,6 +8,10 @@ toc-location: left
 toc-depth: 4
 toc-title: ''
 editor: visual
+vignette: >
+  %\VignetteIndexEntry{intro}
+  %\VignetteEngine{quarto::html}
+  %\VignetteEncoding{UTF-8}
 ---
 
 # Introduction
@@ -23,7 +27,6 @@ New features are first implemented on [Github](https://github.com/tingtingzhan/g
 #| eval: false
 devtools::install_github('tingtingzhan/groupedHyperframe')
 ```
-
 
 Package **`groupedHyperframe`** may require the development versions of the **`spatstat`** family.
 
@@ -106,7 +109,6 @@ c(
 
 This work is supported by NCI R01CA222847 ([I. Chervoneva](https://orcid.org/0000-0002-9104-4505), [T. Zhan](https://orcid.org/0000-0001-9971-4844), and [H. Rui](https://orcid.org/0000-0002-8778-261X)) and R01CA253977 (H. Rui and I. Chervoneva).
 
-
 # `groupedHyperframe` Class
 
 The `S3` class `groupedHyperframe` `inherits` from the `hyperframe` class, in a similar fashion as the `groupedData` class inherits from the `data.frame` class.
@@ -138,6 +140,7 @@ Converting a `data.frame` with cell intensities, etc., into a `groupedHyperframe
 ```{r}
 unclass(object.size(Ki67g)) / unclass(object.size(Ki67.))
 ```
+
 ```{r}
 f_g = tempfile(fileext = '.rds')
 Ki67g |> saveRDS(file = f_g, compress = 'xz')
@@ -297,6 +300,7 @@ S3 generic `.kmeans()` has the workhorse function `stats::kmeans`.
 #### $k$-means clustering on `ppp.object`
 
 Data set `spatstat.data::shapley`.
+
 ```{r fig.width=5}
 shapley |> plot()
 ```
@@ -304,24 +308,28 @@ shapley |> plot()
 The `S3` method dispatch `.kmeans.ppp()` performs $k$-means clustering based on one-or-more user-specified `numeric` coordinates and/or `marks`.
 
 Example below shows a clustering based on the $x$- and $y$-coordinates, as well as the `numeric`-`mark` *`Mag`*.
+
 ```{r}
 km = shapley |> .kmeans(formula = ~ x + y + Mag, centers = 3L)
 km |> class()
 ```
 
 Example below shows a clustering based on $x$-coordinate and *`Mag`*.
+
 ```{r}
 km1 = shapley |> .kmeans(formula = ~ x + Mag, centers = 3L)
 km1 |> class()
 ```
 
 Example below shows a clustering based on $x$- and $y$-coordinates only.
+
 ```{r}
 km2 = shapley |> .kmeans(formula = ~ x + y, centers = 3L)
 km2 |> class()
 ```
 
 Example below shows a clustering specified by `clusterSize`.
+
 ```{r}
 km3 = shapley |> .kmeans(formula = ~ x + y, clusterSize = 1e3L)
 km3 |> class()
@@ -331,7 +339,7 @@ km3$cluster |> table()
 
 ### Split by $k$-Means Clustering
 
-Many functions in package **`groupedHyperframe`** requires a `'dataframe'` `markformat` for `ppp.object`s. 
+Many functions in package **`groupedHyperframe`** requires a `'dataframe'` `markformat` for `ppp.object`s.
 
 ```{r}
 flu$pattern[[1L]] |> markformat()
@@ -353,14 +361,14 @@ The `S3` method dispatch `split_kmeans.default()` splits a `ppp.object` (more to
 flu$pattern[[1L]] |> split_kmeans(formula = ~ x + y, centers = 3L)
 ```
 
-#### Split a `listof` `ppp.object`s 
+#### Split a `listof` `ppp.object`s
 
 The `S3` method dispatch `split_kmeans.listof()` splits a `listof` `ppp.object`s by $k$-means clustering.
 
 The returned object has `attributes`
 
-* `attr(.,'.id')`, indices of the `ppp.object`s before splitting.
-* `attr(.,'.cluster')`, indices of $k$-means clusters, nested in `.id`.
+-   `attr(.,'.id')`, indices of the `ppp.object`s before splitting.
+-   `attr(.,'.cluster')`, indices of $k$-means clusters, nested in `.id`.
 
 ```{r}
 flu$pattern[1:2] |> split_kmeans(formula = ~ x + y, centers = 3L) 
@@ -368,15 +376,13 @@ flu$pattern[1:2] |> split_kmeans(formula = ~ x + y, centers = 3L)
 
 #### Split a `hyperframe` and/or `groupedHyperframe`
 
-The `S3` method dispatch `split_kmeans.hyperframe()` splits a `hyperframe` and/or `groupedHyperframe` by $k$-means clustering of the *one-and-only-one* `ppp`-`hypercolumn`.  
+The `S3` method dispatch `split_kmeans.hyperframe()` splits a `hyperframe` and/or `groupedHyperframe` by $k$-means clustering of the *one-and-only-one* `ppp`-`hypercolumn`.
 
 The returned object is a `groupedHyperframe` with grouping structure
 
-* `~.id/.cluster`, if the input is a `hyperframe`
-* `~ existing/grouping/structure/.cluster`, if the input is a `groupedHyperframe`. Note that the grouping level `.id` is **believed** to be equivalent to *the lowest level of existing grouping structure*.
+-   `~.id/.cluster`, if the input is a `hyperframe`
+-   `~ existing/grouping/structure/.cluster`, if the input is a `groupedHyperframe`. Note that the grouping level `.id` is **believed** to be equivalent to *the lowest level of existing grouping structure*.
 
 ```{r}
 flu[1:2,] |> split_kmeans(formula = ~ x + y, centers = 3L)
 ```
-
-

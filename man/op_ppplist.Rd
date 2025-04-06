@@ -45,7 +45,7 @@ Vc = with(shapley$marks, expr = {
 x1 = shapley |> 
  subset.ppp(select = c('Mag', 'SigV')) |>
  split.ppp(f = Vc) |>
- op_ppplist(op = fv_ppp, fn = markcorr, mc.cores = 1L)
+ op_ppplist(op = fv_ppp, fn = markcorr)
 names(x1)
 names(x1$L)
 }
@@ -54,7 +54,7 @@ x2 = nbfires |>
   subset.ppp(select = c('fire.type', 'cause', 'ign.src')) |>
   na.omit.ppp() |> 
   split.ppp(f = 'fire.type')
-x2 |> op_ppplist(op = dist_ppp, fn = .nncross, i = 'rrds', j = 'ltning', mc.cores = 1L)
-x2 |> op_ppplist(op = dist_ppp, fn = .nncross, i = 'unknown', j = 'burn.no.perm', mc.cores = 1L)
+x2 |> op_ppplist(op = dist_ppp, fn = .nncross, i = 'rrds', j = 'ltning')
+x2 |> op_ppplist(op = dist_ppp, fn = .nncross, i = 'unknown', j = 'burn.no.perm')
 }
 \keyword{internal}
