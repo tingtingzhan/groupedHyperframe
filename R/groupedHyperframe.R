@@ -9,8 +9,6 @@
 #' @returns 
 #' Function [print.groupedHyperframe()] does not have a returned value.
 #' 
-#' @seealso `?nlme:::print.groupedData`
-#' 
 #' @keywords internal
 #' @importFrom cli col_blue col_magenta style_bold
 #' @importFrom spatstat.geom as.data.frame.hyperframe as.list.hyperframe
@@ -18,11 +16,11 @@
 #' @export print.groupedHyperframe
 #' @export
 print.groupedHyperframe <- function(x, ...) {
+  
+  # @seealso `?nlme:::print.groupedData`
+  
   'Grouped Hyperframe: ' |> cat()
   grp <- attr(x, which = 'group', exact = TRUE)
-  #if (identical(emptyenv(), environment(grp))) {
-  #  environment(grp) <- globalenv()
-  #} # not sure how this is useful in ?nlme:::print.groupedData
   print(grp, ...)
   
   g <- all.vars(grp)
@@ -72,43 +70,40 @@ print.groupedHyperframe <- function(x, ...) {
 #' @export [.groupedHyperframe
 #' @export
 `[.groupedHyperframe` <- function(x, ...) {
+  
+  # a super genius fix! 
+  # working on the lowest function `[` :))
+  # no longer needed to write
+  # .. [subset.groupedHyperframe()]
+  # .. probably [split.groupedHyperframe()]
+  
   ret <- `[.hyperframe`(x, ...)
+  
   # a bandage fix hahaha
   group <- attr(x, which = 'group', exact = TRUE)
   if (!all(all.vars(group) %in% names(ret))) return(ret) # just 'hyperframe'
   attr(ret, which = 'group') <- group
   class(ret) <- c('groupedHyperframe', class(ret)) |> unique.default()
   return(ret)
-}
-
-
-#' @importFrom spatstat.geom subset.hyperframe
-#' @export
-subset.groupedHyperframe <- function(x, ...) {
-  ret <- subset.hyperframe(x, ...)
-  # a bandage fix hahaha
-  group <- attr(x, which = 'group', exact = TRUE)
-  if (!all(all.vars(group) %in% names(ret))) return(ret) # just 'hyperframe'
-  attr(ret, which = 'group') <- group
-  class(ret) <- c('groupedHyperframe', class(ret)) |> unique.default()
-  return(ret)
+  
 }
 
 
 
-#' @title Extract Grouping Formula from [groupedHyperframe]
-#' @description
-#' ..
-#' 
-#' @param object a [groupedHyperframe]
-#' @param asList,sep place holders for S3 generic \link[nlme]{getGroupsFormula}
-#' @returns 
-#' Function [getGroupsFormula.groupedHyperframe()] returns a one-sided \link[stats]{formula}
-#' @keywords internal
-#' @importFrom nlme getGroupsFormula
-#' @export getGroupsFormula.groupedHyperframe
-#' @export
-getGroupsFormula.groupedHyperframe <- function(object, asList, sep) {
-  attr(object, which = 'group', exact = TRUE)
-}
+
+# @title Extract Grouping Formula from [groupedHyperframe]
+# @description ..
+# @param object a [groupedHyperframe]
+# @param asList,sep place holders for S3 generic \link[nlme]{getGroupsFormula}
+# @returns 
+# Function [getGroupsFormula.groupedHyperframe()] returns a one-sided \link[stats]{formula}
+# @note
+# tzh mask this for now, does not want to import(nlme) only for this
+# @keywords internal
+# @importFrom nlme getGroupsFormula
+# @export getGroupsFormula.groupedHyperframe
+# @export
+#getGroupsFormula.groupedHyperframe <- function(object, asList, sep) {
+#  attr(object, which = 'group', exact = TRUE)
+#}
 

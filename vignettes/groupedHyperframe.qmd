@@ -31,6 +31,7 @@ devtools::install_github('tingtingzhan/groupedHyperframe')
 ```
 
 And eventually make their way to [`CRAN`](https://CRAN.R-project.org/package=groupedHyperframe).
+
 ```{r}
 #| warning: false
 #| eval: false
@@ -170,7 +171,8 @@ Function `grouped_ppp()` creates a `groupedHyperframe` with *one-and-only-one* `
 -   the grouping structure, e.g., *`image_id`* nested in *`patient_id`*, after the `|` separator on the right-hand-side.
 
 ```{r}
-(s = grouped_ppp(formula = hladr + phenotype ~ OS + gender + age | patient_id/image_id, data = wrobel_lung))
+(s = grouped_ppp(formula = hladr + phenotype ~ OS + gender + age | patient_id/image_id, 
+                 data = wrobel_lung))
 ```
 
 # Batch Process on `ppp`-`hypercolumn`
@@ -253,9 +255,9 @@ Available aggregation methods are the parallel minima `base::pmin`, maxima `base
 
 Function `aggregate_fv()` aggregates
 
--   the **function values**, i.e., the black-solid-curve of `fv.plot`. 
+-   the **function values**, i.e., the black-solid-curve of `fv.plot`.
     -   In the following example, we have `numeric`-`hypercolumns` *`hladr.E.value`* and *`phenotype.G.value`*, the aggregated function values from `fv`-`hypercolumns` *`hladr.E`* and *`phenotype.G`*, respectively.
--   the **cumulative trapezoidal integration** under the black-solid-curve. 
+-   the **cumulative trapezoidal integration** under the black-solid-curve.
     -   In the following example, we have `numeric`-`hypercolumns` *`hladr.E.cumtrapz`* and *`phenotype.G.cumtrapz`*, the aggregated cumulative trapezoidal integrations from `fv`-`hypercolumns` *`hladr.E`* and *`phenotype.G`*, respectively.
 
 ```{r}
@@ -276,9 +278,9 @@ afv$hladr.E.cumtrapz |> .slice(j = '50')
 
 Function `aggregate_quantile()` aggregates the `quantile`s of
 
--   the `numeric`-`hypercolumns`. 
+-   the `numeric`-`hypercolumns`.
     -   In the following example, we have `numeric`-`hypercolumn` *`phenotype.nncross.quantile`*, the aggregated `quantile`s of `numeric`-`hypercolumn` *`phenotype.nncross`*.
--   the `numeric` `marks` in the `ppp`-`hypercolumn`. 
+-   the `numeric` `marks` in the `ppp`-`hypercolumn`.
     -   In the following example, we have `numeric`-`hypercolumn` *`hladr.quantile`*, the aggregated `quantile`s of `numeric` mark *`hladr`* in `ppp`-`hypercolumn`.
 
 ```{r}
@@ -291,9 +293,9 @@ out |>
 
 Function `aggregate_kerndens()` aggregates the kernel density of
 
--   the `numeric`-`hypercolumns`. 
+-   the `numeric`-`hypercolumns`.
     -   In the following example, we have `numeric`-`hypercolumn` *`phenotype.nncross.kerndens`*, the aggregated kernel densities of `numeric`-`hypercolumn` *`phenotype.nncross`*.
--   the `numeric` `marks` in the `ppp`-`hypercolumn`. 
+-   the `numeric` `marks` in the `ppp`-`hypercolumn`.
     -   In the following example, we have `numeric`-`hypercolumn` *`hladr.kerndens`*, the aggregated kernel densities of `numeric` mark *`hladr`* in `ppp`-`hypercolumn`.
 
 ```{r}
@@ -305,15 +307,11 @@ out |>
 
 # Appendix
 
-## Split by $k$-Means Clustering
+## $k$-Means Clustering
 
-This appendix documents the $k$-means clustering of `ppp.object`, and the `split`ting of `ppp.object`, `listof`, and `hyperframe` by $k$-means clustering.
+The `S3` generic `.kmeans()` performs $k$-means clustering using the workhorse function `stats::kmeans`.
 
-### $k$-Means Clustering
-
-S3 generic `.kmeans()` has the workhorse function `stats::kmeans`.
-
-#### $k$-means clustering on `ppp.object`
+### $k$-means clustering on `ppp.object`
 
 Data set `spatstat.data::shapley`.
 
@@ -353,7 +351,9 @@ km3$centers # 5 clusters needed
 km3$cluster |> table()
 ```
 
-### Split by $k$-Means Clustering
+## Split by $k$-Means Clustering
+
+This appendix documents the `split`ting of `ppp.object`, `listof`, and `hyperframe` by $k$-means clustering.
 
 Many functions in package **`groupedHyperframe`** requires a `'dataframe'` `markformat` for `ppp.object`s.
 
@@ -369,7 +369,7 @@ flu$pattern[] = flu$pattern |>
 flu$pattern[[1L]] |> markformat()
 ```
 
-#### Split `ppp.object`
+### Split a `ppp.object`
 
 The `S3` method dispatch `split_kmeans.default()` splits a `ppp.object` (more to come in future) by $k$-means clustering.
 
@@ -377,7 +377,7 @@ The `S3` method dispatch `split_kmeans.default()` splits a `ppp.object` (more to
 flu$pattern[[1L]] |> split_kmeans(formula = ~ x + y, centers = 3L)
 ```
 
-#### Split a `listof` `ppp.object`s
+### Split a `listof` `ppp.object`s
 
 The `S3` method dispatch `split_kmeans.listof()` splits a `listof` `ppp.object`s by $k$-means clustering.
 
@@ -390,7 +390,7 @@ The returned object has `attributes`
 flu$pattern[1:2] |> split_kmeans(formula = ~ x + y, centers = 3L) 
 ```
 
-#### Split a `hyperframe` and/or `groupedHyperframe`
+### Split a `hyperframe` and/or `groupedHyperframe`
 
 The `S3` method dispatch `split_kmeans.hyperframe()` splits a `hyperframe` and/or `groupedHyperframe` by $k$-means clustering of the *one-and-only-one* `ppp`-`hypercolumn`.
 
@@ -411,7 +411,7 @@ All `S3` method dispatches return a object of class `'pairwise_cor_spatial'`, wh
 
 ### Pairwise Tjostheim's coefficient of `ppp.object`
 
-The `S3` method dispatch `pairwise_cor_spatial.ppp()` finds the Tjostheim's correlation coefficient from the pairwise-combination of all `numeric` `marks` from the input `ppp.object`.
+The `S3` method dispatch `pairwise_cor_spatial.ppp()` finds the nonparametric Tjostheim's correlation coefficients from the pairwise-combinations of all `numeric` `marks`.
 
 ```{r}
 data(finpines, package = 'spatstat.data')

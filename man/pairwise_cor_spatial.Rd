@@ -3,11 +3,14 @@
 \name{pairwise_cor_spatial}
 \alias{pairwise_cor_spatial}
 \alias{pairwise_cor_spatial.ppp}
+\alias{pairwise_cor_spatial.ppplist}
 \title{Pairwise Tjostheim's Coefficient}
 \usage{
 pairwise_cor_spatial(x, ...)
 
 \method{pairwise_cor_spatial}{ppp}(x, ...)
+
+\method{pairwise_cor_spatial}{ppplist}(x, ...)
 }
 \arguments{
 \item{x}{see \strong{Usage}}

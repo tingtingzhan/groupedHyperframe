@@ -10,8 +10,7 @@
 #' `m1+m2 ~ y+x1+x2 | g1/g2`,
 #' where \eqn{m_i}'s are one or more \link[spatstat.geom]{marks},
 #' \eqn{y} and \eqn{x_j}'s are the endpoint and predictor(s) for downstream analysis,
-#' and \eqn{g_k} are one or more hierarchical grouping structure
-#' (in the fashion of parameter `random` of function \link[nlme]{lme})
+#' and \eqn{g_k} are one or more nested grouping structure
 #' 
 #' @param data \link[base]{data.frame}
 #' 

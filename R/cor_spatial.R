@@ -57,6 +57,19 @@ pairwise_cor_spatial.ppp <- function(x, ...) {
 
 
 
+
+#' @rdname pairwise_cor_spatial
+#' @export pairwise_cor_spatial.ppplist
+#' @export
+pairwise_cor_spatial.ppplist <- function(x, ...) {
+  x |>
+    lapply(FUN = pairwise_cor_spatial.ppp, ...)
+}
+  
+  
+  
+  
+
 #' @title Convert [pairwise_cor_spatial] to \link[base]{matrix}
 #' 
 #' @param x a [pairwise_cor_spatial]
