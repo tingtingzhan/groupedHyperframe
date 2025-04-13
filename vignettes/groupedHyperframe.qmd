@@ -105,7 +105,7 @@ c(
   '[`pmax`, `pmin`](https://search.r-project.org/R/refmans/base/html/Extremes.html)', 'Parallel maxima and minima',
   '`ppp`, `ppp.object`', '(Marked) point pattern, `spatstat.geom::ppp.object`',
   '[`quantile`](https://search.r-project.org/R/refmans/stats/html/quantile.html)', 'Quantile',
-  '[`save`](https://search.r-project.org/R/refmans/base/html/save.html), `xz`', 'Save with [`xz`](https://en.wikipedia.org/wiki/XZ_Utils) compression', 
+  '[`save`](https://search.r-project.org/R/refmans/base/html/save.html), [`saveRDS`](https://search.r-project.org/R/refmans/base/html/readRDS.html), `xz`', 'Save with [`xz`](https://en.wikipedia.org/wiki/XZ_Utils) compression', 
   '`S3`, `generic`, `methods`', '`S3` object oriented system, [`UseMethod`](https://search.r-project.org/R/refmans/base/html/UseMethod.html); [`methods`](https://search.r-project.org/R/refmans/utils/html/methods.html); [`getS3method`](https://search.r-project.org/R/refmans/utils/html/getS3method.html); <https://adv-r.hadley.nz/s3.html>',
   '[`search`](https://search.r-project.org/R/refmans/base/html/search.html)', 'Search path',
   '`Surv`', 'Survival object, `survival::Surv`',
