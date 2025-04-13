@@ -61,7 +61,6 @@ devtools::install_github('spatstat/spatstat.utils')
 Examples in this vignette require that the `search` path has
 
 ```{r}
-#| label: load-packages
 #| message: false
 library(groupedHyperframe)
 library(spatstat.data)
@@ -81,38 +80,38 @@ library(knitr) # for tables in this vignette
 #| echo: false
 #| results: asis
 c(
-  '', 'Forward pipe operator', '`?base::pipeOp` introduced in `R` 4.1.0', 
-  '`attr`', 'Attributes', '`base::attr`; `base::attributes`',
-  '`CRAN`, `R`', 'The Comprehensive R Archive Network', '<https://cran.r-project.org>',
-  '`cor.spatial`', 'Tjostheim\'s correlation coefficient', '`SpatialPack::cor.spatial`',
-  '`data.frame`', 'Data frame', '`base::data.frame`',
-  '`diag`', 'Matrix diagonals', '`base::diag`',
-  '`dist`', 'Distance matrix', '`stats::dist`',
-  '`formula`', 'Formula', '`stats::formula`',
-  '`fv`, `fv.object`, `fv.plot`', '(Plot of) function value table', '`spatstat.explore::fv.object`, `spatstat.explore::plot.fv`',
-  '`groupedData`, `~ g1/.../gm`', 'Grouped data frame; nested grouping structure', '`nlme::groupedData`; `nlme::lme`',
-  '`groupedHyperframe`', 'Grouped hyper data frame', '`groupedHyperframe::as.groupedHyperframe`',
-  '`hypercolumns`, `hyperframe`', '(Hyper columns of) hyper data frame', '`spatstat.geom::hyperframe`',
-  '`inherits`', 'Class inheritance', '`base::inherits`',
-  '`kerndens`', 'Kernel density', '`stats::density.default()$y`',
-  '`kmeans`', '$k$-means clustering', '`stats::kmeans`',
-  '`listof`', 'Lists of objects', '`?stats::listof`',
-  '`markformat`', 'Storage mode of `marks`', '`spatstat.geom::markformat`',
-  '`marks`', 'Marks of a point pattern', '`spatstat.geom::marks`',
-  '`mc.cores`', 'Number of CPU cores to use', '`parallel::mclapply`; `parallel::detectCores`',
-  '`multitype`', 'Multitype object', '`spatstat.geom::is.multitype`',
-  '`object.size`', 'Memory allocation', '`utils::object.size`',
-  '`pmean`, `pmedian`', 'Parallel mean and median', '`groupedHyperframe::pmean`; `groupedHyperframe::pmedian`',
-  '`pmax`, `pmin`', 'Parallel maxima and minima', '`base::pmax`; `base::pmin`',
-  '`ppp`, `ppp.object`', '(Marked) point pattern', '`spatstat.geom::ppp.object`',
-  '`quantile`', 'Quantile', '`stats::quantile`',
-  '`save`, `xz`', 'Save with `xz` compression', '`base::save(., compress = \'xz\')`; `base::saveRDS(., compress = \'xz\')`; <https://en.wikipedia.org/wiki/XZ_Utils>', 
-  '`S3`, `generic`, `methods`', '`S3` object oriented system',  '`base::UseMethod`; `utils::methods`; `utils::getS3method`; <https://adv-r.hadley.nz/s3.html>',
-  '`search`', 'Search path', '`base::search`',
-  '`Surv`', 'Survival object', '`survival::Surv`',
-  '`trapz`, `cumtrapz`', '(Cumulative) trapezoidal integration', '`pracma::trapz`; `pracma::cumtrapz`; <https://en.wikipedia.org/wiki/Trapezoidal_rule>'
+  '', 'Forward [pipe operator](https://search.r-project.org/R/refmans/base/html/pipeOp.html) introduced in `R` 4.1.0', 
+  '[`attr`](https://search.r-project.org/R/refmans/base/html/attr.html), [`attributes`](https://search.r-project.org/R/refmans/base/html/attributes.html)', 'Attributes',
+  '`CRAN`, `R`', '[The Comprehensive R Archive Network](https://cran.r-project.org)',
+  '`cor.spatial`', 'Tjostheim\'s correlation coefficient, `SpatialPack::cor.spatial`',
+  '[`data.frame`](https://search.r-project.org/R/refmans/base/html/data.frame.html)', 'Data frame',
+  '[`diag`](https://search.r-project.org/R/refmans/base/html/diag.html)', 'Matrix diagonals',
+  '[`dist`](https://search.r-project.org/R/refmans/stats/html/dist.html)', 'Distance matrix',
+  '[`formula`](https://search.r-project.org/R/refmans/stats/html/formula.html)', 'Formula',
+  '`fv`, `fv.object`, `fv.plot`', '(Plot of) function value table, `spatstat.explore::fv.object`, `spatstat.explore::plot.fv`',
+  '`groupedData`, `~ g1/.../gm`', 'Grouped data frame; nested grouping structure, `nlme::groupedData`; `nlme::lme`',
+  '`groupedHyperframe`', 'Grouped hyper data frame, `groupedHyperframe::as.groupedHyperframe`',
+  '`hypercolumns`, `hyperframe`', '(Hyper columns of) hyper data frame, `spatstat.geom::hyperframe`',
+  '[`inherits`](https://search.r-project.org/R/refmans/base/html/class.html)', 'Class inheritance',
+  '`kerndens`', 'Kernel density, `stats::density.default()$y`',
+  '[`kmeans`](https://search.r-project.org/R/refmans/stats/html/kmeans.html)', '$k$-means clustering',
+  '[`listof`](https://search.r-project.org/R/refmans/stats/html/listof.html)', 'Lists of objects',
+  '`markformat`', 'Storage mode of `marks`, `spatstat.geom::markformat`',
+  '`marks`', 'Marks of a point pattern, `spatstat.geom::marks`',
+  '[`mc.cores`](https://search.r-project.org/R/refmans/parallel/html/mclapply.html)', 'Number of CPU cores to use',
+  '`multitype`', 'Multitype object, `spatstat.geom::is.multitype`',
+  '[`object.size`](https://search.r-project.org/R/refmans/utils/html/object.size.html)', 'Memory allocation',
+  '`pmean`, `pmedian`', 'Parallel mean and median, `groupedHyperframe::pmean`; `groupedHyperframe::pmedian`',
+  '[`pmax`, `pmin`](https://search.r-project.org/R/refmans/base/html/Extremes.html)', 'Parallel maxima and minima',
+  '`ppp`, `ppp.object`', '(Marked) point pattern, `spatstat.geom::ppp.object`',
+  '[`quantile`](https://search.r-project.org/R/refmans/stats/html/quantile.html)', 'Quantile',
+  '[`save`](https://search.r-project.org/R/refmans/base/html/save.html), `xz`', 'Save with [`xz`](https://en.wikipedia.org/wiki/XZ_Utils) compression', 
+  '`S3`, `generic`, `methods`', '`S3` object oriented system, [`UseMethod`](https://search.r-project.org/R/refmans/base/html/UseMethod.html); [`methods`](https://search.r-project.org/R/refmans/utils/html/methods.html); [`getS3method`](https://search.r-project.org/R/refmans/utils/html/getS3method.html); <https://adv-r.hadley.nz/s3.html>',
+  '[`search`](https://search.r-project.org/R/refmans/base/html/search.html)', 'Search path',
+  '`Surv`', 'Survival object, `survival::Surv`',
+  '`trapz`, `cumtrapz`', '(Cumulative) [trapezoidal integration](https://en.wikipedia.org/wiki/Trapezoidal_rule), `pracma::trapz`; `pracma::cumtrapz`'
 ) |>
-  matrix(nrow = 3L, dimnames = list(c('Term / Abbreviation', 'Description', 'Reference'), NULL)) |>
+  matrix(nrow = 2L, dimnames = list(c('Term / Abbreviation', 'Description'), NULL)) |>
   t.default() |>
   as.data.frame.matrix() |> 
   kable() 
