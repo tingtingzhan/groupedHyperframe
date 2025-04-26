@@ -81,7 +81,7 @@ op = par(no.readonly = TRUE)
 #| echo: false
 #| results: asis
 c(
-  '', 'Forward [pipe operator](https://search.r-project.org/R/refmans/base/html/pipeOp.html) introduced in `R` 4.1.0', 
+  '[|>](https://search.r-project.org/R/refmans/base/html/pipeOp.html)', 'Forward pipe operator introduced in `R` 4.1.0', 
   '[`attr`](https://search.r-project.org/R/refmans/base/html/attr.html), [`attributes`](https://search.r-project.org/R/refmans/base/html/attributes.html)', 'Attributes',
   '`CRAN`, `R`', '[The Comprehensive R Archive Network](https://cran.r-project.org)',
   '[`cor`](https://search.r-project.org/R/refmans/stats/html/cor.html)', 'Correlation matrix',
@@ -123,7 +123,10 @@ c(
 
 ## Acknowledgement
 
-This work is supported by NCI R01CA222847 ([I. Chervoneva](https://orcid.org/0000-0002-9104-4505), [T. Zhan](https://orcid.org/0000-0001-9971-4844), and [H. Rui](https://orcid.org/0000-0002-8778-261X)) and R01CA253977 (H. Rui and I. Chervoneva).
+This work is supported by 
+
+-   NCI R01CA222847 ([I. Chervoneva](https://orcid.org/0000-0002-9104-4505), [T. Zhan](https://orcid.org/0000-0001-9971-4844), and [H. Rui](https://orcid.org/0000-0002-8778-261X))
+-   R01CA253977 (H. Rui and I. Chervoneva).
 
 # `groupedHyperframe` Class
 
