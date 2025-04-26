@@ -90,6 +90,7 @@ c(
   '[`data.frame`](https://search.r-project.org/R/refmans/base/html/data.frame.html)', 'Data frame',
   '[`diag`](https://search.r-project.org/R/refmans/base/html/diag.html)', 'Matrix diagonals',
   '[`dist`](https://search.r-project.org/R/refmans/stats/html/dist.html)', 'Distance matrix; so that we could take advantage of `stats:::as.matrix.dist`',
+  '[`file.size`](https://search.r-project.org/R/refmans/base/html/file.info.html)', 'File size in bytes',
   '[`formula`](https://search.r-project.org/R/refmans/stats/html/formula.html)', 'Formula',
   '[`fv`, `fv.object`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/fv.object.html), [`fv.plot`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/plot.fv.html)', '(Plot of) function value table',
   '[`groupedData`](https://search.r-project.org/CRAN/refmans/nlme/html/groupedData.html), `~ g1/.../gm`', 'Grouped data frame; nested grouping structure',
@@ -148,13 +149,19 @@ osteo |> as.groupedHyperframe(group = ~ id/brick)
 
 ### Create a `groupedHyperframe` from a `data.frame`
 
-The `S3` method dispatch `as.groupedHyperframe.data.frame()` converts a `data.frame` to a `groupedHyperframe.` This function inspects the input by the (nested) grouping structure, identifies the column(s) with elements not identical within the lowest group, and converts them into `hypercolumns`. Data set **`Ki67.`** in this package has non-identical column *`logKi67`* in the nested grouping structure *`~ patientID/tissueID`*.
+The `S3` method dispatch `as.groupedHyperframe.data.frame()`
+
+1.  inspects the input `data.frame` by the (nested) grouping structure;
+2.  identifies the column(s) with ***non-identical elements*** within the lowest group, and converts them into `hypercolumns`;
+3.  returns a `groupedHyperframe`.
+
+Data set **`Ki67.`** in this package has non-identical column *`logKi67`* in the nested grouping structure *`~ patientID/tissueID`*.
 
 ```{r}
 (Ki67g = Ki67. |> as.groupedHyperframe(group = ~ patientID/tissueID))
 ```
 
-Converting a `data.frame` with cell intensities, etc., into a `groupedHyperframe` reduces memory allocation, but does not reduce much the `save`d files size if `xz` compression is used.
+Converting a `data.frame` with cell intensities, etc., into a `groupedHyperframe` reduces memory allocation, but does not reduce much the `save`d `file.size` if `xz` compression is used.
 
 ```{r}
 unclass(object.size(Ki67g)) / unclass(object.size(Ki67.))
@@ -170,15 +177,16 @@ file.size(f_g) / file.size(f) # not much reduction
 
 ## Create a `groupedHyperframe` with `ppp`-`hypercolumn`
 
-Function `grouped_ppp()` creates a `groupedHyperframe` with *one-and-only-one* `ppp`-`hypercolumn`. In the following example, the argument `formula` specifies
+Function `grouped_ppp()` creates a `groupedHyperframe` with *one-and-only-one* `ppp`-`hypercolumn`. 
+
+In the following example, the argument `formula` specifies
 
 -   the `marks`, e.g., `numeric` mark *`hladr`* and `multitype` mark *`phenotype`*, on the left-hand-side
 -   the additional predictors and/or endpoints for downstream analysis, e.g., *`OS`*, *`gender`* and *`age`*, before the `|` separator on the right-hand-side
 -   the grouping structure, e.g., *`image_id`* nested in *`patient_id`*, after the `|` separator on the right-hand-side.
 
 ```{r}
-(s = grouped_ppp(formula = hladr + phenotype ~ OS + gender + age | patient_id/image_id, 
-                 data = wrobel_lung))
+(s = grouped_ppp(formula = hladr + phenotype ~ OS + gender + age | patient_id/image_id, data = wrobel_lung))
 ```
 
 # Batch Process on `ppp`-`hypercolumn`
