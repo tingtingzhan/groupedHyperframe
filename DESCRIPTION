@@ -2,8 +2,8 @@ Package: groupedHyperframe
 Type: Package
 Title: Grouped Hyper Data Frame: An Extension of Hyper Data
        Frame Object
-Version: 0.2.1
-Date: 2025-04-01
+Version: 0.2.2
+Date: 2025-04-28
 Description: An S3 class 'groupedHyperframe' that inherits from
        hyper data frame. Batch processes on point-pattern hyper
        column. Aggregation of function-value-table hyper
@@ -15,7 +15,7 @@ LazyData: true
 LazyDataCompression: xz
 Encoding: UTF-8
 License: GPL-2
-Depends: R (>= 4.4)
+Depends: R (>= 4.5)
 Language: en-US
 Authors@R: c(person(given = 'Tingting', family = 'Zhan', role =
        c('aut', 'cre'), email = 'tingtingzhan@gmail.com',

@@ -101,7 +101,7 @@ c(
   '[`kmeans`](https://search.r-project.org/R/refmans/stats/html/kmeans.html)', '$k$-means clustering',
   '[`listof`](https://search.r-project.org/R/refmans/stats/html/listof.html)', 'Lists of objects',
   '[`markformat`](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/spatstat.geom-internal.html)', 'Storage mode of `marks`',
-  '[`marks`](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/spatstat.geom-internal.html)', 'Marks of a point pattern',
+  '[`marks`](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/spatstat.geom-internal.html), [`marked`](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/is.marked.html)', 'Marks of a point pattern',
   '[`mc.cores`](https://search.r-project.org/R/refmans/parallel/html/mclapply.html)', 'Number of CPU cores to use',
   '[`multitype`](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/spatstat.geom-internal.html)', 'Multitype spatial object',
   '[`object.size`](https://search.r-project.org/R/refmans/utils/html/object.size.html)', 'Memory allocation',
@@ -265,7 +265,7 @@ by either one of the grouping levels `~g1`, `~g2`, ..., or `~gm`. If the lowest 
 
 Available aggregation methods are the parallel minima `base::pmin`, maxima `base::pmax`, means `pmean()` and medians `pmedian()`.
 
-## Aggregation of `fv`-hypercolumn(s)
+## Of `fv`-hypercolumn(s)
 
 Function `aggregate_fv()` aggregates
 
@@ -289,9 +289,9 @@ Each of the numeric-hypercolumns contains tabulated values on the common grid of
 afv$hladr.E.cumtrapz |> .slice(j = '50')
 ```
 
-## Aggregation of numeric-hypercolumn and numeric marks in `ppp`-hypercolumn
+## Of numeric-hypercolumn and numeric marks in `ppp`-hypercolumn
 
-### Aggregation of `quantile`
+### On `quantile`s
 
 Function `aggregate_quantile()` aggregates the `quantile`s of the numeric-hypercolumns and the numeric marks in the `ppp`-hypercolumn.
 
@@ -306,7 +306,7 @@ out |>
   aggregate_quantile(by = ~ patient_id, probs = seq.int(from = 0, to = 1, by = .1))
 ```
 
-### Aggregation of kernel density
+### On kernel densities
 
 Function `aggregate_kerndens()` aggregates the kernel density of the numeric-hypercolumns and the numeric marks in the `ppp`-hypercolumn.
 
@@ -335,7 +335,13 @@ data(shapley, package = 'spatstat.data')
 shapley
 ```
 
-The `S3` method dispatch `.kmeans.ppp()` performs $k$-means clustering based on one-or-more user-specified coordinates and/or `marks`.
+The `S3` method dispatch `.kmeans.ppp()` performs $k$-means clustering, with paramters
+
+-   `formula`, user-specified coordinate(s) and/or numeric `marks`;
+-   `centers`, number of clusters, see `?stats::kmeans`
+-   `clusterSize`, "expected" cluster size. 
+
+#### By coordinate(s) and/or `marks`
 
 Example below shows a clustering based on the $x$- and $y$-coordinates, as well as the numeric mark *`Mag`*.
 
@@ -358,6 +364,8 @@ km2 = shapley |> .kmeans(formula = ~ x + y, centers = 3L)
 km2 |> class()
 ```
 
+#### By `clusterSize`
+
 Example below shows a clustering specified by `clusterSize`.
 
 ```{r}
@@ -369,9 +377,9 @@ km3$cluster |> table()
 
 ## Split by $k$-Means Clustering
 
-This appendix documents the `split`ting of `ppp.object`, `listof`, and `hyperframe` by $k$-means clustering.
+The `S3` generic `split_kmeans()` `split`s `ppp.object`, `listof` `ppp.object`s, and `hyperframe` by $k$-means clustering.
 
-Many functions in package **`groupedHyperframe`** requires a `'dataframe'` `markformat` for `ppp.object`s.
+Note that many functions in package **`groupedHyperframe`** require a `'dataframe'` `markformat` for `ppp.object`s.
 
 ```{r}
 flu$pattern[[1L]] |> markformat()
@@ -387,7 +395,7 @@ flu$pattern[[1L]] |> markformat()
 
 ### Split a `ppp.object`
 
-The `S3` method dispatch `split_kmeans.default()` splits a `ppp.object` (more to come in future) by $k$-means clustering.
+The `S3` method dispatch `split_kmeans.default()` splits a `ppp.object` by $k$-means clustering.
 
 ```{r}
 flu$pattern[[1L]] |> split_kmeans(formula = ~ x + y, centers = 3L)
