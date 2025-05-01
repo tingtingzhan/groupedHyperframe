@@ -10,6 +10,11 @@ toc-location: left
 toc-depth: 4
 toc-title: ''
 editor: visual
+bibliography: groupedHyperframe.bib
+knitr:
+  opts_chunk: 
+    collapse: true
+    comment: "#>" 
 vignette: >
   %\VignetteIndexEntry{intro}
   %\VignetteEngine{quarto::html}
@@ -99,7 +104,7 @@ c(
   '[`inherits`](https://search.r-project.org/R/refmans/base/html/class.html)', 'Class inheritance',
   '`kerndens`', 'Kernel density, `stats::density.default()$y`',
   '[`kmeans`](https://search.r-project.org/R/refmans/stats/html/kmeans.html)', '$k$-means clustering',
-  '[`listof`](https://search.r-project.org/R/refmans/stats/html/listof.html)', 'Lists of objects',
+  '[`list`](https://search.r-project.org/R/refmans/base/html/list.html), [`listof`](https://search.r-project.org/R/refmans/stats/html/listof.html)', 'Lists of objects',
   '[`markformat`](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/spatstat.geom-internal.html)', 'Storage mode of `marks`',
   '[`marks`](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/spatstat.geom-internal.html), [`marked`](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/is.marked.html)', 'Marks of a point pattern',
   '[`mc.cores`](https://search.r-project.org/R/refmans/parallel/html/mclapply.html)', 'Number of CPU cores to use',
@@ -114,7 +119,8 @@ c(
   '[`sd`](https://search.r-project.org/R/refmans/stats/html/sd.html)', 'Standard deviation',
   '[`search`](https://search.r-project.org/R/refmans/base/html/search.html)', 'Search path',
   '[`Surv`](https://search.r-project.org/CRAN/refmans/survival/html/Surv.html)', 'Survival, i.e., time-to-event, object',
-  '[`trapz`, `cumtrapz`](https://search.r-project.org/CRAN/refmans/pracma/html/trapz.html)', '(Cumulative) [trapezoidal integration](https://en.wikipedia.org/wiki/Trapezoidal_rule)'
+  '[`trapz`, `cumtrapz`](https://search.r-project.org/CRAN/refmans/pracma/html/trapz.html)', '(Cumulative) [trapezoidal integration](https://en.wikipedia.org/wiki/Trapezoidal_rule)',
+  '[`vector`](https://search.r-project.org/R/refmans/base/html/vector.html)', 'Vector'
 ) |>
   matrix(nrow = 2L, dimnames = list(c('Term / Abbreviation', 'Description'), NULL)) |>
   t.default() |>
@@ -129,71 +135,130 @@ This work is supported by
 -   NCI R01CA222847 ([I. Chervoneva](https://orcid.org/0000-0002-9104-4505), [T. Zhan](https://orcid.org/0000-0001-9971-4844), and [H. Rui](https://orcid.org/0000-0002-8778-261X))
 -   R01CA253977 (H. Rui and I. Chervoneva).
 
-# `groupedHyperframe` Class
+# Grouped Hyper Data Frame
 
-The `S3` class `groupedHyperframe` `inherits` from the `hyperframe` class, in a similar fashion as the `groupedData` class inherits from the `data.frame` class.
+In this section, we introduce the `S3` class `groupedHyperframe` for grouped hyper data frame, which `inherits` from the `hyperframe` class defined in package **`spatstat.geom`** [@spatstat15].
 
-A `groupedHyperframe` object, in addition to a `hyperframe` object, has `attributes`
+A `hyperframe`, or hyper data frame, contains columns either as `vector`s like in a `data.frame`, or as `list`s of objects of the same class, a.k.a, the `hypercolumns`. This data structure is particularly useful in spatial analysis [@spatstat05], e.g., with medical images, where the spatial information in each image would be represented by one element in a `hypercolumn`.
+
+In this package, we introduce a new `S3` class `groupedHyperframe`, or grouped hyper data frame, which `inherits` from the `hyperframe` class, with additional `attributes`
 
 -   `attr(., 'group')`, a `formula` to specify the (nested) grouping structure
 
-## Create a `groupedHyperframe`
+A `groupedHyperframe` is a useful tool to analyze hyper data frames with a (nested) grouping structure, e.g., when each patient has one or more images (`~patient/image`). The grammar of the nested grouping structure $g_1/.../g_m$ (`~g1/.../gm`) follows that of the parameter `random` of functions `nlme::lme()` and `nlme::nlme()`. In fact, the `grouped` extension of a `hyperframe` is inspired by the `nlme::groupedData` class which inherits from `data.frame` [@nlme]. In this vignette, we introduce several `S3` method dispatches of the `S3` generic `as.groupedHyperframe()` to convert various classes of object into a `groupedHyperframe`.
 
-### Create a `groupedHyperframe` from a `hyperframe`
+The hypercolumns in a `groupedHyperframe` could be aggregated at either one of the grouping levels $g_1,\cdots,g_{m-1}$ when a nested grouping structure `~g1/.../gm` is present. Aggregation at the lowest grouping level $g_m$ will be ignored, i.e., no aggregation to be performed. Available aggregation methods in this package are the parallel minima `base::pmin()`, parallel maxima `base::pmax()`, parallel means `pmean()` (default) and parallel medians `pmedian()`. In this vignette, we introduce several aggregation functions `aggregate_*()` for the hypercolumns in a `groupedHyperframe`.
 
-The `S3` method dispatch `as.groupedHyperframe.hyperframe()` converts a `hyperframe` to `groupedHyperframe`. Data set `spatstat.data::osteo` has the serial number of sampling volume `brick` nested in the bone sample `id`,
+## From `data.frame`
+
+Users may convert a `data.frame` with substantial amount of duplicated information into a `groupedHyperframe` using the `S3` method dispatch `as.groupedHyperframe.data.frame()`. This function
+
+1.  inspects the input `data.frame` by the user-specified (nested) `group`ing structure;
+2.  identifies the column(s) with ***non-identical elements*** within the lowest group, and converts them into hypercolumn(s);
+3.  returns a `groupedHyperframe` with the user-specified (nested) grouping structure.
+
+In the following example, consider a toy data set **`wrobel_lung0`** with non-identical column *`hladr`* in the lowest group *`image_id`* of the nested grouping structure *`~patient_id/image_id`*.
+
+```{r}
+wrobel_lung0 = wrobel_lung |>
+  within.data.frame(expr = {
+    x = y = NULL
+    dapi = phenotype = tissue = NULL
+  })
+```
+
+```{r}
+wrobel_lung0 |> head()
+```
+
+By converting **`wrobel_lung0`** into a `groupedHyperframe`, the numeric *`hladr`* from each *`~patient_id/image_id`* are converted into elements of the numeric hypercolumn *`hladr`* in the returned **`wrobel_lung0g`**. Each row of a `groupedHyperframe` represents the lowest group of the nested grouping structure. The `R` console output (`S3` method dispatch `print.groupedHyperframe()`) highlights the nested grouping structure, number of clusters at each grouping level, as well as the first 10 (or less) rows of the `groupedHyperframe`.
+
+```{r}
+(wrobel_lung0g = wrobel_lung0 |> as.groupedHyperframe(group = ~ patient_id/image_id))
+```
+
+### Reducing memory allocation
+
+Converting a `data.frame` with substantial amount of duplicated information like **`wrobel_lung0`** into a `groupedHyperframe` greatly reduces the memory allocation.
+
+```{r}
+unclass(object.size(wrobel_lung0g)) / unclass(object.size(wrobel_lung0))
+```
+
+A `groupedHyperframe`, however, would not reduce much the `save`d `file.size` compared to a `data.frame`, if `xz` compression is used for both.
+
+```{r}
+f_g = tempfile(fileext = '.rds')
+wrobel_lung0g |> saveRDS(file = f_g, compress = 'xz')
+f = tempfile(fileext = '.rds')
+wrobel_lung0 |> saveRDS(file = f, compress = 'xz')
+file.size(f_g) / file.size(f) # not much reduction
+```
+
+### Aggregation of numeric hypercolumn
+
+We use function `aggregate_quantile()` to aggregate the `quantile`s of each element in the numeric hypercolumn *`hladr`* in **`wrobel_lung0g`** by parallel means (default of parameter `f_aggr_`) at the second-lowest group *`~patient_id`*. The returned object is a `hyperframe` instead of a `groupedHyperframe`, as we have ***one*** aggregated *`hladr.quantile`* per *`~patient_id`*, thus eliminates the need for a grouping structure.
+
+```{r}
+#| message: false
+wrobel_lung0g |>
+  aggregate_quantile(by = ~ patient_id, probs = seq.int(from = .01, to = .99, by = .01))
+```
+
+In this package, we have include a `groupedHyperframe` example **`Ki67`** with a numeric-hypercolumn *`logKi67`* and a nested grouping structure *`~patientID/tissueID`*. 
+
+```{r}
+data(Ki67, package = 'groupedHyperframe')
+Ki67
+```
+
+Similarly, we use function `aggregate_quantile()` to aggregate the `quantile`s of each element in the numeric hypercolumn *`logKi67`* at the second-lowest group `~patientID`.
+
+```{r}
+#| message: false
+s = Ki67 |>
+  aggregate_quantile(by = ~ patientID, probs = seq.int(from = .01, to = .99, by = .01))
+s |> head()
+```
+
+Users are encouraged to learn more about the applications of the aggregated quantiles of **`Ki67`** data from package **`hyper.gam`** vignettes ([RPubs](https://rpubs.com/tingtingzhan/hyper_gam_application), [`CRAN`](https://cran.r-project.org/web/packages/hyper.gam/vignettes/applications.html)), as well as from our publications @Yi23a; @Yi23b.
+
+## From `hyperframe`
+
+Users may convert a `hyperframe` provided in the package **`spatstat.data`** into a `groupedHyperframe` using the `S3` method dispatch `as.groupedHyperframe.hyperframe()`. This function simply inspects and adds a (nested) grouping structure to the input `hyperframe`.
+
+In the following example, we inspect the data set `spatstat.data::osteo`, which has the serial number of sampling volume `brick` nested in the bone sample `id`, and add the nested grouping structure `~id/brick` to it.
 
 ```{r}
 osteo |> as.groupedHyperframe(group = ~ id/brick)
 ```
 
-### Create a `groupedHyperframe` from a `data.frame`
+In this vignette, we do not place much emphasize on the objects provided in package **`spatstat.data`**, for now.
 
-The `S3` method dispatch `as.groupedHyperframe.data.frame()`
+# Grouping Structure on `ppp`-Hypercolumn
 
-1.  inspects the input `data.frame` by the (nested) grouping structure;
-2.  identifies the column(s) with ***non-identical elements*** within the lowest group, and converts them into hypercolumns;
-3.  returns a `groupedHyperframe`.
+In this section, we introduce the creation of `groupedHyperframe` with *one-and-only-one* point pattern (`ppp`) hypercolumn, as well as the batch processes of spatial point pattern analyses on the *one-and-only-one* `ppp`-hypercolumn of a `hyperframe` (and/or `groupedHyperframe`).
 
-Data set **`Ki67.`** in this package has non-identical column *`logKi67`* in the nested grouping structure *`~ patientID/tissueID`*.
+These batch processes are not intended for a `hyperframe` (and/or `groupedHyperframe`) with multiple `ppp`-hypercolumn in the foreseeable future, as that would require checking for name clashes in the `marks` from multiple `ppp`-hypercolumn.
 
-```{r}
-(Ki67g = Ki67. |> as.groupedHyperframe(group = ~ patientID/tissueID))
-```
-
-Converting a `data.frame` with cell intensities, etc., into a `groupedHyperframe` reduces memory allocation, but does not reduce much the `save`d `file.size` if `xz` compression is used.
-
-```{r}
-unclass(object.size(Ki67g)) / unclass(object.size(Ki67.))
-```
-
-```{r}
-f_g = tempfile(fileext = '.rds')
-Ki67g |> saveRDS(file = f_g, compress = 'xz')
-f = tempfile(fileext = '.rds')
-Ki67. |> saveRDS(file = f, compress = 'xz')
-file.size(f_g) / file.size(f) # not much reduction
-```
-
-## Create a `groupedHyperframe` with `ppp`-hypercolumn
+## Grouped hyper data frame with `ppp`-hypercolumn
 
 Function `grouped_ppp()` creates a `groupedHyperframe` with *one-and-only-one* `ppp`-hypercolumn.
 
 In the following example, the argument `formula` specifies
 
--   the `marks`, e.g., numeric mark *`hladr`* and `multitype` mark *`phenotype`*, on the left-hand-side
+-   the point pattern `marks`, e.g., numeric mark *`hladr`* and `multitype` mark *`phenotype`*, on the left-hand-side
 -   the additional predictors and/or endpoints for downstream analysis, e.g., *`OS`*, *`gender`* and *`age`*, before the `|` separator on the right-hand-side
--   the grouping structure, e.g., *`image_id`* nested in *`patient_id`*, after the `|` separator on the right-hand-side.
+-   the (nested) grouping structure, e.g., *`image_id`* nested in *`patient_id`*, after the `|` separator on the right-hand-side.
 
 ```{r}
-(s = grouped_ppp(formula = hladr + phenotype ~ OS + gender + age | patient_id/image_id, data = wrobel_lung))
+(s = wrobel_lung |>
+   grouped_ppp(formula = hladr + phenotype ~ OS + gender + age | patient_id/image_id))
 ```
 
-# Batch Process on `ppp`-hypercolumn
+## Batch processes in pipeline workflow
 
-This section outlines the batch processes of spatial point pattern analyses applicable to the *one-and-only-one* `ppp`-hypercolumn of a `hyperframe`. These batch processes are not intended for a `hyperframe` with multiple `ppp`-hypercolumn in the foreseeable future, as that would require checking for name clashes in the `marks` from multiple `ppp`-hypercolumn.
-
-## To return an `fv`-hypercolumns
+Currently supported in package **`groupedHyperframe`** are batch processes that return a function value table (`fv`) hypercolumn,
 
 ```{r}
 #| echo: false
@@ -205,7 +270,8 @@ c(
   '`markvario_()`', '`markvario()`', 'numeric marks', '`.gamma`',
   '`Gcross_()`', '`Gcross()`', '`multitype` marks', '`.G`',
   '`Kcross_()`', '`Kcross()`', '`multitype` marks', '`.K`',
-  '`Jcross_()`', '`Jcross()`', '`multitype` marks', '`.J`'
+  '`Jcross_()`', '`Jcross()`', '`multitype` marks', '`.J`',
+  '`Lcross_()`', '`Lcross()`', '`multitype` marks', '`.L`'
 ) |>
   matrix(nrow = 4L, dimnames = list(c('Batch Process', 'Workhorse in package **`spatstat.explore`**', 'Applicable To', '`fv`-hypercolumns Suffix'), NULL)) |>
   t.default() |>
@@ -213,7 +279,7 @@ c(
   kable()
 ```
 
-## To return a numeric-hypercolumns
+and batch processes that return a numeric-hypercolumn
 
 ```{r}
 #| echo: false
@@ -227,9 +293,7 @@ c(
   kable()
 ```
 
-## Pipe operator compatible
-
-Multiple batch processes may be applied to a `hyperframe` (or `groupedHyperframe`) in a pipeline.
+Multiple batch processes may be applied to a `hyperframe` (and/or `groupedHyperframe`) in a pipeline using the pipe operator `|>` introduced in `R` 4.1.0.
 
 ```{r}
 r = seq.int(from = 0, to = 250, by = 10)
@@ -253,19 +317,9 @@ The returned `hyperframe` (or `groupedHyperframe`) has
 out
 ```
 
-# Aggregation over Nested Grouping Structure
+## Aggregation over nested grouping structure
 
-When nested grouping structure `~g1/g2/.../gm` is present, we may aggregate over the
-
--   `fv` hypercolumns
--   numeric hypercolumns
--   numeric marks in the `ppp` hypercolumn
-
-by either one of the grouping levels `~g1`, `~g2`, ..., or `~gm`. If the lowest grouping `~gm` is specified, then no aggregation is performed.
-
-Available aggregation methods are the parallel minima `base::pmin`, maxima `base::pmax`, means `pmean()` and medians `pmedian()`.
-
-## Of `fv`-hypercolumn(s)
+### Of `fv`-hypercolumn(s)
 
 Function `aggregate_fv()` aggregates
 
@@ -289,9 +343,9 @@ Each of the numeric-hypercolumns contains tabulated values on the common grid of
 afv$hladr.E.cumtrapz |> .slice(j = '50')
 ```
 
-## Of numeric-hypercolumn and numeric marks in `ppp`-hypercolumn
+### Of numeric-hypercolumn and numeric marks in `ppp`-hypercolumn
 
-### On `quantile`s
+#### On `quantile`s
 
 Function `aggregate_quantile()` aggregates the `quantile`s of the numeric-hypercolumns and the numeric marks in the `ppp`-hypercolumn.
 
@@ -306,7 +360,7 @@ out |>
   aggregate_quantile(by = ~ patient_id, probs = seq.int(from = 0, to = 1, by = .1))
 ```
 
-### On kernel densities
+#### On kernel densities
 
 Function `aggregate_kerndens()` aggregates the kernel density of the numeric-hypercolumns and the numeric marks in the `ppp`-hypercolumn.
 
@@ -339,7 +393,7 @@ The `S3` method dispatch `.kmeans.ppp()` performs $k$-means clustering, with par
 
 -   `formula`, user-specified coordinate(s) and/or numeric `marks`;
 -   `centers`, number of clusters, see `?stats::kmeans`
--   `clusterSize`, "expected" cluster size. 
+-   `clusterSize`, "expected" cluster size.
 
 #### By coordinate(s) and/or `marks`
 
@@ -456,3 +510,8 @@ Note that this matrix is ***not*** a `cor`relation matrix, because Tjostheim's c
 
 -   is nonparametric, i.e., there is no definition of the corresponding `cov`ariance, standard deviation `sd`, nor the conversion `cov2cor` method;
 -   does not provide a mathematical mechanism to ensure this matrix is [positive definite](https://en.wikipedia.org/wiki/Definite_matrix).
+
+# References
+
+::: {#refs}
+:::
