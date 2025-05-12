@@ -11,7 +11,13 @@
     # to disable "checking for future file timestamps" in R Check
   )
   
-  options(mc.cores = switch(.Platform$OS.type, windows = 1L, detectCores()))
+  options(
+    
+    mc.cores = switch(.Platform$OS.type, windows = 1L, detectCores()),
+    
+    use_unicode = TRUE
+    
+  )
   
 }
 
