@@ -36,12 +36,12 @@ Experimental (and maybe unstable) features are implemented **extremely frequentl
 remotes::install_github('tingtingzhan/groupedHyperframe')
 ```
 
-Stable releases to [`CRAN`](https://CRAN.R-project.org/package=groupedHyperframe) are typically updated every 2 to 3 months, or when the authors have an upcoming peer-reviewed manuscript in the review process. [Developers should **not** use the `CRAN` version!]{style="background-color: #FFFF00"}
+Stable releases to [`CRAN`](https://CRAN.R-project.org/package=groupedHyperframe) are typically updated every 2 to 3 months, or when the authors have an upcoming manuscript in the peer-reviewing process. [Developers should **not** use the `CRAN` version!]{style="background-color: #FFFF00"}
 
 ```{r}
 #| warning: false
 #| eval: false
-utils::install.packages('groupedHyperframe')
+utils::install.packages('groupedHyperframe') # Developers, do NOT use!!
 ```
 
 Package **`groupedHyperframe`** may require the development versions of the **`spatstat`** family.
@@ -69,8 +69,6 @@ Examples in this vignette require that the `search` path has
 ```{r}
 #| message: false
 library(groupedHyperframe)
-library(spatstat.data)
-library(spatstat.geom)
 library(survival) # to help hyperframe understand Surv object
 ```
 
@@ -107,6 +105,7 @@ op = par(no.readonly = TRUE)
 | [`markformat`](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/spatstat.geom-internal.html) | Storage mode of `marks` |
 | [`marks`](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/spatstat.geom-internal.html), [`marked`](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/is.marked.html) | Marks of a point pattern |
 | [`mc.cores`](https://search.r-project.org/R/refmans/parallel/html/mclapply.html) | Number of CPU cores to use for parallel computing |
+| [`message`](https://search.r-project.org/R/refmans/base/html/message.html) | Diagnostic message printed in `R` console |
 | [`multitype`](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/spatstat.geom-internal.html) | Multitype spatial object |
 | [`object.size`](https://search.r-project.org/R/refmans/utils/html/object.size.html) | Memory allocation |
 | `pmean`, `pmedian` | Parallel, or point-wise, mean and median, `groupedHyperframe::pmean`; `groupedHyperframe::pmedian` |
@@ -288,7 +287,7 @@ s = Ki67 |>
 s |> head()
 ```
 
-Users are encouraged to learn more about the applications of the aggregated quantiles of **`Ki67`** data from package **`hyper.gam`** vignettes ([RPubs](https://rpubs.com/tingtingzhan/hyper_gam_application), [`CRAN`](https://cran.r-project.org/web/packages/hyper.gam/vignettes/applications.html)) section *Quantile Index Predictor*, as well as from our peer-reviewed publications @Yi23a; @Yi23b.
+Users are encouraged to learn more about the applications of the aggregated quantiles of **`Ki67`** data from package **`hyper.gam`** vignettes ([RPubs](https://rpubs.com/tingtingzhan/hyper_gam), [`CRAN`](https://cran.r-project.org/web/packages/hyper.gam/vignettes/applications.html)), section *Quantile Index*, as well as from our peer-reviewed publications @Yi25; @Yi23a; @Yi23b.
 
 ## From `hyperframe`
 
@@ -297,7 +296,8 @@ Users may convert a `hyperframe` provided in the package **`spatstat.data`** int
 In the following example, we inspect the data set `spatstat.data::osteo`, which has the serial number of sampling volume `brick` nested in the bone sample `id`, and add the nested grouping structure `~id/brick` to it.
 
 ```{r}
-osteo |> as.groupedHyperframe(group = ~ id/brick)
+spatstat.data::osteo |> 
+  as.groupedHyperframe(group = ~ id/brick)
 ```
 
 In this vignette, we do not place much emphasize on the objects provided in package **`spatstat.data`**, for now.
@@ -323,11 +323,11 @@ In the following example, the argument `formula` specifies
    grouped_ppp(formula = hladr + phenotype ~ OS + gender + age | patient_id/image_id))
 ```
 
-## Batch Processes
+## Batch processes
 
-### Batch Processes to return `fv`-hypercolumn
+### Batch processes to return `fv`-hypercolumn
 
-Currently supported in package **`groupedHyperframe`** are batch processes that return a function value table (`fv`) hypercolumn,
+In this section, we discuss the batch processes that return a function value table (`fv`) hypercolumn, i.e., a hypercolumn which consists of a `list` of `fv.object`s.
 
 #### Batch processes applicable to numeric `marks`
 
@@ -338,7 +338,7 @@ Currently supported in package **`groupedHyperframe`** are batch processes that 
 | `markcorr_()` | [`markcorr`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/markcorr.html), marked correlation function [@markcorr] | `.k` |
 | `markvario_()` | [`markvario`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/markvario.html), mark variogram [@markvario] | `.gamma` |
 
-##### Exception Handling
+##### Exception handling
 
 In package **`spatstat.explore`** (up to version `3.4.3`, 2025-05-21), function `markcorr()` is the workhorse inside functions `Emark()`, `Vmark()` and `markvario()`. Function `markcorr()` relies on the un-exported workhorse function `spatstat.explore:::sewsmod()`, whose default `method = "density"` contains the calculation of the ratio of two kernel densities. Due to the floating-point precision of `R`, such density ratios may have exceptional returns of
 
@@ -349,19 +349,20 @@ In package **`spatstat.explore`** (up to version `3.4.3`, 2025-05-21), function 
 Function `markcorr()` provides a default argument of parameter $r$, at which the mark correlation function $k_f(r)$ are evaluated, using function `spatstat.geom::handle.r.b.args()`. The S3 method dispatch `spatstat.explore::print.fv()` prints the *recommended range* and *available range* of the argument $r$.
 
 ```{r}
-m = spatstat.data::spruces |> 
+spatstat.data::spruces |> 
   spatstat.explore::markcorr()
-m
 ```
 
-We may observe exceptional returns if we go beyond the *recommended range* and/or *available range*. In the following example, we see the mark correlation value $k_f(r)$ of `NaN` at $r=81,88,89,90$, `0` at $r=82$ and `Inf` at $r=83,84,87$.
+We may observe exceptional returns if we go beyond the *recommended range* and/or *available range*. In the following example, we see that the mark correlation $k_f(r)$ (column `iso`) having value `NaN` at $r=81,88,89,90$, value `0` at $r=82$ and value `Inf` at $r=83,84,87$.
 
 ```{r}
 spatstat.data::spruces |> 
   spatstat.explore::markcorr(r = 0:90) |>
-  key1val.fv() |>
+  spatstat.explore::as.data.frame.fv() |>
   utils::tail(n = 10L)
 ```
+
+In the batch process `markcorr_()`, a same argument of `r` is used for *all* `ppp.object`s in the `ppp`-hypercolumn. Inevitably, for some `ppp.object`s the returned `fv.object`s may have exceptional values. We discuss this exception handling in the next section *Aggregation over nested grouping structure*.
 
 #### Batch processes applicable to `multitype` `marks`
 
@@ -372,13 +373,13 @@ spatstat.data::spruces |>
 | `Jcross_()` | [`Jcross`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/Jcross.html), multitype $J$-function [@Jcross] | `.J` |
 | `Lcross_()` | [`Lcross`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/Lcross.html), multitype $L$-function | `.L` |
 
-### Batch Processes to return numeric-hypercolumn
+### Batch processes to return numeric-hypercolumn
 
 | Batch Process | Workhorse in package **`spatstat.geom`** | Applicable to | numeric-hypercolumns Suffix |
 |------------------|------------------|------------------|------------------|
 | `nncross_()` | [`nncross.ppp`](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/nncross.html)`(., what = 'dist')` | `multitype` marks | `.nncross` |
 
-### Pipeline
+### Batch processes in a pipeline
 
 Multiple batch processes may be applied to a `hyperframe` (and/or `groupedHyperframe`) in a pipeline using the native pipe operator `|>` introduced since `R` 4.1.0.
 
@@ -429,6 +430,19 @@ Each of the numeric-hypercolumns contains tabulated values on the common grid of
 ```{r}
 afv$hladr.E.cumtrapz |> .slice(j = '50')
 ```
+
+#### Exception handling
+
+As we have mentioned in the previous section *Batch processes*, a same argument of `r` is used for *all* `ppp.object`s in the `ppp`-hypercolumn. Suppose a naive user uses an $r$-vector well beyond the *recommended range* and/or *available range*. In this case, function `aggregate_fv()` prints a `message` of "please limit $r$" on a ***recommended batch range***.
+
+```{r}
+r = seq.int(from = 0, to = 2000, by = 50)
+no_print = s |>
+  Emark_(r = r, correction = 'none') |>
+  aggregate_fv(by = ~ patient_id, f_aggr_ = pmean)
+```
+
+The recommended batch range is determined by the last value of $r$, that no value of `NaN` and/or `Inf` appears in any of the `fv.object`s of the `fv`-hypercolumn, e.g., *`hladr.E`*.
 
 ### Of numeric-hypercolumn and numeric marks in `ppp`-hypercolumn
 
@@ -523,7 +537,9 @@ The `S3` generic `split_kmeans()` `split`s `ppp.object`, `listof` `ppp.object`s,
 Note that many functions in package **`groupedHyperframe`** require a `'dataframe'` `markformat` for `ppp.object`s.
 
 ```{r}
-flu$pattern[[1L]] |> markformat()
+data(flu, package = 'spatstat.data')
+flu$pattern[[1L]] |> 
+  spatstat.geom::markformat()
 ```
 
 User may convert a `'vector'` `markformat` to `'dataframe'` using the syntactic sugar `` `mark_name<-` ``,
@@ -531,7 +547,8 @@ User may convert a `'vector'` `markformat` to `'dataframe'` using the syntactic 
 ```{r}
 flu$pattern[] = flu$pattern |> 
   lapply(FUN = `mark_name<-`, value = 'stain') # read ?flu carefully
-flu$pattern[[1L]] |> markformat()
+flu$pattern[[1L]] |> 
+  spatstat.geom::markformat()
 ```
 
 ### Split a `ppp.object`
