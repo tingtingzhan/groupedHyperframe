@@ -100,6 +100,7 @@ op = par(no.readonly = TRUE)
 | `hypercolumns`, [`hyperframe`](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/hyperframe.html) | (Hyper columns of) hyper data frame, from package **`spatstat.geom`** [@spatstat05] |
 | [`inherits`](https://search.r-project.org/R/refmans/base/html/class.html) | Class inheritance |
 | `kerndens` | Kernel density, `stats::density.default()$y` |
+| [`Inf`](https://search.r-project.org/R/refmans/base/html/is.finite.html) | Positive infinity $\infty$ |
 | [`kmeans`](https://search.r-project.org/R/refmans/stats/html/kmeans.html) | $k$-means clustering |
 | [`list`](https://search.r-project.org/R/refmans/base/html/list.html), [`listof`](https://search.r-project.org/R/refmans/stats/html/listof.html) | Lists of objects |
 | [`markformat`](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/spatstat.geom-internal.html) | Storage mode of `marks` |
@@ -107,6 +108,7 @@ op = par(no.readonly = TRUE)
 | [`mc.cores`](https://search.r-project.org/R/refmans/parallel/html/mclapply.html) | Number of CPU cores to use for parallel computing |
 | [`message`](https://search.r-project.org/R/refmans/base/html/message.html) | Diagnostic message printed in `R` console |
 | [`multitype`](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/spatstat.geom-internal.html) | Multitype spatial object |
+| [`NaN`](https://search.r-project.org/R/refmans/base/html/is.finite.html) | Not-a-Number |
 | [`object.size`](https://search.r-project.org/R/refmans/utils/html/object.size.html) | Memory allocation |
 | `pmean`, `pmedian` | Parallel, or point-wise, mean and median, `groupedHyperframe::pmean`; `groupedHyperframe::pmedian` |
 | [`pmax`, `pmin`](https://search.r-project.org/R/refmans/base/html/Extremes.html) | Parallel, or point-wise, maxima and minima |
@@ -237,7 +239,7 @@ wrobel_lung0 = wrobel_lung |>
 wrobel_lung0 |> head()
 ```
 
-By converting **`wrobel_lung0`** into a `groupedHyperframe`, the numeric *`hladr`* from each *`~patient_id/image_id`* are converted into elements of the numeric hypercolumn *`hladr`* in the returned **`wrobel_lung0g`**. Each row of a `groupedHyperframe` represents the lowest group of the nested grouping structure. The `R` console output (`S3` method dispatch `print.groupedHyperframe()`) highlights the nested grouping structure, number of clusters at each grouping level, as well as the first 10 (or less) rows of the `groupedHyperframe`.
+By converting **`wrobel_lung0`** into a `groupedHyperframe`, the numeric *`hladr`* from each *`~patient_id/image_id`* are converted into elements of the numeric-hypercolumn *`hladr`* in the returned **`wrobel_lung0g`**. Each row of a `groupedHyperframe` represents the lowest group of the nested grouping structure. The `R` console output (`S3` method dispatch `print.groupedHyperframe()`) highlights the nested grouping structure, number of clusters at each grouping level, as well as the first 10 (or less) rows of the `groupedHyperframe`.
 
 ```{r}
 (wrobel_lung0g = wrobel_lung0 |> as.groupedHyperframe(group = ~ patient_id/image_id))
@@ -261,9 +263,9 @@ wrobel_lung0 |> saveRDS(file = f, compress = 'xz')
 file.size(f_g) / file.size(f) # not much reduction
 ```
 
-### Aggregation of numeric hypercolumn
+### Aggregation of numeric-hypercolumn
 
-We use function `aggregate_quantile()` to aggregate the `quantile`s of each element in the numeric hypercolumn *`hladr`* in **`wrobel_lung0g`** by point-wise means (default of parameter `f_aggr_`) at the second-lowest group *`~patient_id`*. The returned object is a `hyperframe` instead of a `groupedHyperframe`, as we have ***one*** aggregated *`hladr.quantile`* per *`~patient_id`*, thus eliminates the need for a grouping structure.
+We use function `aggregate_quantile()` to aggregate the `quantile`s of each element in the numeric-hypercolumn *`hladr`* in **`wrobel_lung0g`** by point-wise means (default of parameter `f_aggr_`) at the second-lowest group *`~patient_id`*. The returned object is a `hyperframe` instead of a `groupedHyperframe`, as we have ***one*** aggregated *`hladr.quantile`* per *`~patient_id`*, thus eliminates the need for a grouping structure.
 
 ```{r}
 #| message: false
@@ -278,7 +280,7 @@ data(Ki67, package = 'groupedHyperframe')
 Ki67
 ```
 
-Similarly, we use function `aggregate_quantile()` to aggregate the `quantile`s of each element in the numeric hypercolumn *`logKi67`* at the second-lowest group `~patientID`.
+Similarly, we use function `aggregate_quantile()` to aggregate the `quantile`s of each element in the numeric-hypercolumn *`logKi67`* at the second-lowest group `~patientID`.
 
 ```{r}
 #| message: false
@@ -397,9 +399,9 @@ out = s |>
 
 The returned `hyperframe` (or `groupedHyperframe`) has
 
--   `fv` hypercolumn *`hladr.E`*, created by function `Emark_()` on numeric mark *`hladr`*
--   `fv` hypercolumn *`phenotype.G`*, created by function `Gcross_()` on `multitype` mark *`phenotype`*
--   numeric hypercolumn *`phenotype.nncross`*, created by function `nncross_()` on `multitype` mark *`phenotype`*
+-   `fv`-hypercolumn *`hladr.E`*, created by function `Emark_()` on numeric mark *`hladr`*
+-   `fv`-hypercolumn *`phenotype.G`*, created by function `Gcross_()` on `multitype` mark *`phenotype`*
+-   numeric-hypercolumn *`phenotype.nncross`*, created by function `nncross_()` on `multitype` mark *`phenotype`*
 
 ```{r}
 out
@@ -442,7 +444,7 @@ no_print = s |>
   aggregate_fv(by = ~ patient_id, f_aggr_ = pmean)
 ```
 
-The recommended batch range is determined by the last value of $r$, that no value of `NaN` and/or `Inf` appears in any of the `fv.object`s of the `fv`-hypercolumn, e.g., *`hladr.E`*.
+The recommended batch range is determined by the last value of $r$, that no value of `NaN` and/or `Inf` appears in any of the `fv.object`s of the `fv`-hypercolumn, e.g., *`hladr.E`*.  Note that the `0`-values in an `fv.object` are typically a sign of degeneration as well, but function `aggregate_fv()` does **not** eliminate `0`-values from the determination of recommended batch range.
 
 ### Of numeric-hypercolumn and numeric marks in `ppp`-hypercolumn
 
