@@ -1,6 +1,7 @@
 ---
 title: "Grouped Hyper Data Frame"
 author: Tingting Zhan
+date: "`r format(Sys.time(), '%d %B, %Y')`"
 format: 
   html:
     page-layout: full
@@ -27,7 +28,7 @@ This vignette of package **`groupedHyperframe`** ([`CRAN`](https://cran.r-projec
 
 ## Prerequisite
 
-New features are first implemented on [Github](https://github.com/tingtingzhan/groupedHyperframe).
+Experimental (and maybe unstable) features are implemented **extremely frequently** on [Github](https://github.com/tingtingzhan/groupedHyperframe). [Active developers should use the Github version; suggestions and bug reports are welcome!]{style="background-color: #FFFF00"}
 
 ```{r}
 #| warning: false
@@ -35,7 +36,7 @@ New features are first implemented on [Github](https://github.com/tingtingzhan/g
 remotes::install_github('tingtingzhan/groupedHyperframe')
 ```
 
-And eventually make their way to [`CRAN`](https://CRAN.R-project.org/package=groupedHyperframe).
+Stable releases to [`CRAN`](https://CRAN.R-project.org/package=groupedHyperframe) are typically updated every 2 to 3 months, or when the authors have an upcoming peer-reviewed manuscript in the review process. [Developers should **not** use the `CRAN` version!]{style="background-color: #FFFF00"}
 
 ```{r}
 #| warning: false
@@ -84,6 +85,7 @@ op = par(no.readonly = TRUE)
 | Term / Abbreviation | Description |
 |------------------------------------|------------------------------------|
 | [`|>`](https://search.r-project.org/R/refmans/base/html/pipeOp.html) | Forward pipe operator introduced in `R` 4.1.0 |
+| [`.Machine`](https://search.r-project.org/R/refmans/base/html/zMachine.html) | Numerical characteristics of the machine `R` is running on, e.g., 32-bit integers and IEC 60559 floating-point (double precision) arithmetic |
 | [`attr`](https://search.r-project.org/R/refmans/base/html/attr.html), [`attributes`](https://search.r-project.org/R/refmans/base/html/attributes.html) | Attributes |
 | `CRAN`, `R` | [The Comprehensive R Archive Network](https://cran.r-project.org) |
 | [`cor`](https://search.r-project.org/R/refmans/stats/html/cor.html) | Correlation matrix |
@@ -95,9 +97,9 @@ op = par(no.readonly = TRUE)
 | [`file.size`](https://search.r-project.org/R/refmans/base/html/file.info.html) | File size in bytes |
 | [`formula`](https://search.r-project.org/R/refmans/stats/html/formula.html) | Formula |
 | [`fv`, `fv.object`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/fv.object.html), [`plot.fv`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/plot.fv.html) | (Plot of) function value table |
-| [`groupedData`](https://search.r-project.org/CRAN/refmans/nlme/html/groupedData.html), `~ g1/.../gm` | Grouped data frame; nested grouping structure |
+| [`groupedData`](https://search.r-project.org/CRAN/refmans/nlme/html/groupedData.html), `~ g1/.../gm` | Grouped data frame; nested grouping structure, from package **`nlme`** [@nlme] |
 | [`groupedHyperframe`](https://CRAN.R-project.org/package=groupedHyperframe) | Grouped hyper data frame |
-| `hypercolumns`, [`hyperframe`](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/hyperframe.html) | (Hyper columns of) hyper data frame |
+| `hypercolumns`, [`hyperframe`](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/hyperframe.html) | (Hyper columns of) hyper data frame, from package **`spatstat.geom`** [@spatstat05] |
 | [`inherits`](https://search.r-project.org/R/refmans/base/html/class.html) | Class inheritance |
 | `kerndens` | Kernel density, `stats::density.default()$y` |
 | [`kmeans`](https://search.r-project.org/R/refmans/stats/html/kmeans.html) | $k$-means clustering |
@@ -116,7 +118,7 @@ op = par(no.readonly = TRUE)
 | [`sd`](https://search.r-project.org/R/refmans/stats/html/sd.html) | Standard deviation |
 | [`search`](https://search.r-project.org/R/refmans/base/html/search.html) | Search path |
 | [`Surv`](https://search.r-project.org/CRAN/refmans/survival/html/Surv.html) | Survival, i.e., time-to-event, object |
-| [`trapz`, `cumtrapz`](https://search.r-project.org/CRAN/refmans/pracma/html/trapz.html) | (Cumulative) [trapezoidal integration](https://en.wikipedia.org/wiki/Trapezoidal_rule) |
+| [`trapz`, `cumtrapz`](https://search.r-project.org/CRAN/refmans/pracma/html/trapz.html) | (Cumulative) [trapezoidal integration](https://en.wikipedia.org/wiki/Trapezoidal_rule), from package **`pracma`** [@pracma] |
 | [`vector`](https://search.r-project.org/R/refmans/base/html/vector.html) | Vector |
 
 ## Acknowledgement
@@ -147,6 +149,80 @@ Users may convert a `data.frame` with substantial amount of duplicated informati
 1.  inspects the input `data.frame` by the user-specified (nested) `group`ing structure;
 2.  identifies the column(s) with ***non-identical elements*** within the lowest group, and converts them into hypercolumn(s);
 3.  returns a `groupedHyperframe` with the user-specified (nested) grouping structure.
+
+**🚧 Under Construction**
+
+[Julia Wrobel's lung data, a story]{style="background-color: #FFFF00"} <http://juliawrobel.com/MI_tutorial/MI_VectraPolarisData.html>; <http://juliawrobel.com/MI_tutorial/MI_Data.html>
+
+```{r}
+#| code-fold: true
+#| code-summary: "Julia Wrobel's lung data: download"
+#| eval: false
+'http://juliawrobel.com/MI_tutorial/Data/lung.RDA' |>
+  url() |>
+  load()
+ls()
+```
+
+```{r}
+#| code-fold: true
+#| code-summary: "Julia Wrobel's lung data: prepare"
+#| eval: false
+head(lung_df$patient_id) # patient
+head(lung_df$image_id) # patient info *and* roi info (actually `[40864,18015]`)
+
+dim(lung_df)
+object.size(lung_df)
+grepv('\\].im3$', x = unique(lung_df$image_id), invert = TRUE)
+
+lung1 = lung_df |> 
+  subset.data.frame(image_id != '#14 2-924-005 P44_[57830,15495]_M2.im3') |> 
+  within.data.frame(expr = {
+    
+    tmp = strsplit(image_id, split = '_')
+    stopifnot(lengths(tmp) == 2L)
+    image_id = vapply(tmp, FUN = `[`, 2L, FUN.VALUE = NA_character_)
+    tmp = NULL
+    
+    age = age_at_diagnosis; age_at_diagnosis = NULL
+    stage = stage_at_diagnosis; stage_at_diagnosis = NULL
+    mhcII = mhcII_status; mhcII_status = NULL
+    tissue = tissue_category; tissue_category = NULL
+    
+    OS = Surv(time = survival_days, event = survival_status); survival_days = survival_status = NULL
+    PFS = Surv(time = time_to_recurrence_days, event = recurrence_or_lung_ca_death); time_to_recurrence_days = recurrence_or_lung_ca_death = NULL
+    PFS = NULL # for now
+    
+    phenotype = interaction(phenotype_ck, phenotype_cd8, drop = TRUE)
+    
+    cause_of_death = cell_id = NULL
+    cd19 = cd3 = cd14 = cd8 = ck = NULL
+    entire_cell_axis_ratio = entire_cell_major_axis = entire_cell_minor_axis = entire_cell_compactness = entire_cell_area_percent = entire_cell_area_square_microns = NULL
+    phenotype_ck = phenotype_cd8 = phenotype_cd14 = phenotype_other = phenotype_cd19 = phenotype_cd4 = NULL
+    
+  })
+
+lung2 = do.call(what = data.frame, args = c(as.list.data.frame(lung1), list(stringsAsFactors = TRUE)))
+
+
+unclass(object.size(lung2)) / unclass(object.size(lung_df))
+
+length(ptid <- unique(lung2$patient_id)) # 153
+tmp = with(lung2, split.default(image_id, f = patient_id)) |> 
+  vapply(FUN = function(i) length(unique(i)), FUN.VALUE = NA_integer_)
+table(tmp) # 5 pts with 4 img; 148 pts with 5 img
+
+
+# remember, ?spatstat.explore::Emark is slow...
+(pts = head(ptid, n = 3L)) # first 3 pts
+wrobel_lung = lung2 |> subset(subset = patient_id %in% pts)
+
+unclass(object.size(wrobel_lung)) / unclass(object.size(lung2))
+unclass(object.size(wrobel_lung)) / unclass(object.size(lung_df))
+
+```
+
+**🚧 End of Construction**
 
 In the following example, consider a toy data set **`wrobel_lung0`** with non-identical column *`hladr`* in the lowest group *`image_id`* of the nested grouping structure *`~patient_id/image_id`*.
 
@@ -247,30 +323,64 @@ In the following example, the argument `formula` specifies
    grouped_ppp(formula = hladr + phenotype ~ OS + gender + age | patient_id/image_id))
 ```
 
-## Batch processes in pipeline workflow
+## Batch Processes
+
+### Batch Processes to return `fv`-hypercolumn
 
 Currently supported in package **`groupedHyperframe`** are batch processes that return a function value table (`fv`) hypercolumn,
 
-| Batch Process | Workhorse in package **`spatstat.explore`** | Applicable to | `fv`-hypercolumns Suffix |
-|------------------|------------------|------------------|------------------|
-| `Emark_()` | [`Emark`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/Emark.html) | numeric marks | `.E` |
-| `Vmark_()` | [`Vmark`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/Vmark.html) | numeric marks | `.V` |
-| `markcorr_()` | [`markcorr`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/markcorr.html) | numeric marks | `.k` |
-| `markvario_()` | [`markvario`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/markvario.html) | numeric marks | `.gamma` |
-| `Gcross_()` | [`Gcross`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/Gcross.html) | `multitype` marks | `.G` |
-| `Kcross_()` | [`Kcross`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/Kcross.html) | `multitype` marks | `.K` |
-| `Jcross_()` | [`Jcross`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/Jcross.html) | `multitype` marks | `.J` |
-| `Lcross_()` | [`Lcross`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/Lcross.html) | `multitype` marks | `.L` |
+#### Batch processes applicable to numeric `marks`
 
-and batch processes that return a numeric-hypercolumn
+| Batch Process | Workhorse in package **`spatstat.explore`** | `fv`-hypercolumns Suffix |
+|------------------------|------------------------|------------------------|
+| `Emark_()` | [`Emark`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/Emark.html), conditional mean, diagnostics for dependence between the points and the marks [@Emark] | `.E` |
+| `Vmark_()` | [`Vmark`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/Vmark.html), conditional variance, diagnostics for dependence between the points and the marks [@Emark] | `.V` |
+| `markcorr_()` | [`markcorr`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/markcorr.html), marked correlation function [@markcorr] | `.k` |
+| `markvario_()` | [`markvario`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/markvario.html), mark variogram [@markvario] | `.gamma` |
+
+##### Exception Handling
+
+In package **`spatstat.explore`** (up to version `3.4.3`, 2025-05-21), function `markcorr()` is the workhorse inside functions `Emark()`, `Vmark()` and `markvario()`. Function `markcorr()` relies on the un-exported workhorse function `spatstat.explore:::sewsmod()`, whose default `method = "density"` contains the calculation of the ratio of two kernel densities. Due to the floating-point precision of `R`, such density ratios may have exceptional returns of
+
+-   `0`, from $0/x$, where $x$ is a positive `double`-precision scalar $\geq$ (approximately) `2.6e-324`
+-   `NaN`, from $0/\varepsilon$, where $\varepsilon$ is a positive `double`-precision scalar $\leq$ (approximately) `2.5e-324`
+-   `Inf`, from $x/0$, where $x$ is a positive `double`-precision scalar $\geq$ (approximately) `2.6e-324`
+
+Function `markcorr()` provides a default argument of parameter $r$, at which the mark correlation function $k_f(r)$ are evaluated, using function `spatstat.geom::handle.r.b.args()`. The S3 method dispatch `spatstat.explore::print.fv()` prints the *recommended range* and *available range* of the argument $r$.
+
+```{r}
+m = spatstat.data::spruces |> 
+  spatstat.explore::markcorr()
+m
+```
+
+We may observe exceptional returns if we go beyond the *recommended range* and/or *available range*. In the following example, we see the mark correlation value $k_f(r)$ of `NaN` at $r=81,88,89,90$, `0` at $r=82$ and `Inf` at $r=83,84,87$.
+
+```{r}
+spatstat.data::spruces |> 
+  spatstat.explore::markcorr(r = 0:90) |>
+  key1val.fv() |>
+  utils::tail(n = 10L)
+```
+
+#### Batch processes applicable to `multitype` `marks`
+
+| Batch Process | Workhorse in package **`spatstat.explore`** | `fv`-hypercolumns Suffix |
+|------------------------|------------------------|------------------------|
+| `Gcross_()` | [`Gcross`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/Gcross.html), multitype nearest-neighbour distance function | `.G` |
+| `Kcross_()` | [`Kcross`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/Kcross.html), multitype $K$-function | `.K` |
+| `Jcross_()` | [`Jcross`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/Jcross.html), multitype $J$-function [@Jcross] | `.J` |
+| `Lcross_()` | [`Lcross`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/Lcross.html), multitype $L$-function | `.L` |
+
+### Batch Processes to return numeric-hypercolumn
 
 | Batch Process | Workhorse in package **`spatstat.geom`** | Applicable to | numeric-hypercolumns Suffix |
-|----|----|----|----|
+|------------------|------------------|------------------|------------------|
 | `nncross_()` | [`nncross.ppp`](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/nncross.html)`(., what = 'dist')` | `multitype` marks | `.nncross` |
 
+### Pipeline
 
-
-Multiple batch processes may be applied to a `hyperframe` (and/or `groupedHyperframe`) in a pipeline using the pipe operator `|>` introduced in `R` 4.1.0.
+Multiple batch processes may be applied to a `hyperframe` (and/or `groupedHyperframe`) in a pipeline using the native pipe operator `|>` introduced since `R` 4.1.0.
 
 ```{r}
 r = seq.int(from = 0, to = 250, by = 10)
