@@ -344,9 +344,9 @@ In this section, we discuss the batch processes that return a function value tab
 
 In package **`spatstat.explore`** (up to version `3.4.3`, 2025-05-21), function `markcorr()` is the workhorse inside functions `Emark()`, `Vmark()` and `markvario()`. Function `markcorr()` relies on the un-exported workhorse function `spatstat.explore:::sewsmod()`, whose default `method = "density"` contains the calculation of the ratio of two kernel densities. Due to the floating-point precision of `R`, such density ratios may have exceptional returns of
 
--   `0`, from $0/x$, where $x$ is a positive `double`-precision scalar $\geq$ (approximately) `2.6e-324`
+-   `0`, from $0/\delta$, where $\delta$ is a positive `double`-precision scalar $\geq$ (approximately) `2.6e-324`
 -   `NaN`, from $0/\varepsilon$, where $\varepsilon$ is a positive `double`-precision scalar $\leq$ (approximately) `2.5e-324`
--   `Inf`, from $x/0$, where $x$ is a positive `double`-precision scalar $\geq$ (approximately) `2.6e-324`
+-   `Inf`, from $\delta/0$, where $\delta$ is a positive `double`-precision scalar $\geq$ (approximately) `2.6e-324`
 
 Function `markcorr()` provides a default argument of parameter $r$, at which the mark correlation function $k_f(r)$ are evaluated, using function `spatstat.geom::handle.r.b.args()`. The S3 method dispatch `spatstat.explore::print.fv()` prints the *recommended range* and *available range* of the argument $r$.
 
