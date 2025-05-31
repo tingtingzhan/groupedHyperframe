@@ -131,21 +131,17 @@ This work is supported by
 
 # Grouped Hyper Data Frame
 
-In this section, we introduce the `S3` class `groupedHyperframe` for grouped hyper data frame, which `inherits` from the `hyperframe` class defined in package **`spatstat.geom`** [@spatstat15].
+We introduce a new `S3` class `groupedHyperframe` for **grouped hyper data frame**, which `inherits` from the hyper data frame `hyperframe` class from package **`spatstat.geom`** [@spatstat15; @spatstat05]. A `hyperframe` contains columns either as `vector`s like in a `data.frame`, or as `list`s of objects of the same class, a.k.a, the `hypercolumns`. This data structure is particularly useful in spatial analysis, e.g., with medical images, where the spatial information in each image would be represented by one element in a `hypercolumn`. The derived class `groupedHyperframe` has additional `attributes`
 
-A `hyperframe`, or hyper data frame, contains columns either as `vector`s like in a `data.frame`, or as `list`s of objects of the same class, a.k.a, the `hypercolumns`. This data structure is particularly useful in spatial analysis [@spatstat05], e.g., with medical images, where the spatial information in each image would be represented by one element in a `hypercolumn`.
+-   `attr(., 'group')`, a `formula` of the (nested) grouping structure, e.g., `~patient/image` when each patient has one or more images
 
-In this package, we introduce a new `S3` class `groupedHyperframe`, or grouped hyper data frame, which `inherits` from the `hyperframe` class, with additional `attributes`
+The grammar of the nested grouping structure $g_1/.../g_m$ (`~g1/.../gm`) follows that of the parameter `random` of functions `nlme::lme()` and `nlme::nlme()`. In fact, the `'grouped'` extension of a `hyperframe` is inspired by the `nlme::groupedData` class which inherits from `data.frame` [@nlme].
 
--   `attr(., 'group')`, a `formula` to specify the (nested) grouping structure
-
-A `groupedHyperframe` is a useful tool to analyze hyper data frames with a (nested) grouping structure, e.g., when each patient has one or more images (`~patient/image`). The grammar of the nested grouping structure $g_1/.../g_m$ (`~g1/.../gm`) follows that of the parameter `random` of functions `nlme::lme()` and `nlme::nlme()`. In fact, the `grouped` extension of a `hyperframe` is inspired by the `nlme::groupedData` class which inherits from `data.frame` [@nlme]. In this vignette, we introduce several `S3` method dispatches of the `S3` generic `as.groupedHyperframe()` to convert various classes of object into a `groupedHyperframe`.
-
-The hypercolumns in a `groupedHyperframe` could be aggregated at either one of the grouping levels $g_1,\cdots,g_{m-1}$ when a nested grouping structure `~g1/.../gm` is present. Aggregation at the lowest grouping level $g_m$ will be ignored, i.e., no aggregation to be performed. Available aggregation methods in this package are the parallel minima `base::pmin()`, parallel maxima `base::pmax()`, parallel means `pmean()` (default) and parallel medians `pmedian()`. In this vignette, we introduce several aggregation functions `aggregate_*()` for the hypercolumns in a `groupedHyperframe`.
+In this section, we introduce several `S3` method dispatches of the `S3` generic `as.groupedHyperframe()` to convert various classes into a `groupedHyperframe`. We also introduce aggregation functions `aggregate_*()` of the hypercolumns in a `groupedHyperframe`, at either one of the nested grouping levels $g_1,\cdots,g_{m-1}$. Aggregation at the lowest grouping level $g_m$ is ignored, i.e., no aggregation to be performed. Available aggregation methods are the parallel minima `base::pmin()`, parallel maxima `base::pmax()`, parallel means `pmean()` (default) and parallel medians `pmedian()`.
 
 ## From `data.frame`
 
-Users may convert a `data.frame` with substantial amount of duplicated information into a `groupedHyperframe` using the `S3` method dispatch `as.groupedHyperframe.data.frame()`. This function
+User may convert a `data.frame` with substantial amount of duplicated information into a `groupedHyperframe` using the `S3` method dispatch `as.groupedHyperframe.data.frame()`. This function
 
 1.  inspects the input `data.frame` by the user-specified (nested) `group`ing structure;
 2.  identifies the column(s) with ***non-identical elements*** within the lowest group, and converts them into hypercolumn(s);
@@ -344,9 +340,16 @@ In this section, we discuss the batch processes that return a function value tab
 
 In package **`spatstat.explore`** (up to version `3.4.3`, 2025-05-21), function `markcorr()` is the workhorse inside functions `Emark()`, `Vmark()` and `markvario()`. Function `markcorr()` relies on the un-exported workhorse function `spatstat.explore:::sewsmod()`, whose default `method = "density"` contains the calculation of the ratio of two kernel densities. Due to the floating-point precision of `R`, such density ratios may have exceptional returns of
 
--   `0`, from $0/\delta$, where $\delta$ is a positive `double`-precision scalar $\geq$ (approximately) `2.6e-324`
--   `NaN`, from $0/\varepsilon$, where $\varepsilon$ is a positive `double`-precision scalar $\leq$ (approximately) `2.5e-324`
--   `Inf`, from $\delta/0$, where $\delta$ is a positive `double`-precision scalar $\geq$ (approximately) `2.6e-324`
+-   `0`, from $0/\delta$, where $\delta\geq$ (approximately) `2.6e-324`
+-   `NaN`, from $0/\varepsilon$, where $\varepsilon\leq$ (approximately) `2.5e-324`
+-   `Inf`, from $\delta/0$, where $\delta\geq$ (approximately) `2.6e-324`
+
+```{r}
+#| code-fold: true
+#| code-summary: "See for yourself"
+0 / c(2.6e-324, 2.5e-324)
+c(2.5e-324, 2.6e-324) / 0
+```
 
 Function `markcorr()` provides a default argument of parameter $r$, at which the mark correlation function $k_f(r)$ are evaluated, using function `spatstat.geom::handle.r.b.args()`. The S3 method dispatch `spatstat.explore::print.fv()` prints the *recommended range* and *available range* of the argument $r$.
 
@@ -444,7 +447,7 @@ no_print = s |>
   aggregate_fv(by = ~ patient_id, f_aggr_ = pmean)
 ```
 
-The recommended batch range is determined by the last value of $r$, that no value of `NaN` and/or `Inf` appears in any of the `fv.object`s of the `fv`-hypercolumn, e.g., *`hladr.E`*.  Note that the `0`-values in an `fv.object` are typically a sign of degeneration as well, but function `aggregate_fv()` does **not** eliminate `0`-values from the determination of recommended batch range.
+The recommended batch range is determined by the last value of $r$, that no value of `NaN` and/or `Inf` appears in any of the `fv.object`s of the `fv`-hypercolumn, e.g., *`hladr.E`*. Note that the `0`-values in an `fv.object` are typically a sign of degeneration as well, but function `aggregate_fv()` does **not** eliminate `0`-values from the determination of recommended batch range.
 
 ### Of numeric-hypercolumn and numeric marks in `ppp`-hypercolumn
 
