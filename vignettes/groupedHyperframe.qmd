@@ -87,7 +87,7 @@ op = par(no.readonly = TRUE)
 | [`attr`](https://search.r-project.org/R/refmans/base/html/attr.html), [`attributes`](https://search.r-project.org/R/refmans/base/html/attributes.html) | Attributes |
 | `CRAN`, `R` | [The Comprehensive R Archive Network](https://cran.r-project.org) |
 | [`cor`](https://search.r-project.org/R/refmans/stats/html/cor.html) | Correlation matrix |
-| [`cor.spatial`](https://search.r-project.org/CRAN/refmans/SpatialPack/html/cor.spatial.html) | Tjostheim's nonparametric correlation coefficient |
+| [`cor.spatial`](https://search.r-project.org/CRAN/refmans/SpatialPack/html/cor.spatial.html) | Tjøstheim's nonparametric correlation coefficient, from package **`SpatialPack`** [@SpatialPack] |
 | [`cov`, `cov2cor`](https://search.r-project.org/R/refmans/stats/html/cor.html) | Variance-covariance matrix, and conversion to correlation matrix |
 | [`data.frame`](https://search.r-project.org/R/refmans/base/html/data.frame.html) | Data frame |
 | [`diag`](https://search.r-project.org/R/refmans/base/html/diag.html) | Matrix diagonals |
@@ -124,9 +124,9 @@ op = par(no.readonly = TRUE)
 
 ## Acknowledgement
 
-This work is supported by
+This work is supported by National Institutes of Health, U.S. Department of Health and Human Services grants
 
--   NCI R01CA222847 ([I. Chervoneva](https://orcid.org/0000-0002-9104-4505), [T. Zhan](https://orcid.org/0000-0001-9971-4844), and [H. Rui](https://orcid.org/0000-0002-8778-261X))
+-   R01CA222847 ([I. Chervoneva](https://orcid.org/0000-0002-9104-4505), [T. Zhan](https://orcid.org/0000-0001-9971-4844), and [H. Rui](https://orcid.org/0000-0002-8778-261X))
 -   R01CA253977 (H. Rui and I. Chervoneva).
 
 # Grouped Hyper Data Frame
@@ -597,15 +597,13 @@ The returned object is a `groupedHyperframe` with grouping structure
 flu[1:2,] |> split_kmeans(formula = ~ x + y, centers = 3L)
 ```
 
-## Pairwise Tjostheim's Coefficient
+## Pairwise Tjøstheim's Coefficient
 
-The `S3` generic `pairwise_cor_spatial()` calculates the nonparametric, rank-based, Tjostheim's correlation coefficients (workhorse `SpatialPack::cor.spatial`), in a pairwise-combination fashion.
-
-All `S3` method dispatches return a object of class `'pairwise_cor_spatial'`, which `inherits` from class `'dist'`.
+The `S3` generic `pairwise_cor_spatial()` calculates the nonparametric, rank-based, Tjøstheim's correlation coefficients [@Tjostheim78; @Hubert82] in a pairwise-combination fashion, using the workhorse function `SpatialPack::cor.spatial()`.  All `S3` method dispatches return a object of class `'pairwise_cor_spatial'`, which `inherits` from class `'dist'`.
 
 ### Of `ppp.object`
 
-The `S3` method dispatch `pairwise_cor_spatial.ppp()` finds the nonparametric Tjostheim's correlation coefficients from the pairwise-combinations of all numeric marks of a `ppp.object`.
+The `S3` method dispatch `pairwise_cor_spatial.ppp()` finds the nonparametric Tjøstheim's correlation coefficients from the pairwise-combinations of all numeric marks of a `ppp.object`.
 
 ```{r}
 data(finpines, package = 'spatstat.data')
@@ -614,7 +612,7 @@ data(finpines, package = 'spatstat.data')
 
 The printing of `'pairwise_cor_spatial'` is taken care of by function `stats:::print.dist`.
 
-### Matrix of pairwise Tjostheim's coefficient
+### Matrix of pairwise Tjøstheim's coefficient
 
 The `S3` method dispatch `as.matrix.pairwise_cor_spatial()` returns a `matrix` with `diag`onal values of 1.
 
@@ -622,7 +620,7 @@ The `S3` method dispatch `as.matrix.pairwise_cor_spatial()` returns a `matrix` w
 r |> as.matrix()
 ```
 
-Note that this matrix is ***not*** a `cor`relation matrix, because Tjostheim's correlation coefficient `SpatialPack::cor.spatial`
+Note that this matrix is ***not*** a `cor`relation matrix, because Tjøstheim's correlation coefficient
 
 -   is nonparametric, i.e., there is no definition of the corresponding `cov`ariance, standard deviation `sd`, nor the conversion `cov2cor` method;
 -   does not provide a mathematical mechanism to ensure this matrix is [positive definite](https://en.wikipedia.org/wiki/Definite_matrix).
