@@ -66,6 +66,7 @@ op_ppplist <- function(
   ret <- n |>
     seq_len() |>
     mclapply(mc.cores = mc.cores, FUN = \(i) {
+    #lapply(FUN = \(i) { # when debugging
       # echo-command does not work with '\r' (carriage return)
       if (identical(Sys.getenv('RSTUDIO'), '1')) sprintf(fmt = 'printf \'\r%d/%d done!    \'', i, n) |> system() |> on.exit()
       x[[i]] |> op(...)

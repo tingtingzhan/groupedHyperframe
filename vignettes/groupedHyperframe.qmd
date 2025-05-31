@@ -367,7 +367,14 @@ spatstat.data::spruces |>
   utils::tail(n = 10L)
 ```
 
-In the batch process `markcorr_()`, a same argument of `r` is used for *all* `ppp.object`s in the `ppp`-hypercolumn. Inevitably, for some `ppp.object`s the returned `fv.object`s may have exceptional values. We discuss this exception handling in the next section *Aggregation over nested grouping structure*.
+In the batch process `markcorr_()`, as well as `Emark_()`, `Vmark_()` and `markvario_()` which rely on the workhorse `markcorr()`, the *Recommended* $r_\text{max}$ from each of the `fv`-returns will be printed, whether a user-specified argument for parameter `r` is provided or not.
+
+```{r}
+noprint = s |>
+  Emark_(correction = 'none')
+```
+
+When a user-specified `r` is provided for a batch process on *all* `ppp.object`s in the `ppp`-hypercolumn, inevitably some of the `fv`-returns may have exceptional values. We discuss this exception handling in the next section *Aggregation over nested grouping structure*.
 
 #### Batch processes applicable to `multitype` `marks`
 
@@ -438,16 +445,14 @@ afv$hladr.E.cumtrapz |> .slice(j = '50')
 
 #### Exception handling
 
-As we have mentioned in the previous section *Batch processes*, a same argument of `r` is used for *all* `ppp.object`s in the `ppp`-hypercolumn. Suppose a naive user uses an $r$-vector well beyond the *recommended range* and/or *available range*. In this case, function `aggregate_fv()` prints a `message` of "please limit $r$" on a ***recommended batch range***.
+As we have mentioned in the previous section *Batch processes*, a same argument of `r` is used for *all* `ppp.object`s in the `ppp`-hypercolumn. Suppose a naive user uses an $r$-vector well beyond the *recommended range* and/or *available range*. In this case, function `aggregate_fv()` prints a `message` of *Legal* $r_\text{max}$, which is determined by the last value of $r$, that no value of `NaN` and/or `Inf` appears in any of the `fv.object`s of the `fv`-hypercolumn, e.g., *`hladr.E`*. Note that the `0`-values in an `fv.object` are typically a sign of degeneration as well, but function `aggregate_fv()` does **not** eliminate `0`-values from the determination of recommended batch range.
 
 ```{r}
-r = seq.int(from = 0, to = 2000, by = 50)
+r = seq.int(from = 0, to = 1000, by = 50)
 no_print = s |>
   Emark_(r = r, correction = 'none') |>
   aggregate_fv(by = ~ patient_id, f_aggr_ = pmean)
 ```
-
-The recommended batch range is determined by the last value of $r$, that no value of `NaN` and/or `Inf` appears in any of the `fv.object`s of the `fv`-hypercolumn, e.g., *`hladr.E`*. Note that the `0`-values in an `fv.object` are typically a sign of degeneration as well, but function `aggregate_fv()` does **not** eliminate `0`-values from the determination of recommended batch range.
 
 ### Of numeric-hypercolumn and numeric marks in `ppp`-hypercolumn
 

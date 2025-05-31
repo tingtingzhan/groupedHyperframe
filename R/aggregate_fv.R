@@ -77,11 +77,15 @@ aggregate_fv <- function(
             (!is.na(i)) |> sum()
           }, FUN.VALUE = NA_integer_) |>
           min()
-        message(nm |> col_cyan(), 
-                ': please limit ', 
-                'r' |> col_magenta(), 
-                ' from ', x[[1L]]$r[1L], ' to ', 
-                x[[1L]]$r[id] |> col_blue() |> style_bold())
+        paste(
+          'Legal', 
+          'rmax' |> col_red() |> style_bold(),
+          'for', 
+          nm |> col_blue() |> style_bold(), 
+          'is', 
+          x[[1L]]$r[id] |> style_bold()
+        ) |>
+          message()
       }
       return(list(
         value = x |> lapply(FUN = key1val.fv),

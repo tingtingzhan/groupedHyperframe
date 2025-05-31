@@ -115,7 +115,7 @@ fv_ppp <- function(x, fn, ...) {
     vapply(FUN = \(i) is.numeric(i$marks), FUN.VALUE = NA)
   # stopifnot(is.double(POSIXct), !is.numeric(POSIXct))
   
-  fn_numeric <- list(
+  fn_markcorr <- list(
     Emark, Vmark, markcorr, markvario
   ) |>
     vapply(FUN = identical, x = fn, FUN.VALUE = NA) |> 
@@ -131,9 +131,9 @@ fv_ppp <- function(x, fn, ...) {
   # applicable to none-mark \link[spatstat.geom]{ppp.object}
   # how to deal?
   
-  if (!xor(fn_numeric, fn_mtp)) stop('unknown fv-function to tzh?')
+  if (!xor(fn_markcorr, fn_mtp)) stop('unknown fv-function to tzh?')
   
-  x.. <- if (fn_numeric) {
+  x.. <- if (fn_markcorr) {
     if (!any(num)) return(invisible())
     x.[num]
   } else if (fn_mtp) {

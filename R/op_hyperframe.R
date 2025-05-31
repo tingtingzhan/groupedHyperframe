@@ -134,7 +134,9 @@ nncross_ <- function(X, ...) X |> op_hyperframe(op = dist_ppp, fn = .nncross, ..
 #' 
 #'  
 #' @keywords internal
+#' @importFrom cli col_red col_blue col_br_magenta style_bold
 #' @importFrom spatstat.geom is.ppplist as.list.hyperframe cbind.hyperframe
+#' @importFrom utils tail
 #' @export
 op_hyperframe <- function(X, op, ...) {
   
@@ -148,6 +150,35 @@ op_hyperframe <- function(X, op, ...) {
   # `ret1`: 1st mark, 2nd subject
   ret1 <- .mapply(FUN = list, dots = ret0, MoreArgs = NULL)
   names(ret1) <- names(ret0[[1L]])
+  
+  # recommended `r` for functions based on ?spatstat.explore::markcorr
+  col_markcorr <- ret1 |>
+    names() |>
+    grepv(pattern = '\\.E$|\\.V$|\\.k$|\\.gamma$')
+  if (length(col_markcorr)) {
+    col_markcorr |> 
+      lapply(FUN = \(col) {
+        r <- ret1[[col]] |>
+          vapply(FUN = \(i) {
+            # find recommended range of `r`
+            # see inside ?spatstat.explore::print.fv
+            i |>
+              attr(which = 'alim', exact = TRUE) |>
+              tail(n = 1L)
+          }, FUN.VALUE = NA_real_) |>
+          table()
+        paste(
+          'Recommended', 
+          'rmax' |> col_red() |> style_bold(),
+          'for', 
+          col |> col_blue() |> style_bold(),
+          'are',
+          sprintf(fmt = '%d\u2a2f ', r) |> col_br_magenta() |> style_bold() |>
+            paste0(names(r), collapse = '; ')
+        ) |>
+          message()
+      }) 
+  }
   
   ret <- do.call(
     what = cbind.hyperframe, 
