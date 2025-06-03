@@ -22,11 +22,11 @@ see \strong{Details}}
 \value{
 Function \code{\link[=fv_ppp]{fv_ppp()}} returns a \link[stats]{listof}
 \link[spatstat.explore]{fv.object}s,
-one for each eligible \link[spatstat.geom]{marks}.
+one per each eligible \link[spatstat.geom]{marks}.
 
 Function \code{\link[=dist_ppp]{dist_ppp()}} returns a \link[stats]{listof}
 \link[base]{double} \link[base]{vector}s,
-one for each eligible \link[spatstat.geom]{marks}.
+one per each eligible \link[spatstat.geom]{marks}.
 }
 \description{
 Create
@@ -73,6 +73,7 @@ library(spatstat.data)
 library(spatstat.explore)
 
 fv_ppp(betacells, fn = Emark) # applicable to numeric mark
+fv_ppp(betacells, fn = Kmark) # applicable to numeric mark
 fv_ppp(betacells, fn = Gcross, i = 'off', j = 'on') # applicable to multitype mark
 
 dist_ppp(betacells, fn = .nncross, i = 'off', j = 'on')

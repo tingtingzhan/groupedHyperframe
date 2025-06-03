@@ -52,6 +52,12 @@ Emark_ <- function(X, correction = 'none', ...) X |> op_hyperframe(op = fv_ppp, 
 Vmark_ <- function(X, correction = 'none', ...) X |> op_hyperframe(op = fv_ppp, fn = Vmark, correction = correction, ...)
 
 #' @rdname user_hyperframe
+#' @importFrom spatstat.explore Kmark
+#' @export
+Kmark_ <- function(X, correction = 'none', ...) X |> op_hyperframe(op = fv_ppp, fn = Kmark, correction = correction, ...)
+
+
+#' @rdname user_hyperframe
 #' @importFrom spatstat.explore markcorr
 #' @export
 markcorr_ <- function(X, correction = 'none', ...) X |> op_hyperframe(op = fv_ppp, fn = markcorr, correction = correction, ...)
@@ -60,6 +66,8 @@ markcorr_ <- function(X, correction = 'none', ...) X |> op_hyperframe(op = fv_pp
 #' @importFrom spatstat.explore markvario
 #' @export
 markvario_ <- function(X, correction = 'none', ...) X |> op_hyperframe(op = fv_ppp, fn = markvario, correction = correction, ...)
+
+
 
 #' @rdname user_hyperframe
 #' @importFrom spatstat.explore Gcross

@@ -52,17 +52,18 @@
 #' @returns 
 #' Function [fv_ppp()] returns a \link[stats]{listof} 
 #' \link[spatstat.explore]{fv.object}s, 
-#' one for each eligible \link[spatstat.geom]{marks}.
+#' one per each eligible \link[spatstat.geom]{marks}.
 #' 
 #' Function [dist_ppp()] returns a \link[stats]{listof} 
 #' \link[base]{double} \link[base]{vector}s,
-#' one for each eligible \link[spatstat.geom]{marks}.
+#' one per each eligible \link[spatstat.geom]{marks}.
 #' 
 #' @examples
 #' library(spatstat.data)
 #' library(spatstat.explore)
 #' 
 #' fv_ppp(betacells, fn = Emark) # applicable to numeric mark
+#' fv_ppp(betacells, fn = Kmark) # applicable to numeric mark
 #' fv_ppp(betacells, fn = Gcross, i = 'off', j = 'on') # applicable to multitype mark
 #' 
 #' dist_ppp(betacells, fn = .nncross, i = 'off', j = 'on')
@@ -101,6 +102,7 @@ dist_ppp <- function(x, fn, ...) {
 
 #' @rdname op_ppp
 #' @importFrom spatstat.explore Emark Vmark markcorr markvario
+#' @importFrom spatstat.explore Kmark
 #' @importFrom spatstat.explore Gcross Jcross Kcross Lcross markconnect
 #' @importFrom spatstat.geom unstack.ppp is.multitype.ppp
 #' @export
@@ -115,8 +117,9 @@ fv_ppp <- function(x, fn, ...) {
     vapply(FUN = \(i) is.numeric(i$marks), FUN.VALUE = NA)
   # stopifnot(is.double(POSIXct), !is.numeric(POSIXct))
   
-  fn_markcorr <- list(
-    Emark, Vmark, markcorr, markvario
+  fn_num <- list(
+    Emark, Vmark, markcorr, markvario, # using workhorse ?spatstat.explore::markcorr
+    Kmark
   ) |>
     vapply(FUN = identical, x = fn, FUN.VALUE = NA) |> 
     any()
@@ -131,9 +134,9 @@ fv_ppp <- function(x, fn, ...) {
   # applicable to none-mark \link[spatstat.geom]{ppp.object}
   # how to deal?
   
-  if (!xor(fn_markcorr, fn_mtp)) stop('unknown fv-function to tzh?')
+  if (!xor(fn_num, fn_mtp)) stop('unknown fv-function to tzh?')
   
-  x.. <- if (fn_markcorr) {
+  x.. <- if (fn_num) {
     if (!any(num)) return(invisible())
     x.[num]
   } else if (fn_mtp) {
@@ -141,7 +144,8 @@ fv_ppp <- function(x, fn, ...) {
     x.[mtp]
   }
   
-  ret <- lapply(x.., FUN = fn, ...)
+  ret <- x.. |> 
+    lapply(FUN = fn, ...)
   
   # restore names of `fv`-hypercolumns from the result
   # attr(,'fname') is determined by `fn`

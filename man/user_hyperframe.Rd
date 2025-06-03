@@ -4,6 +4,7 @@
 \alias{user_hyperframe}
 \alias{Emark_}
 \alias{Vmark_}
+\alias{Kmark_}
 \alias{markcorr_}
 \alias{markvario_}
 \alias{Gcross_}
@@ -16,6 +17,8 @@
 Emark_(X, correction = "none", ...)
 
 Vmark_(X, correction = "none", ...)
+
+Kmark_(X, correction = "none", ...)
 
 markcorr_(X, correction = "none", ...)
 

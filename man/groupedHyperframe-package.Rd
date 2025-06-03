@@ -4,7 +4,7 @@
 \name{groupedHyperframe-package}
 \alias{groupedHyperframe}
 \alias{groupedHyperframe-package}
-\title{groupedHyperframe: Grouped Hyper Data Frame: An Extension of Hyper Data Frame Object}
+\title{groupedHyperframe: Grouped Hyper Data Frame: An Extension of Hyper Data Frame}
 \description{
 An S3 class 'groupedHyperframe' that inherits from hyper data frame. Batch processes on point-pattern hyper column. Aggregation of function-value-table hyper column(s) and numeric hyper column(s) over a nested grouping structure.
 }
