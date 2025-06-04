@@ -20,3 +20,4 @@ Syntactic Sugar for \link{groupedHyperframe} Object
 \note{
 Function \link[spatstat.geom]{$<-.hyperframe} drops \link[base]{attributes}.
 }
+\keyword{internal}

@@ -12,6 +12,7 @@
 #' @returns 
 #' Syntactic sugar [$<-.groupedHyperframe()] returns a [groupedHyperframe].
 #' 
+#' @keywords internal
 #' @importFrom spatstat.geom $<-.hyperframe
 #' @export $<-.groupedHyperframe
 #' @export

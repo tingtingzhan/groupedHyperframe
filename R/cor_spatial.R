@@ -76,6 +76,10 @@ pairwise_cor_spatial.ppplist <- function(x, ...) {
 #' 
 #' @param ... additional parameters, currently not in use
 #' 
+#' @returns 
+#' Function [as.matrix.pairwise_cor_spatial()] returns a \link[base]{matrix}.
+#' 
+#' @keywords internal
 #' @method as.matrix pairwise_cor_spatial
 #' @export as.matrix.pairwise_cor_spatial
 #' @export

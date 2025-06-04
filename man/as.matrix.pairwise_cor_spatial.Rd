@@ -11,6 +11,10 @@
 
 \item{...}{additional parameters, currently not in use}
 }
+\value{
+Function \code{\link[=as.matrix.pairwise_cor_spatial]{as.matrix.pairwise_cor_spatial()}} returns a \link[base]{matrix}.
+}
 \description{
 Convert \link{pairwise_cor_spatial} to \link[base]{matrix}
 }
+\keyword{internal}
