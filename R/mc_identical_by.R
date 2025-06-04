@@ -44,11 +44,11 @@ mc_identical_by <- function(
   
   if (any(!.ident)) {
     nm <- names(data)[!.ident]
-    nm |> 
-      col_blue() |> 
-      paste(collapse = ';') |>
-      sprintf(fmt = 'Column(s) %s removed; as they are not identical per aggregation-group') |>
-      message()
+    #nm |> 
+    #  col_blue() |> 
+    #  paste(collapse = ';') |>
+    #  sprintf(fmt = 'Column(s) %s removed; as they are not identical per aggregation-group') |>
+    #  message() # choose not to print this message
     data[nm] <- NULL
   } else nm <- NULL
   
