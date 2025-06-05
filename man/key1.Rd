@@ -81,6 +81,7 @@ btc |> Lcross(i = 'off', j = 'on') |> foo()
 btc |> Jcross(i = 'off', j = 'on') |> foo()
 btc |> markconnect(i = 'off', j = 'on') |> foo()
 
-swedishpines |> roc.ppp(covariate = 'x') |> foo()
+# swedishpines |> roc.ppp(covariate = 'x') |> foo() 
+# bug in devtools::check()
 }
 \keyword{internal}
