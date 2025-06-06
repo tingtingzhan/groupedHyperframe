@@ -101,7 +101,7 @@ options(mc.cores = 1L) # for CRAN submission
 | [`inherits`](https://search.r-project.org/R/refmans/base/html/class.html) | Class inheritance |
 | `kerndens` | Kernel density, `stats::density.default()$y` |
 | [`Inf`](https://search.r-project.org/R/refmans/base/html/is.finite.html) | Positive infinity $\infty$ |
-| [`kmeans`](https://search.r-project.org/R/refmans/stats/html/kmeans.html) | $k$-means clustering |
+| [`kmeans`](https://search.r-project.org/R/refmans/stats/html/kmeans.html) | $k$-means clustering [@kmeans] |
 | [`list`](https://search.r-project.org/R/refmans/base/html/list.html), [`listof`](https://search.r-project.org/R/refmans/stats/html/listof.html) | Lists of objects |
 | [`markformat`](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/spatstat.geom-internal.html) | Storage mode of `marks` |
 | [`marks`](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/spatstat.geom-internal.html), [`marked`](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/is.marked.html) | Marks of a point pattern |
