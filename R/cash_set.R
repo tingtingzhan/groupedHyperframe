@@ -23,7 +23,8 @@
   
   ret <- `$<-.hyperframe`(x, name, value)
   attr(ret, which = 'group') <- group
-  class(ret) <- c('groupedHyperframe', class(ret)) |> unique.default()
+  class(ret) <- c('groupedHyperframe', class(ret)) |> 
+    unique.default()
   return(ret)
   
 }

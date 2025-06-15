@@ -105,6 +105,7 @@ options(mc.cores = 1L) # for CRAN submission
 | [`list`](https://search.r-project.org/R/refmans/base/html/list.html), [`listof`](https://search.r-project.org/R/refmans/stats/html/listof.html) | Lists of objects |
 | [`markformat`](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/spatstat.geom-internal.html) | Storage mode of `marks` |
 | [`marks`](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/spatstat.geom-internal.html), [`marked`](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/is.marked.html) | Marks of a point pattern |
+| [`merge`](https://search.r-project.org/R/refmans/base/html/merge.html) | Merge two `data.frame`s |
 | [`mc.cores`](https://search.r-project.org/R/refmans/parallel/html/mclapply.html) | Number of CPU cores to use for parallel computing |
 | [`message`](https://search.r-project.org/R/refmans/base/html/message.html) | Diagnostic message printed in `R` console |
 | [`multitype`](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/spatstat.geom-internal.html) | Multitype spatial object |
@@ -116,6 +117,7 @@ options(mc.cores = 1L) # for CRAN submission
 | [`quantile`](https://search.r-project.org/R/refmans/stats/html/quantile.html) | Quantile |
 | [`save`](https://search.r-project.org/R/refmans/base/html/save.html), [`saveRDS`](https://search.r-project.org/R/refmans/base/html/readRDS.html), `xz` | Save with [`xz`](https://en.wikipedia.org/wiki/XZ_Utils) compression |
 | `S3`, `generic`, [`methods`](https://search.r-project.org/R/refmans/utils/html/methods.html) | `S3` object oriented system, [`UseMethod`](https://search.r-project.org/R/refmans/base/html/UseMethod.html); [`getS3method`](https://search.r-project.org/R/refmans/utils/html/getS3method.html); <https://adv-r.hadley.nz/s3.html> |
+| `S4`, `generic`, `methods` | `S4` object oriented system, [`isS4`](https://search.r-project.org/R/refmans/base/html/isS4.html); [`setClass`](https://search.r-project.org/R/refmans/methods/html/setClass.html); [`setMethod`](https://search.r-project.org/R/refmans/methods/html/setMethod.html); [`getMethod`](https://search.r-project.org/R/refmans/methods/html/getMethod.html);  <https://adv-r.hadley.nz/s4.html> |
 | [`sd`](https://search.r-project.org/R/refmans/stats/html/sd.html) | Standard deviation |
 | [`search`](https://search.r-project.org/R/refmans/base/html/search.html) | Search path |
 | [`Surv`](https://search.r-project.org/CRAN/refmans/survival/html/Surv.html) | Survival, i.e., time-to-event, object |
@@ -416,7 +418,7 @@ out |>
   aggregate_kerndens(by = ~ patient_id, from = 0, to = mdist)
 ```
 
-# Appendix
+# Appendix A: Minor Functionalities
 
 ## $k$-Means Clustering
 
@@ -551,6 +553,23 @@ Note that this matrix is ***not*** a `cor`relation matrix, because Tjøstheim's 
 
 -   is nonparametric, i.e., there is no definition of the corresponding `cov`ariance, standard deviation `sd`, nor the conversion `cov2cor` method;
 -   does not provide a mathematical mechanism to ensure this matrix is [positive definite](https://en.wikipedia.org/wiki/Definite_matrix).
+
+# Appendix B: What We Don't Do
+
+## S4 method dispatch `merge`
+
+The authors plan [**not**]{style="background-color: #FFFF00"} to implement an S4 method dispatch `merge` (e.g., S3 method dispatch `base::merge.data.frame()`) for `hyperframe` and/or `groupedHyperframe` classes, for several reasons.
+
+-   There is not an S3 method dispatch `merge.hyperframe` in package **`spatstat.geom`**;
+-   Should the authors decide to implement the `merge` functionality for `hyperframe` class, at least two S4 method dispatches need to be written
+    -   `setMethod(f = merge, signature = c(x = 'hyperframe', y = 'data.frame'), ...)`
+    -   `setMethod(f = merge, signature = c(x = 'hyperframe', y = 'hyperframe'), ...)`
+-   Should the authors decide to implement the `merge` functionality for `groupedHyperframe` class, at least three S4 method dispatches need to be written
+    -   `setMethod(f = merge, signature = c(x = 'groupedHyperframe', y = 'data.frame'), ...)`
+    -   `setMethod(f = merge, signature = c(x = 'groupedHyperframe', y = 'hyperframe'), ...)`
+    -   `setMethod(f = merge, signature = c(x = 'groupedHyperframe', y = 'groupedHyperframe'), ...)`, for this the authors need to consider the (potentially different) grouping structures of `x` and `y` inputs.
+
+The authors suggest users do `base::merge.data.frame()` first, then do `as.groupedHyperframe()` as a workaround.
 
 # References
 
