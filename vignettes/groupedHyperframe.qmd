@@ -81,7 +81,7 @@ options(mc.cores = 1L) # for CRAN submission
 ## Terms and Abbreviations
 
 | Term / Abbreviation | Description |
-|------------------------------------|------------------------------------|
+|----|----|
 | [`|>`](https://search.r-project.org/R/refmans/base/html/pipeOp.html) | Forward pipe operator introduced in `R` 4.1.0 |
 | [`.Machine`](https://search.r-project.org/R/refmans/base/html/zMachine.html) | Numerical characteristics of the machine `R` is running on, e.g., 32-bit integers and IEC 60559 floating-point (double precision) arithmetic |
 | [`attr`](https://search.r-project.org/R/refmans/base/html/attr.html), [`attributes`](https://search.r-project.org/R/refmans/base/html/attributes.html) | Attributes |
@@ -117,7 +117,7 @@ options(mc.cores = 1L) # for CRAN submission
 | [`quantile`](https://search.r-project.org/R/refmans/stats/html/quantile.html) | Quantile |
 | [`save`](https://search.r-project.org/R/refmans/base/html/save.html), [`saveRDS`](https://search.r-project.org/R/refmans/base/html/readRDS.html), `xz` | Save with [`xz`](https://en.wikipedia.org/wiki/XZ_Utils) compression |
 | `S3`, `generic`, [`methods`](https://search.r-project.org/R/refmans/utils/html/methods.html) | `S3` object oriented system, [`UseMethod`](https://search.r-project.org/R/refmans/base/html/UseMethod.html); [`getS3method`](https://search.r-project.org/R/refmans/utils/html/getS3method.html); <https://adv-r.hadley.nz/s3.html> |
-| `S4`, `generic`, `methods` | `S4` object oriented system, [`isS4`](https://search.r-project.org/R/refmans/base/html/isS4.html); [`setClass`](https://search.r-project.org/R/refmans/methods/html/setClass.html); [`setMethod`](https://search.r-project.org/R/refmans/methods/html/setMethod.html); [`getMethod`](https://search.r-project.org/R/refmans/methods/html/getMethod.html);  <https://adv-r.hadley.nz/s4.html> |
+| `S4`, `generic`, `methods` | `S4` object oriented system, [`isS4`](https://search.r-project.org/R/refmans/base/html/isS4.html); [`setClass`](https://search.r-project.org/R/refmans/methods/html/setClass.html); [`setMethod`](https://search.r-project.org/R/refmans/methods/html/setMethod.html); [`getMethod`](https://search.r-project.org/R/refmans/methods/html/getMethod.html); <https://adv-r.hadley.nz/s4.html> |
 | [`sd`](https://search.r-project.org/R/refmans/stats/html/sd.html) | Standard deviation |
 | [`search`](https://search.r-project.org/R/refmans/base/html/search.html) | Search path |
 | [`Surv`](https://search.r-project.org/CRAN/refmans/survival/html/Surv.html) | Survival, i.e., time-to-event, object |
@@ -258,7 +258,7 @@ In this section, we discuss the batch processes that return a function value tab
 #### Batch processes applicable to numeric `marks`
 
 | Batch Process | Workhorse in package **`spatstat.explore`** | `fv`-hypercolumns Suffix |
-|------------------------|------------------------|------------------------|
+|----|----|----|
 | `Emark_()` and `Vmark_()` | [`Emark` and `Vmark`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/Emark.html), conditional mean $E(r)$ and conditional variance $V(r)$, diagnostics for dependence between the points and the marks [@Emark] | `.E` and `.V` |
 | `markcorr_()` | [`markcorr`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/markcorr.html), marked correlation $k_{mm}(r)$ or generalized mark correlation $k_f(r)$ [@markcorr] | `.k` |
 | `markvario_()` | [`markvario`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/markvario.html), mark variogram $\gamma(r)$ [@markvario] | `.gamma` |
@@ -308,7 +308,7 @@ When a user-specified `r` is provided for a batch process on *all* `ppp.object`s
 #### Batch processes applicable to `multitype` `marks`
 
 | Batch Process | Workhorse in package **`spatstat.explore`** | `fv`-hypercolumns Suffix |
-|------------------------|------------------------|------------------------|
+|----|----|----|
 | `Gcross_()` | [`Gcross`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/Gcross.html), multitype nearest-neighbour distance $G_{ij}(r)$ | `.G` |
 | `Kcross_()` | [`Kcross`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/Kcross.html), multitype $K_{ij}(r)$ | `.K` |
 | `Jcross_()` | [`Jcross`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/Jcross.html), multitype $J_{ij}(r)$ [@Jcross] | `.J` |
@@ -317,7 +317,7 @@ When a user-specified `r` is provided for a batch process on *all* `ppp.object`s
 ### Batch processes to return numeric-hypercolumn
 
 | Batch Process | Workhorse in package **`spatstat.geom`** | Applicable to | numeric-hypercolumns Suffix |
-|------------------|------------------|------------------|------------------|
+|----|----|----|----|
 | `nncross_()` | [`nncross.ppp`](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/nncross.html)`(., what = 'dist')`, nearest neighbour distance | `multitype` marks | `.nncross` |
 
 ### Batch processes in a pipeline
@@ -560,14 +560,14 @@ Note that this matrix is ***not*** a `cor`relation matrix, because Tjøstheim's 
 
 The authors plan [**not**]{style="background-color: #FFFF00"} to implement an S4 method dispatch `merge` (e.g., S3 method dispatch `base::merge.data.frame()`) for `hyperframe` and/or `groupedHyperframe` classes, for several reasons.
 
--   There is not an S3 method dispatch `merge.hyperframe` in package **`spatstat.geom`**;
--   Should the authors decide to implement the `merge` functionality for `hyperframe` class, at least two S4 method dispatches need to be written
-    -   `setMethod(f = merge, signature = c(x = 'hyperframe', y = 'data.frame'), ...)`
-    -   `setMethod(f = merge, signature = c(x = 'hyperframe', y = 'hyperframe'), ...)`
--   Should the authors decide to implement the `merge` functionality for `groupedHyperframe` class, at least three S4 method dispatches need to be written
-    -   `setMethod(f = merge, signature = c(x = 'groupedHyperframe', y = 'data.frame'), ...)`
-    -   `setMethod(f = merge, signature = c(x = 'groupedHyperframe', y = 'hyperframe'), ...)`
-    -   `setMethod(f = merge, signature = c(x = 'groupedHyperframe', y = 'groupedHyperframe'), ...)`, for this the authors need to consider the (potentially different) grouping structures of `x` and `y` inputs.
+-   There is not an S3 method dispatch `merge.hyperframe` in package **`spatstat.geom`** (as of version 3.4-1);
+-   Should the authors decide to implement the `merge` functionality for `hyperframe` class, at least two S4 method dispatches need to be written for `setMethod(f = merge, ...)`
+    -   `signature = c(x = 'hyperframe', y = 'data.frame')`
+    -   `signature = c(x = 'hyperframe', y = 'hyperframe')`
+-   Should the authors decide to implement the `merge` functionality for `groupedHyperframe` class, at least three S4 method dispatches need to be written for `setMethod(f = merge, ...)`
+    -   `signature = c(x = 'groupedHyperframe', y = 'data.frame')`
+    -   `signature = c(x = 'groupedHyperframe', y = 'hyperframe')`
+    -   `signature = c(x = 'groupedHyperframe', y = 'groupedHyperframe')`, for which the authors need to consider the (potentially different) grouping structures of `x` and `y` inputs.
 
 The authors suggest users do `base::merge.data.frame()` first, then do `as.groupedHyperframe()` as a workaround.
 
