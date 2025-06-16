@@ -3,7 +3,7 @@
 .onLoad <- function(libname, pkgname) {
   
   Sys.setenv(
-    '_R_CHECK_LIMIT_CORES_' = 'false',
+    # '_R_CHECK_LIMIT_CORES_' = 'false',
     # otherwise ?parallel:::.check_ncores causes error when ?devtools::check
     
     '_R_CHECK_SYSTEM_CLOCK_' = 0
@@ -13,8 +13,14 @@
   
   options(
     
-    mc.cores = switch(.Platform$OS.type, windows = 1L, detectCores()),
-    
+    mc.cores = switch(
+      EXPR = .Platform$OS.type, # as of R 4.5, only two response, 'windows' or 'unix'
+      windows = 1L, 
+      unix = detectCores()
+    ),
+    # read this discussion very very carefully!  Especially Dirk's reply!!!!
+    # https://github.com/Rdatatable/data.table/issues/5658
+
     use_unicode = TRUE
     
   )
