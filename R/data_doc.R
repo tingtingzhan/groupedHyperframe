@@ -47,7 +47,7 @@
 #' @title wrobel_lung
 #' 
 #' @description
-#' From Dr. Julia Wrobel's data \url{https://sph.emory.edu/faculty/profile/index.php?FID=julia-wrobel-13186}.
+#' From Dr. Julia Wrobel's data \url{https://sph.emory.edu/profile/faculty/julia-wrobel}.
 # \url{http://juliawrobel.com/MI_tutorial/Data/lung.RDA}. # website hacked
 #' 
 #' @format 

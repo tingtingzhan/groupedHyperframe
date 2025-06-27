@@ -11,6 +11,6 @@ A \link[base]{data.frame}
 wrobel_lung
 }
 \description{
-From Dr. Julia Wrobel's data \url{https://sph.emory.edu/faculty/profile/index.php?FID=julia-wrobel-13186}.
+From Dr. Julia Wrobel's data \url{https://sph.emory.edu/profile/faculty/julia-wrobel}.
 }
 \keyword{internal}
