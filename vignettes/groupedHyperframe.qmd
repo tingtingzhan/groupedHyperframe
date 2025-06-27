@@ -86,7 +86,7 @@ library(survival) # to help hyperframe understand Surv object
 ```{r}
 #| echo: false
 op = par(no.readonly = TRUE)
-#options(mc.cores = 1L) # for CRAN submission
+options(mc.cores = 1L) # for CRAN submission
 ```
 
 ## Terms and Abbreviations

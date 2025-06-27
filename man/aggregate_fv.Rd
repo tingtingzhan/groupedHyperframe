@@ -23,8 +23,7 @@ Do not use multi-level hierarchy (e.g., \code{~patient/image})}
 \item{f_aggr_}{see function \code{\link[=aggregate_by_]{aggregate_by_()}}}
 
 \item{mc.cores}{\link[base]{integer} scalar, see function \link[parallel]{mclapply}.
-Default is 1L on Windows, or \link[parallel]{detectCores} on Mac.
-CRAN requires \code{mc.cores <= 2L} in examples.}
+Default is 1L on Windows, or \link[parallel]{detectCores} on Mac.}
 
 \item{...}{additional parameters, currently not in use}
 }

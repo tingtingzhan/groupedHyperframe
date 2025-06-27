@@ -12,8 +12,7 @@ op_ppplist(x, op, mc.cores = getOption("mc.cores"), ...)
 \item{op}{workhorse \link[base]{function}, either \code{\link[=fv_ppp]{fv_ppp()}} or \code{\link[=dist_ppp]{dist_ppp()}}}
 
 \item{mc.cores}{\link[base]{integer} scalar, see function \link[parallel]{mclapply}.
-Default is 1L on Windows, or \link[parallel]{detectCores} on Mac.
-CRAN requires \code{mc.cores <= 2L} in examples.}
+Default is 1L on Windows, or \link[parallel]{detectCores} on Mac.}
 
 \item{...}{additional parameters of workhorse functions
 \code{\link[=fv_ppp]{fv_ppp()}} or \code{\link[=dist_ppp]{dist_ppp()}}}

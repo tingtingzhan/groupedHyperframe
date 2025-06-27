@@ -12,8 +12,7 @@ mc_identical_by(data, f, mc.cores = getOption("mc.cores"), ...)
 \item{f}{\link[base]{factor}}
 
 \item{mc.cores}{\link[base]{integer} scalar, see function \link[parallel]{mclapply}.
-Default is 1L on Windows, or \link[parallel]{detectCores} on Mac.
-CRAN requires \code{mc.cores <= 2L} in examples.}
+Default is 1L on Windows, or \link[parallel]{detectCores} on Mac.}
 
 \item{...}{additional parameters, currently not in use}
 }

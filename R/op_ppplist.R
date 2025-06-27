@@ -11,7 +11,6 @@
 #' 
 #' @param mc.cores \link[base]{integer} scalar, see function \link[parallel]{mclapply}.
 #' Default is 1L on Windows, or \link[parallel]{detectCores} on Mac.
-#' CRAN requires `mc.cores <= 2L` in examples.
 #' 
 #' @param ... additional parameters of workhorse functions 
 #' [fv_ppp()] or [dist_ppp()]
