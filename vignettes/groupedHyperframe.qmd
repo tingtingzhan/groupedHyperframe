@@ -62,6 +62,17 @@ remotes::install_github('spatstat/spatstat.univar', upgrade = 'always')
 remotes::install_github('spatstat/spatstat.utils', upgrade = 'always')
 ```
 
+### Dependencies
+
+Package **`groupedHyperframe`** `Imports` packages
+
+-   **`cli`** \[@cli, version `r packageVersion('cli')`\], for attractive command line interfaces (CLIs)
+-   **`matrixStats`** [@matrixStats, version `r packageVersion('matrixStats')`, key dependency], for matrix arithmetic
+-   **`parallel`** (shipped with vanilla `R`, version `r packageVersion('base')`), for parallel computing
+-   **`pracma`** [@pracma, version `r packageVersion('pracma')`, key dependency], for (cumulative) trapezoidal integration
+-   **`spatstat.explore`** (version `r packageVersion('spatstat.explore')`) and **`spatstat.geom`** (version `r packageVersion('spatstat.geom')`), @spatstat15, key dependency, for spatial statistics
+-   **`SpatialPack`** [@SpatialPack, version `r packageVersion('SpatialPack')`, key dependency], for Tjøstheim's coefficient of spatial association
+
 ## Getting Started
 
 Examples in this vignette require that the `search` path has
