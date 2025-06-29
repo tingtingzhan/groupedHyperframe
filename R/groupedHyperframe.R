@@ -48,9 +48,6 @@ print.groupedHyperframe <- function(x, ...) {
     head(n = 10L) |>
     print(...)
   
-  x |> 
-    rmax_.hyperframe()
-  
 }
 
 

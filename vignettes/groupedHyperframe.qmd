@@ -272,14 +272,23 @@ We explain the last line of message `Recommended rmax for ppp.` in detail in the
 
 In this section, we discuss the batch processes that return a function value table (`fv`) hypercolumn, i.e., a hypercolumn which consists of a `list` of `fv.object`s.
 
-#### Batch processes applicable to numeric `marks`
-
 | Batch Process | Workhorse in package **`spatstat.explore`** | `fv`-hypercolumns Suffix |
 |------------------------|------------------------|------------------------|
 | `Emark_()` and `Vmark_()` | [`Emark` and `Vmark`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/Emark.html), conditional mean $E(r)$ and conditional variance $V(r)$, diagnostics for dependence between the points and the marks [@Emark] | `.E` and `.V` |
 | `markcorr_()` | [`markcorr`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/markcorr.html), marked correlation $k_{mm}(r)$ or generalized mark correlation $k_f(r)$ [@markcorr] | `.k` |
 | `markvario_()` | [`markvario`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/markvario.html), mark variogram $\gamma(r)$ [@markvario] | `.gamma` |
 | `Kmark_()` | [`Kmark`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/Kmark.html), mark-weighted $K_f(r)$ function [@Kmark] | `.K` |
+
+: Batch processes applicable to numeric `marks`
+
+| Batch Process | Workhorse in package **`spatstat.explore`** | `fv`-hypercolumns Suffix |
+|------------------------|------------------------|------------------------|
+| `Gcross_()` | [`Gcross`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/Gcross.html), multitype nearest-neighbour distance $G_{ij}(r)$ | `.G` |
+| `Kcross_()` | [`Kcross`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/Kcross.html), multitype $K_{ij}(r)$ | `.K` |
+| `Jcross_()` | [`Jcross`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/Jcross.html), multitype $J_{ij}(r)$ [@Jcross] | `.J` |
+| `Lcross_()` | [`Lcross`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/Lcross.html), multitype $L_{ij}(r)=\sqrt{\frac{K_{ij}(r)}{\pi}}$ | `.L` |
+
+: Batch processes applicable to `multitype` `marks`
 
 In package **`spatstat.explore`** (up to version `r packageVersion('spatstat.explore')`), function `markcorr()` is the workhorse inside functions `Emark()`, `Vmark()` and `markvario()`. Function `markcorr()` relies on the un-exported workhorse function `spatstat.explore:::sewsmod()`, whose default `method = "density"` contains the calculation of the ratio of two kernel densities. Due to the floating-point precision of `R`, such density ratios may have exceptional returns of
 
@@ -314,27 +323,47 @@ spatstat.data::spruces |>
   utils::tail(n = 10L)
 ```
 
-We present an `S3` generic function `rmax_()` which provides the *Recommended* $r_\text{max}$ based on
+We present an `S3` generic function `rmax_()`, particularly the `S3` method dispatch `rmax_.ppp()`, which provides the *Recommended* $r_\text{max}$. Together with the `S3` method dispatches `rmax_.ppplist()` and `rmax_.hyperframe()`, user may obtain the *Recommended* $r_\text{max}$ *before* applying the (potentially) very slow batch processes.
 
--   function `spatstat.explore::markcorr()`, in `S3` method dispatch `rmax_.ppp(, fun = 'K')`
-
-Together with the `S3` method dispatches `rmax_.ppplist()` and `rmax_.hyperframe()`, user may obtain the *Recommended* $r_\text{max}$ *before* applying the very slow batch processes `Emark_()`, `Vmark_()`, `markcorr_()` and `markvario_()`.
+-   For functions `Emark()`, `Vmark()`, `markcorr()`, and `markvario()`,
 
 ```{r}
-s |>
-  rmax_(fun = 'K')
+#| code-fold: false
+#| code-summary: "fun = 'K', numeric (and multitype) mark"
+s |> rmax_(fun = 'K')
+```
+
+-   For function `Kcross()`,
+
+```{r}
+#| code-fold: false
+#| code-summary: "fun = 'K', multitype mark"
+s |> rmax_(fun = 'K')
+s |> rmax_(fun = 'K', i = 'CK+.CD8-', j = 'CK-.CD8+')
+s |> rmax_(fun = 'K', i = 'CK-.CD8+', j = 'CK+.CD8-')
+```
+
+-   For function `Gcross()`,
+
+```{r}
+#| code-fold: false
+#| code-summary: "fun = 'G', multitype mark"
+s |> rmax_(fun = 'G')
+s |> rmax_(fun = 'G', i = 'CK+.CD8-', j = 'CK-.CD8+')
+s |> rmax_(fun = 'G', i = 'CK-.CD8+', j = 'CK+.CD8-')
+```
+
+-   For function `Jcross()`,
+
+```{r}
+#| code-fold: false
+#| code-summary: "fun = 'J', multitype"
+s |> rmax_(fun = 'J')
+s |> rmax_(fun = 'J', i = 'CK+.CD8-', j = 'CK-.CD8+')
+s |> rmax_(fun = 'J', i = 'CK-.CD8+', j = 'CK+.CD8-')
 ```
 
 When a user-specified `r` is provided for a batch process on *all* `ppp.object`s in the `ppp`-hypercolumn, inevitably some of the `fv`-returns may have exceptional values. We discuss this exception handling in the next section *Aggregation over nested grouping structure*.
-
-#### Batch processes applicable to `multitype` `marks`
-
-| Batch Process | Workhorse in package **`spatstat.explore`** | `fv`-hypercolumns Suffix |
-|------------------------|------------------------|------------------------|
-| `Gcross_()` | [`Gcross`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/Gcross.html), multitype nearest-neighbour distance $G_{ij}(r)$ | `.G` |
-| `Kcross_()` | [`Kcross`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/Kcross.html), multitype $K_{ij}(r)$ | `.K` |
-| `Jcross_()` | [`Jcross`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/Jcross.html), multitype $J_{ij}(r)$ [@Jcross] | `.J` |
-| `Lcross_()` | [`Lcross`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/Lcross.html), multitype $L_{ij}(r)=\sqrt{\frac{K_{ij}(r)}{\pi}}$ | `.L` |
 
 ### Batch processes to return numeric-hypercolumn
 

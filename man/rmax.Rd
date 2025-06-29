@@ -10,35 +10,38 @@
 \usage{
 rmax_(X, fun, ...)
 
-\method{rmax_}{ppp}(X, fun = "K", ...)
+\method{rmax_}{ppp}(X, fun, i, j, ...)
 
-\method{rmax_}{ppplist}(X, fun = "K", ...)
+\method{rmax_}{ppplist}(X, ...)
 
-\method{rmax_}{hyperframe}(X, fun = "K", ...)
+\method{rmax_}{hyperframe}(X, ...)
 }
 \arguments{
 \item{X}{a \link[spatstat.geom]{ppp.object} with one \link[base]{numeric} \link[spatstat.geom]{marks}}
 
+\item{fun}{..}
+
 \item{...}{additional parameters, currently of no use}
+
+\item{i, j}{..}
 }
 \description{
 Default \eqn{r_\text{max}} of Function \link[spatstat.explore]{markcorr}
 }
-\details{
-Code snippet stolen from
-function \link[spatstat.explore]{markcorr} (\code{fun = 'K'})
-and making use of undocumented functions
-\link[spatstat.explore]{rmax.rule} and \link[spatstat.geom]{handle.r.b.args}
-}
 \examples{
 library(spatstat.data)
-# ppp
+# ppp, fun = 'K'
 spruces |> rmax_(fun = 'K') # rectangle window
 urkiola |> rmax_(fun = 'K') # polygonal boundary 
 swedishpines |> rmax_(fun = 'K') # not-marked, exception handling
-# hyperframe
+# hyperframe, fun = 'K'
 flu |> rmax_(fun = 'K') # rectangle window
 cetaceans |> rmax_(fun = 'K') # polygonal boundary, marked and unmarked
 pyramidal |> rmax_(fun = 'K') # not-marked
+# hyperframe, fun = 'G'
+flu |> rmax_(fun = 'G')
+flu0 = flu |> subset(subset = (stain == 'M2-M1'))
+flu0 |> rmax_(fun = 'G', i = 'M1', j = 'M2')
+flu0 |> rmax_(fun = 'G', i = 'M2', j = 'M1')
 }
 \keyword{internal}

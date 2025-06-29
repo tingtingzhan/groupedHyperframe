@@ -3,65 +3,109 @@
 #' 
 #' @param X a \link[spatstat.geom]{ppp.object} with one \link[base]{numeric} \link[spatstat.geom]{marks}
 #' 
+#' @param fun ..
+#' 
+#' @param i,j ..
+#' 
 #' @param ... additional parameters, currently of no use
-#' 
-#' @details
-#' 
-#' Code snippet stolen from 
-#' function \link[spatstat.explore]{markcorr} (`fun = 'K'`)
-#' and making use of undocumented functions
-#' \link[spatstat.explore]{rmax.rule} and \link[spatstat.geom]{handle.r.b.args}
 #' 
 #' @examples
 #' library(spatstat.data)
-#' # ppp
+#' # ppp, fun = 'K'
 #' spruces |> rmax_(fun = 'K') # rectangle window
 #' urkiola |> rmax_(fun = 'K') # polygonal boundary 
 #' swedishpines |> rmax_(fun = 'K') # not-marked, exception handling
-#' # hyperframe
+#' # hyperframe, fun = 'K'
 #' flu |> rmax_(fun = 'K') # rectangle window
 #' cetaceans |> rmax_(fun = 'K') # polygonal boundary, marked and unmarked
 #' pyramidal |> rmax_(fun = 'K') # not-marked
+#' # hyperframe, fun = 'G'
+#' flu |> rmax_(fun = 'G')
+#' flu0 = flu |> subset(subset = (stain == 'M2-M1'))
+#' flu0 |> rmax_(fun = 'G', i = 'M1', j = 'M2')
+#' flu0 |> rmax_(fun = 'G', i = 'M2', j = 'M1')
 #' @keywords internal
 #' @name rmax
 #' @importFrom spatstat.explore rmax.rule
-#' @importFrom spatstat.geom area is.marked is.ppp npoints handle.r.b.args
+#' @importFrom spatstat.geom area intensity marks.ppp is.marked is.ppp npoints unstack.ppp is.multitype.ppp handle.r.b.args ppsubset
 #' @export
 rmax_ <- function(X, fun, ...) UseMethod(generic = 'rmax_')
 
 #' @rdname rmax
 #' @export rmax_.ppp
 #' @export
-rmax_.ppp <- function(X, fun = 'K', ...) {
+rmax_.ppp <- function(
+    X, 
+    fun, # see ?spatstat.explore::rmax.rule
+    i, j,
+    ...
+) {
   
   if (!is.ppp(X)) stop('input `X` must be ppp.')
   if (!is.marked(X)) return(NA_real_) # exception handling
-    
+  
   npts <- npoints(X)
   W <- X$window
-  rmaxdefault <- rmax.rule(fun = fun, W = W, lambda = npts/area(W))
+  
+  has_i <- !missing(i)
+  has_j <- !missing(j)
+  
+  if (has_i && has_j) {
+    
+    # fun = 'G'; ?spatstat.explore::Gmulti, i.e., ?spatstat.explore::Gcross when i!=j
+    # fun = 'K'; ?spatstat.explore::Kmulti, i.e., ?spatstat.explore::Kcross when i!=j (naively use `area(W)`)
+    # fun = 'J'; ?spatstat.explore::Jmulti, i.e., ?spatstat.explore::Jcross when i!=j
+    # original: marx <- marks(X, dfok = FALSE) # need a little twick..
+    xs <- unstack.ppp(X)
+    id_mtt <- vapply(xs, FUN = is.multitype.ppp, FUN.VALUE = NA)
+    if (!any(id_mtt)) stop('no multitype marks')
+    marx_ <- xs[id_mtt] |> 
+      lapply(FUN = marks.ppp, dfok = FALSE)
+    id <- marx_ |> 
+      vapply(FUN = `%in%`, x = j, FUN.VALUE = NA)
+    if (sum(id) != 1L) stop('not programed, yet')
+    J <- ppsubset(X = X, I = (marx_[[id]] == j), Iname = 'J')
+    rmaxdefault <- rmax.rule(
+      fun = fun, 
+      W = W, 
+      lambda = switch(fun, K =, G = sum(J)/area(W), J = intensity(X[J]))
+    )
+
+  } else if (!has_i && !has_j) {
+    
+    # fun = 'K'; ?spatstat.explore::markcorr 
+    # fun = 'G'; ?spatstat.explore::Gest, i.e., ?spatstat.explore::Gcross when i==j
+    # fun = 'K'; ?spatstat.explore::Kest, i.e., ?spatstat.explore::Kcross when i==j
+    # fun = 'J'; ?spatstat.explore::Jest, i.e., ?spatstat.explore::Jcross when i==j
+    rmaxdefault <- rmax.rule(
+      fun = fun, 
+      W = W, 
+      lambda = switch(fun, K =, G = npts/area(W), J = intensity(X))
+    )
+    
+  } else stop('wont happen')
+  
   breaks <- handle.r.b.args(window = W, rmaxdefault = rmaxdefault)
-  r <- breaks$r
   rmax <- breaks$max
   # alim <- c(0, min(rmax, rmaxdefault)) # to remind tzh-self
   return(min(rmax, rmaxdefault))
-  
+    
 }
 
 
 #' @rdname rmax
 #' @export rmax_.ppplist
 #' @export
-rmax_.ppplist <- function(X, fun = 'K', ...) {
+rmax_.ppplist <- function(X, ...) {
   X |>
-    vapply(FUN = rmax_.ppp, fun = fun, FUN.VALUE = NA_real_)
+    vapply(FUN = rmax_.ppp, ..., FUN.VALUE = NA_real_)
 }
 
 
 #' @rdname rmax
 #' @export rmax_.hyperframe
 #' @export
-rmax_.hyperframe <- function(X, fun = 'K', ...) {
+rmax_.hyperframe <- function(X, ...) {
   
   # may handle multiple ppp-hypercolumns!!!
   
@@ -78,21 +122,29 @@ rmax_.hyperframe <- function(X, fun = 'K', ...) {
   if (!length(hc_ppp)) return(invisible()) # exception handling
   
   ret <- hc[hc_ppp] |>
-    lapply(FUN = rmax_.ppplist, fun = fun)
+    lapply(FUN = rmax_.ppplist, ...)
   
   cat('\n')
   mapply(FUN = \(r, nm) {
     tb <- table(r)
+    r0 <- r |> unique.default() |> sort.int()
+    prt <- if (length(r0) == length(r)) {
+      r0 |> 
+        range.default() |>
+        sprintf(fmt = '%.2f') |>
+        paste(collapse = ' ~ ')
+    } else {
+      sprintf(fmt = '%d\u2a2f ', tb) |> col_br_magenta() |> style_bold() |>
+        paste0(sprintf(fmt = '%.2f', r0), collapse = '; ')
+    }
     paste(
       'Recommended', 
       'rmax' |> col_red() |> style_bold(),
       'for', 
       nm |> col_blue() |> style_bold(),
       'are',
-      sprintf(fmt = '%d\u2a2f ', tb) |> col_br_magenta() |> style_bold() |>
-        paste0(names(tb), collapse = '; ')
-    ) |>
-      message()
+      prt
+    ) |> message()
   }, r = ret, nm = names(ret))
   
   return(invisible(ret))
