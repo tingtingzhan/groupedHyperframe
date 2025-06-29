@@ -77,9 +77,6 @@ log1p.ppp <- function(x) {
 
 
 
-# nobs.ppp <- function(object, ...) .Defunct(new = 'spatstat.geom::npoints.ppp')
-
-
 
 
 

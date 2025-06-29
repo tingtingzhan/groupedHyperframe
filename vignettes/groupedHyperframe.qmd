@@ -66,7 +66,7 @@ remotes::install_github('spatstat/spatstat.utils', upgrade = 'always')
 
 Package **`groupedHyperframe`** `Imports` packages
 
--   **`cli`** \[@cli, version `r packageVersion('cli')`\], for attractive command line interfaces (CLIs)
+-   **`cli`** [@cli, version `r packageVersion('cli')`], for attractive command line interfaces (CLIs)
 -   **`matrixStats`** [@matrixStats, version `r packageVersion('matrixStats')`, key dependency], for matrix arithmetic
 -   **`parallel`** (shipped with vanilla `R`, version `r packageVersion('base')`), for parallel computing
 -   **`pracma`** [@pracma, version `r packageVersion('pracma')`, key dependency], for (cumulative) trapezoidal integration
@@ -86,14 +86,14 @@ library(survival) # to help hyperframe understand Surv object
 ```{r}
 #| echo: false
 op = par(no.readonly = TRUE)
-options(mc.cores = 1L) # for CRAN submission
+#options(mc.cores = 1L) # for CRAN submission
 ```
 
 ## Terms and Abbreviations
 
 | Term / Abbreviation | Description |
 |------------------------------------|------------------------------------|
-| [`|>`](https://search.r-project.org/R/refmans/base/html/pipeOp.html) | Forward pipe operator introduced in `R` 4.1.0 |
+| [`|>`](https://search.r-project.org/R/refmans/base/html/pipeOp.html) | Forward pipe operator introduced since `R` 4.1.0 |
 | [`.Machine`](https://search.r-project.org/R/refmans/base/html/zMachine.html) | Numerical characteristics of the machine `R` is running on, e.g., 32-bit integers and IEC 60559 floating-point (double precision) arithmetic |
 | [`attr`](https://search.r-project.org/R/refmans/base/html/attr.html), [`attributes`](https://search.r-project.org/R/refmans/base/html/attributes.html) | Attributes |
 | `CRAN`, `R` | [The Comprehensive R Archive Network](https://cran.r-project.org) |
@@ -185,12 +185,16 @@ By converting **`wrobel_lung0`** into a `groupedHyperframe`, the numeric *`hladr
 Converting a `data.frame` with substantial amount of duplicated information like **`wrobel_lung0`** into a `groupedHyperframe` greatly reduces the memory allocation.
 
 ```{r}
+#| code-fold: true
+#| code-summary: "See for yourself"
 unclass(object.size(wrobel_lung0g)) / unclass(object.size(wrobel_lung0))
 ```
 
 A `groupedHyperframe`, however, would not reduce much the `save`d `file.size` compared to a `data.frame`, if `xz` compression is used for both.
 
 ```{r}
+#| code-fold: true
+#| code-summary: "See for yourself"
 f_g = tempfile(fileext = '.rds')
 wrobel_lung0g |> saveRDS(file = f_g, compress = 'xz')
 f = tempfile(fileext = '.rds')
@@ -260,6 +264,8 @@ In the following example, the argument `formula` specifies
    grouped_ppp(formula = hladr + phenotype ~ OS + gender + age | patient_id/image_id))
 ```
 
+We explain the last line of message `Recommended rmax for ppp.` in detail in the next section.
+
 ## Batch processes
 
 ### Batch processes to return `fv`-hypercolumn
@@ -275,9 +281,7 @@ In this section, we discuss the batch processes that return a function value tab
 | `markvario_()` | [`markvario`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/markvario.html), mark variogram $\gamma(r)$ [@markvario] | `.gamma` |
 | `Kmark_()` | [`Kmark`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/Kmark.html), mark-weighted $K_f(r)$ function [@Kmark] | `.K` |
 
-##### Exception handling
-
-In package **`spatstat.explore`** (up to version `3.4.3`, 2025-05-21), function `markcorr()` is the workhorse inside functions `Emark()`, `Vmark()` and `markvario()`. Function `markcorr()` relies on the un-exported workhorse function `spatstat.explore:::sewsmod()`, whose default `method = "density"` contains the calculation of the ratio of two kernel densities. Due to the floating-point precision of `R`, such density ratios may have exceptional returns of
+In package **`spatstat.explore`** (up to version `r packageVersion('spatstat.explore')`), function `markcorr()` is the workhorse inside functions `Emark()`, `Vmark()` and `markvario()`. Function `markcorr()` relies on the un-exported workhorse function `spatstat.explore:::sewsmod()`, whose default `method = "density"` contains the calculation of the ratio of two kernel densities. Due to the floating-point precision of `R`, such density ratios may have exceptional returns of
 
 -   `0`, from $0/\delta$, where $\delta\geq$ (approximately) `2.6e-324`
 -   `NaN`, from $0/\varepsilon$, where $\varepsilon\leq$ (approximately) `2.5e-324`
@@ -293,6 +297,8 @@ c(2.5e-324, 2.6e-324) / 0
 Function `markcorr()` provides a default argument of parameter $r$, at which the mark correlation function $k_f(r)$ are evaluated, using function `spatstat.geom::handle.r.b.args()`. The S3 method dispatch `spatstat.explore::print.fv()` prints the *recommended range* and *available range* of the argument $r$.
 
 ```{r}
+#| code-fold: true
+#| code-summary: "Function spatstat.explore::print.fv() output"
 spatstat.data::spruces |> 
   spatstat.explore::markcorr()
 ```
@@ -300,18 +306,23 @@ spatstat.data::spruces |>
 We may observe exceptional returns if we go beyond the *recommended range* and/or *available range*. In the following example, we see that the mark correlation $k_f(r)$ (column `iso`) having value `NaN` at $r=81,88,89,90$, value `0` at $r=82$ and value `Inf` at $r=83,84,87$.
 
 ```{r}
+#| code-fold: true
+#| code-summary: "Exceptions when parameter `r` out-of-range"
 spatstat.data::spruces |> 
   spatstat.explore::markcorr(r = 0:90) |>
   spatstat.explore::as.data.frame.fv() |>
   utils::tail(n = 10L)
 ```
 
-The batch process `markcorr_()`, as well as `Emark_()`, `Vmark_()` and `markvario_()` which rely on the workhorse `markcorr()`, prints the *Recommended* $r_\text{max}$ from each of the `fv`-returns, no matter a user-specified argument for parameter `r` is provided or not.
+We present an `S3` generic function `rmax_()` which provides the *Recommended* $r_\text{max}$ based on
+
+-   function `spatstat.explore::markcorr()`, in `S3` method dispatch `rmax_.ppp(, fun = 'K')`
+
+Together with the `S3` method dispatches `rmax_.ppplist()` and `rmax_.hyperframe()`, user may obtain the *Recommended* $r_\text{max}$ *before* applying the very slow batch processes `Emark_()`, `Vmark_()`, `markcorr_()` and `markvario_()`.
 
 ```{r}
-#| results: hide
 s |>
-  Emark_(correction = 'none')
+  rmax_(fun = 'K')
 ```
 
 When a user-specified `r` is provided for a batch process on *all* `ppp.object`s in the `ppp`-hypercolumn, inevitably some of the `fv`-returns may have exceptional values. We discuss this exception handling in the next section *Aggregation over nested grouping structure*.
