@@ -1,24 +1,30 @@
 
-#' @title Default \eqn{r_\text{max}} of Function \link[spatstat.explore]{markcorr}
+#' @title Default \eqn{r_\text{max}} of Various Functions in Package \CRANpkg{spatstat.explore}
 #' 
-#' @param X a \link[spatstat.geom]{ppp.object} with one \link[base]{numeric} \link[spatstat.geom]{marks}
+#' @param X a \link[spatstat.geom]{ppp.object} with one \link[base]{numeric} or multi-type \link[spatstat.geom]{marks}
 #' 
-#' @param fun ..
+#' @param fun \link[base]{character} scalar, see (the un-documented) function \link[spatstat.explore]{rmax.rule}
 #' 
-#' @param i,j ..
+#' @param i,j \link[base]{character} scalars, see functions 
+#' \link[spatstat.explore]{Gcross}, 
+#' \link[spatstat.explore]{Kcross}, 
+#' \link[spatstat.explore]{Jcross}, etc.
 #' 
 #' @param ... additional parameters, currently of no use
 #' 
 #' @examples
 #' library(spatstat.data)
+#' 
 #' # ppp, fun = 'K'
 #' spruces |> rmax_(fun = 'K') # rectangle window
 #' urkiola |> rmax_(fun = 'K') # polygonal boundary 
 #' swedishpines |> rmax_(fun = 'K') # not-marked, exception handling
+#' 
 #' # hyperframe, fun = 'K'
 #' flu |> rmax_(fun = 'K') # rectangle window
 #' cetaceans |> rmax_(fun = 'K') # polygonal boundary, marked and unmarked
 #' pyramidal |> rmax_(fun = 'K') # not-marked
+#' 
 #' # hyperframe, fun = 'G'
 #' flu |> rmax_(fun = 'G')
 #' flu0 = flu |> subset(subset = (stain == 'M2-M1'))
@@ -26,25 +32,23 @@
 #' flu0 |> rmax_(fun = 'G', i = 'M2', j = 'M1')
 #' @keywords internal
 #' @name rmax
-#' @importFrom spatstat.explore rmax.rule
-#' @importFrom spatstat.geom area intensity marks.ppp is.marked is.ppp npoints unstack.ppp is.multitype.ppp handle.r.b.args ppsubset
 #' @export
-rmax_ <- function(X, fun, ...) UseMethod(generic = 'rmax_')
+rmax_ <- function(X, ...) UseMethod(generic = 'rmax_')
 
 #' @rdname rmax
+#' @importFrom spatstat.explore rmax.rule
+#' @importFrom spatstat.geom area intensity marks.ppp is.marked.ppp is.ppp npoints.ppp unstack.ppp is.multitype.ppp handle.r.b.args ppsubset
 #' @export rmax_.ppp
 #' @export
-rmax_.ppp <- function(
-    X, 
-    fun, # see ?spatstat.explore::rmax.rule
-    i, j,
-    ...
-) {
+rmax_.ppp <- function(X, fun, i, j, ...) {
+  
+  # S3 call to [area] is probably [area.owin]
+  # S3 call to [intensity] is probably [intensity.ppp]
   
   if (!is.ppp(X)) stop('input `X` must be ppp.')
-  if (!is.marked(X)) return(NA_real_) # exception handling
+  if (!is.marked.ppp(X)) return(NA_real_) # exception handling
   
-  npts <- npoints(X)
+  npts <- npoints.ppp(X)
   W <- X$window
   
   has_i <- !missing(i)
@@ -86,9 +90,9 @@ rmax_.ppp <- function(
   } else stop('wont happen')
   
   breaks <- handle.r.b.args(window = W, rmaxdefault = rmaxdefault)
-  rmax <- breaks$max
+  # rmax <- breaks$max
   # alim <- c(0, min(rmax, rmaxdefault)) # to remind tzh-self
-  return(min(rmax, rmaxdefault))
+  return(min(breaks$max, rmaxdefault))
     
 }
 

@@ -6,9 +6,9 @@
 \alias{rmax_.ppp}
 \alias{rmax_.ppplist}
 \alias{rmax_.hyperframe}
-\title{Default \eqn{r_\text{max}} of Function \link[spatstat.explore]{markcorr}}
+\title{Default \eqn{r_\text{max}} of Various Functions in Package \CRANpkg{spatstat.explore}}
 \usage{
-rmax_(X, fun, ...)
+rmax_(X, ...)
 
 \method{rmax_}{ppp}(X, fun, i, j, ...)
 
@@ -17,27 +17,33 @@ rmax_(X, fun, ...)
 \method{rmax_}{hyperframe}(X, ...)
 }
 \arguments{
-\item{X}{a \link[spatstat.geom]{ppp.object} with one \link[base]{numeric} \link[spatstat.geom]{marks}}
-
-\item{fun}{..}
+\item{X}{a \link[spatstat.geom]{ppp.object} with one \link[base]{numeric} or multi-type \link[spatstat.geom]{marks}}
 
 \item{...}{additional parameters, currently of no use}
 
-\item{i, j}{..}
+\item{fun}{\link[base]{character} scalar, see (the un-documented) function \link[spatstat.explore]{rmax.rule}}
+
+\item{i, j}{\link[base]{character} scalars, see functions
+\link[spatstat.explore]{Gcross},
+\link[spatstat.explore]{Kcross},
+\link[spatstat.explore]{Jcross}, etc.}
 }
 \description{
-Default \eqn{r_\text{max}} of Function \link[spatstat.explore]{markcorr}
+Default \eqn{r_\text{max}} of Various Functions in Package \CRANpkg{spatstat.explore}
 }
 \examples{
 library(spatstat.data)
+
 # ppp, fun = 'K'
 spruces |> rmax_(fun = 'K') # rectangle window
 urkiola |> rmax_(fun = 'K') # polygonal boundary 
 swedishpines |> rmax_(fun = 'K') # not-marked, exception handling
+
 # hyperframe, fun = 'K'
 flu |> rmax_(fun = 'K') # rectangle window
 cetaceans |> rmax_(fun = 'K') # polygonal boundary, marked and unmarked
 pyramidal |> rmax_(fun = 'K') # not-marked
+
 # hyperframe, fun = 'G'
 flu |> rmax_(fun = 'G')
 flu0 = flu |> subset(subset = (stain == 'M2-M1'))

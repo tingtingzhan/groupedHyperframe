@@ -274,7 +274,7 @@ In this section, we discuss the batch processes that return a function value tab
 
 | Batch Process | Workhorse in package **`spatstat.explore`** | `fv`-hypercolumns Suffix |
 |------------------------|------------------------|------------------------|
-| `Emark_()` and `Vmark_()` | [`Emark` and `Vmark`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/Emark.html), conditional mean $E(r)$ and conditional variance $V(r)$, diagnostics for dependence between the points and the marks [@Emark] | `.E` and `.V` |
+| `Emark_()` and `Vmark_()` | [`Emark` and `Vmark`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/Emark.html), conditional mean $E(r)$ and variance $V(r)$, diagnostics for dependence between the points and the marks [@Emark] | `.E` and `.V` |
 | `markcorr_()` | [`markcorr`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/markcorr.html), marked correlation $k_{mm}(r)$ or generalized mark correlation $k_f(r)$ [@markcorr] | `.k` |
 | `markvario_()` | [`markvario`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/markvario.html), mark variogram $\gamma(r)$ [@markvario] | `.gamma` |
 | `Kmark_()` | [`Kmark`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/Kmark.html), mark-weighted $K_f(r)$ function [@Kmark] | `.K` |
@@ -289,6 +289,8 @@ In this section, we discuss the batch processes that return a function value tab
 | `Lcross_()` | [`Lcross`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/Lcross.html), multitype $L_{ij}(r)=\sqrt{\frac{K_{ij}(r)}{\pi}}$ | `.L` |
 
 : Batch processes applicable to `multitype` `marks`
+
+#### Recommended $r_\text{max}$
 
 In package **`spatstat.explore`** (up to version `r packageVersion('spatstat.explore')`), function `markcorr()` is the workhorse inside functions `Emark()`, `Vmark()` and `markvario()`. Function `markcorr()` relies on the un-exported workhorse function `spatstat.explore:::sewsmod()`, whose default `method = "density"` contains the calculation of the ratio of two kernel densities. Due to the floating-point precision of `R`, such density ratios may have exceptional returns of
 
@@ -323,7 +325,7 @@ spatstat.data::spruces |>
   utils::tail(n = 10L)
 ```
 
-We present an `S3` generic function `rmax_()`, particularly the `S3` method dispatch `rmax_.ppp()`, which provides the *Recommended* $r_\text{max}$. Together with the `S3` method dispatches `rmax_.ppplist()` and `rmax_.hyperframe()`, user may obtain the *Recommended* $r_\text{max}$ *before* applying the (potentially) very slow batch processes.
+We present an `S3` generic function `rmax_()` to obtain the *Recommended* $r_\text{max}$. The primary `S3` method dispatch `rmax_.ppp()` is an off-label use of the un-documented functions `spatstat.explore::rmax.rule()` and `spatstat.geom::handle.r.b.args()`. Together with the additional `S3` method dispatches `rmax_.ppplist()` and `rmax_.hyperframe()`, user may obtain the *Recommended* $r_\text{max}$ *before* applying the (potentially) very slow batch processes.
 
 -   For functions `Emark()`, `Vmark()`, `markcorr()`, and `markvario()`,
 
