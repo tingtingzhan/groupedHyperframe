@@ -264,8 +264,6 @@ In the following example, the argument `formula` specifies
    grouped_ppp(formula = hladr + phenotype ~ OS + gender + age | patient_id/image_id))
 ```
 
-We explain the last line of message `Recommended rmax for ppp.` in detail in the next section.
-
 ## Batch processes
 
 ### Batch processes to return `fv`-hypercolumn
