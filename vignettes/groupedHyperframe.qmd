@@ -442,9 +442,9 @@ We use function `aggregate_quantile()` to aggregate the `quantile`s of the numer
 
 ```{r}
 #| message: false
-s = Ki67 |>
-  aggregate_quantile(by = ~ patientID, probs = seq.int(from = .01, to = .99, by = .01))
-s |> head()
+Ki67 |>
+  aggregate_quantile(by = ~ patientID, probs = seq.int(from = .01, to = .99, by = .01)) |> 
+  head()
 ```
 
 Users are encouraged to learn more about the applications of the aggregated quantiles of **`Ki67`** data from package **`hyper.gam`** vignettes ([RPubs](https://rpubs.com/tingtingzhan/hyper_gam), [`CRAN`](https://CRAN.R-project.org/package=hyper.gam/vignettes/applications.html)), section *Quantile Index*, as well as from our peer-reviewed publications @Yi25; @Yi23a; @Yi23b.
