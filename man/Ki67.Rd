@@ -3,7 +3,6 @@
 \docType{data}
 \name{Ki67}
 \alias{Ki67}
-\alias{Ki67.}
 \title{Ki67 Data}
 \format{
 \describe{
@@ -22,13 +21,9 @@
 \item{\code{adj_chemo}}{\link[base]{logical}, whether completed adjuvant chemo treatment}
 \item{\code{adj_rad}}{\link[base]{integer}, adjuvant radiation treatment, 0 = unknown,  1 = done, 2 = NOT done}
 }
-
-An object of class \code{data.frame} with 4088 rows and 15 columns.
 }
 \usage{
 Ki67
-
-Ki67.
 }
 \description{
 Ki67 cell data containing 622 patients.
@@ -36,9 +31,5 @@ Ki67 cell data containing 622 patients.
 \details{
 The \link{groupedHyperframe} \code{Ki67} is the complete data, to be used in examples of downstream packages
 \pkg{maxEff} and \pkg{hyper.gam}.
-
-The \link[base]{data.frame} \code{Ki67.} is a \link[base]{subset} of the complete data \code{Ki67},
-which consists only the first 6 patients.  This small data is used as examples for function \code{\link[=as.groupedHyperframe.data.frame]{as.groupedHyperframe.data.frame()}}.
 }
-\keyword{datasets}
 \keyword{internal}

@@ -9,8 +9,8 @@
 #' The [groupedHyperframe] `Ki67` is the complete data, to be used in examples of downstream packages
 #' \pkg{maxEff} and \pkg{hyper.gam}.
 #' 
-#' The \link[base]{data.frame} `Ki67.` is a \link[base]{subset} of the complete data `Ki67`,
-#' which consists only the first 6 patients.  This small data is used as examples for function [as.groupedHyperframe.data.frame()]. 
+# The \link[base]{data.frame} `Ki67.` is a \link[base]{subset} of the complete data `Ki67`,
+# which consists only the first 6 patients.  This small data is used as examples for function [as.groupedHyperframe.data.frame()]. 
 #' 
 #' @format
 #' 
@@ -36,8 +36,8 @@
 #' @keywords internal
 #' @name Ki67
 'Ki67'
-#' @rdname Ki67
-'Ki67.'
+# @rdname Ki67
+# 'Ki67.'
 
 
 

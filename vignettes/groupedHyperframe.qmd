@@ -28,6 +28,8 @@ This vignette of package **`groupedHyperframe`** ([`CRAN`](https://cran.r-projec
 
 ## Prerequisite
 
+Package **`groupedHyperframe`** requires `R` version 4.5.0 (released 2025-04-11) or higher. [RStudio](https://posit.co/download/rstudio-desktop/) is not required, but highly recommended.
+
 Experimental (and maybe unstable) features are implemented **extremely frequently** on [Github](https://github.com/tingtingzhan/groupedHyperframe). [Active developers should use the Github version; suggestions and bug reports are welcome!]{style="background-color: #FFFF00"}
 
 ```{r}
@@ -182,19 +184,12 @@ By converting **`wrobel_lung0`** into a `groupedHyperframe`, the numeric *`hladr
 
 ### Reducing memory allocation
 
-Converting a `data.frame` with substantial amount of duplicated information like **`wrobel_lung0`** into a `groupedHyperframe` greatly reduces the memory allocation.
+Converting a `data.frame` with substantial amount of duplicated information like **`wrobel_lung0`** into a `groupedHyperframe` greatly reduces the memory allocation.  A `groupedHyperframe`, however, would not reduce much the `save`d `file.size` compared to a `data.frame`, if `xz` compression is used for both.
 
 ```{r}
 #| code-fold: true
 #| code-summary: "See for yourself"
-unclass(object.size(wrobel_lung0g)) / unclass(object.size(wrobel_lung0))
-```
-
-A `groupedHyperframe`, however, would not reduce much the `save`d `file.size` compared to a `data.frame`, if `xz` compression is used for both.
-
-```{r}
-#| code-fold: true
-#| code-summary: "See for yourself"
+unclass(object.size(wrobel_lung0g)) / unclass(object.size(wrobel_lung0)) # great reduction
 f_g = tempfile(fileext = '.rds')
 wrobel_lung0g |> saveRDS(file = f_g, compress = 'xz')
 f = tempfile(fileext = '.rds')
@@ -211,24 +206,6 @@ We use function `aggregate_quantile()` to aggregate the `quantile`s of each elem
 wrobel_lung0g |>
   aggregate_quantile(by = ~ patient_id, probs = seq.int(from = .01, to = .99, by = .01))
 ```
-
-In this package, we have include a `groupedHyperframe` example **`Ki67`** with a numeric-hypercolumn *`logKi67`* and a nested grouping structure *`~patientID/tissueID`*.
-
-```{r}
-data(Ki67, package = 'groupedHyperframe')
-Ki67
-```
-
-Similarly, we use function `aggregate_quantile()` to aggregate the `quantile`s of each element in the numeric-hypercolumn *`logKi67`* at the second-lowest group `~patientID`.
-
-```{r}
-#| message: false
-s = Ki67 |>
-  aggregate_quantile(by = ~ patientID, probs = seq.int(from = .01, to = .99, by = .01))
-s |> head()
-```
-
-Users are encouraged to learn more about the applications of the aggregated quantiles of **`Ki67`** data from package **`hyper.gam`** vignettes ([RPubs](https://rpubs.com/tingtingzhan/hyper_gam), [`CRAN`](https://CRAN.R-project.org/package=hyper.gam/vignettes/applications.html)), section *Quantile Index*, as well as from our peer-reviewed publications @Yi25; @Yi23a; @Yi23b.
 
 ## From `hyperframe`
 
@@ -452,6 +429,29 @@ In the following example, we have
 out |>
   aggregate_quantile(by = ~ patient_id, probs = seq.int(from = 0, to = 1, by = .1))
 ```
+
+
+In this package, we include a `groupedHyperframe` example **`Ki67`** with a `ppp`-hypercolumn *`ppp.`* and a nested grouping structure *`~patientID/tissueID`*.
+
+```{r}
+data(Ki67, package = 'groupedHyperframe')
+Ki67
+```
+
+We use function `aggregate_quantile()` to aggregate the `quantile`s of the numeric `marks`, i.e., the log-transformed Ki67 intensities, from each element of the `ppp`-hypercolumn *`ppp.`* at the second-lowest group `~patientID`.
+
+```{r}
+#| message: false
+s = Ki67 |>
+  aggregate_quantile(by = ~ patientID, probs = seq.int(from = .01, to = .99, by = .01))
+s |> head()
+```
+
+Users are encouraged to learn more about the applications of the aggregated quantiles of **`Ki67`** data from package **`hyper.gam`** vignettes ([RPubs](https://rpubs.com/tingtingzhan/hyper_gam), [`CRAN`](https://CRAN.R-project.org/package=hyper.gam/vignettes/applications.html)), section *Quantile Index*, as well as from our peer-reviewed publications @Yi25; @Yi23a; @Yi23b.
+
+
+
+
 
 #### On kernel densities
 
