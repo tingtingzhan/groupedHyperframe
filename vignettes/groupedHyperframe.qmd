@@ -403,13 +403,12 @@ afv$hladr.E.cumtrapz |> .slice(j = '50')
 
 #### Exception handling
 
-As we have mentioned in the previous section *Batch processes*, a same user-specified argument of `r` will be used for *all* `ppp.object`s in the `ppp`-hypercolumn. Suppose a naive user uses an $r$-vector well beyond the *recommended range* and/or *available range*. In this case, function `aggregate_fv()` prints a `message` of *Legal* $r_\text{max}$, which is determined by the last value of $r$, that no value of `NaN` and/or `Inf` appears in any of the `fv`-returns, e.g., in the hypercolumn *`hladr.E`*. Note that the `0`-values in an `fv`-return are typically a sign of degeneration as well, but function `aggregate_fv()` does **not** eliminate `0`-values from the determination of legal $r_\text{max}$.
+As we have mentioned in the previous section *Batch processes*, a same user-specified argument of `r` will be used for *all* `ppp.object`s in the `ppp`-hypercolumn. Suppose a naive user uses an $r$-vector well beyond the *recommended range* and/or *available range*. In this case, function `aggregate_fv()` prints a `message` of *Legal* $r_\text{max}$, which is the last value of $r$, that no value of `0`, `NaN` and/or `Inf` appears in *any* of the `fv`-returns, e.g., in the hypercolumn *`hladr.E`*.
 
 ```{r}
 #| results: hide
-r = seq.int(from = 0, to = 1000, by = 50)
 s |>
-  Emark_(r = r, correction = 'none') |>
+  Emark_(r = seq.int(from = 0, to = 1000, by = 50), correction = 'none') |>
   aggregate_fv(by = ~ patient_id, f_aggr_ = pmean)
 ```
 

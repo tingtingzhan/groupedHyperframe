@@ -65,17 +65,27 @@ aggregate_fv <- function(
   fv <- as.list.hyperframe(X)[names.hyperframe(X)[id]] # one or more 'fv' column(s)
   
   setNames(nm = names(fv)) |> 
-    lapply(FUN = \(nm) {
+    lapply(FUN = \(nm) { # (nm = names(fv)[1L])
+      
       x <- fv[[nm]]
       check_fvlist(x)
-      cumtrapz. <- x |> mclapply(mc.cores = mc.cores, FUN = cumtrapz.fv)
-      if (anyNA(cumtrapz., recursive = TRUE)) {
-        #cumtrapz. <<- cumtrapz.
-        id <- cumtrapz. |>
-          vapply(FUN = \(i) {
-            (!is.na(i)) |> sum()
-          }, FUN.VALUE = NA_integer_) |>
-          min()
+      
+      val <- x |> lapply(FUN = key1val.fv)
+      cumtz <- x |> mclapply(mc.cores = mc.cores, FUN = cumtrapz.fv)
+      
+      lastLegal <- \(v) {
+        vok <- is.finite(v) & (abs(v) > .Machine$double.eps) # not 0, not NaN, not Inf
+        z <- vok |> 
+          which() |>
+          diff.default()
+        if (all(z == 1L)) return(length(z))
+        return(min(which(z != 1L))) # this is what I want!!
+      } # try # v = c(1, 1, 1, 1, 1, 0, 3, 4, 5, Inf, NaN)
+      
+      id <- val |>
+        vapply(FUN = lastLegal, FUN.VALUE = NA_integer_) |>
+        min()
+      if (id < length(x[[1L]]$r)) {
         paste(
           'Legal', 
           'rmax' |> col_red() |> style_bold(),
@@ -86,10 +96,12 @@ aggregate_fv <- function(
         ) |>
           message()
       }
+      
       return(list(
-        value = x |> lapply(FUN = key1val.fv),
-        cumtrapz = cumtrapz.
+        value = val,
+        cumtrapz = cumtz
       ))
+      
     }) |>
     unlist(recursive = FALSE, use.names = TRUE) |> # smart!!
     aggregate_by_(X = X, by = by, f_aggr_ = f_aggr_, ...)

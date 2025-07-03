@@ -163,7 +163,9 @@ op_hyperframe <- function(X, op, ...) {
   col_markcorr <- ret1 |>
     names() |>
     grepv(pattern = '\\.E$|\\.V$|\\.k$|\\.gamma$')
-  if (length(col_markcorr)) {
+  if (FALSE && length(col_markcorr)) {
+    # attr(, 'alim') depends on user-input `r`!!
+    # use tzh's [rmax_] to get default `r` !!
     col_markcorr |> 
       lapply(FUN = \(col) {
         r <- ret1[[col]] |>
