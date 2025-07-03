@@ -78,7 +78,7 @@ aggregate_fv <- function(
         z <- vok |> 
           which() |>
           diff.default()
-        if (all(z == 1L)) return(length(z))
+        if (all(z == 1L)) return(length(z) + 1L)
         return(min(which(z != 1L)) + 1L) # +1L because of the use of ?base::diff
       } # try # v = c(1, 1, 1, 1, 1, 0, 3, 4, 5, Inf, NaN)
       
