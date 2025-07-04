@@ -142,7 +142,7 @@ rmax_.hyperframe <- function(X, ...) {
         paste0(sprintf(fmt = '%.2f', r0), collapse = '; ')
     }
     paste(
-      'Recommended', 
+      'Default', 
       'rmax' |> col_red() |> style_bold(),
       'for', 
       nm |> col_blue() |> style_bold(),
