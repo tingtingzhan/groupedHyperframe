@@ -62,15 +62,19 @@ op_ppplist <- function(
   
   n <- length(x)
   
+  .rstudio <- identical(Sys.getenv('RSTUDIO'), '1')
+  # mclapply + system('printf ...') kills vanilla R 4.5.1
+  
   ret <- n |>
     seq_len() |>
     mclapply(mc.cores = mc.cores, FUN = \(i) {
     #lapply(FUN = \(i) { # when debugging
-      if (identical(Sys.getenv('RSTUDIO'), '1')) {
-        sprintf(fmt = 'printf \'\r%d/%d done!    \'', i, n) |> # echo-command does not work with '\r' (carriage return)
+      if (.rstudio) {
+        sprintf(fmt = 'printf \'\r%d/%d done!    \'', i, n) |> 
+          # echo-command does not work with '\r' (carriage return)
           system() |> 
           on.exit()
-      } # mclapply + system('printf ...'): error in vanilla R 4.5.1
+      }
       x[[i]] |> op(...)
     })
   message() |> on.exit()

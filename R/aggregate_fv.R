@@ -48,6 +48,7 @@
 #'  aggregate_fv(by = ~ virustype)
 #' @keywords internal
 #' @importFrom cli col_blue col_cyan col_magenta style_bold
+#' @importFrom cli bg_br_yellow
 #' @importFrom spatstat.geom names.hyperframe
 #' @importFrom stats setNames
 #' @export
@@ -76,6 +77,8 @@ aggregate_fv <- function(
         min_rmax <- min(rmax)
         if (min_rmax == 0) stop('check your ppp-hypercolumn')
         sprintf(fmt = 'Aggregation truncated at rmax(%s) = %.1f', nm, min_rmax) |>
+          style_bold() |>
+          bg_br_yellow() |>
           message()
         id <- (r <= min_rmax)
       } else id <- TRUE
