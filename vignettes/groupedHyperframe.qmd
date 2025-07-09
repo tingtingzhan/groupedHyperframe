@@ -491,15 +491,15 @@ spatstat.data::spruces |>
   spatstat.explore::markcorr()
 ```
 
-We may observe exceptional returns if we go beyond the *recommended range* and/or *available range*. In the following example, we see that the mark correlation $k_f(r)$ (column `iso`) having value `NaN` at $r=81,88,89,90$, value `0` at $r=82$ and value `Inf` at $r=83,84,87$.
+We may observe exceptional returns if we go beyond the *recommended range* and/or *available range*. In the following example, we see that the mark correlation $k_f(r)$ (column *`iso`*) having values `0`, `NaN` and `Inf`.
 
 ```{r}
 #| code-fold: true
 #| code-summary: "Exceptions when parameter `r` out-of-range"
 spatstat.data::spruces |> 
-  spatstat.explore::markcorr(r = 0:90) |>
+  spatstat.explore::markcorr(r = 0:100) |>
   spatstat.explore::as.data.frame.fv() |>
-  utils::tail(n = 10L)
+  utils::tail(n = 30L)
 ```
 
 When a user-specified `r` is provided for a batch process on *all* `ppp.object`s in the `ppp`-hypercolumn, inevitably some of the `fv`-returns may have exceptional values. We discuss this exception handling in the next section *Aggregation over nested grouping structure*.
