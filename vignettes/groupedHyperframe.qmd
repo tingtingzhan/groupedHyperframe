@@ -1,7 +1,7 @@
 ---
 title: "Grouped Hyper Data Frame"
 author: Tingting Zhan
-date: "`r format(Sys.time(), '%d %B, %Y')`"
+date: "`r format(Sys.time(), 'Last updated %d %B, %Y')`"
 format: 
   html:
     page-layout: full
@@ -65,7 +65,6 @@ Stable releases to [CRAN](https://CRAN.R-project.org/package=groupedHyperframe) 
 #| eval: false
 utils::install.packages('groupedHyperframe') # Developers, do NOT use!!
 ```
-
 
 ### Dependencies
 
@@ -200,7 +199,7 @@ file.size(f_g) / file.size(f) # not much reduction
 
 ### Aggregation of numeric-hypercolumn
 
-Function `aggregate_quantile()` aggregates the `quantile`s of each element in the numeric-hypercolumn, e.g., *`hladr`* in **`wrobel_lung0g`**, by point-wise means (default of parameter `f_aggr_`) at the biologically independent group, e.g., *`~patient_id`*. The returned object is a `hyperframe` instead of a `groupedHyperframe`, as we have ***one*** aggregated *`hladr.quantile`* per *`~patient_id`*, thus eliminates the need for a grouping structure.  The R console output is taken care of by function `spatstat.geom::print.hyperframe()`.
+Function `aggregate_quantile()` aggregates the `quantile`s of each element in the numeric-hypercolumn, e.g., *`hladr`* in **`wrobel_lung0g`**, by point-wise means (default of parameter `f_aggr_`) at the biologically independent group, e.g., *`~patient_id`*. The returned object is a `hyperframe` instead of a `groupedHyperframe`, as we have ***one*** aggregated *`hladr.quantile`* per *`~patient_id`*, thus eliminates the need for a grouping structure. The R console output is taken care of by function `spatstat.geom::print.hyperframe()`.
 
 ```{r}
 #| message: false

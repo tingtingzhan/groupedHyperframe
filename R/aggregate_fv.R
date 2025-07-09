@@ -102,7 +102,7 @@ aggregate_fv <- function(
           'rmax' |> col_red() |> style_bold(),
           '(', 
           nm |> col_blue() |> style_bold(), 
-          '), smaller than user input, are\n', 
+          sprintf(fmt = '), smaller than user input of rmax = %.1f, are\n', max(r)), 
           sprintf(fmt = '%d\u2a2f ', tb) |> col_br_magenta() |> style_bold() |>
             paste0('rmax=', r[uid], ' at location ', loc, collapse = '\n')
         ) |>
