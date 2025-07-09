@@ -314,7 +314,6 @@ In the following example, we have
 -   numeric-hypercolumns *`hladr.E.cumtrapz`* and *`phenotype.G.cumtrapz`*, the aggregated cumulative trapezoidal integrations from `fv`-hypercolumns *`hladr.E`* and *`phenotype.G`*, respectively.
 
 ```{r}
-#| message: false
 (afv = out |>
   aggregate_fv(by = ~ patient_id, f_aggr_ = pmean))
 ```

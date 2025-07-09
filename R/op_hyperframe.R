@@ -159,6 +159,10 @@ op_hyperframe <- function(X, op, ...) {
   ret1 <- .mapply(FUN = list, dots = ret0, MoreArgs = NULL)
   names(ret1) <- names(ret0[[1L]])
   
+  .mapply(FUN = check_fvlist, dots = list(
+    X = ret1, data.name = names(ret1)
+  ), MoreArgs = NULL)
+  
   # recommended `r` for functions based on ?spatstat.explore::markcorr
   col_markcorr <- ret1 |>
     names() |>

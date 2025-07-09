@@ -47,8 +47,9 @@ library(spatstat.geom)
 flu$pattern[] = flu$pattern |> 
  lapply(FUN = `mark_name<-`, value = 'stain') # read ?flu carefully
 r = seq.int(from = 0, to = 100, by = 5)
-flu |>
- subset(stain == 'M2-M1') |>
+x0 = flu |>
+ subset(stain == 'M2-M1') 
+x0[-19L,] |> # this element gives error..
  as.groupedHyperframe(group = ~ virustype/frameid) |>
  Gcross_(i = 'M1', j = 'M2', r = r, correction = 'best') |>
  aggregate_fv(by = ~ virustype)
