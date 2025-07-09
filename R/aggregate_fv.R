@@ -70,6 +70,9 @@ aggregate_fv <- function(
       x <- fv[[nm]]
       check_fvlist(x)
       
+      r <- x[[1L]]$r
+      nr <- length(r)
+      
       val <- x |> lapply(FUN = key1val.fv)
       cumtz <- x |> mclapply(mc.cores = mc.cores, FUN = cumtrapz.fv)
       
@@ -83,16 +86,25 @@ aggregate_fv <- function(
       } # try # v = c(1, 1, 1, 1, 1, 0, 3, 4, 5, Inf, NaN)
       
       id <- val |>
-        vapply(FUN = lastLegal, FUN.VALUE = NA_integer_) |>
-        min()
-      if (id < length(x[[1L]]$r)) {
-        paste(
-          'Legal', 
+        vapply(FUN = lastLegal, FUN.VALUE = NA_integer_)
+      if (any(id < nr)) {
+        id0 <- id[id != nr]
+        tb <- id0 |> table()
+        uid <- id0 |> unique.default() |> sort.int()
+        loc <- uid |>
+          vapply(FUN = \(u) {
+            which(id == u) |>
+              paste0('L', collapse = ', ') |>
+              col_red() |> style_bold()
+          }, FUN.VALUE = '')
+        paste0(
+          'Legal ', 
           'rmax' |> col_red() |> style_bold(),
-          'for', 
+          '(', 
           nm |> col_blue() |> style_bold(), 
-          'is', 
-          x[[1L]]$r[id] |> style_bold()
+          '), smaller than user input, are\n', 
+          sprintf(fmt = '%d\u2a2f ', tb) |> col_br_magenta() |> style_bold() |>
+            paste0('rmax=', r[uid], ' at location ', loc, collapse = '\n')
         ) |>
           message()
       }
