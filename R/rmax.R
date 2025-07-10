@@ -35,6 +35,10 @@
 #' @export
 rmax_ <- function(X, ...) UseMethod(generic = 'rmax_')
 
+# fv.object |> attr(, 'alim') depends on user-input `r`!!
+# use tzh's [rmax_] to get default `r` !!
+
+
 #' @rdname rmax
 #' @importFrom spatstat.explore rmax.rule
 #' @importFrom spatstat.geom area intensity marks.ppp is.marked.ppp is.ppp npoints.ppp unstack.ppp is.multitype.ppp handle.r.b.args ppsubset

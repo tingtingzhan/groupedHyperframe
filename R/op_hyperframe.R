@@ -163,37 +163,6 @@ op_hyperframe <- function(X, op, ...) {
     X = ret1, data.name = names(ret1)
   ), MoreArgs = NULL)
   
-  # recommended `r` for functions based on ?spatstat.explore::markcorr
-  col_markcorr <- ret1 |>
-    names() |>
-    grepv(pattern = '\\.E$|\\.V$|\\.k$|\\.gamma$')
-  if (FALSE && length(col_markcorr)) {
-    # attr(, 'alim') depends on user-input `r`!!
-    # use tzh's [rmax_] to get default `r` !!
-    col_markcorr |> 
-      lapply(FUN = \(col) {
-        r <- ret1[[col]] |>
-          vapply(FUN = \(i) {
-            # find recommended range of `r`
-            # see inside ?spatstat.explore::print.fv
-            i |>
-              attr(which = 'alim', exact = TRUE) |>
-              tail(n = 1L)
-          }, FUN.VALUE = NA_real_) |>
-          table()
-        paste(
-          'Recommended', 
-          'rmax' |> col_red() |> style_bold(),
-          'for', 
-          col |> col_blue() |> style_bold(),
-          'are',
-          sprintf(fmt = '%d\u2a2f ', r) |> col_br_magenta() |> style_bold() |>
-            paste0(names(r), collapse = '; ')
-        ) |>
-          message()
-      }) 
-  }
-  
   ret <- do.call(
     what = cbind.hyperframe, 
     args = c(list(X), ret1)

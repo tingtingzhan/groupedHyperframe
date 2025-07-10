@@ -12,21 +12,22 @@ check_fvlist(X, data.name)
 \item{data.name}{\link[base]{character} scalar}
 }
 \value{
-Function \code{\link[=check_fvlist]{check_fvlist()}} does not have a returned value.
+Function \code{\link[=check_fvlist]{check_fvlist()}} returns an \link[base]{invisible} \link[base]{list} with elements
+\describe{
+\item{\verb{$r}}{the \eqn{r}-values}
+\item{\verb{$rmax}}{the legal \eqn{r_\text{max}} of each \link[spatstat.explore]{fv.object}, if any one of them is less than the user-specified \eqn{r_\text{max}}}
+}
 }
 \description{
-check_fvlist
+A helper function to check the validity of a \link[stats]{listof} \link[spatstat.explore]{fv.object}s.
 }
 \details{
-Function \code{\link[=check_fvlist]{check_fvlist()}} checks that
+Function \code{\link[=check_fvlist]{check_fvlist()}} checks that whether all \link[spatstat.explore]{fv.object}s
+in the input has the same
 \itemize{
-\item {if \eqn{x}-axis of all \link[spatstat.explore]{fv.object}s are all same}
-\item {\code{attr(,'fname')} of all \link[spatstat.explore]{fv.object}s are all same}
-}
-
-Note that
-\itemize{
-\item {function \code{\link[=key1.fv]{key1.fv()}} returns of all \link[spatstat.explore]{fv.object}s are not required to be all same}
+\item {\eqn{x}-axis, or the \eqn{r}-values}
+\item {\code{attr(,'fname')}, see explanation of this \link[base]{attributes} in function \link[spatstat.explore]{fv}}
+\item {\code{\link[=key1.fv]{key1.fv()}} returns}
 }
 }
 \keyword{internal}

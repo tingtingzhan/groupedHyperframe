@@ -96,8 +96,8 @@ op = par(no.readonly = TRUE)
 ## Terms and Abbreviations
 
 | Term / Abbreviation | Description |
-|------------------------------------|------------------------------------|
-| [`|>`](https://search.r-project.org/R/refmans/base/html/pipeOp.html) | Forward pipe operator introduced since R 4.1.0 |
+|----|----|
+| [`|>`](https://search.r-project.org/R/refmans/base/html/pipeOp.html) | Forward pipe operator introduced since R version 4.1.0 |
 | [`attr`](https://search.r-project.org/R/refmans/base/html/attr.html), [`attributes`](https://search.r-project.org/R/refmans/base/html/attributes.html) | Attributes |
 | CRAN, R | The Comprehensive R Archive Network, <https://cran.r-project.org> |
 | [`cor`](https://search.r-project.org/R/refmans/stats/html/cor.html) | Correlation matrix |
@@ -126,8 +126,8 @@ op = par(no.readonly = TRUE)
 | [`multitype`](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/spatstat.geom-internal.html) | Multitype spatial object |
 | [`NaN`](https://search.r-project.org/R/refmans/base/html/is.finite.html) | Not-a-Number |
 | [`object.size`](https://search.r-project.org/R/refmans/utils/html/object.size.html) | Memory allocation |
-| `pmean`, `pmedian` | Parallel, or point-wise, mean and median, `groupedHyperframe::pmean`; `groupedHyperframe::pmedian` |
-| [`pmax`, `pmin`](https://search.r-project.org/R/refmans/base/html/Extremes.html) | Parallel, or point-wise, maxima and minima |
+| `pmean`, `pmedian` | Point-wise mean and median, from package `groupedHyperframe` |
+| [`pmax`, `pmin`](https://search.r-project.org/R/refmans/base/html/Extremes.html) | Point-wise maxima and minima |
 | [`ppp`](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/ppp.html), [`ppp.object`](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/ppp.object.html) | (Marked) point pattern |
 | [`quantile`](https://search.r-project.org/R/refmans/stats/html/quantile.html) | Quantile |
 | [`save`](https://search.r-project.org/R/refmans/base/html/save.html), [`saveRDS`](https://search.r-project.org/R/refmans/base/html/readRDS.html), `xz` | Save with [`xz`](https://en.wikipedia.org/wiki/XZ_Utils) compression |
@@ -149,6 +149,10 @@ This work is supported by National Institutes of Health, U.S. Department of Heal
 # Grouped Hyper Data Frame
 
 An `S3` class `hyperframe`, for **hyper data frame**, is defined in package **`spatstat.geom`** [@spatstat15; @spatstat05]. A `hyperframe` object contains columns either as `vector`s like in a `data.frame`, or as `list`s of objects of the same class, a.k.a., the `hypercolumns`. The `hyperframe` data structure is particularly useful in spatial analysis, e.g., with medical images, where the spatial information in each image would be represented by one element in a `hypercolumn`.
+
+```{r}
+spatstat.data::demohyper
+```
 
 We introduce a new `S3` class `groupedHyperframe`, for **grouped hyper data frame**, which `inherits` from the `hyperframe` class. The derived class `groupedHyperframe` has additional `attributes`
 
@@ -220,7 +224,7 @@ spatstat.data::osteo |>
 
 In this vignette, we do not place much emphasize on the objects provided in package **`spatstat.data`**, for now.
 
-# Grouping Structure on `ppp`-Hypercolumn
+# Grouping `ppp`-Hypercolumn
 
 In this section, we first introduce the creation of a `groupedHyperframe` with *one-and-only-one* point pattern (`ppp`) hypercolumn. Then, we discuss
 
@@ -245,7 +249,7 @@ Function `grouped_ppp()` creates a `groupedHyperframe` with *one-and-only-one* `
 In this section, we discuss the batch processes that return a function value table (`fv`) hypercolumn, i.e., a hypercolumn which consists of a `list` of `fv.object`s.
 
 | Batch Process | Workhorse in package **`spatstat.explore`** | `fv`-hypercolumns Suffix |
-|------------------------|------------------------|------------------------|
+|----|----|----|
 | `Emark_()` and `Vmark_()` | [`Emark` and `Vmark`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/Emark.html), conditional mean $E(r)$ and variance $V(r)$, diagnostics for dependence between the points and the marks [@Emark] | `.E` and `.V` |
 | `markcorr_()` | [`markcorr`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/markcorr.html), marked correlation $k_{mm}(r)$ or generalized mark correlation $k_f(r)$ [@markcorr] | `.k` |
 | `markvario_()` | [`markvario`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/markvario.html), mark variogram $\gamma(r)$ [@markvario] | `.gamma` |
@@ -254,7 +258,7 @@ In this section, we discuss the batch processes that return a function value tab
 : Batch processes applicable to numeric `marks`
 
 | Batch Process | Workhorse in package **`spatstat.explore`** | `fv`-hypercolumns Suffix |
-|------------------------|------------------------|------------------------|
+|----|----|----|
 | `Gcross_()` | [`Gcross`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/Gcross.html), multitype nearest-neighbour distance $G_{ij}(r)$ | `.G` |
 | `Kcross_()` | [`Kcross`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/Kcross.html), multitype $K_{ij}(r)$ | `.K` |
 | `Jcross_()` | [`Jcross`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/Jcross.html), multitype $J_{ij}(r)$ [@Jcross] | `.J` |
@@ -267,12 +271,12 @@ In this section, we discuss the batch processes that return a function value tab
 In this section, we discuss the batch processes that return a numeric hypercolumn, i.e., a hypercolumn which consists of a `list` of numeric `vector`s.
 
 | Batch Process | Workhorse in package **`spatstat.geom`** | Applicable to | numeric-hypercolumns Suffix |
-|------------------|------------------|------------------|------------------|
+|----|----|----|----|
 | `nncross_()` | [`nncross.ppp`](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/nncross.html)`(., what = 'dist')`, nearest neighbour distance | `multitype` marks | `.nncross` |
 
 ### In a pipeline
 
-Multiple batch processes may be applied to a `hyperframe` (and/or `groupedHyperframe`) in a pipeline using the native pipe operator `|>` introduced since R 4.1.0.
+Multiple batch processes may be applied to a `hyperframe` (and/or `groupedHyperframe`) in a pipeline using the native pipe operator `|>` introduced since R version 4.1.0.
 
 ```{r}
 r = seq.int(from = 0, to = 250, by = 10)
@@ -287,7 +291,7 @@ out = s |>
   nncross_(i = 'CK+.CD8-', j = 'CK-.CD8+', correction = 'none') # fast
 ```
 
-The returned `hyperframe` (or `groupedHyperframe`) has
+The returned `hyperframe` (and/or `groupedHyperframe`) has
 
 -   `fv`-hypercolumn *`hladr.E`*, created by function `Emark_()` on numeric mark *`hladr`*
 -   `fv`-hypercolumn *`phenotype.G`*, created by function `Gcross_()` on `multitype` mark *`phenotype`*
@@ -397,7 +401,7 @@ In this appendix section, we discuss a couple methods applicable to the `ppp.obj
 The `S3` generic function `rmax_()` provides the default $r_\text{max}$ used in package **`spatstat.explore`** functions that returns an `fv.object`. The primary `S3` method dispatch `rmax_.ppp()` is an off-label use of the un-documented functions `spatstat.explore::rmax.rule()` and `spatstat.geom::handle.r.b.args()`.
 
 | Function in package **`spatstat.explore`** | Call of `spatstat.explore::rmax.rule` | Default $r_\text{max}$ via `rmax_()` |
-|------------------------|------------------------|------------------------|
+|----|----|----|
 | [`Emark` and `Vmark`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/Emark.html), [`markcorr`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/markcorr.html), [`markvario`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/markvario.html) | `rmax.rule(fun = 'K', ...)` | `rmax_(fun = 'K')` |
 | [`Kcross`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/Kcross.html) , workhorse `Kest` and `Kmulti` | `rmax.rule(fun = 'K', ...)` | `rmax_(fun = 'K')` or `rmax_(fun = 'K', i, j)` |
 | [`Gcross`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/Gcross.html), workhorse `Gest` and `Gmulti` | `rmax.rule(fun = 'G', ...)` | `rmax_(fun = 'G')` or `rmax_(fun = 'G', i, j)` |

@@ -2,24 +2,34 @@
 
 #' @title check_fvlist
 #' 
+#' @description
+#' A helper function to check the validity of a \link[stats]{listof} \link[spatstat.explore]{fv.object}s.
+#' 
+#' 
 #' @param X a \link[stats]{listof} \link[spatstat.explore]{fv.object}s
 #' 
 #' @param data.name \link[base]{character} scalar
 #' 
 #' @details
-#' Function [check_fvlist()] checks that
+#' Function [check_fvlist()] checks that whether all \link[spatstat.explore]{fv.object}s
+#' in the input has the same
 #' \itemize{
-#' \item {if \eqn{x}-axis of all \link[spatstat.explore]{fv.object}s are all same}
-#' \item {`attr(,'fname')` of all \link[spatstat.explore]{fv.object}s are all same}
+#' \item {\eqn{x}-axis, or the \eqn{r}-values}
+#' \item {`attr(,'fname')`, see explanation of this \link[base]{attributes} in function \link[spatstat.explore]{fv}}
+#' \item {[key1.fv()] returns}
 #' }
 #' 
-#' Note that
-#' \itemize{
-#' \item {function [key1.fv()] returns of all \link[spatstat.explore]{fv.object}s are not required to be all same}
-#' }
+# Note that
+# \itemize{
+# \item {function [key1.fv()] returns of all \link[spatstat.explore]{fv.object}s are not required to be all same}
+# }
 #' 
 #' @returns 
-#' Function [check_fvlist()] does not have a returned value.
+#' Function [check_fvlist()] returns an \link[base]{invisible} \link[base]{list} with elements
+#' \describe{
+#' \item{`$r`}{the \eqn{r}-values}
+#' \item{`$rmax`}{the legal \eqn{r_\text{max}} of each \link[spatstat.explore]{fv.object}, if any one of them is less than the user-specified \eqn{r_\text{max}}}
+#' }
 #' 
 #' @keywords internal
 #' @export
@@ -87,16 +97,17 @@ check_fvlist <- function(X, data.name) {
 lastLegal <- \(v) {
   
   vok <- is.finite(v) & (abs(v) > .Machine$double.eps) # not 0, not NaN, not Inf
-  if (all(vok)) return(length(v)) # faster than [diff_int()]
+  if (all(vok)) return(length(vok)) # faster than [.diff()]
   
-  diff_int <- \(x) {
+  .diff <- \(x) {
     x[-1L] - x[-length(x)]
   } # faster than ?base::diff.default
   
   z <- vok |> 
     which() |>
-    diff_int()
+    .diff()
   if (all(z == 1L)) return(length(z) + 1L)
   return(min(which(z != 1L)) + 1L) # +1L because of the use of ?base::diff
+  
 } # try # v = c(1, 1, 1, 1, 1, 0, 3, 4, 5, Inf, NaN)
 
