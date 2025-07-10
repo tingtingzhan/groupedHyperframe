@@ -22,7 +22,7 @@
 #' @export
 pmean <- function(..., na.rm = TRUE) {
   list(...) |>
-    do.call(what = cbind) |>
+    do.call(what = cbind, args = _) |>
     rowMeans(na.rm = na.rm)
 }
 

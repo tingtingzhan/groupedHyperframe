@@ -153,7 +153,8 @@ aggregate_by_ <- function(
   # end of ugly bandage fix
   
   # grouping structure must be specified by `$df` part!!
-  f <- interaction(x[g[seq_len(id)]], drop = TRUE, sep = '.', lex.order = TRUE)
+  f <- x[g[seq_len(id)]] |>
+    interaction(drop = TRUE, sep = '.', lex.order = TRUE)
   ids <- split.default(seq_along(f), f = f)
   
   if (all(lengths(ids) == 1L)) {
@@ -188,7 +189,13 @@ aggregate_by_ <- function(
       lapply(FUN = \(m) { # (m = dots[[1L]])
         ids |>
           lapply(FUN = \(i) { # (i = ids[[1L]])
-            m[i] |> do.call(what = f_aggr_)
+            tmp <- tryCatch(m[i] |> 
+              do.call(what = f_aggr_, args = _), error = identity)
+            if (inherits(tmp, 'error')) {
+              print(i) # 745
+              stop('here!')
+            }
+            return(tmp)
           })
       }) |>
       do.call(what = hyperframe)

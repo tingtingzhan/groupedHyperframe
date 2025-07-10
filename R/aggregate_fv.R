@@ -83,12 +83,11 @@ aggregate_fv <- function(
         id <- (r <= min_rmax)
       } else id <- TRUE
       
-      val <- x |> lapply(FUN = key1val.fv)
-      cumtz <- x |> mclapply(mc.cores = mc.cores, FUN = cumtrapz.fv)
-
       return(list(
-        value = val[id],
-        cumtrapz = cumtz[id]
+        value = x |> 
+          lapply(FUN = \(i) key1val.fv(i)[id]),
+        cumtrapz = x |> 
+          mclapply(mc.cores = mc.cores, FUN = \(i) cumtrapz.fv(i)[id])
       ))
       
     }) |>
