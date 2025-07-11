@@ -52,7 +52,8 @@ NULL
 #' @rdname key1
 #' @details
 #' Function [key1.fv()] finds the name of the primary outcome
-#' of an \link[spatstat.explore]{fv.object}.
+#' of an \link[spatstat.explore]{fv.object}.  
+#' Note that function [key1.fv()] is very slow, so avoid it as much as possible in batch processes!
 #' @returns
 #' Function [key1.fv()] returns a \link[base]{character} scalar.
 #' @importFrom grDevices dev.off png
@@ -69,14 +70,18 @@ key1.fv <- function(x) {
 
 
 #' @rdname key1
+#' 
+#' @param key1. \link[base]{character} scalar, default value is `key1.fv(x)`,
+#' to speed up batch processes.
+#' 
 #' @details
 #' Function [key1val.fv()] finds the value of the primary outcome
 #' of an \link[spatstat.explore]{fv.object}.
 #' @returns
 #' Function [key1val.fv()] returns a \link[base]{numeric} \link[base]{vector}.
 #' @export
-key1val.fv <- function(x) {
-  ret <- x[[key1.fv(x)]]
+key1val.fv <- function(x, key1. = key1.fv(x)) {
+  ret <- x[[key1.]]
   names(ret) <- x[['r']] # `r` being hard-coded here
   return(ret)
 }
@@ -95,8 +100,13 @@ key1val.fv <- function(x) {
 #' 
 #' @importFrom pracma trapz
 #' @export
-trapz.fv <- function(x) trapz(x = x[[1L]], y = x |> key1val.fv()) |> unname()
-
+trapz.fv <- function(x, key1. = key1.fv(x)) {
+  x |> 
+    key1val.fv(key1. = key1.) |>
+    trapz(x = x[[1L]], y = _) |> # which way is more robust?
+    #trapz(x = x[['r']], y = _) |> # which way is more robust?
+    unname()
+}
 
 
 
@@ -109,7 +119,7 @@ trapz.fv <- function(x) trapz(x = x[[1L]], y = x |> key1val.fv()) |> unname()
 #' Function [cumtrapz.fv()] returns a \link[base]{numeric} \link[base]{vector}.
 #' @importFrom pracma cumtrapz
 #' @export 
-cumtrapz.fv <- function(x) {
+cumtrapz.fv <- function(x, key1. = key1.fv(x)) {
   
   # 'fv' inherits from 'data.frame', as of 2025-02-04 # packageDate('spatstat.explore')
   r <- x[[1L]]
@@ -117,9 +127,12 @@ cumtrapz.fv <- function(x) {
   if (n == 1L) return(invisible()) # exception handling
   # needed! Otherwise ?pracma::cumtrapz errs
   
-  # a trapz needs two points
-  # therefore `[-1L]`
-  ret <- c(cumtrapz(x = r, y = x |> key1val.fv() |> unclass())[-1L])
+  ret0 <- x |> 
+    key1val.fv(key1. = key1.) |> 
+    unclass() |>
+    cumtrapz(x = r, y = _)
+  # a trapz needs two points; therefore `[-1L]`
+  ret <- c(ret0[-1L])
   names(ret) <- r[-1L]
   return(ret)
   

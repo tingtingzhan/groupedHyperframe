@@ -5,10 +5,9 @@
 #' @description
 #' A helper function to check the validity of a \link[stats]{listof} \link[spatstat.explore]{fv.object}s.
 #' 
-#' 
 #' @param X a \link[stats]{listof} \link[spatstat.explore]{fv.object}s
 #' 
-#' @param data.name \link[base]{character} scalar
+#' @param data.name \link[base]{character} scalar, name of `X`, for console message output
 #' 
 #' @details
 #' Function [check_fvlist()] checks that whether all \link[spatstat.explore]{fv.object}s
@@ -19,21 +18,19 @@
 #' \item {[key1.fv()] returns}
 #' }
 #' 
-# Note that
-# \itemize{
-# \item {function [key1.fv()] returns of all \link[spatstat.explore]{fv.object}s are not required to be all same}
-# }
+#' !!! 'Legal' not documented yet!!!
 #' 
 #' @returns 
 #' Function [check_fvlist()] returns an \link[base]{invisible} \link[base]{list} with elements
 #' \describe{
-#' \item{`$r`}{the \eqn{r}-values}
-#' \item{`$rmax`}{the legal \eqn{r_\text{max}} of each \link[spatstat.explore]{fv.object}, if any one of them is less than the user-specified \eqn{r_\text{max}}}
+#' \item{`$r`}{\link[base]{numeric} \link[base]{vector}, the \eqn{r}-values}
+#' \item{`$key1`}{\link[base]{character} scalar, the return of function [key1.fv()]}
+#' \item{`$rmax`}{\link[base]{numeric} scalar or \link[base]{vector}, the \link[base]{unique} values of the legal \eqn{r_\text{max}} of each \link[spatstat.explore]{fv.object}, if any one of them is less than the user-specified \eqn{r_\text{max}}}
 #' }
 #' 
 #' @keywords internal
 #' @export
-check_fvlist <- function(X, data.name) {
+check_fvlist <- function(X, data.name = deparse1(substitute(X))) {
   
   is.fv <- X |>
     vapply(FUN = inherits, what = 'fv', FUN.VALUE = NA)
@@ -59,12 +56,16 @@ check_fvlist <- function(X, data.name) {
   nr <- length(r)
   
   ret <- list(
-    r = r
+    r = r,
+    key1 = key1.[[1L]]
   )
   
   id <- X |> 
-    lapply(FUN = key1val.fv) |>
-    vapply(FUN = lastLegal, FUN.VALUE = NA_integer_)
+    vapply(FUN = \(x) {
+      x[[key1.[1L]]] |> # do NOT use [key1val.fv()] here, slow!
+        lastLegal()
+    }, FUN.VALUE = NA_integer_)
+  
   if (any(id < nr)) {
     id0 <- id[id != nr]
     tb <- id0 |> table()

@@ -11,16 +11,19 @@
 \usage{
 key1.fv(x)
 
-key1val.fv(x)
+key1val.fv(x, key1. = key1.fv(x))
 
-trapz.fv(x)
+trapz.fv(x, key1. = key1.fv(x))
 
-cumtrapz.fv(x)
+cumtrapz.fv(x, key1. = key1.fv(x))
 
 \method{is.finite}{fv}(x)
 }
 \arguments{
 \item{x}{an \link[spatstat.explore]{fv.object}}
+
+\item{key1.}{\link[base]{character} scalar, default value is \code{key1.fv(x)},
+to speed up batch processes.}
 }
 \value{
 Function \code{\link[=key1.fv]{key1.fv()}} returns a \link[base]{character} scalar.
@@ -40,6 +43,7 @@ i.e., the primary outcome of an \link[spatstat.explore]{fv.object}.
 \details{
 Function \code{\link[=key1.fv]{key1.fv()}} finds the name of the primary outcome
 of an \link[spatstat.explore]{fv.object}.
+Note that function \code{\link[=key1.fv]{key1.fv()}} is very slow, so avoid it as much as possible in batch processes!
 
 Function \code{\link[=key1val.fv]{key1val.fv()}} finds the value of the primary outcome
 of an \link[spatstat.explore]{fv.object}.

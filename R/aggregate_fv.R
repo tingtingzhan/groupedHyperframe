@@ -73,21 +73,21 @@ aggregate_fv <- function(
       suppressMessages(fvcheck <- check_fvlist(x, data.name = nm))
       
       r <- fvcheck[['r']]
-      if (length(rmax <- fvcheck[['rmax']])) {
-        min_rmax <- min(rmax)
-        if (min_rmax == 0) stop('check your ppp-hypercolumn')
-        sprintf(fmt = 'Aggregation truncated at rmax(%s) = %.1f', nm, min_rmax) |>
+      if (is.finite(rmax <- min(fvcheck[['rmax']]))) { 
+        # min(NULL) is Inf
+        if (rmax == 0) stop('check your ppp-hypercolumn')
+        sprintf(fmt = 'Aggregation truncated at rmax(%s) = %.1f', nm, rmax) |>
           style_bold() |>
           bg_br_yellow() |>
           message()
-        id <- (r <= min_rmax)
+        id <- (r <= rmax)
       } else id <- TRUE
       
       return(list(
         value = x |> 
-          lapply(FUN = \(i) key1val.fv(i)[id]),
+          lapply(FUN = \(i) key1val.fv(i, key1. = fvcheck[['key1']])[id]),
         cumtrapz = x |> 
-          mclapply(mc.cores = mc.cores, FUN = \(i) cumtrapz.fv(i)[id])
+          mclapply(mc.cores = mc.cores, FUN = \(i) cumtrapz.fv(i, key1. = fvcheck[['key1']])[id])
       ))
       
     }) |>

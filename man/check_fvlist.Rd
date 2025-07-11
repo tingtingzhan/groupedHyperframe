@@ -4,18 +4,19 @@
 \alias{check_fvlist}
 \title{check_fvlist}
 \usage{
-check_fvlist(X, data.name)
+check_fvlist(X, data.name = deparse1(substitute(X)))
 }
 \arguments{
 \item{X}{a \link[stats]{listof} \link[spatstat.explore]{fv.object}s}
 
-\item{data.name}{\link[base]{character} scalar}
+\item{data.name}{\link[base]{character} scalar, name of \code{X}, for console message output}
 }
 \value{
 Function \code{\link[=check_fvlist]{check_fvlist()}} returns an \link[base]{invisible} \link[base]{list} with elements
 \describe{
-\item{\verb{$r}}{the \eqn{r}-values}
-\item{\verb{$rmax}}{the legal \eqn{r_\text{max}} of each \link[spatstat.explore]{fv.object}, if any one of them is less than the user-specified \eqn{r_\text{max}}}
+\item{\verb{$r}}{\link[base]{numeric} \link[base]{vector}, the \eqn{r}-values}
+\item{\verb{$key1}}{\link[base]{character} scalar, the return of function \code{\link[=key1.fv]{key1.fv()}}}
+\item{\verb{$rmax}}{\link[base]{numeric} scalar or \link[base]{vector}, the \link[base]{unique} values of the legal \eqn{r_\text{max}} of each \link[spatstat.explore]{fv.object}, if any one of them is less than the user-specified \eqn{r_\text{max}}}
 }
 }
 \description{
@@ -29,5 +30,7 @@ in the input has the same
 \item {\code{attr(,'fname')}, see explanation of this \link[base]{attributes} in function \link[spatstat.explore]{fv}}
 \item {\code{\link[=key1.fv]{key1.fv()}} returns}
 }
+
+!!! 'Legal' not documented yet!!!
 }
 \keyword{internal}
