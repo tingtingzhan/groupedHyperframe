@@ -96,7 +96,7 @@ op = par(no.readonly = TRUE)
 ## Terms and Abbreviations
 
 | Term / Abbreviation | Description |
-|----|----|
+|------------------------------------|------------------------------------|
 | [`|>`](https://search.r-project.org/R/refmans/base/html/pipeOp.html) | Forward pipe operator introduced since R version 4.1.0 |
 | [`attr`](https://search.r-project.org/R/refmans/base/html/attr.html), [`attributes`](https://search.r-project.org/R/refmans/base/html/attributes.html) | Attributes |
 | CRAN, R | The Comprehensive R Archive Network, <https://cran.r-project.org> |
@@ -249,7 +249,7 @@ Function `grouped_ppp()` creates a `groupedHyperframe` with *one-and-only-one* `
 In this section, we discuss the batch processes that return a function value table (`fv`) hypercolumn, i.e., a hypercolumn which consists of a `list` of `fv.object`s.
 
 | Batch Process | Workhorse in package **`spatstat.explore`** | `fv`-hypercolumns Suffix |
-|----|----|----|
+|------------------------|------------------------|------------------------|
 | `Emark_()` and `Vmark_()` | [`Emark` and `Vmark`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/Emark.html), conditional mean $E(r)$ and variance $V(r)$, diagnostics for dependence between the points and the marks [@Emark] | `.E` and `.V` |
 | `markcorr_()` | [`markcorr`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/markcorr.html), marked correlation $k_{mm}(r)$ or generalized mark correlation $k_f(r)$ [@markcorr] | `.k` |
 | `markvario_()` | [`markvario`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/markvario.html), mark variogram $\gamma(r)$ [@markvario] | `.gamma` |
@@ -258,7 +258,7 @@ In this section, we discuss the batch processes that return a function value tab
 : Batch processes applicable to numeric `marks`
 
 | Batch Process | Workhorse in package **`spatstat.explore`** | `fv`-hypercolumns Suffix |
-|----|----|----|
+|------------------------|------------------------|------------------------|
 | `Gcross_()` | [`Gcross`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/Gcross.html), multitype nearest-neighbour distance $G_{ij}(r)$ | `.G` |
 | `Kcross_()` | [`Kcross`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/Kcross.html), multitype $K_{ij}(r)$ | `.K` |
 | `Jcross_()` | [`Jcross`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/Jcross.html), multitype $J_{ij}(r)$ [@Jcross] | `.J` |
@@ -271,7 +271,7 @@ In this section, we discuss the batch processes that return a function value tab
 In this section, we discuss the batch processes that return a numeric hypercolumn, i.e., a hypercolumn which consists of a `list` of numeric `vector`s.
 
 | Batch Process | Workhorse in package **`spatstat.geom`** | Applicable to | numeric-hypercolumns Suffix |
-|----|----|----|----|
+|------------------|------------------|------------------|------------------|
 | `nncross_()` | [`nncross.ppp`](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/nncross.html)`(., what = 'dist')`, nearest neighbour distance | `multitype` marks | `.nncross` |
 
 ### In a pipeline
@@ -301,7 +301,7 @@ The returned `hyperframe` (and/or `groupedHyperframe`) has
 out
 ```
 
-## Aggregation
+## Truncated Aggregation
 
 In this section, we discuss aggregation over nested grouping structure.
 
@@ -312,6 +312,8 @@ Function `aggregate_fv()` aggregates
 -   the *function values*, i.e., the black-solid-curve of `plot.fv`.
 -   the *cumulative trapezoidal integration* under the black-solid-curve.
 
+🚧 [Add a paragraph about truncation at Legal $r_\text{max}$]{style="background-color: yello"}
+
 In the following example, we have
 
 -   numeric-hypercolumns *`hladr.E.value`* and *`phenotype.G.value`*, the aggregated function values from `fv`-hypercolumns *`hladr.E`* and *`phenotype.G`*, respectively.
@@ -320,6 +322,13 @@ In the following example, we have
 ```{r}
 (afv = out |>
   aggregate_fv(by = ~ patient_id, f_aggr_ = pmean))
+```
+
+🚧 [Add a paragraph about truncation at user-specified $r_\text{max}$]{style="background-color: yello"}
+
+```{r}
+#out |>
+#  aggregate_fv(by = ~ patient_id, f_aggr_ = pmean, rmax = 220)
 ```
 
 Each of the numeric-hypercolumns contains tabulated values on the common grid of R. One "slice" of this grid may be extracted by
@@ -401,7 +410,7 @@ In this appendix section, we discuss a couple methods applicable to the `ppp.obj
 The `S3` generic function `rmax_()` provides the default $r_\text{max}$ used in package **`spatstat.explore`** functions that returns an `fv.object`. The primary `S3` method dispatch `rmax_.ppp()` is an off-label use of the un-documented functions `spatstat.explore::rmax.rule()` and `spatstat.geom::handle.r.b.args()`.
 
 | Function in package **`spatstat.explore`** | Call of `spatstat.explore::rmax.rule` | Default $r_\text{max}$ via `rmax_()` |
-|----|----|----|
+|------------------------|------------------------|------------------------|
 | [`Emark` and `Vmark`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/Emark.html), [`markcorr`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/markcorr.html), [`markvario`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/markvario.html) | `rmax.rule(fun = 'K', ...)` | `rmax_(fun = 'K')` |
 | [`Kcross`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/Kcross.html) , workhorse `Kest` and `Kmulti` | `rmax.rule(fun = 'K', ...)` | `rmax_(fun = 'K')` or `rmax_(fun = 'K', i, j)` |
 | [`Gcross`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/Gcross.html), workhorse `Gest` and `Gmulti` | `rmax.rule(fun = 'G', ...)` | `rmax_(fun = 'G')` or `rmax_(fun = 'G', i, j)` |

@@ -8,6 +8,7 @@ aggregate_fv(
   X,
   by = stop("must specify `by`"),
   f_aggr_ = pmean,
+  rmax,
   mc.cores = getOption("mc.cores"),
   ...
 )
@@ -21,6 +22,8 @@ Use only one-level hierarchy (e.g., \code{~patient} or \code{~image}).
 Do not use multi-level hierarchy (e.g., \code{~patient/image})}
 
 \item{f_aggr_}{see function \code{\link[=aggregate_by_]{aggregate_by_()}}}
+
+\item{rmax}{\link[base]{numeric} scalar, user-specified truncation point \eqn{r_\text{max}}}
 
 \item{mc.cores}{\link[base]{integer} scalar, see function \link[parallel]{mclapply}.
 Default is 1L on Windows, or \link[parallel]{detectCores} on Mac.}

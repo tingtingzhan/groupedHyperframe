@@ -14,6 +14,8 @@
 #' 
 #' @param f_aggr_ see function [aggregate_by_()]
 #' 
+#' @param rmax \link[base]{numeric} scalar, user-specified truncation point \eqn{r_\text{max}}
+#' 
 #' @param mc.cores \link[base]{integer} scalar, see function \link[parallel]{mclapply}.
 #' Default is 1L on Windows, or \link[parallel]{detectCores} on Mac.
 #' 
@@ -56,6 +58,7 @@ aggregate_fv <- function(
     X, 
     by = stop('must specify `by`'),
     f_aggr_ = pmean,
+    rmax,
     mc.cores = getOption('mc.cores'),
     ...
 ) {
@@ -66,6 +69,10 @@ aggregate_fv <- function(
   
   fv <- as.list.hyperframe(X)[names.hyperframe(X)[id]] # one or more 'fv' column(s)
   
+  if (!missing(rmax)) {
+    if (!is.numeric(rmax) || length(rmax) != 1L || is.na(rmax) || (rmax <= 0)) stop('illegal user-specified `rmax`')
+  } else rmax <- numeric() # cannot use ?base::missing inside ?base::lapply
+  
   setNames(nm = names(fv)) |> 
     lapply(FUN = \(nm) { # (nm = names(fv)[1L])
       
@@ -73,15 +80,22 @@ aggregate_fv <- function(
       suppressMessages(fvcheck <- check_fvlist(x, data.name = nm))
       
       r <- fvcheck[['r']]
-      if (is.finite(rmax <- min(fvcheck[['rmax']]))) { 
-        # min(NULL) is Inf
-        if (rmax == 0) stop('check your ppp-hypercolumn')
-        sprintf(fmt = 'Aggregation truncated at rmax(%s) = %.1f', nm, rmax) |>
-          style_bold() |>
-          bg_br_yellow() |>
-          message()
+      rmax_fv <- min(fvcheck[['rmax']]) # min(NULL) is Inf
+      if (rmax_fv == 0) stop('check your ppp-hypercolumn')
+      
+      if (!length(rmax)) { # missing user `rmax`
+        sprintf(fmt = 'Aggregation truncated at rmax(%s) = %.1f', nm, rmax_fv) |>
+          style_bold() |> bg_br_yellow() |> message()
+        id <- (r <= rmax_fv)
+      } else if (rmax > rmax_fv) { # user `rmax > rmax_fv`
+        sprintf(fmt = 'Aggregation truncated at rmax(%s) = %.1f (user rmax = %.1f ignored)', nm, rmax_fv, rmax) |>
+          style_bold() |> bg_br_yellow() |> message()
+        id <- (r <= rmax_fv)
+      } else { # use user `rmax`
+        sprintf(fmt = 'Aggregation truncated at rmax = %.1f for %s', rmax, nm) |>
+          style_bold() |> bg_br_yellow() |> message()
         id <- (r <= rmax)
-      } else id <- TRUE
+      }
       
       return(list(
         value = x |> 
