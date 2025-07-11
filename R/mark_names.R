@@ -43,12 +43,12 @@ mark_names <- function(x) { # only for `ppp`, as for now
 #' of `'dataframe'` \link[spatstat.geom]{markformat}.
 #' 
 #' @examples
-#' # ?waka
-#' tryCatch(mark_names(waka), error = identity)
-#' waka2 = waka
+#' # ?spatstat.data::waka
+#' tryCatch(mark_names(spatstat.data::waka), error = identity)
+#' waka2 = spatstat.data::waka
 #' mark_name(waka2) = 'dbh' # tree diameter at breast height `dbh`
 #' mark_names(waka2)
-#' unstack(waka) # no name
+#' unstack(spatstat.data::waka) # no name
 #' unstack(waka2) # has name
 #' @importFrom spatstat.geom marks marks<-
 #' @export
