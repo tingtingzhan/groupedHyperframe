@@ -15,8 +15,8 @@
 #' Otherwise, an error is returned.
 #' 
 #' @examples
-#' library(spatstat.data)
-#' mark_names(betacells)
+#' spatstat.data::betacells |>
+#'  mark_names()
 #' @keywords internal
 #' @importFrom spatstat.geom markformat marks
 #' @name mark_names

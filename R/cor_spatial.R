@@ -21,8 +21,7 @@ pairwise_cor_spatial <- function(x, ...) UseMethod(generic = 'pairwise_cor_spati
 
 #' @rdname pairwise_cor_spatial
 #' @examples
-#' data(finpines, package = 'spatstat.data')
-#' (r = finpines |> pairwise_cor_spatial.ppp())
+#' (r = spatstat.data::finpines |> pairwise_cor_spatial.ppp())
 #' r |> as.matrix()
 #' @importFrom SpatialPack cor.spatial
 #' @importFrom spatstat.geom marks

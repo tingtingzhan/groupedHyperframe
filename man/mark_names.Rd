@@ -31,8 +31,8 @@ and name this \link[base]{ncol}-\code{1L} \link[base]{data.frame} \link[spatstat
 by \code{value}.
 }
 \examples{
-library(spatstat.data)
-mark_names(betacells)
+spatstat.data::betacells |>
+ mark_names()
 # ?waka
 tryCatch(mark_names(waka), error = identity)
 waka2 = waka

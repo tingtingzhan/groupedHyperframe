@@ -13,21 +13,19 @@
 #' @param ... additional parameters, currently of no use
 #' 
 #' @examples
-#' library(spatstat.data)
-#' 
 #' # ppp, fun = 'K'
-#' spruces |> rmax_(fun = 'K') # rectangle window
-#' urkiola |> rmax_(fun = 'K') # polygonal boundary 
-#' swedishpines |> rmax_(fun = 'K') # not-marked, exception handling
+#' spatstat.data::spruces |> rmax_(fun = 'K') # rectangle window
+#' spatstat.data::urkiola |> rmax_(fun = 'K') # polygonal boundary 
+#' spatstat.data::swedishpines |> rmax_(fun = 'K') # not-marked, exception handling
 #' 
 #' # hyperframe, fun = 'K'
-#' flu |> rmax_(fun = 'K') # rectangle window
-#' cetaceans |> rmax_(fun = 'K') # polygonal boundary, marked and unmarked
-#' pyramidal |> rmax_(fun = 'K') # not-marked
+#' spatstat.data::flu |> rmax_(fun = 'K') # rectangle window
+#' spatstat.data::cetaceans |> rmax_(fun = 'K') # polygonal boundary, marked and unmarked
+#' spatstat.data::pyramidal |> rmax_(fun = 'K') # not-marked
 #' 
 #' # hyperframe, fun = 'G'
-#' flu |> rmax_(fun = 'G')
-#' flu0 = flu |> subset(subset = (stain == 'M2-M1'))
+#' spatstat.data::flu |> rmax_(fun = 'G')
+#' flu0 = spatstat.data::flu |> subset(subset = (stain == 'M2-M1'))
 #' flu0 |> rmax_(fun = 'G', i = 'M1', j = 'M2')
 #' flu0 |> rmax_(fun = 'G', i = 'M2', j = 'M1')
 #' @keywords internal

@@ -513,8 +513,7 @@ When a user-specified `r` is provided for a batch process on *all* `ppp.object`s
 The `S3` generic `.kmeans()` performs $k$-means clustering (workhorse function `stats::kmeans`).
 
 ```{r}
-data(shapley, package = 'spatstat.data')
-shapley
+spatstat.data::shapley
 ```
 
 The `S3` method dispatch `.kmeans.ppp()` performs $k$-means clustering, with paramters
@@ -528,21 +527,21 @@ The `S3` method dispatch `.kmeans.ppp()` performs $k$-means clustering, with par
 Example below shows a clustering based on the $x$- and $y$-coordinates, as well as the numeric mark *`Mag`*.
 
 ```{r}
-km = shapley |> .kmeans(formula = ~ x + y + Mag, centers = 3L)
+km = spatstat.data::shapley |> .kmeans(formula = ~ x + y + Mag, centers = 3L)
 km |> class()
 ```
 
 Example below shows a clustering based on $x$-coordinate and *`Mag`*.
 
 ```{r}
-km1 = shapley |> .kmeans(formula = ~ x + Mag, centers = 3L)
+km1 = spatstat.data::shapley |> .kmeans(formula = ~ x + Mag, centers = 3L)
 km1 |> class()
 ```
 
 Example below shows a clustering based on $x$- and $y$-coordinates only.
 
 ```{r}
-km2 = shapley |> .kmeans(formula = ~ x + y, centers = 3L)
+km2 = spatstat.data::shapley |> .kmeans(formula = ~ x + y, centers = 3L)
 km2 |> class()
 ```
 
@@ -551,7 +550,7 @@ km2 |> class()
 Example below shows a clustering specified by `clusterSize`.
 
 ```{r}
-km3 = shapley |> .kmeans(formula = ~ x + y, clusterSize = 1e3L)
+km3 = spatstat.data::shapley |> .kmeans(formula = ~ x + y, clusterSize = 1e3L)
 km3 |> class()
 km3$centers # 5 clusters needed
 km3$cluster |> table()
@@ -619,8 +618,7 @@ The `S3` generic `pairwise_cor_spatial()` calculates the nonparametric, rank-bas
 The `S3` method dispatch `pairwise_cor_spatial.ppp()` finds the nonparametric Tjøstheim's correlation coefficients from the pairwise-combinations of all numeric marks of a `ppp.object`.
 
 ```{r}
-data(finpines, package = 'spatstat.data')
-(r = finpines |> pairwise_cor_spatial())
+(r = spatstat.data::finpines |> pairwise_cor_spatial())
 ```
 
 The printing of `'pairwise_cor_spatial'` is taken care of by function `stats:::print.dist`.

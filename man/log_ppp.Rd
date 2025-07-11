@@ -26,8 +26,7 @@ Function \code{\link[=log.ppp]{log.ppp()}} takes a \link[base]{log} of continuou
 of a \link[spatstat.geom]{ppp.object}.
 }
 \examples{
-data(longleaf, package = 'spatstat.data')
-longleaf |> plot()
-longleaf |> log() |> plot()
+spatstat.data::longleaf |> plot()
+spatstat.data::longleaf |> log() |> plot()
 }
 \keyword{internal}

@@ -17,9 +17,8 @@
 #' Function [log.ppp()] returns a \link[spatstat.geom]{ppp.object}.
 #' 
 #' @examples
-#' data(longleaf, package = 'spatstat.data')
-#' longleaf |> plot()
-#' longleaf |> log() |> plot()
+#' spatstat.data::longleaf |> plot()
+#' spatstat.data::longleaf |> log() |> plot()
 #' @keywords internal
 #' @name log_ppp
 #' @importFrom spatstat.geom markformat marks marks<-
