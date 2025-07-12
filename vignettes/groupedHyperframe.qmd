@@ -74,7 +74,7 @@ Package **`groupedHyperframe`** `Imports` packages
 -   `r knitr::asis_output('\U1f5dd')` **`matrixStats`** [@matrixStats, version `r packageVersion('matrixStats')`], key dependency, for matrix arithmetic
 -   **`parallel`** (shipped with `r R.version$version.string`), for parallel computing
 -   `r knitr::asis_output('\U1f5dd')` **`pracma`** [@pracma, version `r packageVersion('pracma')`], key dependency, for (cumulative) trapezoidal integration
--   `r knitr::asis_output('\U1f5dd')` **`spatstat.explore`** (version `r packageVersion('spatstat.explore')`) and **`spatstat.geom`** (version `r packageVersion('spatstat.geom')`), @spatstat15, key dependency, for spatial statistics
+-   `r knitr::asis_output('\U1f5dd')` **`spatstat.explore`** (developer version `r packageVersion('spatstat.explore')`) and **`spatstat.geom`** (developer version `r packageVersion('spatstat.geom')`), @spatstat15, key dependency, for spatial statistics
 -   `r knitr::asis_output('\U1f5dd')` **`SpatialPack`** [@SpatialPack, version `r packageVersion('SpatialPack')`], key dependency, for Tjøstheim's coefficient of spatial association
 
 ## Getting Started
