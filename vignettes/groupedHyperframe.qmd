@@ -245,7 +245,7 @@ Function `grouped_ppp()` creates a `groupedHyperframe` with *one-and-only-one* `
    grouped_ppp(formula = hladr + phenotype ~ OS + gender + age | patient_id/image_id))
 ```
 
-## Batch processes
+## Batch processes {#sec-batch}
 
 ### Return of `fv`-hypercolumn
 
@@ -315,7 +315,7 @@ Function `aggregate_fv()` performs (truncated) aggregation of
 -   the *function values*, i.e., the black-solid-curve of `plot.fv`.
 -   the *cumulative trapezoidal integration* under the black-solid-curve.
 
-When a user-specified $r_\text{max}$ is provided to a batch process on *all* `ppp.object`s in the `ppp`-hypercolumn, inevitably some of the `fv`-returns may contain exceptional/illegal function values (see @sec-legal_rmax). In this case, the aggregation is *truncated* at the minimum legal $r_\text{max}$ of the `fv.object`s in each `fv`-hypercolumn. In the following example, we have
+When a user-specified $r_\text{max}$ is provided to a batch process (in @sec-batch) on *all* `ppp.object`s in the `ppp`-hypercolumn, inevitably some of the `fv`-returns may contain exceptional/illegal function values (see @sec-legal_rmax). In this case, the aggregation is *truncated* at the minimum legal $r_\text{max}$ of the `fv.object`s in each `fv`-hypercolumn. In the following example, we have
 
 -   numeric-hypercolumns *`hladr.E.value`* and *`hladr.E.cumtrapz`*, the aggregated function values and aggregated cumulative trapezoidal integrations, respectively, from `fv`-hypercolumns *`hladr.E`*. Function values from all `fv.object`s in the `fv`-hypercolumns *`hladr.E`* are legal, therefore, this aggregation is not truncated.
 
@@ -407,7 +407,7 @@ We cover some minor and/or experimental features in the appendix, in order not t
 
 ### Nested Grouping Structure {#sec-nestedGroup}
 
-Interaction terms using colon operator (`:`) are allowed in the grouping structure, such as `m1+m2 ~ x1 + x2 | g1/g2a:g2b/g3a:g3b:g3c`. This feature is made possible because in R `language` (especially `formula`) object, the colon operator (`:`) has higher priority than the forward slash (`/`).
+Interaction terms using colon operator (`:`) are allowed in the grouping structure, such as `g1/g2a:g2b/g3a:g3b:g3c`. This feature is made possible because in R `language` (especially `formula`) object, the colon operator (`:`) has higher priority than the forward slash (`/`).
 
 ```{r}
 #| code-fold: true
@@ -416,7 +416,7 @@ quote(g1/g2a:g2b/g3a:g3b:g3c) |>
   as.list()
 ```
 
-The helper function `get_nested()` breaks down the nested grouping structure by the forward slash (`/`).
+The helper function `get_nested()` breaks down a nested grouping structure by the forward slash (`/`).
 
 ```{r}
 quote(g1/g2/g3) |>
