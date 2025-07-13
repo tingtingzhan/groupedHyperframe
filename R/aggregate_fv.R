@@ -80,16 +80,23 @@ aggregate_fv <- function(
       suppressMessages(fvcheck <- check_fvlist(x, data.name = nm))
       
       r <- fvcheck[['r']]
-      rmax_fv <- min(fvcheck[['rmax']]) # min(NULL) is Inf
+      rmax_fv <- fvcheck[['rmax']]
       if (rmax_fv == 0) stop('check your ppp-hypercolumn')
       
       if (!length(rmax)) { # missing user `rmax`
-        sprintf(fmt = 'Aggregation truncated at rmax(%s) = %.1f', nm, rmax_fv) |>
-          style_bold() |> bg_br_yellow() |> message()
-        id <- (r <= rmax_fv)
+        if (rmax_fv < max(r)) {
+          sprintf(fmt = 'Aggregation truncated at rmax(%s) = %.1f', nm, rmax_fv) |>
+            style_bold() |> bg_br_yellow() |> message()
+          id <- (r <= rmax_fv)
+        } else id <- rep(TRUE, times = length(r)) # cannot just be `TRUE` (for later use..)
       } else if (rmax > rmax_fv) { # user `rmax > rmax_fv`
-        sprintf(fmt = 'Aggregation truncated at rmax(%s) = %.1f (user rmax = %.1f ignored)', nm, rmax_fv, rmax) |>
-          style_bold() |> bg_br_yellow() |> message()
+        if (rmax_fv < max(r)) {
+          sprintf(fmt = 'Aggregation truncated at rmax(%s) = %.1f (user rmax = %.1f ignored)', nm, rmax_fv, rmax) |>
+            style_bold() |> bg_br_yellow() |> message()
+        } else {
+          sprintf(fmt = 'Aggregation at maximum r(%s) = %.1f (user rmax = %.1f ignored)', nm, rmax_fv, rmax) |>
+            style_bold() |> bg_br_yellow() |> message()
+        }
         id <- (r <= rmax_fv)
       } else { # use user `rmax`
         sprintf(fmt = 'Aggregation truncated at rmax = %.1f for %s', rmax, nm) |>

@@ -86,8 +86,8 @@ check_fvlist <- function(X, data.name = deparse1(substitute(X))) {
         paste0('rmax=', r[uid], ' at location ', loc, collapse = '\n')
     ) |>
       message()
-    ret[['rmax']] <- r[uid]
-  }
+    ret[['rmax']] <- min(r[uid]) # minimum legal rmax of 'fvlist'
+  } else ret[['rmax']] <- max(r)
   
   return(invisible(ret))
   
@@ -95,6 +95,18 @@ check_fvlist <- function(X, data.name = deparse1(substitute(X))) {
 
 
 
+
+#' @title Last Legal Index of [key1val.fv()]
+#' 
+#' @param v \link[base]{numeric} \link[base]{vector}, return of function [key1val.fv()] 
+#' 
+#' @examples
+#' c(1, 1, 1) |> lastLegal()
+#' c(1, 1, 1, NaN) |> lastLegal()
+#' c(1, 1, 1, NaN, 1, 0, Inf) |> lastLegal()
+#' # all return `3`
+#' @keywords internal
+#' @export
 lastLegal <- \(v) {
   
   vok <- is.finite(v) & (abs(v) > .Machine$double.eps) # not 0, not NaN, not Inf
@@ -108,7 +120,7 @@ lastLegal <- \(v) {
     which() |>
     .diff()
   if (all(z == 1L)) return(length(z) + 1L)
-  return(min(which(z != 1L)) + 1L) # +1L because of the use of ?base::diff
+  return(min(which(z != 1L))) # smart!
   
-} # try # v = c(1, 1, 1, 1, 1, 0, 3, 4, 5, Inf, NaN)
+}
 
