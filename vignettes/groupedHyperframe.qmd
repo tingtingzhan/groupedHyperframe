@@ -112,7 +112,7 @@ spatstat.data::demohyper
 
 We introduce a new `S3` class `groupedHyperframe`, for **grouped hyper data frame**, which `inherits` from the `hyperframe` class. The derived class `groupedHyperframe` has additional `attributes`
 
--   `attr(., 'group')`, a one-sided `formula` of the (nested) grouping structure, e.g., `~patient/image` when each patient has one or more images. The grammar of the nested grouping structure $g_1/.../g_m$ (`~g1/.../gm`) follows that of the parameter `random` of functions `nlme::lme()` and `nlme::nlme()`. In fact, the `'grouped'` extension of a `hyperframe` is inspired by the `nlme::groupedData` class which inherits from `data.frame` [@nlme]. @sec-nestedGroup outlines the experimental features of nested grouping structure that are subject to change.
+-   `attr(., 'group')`, a one-sided `formula` of the (nested) grouping structure, e.g., `~patient/image` when each patient has one or more images. The grammar of the nested grouping structure $g_1/.../g_m$ (`~g1/.../gm`) follows that of the parameter `random` of functions `nlme::lme()` and `nlme::nlme()`. In fact, the `'grouped'` extension of a `hyperframe` is inspired by the `nlme::groupedData` class which inherits from `data.frame` [@nlme]. Appendix @sec-nestedGroup outlines the experimental features of nested grouping structure that are subject to change.
 
 The `S3` generic function `as.groupedHyperframe()` converts objects of various classes into a `groupedHyperframe`. We also introduce aggregation functions `aggregate_*()` of the hypercolumns in a `groupedHyperframe`, at either one of the nested grouping levels $g_1,\cdots,g_{m-1}$. Aggregation at the lowest grouping level $g_m$ is ignored, i.e., no aggregation to be performed. Available aggregation methods are the point-wise minima `base::pmin()`, maxima `base::pmax()`, means `pmean()` (default) and medians `pmedian()`.
 
@@ -247,7 +247,7 @@ out = s |>
   nncross_(i = 'CK+.CD8-', j = 'CK-.CD8+', correction = 'none') # fast
 ```
 
-The `message` of "Legal $r_\text{max}$" provides the indices in the `ppp`-hypercolumn, i.e., the row indices of the `hyperframe`, where the legal $r_\text{max}$ (see @sec-legal_rmax) is smalller than the user-specified $r_\text{max}$. The returned `hyperframe` (and/or `groupedHyperframe`) has
+The `message` of "Legal $r_\text{max}$" provides the indices in the `ppp`-hypercolumn, i.e., the row indices of the `hyperframe`, where the legal $r_\text{max}$ (see Appendix @sec-legal_rmax) is smalller than the user-specified $r_\text{max}$. The returned `hyperframe` (and/or `groupedHyperframe`) has
 
 -   `fv`-hypercolumn *`hladr.E`*, created by function `Emark_()` on numeric mark *`hladr`*
 -   `fv`-hypercolumn *`phenotype.G`*, created by function `Gcross_()` on `multitype` mark *`phenotype`*
@@ -268,7 +268,7 @@ Function `aggregate_fv()` performs (truncated) aggregation of
 -   the *function values*, i.e., the black-solid-curve of `plot.fv`.
 -   the *cumulative trapezoidal integration* under the black-solid-curve.
 
-When a user-specified $r_\text{max}$ is provided to a batch process (in @sec-batch) on *all* `ppp.object`s in the `ppp`-hypercolumn, inevitably some of the `fv`-returns may contain exceptional/illegal function values (see @sec-legal_rmax). In this case, the aggregation is *truncated* at the minimum legal $r_\text{max}$ of the `fv.object`s in each `fv`-hypercolumn. In the following example, we have
+When a user-specified $r_\text{max}$ is provided to a batch process (in @sec-batch) on *all* `ppp.object`s in the `ppp`-hypercolumn, inevitably some of the `fv`-returns may contain exceptional/illegal function values (see Appendix @sec-legal_rmax). In this case, the aggregation is *truncated* at the minimum legal $r_\text{max}$ of the `fv.object`s in each `fv`-hypercolumn. In the following example, we have
 
 -   numeric-hypercolumns *`hladr.E.value`* and *`hladr.E.cumtrapz`*, the aggregated function values and aggregated cumulative trapezoidal integrations, respectively, from `fv`-hypercolumns *`hladr.E`*. Function values from all `fv.object`s in the `fv`-hypercolumns *`hladr.E`* are legal, therefore, this aggregation is not truncated.
 
