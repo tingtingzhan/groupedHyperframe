@@ -98,6 +98,8 @@ op = par(no.readonly = TRUE)
 | Term / Abbreviation | Description |
 |------------------------------------|------------------------------------|
 | [`|>`](https://search.r-project.org/R/refmans/base/html/pipeOp.html) | Forward pipe operator introduced since R version 4.1.0 |
+| [`:`](https://search.r-project.org/R/refmans/base/html/Colon.html) | Colon operator for [`interaction`](https://search.r-project.org/R/refmans/base/html/interaction.html) of [`factor`](https://search.r-project.org/R/refmans/base/html/factor.html)s |
+| `/` | Forward slash operator to denote nested grouping structure `~ g1/.../gm` in grouped data frame [`groupedData`](https://search.r-project.org/CRAN/refmans/nlme/html/groupedData.html), from package **`nlme`** [@nlme] |
 | [`attr`](https://search.r-project.org/R/refmans/base/html/attr.html), [`attributes`](https://search.r-project.org/R/refmans/base/html/attributes.html) | Attributes |
 | CRAN, R | The Comprehensive R Archive Network, <https://cran.r-project.org> |
 | [`cor`](https://search.r-project.org/R/refmans/stats/html/cor.html) | Correlation matrix |
@@ -109,13 +111,13 @@ op = par(no.readonly = TRUE)
 | [`file.size`](https://search.r-project.org/R/refmans/base/html/file.info.html) | File size in bytes |
 | (one-sided) [`formula`](https://search.r-project.org/R/refmans/stats/html/formula.html) | Formula, or [one-sided formula](https://search.r-project.org/R/refmans/stats/html/asOneSidedFormula.html) |
 | [`fv`, `fv.object`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/fv.object.html), [`plot.fv`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/plot.fv.html) | (Plot of) function value table, from package **`spatstat.explore`** |
-| [`groupedData`](https://search.r-project.org/CRAN/refmans/nlme/html/groupedData.html), `~ g1/.../gm` | Grouped data frame; nested grouping structure, from package **`nlme`** [@nlme] |
 | [`groupedHyperframe`](https://CRAN.R-project.org/package=groupedHyperframe) | Grouped hyper data frame |
 | `hypercolumns`, [`hyperframe`](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/hyperframe.html) | (Hyper columns of) hyper data frame, from package **`spatstat.geom`** [@spatstat05] |
 | [`inherits`](https://search.r-project.org/R/refmans/base/html/class.html) | Class inheritance |
 | `kerndens` | Kernel density, `stats::density.default()$y` |
 | [`Inf`](https://search.r-project.org/R/refmans/base/html/is.finite.html) | Positive infinity $\infty$ |
 | [`kmeans`](https://search.r-project.org/R/refmans/stats/html/kmeans.html) | $k$-means clustering [@kmeans] |
+| [`language`](https://search.r-project.org/R/refmans/base/html/is.language.html) | R language object |
 | [`list`](https://search.r-project.org/R/refmans/base/html/list.html), [`listof`](https://search.r-project.org/R/refmans/stats/html/listof.html) | Lists of objects |
 | [`.Machine`](https://search.r-project.org/R/refmans/base/html/zMachine.html) | Numerical characteristics of the machine R is running on, e.g., 32-bit integers and IEC 60559 floating-point (double precision) arithmetic |
 | [`markformat`](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/spatstat.geom-internal.html) | Storage mode of `marks` |
@@ -136,6 +138,7 @@ op = par(no.readonly = TRUE)
 | [`sd`](https://search.r-project.org/R/refmans/stats/html/sd.html) | Standard deviation |
 | [`search`](https://search.r-project.org/R/refmans/base/html/search.html) | Search path |
 | [`Surv`](https://search.r-project.org/CRAN/refmans/survival/html/Surv.html) | Survival, i.e., time-to-event, object, from package **`survival`** [@survival] |
+| [`symbol`, `name`](https://search.r-project.org/R/refmans/base/html/name.html) | R object name/symbol |
 | [`trapz`, `cumtrapz`](https://search.r-project.org/CRAN/refmans/pracma/html/trapz.html) | (Cumulative) [trapezoidal integration](https://en.wikipedia.org/wiki/Trapezoidal_rule), from package **`pracma`** [@pracma] |
 | [`vector`](https://search.r-project.org/R/refmans/base/html/vector.html) | Vector |
 
@@ -156,7 +159,7 @@ spatstat.data::demohyper
 
 We introduce a new `S3` class `groupedHyperframe`, for **grouped hyper data frame**, which `inherits` from the `hyperframe` class. The derived class `groupedHyperframe` has additional `attributes`
 
--   `attr(., 'group')`, a one-sided `formula` of the (nested) grouping structure, e.g., `~patient/image` when each patient has one or more images. The grammar of the nested grouping structure $g_1/.../g_m$ (`~g1/.../gm`) follows that of the parameter `random` of functions `nlme::lme()` and `nlme::nlme()`. In fact, the `'grouped'` extension of a `hyperframe` is inspired by the `nlme::groupedData` class which inherits from `data.frame` [@nlme].
+-   `attr(., 'group')`, a one-sided `formula` of the (nested) grouping structure, e.g., `~patient/image` when each patient has one or more images. The grammar of the nested grouping structure $g_1/.../g_m$ (`~g1/.../gm`) follows that of the parameter `random` of functions `nlme::lme()` and `nlme::nlme()`. In fact, the `'grouped'` extension of a `hyperframe` is inspired by the `nlme::groupedData` class which inherits from `data.frame` [@nlme]. @sec-nestedGroup outlines the experimental features of nested grouping structure that are subject to change.
 
 The `S3` generic function `as.groupedHyperframe()` converts objects of various classes into a `groupedHyperframe`. We also introduce aggregation functions `aggregate_*()` of the hypercolumns in a `groupedHyperframe`, at either one of the nested grouping levels $g_1,\cdots,g_{m-1}$. Aggregation at the lowest grouping level $g_m$ is ignored, i.e., no aggregation to be performed. Available aggregation methods are the point-wise minima `base::pmin()`, maxima `base::pmax()`, means `pmean()` (default) and medians `pmedian()`.
 
@@ -316,14 +319,14 @@ When a user-specified $r_\text{max}$ is provided to a batch process on *all* `pp
 
 -   numeric-hypercolumns *`hladr.E.value`* and *`hladr.E.cumtrapz`*, the aggregated function values and aggregated cumulative trapezoidal integrations, respectively, from `fv`-hypercolumns *`hladr.E`*. Function values from all `fv.object`s in the `fv`-hypercolumns *`hladr.E`* are legal, therefore, this aggregation is not truncated.
 
--   numeric-hypercolumns *`phenotype.G.value`* and *`phenotype.G.cumtrapz`*, the aggregated function values and aggregated cumulative trapezoidal integrations, respectively, from `fv`-hypercolumns *`phenotype.G`*.  This aggregation is *truncated* at the minimum legal $r_\text{max}=240$ of the `fv.object`s in the `fv`-hypercolumn *`phenotype.G`*.
+-   numeric-hypercolumns *`phenotype.G.value`* and *`phenotype.G.cumtrapz`*, the aggregated function values and aggregated cumulative trapezoidal integrations, respectively, from `fv`-hypercolumns *`phenotype.G`*. This aggregation is *truncated* at the minimum legal $r_\text{max}=240$ of the `fv.object`s in the `fv`-hypercolumn *`phenotype.G`*.
 
 ```{r}
 (afv = out |>
   aggregate_fv(by = ~ patient_id, f_aggr_ = pmean))
 ```
 
-User may specify an $r_\text{max}$ for truncation using the argument  `rmax` of function `aggregate_fv()`.
+User may specify an $r_\text{max}$ for truncation using the argument `rmax` of function `aggregate_fv()`.
 
 ```{r}
 #| results: hide
@@ -344,7 +347,6 @@ out |>
 ```{r}
 afv$hladr.E.cumtrapz |> .slice(j = '50')
 ```
-
 
 ### Of numeric-hypercolumn, and numeric marks in `ppp`-hypercolumn
 
@@ -398,6 +400,84 @@ out |>
 ```
 
 # Appendix
+
+We cover some minor and/or experimental features in the appendix, in order not to interrupt the main narrative of this vignette.
+
+## On `groupedHyperframe`
+
+### Nested Grouping Structure {#sec-nestedGroup}
+
+Interaction terms using colon operator (`:`) are allowed in the grouping structure, such as `m1+m2 ~ x1 + x2 | g1/g2a:g2b/g3a:g3b:g3c`. This feature is made possible because in R `language` (especially `formula`) object, the colon operator (`:`) has higher priority than the forward slash (`/`).
+
+```{r}
+#| code-fold: true
+#| code-summary: "See for yourself"
+quote(g1/g2a:g2b/g3a:g3b:g3c) |>
+  as.list()
+```
+
+The helper function `get_nested()` breaks down the nested grouping structure by the forward slash (`/`).
+
+```{r}
+quote(g1/g2/g3) |>
+  get_nested()
+```
+
+```{r}
+quote(g1/g2a:g2b/g3a:g3b:g3c) |>
+  get_nested()
+```
+The (nested) grouping structure `attr(., 'group')` of a `groupedHyperframe`
+
+-   must denote the highest level using a `symbol` (e.g., `g1`)
+-   may denote the lower levels using a `symbol` (e.g., `g2`) or an interaction-term (e.g., `g2a:g2b`)
+
+
+## On `fv.object`
+
+### Legal $r_\text{max}$ {#sec-legal_rmax}
+
+In package **`spatstat.explore`** (up to version `r packageVersion('spatstat.explore')`), function `markcorr()` is the workhorse inside functions `Emark()`, `Vmark()` and `markvario()`. Function `markcorr()` relies on the un-exported workhorse function `spatstat.explore:::sewsmod()`, whose default `method = "density"` contains the calculation of the ratio of two kernel densities. Due to the floating-point precision of R, such density ratios may have exceptional/illegal returns of
+
+-   `0`, from $0/\delta$, where $\delta\geq$ (approximately) `2.6e-324`
+-   `NaN`, from $0/\varepsilon$, where $\varepsilon\leq$ (approximately) `2.5e-324`
+-   `Inf`, from $\delta/0$, where $\delta\geq$ (approximately) `2.6e-324`
+
+```{r}
+#| code-fold: true
+#| code-summary: "See for yourself"
+0 / c(2.6e-324, 2.5e-324)
+c(2.5e-324, 2.6e-324) / 0
+```
+
+Function `markcorr()` provides a default argument of parameter $r$, at which the mark correlation function $k_f(r)$ are evaluated. The S3 method dispatch `spatstat.explore::print.fv()` prints the *recommended range* and *available range* of the argument $r$.
+
+```{r}
+#| code-fold: true
+#| code-summary: "Function spatstat.explore::print.fv() output"
+spatstat.data::spruces |> 
+  spatstat.explore::markcorr()
+```
+
+We may observe exceptional/illegal returns if we go beyond the recommended and/or available range. In the following example, we see that the mark correlation $k_f(r)$ (column *`iso`*) having exceptional/illegal values `0`, `NaN` and `Inf`.
+
+```{r}
+#| code-fold: true
+#| code-summary: "Exceptions when parameter `r` out-of-range"
+fv = spatstat.data::spruces |> 
+  spatstat.explore::markcorr(r = 0:100)
+fv |>
+  spatstat.explore::as.data.frame.fv() |>
+  utils::tail(n = 30L)
+```
+
+Function `lastLegal()` provides the *index* of the last legal function value in an `fv.object`.
+
+```{r}
+fv |>
+  key1val.fv() |>
+  lastLegal()
+```
 
 ## On `ppp.object`
 
@@ -478,50 +558,6 @@ s |> rmax_(fun = 'G', i = 'CK-.CD8+', j = 'CK+.CD8-')
 s |> rmax_(fun = 'J')
 s |> rmax_(fun = 'J', i = 'CK+.CD8-', j = 'CK-.CD8+')
 s |> rmax_(fun = 'J', i = 'CK-.CD8+', j = 'CK+.CD8-')
-```
-
-### Legal $r_\text{max}$ {#sec-legal_rmax}
-
-In package **`spatstat.explore`** (up to version `r packageVersion('spatstat.explore')`), function `markcorr()` is the workhorse inside functions `Emark()`, `Vmark()` and `markvario()`. Function `markcorr()` relies on the un-exported workhorse function `spatstat.explore:::sewsmod()`, whose default `method = "density"` contains the calculation of the ratio of two kernel densities. Due to the floating-point precision of R, such density ratios may have exceptional/illegal returns of
-
--   `0`, from $0/\delta$, where $\delta\geq$ (approximately) `2.6e-324`
--   `NaN`, from $0/\varepsilon$, where $\varepsilon\leq$ (approximately) `2.5e-324`
--   `Inf`, from $\delta/0$, where $\delta\geq$ (approximately) `2.6e-324`
-
-```{r}
-#| code-fold: true
-#| code-summary: "See for yourself"
-0 / c(2.6e-324, 2.5e-324)
-c(2.5e-324, 2.6e-324) / 0
-```
-
-Function `markcorr()` provides a default argument of parameter $r$, at which the mark correlation function $k_f(r)$ are evaluated. The S3 method dispatch `spatstat.explore::print.fv()` prints the *recommended range* and *available range* of the argument $r$.
-
-```{r}
-#| code-fold: true
-#| code-summary: "Function spatstat.explore::print.fv() output"
-spatstat.data::spruces |> 
-  spatstat.explore::markcorr()
-```
-
-We may observe exceptional/illegal returns if we go beyond the recommended and/or available range. In the following example, we see that the mark correlation $k_f(r)$ (column *`iso`*) having exceptional/illegal values `0`, `NaN` and `Inf`.
-
-```{r}
-#| code-fold: true
-#| code-summary: "Exceptions when parameter `r` out-of-range"
-fv = spatstat.data::spruces |> 
-  spatstat.explore::markcorr(r = 0:100)
-fv |>
-  spatstat.explore::as.data.frame.fv() |>
-  utils::tail(n = 30L)
-```
-
-Function `lastLegal()` provides the *index* of the last legal function value in an `fv.object`.
-
-```{r}
-fv |>
-  key1val.fv() |>
-  lastLegal()
 ```
 
 ### $k$-Means Clustering
@@ -657,6 +693,8 @@ In this appendix section, we discuss a couple methods applicable to the `fv.obje
 ```
 
 ## What We Don't Do
+
+Lastly, we keep note of the features that we plan **not** to support in package **`groupedHyperframe`**. Those features are technically tedious to implement, and/or have relatively easy workaround.
 
 ### `S4` method dispatch `merge`
 
