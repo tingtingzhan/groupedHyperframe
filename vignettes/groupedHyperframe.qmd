@@ -30,7 +30,7 @@ This vignette of R package **`groupedHyperframe`** ([CRAN](https://cran.r-projec
 -   the batch processes for a `hyperframe` and/or `groupedHyperframe`, and
 -   the aggregation of various statistics over (nested) grouping structure.
 
-R terminology might be different from that of mathematics and statistics.  Please refer to Appendix @sec-terms for explanation and reference.
+R terminology might be different from that of mathematics and statistics. Please refer to Appendix @sec-terms for explanation and reference.
 
 ## Prerequisite
 
@@ -102,13 +102,24 @@ This work is supported by National Institutes of Health, U.S. Department of Heal
 -   R01CA222847 ([I. Chervoneva](https://orcid.org/0000-0002-9104-4505), [T. Zhan](https://orcid.org/0000-0001-9971-4844), and [H. Rui](https://orcid.org/0000-0002-8778-261X))
 -   R01CA253977 (H. Rui and I. Chervoneva).
 
-# Grouped Hyper Data Frame
+# Grouped Hyper Data Frame {#sec-groupedHyperframe}
 
-An `S3` class `hyperframe`, for **hyper data frame**, is defined in package **`spatstat.geom`** [@spatstat15; @spatstat05]. A `hyperframe` object contains columns either as `vector`s like in a `data.frame`, or as `list`s of objects of the same class, a.k.a., the `hypercolumns`. The `hyperframe` data structure is particularly useful in spatial analysis, e.g., with medical images, where the spatial information in each image would be represented by one element in a `hypercolumn`.
+An `S3` class `hyperframe`, for **hyper data frame**, is defined in package **`spatstat.geom`** [@spatstat15; @spatstat05]. A `hyperframe` contains columns either as `vector`s like in a `data.frame`, or as `list`s of objects of the same class, a.k.a., the `hypercolumns`. The `hyperframe` data structure is particularly useful in spatial analysis, e.g., with medical images, where the spatial information in each image would be represented by one element in a `hypercolumn`.
 
 ```{r}
 spatstat.data::demohyper
 ```
+
+It is important to note that several `S3` method dispatches to `hyperframe` class behave *very differently* from their counterpart in vanilla R.  Users are strongly advised to read the documentation of these functions from package **`spatstat.geom`**.
+
+| Generic | For `data.frame` | For `hyperframe` |
+|------------------------------------|------------------------------------|------------------------------------|
+| [`base::subset`](https://search.r-project.org/R/refmans/base/html/subset.html) | [`base::subset.data.frame`](https://search.r-project.org/R/refmans/base/html/subset.html) | [`spatstat.geom::subset.hyperframe`](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/subset.hyperframe.html) |
+| [`base::with`](https://search.r-project.org/R/refmans/base/html/with.html) | [`base::with.default`](https://search.r-project.org/R/refmans/base/html/with.html) | [`spatstat.geom::with.hyperframe`](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/with.hyperframe.html) |
+| [`base::within`](https://search.r-project.org/R/refmans/base/html/with.html) | [`base::within.data.frame`](https://search.r-project.org/R/refmans/base/html/with.html) | do not exist (as of version `r packageVersion('spatstat.geom')`) |
+
+: S3 methods `*.hyperframe()` that are drastically different from `*.data.frame()` or `*.default()`
+
 
 We introduce a new `S3` class `groupedHyperframe`, for **grouped hyper data frame**, which `inherits` from the `hyperframe` class. The derived class `groupedHyperframe` has additional `attributes`
 
@@ -295,11 +306,16 @@ out |>
   aggregate_fv(by = ~ patient_id, f_aggr_ = pmean, rmax = 260)
 ```
 
-🚧 **To be expanded to a section** Each of the numeric-hypercolumns contains tabulated values on the common grid of R. One "slice" of this grid may be extracted by
+Each one of the numeric-hypercolumns contains tabulated values on the common grid of $r$. One "slice" of the hypercolumn *`hladr.E.cumtrapz`* at $r=50$ may be extracted by calling the `S3` method dispatch  `spatstat.geom::with.hyperframe()` (which behaves *very differently* from function `base::with.default()`, see @sec-groupedHyperframe)
 
 ```{r}
-afv$hladr.E.cumtrapz |> .slice(j = '50')
+afv |>
+  with(expr = {
+    hladr.E.cumtrapz['50']
+  })
 ```
+
+
 
 ### Of numeric-hypercolumn, and numeric marks in `ppp`-hypercolumn
 
@@ -380,11 +396,11 @@ quote(g1/g2/g3) |>
 quote(g1/g2a:g2b/g3a:g3b:g3c) |>
   get_nested()
 ```
+
 The (nested) grouping structure `attr(., 'group')` of a `groupedHyperframe`
 
 -   must denote the highest level using a `symbol` (e.g., `g1`)
 -   may denote the lower levels using a `symbol` (e.g., `g2`) or an interaction-term (e.g., `g2a:g2b`)
-
 
 ## On `fv.object`
 
@@ -712,7 +728,6 @@ The authors suggest users do `base::merge.data.frame()` first, then do `as.group
 | [`symbol`, `name`](https://search.r-project.org/R/refmans/base/html/name.html) | R object name/symbol |
 | [`trapz`, `cumtrapz`](https://search.r-project.org/CRAN/refmans/pracma/html/trapz.html) | (Cumulative) [trapezoidal integration](https://en.wikipedia.org/wiki/Trapezoidal_rule), from package **`pracma`** [@pracma] |
 | [`vector`](https://search.r-project.org/R/refmans/base/html/vector.html) | Vector |
-
 
 # References
 
