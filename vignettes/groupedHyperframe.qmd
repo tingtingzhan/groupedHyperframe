@@ -104,22 +104,22 @@ This work is supported by National Institutes of Health, U.S. Department of Heal
 
 # Grouped Hyper Data Frame {#sec-groupedHyperframe}
 
-An `S3` class `hyperframe`, for **hyper data frame**, is defined in package **`spatstat.geom`** [@spatstat15; @spatstat05]. A `hyperframe` contains columns either as `vector`s like in a `data.frame`, or as `list`s of objects of the same class, a.k.a., the `hypercolumns`. The `hyperframe` data structure is particularly useful in spatial analysis, e.g., with medical images, where the spatial information in each image would be represented by one element in a `hypercolumn`.
+An `S3` class `hyperframe`, for **hyper data frame**, is defined in package **`spatstat.geom`** [@spatstat15; @spatstat05]. A `hyperframe` contains columns either as `vector`s like in a `data.frame`, or as `list`s of objects of the same class, a.k.a., the `hypercolumns`. The `hyperframe` data structure is particularly useful in spatial analysis, e.g., with medical images, where the spatial information in each image would be represented by one element in a hypercolumn. For example, example data ***`demohyper`*** from package **`spatstat.data`** contains a `factor` column *`Group`*, a point-pattern `ppp`-hypercolumn *`Points`*, and a pixel image `im`-hypercolumn *`Image`*.
 
 ```{r}
 spatstat.data::demohyper
 ```
 
-It is important to note that several `S3` method dispatches to `hyperframe` class behave *very differently* from their counterpart in vanilla R.  Users are strongly advised to read the documentation of these functions from package **`spatstat.geom`**.
+It is important to note that several `S3` method dispatches to `hyperframe` class behave *very differently* from their counterpart in vanilla R. Users are strongly advised to read the documentation of these functions from package **`spatstat.geom`**.
 
-| Generic | For `data.frame` | For `hyperframe` |
-|------------------------------------|------------------------------------|------------------------------------|
+| Generic Function | Method Dispatch to `data.frame` | Method Dispatch to `hyperframe` |
+|----|----|----|
+| [`` base::`$<-` ``](https://search.r-project.org/R/refmans/base/html/Extract.html) | [`` base::`$<-.data.frame` ``](https://search.r-project.org/R/refmans/base/html/Extract.data.frame.html) | [`` spatstat.geom::`$<-.hyperframe` ``](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/Extract.hyperframe.html) |
 | [`base::subset`](https://search.r-project.org/R/refmans/base/html/subset.html) | [`base::subset.data.frame`](https://search.r-project.org/R/refmans/base/html/subset.html) | [`spatstat.geom::subset.hyperframe`](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/subset.hyperframe.html) |
 | [`base::with`](https://search.r-project.org/R/refmans/base/html/with.html) | [`base::with.default`](https://search.r-project.org/R/refmans/base/html/with.html) | [`spatstat.geom::with.hyperframe`](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/with.hyperframe.html) |
 | [`base::within`](https://search.r-project.org/R/refmans/base/html/with.html) | [`base::within.data.frame`](https://search.r-project.org/R/refmans/base/html/with.html) | do not exist (as of version `r packageVersion('spatstat.geom')`) |
 
 : S3 methods `*.hyperframe()` that are drastically different from `*.data.frame()` or `*.default()`
-
 
 We introduce a new `S3` class `groupedHyperframe`, for **grouped hyper data frame**, which `inherits` from the `hyperframe` class. The derived class `groupedHyperframe` has additional `attributes`
 
@@ -216,7 +216,7 @@ Function `grouped_ppp()` creates a `groupedHyperframe` with *one-and-only-one* `
 In this section, we discuss the batch processes that return a function value table (`fv`) hypercolumn, i.e., a hypercolumn which consists of a `list` of `fv.object`s.
 
 | Batch Process | Workhorse in package **`spatstat.explore`** | `fv`-hypercolumns Suffix |
-|------------------------|------------------------|------------------------|
+|----|----|----|
 | `Emark_()` and `Vmark_()` | [`Emark` and `Vmark`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/Emark.html), conditional mean $E(r)$ and variance $V(r)$, diagnostics for dependence between the points and the marks [@Emark] | `.E` and `.V` |
 | `markcorr_()` | [`markcorr`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/markcorr.html), marked correlation $k_{mm}(r)$ or generalized mark correlation $k_f(r)$ [@markcorr] | `.k` |
 | `markvario_()` | [`markvario`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/markvario.html), mark variogram $\gamma(r)$ [@markvario] | `.gamma` |
@@ -225,7 +225,7 @@ In this section, we discuss the batch processes that return a function value tab
 : Batch processes applicable to numeric `marks`
 
 | Batch Process | Workhorse in package **`spatstat.explore`** | `fv`-hypercolumns Suffix |
-|------------------------|------------------------|------------------------|
+|----|----|----|
 | `Gcross_()` | [`Gcross`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/Gcross.html), multitype nearest-neighbour distance $G_{ij}(r)$ | `.G` |
 | `Kcross_()` | [`Kcross`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/Kcross.html), multitype $K_{ij}(r)$ | `.K` |
 | `Jcross_()` | [`Jcross`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/Jcross.html), multitype $J_{ij}(r)$ [@Jcross] | `.J` |
@@ -238,7 +238,7 @@ In this section, we discuss the batch processes that return a function value tab
 In this section, we discuss the batch processes that return a numeric hypercolumn, i.e., a hypercolumn which consists of a `list` of numeric `vector`s.
 
 | Batch Process | Workhorse in package **`spatstat.geom`** | Applicable to | numeric-hypercolumns Suffix |
-|------------------|------------------|------------------|------------------|
+|----|----|----|----|
 | `nncross_()` | [`nncross.ppp`](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/nncross.html)`(., what = 'dist')`, nearest neighbour distance | `multitype` marks | `.nncross` |
 
 ### In a pipeline
@@ -306,7 +306,7 @@ out |>
   aggregate_fv(by = ~ patient_id, f_aggr_ = pmean, rmax = 260)
 ```
 
-Each one of the numeric-hypercolumns contains tabulated values on the common grid of $r$. One "slice" of the hypercolumn *`hladr.E.cumtrapz`* at $r=50$ may be extracted by calling the `S3` method dispatch  `spatstat.geom::with.hyperframe()` (which behaves *very differently* from function `base::with.default()`, see @sec-groupedHyperframe)
+Each one of the numeric-hypercolumns contains tabulated values on the common grid of $r$. One "slice" of the hypercolumn *`hladr.E.cumtrapz`* at $r=50$ may be extracted by calling the `S3` method dispatch `spatstat.geom::with.hyperframe()` (which behaves *very differently* from function `base::with.default()`, see @sec-groupedHyperframe)
 
 ```{r}
 afv |>
@@ -314,8 +314,6 @@ afv |>
     hladr.E.cumtrapz['50']
   })
 ```
-
-
 
 ### Of numeric-hypercolumn, and numeric marks in `ppp`-hypercolumn
 
@@ -334,7 +332,7 @@ out |>
   aggregate_quantile(by = ~ patient_id, probs = seq.int(from = 0, to = 1, by = .1))
 ```
 
-In this package, we include a `groupedHyperframe` example **`Ki67`** with a `ppp`-hypercolumn *`ppp.`* and a nested grouping structure *`~patientID/tissueID`*.
+In this package, we include a `groupedHyperframe` example ***`Ki67`*** with a `ppp`-hypercolumn *`ppp.`* and a nested grouping structure *`~patientID/tissueID`*.
 
 ```{r}
 data(Ki67, package = 'groupedHyperframe')
@@ -350,7 +348,7 @@ Ki67 |>
   head()
 ```
 
-Users are encouraged to learn more about the applications of the aggregated quantiles of **`Ki67`** data from package **`hyper.gam`** vignettes ([RPubs](https://rpubs.com/tingtingzhan/hyper_gam), [CRAN](https://CRAN.R-project.org/package=hyper.gam/vignettes/applications.html)), section *Quantile Index*, as well as from our peer-reviewed publications @Yi25; @Yi23a; @Yi23b.
+Users are encouraged to learn more about the applications of the aggregated quantiles of ***`Ki67`*** data from package **`hyper.gam`** vignettes ([RPubs](https://rpubs.com/tingtingzhan/hyper_gam), [CRAN](https://CRAN.R-project.org/package=hyper.gam/vignettes/applications.html)), section *Quantile Index*, as well as from our peer-reviewed publications @Yi25; @Yi23a; @Yi23b.
 
 #### On kernel densities
 
@@ -457,7 +455,7 @@ In this appendix section, we discuss a couple methods applicable to the `ppp.obj
 The `S3` generic function `rmax_()` provides the default $r_\text{max}$ used in package **`spatstat.explore`** functions that returns an `fv.object`. The primary `S3` method dispatch `rmax_.ppp()` is an off-label use of the un-documented functions `spatstat.explore::rmax.rule()` and `spatstat.geom::handle.r.b.args()`.
 
 | Function in package **`spatstat.explore`** | Call of `spatstat.explore::rmax.rule` | Default $r_\text{max}$ via `rmax_()` |
-|------------------------|------------------------|------------------------|
+|----|----|----|
 | [`Emark` and `Vmark`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/Emark.html), [`markcorr`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/markcorr.html), [`markvario`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/markvario.html) | `rmax.rule(fun = 'K', ...)` | `rmax_(fun = 'K')` |
 | [`Kcross`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/Kcross.html) , workhorse `Kest` and `Kmulti` | `rmax.rule(fun = 'K', ...)` | `rmax_(fun = 'K')` or `rmax_(fun = 'K', i, j)` |
 | [`Gcross`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/Gcross.html), workhorse `Gest` and `Gmulti` | `rmax.rule(fun = 'G', ...)` | `rmax_(fun = 'G')` or `rmax_(fun = 'G', i, j)` |
@@ -683,10 +681,11 @@ The authors suggest users do `base::merge.data.frame()` first, then do `as.group
 ## Terms & Abbreviations {#sec-terms}
 
 | Term / Abbreviation | Description |
-|------------------------------------|------------------------------------|
+|----|----|
 | [`|>`](https://search.r-project.org/R/refmans/base/html/pipeOp.html) | Forward pipe operator introduced since R version 4.1.0 |
 | [`:`](https://search.r-project.org/R/refmans/base/html/Colon.html) | Colon operator for [`interaction`](https://search.r-project.org/R/refmans/base/html/interaction.html) of [`factor`](https://search.r-project.org/R/refmans/base/html/factor.html)s |
 | `/` | Forward slash operator to denote nested grouping structure `~ g1/.../gm` in grouped data frame [`groupedData`](https://search.r-project.org/CRAN/refmans/nlme/html/groupedData.html), from package **`nlme`** [@nlme] |
+| [`::`](https://search.r-project.org/R/refmans/base/html/ns-dblcolon.html) | Explicitly-[namespace](https://search.r-project.org/R/refmans/base/html/ns-reflect.html)d function or object |
 | [`attr`](https://search.r-project.org/R/refmans/base/html/attr.html), [`attributes`](https://search.r-project.org/R/refmans/base/html/attributes.html) | Attributes |
 | CRAN, R | The Comprehensive R Archive Network, <https://cran.r-project.org> |
 | [`cor`](https://search.r-project.org/R/refmans/stats/html/cor.html) | Correlation matrix |
@@ -695,14 +694,16 @@ The authors suggest users do `base::merge.data.frame()` first, then do `as.group
 | [`data.frame`](https://search.r-project.org/R/refmans/base/html/data.frame.html) | Data frame |
 | [`diag`](https://search.r-project.org/R/refmans/base/html/diag.html) | Matrix diagonals |
 | [`dist`](https://search.r-project.org/R/refmans/stats/html/dist.html) | Distance matrix; to take advantage of `stats:::as.matrix.dist` |
+| [`factor`](https://search.r-project.org/R/refmans/base/html/factor.html) | Categorical object, a.k.a., factor |
 | [`file.size`](https://search.r-project.org/R/refmans/base/html/file.info.html) | File size in bytes |
 | (one-sided) [`formula`](https://search.r-project.org/R/refmans/stats/html/formula.html) | Formula, or [one-sided formula](https://search.r-project.org/R/refmans/stats/html/asOneSidedFormula.html) |
 | [`fv`, `fv.object`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/fv.object.html), [`plot.fv`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/plot.fv.html) | (Plot of) function value table, from package **`spatstat.explore`** |
 | [`groupedHyperframe`](https://CRAN.R-project.org/package=groupedHyperframe) | Grouped hyper data frame |
-| `hypercolumns`, [`hyperframe`](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/hyperframe.html) | (Hyper columns of) hyper data frame, from package **`spatstat.geom`** [@spatstat05] |
+| `hypercolumns`, [`hyperframe`](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/hyperframe.html) | (Hyper columns of) hyper data frame, from package **`spatstat.geom`** |
+| [`im`](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/im.html) | Pixel image object, from package **`spatstat.geom`** |
 | [`inherits`](https://search.r-project.org/R/refmans/base/html/class.html) | Class inheritance |
-| `kerndens` | Kernel density, `stats::density.default()$y` |
 | [`Inf`](https://search.r-project.org/R/refmans/base/html/is.finite.html) | Positive infinity $\infty$ |
+| `kerndens` | Kernel [`density`](https://search.r-project.org/R/refmans/stats/html/density.html), `stats::density.default()$y` |
 | [`kmeans`](https://search.r-project.org/R/refmans/stats/html/kmeans.html) | $k$-means clustering [@kmeans] |
 | [`language`](https://search.r-project.org/R/refmans/base/html/is.language.html) | R language object |
 | [`list`](https://search.r-project.org/R/refmans/base/html/list.html), [`listof`](https://search.r-project.org/R/refmans/stats/html/listof.html) | Lists of objects |
