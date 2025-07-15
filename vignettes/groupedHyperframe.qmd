@@ -315,6 +315,17 @@ afv |>
   })
 ```
 
+Alternatively, the 5th slice (which corresponds to $r=50$, as the cumulative trapzoidal integration starts at the second index $r=10$ instead of the first index $r=0$) of the hypercolumn *`hladr.E.cumtrapz`* may be extracted by 
+
+```{r}
+afv |>
+  with(expr = {
+    hladr.E.cumtrapz[5L]
+  })
+```
+
+
+
 ### Of numeric-hypercolumn, and numeric marks in `ppp`-hypercolumn
 
 #### On `quantile`s
