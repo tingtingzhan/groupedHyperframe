@@ -106,9 +106,9 @@ aggregate_fv <- function(
       
       return(list(
         value = x |> 
-          lapply(FUN = \(i) key1val.fv(i, key1. = fvcheck[['key1']])[id]),
+          lapply(FUN = \(i) key1val.fv(i, key = fvcheck[['key1']])[id]),
         cumtrapz = x |> 
-          mclapply(mc.cores = mc.cores, FUN = \(i) cumtrapz.fv(i, key1. = fvcheck[['key1']])[id[-1L]]) # `-1L` super important!!!
+          mclapply(mc.cores = mc.cores, FUN = \(i) cumtrapz.fv(i, key = fvcheck[['key1']])[id[-1L]]) # `-1L` super important!!!
       ))
       
     }) |>

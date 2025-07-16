@@ -30,7 +30,25 @@ This vignette of R package **`groupedHyperframe`** ([CRAN](https://cran.r-projec
 -   the batch processes for a `hyperframe` and/or `groupedHyperframe`, and
 -   the aggregation of various statistics over (nested) grouping structure.
 
-R terminology might be different from that of mathematics and statistics. Please refer to Appendix @sec-terms for explanation and reference.
+R terminology might be different from that of mathematics and statistics. Please refer to Appendix @sec-terms for explanation and reference of the terms and abbreviations used in this vignette.
+
+Package **`groupedHyperframe`** `Enhances` the **`spatstat`** family of packages [@spatstat15; @spatstat05], specifically
+
+-   **`spatstat.explore`** (developer version `r packageVersion('spatstat.explore')`), with
+    -   new methods for `fv.object`
+    -   batch processes to return a hypercolumn of `fv.object`s
+-   **`spatstat.geom`** (developer version `r packageVersion('spatstat.geom')`), with
+    -   a new derived class of `hyperframe`
+    -   new methods for `ppp.object`
+
+Package **`groupedHyperframe`** `Imports` packages
+
+-   **`cli`** [@cli, version `r packageVersion('cli')`], for attractive command line interfaces (CLIs)
+-   `r knitr::asis_output('\U1f5dd')` **`matrixStats`** [@matrixStats, version `r packageVersion('matrixStats')`], key dependency, for matrix arithmetic
+-   **`parallel`** (shipped with `r R.version$version.string`), for parallel computing
+-   `r knitr::asis_output('\U1f5dd')` **`pracma`** [@pracma, version `r packageVersion('pracma')`], key dependency, for (cumulative) trapezoidal integration
+-   `r knitr::asis_output('\U1f5dd')` **`spatstat.explore`** (developer version `r packageVersion('spatstat.explore')`) and **`spatstat.geom`** (developer version `r packageVersion('spatstat.geom')`), @spatstat15, key dependency, for spatial statistics
+-   `r knitr::asis_output('\U1f5dd')` **`SpatialPack`** [@SpatialPack, version `r packageVersion('SpatialPack')`], key dependency, for Tjøstheim's coefficient of spatial association
 
 ## Prerequisite
 
@@ -68,17 +86,6 @@ Stable releases to [CRAN](https://CRAN.R-project.org/package=groupedHyperframe) 
 utils::install.packages('groupedHyperframe') # Developers, do NOT use!!
 ```
 
-### Dependencies
-
-Package **`groupedHyperframe`** `Imports` packages
-
--   **`cli`** [@cli, version `r packageVersion('cli')`], for attractive command line interfaces (CLIs)
--   `r knitr::asis_output('\U1f5dd')` **`matrixStats`** [@matrixStats, version `r packageVersion('matrixStats')`], key dependency, for matrix arithmetic
--   **`parallel`** (shipped with `r R.version$version.string`), for parallel computing
--   `r knitr::asis_output('\U1f5dd')` **`pracma`** [@pracma, version `r packageVersion('pracma')`], key dependency, for (cumulative) trapezoidal integration
--   `r knitr::asis_output('\U1f5dd')` **`spatstat.explore`** (developer version `r packageVersion('spatstat.explore')`) and **`spatstat.geom`** (developer version `r packageVersion('spatstat.geom')`), @spatstat15, key dependency, for spatial statistics
--   `r knitr::asis_output('\U1f5dd')` **`SpatialPack`** [@SpatialPack, version `r packageVersion('SpatialPack')`], key dependency, for Tjøstheim's coefficient of spatial association
-
 ## Getting Started
 
 Examples in this vignette require that the `search` path has
@@ -114,7 +121,7 @@ It is important to note that several `S3` method dispatches to `hyperframe` clas
 
 We introduce a new `S3` class `groupedHyperframe`, for **grouped hyper data frame**, which `inherits` from the `hyperframe` class. The derived class `groupedHyperframe` has additional `attributes`
 
--   `attr(., 'group')`, a one-sided `formula` of the (nested) grouping structure, e.g., `~patient/image` when each patient has one or more images. The grammar of the nested grouping structure $g_1/.../g_m$ (`~g1/.../gm`) follows that of the parameter `random` of functions `nlme::lme()` and `nlme::nlme()`. In fact, the `'grouped'` extension of a `hyperframe` is inspired by the `nlme::groupedData` class which inherits from `data.frame` [@nlme]. Appendix @sec-nestedGroup outlines the experimental features of nested grouping structure that are subject to change.
+-   `attr(., 'group')`, a one-sided `formula` of the (nested) grouping structure, e.g., `~patient/image` when each patient has one or more images. The grammar of the nested grouping structure $g_1/.../g_m$ (`~g1/.../gm`) is explained in section *Details* of[`stats::formula`](https://search.r-project.org/R/refmans/stats/html/formula.html) documentation. This grammar is also made well known by the parameter `random` of functions `nlme::lme()` and `nlme::nlme()`. In fact, the 'grouped' extension of a `hyperframe` is inspired by the `nlme::groupedData` class which inherits from `data.frame` [@nlme]. Appendix @sec-nestedGroup outlines the experimental features of nested grouping structure that are subject to change.
 
 The `S3` generic function `as.groupedHyperframe()` converts objects of various classes into a `groupedHyperframe`. We also introduce aggregation functions `aggregate_*()` of the hypercolumns in a `groupedHyperframe`, at either one of the nested grouping levels $g_1,\cdots,g_{m-1}$. Aggregation at the lowest grouping level $g_m$ is ignored, i.e., no aggregation to be performed. Available aggregation methods are the point-wise minima `base::pmin()`, maxima `base::pmax()`, means `pmean()` (default) and medians `pmedian()`.
 
@@ -297,7 +304,7 @@ out |>
   aggregate_fv(by = ~ patient_id, f_aggr_ = pmean, rmax = 260)
 ```
 
-Each one of the numeric-hypercolumns contains tabulated values on the common grid of $r$. One "slice" of the hypercolumn *`hladr.E.cumtrapz`* at $r=50$ may be extracted by calling the `S3` method dispatch `spatstat.geom::with.hyperframe()` (which behaves *very differently* from function `base::with.default()`, see @sec-groupedHyperframe)
+Each one of the numeric-hypercolumns contains tabulated values on the common grid of $r$. One "slice" of the hypercolumn *`hladr.E.cumtrapz`* at $r=50$ may be extracted by calling the `S3` method dispatch `spatstat.geom::with.hyperframe()` (which behaves *very differently* from function `base::with.default()`, see Appendix @sec-hyperframe),
 
 ```{r}
 afv |>
@@ -306,7 +313,7 @@ afv |>
   })
 ```
 
-Alternatively, the 5th slice (which corresponds to $r=50$, as the cumulative trapzoidal integration starts at the second index $r=10$ instead of the first index $r=0$) of the hypercolumn *`hladr.E.cumtrapz`* may be extracted by 
+Alternatively, the 5th slice (which corresponds to $r=50$, as the cumulative trapzoidal integration starts at the second index $r=10$ instead of the first index $r=0$) of the hypercolumn *`hladr.E.cumtrapz`* may be extracted by
 
 ```{r}
 afv |>
@@ -314,8 +321,6 @@ afv |>
     hladr.E.cumtrapz[5L]
   })
 ```
-
-
 
 ### Of numeric-hypercolumn, and numeric marks in `ppp`-hypercolumn
 
@@ -376,7 +381,7 @@ We cover some minor and/or experimental features in the appendix, in order not t
 
 ### Nested Grouping Structure {#sec-nestedGroup}
 
-Interaction terms using colon operator (`:`) are allowed in the grouping structure, such as `g1/g2a:g2b/g3a:g3b:g3c`. This feature is made possible because in R `language` (especially `formula`) object, the colon operator (`:`) has higher priority than the forward slash (`/`).
+Interaction terms using colon operator (`:`) are allowed in the grouping structure, such as `g1/g2a:g2b/g3a:g3b:g3c`. This feature is made possible because the colon operator (`:`) has higher priority than the forward slash (`/`) in R `formula`.
 
 ```{r}
 #| code-fold: true
@@ -385,7 +390,7 @@ quote(g1/g2a:g2b/g3a:g3b:g3c) |>
   as.list()
 ```
 
-The helper function `get_nested()` breaks down a nested grouping structure by the forward slash (`/`).
+Function `get_nested()` breaks down a nested grouping structure by the forward slash (`/`).
 
 ```{r}
 quote(g1/g2/g3) |>
@@ -402,7 +407,6 @@ The (nested) grouping structure `attr(., 'group')` of a `groupedHyperframe`
 -   must denote the highest level using a `symbol` (e.g., `g1`)
 -   may denote the lower levels using a `symbol` (e.g., `g2`) or an interaction-term (e.g., `g2a:g2b`)
 
-
 ## On `hyperframe` {#sec-hyperframe}
 
 | Generic Function | Method Dispatch to `data.frame` | Method Dispatch to `hyperframe` |
@@ -412,15 +416,24 @@ The (nested) grouping structure `attr(., 'group')` of a `groupedHyperframe`
 | [`base::with`](https://search.r-project.org/R/refmans/base/html/with.html) | [`base::with.default`](https://search.r-project.org/R/refmans/base/html/with.html) | [`spatstat.geom::with.hyperframe`](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/with.hyperframe.html) |
 | [`base::within`](https://search.r-project.org/R/refmans/base/html/with.html) | [`base::within.data.frame`](https://search.r-project.org/R/refmans/base/html/with.html) | do not exist (as of version `r packageVersion('spatstat.geom')`) |
 
-: S3 methods `*.hyperframe()` that are drastically different from `*.data.frame()` or `*.default()`
-
-
+: `S3` methods `*.hyperframe()` that are drastically different from `*.data.frame()` or `*.default()`
 
 ## On `fv.object`
 
 ### "Black solid curve" {#sec-blackSolidCurve}
 
-🚧 A paragraph about functions `key1.fv()` and `key1val.fv()`, based on function `spatstat.explore::plot.fv(., do.plot = FALSE)`.
+The `S3` method dispatch `spatstat.explore::plot.fv()` visualizes the function values stored in an `fv.object` as a black-solid-curve.
+
+```{r}
+#| code-fold: true
+#| code-summary: "Figure suppressed to reduce vignette file size"
+#| fig-show: hide
+spatstat.data::spruces |> 
+  spatstat.explore::markcorr() |>
+  plot()
+```
+
+Function `key1.fv()`, named after the code snippet `key[lty == 1L & col == 1L]`, finds the "name" of the function values in an `fv.object`. Function `key1.fv()` is a "psuedo" `S3` method dispatch, i.e., named in the fashion of `<generic>.<class>`, because we do not have an `S3` generic function `key1()` defined (as of package **`groupedHyperframe`** version `r packageVersion('groupedHyperframe')`).
 
 ```{r}
 spatstat.data::spruces |> 
@@ -428,6 +441,7 @@ spatstat.data::spruces |>
   key1.fv()
 ```
 
+Function `key1val.fv()` finds the function values in an `fv.object`, with the corresponding $r$-values as the `vector` `names`. Function `key1val.fv()` is also a "psuedo" `S3` method dispatch, because we do not have an `S3` generic function `key1val()` defined (as of package **`groupedHyperframe`** version `r packageVersion('groupedHyperframe')`).
 
 ```{r}
 spatstat.data::spruces |> 
@@ -436,8 +450,7 @@ spatstat.data::spruces |>
   head(n = 3L)
 ```
 
-
-Functions `trapz.fv()` and `cumtrapz.fv()` provide the (cumulative) trapezoidal integration under the black-solid curve.  🚧 Expand this paragraph.
+Functions `trapz.fv()` and `cumtrapz.fv()` calculate the (cumulative) trapezoidal integration under the black-solid-curve, with the help of functions `pracma::trapz()` and `pracma::cumtrapz()`. Both functions `trapz.fv()` and `cumtrapz.fv()` are "psuedo" `S3` method dispatches, as the workhorse functions in package **`pracma`** (as of version `r packageVersion('pracma')`) are not `S3` generic functions.
 
 ```{r}
 spatstat.data::spruces |> 
@@ -451,7 +464,6 @@ spatstat.data::spruces |>
   cumtrapz.fv() |>
   tail(n = 3L)
 ```
-
 
 ### Legal $r_\text{max}$ {#sec-legal_rmax}
 
@@ -468,7 +480,7 @@ In package **`spatstat.explore`** (up to version `r packageVersion('spatstat.exp
 c(2.5e-324, 2.6e-324) / 0
 ```
 
-Function `markcorr()` provides a default argument of parameter $r$, at which the mark correlation function $k_f(r)$ are evaluated. The S3 method dispatch `spatstat.explore::print.fv()` prints the *recommended range* and *available range* of the argument $r$.
+Function `markcorr()` provides a default argument of parameter $r$ (see Appendix @sec-default_rmax), at which the mark correlation function $k_f(r)$ are evaluated. The S3 method dispatch `spatstat.explore::print.fv()` prints the *recommended range* and *available range* of the argument $r$.
 
 ```{r}
 #| code-fold: true
@@ -501,7 +513,7 @@ fv |>
 
 In this appendix section, we discuss a couple methods applicable to the `ppp.object`.
 
-### Default $r_\text{max}$
+### Default $r_\text{max}$ {#sec-default_rmax}
 
 The `S3` generic function `rmax_()` provides the default $r_\text{max}$ used in package **`spatstat.explore`** functions that returns an `fv.object`. The primary `S3` method dispatch `rmax_.ppp()` is an off-label use of the un-documented functions `spatstat.explore::rmax.rule()` and `spatstat.geom::handle.r.b.args()`.
 
@@ -719,10 +731,10 @@ Lastly, we keep note of the features that we plan **not** to support in package 
 The authors plan [**not**]{style="background-color: #FFFF00"} to implement an `S4` method dispatch `merge` (e.g., `S3` method dispatch `base::merge.data.frame()`) for `hyperframe` and/or `groupedHyperframe` classes, for several reasons.
 
 -   There is not an `S3` method dispatch `merge.hyperframe` in package **`spatstat.geom`** (as of version `r packageVersion('spatstat.geom')`);
--   Should the authors decide to implement the `merge` functionality for `hyperframe` class, at least two `S4` method dispatches need to be written for `setMethod(f = merge, ...)`
+-   Should the authors decide to implement `setMethod(f = merge, ...)` for `hyperframe` class, at least two (2) `S4` method dispatches need to be written for
     -   `signature = c(x = 'hyperframe', y = 'data.frame')`
     -   `signature = c(x = 'hyperframe', y = 'hyperframe')`
--   Should the authors decide to implement the `merge` functionality for `groupedHyperframe` class, at least three `S4` method dispatches need to be written for `setMethod(f = merge, ...)`
+-   Should the authors decide to implement `setMethod(f = merge, ...)` for `groupedHyperframe` class, at least three (3) `S4` method dispatches need to be written for
     -   `signature = c(x = 'groupedHyperframe', y = 'data.frame')`
     -   `signature = c(x = 'groupedHyperframe', y = 'hyperframe')`
     -   `signature = c(x = 'groupedHyperframe', y = 'groupedHyperframe')`, for which the authors need to consider the (potentially different) grouping structures of `x` and `y` inputs.
@@ -733,12 +745,13 @@ The authors suggest users do `base::merge.data.frame()` first, then do `as.group
 
 | Term / Abbreviation | Description |
 |------------------------------------|------------------------------------|
+| CRAN, R | The Comprehensive R Archive Network, <https://cran.r-project.org> |
+| `Imports`, `Enhances` | [*Writing R Extensions*, Section 1.1.3 *Package Dependencies*](https://cran.r-project.org/doc/manuals/r-devel/R-exts.html#Package-Dependencies) |
 | [`|>`](https://search.r-project.org/R/refmans/base/html/pipeOp.html) | Forward pipe operator introduced since R version 4.1.0 |
-| [`:`](https://search.r-project.org/R/refmans/base/html/Colon.html) | Colon operator for [`interaction`](https://search.r-project.org/R/refmans/base/html/interaction.html) of [`factor`](https://search.r-project.org/R/refmans/base/html/factor.html)s |
-| `/` | Forward slash operator to denote nested grouping structure `~ g1/.../gm` in grouped data frame [`groupedData`](https://search.r-project.org/CRAN/refmans/nlme/html/groupedData.html), from package **`nlme`** [@nlme] |
+| [`:`](https://search.r-project.org/R/refmans/base/html/Colon.html) | Colon operator for [`interaction`](https://search.r-project.org/R/refmans/base/html/interaction.html) of [`factor`](https://search.r-project.org/R/refmans/base/html/factor.html)s, see section *Details* of [`formula`](https://search.r-project.org/R/refmans/stats/html/formula.html) documentation |
+| `/` | Forward slash operator for nested grouping structure, see section *Details* of [`formula`](https://search.r-project.org/R/refmans/stats/html/formula.html) documentation |
 | [`::`](https://search.r-project.org/R/refmans/base/html/ns-dblcolon.html) | Explicitly-[namespace](https://search.r-project.org/R/refmans/base/html/ns-reflect.html)d function or object |
 | [`attr`](https://search.r-project.org/R/refmans/base/html/attr.html), [`attributes`](https://search.r-project.org/R/refmans/base/html/attributes.html) | Attributes |
-| CRAN, R, `Depends`, `Imports`, `Enhances` | The Comprehensive R Archive Network, <https://cran.r-project.org>.  [*Writing R Extensions*, Section 1.1.3 *Package Dependencies*](https://cran.r-project.org/doc/manuals/r-devel/R-exts.html#Package-Dependencies) |
 | [`cor`](https://search.r-project.org/R/refmans/stats/html/cor.html) | Correlation matrix |
 | [`cor.spatial`](https://search.r-project.org/CRAN/refmans/SpatialPack/html/cor.spatial.html) | Tjøstheim's nonparametric correlation coefficient, from package **`SpatialPack`** [@SpatialPack] |
 | [`cov`, `cov2cor`](https://search.r-project.org/R/refmans/stats/html/cor.html) | Variance-covariance matrix, and conversion to correlation matrix |
@@ -766,6 +779,7 @@ The authors suggest users do `base::merge.data.frame()` first, then do `as.group
 | [`message`](https://search.r-project.org/R/refmans/base/html/message.html) | Diagnostic message printed in R console |
 | [`multitype`](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/spatstat.geom-internal.html) | Multitype spatial object |
 | [`NaN`](https://search.r-project.org/R/refmans/base/html/is.finite.html) | Not-a-Number |
+| [`names`](https://search.r-project.org/R/refmans/base/html/names.html) | Names of an R object |
 | [`object.size`](https://search.r-project.org/R/refmans/utils/html/object.size.html) | Memory allocation |
 | `pmean`, `pmedian` | Point-wise mean and median, from package `groupedHyperframe` |
 | [`pmax`, `pmin`](https://search.r-project.org/R/refmans/base/html/Extremes.html) | Point-wise maxima and minima |

@@ -62,7 +62,7 @@ NULL
 key1.fv <- function(x) {
   x |>
     plot.fv(do.plot = FALSE) |>  # 'data.frame'
-    with(expr = key[lty == 1L])
+    with(expr = key[lty == 1L & col == 1L])
   # must not use `with.default`; ?devtools::check warns on unknown `key` and `lty`
 }
 
@@ -71,7 +71,7 @@ key1.fv <- function(x) {
 
 #' @rdname key1
 #' 
-#' @param key1. \link[base]{character} scalar, default value is `key1.fv(x)`,
+#' @param key \link[base]{character} scalar, default value is `key1.fv(x)`,
 #' to speed up batch processes.
 #' 
 #' @details
@@ -80,8 +80,8 @@ key1.fv <- function(x) {
 #' @returns
 #' Function [key1val.fv()] returns a \link[base]{numeric} \link[base]{vector}.
 #' @export
-key1val.fv <- function(x, key1. = key1.fv(x)) {
-  ret <- x[[key1.]]
+key1val.fv <- function(x, key = key1.fv(x)) {
+  ret <- x[[key]]
   names(ret) <- x[['r']] # `r` being hard-coded here
   return(ret)
 }
@@ -100,9 +100,9 @@ key1val.fv <- function(x, key1. = key1.fv(x)) {
 #' 
 #' @importFrom pracma trapz
 #' @export
-trapz.fv <- function(x, key1. = key1.fv(x)) {
+trapz.fv <- function(x, key = key1.fv(x)) {
   x |> 
-    key1val.fv(key1. = key1.) |>
+    key1val.fv(key = key) |>
     trapz(x = x[[1L]], y = _) |> # which way is more robust?
     #trapz(x = x[['r']], y = _) |> # which way is more robust?
     unname()
@@ -119,7 +119,7 @@ trapz.fv <- function(x, key1. = key1.fv(x)) {
 #' Function [cumtrapz.fv()] returns a \link[base]{numeric} \link[base]{vector}.
 #' @importFrom pracma cumtrapz
 #' @export 
-cumtrapz.fv <- function(x, key1. = key1.fv(x)) {
+cumtrapz.fv <- function(x, key = key1.fv(x)) {
   
   # 'fv' inherits from 'data.frame', as of 2025-02-04 # packageDate('spatstat.explore')
   r <- x[[1L]]
@@ -128,7 +128,7 @@ cumtrapz.fv <- function(x, key1. = key1.fv(x)) {
   # needed! Otherwise ?pracma::cumtrapz errs
   
   ret0 <- x |> 
-    key1val.fv(key1. = key1.) |> 
+    key1val.fv(key = key) |> 
     unclass() |>
     cumtrapz(x = r, y = _)
   # a trapz needs two points; therefore `[-1L]`

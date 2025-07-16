@@ -11,18 +11,18 @@
 \usage{
 key1.fv(x)
 
-key1val.fv(x, key1. = key1.fv(x))
+key1val.fv(x, key = key1.fv(x))
 
-trapz.fv(x, key1. = key1.fv(x))
+trapz.fv(x, key = key1.fv(x))
 
-cumtrapz.fv(x, key1. = key1.fv(x))
+cumtrapz.fv(x, key = key1.fv(x))
 
 \method{is.finite}{fv}(x)
 }
 \arguments{
 \item{x}{an \link[spatstat.explore]{fv.object}}
 
-\item{key1.}{\link[base]{character} scalar, default value is \code{key1.fv(x)},
+\item{key}{\link[base]{character} scalar, default value is \code{key1.fv(x)},
 to speed up batch processes.}
 }
 \value{
