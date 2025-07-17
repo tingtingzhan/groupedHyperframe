@@ -43,7 +43,7 @@ Package **`groupedHyperframe`** `Enhances` the **`spatstat`** family of packages
 
 Package **`groupedHyperframe`** `Imports` packages
 
--   **`cli`** [@cli, version `r packageVersion('cli')`], for attractive command line interfaces (CLIs)
+-   **`cli`** [@cli, version `r packageVersion('cli')`], for attractive **c**ommand **l**ine **i**nterfaces
 -   `r knitr::asis_output('\U1f5dd')` **`matrixStats`** [@matrixStats, version `r packageVersion('matrixStats')`], key dependency, for matrix arithmetic
 -   **`parallel`** (shipped with `r R.version$version.string`), for parallel computing
 -   `r knitr::asis_output('\U1f5dd')` **`pracma`** [@pracma, version `r packageVersion('pracma')`], key dependency, for (cumulative) trapezoidal integration
