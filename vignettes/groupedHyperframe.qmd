@@ -10,7 +10,7 @@ toc: true
 toc-location: left
 toc-depth: 4
 toc-title: ''
-editor: visual
+editor: source
 bibliography: groupedHyperframe.bib
 knitr:
   opts_chunk: 
@@ -111,27 +111,24 @@ This work is supported by National Institutes of Health, U.S. Department of Heal
 
 # Grouped Hyper Data Frame {#sec-groupedHyperframe}
 
-An `S3` class `hyperframe`, for **hyper data frame**, is defined in package **`spatstat.geom`** [@spatstat15; @spatstat05]. A `hyperframe` contains columns either as `vector`s like in a `data.frame`, or as `list`s of objects of the same class, a.k.a., the `hypercolumns`. The `hyperframe` data structure is particularly useful in spatial analysis, e.g., with medical images, where the spatial information in each image would be represented by one element in a hypercolumn. For example, example data ***`demohyper`*** from package **`spatstat.data`** contains a `factor` column *`Group`*, a point-pattern `ppp`-hypercolumn *`Points`*, and a pixel image `im`-hypercolumn *`Image`*.
+An `S3` class `hyperframe`, for **hyper data frame**, is defined in package **`spatstat.geom`** [@spatstat15; @spatstat05]. A `hyperframe` contains columns either as `vector`s like in a `data.frame`, or as `list`s of objects of the same class, a.k.a., the `hypercolumns`. The `hyperframe` data structure is particularly useful in spatial analysis, e.g., with medical images, where the spatial information in each image would be represented by one element in a hypercolumn. For example, example data ***`demohyper`*** from package **`spatstat.data`** contains a `factor` column *`Group`*, a point-pattern `ppp`-hypercolumn *`Points`*, and a pixel image `im`-hypercolumn *`Image`*. Several `S3` method dispatches to the `hyperframe` class behave *very differently* from their counterpart in vanilla R, see Appendix @sec-hyperframe.
 
 ```{r}
 spatstat.data::demohyper
 ```
 
-It is important to note that several `S3` method dispatches to `hyperframe` class behave *very differently* from their counterpart in vanilla R, see Appendix @sec-hyperframe. Users are strongly advised to read the documentation of these functions from package **`spatstat.geom`**.
-
 We introduce a new `S3` class `groupedHyperframe`, for **grouped hyper data frame**, which `inherits` from the `hyperframe` class. The derived class `groupedHyperframe` has additional `attributes`
 
--   `attr(., 'group')`, a one-sided `formula` of the (nested) grouping structure, e.g., `~patient/image` when each patient has one or more images. The grammar of the nested grouping structure $g_1/.../g_m$ (`~g1/.../gm`) is explained in section *Details* of[`stats::formula`](https://search.r-project.org/R/refmans/stats/html/formula.html) documentation. This grammar is also made well known by the parameter `random` of functions `nlme::lme()` and `nlme::nlme()`. In fact, the 'grouped' extension of a `hyperframe` is inspired by the `nlme::groupedData` class which inherits from `data.frame` [@nlme]. Appendix @sec-nestedGroup outlines the experimental features of nested grouping structure that are subject to change.
+-   `attr(., 'group')`, a one-sided `formula` of the (nested) grouping structure, e.g., `~patient/image` when each patient has one or more images. The grammar of the nested grouping structure $g_1/.../g_m$ (`~g1/.../gm`) is explained in section *Details* of[`stats::formula`](https://search.r-project.org/R/refmans/stats/html/formula.html) documentation. This grammar is also made well known by the parameter `random` of functions `nlme::lme()` and `nlme::nlme()`. In fact, the 'grouped' extension of a `hyperframe` is inspired by the `nlme::groupedData` class which inherits from `data.frame` [@nlme]. Appendix @sec-nestedGroup outlines some experimental usage of nested grouping structure that are subject to change.
 
-The `S3` generic function `as.groupedHyperframe()` converts objects of various classes into a `groupedHyperframe`. We also introduce aggregation functions `aggregate_*()` of the hypercolumns in a `groupedHyperframe`, at either one of the nested grouping levels $g_1,\cdots,g_{m-1}$. Aggregation at the lowest grouping level $g_m$ is ignored, i.e., no aggregation to be performed. Available aggregation methods are the point-wise minima `base::pmin()`, maxima `base::pmax()`, means `pmean()` (default) and medians `pmedian()`.
+The `S3` generic function `as.groupedHyperframe()` converts objects of various classes into a `groupedHyperframe`. Functions `aggregate_*()` aggregates the hypercolumns in a `groupedHyperframe` at either one of the nested grouping levels $g_1,\cdots,g_{m-1}$. Aggregation at the lowest grouping level $g_m$ is ignored, i.e., no aggregation to be performed. Available aggregation methods are the point-wise minima `base::pmin()`, maxima `base::pmax()`, means `pmean()` (default) and medians `pmedian()`.
 
 ## From `data.frame`
 
 The `S3` method dispatch `as.groupedHyperframe.data.frame()` converts a `data.frame` with substantial amount of duplicated information into a `groupedHyperframe`. This function
 
 1.  inspects the input `data.frame` by the user-specified (nested) `group`ing structure;
-2.  identifies the column(s) with ***non-identical elements*** within the lowest group, and converts them into hypercolumn(s);
-3.  returns a `groupedHyperframe`.
+2.  identifies the column(s) with *non-identical elements* within the lowest group, and converts them into hypercolumn(s).
 
 In the following example, consider a toy data set **`wrobel_lung0`** with non-identical column *`hladr`* in the lowest group *`image_id`* of the nested grouping structure *`~patient_id/image_id`*.
 
@@ -147,7 +144,7 @@ wrobel_lung0 = wrobel_lung |>
 wrobel_lung0 |> head()
 ```
 
-By converting **`wrobel_lung0`** into a `groupedHyperframe`, the numeric *`hladr`* from each *`~patient_id/image_id`* are converted into elements of the numeric-hypercolumn *`hladr`* in the returned object **`wrobel_lung0g`**. Each row of a `groupedHyperframe` represents the lowest group of the nested grouping structure. The R console output (`S3` method dispatch `print.groupedHyperframe()`) highlights the nested grouping structure, number of clusters at each grouping level, as well as the first 10 (or less) rows of the returned `groupedHyperframe`.
+By converting **`wrobel_lung0`** into a `groupedHyperframe`, the numeric *`hladr`* from each *`~patient_id/image_id`* are converted into elements of the numeric-hypercolumn *`hladr`* in the returned object **`wrobel_lung0g`**. Each row of a `groupedHyperframe` represents the lowest group of the nested grouping structure. The `S3` method dispatch `print.groupedHyperframe()` highlights the nested grouping structure, number of clusters at each grouping level, as well as the first 10 (or less) rows of the `groupedHyperframe`.
 
 ```{r}
 (wrobel_lung0g = wrobel_lung0 |> as.groupedHyperframe(group = ~ patient_id/image_id))
@@ -166,9 +163,9 @@ wrobel_lung0 |> saveRDS(file = f, compress = 'xz')
 file.size(f_g) / file.size(f) # not much reduction
 ```
 
-### Aggregation of numeric-hypercolumn
+### Aggregate numeric-hypercolumn
 
-Function `aggregate_quantile()` aggregates the `quantile`s of each element in the numeric-hypercolumn, e.g., *`hladr`* in **`wrobel_lung0g`**, by point-wise means (default of parameter `f_aggr_`) at the biologically independent group, e.g., *`~patient_id`*. The returned object is a `hyperframe` instead of a `groupedHyperframe`, as we have ***one*** aggregated *`hladr.quantile`* per *`~patient_id`*, thus eliminates the need for a grouping structure. The R console output is taken care of by function `spatstat.geom::print.hyperframe()`.
+Function `aggregate_quantile()` aggregates the `quantile`s of each element in the numeric-hypercolumn, e.g., *`hladr`* in **`wrobel_lung0g`**, by point-wise means (default of parameter `f_aggr_`) at the biologically independent group, e.g., *`~patient_id`*. The returned object is a `hyperframe` instead of a `groupedHyperframe`, as we have *one* aggregated *`hladr.quantile`* per *`~patient_id`*, thus eliminates the need for a grouping structure. The R console output is taken care of by the `S3` method dispatch `spatstat.geom::print.hyperframe()`.
 
 ```{r}
 #| message: false
@@ -178,9 +175,7 @@ wrobel_lung0g |>
 
 ## From `hyperframe`
 
-The `S3` method dispatch `as.groupedHyperframe.hyperframe()` converts a `hyperframe`, e.g., from package **`spatstat.data`**, into a `groupedHyperframe`. This function simply inspects and adds a (nested) grouping structure to the input `hyperframe`.
-
-In the following example, we inspect the data set `spatstat.data::osteo`, which has the serial number of sampling volume `brick` nested in the bone sample `id`, and add the nested grouping structure `~id/brick` to it.
+The `S3` method dispatch `as.groupedHyperframe.hyperframe()` converts a `hyperframe`, e.g., from package **`spatstat.data`**, into a `groupedHyperframe`. This function simply inspects and adds a (nested) grouping structure to the input `hyperframe`. In the following example, we inspect the data set `spatstat.data::osteo`, which has the serial number of sampling volume `brick` nested in the bone sample `id`, and add the nested grouping structure `~id/brick` to it.
 
 ```{r}
 spatstat.data::osteo |> 
@@ -193,10 +188,10 @@ In this vignette, we do not place much emphasize on the objects provided in pack
 
 In this section, we first introduce the creation of a `groupedHyperframe` with *one-and-only-one* point pattern (`ppp`) hypercolumn. Then, we discuss
 
--   the batch processes of spatial point pattern analyses on the *one-and-only-one* `ppp`-hypercolumn of a `hyperframe` (and/or `groupedHyperframe`). These batch processes are not intended for a `hyperframe` (and/or `groupedHyperframe`) with multiple `ppp`-hypercolumn in the foreseeable future, as that would require checking for name clashes in the `marks` from multiple `ppp`-hypercolumn.
--   the aggregation of batch process returns over the nested grouping structure.
+-   the batch processes of spatial point pattern analyses on the *one-and-only-one* `ppp`-hypercolumn of a `hyperframe` (and/or `groupedHyperframe`). These batch processes are not intended for a `hyperframe` (and/or `groupedHyperframe`) with multiple `ppp`-hypercolumns in the foreseeable future, as that would require checking for name clashes in the `marks` from multiple `ppp`-hypercolumns.
+-   the aggregation of batch-process-returns over the nested grouping structure.
 
-Function `grouped_ppp()` creates a `groupedHyperframe` with *one-and-only-one* `ppp`-hypercolumn. In the following example, the argument `formula` specifies
+Function `grouped_ppp()` creates a `groupedHyperframe` with *one-and-only-one* `ppp`-hypercolumn. In the following example, the argument `formula` takes form of `<marks> ~ <variable.of.interest> | <group>`, specifically,
 
 -   the point pattern `marks`, e.g., numeric mark *`hladr`* and `multitype` mark *`phenotype`*, on the left-hand-side
 -   the additional predictors and/or endpoints for downstream analysis, e.g., *`OS`*, *`gender`* and *`age`*, before the `|` separator on the right-hand-side
@@ -214,7 +209,7 @@ Function `grouped_ppp()` creates a `groupedHyperframe` with *one-and-only-one* `
 In this section, we discuss the batch processes that return a function value table (`fv`) hypercolumn, i.e., a hypercolumn which consists of a `list` of `fv.object`s.
 
 | Batch Process | Workhorse in package **`spatstat.explore`** | `fv`-hypercolumns Suffix |
-|----|----|----|
+|------------------------|------------------------|------------------------|
 | `Emark_()` and `Vmark_()` | [`Emark` and `Vmark`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/Emark.html), conditional mean $E(r)$ and variance $V(r)$, diagnostics for dependence between the points and the marks [@Emark] | `.E` and `.V` |
 | `markcorr_()` | [`markcorr`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/markcorr.html), marked correlation $k_{mm}(r)$ or generalized mark correlation $k_f(r)$ [@markcorr] | `.k` |
 | `markvario_()` | [`markvario`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/markvario.html), mark variogram $\gamma(r)$ [@markvario] | `.gamma` |
@@ -223,7 +218,7 @@ In this section, we discuss the batch processes that return a function value tab
 : Batch processes applicable to numeric `marks`
 
 | Batch Process | Workhorse in package **`spatstat.explore`** | `fv`-hypercolumns Suffix |
-|----|----|----|
+|------------------------|------------------------|------------------------|
 | `Gcross_()` | [`Gcross`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/Gcross.html), multitype nearest-neighbour distance $G_{ij}(r)$ | `.G` |
 | `Kcross_()` | [`Kcross`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/Kcross.html), multitype $K_{ij}(r)$ | `.K` |
 | `Jcross_()` | [`Jcross`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/Jcross.html), multitype $J_{ij}(r)$ [@Jcross] | `.J` |
@@ -236,7 +231,7 @@ In this section, we discuss the batch processes that return a function value tab
 In this section, we discuss the batch processes that return a numeric hypercolumn, i.e., a hypercolumn which consists of a `list` of numeric `vector`s.
 
 | Batch Process | Workhorse in package **`spatstat.geom`** | Applicable to | numeric-hypercolumns Suffix |
-|----|----|----|----|
+|------------------|------------------|------------------|------------------|
 | `nncross_()` | [`nncross.ppp`](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/nncross.html)`(., what = 'dist')`, nearest neighbour distance | `multitype` marks | `.nncross` |
 
 ### In a pipeline
@@ -409,8 +404,10 @@ The (nested) grouping structure `attr(., 'group')` of a `groupedHyperframe`
 
 ## On `hyperframe` {#sec-hyperframe}
 
+Several `S3` method dispatches to `hyperframe` class behave *very differently* from their counterpart in vanilla R. Users are strongly advised to read the documentation of these functions from package **`spatstat.geom`**.
+
 | Generic Function | Method Dispatch to `data.frame` | Method Dispatch to `hyperframe` |
-|----|----|----|
+|------------------------|------------------------|------------------------|
 | [`` base::`$<-` ``](https://search.r-project.org/R/refmans/base/html/Extract.html) | [`` base::`$<-.data.frame` ``](https://search.r-project.org/R/refmans/base/html/Extract.data.frame.html) | [`` spatstat.geom::`$<-.hyperframe` ``](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/Extract.hyperframe.html) |
 | [`base::subset`](https://search.r-project.org/R/refmans/base/html/subset.html) | [`base::subset.data.frame`](https://search.r-project.org/R/refmans/base/html/subset.html) | [`spatstat.geom::subset.hyperframe`](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/subset.hyperframe.html) |
 | [`base::with`](https://search.r-project.org/R/refmans/base/html/with.html) | [`base::with.default`](https://search.r-project.org/R/refmans/base/html/with.html) | [`spatstat.geom::with.hyperframe`](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/with.hyperframe.html) |
@@ -518,7 +515,7 @@ In this appendix section, we discuss a couple methods applicable to the `ppp.obj
 The `S3` generic function `rmax_()` provides the default $r_\text{max}$ used in package **`spatstat.explore`** functions that returns an `fv.object`. The primary `S3` method dispatch `rmax_.ppp()` is an off-label use of the un-documented functions `spatstat.explore::rmax.rule()` and `spatstat.geom::handle.r.b.args()`.
 
 | Function in package **`spatstat.explore`** | Call of `spatstat.explore::rmax.rule` | Default $r_\text{max}$ via `rmax_()` |
-|----|----|----|
+|------------------------|------------------------|------------------------|
 | [`Emark` and `Vmark`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/Emark.html), [`markcorr`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/markcorr.html), [`markvario`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/markvario.html) | `rmax.rule(fun = 'K', ...)` | `rmax_(fun = 'K')` |
 | [`Kcross`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/Kcross.html) , workhorse `Kest` and `Kmulti` | `rmax.rule(fun = 'K', ...)` | `rmax_(fun = 'K')` or `rmax_(fun = 'K', i, j)` |
 | [`Gcross`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/Gcross.html), workhorse `Gest` and `Gmulti` | `rmax.rule(fun = 'G', ...)` | `rmax_(fun = 'G')` or `rmax_(fun = 'G', i, j)` |
@@ -728,15 +725,15 @@ Lastly, we keep note of the features that we plan **not** to support in package 
 
 ### `S4` method dispatch `merge`
 
-The authors plan [**not**]{style="background-color: #FFFF00"} to implement an `S4` method dispatch `merge` (e.g., `S3` method dispatch `base::merge.data.frame()`) for `hyperframe` and/or `groupedHyperframe` classes, for several reasons.
+The authors plan [**not**]{style="background-color: #FFFF00"} to implement an `S4` method dispatch `merge` (e.g., `S3` method dispatch `base::merge.data.frame()`) for `hyperframe` and/or `groupedHyperframe` classes, for the obstacles explained below.
 
 -   There is not an `S3` method dispatch `merge.hyperframe` in package **`spatstat.geom`** (as of version `r packageVersion('spatstat.geom')`);
 -   Should the authors decide to implement `setMethod(f = merge, ...)` for `hyperframe` class, at least two (2) `S4` method dispatches need to be written for
     -   `signature = c(x = 'hyperframe', y = 'data.frame')`
-    -   `signature = c(x = 'hyperframe', y = 'hyperframe')`
+    -   `signature = c(x = 'hyperframe', y = 'hyperframe')`, for which the authors need to define a `match` mechanism for hypercolumns.
 -   Should the authors decide to implement `setMethod(f = merge, ...)` for `groupedHyperframe` class, at least three (3) `S4` method dispatches need to be written for
     -   `signature = c(x = 'groupedHyperframe', y = 'data.frame')`
-    -   `signature = c(x = 'groupedHyperframe', y = 'hyperframe')`
+    -   `signature = c(x = 'groupedHyperframe', y = 'hyperframe')`, similar as above;
     -   `signature = c(x = 'groupedHyperframe', y = 'groupedHyperframe')`, for which the authors need to consider the (potentially different) grouping structures of `x` and `y` inputs.
 
 The authors suggest users do `base::merge.data.frame()` first, then do `as.groupedHyperframe()` as a workaround.
@@ -744,9 +741,9 @@ The authors suggest users do `base::merge.data.frame()` first, then do `as.group
 ## Terms & Abbreviations {#sec-terms}
 
 | Term / Abbreviation | Description |
-|----|----|
+|------------------------------------|------------------------------------|
 | CRAN, R | The Comprehensive R Archive Network, <https://cran.r-project.org> |
-| `Imports`, `Enhances` | [*Writing R Extensions*, Section 1.1.3 *Package Dependencies*](https://cran.r-project.org/doc/manuals/r-devel/R-exts.html#Package-Dependencies) |
+| `Depends`, `Imports`, `Enhances` | [*Writing R Extensions*, Section 1.1.3 *Package Dependencies*](https://cran.r-project.org/doc/manuals/r-devel/R-exts.html#Package-Dependencies) |
 | [`|>`](https://search.r-project.org/R/refmans/base/html/pipeOp.html) | Forward pipe operator introduced since R version 4.1.0 |
 | [`:`](https://search.r-project.org/R/refmans/base/html/Colon.html) | Colon operator for [`interaction`](https://search.r-project.org/R/refmans/base/html/interaction.html) of [`factor`](https://search.r-project.org/R/refmans/base/html/factor.html)s, see section *Details* of [`formula`](https://search.r-project.org/R/refmans/stats/html/formula.html) documentation |
 | `/` | Forward slash operator for nested grouping structure, see section *Details* of [`formula`](https://search.r-project.org/R/refmans/stats/html/formula.html) documentation |
@@ -773,7 +770,8 @@ The authors suggest users do `base::merge.data.frame()` first, then do `as.group
 | [`list`](https://search.r-project.org/R/refmans/base/html/list.html), [`listof`](https://search.r-project.org/R/refmans/stats/html/listof.html) | Lists of objects |
 | [`.Machine`](https://search.r-project.org/R/refmans/base/html/zMachine.html) | Numerical characteristics of the machine R is running on, e.g., 32-bit integers and IEC 60559 floating-point (double precision) arithmetic |
 | [`markformat`](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/spatstat.geom-internal.html) | Storage mode of `marks` |
-| [`marks`](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/spatstat.geom-internal.html), [`marked`](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/is.marked.html) | Marks of a point pattern |
+| [`marks`](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/spatstat.geom-internal.html), [`is.marked`](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/is.marked.html) | Marks of a point pattern |
+| [`match`](https://search.r-project.org/R/refmans/base/html/match.html) | Value Matching |
 | [`merge`](https://search.r-project.org/R/refmans/base/html/merge.html) | Merge two `data.frame`s |
 | [`mc.cores`](https://search.r-project.org/R/refmans/parallel/html/mclapply.html) | Number of CPU cores to use for parallel computing |
 | [`message`](https://search.r-project.org/R/refmans/base/html/message.html) | Diagnostic message printed in R console |
