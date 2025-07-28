@@ -52,7 +52,7 @@ Package **`groupedHyperframe`** `Imports` packages
 
 ## Prerequisite
 
-Package **`groupedHyperframe`** requires R version 4.5.0 (released 2025-04-11) or higher. [RStudio](https://posit.co/download/rstudio-desktop/) is not required, but highly recommended. This vignette is generated under `r R.version$version.string` using packages **`knitr`** [@knitr], **`quarto`** [@quarto], **`rmarkdown`** [@rmarkdown], and the development versions of the **`spatstat`** family of packages [@spatstat15; @spatstat05].
+Package **`groupedHyperframe`** requires R version 4.5.0 (released 2025-04-11) or higher. [RStudio](https://posit.co/download/rstudio-desktop/) is not required, but highly recommended. This vignette is generated under `r R.version$version.string` using packages **`knitr`** [@knitr, version `r packageVersion('knitr')`], **`quarto`** [@quarto, version `r packageVersion('quarto')`], **`rmarkdown`** [@rmarkdown, version `r packageVersion('rmarkdown')`], and the development versions of the **`spatstat`** family of packages [@spatstat15; @spatstat05].
 
 ```{r}
 #| label: prerequisite
