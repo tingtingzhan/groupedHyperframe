@@ -14,14 +14,12 @@
   options(
     
     mc.cores = switch(
-      EXPR = .Platform$OS.type, # as of R 4.5, only two response, 'windows' or 'unix'
+      EXPR = .Platform$OS.type, # as of R 4.5, only two responses, 'windows' or 'unix'
       windows = 1L, 
       unix = detectCores()
-    ),
+    )
     # read this discussion very very carefully!  Especially Dirk's reply!!!!
     # https://github.com/Rdatatable/data.table/issues/5658
-
-    use_unicode = TRUE
     
   )
   
