@@ -76,7 +76,11 @@
 dist_ppp <- function(x, fn, ...) {
   
   x. <- unstack.ppp(x)
-  if (length(x.) == 1L && !length(names(x.))) stop('unstacked `x` must be named, see ?mark_names')
+  if (length(x.) == 1L && !length(names(x.))) {
+    # unstacking a 'vector' `mark`
+    #stop('unstacked `x` must be named, see ?mark_names')
+    names(x.) <- 'm'
+  }
   
   mtp <- vapply(x., FUN = is.multitype.ppp, FUN.VALUE = NA)
   if (!any(mtp)) return(invisible())
@@ -109,7 +113,11 @@ dist_ppp <- function(x, fn, ...) {
 fv_ppp <- function(x, fn, ...) {
   
   x. <- unstack.ppp(x)
-  if (length(x.) == 1L && !length(names(x.))) stop('unstacked `x` must be named, see ?mark_names')
+  if (length(x.) == 1L && !length(names(x.))) {
+    # unstacking a 'vector' `mark`
+    #stop('unstacked `x` must be named, see ?mark_names')
+    names(x.) <- 'm'
+  }
   
   mtp <- x. |> 
     vapply(FUN = is.multitype.ppp, FUN.VALUE = NA)
