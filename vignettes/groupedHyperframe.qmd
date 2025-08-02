@@ -404,7 +404,9 @@ The (nested) grouping structure `attr(., 'group')` of a `groupedHyperframe`
 
 ## On `hyperframe` {#sec-hyperframe}
 
-Several `S3` method dispatches to `hyperframe` class behave *very differently* from their counterpart in vanilla R. Users are strongly advised to read the documentation of these functions from package **`spatstat.geom`**.
+### `S3` methods in package **`spatstat.geom`**
+
+Several `S3` method dispatches to `hyperframe` class in package **`spatstat.geom`** behave *very differently* from their counterpart in vanilla R. Users are strongly advised to read the documentation of these functions from package **`spatstat.geom`**.
 
 | Generic Function | Method Dispatch to `data.frame` | Method Dispatch to `hyperframe` |
 |------------------------|------------------------|------------------------|
@@ -414,6 +416,84 @@ Several `S3` method dispatches to `hyperframe` class behave *very differently* f
 | [`base::within`](https://search.r-project.org/R/refmans/base/html/with.html) | [`base::within.data.frame`](https://search.r-project.org/R/refmans/base/html/with.html) | do not exist (as of version `r packageVersion('spatstat.geom')`) |
 
 : `S3` methods `*.hyperframe()` that are drastically different from `*.data.frame()` or `*.default()`
+
+### Superimpose multiple `hyperframe`s
+
+The S3 method dispatch `superimpose.hyperframe()`, which does not exist in package **`spatstat.geom`** as of version `r packageVersion('spatstat.geom')`, `superimpose`s multiple `hyperframe`s if-and-only-if they have identical 
+
+-   `dim`ensions, via function `spatstat.geom::dim.hyperframe()`
+-   columns, i.e., `unclass(.)$df`
+-   `names` and `class` of the `hypercolumn`s, i.e., `unclass(.)$hypercolumns`
+
+We use a subset of the data set `flu` from package **`spatstat.data`** as a toy example.
+
+```{r}
+fluM = spatstat.data::flu |>
+  spatstat.geom::subset.hyperframe(subset = (stain == 'M2-M1') & (virustype == 'wt'))
+```
+
+```{r}
+#| code-fold: true
+#| code-summary: Subset 'M2-M1' of data set spatstat.data::flu
+fluM
+```
+
+In this subset of `r nrow(fluM)` subjects, each of them has a `ppp.object` with 200-500 points.
+
+```{r}
+#| code-fold: true
+#| code-summary: See for yourself
+fluM$pattern |>
+  sapply(FUN = spatstat.geom::npoints)
+```
+
+
+We create a `hyperframe` *`fluM1`* which consists of the *`M1`* marks only, and another `hyperframe` *`fluM2`* which consists of the *`M2`* marks only.
+
+```{r}
+#| code-fold: true
+#| code-summary: Some tedious code to create `fluM1` and `fluM2`
+# authors are consulting Dr. Baddeley for potential update to \CRANpkg{spatstat.geom}
+fluM1 = fluM2 = unclass(fluM)
+fluM1$hypercolumns$pattern = fluM1$hypercolumns$pattern |> 
+  lapply(FUN = \(i) {
+    spatstat.geom::subset.ppp(i, subset = (marks == 'M1'), drop = TRUE)
+  })
+class(fluM1$hypercolumns$pattern) = unclass(fluM)$hypercolumns$pattern |> class()
+fluM2$hypercolumns$pattern = fluM2$hypercolumns$pattern |> 
+  lapply(FUN = \(i) {
+    spatstat.geom::subset.ppp(i, subset = (marks == 'M2'), drop = TRUE)
+  })
+class(fluM2$hypercolumns$pattern) = unclass(fluM)$hypercolumns$pattern |> class()
+class(fluM1) = class(fluM2) = class(fluM)
+```
+
+
+
+```{r}
+#| code-fold: true
+#| code-summary: Number of points per `ppp.object` in *`fluM1`*
+fluM1$pattern |>
+  sapply(FUN = spatstat.geom::npoints)
+```
+
+
+```{r}
+#| code-fold: true
+#| code-summary: Number of points per `ppp.object` in *`fluM2`*
+fluM2$pattern |>
+  sapply(FUN = spatstat.geom::npoints)
+```
+
+The `S3` method dispatch `superimpose.hyperframe()` combines `hyperframe`s *`fluM2`* and *`fluM1`*; the order matters!  The returned object is `identical` to *`fluM`*.
+
+```{r}
+stopifnot(identical(
+  superimpose.hyperframe(fluM2, fluM1),
+  fluM
+))
+```
+
 
 ## On `fv.object`
 
