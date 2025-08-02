@@ -451,21 +451,17 @@ fluM$pattern |>
 We create a `hyperframe` *`fluM1`* which consists of the *`M1`* marks only, and another `hyperframe` *`fluM2`* which consists of the *`M2`* marks only.
 
 ```{r}
-#| code-fold: true
-#| code-summary: Some tedious code to create `fluM1` and `fluM2`
-# authors are consulting Dr. Baddeley for potential update to \CRANpkg{spatstat.geom}
-fluM1 = fluM2 = unclass(fluM)
-fluM1$hypercolumns$pattern = fluM1$hypercolumns$pattern |> 
+#| code-fold: false
+#| code-summary: Some tedious code to create *`fluM1`* and *`fluM2`*
+fluM1 = fluM2 = fluM
+fluM1$pattern[] = fluM$pattern |> 
   lapply(FUN = \(i) {
     spatstat.geom::subset.ppp(i, subset = (marks == 'M1'), drop = TRUE)
   })
-class(fluM1$hypercolumns$pattern) = unclass(fluM)$hypercolumns$pattern |> class()
-fluM2$hypercolumns$pattern = fluM2$hypercolumns$pattern |> 
+fluM2$pattern[] = fluM$pattern |> 
   lapply(FUN = \(i) {
     spatstat.geom::subset.ppp(i, subset = (marks == 'M2'), drop = TRUE)
   })
-class(fluM2$hypercolumns$pattern) = unclass(fluM)$hypercolumns$pattern |> class()
-class(fluM1) = class(fluM2) = class(fluM)
 ```
 
 
@@ -485,13 +481,23 @@ fluM2$pattern |>
   sapply(FUN = spatstat.geom::npoints)
 ```
 
-The `S3` method dispatch `superimpose.hyperframe()` combines `hyperframe`s *`fluM2`* and *`fluM1`*; the order matters!  The returned object is `identical` to *`fluM`*.
+The `S3` method dispatch `superimpose.hyperframe()` combines `hyperframe`s *`fluM2`* and *`fluM1`*; the order matters!  
 
 ```{r}
-stopifnot(identical(
-  superimpose.hyperframe(fluM2, fluM1),
-  fluM
-))
+fluS = superimpose.hyperframe(fluM2, fluM1)
+```
+
+
+```{r}
+#| code-fold: true
+#| code-summary: Not here yet; author is consulting Dr. Baddeley
+identical(fluS, fluM)
+```
+
+The returned `hyperframe` *`fluS`* has `identical` `ppp`-hypercolumn as *`fluM`*.
+
+```{r}
+stopifnot(identical(fluS$pattern, fluM$pattern))
 ```
 
 
@@ -841,6 +847,7 @@ The authors suggest users do `base::merge.data.frame()` first, then do `as.group
 | [`fv`, `fv.object`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/fv.object.html), [`plot.fv`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/plot.fv.html) | (Plot of) function value table, from package **`spatstat.explore`** |
 | [`groupedHyperframe`](https://CRAN.R-project.org/package=groupedHyperframe) | Grouped hyper data frame |
 | `hypercolumns`, [`hyperframe`](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/hyperframe.html) | (Hyper columns of) hyper data frame, from package **`spatstat.geom`** |
+| [`identical`](https://search.r-project.org/R/refmans/base/html/identical.html) | Exact Equality in R |
 | [`im`](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/im.html) | Pixel image object, from package **`spatstat.geom`** |
 | [`inherits`](https://search.r-project.org/R/refmans/base/html/class.html) | Class inheritance |
 | [`Inf`](https://search.r-project.org/R/refmans/base/html/is.finite.html) | Positive infinity $\infty$ |
