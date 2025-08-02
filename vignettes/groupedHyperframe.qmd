@@ -34,31 +34,43 @@ R terminology might be different from that of mathematics and statistics. Please
 
 Package **`groupedHyperframe`** `Enhances` the **`spatstat.*`** family of packages [@spatstat15; @spatstat05], specifically
 
--   **`spatstat.explore`** (developer version `r packageVersion('spatstat.explore')`), with
+-   **`spatstat.explore`** (developer v`r packageVersion('spatstat.explore')`), with
     -   new methods for `fv.object`
     -   batch processes to return a hypercolumn of `fv.object`s
--   **`spatstat.geom`** (developer version `r packageVersion('spatstat.geom')`), with
+-   **`spatstat.geom`** (developer v`r packageVersion('spatstat.geom')`), with
     -   a new derived class of `hyperframe`
     -   new methods for `ppp.object` and `hyperframe`
 
 Package **`groupedHyperframe`** `Imports` packages
 
--   **`cli`** [@cli, version `r packageVersion('cli')`], for attractive **c**ommand **l**ine **i**nterfaces
--   `r knitr::asis_output('\U1f5dd')` **`matrixStats`** [@matrixStats, version `r packageVersion('matrixStats')`], key dependency, for matrix arithmetic
+-   **`cli`** [@cli, v`r packageVersion('cli')`], for attractive **c**ommand **l**ine **i**nterfaces
+-   `r knitr::asis_output('\U1f5dd')` **`matrixStats`** [@matrixStats, v`r packageVersion('matrixStats')`], key dependency, for matrix arithmetic
 -   **`parallel`** (shipped with `r R.version$version.string`), for parallel computing
--   `r knitr::asis_output('\U1f5dd')` **`pracma`** [@pracma, version `r packageVersion('pracma')`], key dependency, for (cumulative) trapezoidal integration
--   `r knitr::asis_output('\U1f5dd')` **`SpatialPack`** [@SpatialPack, version `r packageVersion('SpatialPack')`], key dependency, for Tjøstheim's coefficient of spatial association
--   `r knitr::asis_output('\U1f5dd')` **`spatstat.explore`** (developer version `r packageVersion('spatstat.explore')`) and **`spatstat.geom`** (developer version `r packageVersion('spatstat.geom')`), key dependency, for spatial statistics
+-   `r knitr::asis_output('\U1f5dd')` **`pracma`** [@pracma, v`r packageVersion('pracma')`], key dependency, for (cumulative) trapezoidal integration
+-   `r knitr::asis_output('\U1f5dd')` **`SpatialPack`** [@SpatialPack, v`r packageVersion('SpatialPack')`], key dependency, for Tjøstheim's coefficient of spatial association
+-   `r knitr::asis_output('\U1f5dd')` **`spatstat.explore`** (developer v`r packageVersion('spatstat.explore')`) and **`spatstat.geom`** (developer v`r packageVersion('spatstat.geom')`), key dependency, for spatial statistics
 
 Package **`groupedHyperframe`** `Suggests` packages
 
--   `r knitr::asis_output('\U1f5dd')` **`spatstat.data`** (developer version `r packageVersion('spatstat.data')`), key suggest, for example spatial data set
--   `r knitr::asis_output('\U1f5dd')` **`survival`** [@survival, version `r packageVersion('survival')`], key suggest, for function `survival:::as.data.frame.Surv()` to help `hyperframe` understand `Surv` object
+-   `r knitr::asis_output('\U1f5dd')` **`spatstat.data`** (developer v`r packageVersion('spatstat.data')`), key suggest, for example spatial data set
+-   `r knitr::asis_output('\U1f5dd')` **`survival`** [@survival, v`r packageVersion('survival')`], key suggest, for function `survival:::as.data.frame.Surv()` to help `hyperframe` understand `Surv` object
 
 
 ## Prerequisite
 
-Package **`groupedHyperframe`** requires R version 4.5.0 (released 2025-04-11) or higher. [RStudio](https://posit.co/download/rstudio-desktop/) is not required, but highly recommended. This vignette is generated under `r R.version$version.string` using packages **`knitr`** [@knitr, version `r packageVersion('knitr')`], **`quarto`** [@quarto, version `r packageVersion('quarto')`], **`rmarkdown`** [@rmarkdown, version `r packageVersion('rmarkdown')`], and the development versions of the **`spatstat.*`** family of packages [@spatstat15; @spatstat05].
+Package **`groupedHyperframe`** requires R version 4.5.0 (released 2025-04-11) or higher. [RStudio](https://posit.co/download/rstudio-desktop/) is not required, but highly recommended. This vignette is generated under `r R.version$version.string` using packages **`knitr`** [@knitr, v`r packageVersion('knitr')`], **`quarto`** [@quarto, v`r packageVersion('quarto')`], **`rmarkdown`** [@rmarkdown, v`r packageVersion('rmarkdown')`], and the development versions of the **`spatstat.*`** family of packages [@spatstat15; @spatstat05].
+
+```{r}
+#| code-fold: true
+#| code-summary: "`Sys.info()` on author's computer"
+Sys.info()
+```
+
+```{r}
+#| code-fold: true
+#| code-summary: "`R.version` on author's computer"
+R.version
+```
 
 ```{r}
 #| label: prerequisite
@@ -419,13 +431,13 @@ Several `S3` method dispatches to `hyperframe` class in package **`spatstat.geom
 | [`` base::`$<-` ``](https://search.r-project.org/R/refmans/base/html/Extract.html) | [`` base::`$<-.data.frame` ``](https://search.r-project.org/R/refmans/base/html/Extract.data.frame.html) | [`` spatstat.geom::`$<-.hyperframe` ``](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/Extract.hyperframe.html) |
 | [`base::subset`](https://search.r-project.org/R/refmans/base/html/subset.html) | [`base::subset.data.frame`](https://search.r-project.org/R/refmans/base/html/subset.html) | [`spatstat.geom::subset.hyperframe`](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/subset.hyperframe.html) |
 | [`base::with`](https://search.r-project.org/R/refmans/base/html/with.html) | [`base::with.default`](https://search.r-project.org/R/refmans/base/html/with.html) | [`spatstat.geom::with.hyperframe`](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/with.hyperframe.html) |
-| [`base::within`](https://search.r-project.org/R/refmans/base/html/with.html) | [`base::within.data.frame`](https://search.r-project.org/R/refmans/base/html/with.html) | do not exist (as of version `r packageVersion('spatstat.geom')`) |
+| [`base::within`](https://search.r-project.org/R/refmans/base/html/with.html) | [`base::within.data.frame`](https://search.r-project.org/R/refmans/base/html/with.html) | do not exist (as of v`r packageVersion('spatstat.geom')`) |
 
 : `S3` methods `*.hyperframe()` that are drastically different from `*.data.frame()` or `*.default()`
 
 ### Superimpose multiple `hyperframe`s
 
-The S3 method dispatch `superimpose.hyperframe()`, which does not exist in package **`spatstat.geom`** as of version `r packageVersion('spatstat.geom')`, superimposes multiple `hyperframe`s if-and-only-if they have identical 
+The S3 method dispatch `superimpose.hyperframe()`, which does not exist in package **`spatstat.geom`** as of v`r packageVersion('spatstat.geom')`, superimposes multiple `hyperframe`s if-and-only-if they have identical 
 
 -   `dim`ensions, via function `spatstat.geom::dim.hyperframe()`
 -   columns, i.e., `unclass(.)$df`
@@ -526,7 +538,7 @@ spatstat.data::spruces |>
   plot()
 ```
 
-Function `key1.fv()`, named after the code snippet `key[lty == 1L & col == 1L]`, finds the "name" of the function values in an `fv.object`. Function `key1.fv()` is a "psuedo" `S3` method dispatch, i.e., named in the fashion of `<generic>.<class>`, because we do not have an `S3` generic function `key1()` defined (as of package **`groupedHyperframe`** version `r packageVersion('groupedHyperframe')`).
+Function `key1.fv()`, named after the code snippet `key[lty == 1L & col == 1L]`, finds the "name" of the function values in an `fv.object`. Function `key1.fv()` is a "psuedo" `S3` method dispatch, i.e., named in the fashion of `<generic>.<class>`, because we do not have an `S3` generic function `key1()` defined (as of package **`groupedHyperframe`** v`r packageVersion('groupedHyperframe')`).
 
 ```{r}
 spatstat.data::spruces |> 
@@ -534,7 +546,7 @@ spatstat.data::spruces |>
   key1.fv()
 ```
 
-Function `key1val.fv()` finds the function values in an `fv.object`, with the corresponding $r$-values as the `vector` `names`. Function `key1val.fv()` is also a "psuedo" `S3` method dispatch, because we do not have an `S3` generic function `key1val()` defined (as of package **`groupedHyperframe`** version `r packageVersion('groupedHyperframe')`).
+Function `key1val.fv()` finds the function values in an `fv.object`, with the corresponding $r$-values as the `vector` `names`. Function `key1val.fv()` is also a "psuedo" `S3` method dispatch, because we do not have an `S3` generic function `key1val()` defined (as of package **`groupedHyperframe`** v`r packageVersion('groupedHyperframe')`).
 
 ```{r}
 spatstat.data::spruces |> 
@@ -543,7 +555,7 @@ spatstat.data::spruces |>
   head(n = 3L)
 ```
 
-Functions `trapz.fv()` and `cumtrapz.fv()` calculate the (cumulative) trapezoidal integration under the black-solid-curve, with the help of functions `pracma::trapz()` and `pracma::cumtrapz()`. Both functions `trapz.fv()` and `cumtrapz.fv()` are "psuedo" `S3` method dispatches, as the workhorse functions in package **`pracma`** (as of version `r packageVersion('pracma')`) are not `S3` generic functions.
+Functions `trapz.fv()` and `cumtrapz.fv()` calculate the (cumulative) trapezoidal integration under the black-solid-curve, with the help of functions `pracma::trapz()` and `pracma::cumtrapz()`. Both functions `trapz.fv()` and `cumtrapz.fv()` are "psuedo" `S3` method dispatches, as the workhorse functions in package **`pracma`** (as of v`r packageVersion('pracma')`) are not `S3` generic functions.
 
 ```{r}
 spatstat.data::spruces |> 
@@ -560,7 +572,7 @@ spatstat.data::spruces |>
 
 ### Legal $r_\text{max}$ {#sec-legal_rmax}
 
-In package **`spatstat.explore`** (up to version `r packageVersion('spatstat.explore')`), function `markcorr()` is the workhorse inside functions `Emark()`, `Vmark()` and `markvario()`. Function `markcorr()` relies on the un-exported workhorse function `spatstat.explore:::sewsmod()`, whose default `method = "density"` contains the calculation of the ratio of two kernel densities. Due to the floating-point precision of R, such density ratios may have exceptional/illegal returns of
+In package **`spatstat.explore`** (up to v`r packageVersion('spatstat.explore')`), function `markcorr()` is the workhorse inside functions `Emark()`, `Vmark()` and `markvario()`. Function `markcorr()` relies on the un-exported workhorse function `spatstat.explore:::sewsmod()`, whose default `method = "density"` contains the calculation of the ratio of two kernel densities. Due to the floating-point precision of R, such density ratios may have exceptional/illegal returns of
 
 -   `0`, from $0/\delta$, where $\delta\geq$ (approximately) `2.6e-324`
 -   `NaN`, from $0/\varepsilon$, where $\varepsilon\leq$ (approximately) `2.5e-324`
@@ -823,7 +835,7 @@ Lastly, we keep note of the features that we plan **not** to support in package 
 
 The authors plan [**not**]{style="background-color: #FFFF00"} to implement an `S4` method dispatch `merge` (e.g., `S3` method dispatch `base::merge.data.frame()`) for `hyperframe` and/or `groupedHyperframe` classes, for the obstacles explained below.
 
--   There is not an `S3` method dispatch `merge.hyperframe` in package **`spatstat.geom`** (as of version `r packageVersion('spatstat.geom')`);
+-   There is not an `S3` method dispatch `merge.hyperframe` in package **`spatstat.geom`** (as of v`r packageVersion('spatstat.geom')`);
 -   Should the authors decide to implement `setMethod(f = merge, ...)` for `hyperframe` class, at least two (2) `S4` method dispatches need to be written for
     -   `signature = c(x = 'hyperframe', y = 'data.frame')`
     -   `signature = c(x = 'hyperframe', y = 'hyperframe')`, for which the authors need to define a `match` mechanism for hypercolumns.
