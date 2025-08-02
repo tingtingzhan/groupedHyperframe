@@ -22,6 +22,11 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
+<!--
+`r knitr::asis_output('\U1f5dd')`
+seems not needed
+-->
+
 # Introduction
 
 This vignette of R package **`groupedHyperframe`** ([CRAN](https://cran.r-project.org/package=groupedHyperframe), [Github](https://github.com/tingtingzhan/groupedHyperframe), [RPubs](https://rpubs.com/tingtingzhan/groupedHyperframe)) documents
@@ -34,26 +39,28 @@ R terminology might be different from that of mathematics and statistics. Please
 
 Package **`groupedHyperframe`** `Enhances` the **`spatstat.*`** family of packages [@spatstat15; @spatstat05], specifically
 
--   **`spatstat.explore`** (developer v`r packageVersion('spatstat.explore')`), with
+-   **`spatstat.explore`** (dev v`r packageVersion('spatstat.explore')`), with
     -   new methods for `fv.object`
     -   batch processes to return a hypercolumn of `fv.object`s
--   **`spatstat.geom`** (developer v`r packageVersion('spatstat.geom')`), with
+-   **`spatstat.geom`** (dev v`r packageVersion('spatstat.geom')`), with
     -   a new derived class of `hyperframe`
     -   new methods for `ppp.object` and `hyperframe`
 
 Package **`groupedHyperframe`** `Imports` packages
 
--   **`cli`** [@cli, v`r packageVersion('cli')`], for attractive **c**ommand **l**ine **i**nterfaces
--   `r knitr::asis_output('\U1f5dd')` **`matrixStats`** [@matrixStats, v`r packageVersion('matrixStats')`], key dependency, for matrix arithmetic
--   **`parallel`** (shipped with `r R.version$version.string`), for parallel computing
--   `r knitr::asis_output('\U1f5dd')` **`pracma`** [@pracma, v`r packageVersion('pracma')`], key dependency, for (cumulative) trapezoidal integration
--   `r knitr::asis_output('\U1f5dd')` **`SpatialPack`** [@SpatialPack, v`r packageVersion('SpatialPack')`], key dependency, for Tjøstheim's coefficient of spatial association
--   `r knitr::asis_output('\U1f5dd')` **`spatstat.explore`** (developer v`r packageVersion('spatstat.explore')`) and **`spatstat.geom`** (developer v`r packageVersion('spatstat.geom')`), key dependency, for spatial statistics
+-   **`cli`** [@cli, v`r packageVersion('cli')`], for attractive command line interfaces
+-   `r '\U1f5dd'` **`GET`** [@GET, v`r packageVersion('GET')`],
+key dependency, for global envelope test
+-   `r '\U1f5dd'` **`matrixStats`** [@matrixStats, v`r packageVersion('matrixStats')`], key dependency, for matrix arithmetic
+-   **`parallel`** shipped with `r R.version$version.string`, for parallel computing
+-   `r '\U1f5dd'` **`pracma`** [@pracma, v`r packageVersion('pracma')`], key dependency, for (cumulative) trapezoidal integration
+-   `r '\U1f5dd'` **`SpatialPack`** [@SpatialPack, v`r packageVersion('SpatialPack')`], key dependency, for Tjøstheim's coefficient of spatial association
+-   `r '\U1f5dd'` **`spatstat.explore`** (dev v`r packageVersion('spatstat.explore')`), **`spatstat.geom`** (dev v`r packageVersion('spatstat.geom')`), **`spatstat.random`** (dev v`r packageVersion('spatstat.random')`), key dependency, for spatial statistics
 
 Package **`groupedHyperframe`** `Suggests` packages
 
--   `r knitr::asis_output('\U1f5dd')` **`spatstat.data`** (developer v`r packageVersion('spatstat.data')`), key suggest, for example spatial data set
--   `r knitr::asis_output('\U1f5dd')` **`survival`** [@survival, v`r packageVersion('survival')`], key suggest, for function `survival:::as.data.frame.Surv()` to help `hyperframe` understand `Surv` object
+-   `r '\U1f5dd'` **`spatstat.data`** (dev v`r packageVersion('spatstat.data')`), key suggest, for example spatial data set
+-   `r '\U1f5dd'` **`survival`** [@survival, v`r packageVersion('survival')`], key suggest, <!--for function `survival:::as.data.frame.Surv()`--> to help `hyperframe` understand `Surv` object
 
 
 ## Prerequisite
@@ -809,7 +816,7 @@ The `S3` method dispatch `pairwise_cor_spatial.ppp()` finds the nonparametric Tj
 (r = spatstat.data::finpines |> pairwise_cor_spatial())
 ```
 
-The printing of `'pairwise_cor_spatial'` is taken care of by function `stats:::print.dist`.
+The printing of `'pairwise_cor_spatial'` is taken care of by function `stats:::print.dist()`.
 
 The `S3` method dispatch `as.matrix.pairwise_cor_spatial()` returns a `matrix` of pairwise Tjøstheim's coefficient with `diag`onal values of 1. Note that this matrix is ***not*** a `cor`relation matrix, because Tjøstheim's correlation coefficient
 
@@ -827,6 +834,10 @@ r |> as.matrix()
 In this appendix section, we discuss a couple methods applicable to the `fv.object`.
 -->
 ```
+
+### `r '\U1f6a7'` Global Envelope Test
+
+`r '\U1f6a7'` This section is under construction.
 
 ## What We Don't Do
 
