@@ -419,13 +419,17 @@ Several `S3` method dispatches to `hyperframe` class in package **`spatstat.geom
 
 ### Superimpose multiple `hyperframe`s
 
-The S3 method dispatch `superimpose.hyperframe()`, which does not exist in package **`spatstat.geom`** as of version `r packageVersion('spatstat.geom')`, `superimpose`s multiple `hyperframe`s if-and-only-if they have identical 
+The S3 method dispatch `superimpose.hyperframe()`, which does not exist in package **`spatstat.geom`** as of version `r packageVersion('spatstat.geom')`, superimposes multiple `hyperframe`s if-and-only-if they have identical 
 
 -   `dim`ensions, via function `spatstat.geom::dim.hyperframe()`
 -   columns, i.e., `unclass(.)$df`
 -   `names` and `class` of the `hypercolumn`s, i.e., `unclass(.)$hypercolumns`
 
-We use a subset of the data set `flu` from package **`spatstat.data`** as a toy example.
+The S3 method dispatch `superimpose.groupedHyperframe()` superimposes multiple `groupedHyperframe`s if-and-only-if they satisfy the *additional* criteria that they have identical 
+
+-   grouping structure, i.e., `attr(., 'group')`
+
+We use a subset of the data set `flu` from package **`spatstat.data`** to illustrate the superimpose of `hyperframe`s.
 
 ```{r}
 fluM = spatstat.data::flu |>

@@ -16,7 +16,6 @@ superimpose.hyperframe <- function(...) {
   dots <- list(...)
   if (!length(dots)) return(invisible())
   if (length(dots) == 1L) return(dots[[1L]]) 
-  # dots = list(fluM2, fluM1)
   
   z <- dots |>
     vapply(FUN = inherits, what = 'hyperframe', FUN.VALUE = NA) |>
@@ -72,6 +71,41 @@ superimpose.hyperframe <- function(...) {
 
 
 
+
+#' @title superimpose.groupedHyperframe
+#' 
+#' @param ... one or more [groupedHyperframe]s
+#' 
+#' @returns
+#' Function [superimpose.groupedHyperframe()] returns a [groupedHyperframe].
+#' 
+#' @keywords internal
+#' @importFrom spatstat.geom superimpose
+#' @export superimpose.groupedHyperframe
+#' @export
+superimpose.groupedHyperframe <- function(...) {
+  
+  dots <- list(...)
+  if (!length(dots)) return(invisible())
+  if (length(dots) == 1L) return(dots[[1L]]) 
+  
+  z <- dots |>
+    vapply(FUN = inherits, what = 'groupedHyperframe', FUN.VALUE = NA) |>
+    all()
+  if (!z) stop('all input must be groupedHyperframe')
+  
+  z <- dots |> 
+    lapply(FUN = attr, which = 'group')
+  if (!all(duplicated(z)[-1L])) stop('all input must have same grouping structure')
+  
+  # NextMethod(generic = 'superimpose') # do NOT activate [superimpose.hyperframe()]; why??
+  
+  return(superimpose.hyperframe(...))
+  
+}
+  
+  
+  
 
 if (FALSE) {
   
