@@ -438,15 +438,15 @@ fluM = spatstat.data::flu |>
 
 ```{r}
 #| code-fold: true
-#| code-summary: Subset 'M2-M1' of data set spatstat.data::flu
+#| code-summary: The `hyperframe` *`fluM`*
 fluM
 ```
 
-In this subset of `r nrow(fluM)` subjects, each of them has a `ppp.object` with 200-500 points.
+The `hyperframe` *`fluM`* contains `r nrow(fluM)` subjects, each of them has a `ppp.object` with 200-500 points.
 
 ```{r}
 #| code-fold: true
-#| code-summary: See for yourself
+#| code-summary: Number of points per `ppp.object` in *`fluM`*
 fluM$pattern |>
   sapply(FUN = spatstat.geom::npoints)
 ```
