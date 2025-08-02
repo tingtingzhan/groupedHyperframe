@@ -32,14 +32,14 @@ This vignette of R package **`groupedHyperframe`** ([CRAN](https://cran.r-projec
 
 R terminology might be different from that of mathematics and statistics. Please refer to Appendix @sec-terms for explanation and reference of the terms and abbreviations used in this vignette.
 
-Package **`groupedHyperframe`** `Enhances` the **`spatstat`** family of packages [@spatstat15; @spatstat05], specifically
+Package **`groupedHyperframe`** `Enhances` the **`spatstat.*`** family of packages [@spatstat15; @spatstat05], specifically
 
 -   **`spatstat.explore`** (developer version `r packageVersion('spatstat.explore')`), with
     -   new methods for `fv.object`
     -   batch processes to return a hypercolumn of `fv.object`s
 -   **`spatstat.geom`** (developer version `r packageVersion('spatstat.geom')`), with
     -   a new derived class of `hyperframe`
-    -   new methods for `ppp.object`
+    -   new methods for `ppp.object` and `hyperframe`
 
 Package **`groupedHyperframe`** `Imports` packages
 
@@ -47,12 +47,18 @@ Package **`groupedHyperframe`** `Imports` packages
 -   `r knitr::asis_output('\U1f5dd')` **`matrixStats`** [@matrixStats, version `r packageVersion('matrixStats')`], key dependency, for matrix arithmetic
 -   **`parallel`** (shipped with `r R.version$version.string`), for parallel computing
 -   `r knitr::asis_output('\U1f5dd')` **`pracma`** [@pracma, version `r packageVersion('pracma')`], key dependency, for (cumulative) trapezoidal integration
--   `r knitr::asis_output('\U1f5dd')` **`spatstat.explore`** (developer version `r packageVersion('spatstat.explore')`) and **`spatstat.geom`** (developer version `r packageVersion('spatstat.geom')`), @spatstat15, key dependency, for spatial statistics
 -   `r knitr::asis_output('\U1f5dd')` **`SpatialPack`** [@SpatialPack, version `r packageVersion('SpatialPack')`], key dependency, for Tjøstheim's coefficient of spatial association
+-   `r knitr::asis_output('\U1f5dd')` **`spatstat.explore`** (developer version `r packageVersion('spatstat.explore')`) and **`spatstat.geom`** (developer version `r packageVersion('spatstat.geom')`), key dependency, for spatial statistics
+
+Package **`groupedHyperframe`** `Suggests` packages
+
+-   `r knitr::asis_output('\U1f5dd')` **`spatstat.data`** (developer version `r packageVersion('spatstat.data')`), key suggest, for example spatial data set
+-   `r knitr::asis_output('\U1f5dd')` **`survival`** [@survival, version `r packageVersion('survival')`], key suggest, for function `survival:::as.data.frame.Surv()` to help `hyperframe` understand `Surv` object
+
 
 ## Prerequisite
 
-Package **`groupedHyperframe`** requires R version 4.5.0 (released 2025-04-11) or higher. [RStudio](https://posit.co/download/rstudio-desktop/) is not required, but highly recommended. This vignette is generated under `r R.version$version.string` using packages **`knitr`** [@knitr, version `r packageVersion('knitr')`], **`quarto`** [@quarto, version `r packageVersion('quarto')`], **`rmarkdown`** [@rmarkdown, version `r packageVersion('rmarkdown')`], and the development versions of the **`spatstat`** family of packages [@spatstat15; @spatstat05].
+Package **`groupedHyperframe`** requires R version 4.5.0 (released 2025-04-11) or higher. [RStudio](https://posit.co/download/rstudio-desktop/) is not required, but highly recommended. This vignette is generated under `r R.version$version.string` using packages **`knitr`** [@knitr, version `r packageVersion('knitr')`], **`quarto`** [@quarto, version `r packageVersion('quarto')`], **`rmarkdown`** [@rmarkdown, version `r packageVersion('rmarkdown')`], and the development versions of the **`spatstat.*`** family of packages [@spatstat15; @spatstat05].
 
 ```{r}
 #| label: prerequisite
@@ -833,7 +839,7 @@ The authors suggest users do `base::merge.data.frame()` first, then do `as.group
 | Term / Abbreviation | Description |
 |------------------------------------|------------------------------------|
 | CRAN, R | The Comprehensive R Archive Network, <https://cran.r-project.org> |
-| `Depends`, `Imports`, `Enhances` | [*Writing R Extensions*, Section 1.1.3 *Package Dependencies*](https://cran.r-project.org/doc/manuals/r-devel/R-exts.html#Package-Dependencies) |
+| `Depends`, `Imports`, `Suggests`, `Enhances` | [*Writing R Extensions*, Section 1.1.3 *Package Dependencies*](https://cran.r-project.org/doc/manuals/r-devel/R-exts.html#Package-Dependencies) |
 | [`|>`](https://search.r-project.org/R/refmans/base/html/pipeOp.html) | Forward pipe operator introduced since R version 4.1.0 |
 | [`:`](https://search.r-project.org/R/refmans/base/html/Colon.html) | Colon operator for [`interaction`](https://search.r-project.org/R/refmans/base/html/interaction.html) of [`factor`](https://search.r-project.org/R/refmans/base/html/factor.html)s, see section *Details* of [`formula`](https://search.r-project.org/R/refmans/stats/html/formula.html) documentation |
 | `/` | Forward slash operator for nested grouping structure, see section *Details* of [`formula`](https://search.r-project.org/R/refmans/stats/html/formula.html) documentation |
