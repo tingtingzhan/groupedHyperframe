@@ -428,6 +428,7 @@ Several `S3` method dispatches to `hyperframe` class in package **`spatstat.geom
 
 | Generic Function | Method Dispatch to `data.frame` | Method Dispatch to `hyperframe` |
 |------------------------|------------------------|------------------------|
+| [`` base::`[` ``](https://search.r-project.org/R/refmans/base/html/Extract.html) | [`` base::`[.data.frame` ``](https://search.r-project.org/R/refmans/base/html/Extract.data.frame.html) | [`` spatstat.geom::`[.hyperframe` ``](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/Extract.hyperframe.html) |
 | [`` base::`$<-` ``](https://search.r-project.org/R/refmans/base/html/Extract.html) | [`` base::`$<-.data.frame` ``](https://search.r-project.org/R/refmans/base/html/Extract.data.frame.html) | [`` spatstat.geom::`$<-.hyperframe` ``](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/Extract.hyperframe.html) |
 | [`base::subset`](https://search.r-project.org/R/refmans/base/html/subset.html) | [`base::subset.data.frame`](https://search.r-project.org/R/refmans/base/html/subset.html) | [`spatstat.geom::subset.hyperframe`](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/subset.hyperframe.html) |
 | [`base::with`](https://search.r-project.org/R/refmans/base/html/with.html) | [`base::with.default`](https://search.r-project.org/R/refmans/base/html/with.html) | [`spatstat.geom::with.hyperframe`](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/with.hyperframe.html) |
