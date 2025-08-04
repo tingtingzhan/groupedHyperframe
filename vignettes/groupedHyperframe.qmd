@@ -65,23 +65,16 @@ Package **`groupedHyperframe`** `Suggests` packages
 
 ## Prerequisite
 
-Package **`groupedHyperframe`** requires R version 4.5.0 (released 2025-04-11) or higher. [RStudio](https://posit.co/download/rstudio-desktop/) is not required, but highly recommended. This vignette is generated under `r R.version$version.string` using packages **`knitr`** [@knitr, v`r packageVersion('knitr')`], **`quarto`** [@quarto, v`r packageVersion('quarto')`], **`rmarkdown`** [@rmarkdown, v`r packageVersion('rmarkdown')`], and the development versions of the **`spatstat.*`** family of packages [@spatstat15; @spatstat05].
+Package **`groupedHyperframe`** requires R version 4.5.0 (released 2025-04-11) or higher. [RStudio](https://posit.co/download/rstudio-desktop/) is not required, but highly recommended. This vignette is generated under `r R.version$version.string` using packages **`knitr`** [@knitr, v`r packageVersion('knitr')`], **`quarto`** [@quarto, v`r packageVersion('quarto')`], **`rmarkdown`** [@rmarkdown, v`r packageVersion('rmarkdown')`], and the development versions of the **`spatstat.*`** family of packages.
 
 ```{r}
 #| code-fold: true
-#| code-summary: "`Sys.info()` on author's computer"
-Sys.info()
-```
-
-```{r}
-#| code-fold: true
-#| code-summary: "`R.version` on author's computer"
+#| code-summary: "Environment on author's computer"
+Sys.info()[c('sysname', 'release', 'machine')]
 R.version
 ```
 
 ```{r}
-#| label: prerequisite
-#| warning: false
 #| eval: false
 remotes::install_github('spatstat/spatstat', upgrade = 'always')
 remotes::install_github('spatstat/spatstat.data', upgrade = 'always')
@@ -95,19 +88,18 @@ remotes::install_github('spatstat/spatstat.univar', upgrade = 'always')
 remotes::install_github('spatstat/spatstat.utils', upgrade = 'always')
 ```
 
-Experimental (and maybe unstable) features are released *extremely frequently* to [Github](https://github.com/tingtingzhan/groupedHyperframe). [Active developers should use the Github version; suggestions and bug reports are welcome!]{style="background-color: #FFFF00"}
+Experimental (and maybe unstable) features are released *extremely frequently* to [Github](https://github.com/tingtingzhan/groupedHyperframe). [Active developers should use the Github version; suggestions and bug reports are welcome!]{style="background-color: #FFFF00"} Stable releases to [CRAN](https://CRAN.R-project.org/package=groupedHyperframe) are typically updated every 2 to 3 months, or when the authors have an upcoming manuscript in the peer-reviewing process.
 
 ```{r}
-#| warning: false
 #| eval: false
 remotes::install_github('tingtingzhan/groupedHyperframe')
 ```
 
-Stable releases to [CRAN](https://CRAN.R-project.org/package=groupedHyperframe) are typically updated every 2 to 3 months, or when the authors have an upcoming manuscript in the peer-reviewing process.
 
 ```{r}
-#| warning: false
 #| eval: false
+#| code-fold: true
+#| code-summary: "Developers, do NOT use the CRAN version!"
 utils::install.packages('groupedHyperframe') # Developers, do NOT use!!
 ```
 
@@ -136,7 +128,7 @@ This work is supported by National Institutes of Health, U.S. Department of Heal
 
 # Grouped Hyper Data Frame {#sec-groupedHyperframe}
 
-An `S3` class `hyperframe`, for **hyper data frame**, is defined in package **`spatstat.geom`** [@spatstat15; @spatstat05]. A `hyperframe` contains columns either as `vector`s like in a `data.frame`, or as `list`s of objects of the same class, a.k.a., the `hypercolumns`. The `hyperframe` data structure is particularly useful in spatial analysis, e.g., with medical images, where the spatial information in each image would be represented by one element in a hypercolumn. For example, example data ***`demohyper`*** from package **`spatstat.data`** contains a `factor` column *`Group`*, a point-pattern `ppp`-hypercolumn *`Points`*, and a pixel image `im`-hypercolumn *`Image`*. Several `S3` method dispatches to the `hyperframe` class behave *very differently* from their counterpart in vanilla R, see Appendix @sec-hyperframe.
+An `S3` class `hyperframe`, for **hyper data frame**, is defined in package **`spatstat.geom`**. A `hyperframe` contains columns either as `vector`s like in a `data.frame`, or as `list`s of objects of the same class, a.k.a., the `hypercolumns`. The `hyperframe` data structure is particularly useful in spatial analysis, e.g., with medical images, where the spatial information in each image would be represented by one element in a hypercolumn. For example, example data ***`demohyper`*** from package **`spatstat.data`** contains a `factor` column *`Group`*, a point-pattern `ppp`-hypercolumn *`Points`*, and a pixel image `im`-hypercolumn *`Image`*. Several `S3` method dispatches to the `hyperframe` class behave *very differently* from their counterpart in vanilla R, see Appendix @sec-hyperframe.
 
 ```{r}
 spatstat.data::demohyper
@@ -401,16 +393,16 @@ We cover some minor and/or experimental features in the appendix, in order not t
 
 ### Nested Grouping Structure {#sec-nestedGroup}
 
-Interaction terms using colon operator (`:`) are allowed in the grouping structure, such as `g1/g2a:g2b/g3a:g3b:g3c`. This feature is made possible because the colon operator (`:`) has higher priority than the forward slash (`/`) in R `formula`.
+Interaction terms using colon operator `:` are allowed in the grouping structure, such as `g1/g2a:g2b/g3a:g3b:g3c`. This feature is made possible because the colon operator `:` has higher priority than the forward slash `/` in R `formula`.
 
 ```{r}
 #| code-fold: true
-#| code-summary: "See for yourself"
+#| code-summary: "Colon operator `:` has higher priority than forward slash `/`"
 quote(g1/g2a:g2b/g3a:g3b:g3c) |>
   as.list()
 ```
 
-Function `get_nested()` breaks down a nested grouping structure by the forward slash (`/`).
+Function `get_nested()` breaks down a nested grouping structure by the forward slash `/`.
 
 ```{r}
 quote(g1/g2/g3) |>
@@ -447,7 +439,7 @@ Several `S3` method dispatches to `hyperframe` class in package **`spatstat.geom
 
 The S3 method dispatch `superimpose.hyperframe()`, which does not exist in package **`spatstat.geom`** as of v`r packageVersion('spatstat.geom')`, superimposes multiple `hyperframe`s if-and-only-if they have identical 
 
--   `dim`ensions, via function `spatstat.geom::dim.hyperframe()`
+-   `dim`ensions, i.e., `spatstat.geom::dim.hyperframe()`
 -   columns, i.e., `unclass(.)$df`
 -   `names` and `class` of the `hypercolumn`s, i.e., `unclass(.)$hypercolumns`
 
@@ -478,7 +470,7 @@ fluM$pattern |>
 ```
 
 
-We create a `hyperframe` *`fluM1`* which consists of the same columns as *`fluM`*, but a `ppp`-hypercolumn *`pattern`* with *`M1`* marks only.  Similarly, we create another `hyperframe` *`fluM2`* which consists of the *`M2`* marks only.  Note that as of package **`spatstat.geom`** v`r packageVersion('spatstat.geom')`, these tedious code are the only way to insure we do **not** use the row names of hyperframe as the element-names of the hypercolumn.
+We create a `hyperframe` *`fluM1`* which consists of the same columns as *`fluM`*, but a `ppp`-hypercolumn *`pattern`* with *`M1`* marks only.  Similarly, we create another `hyperframe` *`fluM2`* which consists of the *`M2`* marks only.  Note that as of package **`spatstat.geom`** v`r packageVersion('spatstat.geom')`, these tedious code below are the only way to insure that we do **not** use the row names of hyperframe as the element-names of the hypercolumns.
 
 ```{r}
 #| code-fold: false
@@ -512,7 +504,7 @@ fluM2$pattern |>
   sapply(FUN = spatstat.geom::npoints)
 ```
 
-User may recreate the hyperframe *`fluM`* by combining `hyperframe`s *`fluM2`* and *`fluM1`* using the `S3` method dispatch `superimpose.hyperframe()`.  Note that the order of *`fluM2`*-then-*`fluM1`* matters, because in *`fluM`* the points are arranged by *`M2`*-then-*`M1`*.
+User may recreate the hyperframe *`fluM`* by combining `hyperframe`s *`fluM2`* and *`fluM1`* using the `S3` method dispatch `superimpose.hyperframe()`.  Note that the order of *`fluM2`*-then-*`fluM1`* matters, because the points are arranged in *`M2`*-then-*`M1`* in the original hypercolumn *`fluM$pattern`*.
 
 ```{r}
 fluS = superimpose.hyperframe(fluM2, fluM1)
