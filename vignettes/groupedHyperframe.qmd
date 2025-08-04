@@ -686,55 +686,78 @@ s |> rmax_(fun = 'J', i = 'CK-.CD8+', j = 'CK+.CD8-')
 
 ### $k$-Means Clustering
 
-The `S3` generic `.kmeans()` performs $k$-means clustering (workhorse function `stats::kmeans`).
+The `S3` generic `.kmeans()` performs $k$-means clustering. We name this generic function with a prefix `.` because the workhorse function `stats::kmeans()` is not an `S3` generic.  Here we use data set *`shapley`* from package **`spatstat.data`** to illustrate the use of the `S3` method dispatch `.kmeans.ppp()`.
 
 ```{r}
 spatstat.data::shapley
 ```
 
-The `S3` method dispatch `.kmeans.ppp()` performs $k$-means clustering, with paramters
+The `S3` method dispatch `.kmeans.ppp()` has parameters
 
--   `formula`, user-specified coordinate(s) and/or numeric `marks`;
--   `centers`, number of clusters, see `?stats::kmeans`
--   `clusterSize`, "expected" cluster size.
+-   `formula`, $x$- and/or $y$- coordinate(s) and/or numeric `marks`
+-   (optional) `centers`, number of clusters
+-   (optional) `clusterSize`, "expected" cluster size.
 
-#### By coordinate(s) and/or `marks`
+User should specify one of the two optional parameters `centers` and `clusterSize`.  If both are specified, then parameter `clusterSize` takes priority and parameter `centers` is ignored.
 
-Example below shows a clustering based on the $x$- and $y$-coordinates, as well as the numeric mark *`Mag`*.
-
-```{r}
-km = spatstat.data::shapley |> .kmeans(formula = ~ x + y + Mag, centers = 3L)
-km |> class()
-```
-
-Example below shows a clustering based on $x$-coordinate and *`Mag`*.
+The `S3` method dispatch `.kmeans.ppp()` returns an object of class `'kmeans'` as defined in R package **`stats`**.
 
 ```{r}
-km1 = spatstat.data::shapley |> .kmeans(formula = ~ x + Mag, centers = 3L)
-km1 |> class()
+#| label: km1
+#| results: hide
+spatstat.data::shapley |> 
+  .kmeans(formula = ~ x + y + Mag, centers = 3L)
 ```
-
-Example below shows a clustering based on $x$- and $y$-coordinates only.
 
 ```{r}
-km2 = spatstat.data::shapley |> .kmeans(formula = ~ x + y, centers = 3L)
-km2 |> class()
+#| code-fold: true
+#| code-summary: 'Result'
+<<km1>>
 ```
-
-#### By `clusterSize`
-
-Example below shows a clustering specified by `clusterSize`.
 
 ```{r}
-km3 = spatstat.data::shapley |> .kmeans(formula = ~ x + y, clusterSize = 1e3L)
-km3 |> class()
-km3$centers # 5 clusters needed
-km3$cluster |> table()
+#| label: km2
+#| results: hide
+spatstat.data::shapley |> 
+  .kmeans(formula = ~ x + Mag, centers = 3L)
 ```
+
+```{r}
+#| code-fold: true
+#| code-summary: 'Result'
+<<km2>>
+```
+
+```{r}
+#| label: km3
+#| results: hide
+spatstat.data::shapley |> 
+  .kmeans(formula = ~ x + y, centers = 3L)
+```
+
+```{r}
+#| code-fold: true
+#| code-summary: 'Result'
+<<km3>>
+```
+
+```{r}
+#| label: km4
+#| results: hide
+spatstat.data::shapley |> 
+  .kmeans(formula = ~ x + y, clusterSize = 1e3L)
+```
+
+```{r}
+#| code-fold: true
+#| code-summary: 'Result'
+<<km4>>
+```
+
 
 #### Split by $k$-Means Clustering
 
-The `S3` generic functoin `split_kmeans()` `split`s `ppp.object`, `listof` `ppp.object`s, and `hyperframe` by $k$-means clustering.
+The `S3` generic function `split_kmeans()` splits `ppp.object`, `listof` `ppp.object`s, and `hyperframe` by $k$-means clustering.
 
 Note that many functions in package **`groupedHyperframe`** require a `'dataframe'` `markformat` for `ppp.object`s.
 
@@ -753,39 +776,58 @@ flu$pattern[[1L]] |>
   spatstat.geom::markformat()
 ```
 
-##### Split a `ppp.object`
-
 The `S3` method dispatch `split_kmeans.default()` splits a `ppp.object` by $k$-means clustering.
 
 ```{r}
-flu$pattern[[1L]] |> split_kmeans(formula = ~ x + y, centers = 3L)
+#| label: splitkm_ppp
+#| results: hide
+flu$pattern[[1L]] |> 
+  split_kmeans(formula = ~ x + y, centers = 3L)
 ```
 
-##### Split a `listof` `ppp.object`s
+```{r}
+#| code-fold: true
+#| code-summary: 'Result'
+<<splitkm_ppp>>
+```
 
-The `S3` method dispatch `split_kmeans.listof()` splits a `listof` `ppp.object`s by $k$-means clustering.
-
-The returned object has `attributes`
+The `S3` method dispatch `split_kmeans.listof()` splits a `listof` `ppp.object`s by $k$-means clustering.  The returned object has `attributes`
 
 -   `attr(.,'.id')`, indices of the `ppp.object`s before splitting.
 -   `attr(.,'.cluster')`, indices of $k$-means clusters, nested in `.id`.
 
 ```{r}
-flu$pattern[1:2] |> split_kmeans(formula = ~ x + y, centers = 3L) 
+#| label: splitkm_listof
+#| results: hide
+flu$pattern[1:2] |> 
+  split_kmeans(formula = ~ x + y, centers = 3L) 
 ```
-
-##### Split a `hyperframe` and/or `groupedHyperframe`
-
-The `S3` method dispatch `split_kmeans.hyperframe()` splits a `hyperframe` and/or `groupedHyperframe` by $k$-means clustering of the *one-and-only-one* `ppp`-hypercolumn.
-
-The returned object is a `groupedHyperframe` with grouping structure
-
--   `~.id/.cluster`, if the input is a `hyperframe`
--   `~ existing/grouping/structure/.cluster`, if the input is a `groupedHyperframe`. Note that the grouping level `.id` is **believed** to be equivalent to *the lowest level of existing grouping structure*.
 
 ```{r}
-flu[1:2,] |> split_kmeans(formula = ~ x + y, centers = 3L)
+#| code-fold: true
+#| code-summary: 'Result'
+<<splitkm_listof>>
 ```
+
+
+The `S3` method dispatch `split_kmeans.hyperframe()` splits a `hyperframe` and/or `groupedHyperframe` by $k$-means clustering of the *one-and-only-one* `ppp`-hypercolumn.  The returned object is a `groupedHyperframe` with grouping structure
+
+-   `~.id/.cluster`, if the input is a `hyperframe`
+-   `~ <existing/grouping/structure>/.cluster`, if the input is a `groupedHyperframe`. Note that the grouping level `.id` is **believed** to be equivalent to *the lowest level of existing grouping structure*.
+
+```{r}
+#| label: splitkm_hyperframe
+#| results: hide
+flu[1:2,] |> 
+  split_kmeans(formula = ~ x + y, centers = 3L)
+```
+
+```{r}
+#| code-fold: true
+#| code-summary: 'Result'
+<<splitkm_hyperframe>>
+```
+
 
 ### Pairwise Tjøstheim's Coefficient
 
@@ -891,6 +933,7 @@ The authors suggest users do `base::merge.data.frame()` first, then do `as.group
 | `S4`, `generic`, `methods` | `S4` object oriented system, [`isS4`](https://search.r-project.org/R/refmans/base/html/isS4.html); [`setClass`](https://search.r-project.org/R/refmans/methods/html/setClass.html); [`setMethod`](https://search.r-project.org/R/refmans/methods/html/setMethod.html); [`getMethod`](https://search.r-project.org/R/refmans/methods/html/getMethod.html); <https://adv-r.hadley.nz/s4.html> |
 | [`sd`](https://search.r-project.org/R/refmans/stats/html/sd.html) | Standard deviation |
 | [`search`](https://search.r-project.org/R/refmans/base/html/search.html) | Search path |
+| [`split`](https://search.r-project.org/R/refmans/base/html/split.html) | Divide into Groups and Reassemble | 
 | [`Surv`](https://search.r-project.org/CRAN/refmans/survival/html/Surv.html) | Survival, i.e., time-to-event, object, from package **`survival`** [@survival] |
 | [`symbol`, `name`](https://search.r-project.org/R/refmans/base/html/name.html) | R object name/symbol |
 | [`trapz`, `cumtrapz`](https://search.r-project.org/CRAN/refmans/pracma/html/trapz.html) | (Cumulative) [trapezoidal integration](https://en.wikipedia.org/wiki/Trapezoidal_rule), from package **`pracma`** [@pracma] |

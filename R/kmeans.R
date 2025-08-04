@@ -19,8 +19,11 @@
 
 
 #' @rdname kmeans
+#' 
 #' @param centers \link[base]{integer} scalar, number of clusters \eqn{k}, see function \link[stats]{kmeans}
+#' 
 #' @param clusterSize \link[base]{integer} scalar, number of points per cluster
+#' 
 #' @importFrom spatstat.geom marks.ppp markformat.ppp
 #' @export .kmeans.ppp
 #' @export
