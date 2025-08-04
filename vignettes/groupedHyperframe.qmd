@@ -472,33 +472,34 @@ The `hyperframe` *`fluM`* contains `r nrow(fluM)` subjects, each of them has a `
 
 ```{r}
 #| code-fold: true
-#| code-summary: Number of points per `ppp.object` in *`fluM`*
+#| code-summary: Number of *`M1`* and/or *`M2`* points per `ppp.object` in hypercolumn *`pattern`* of hyperframe *`fluM`*
 fluM$pattern |>
   sapply(FUN = spatstat.geom::npoints)
 ```
 
 
-We create a `hyperframe` *`fluM1`* which consists of the *`M1`* marks only, and another `hyperframe` *`fluM2`* which consists of the *`M2`* marks only.
+We create a `hyperframe` *`fluM1`* which consists of the same columns as *`fluM`*, but a `ppp`-hypercolumn *`pattern`* with *`M1`* marks only.  Similarly, we create another `hyperframe` *`fluM2`* which consists of the *`M2`* marks only.
 
 ```{r}
 #| code-fold: false
 #| code-summary: Some tedious code to create *`fluM1`* and *`fluM2`*
-fluM1 = fluM2 = fluM
-fluM1$pattern[] = fluM$pattern |> 
+fluM1 = fluM2 = unclass(fluM)
+fluM1$hypercolumns$pattern[] = fluM1$hypercolumns$pattern |> 
   lapply(FUN = \(i) {
-    spatstat.geom::subset.ppp(i, subset = (marks == 'M1'), drop = TRUE)
+    spatstat.geom::subset.ppp(i, subset = (marks == 'M1'))
   })
-fluM2$pattern[] = fluM$pattern |> 
+fluM2$hypercolumns$pattern[] = fluM2$hypercolumns$pattern |> 
   lapply(FUN = \(i) {
-    spatstat.geom::subset.ppp(i, subset = (marks == 'M2'), drop = TRUE)
+    spatstat.geom::subset.ppp(i, subset = (marks == 'M2'))
   })
+class(fluM1) = class(fluM2) = class(fluM)
 ```
 
 
 
 ```{r}
 #| code-fold: true
-#| code-summary: Number of points per `ppp.object` in *`fluM1`*
+#| code-summary: Number of *`M1`* points per `ppp.object` in hypercolumn *`pattern`* of hyperframe *`fluM1`*
 fluM1$pattern |>
   sapply(FUN = spatstat.geom::npoints)
 ```
@@ -506,28 +507,16 @@ fluM1$pattern |>
 
 ```{r}
 #| code-fold: true
-#| code-summary: Number of points per `ppp.object` in *`fluM2`*
+#| code-summary: Number of *`M2`* points per `ppp.object` in hypercolumn *`pattern`* of hyperframe *`fluM2`*
 fluM2$pattern |>
   sapply(FUN = spatstat.geom::npoints)
 ```
 
-The `S3` method dispatch `superimpose.hyperframe()` combines `hyperframe`s *`fluM2`* and *`fluM1`*; the order matters!  
+User may recreate the hyperframe *`fluM`* by combining `hyperframe`s *`fluM2`* and *`fluM1`* using the `S3` method dispatch `superimpose.hyperframe()`.  Note that the order of *`fluM2`*-then-*`fluM1`* matters, because in *`fluM`* the points are arranged by *`M2`*-then-*`M1`*.
 
 ```{r}
 fluS = superimpose.hyperframe(fluM2, fluM1)
-```
-
-
-```{r}
-#| code-fold: true
-#| code-summary: Not here yet; author is consulting Dr. Baddeley
-identical(fluS, fluM)
-```
-
-The returned `hyperframe` *`fluS`* has `identical` `ppp`-hypercolumn as *`fluM`*.
-
-```{r}
-stopifnot(identical(fluS$pattern, fluM$pattern))
+stopifnot(identical(fluS, fluM))
 ```
 
 
