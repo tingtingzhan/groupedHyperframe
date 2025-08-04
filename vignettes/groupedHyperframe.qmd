@@ -478,7 +478,7 @@ fluM$pattern |>
 ```
 
 
-We create a `hyperframe` *`fluM1`* which consists of the same columns as *`fluM`*, but a `ppp`-hypercolumn *`pattern`* with *`M1`* marks only.  Similarly, we create another `hyperframe` *`fluM2`* which consists of the *`M2`* marks only.
+We create a `hyperframe` *`fluM1`* which consists of the same columns as *`fluM`*, but a `ppp`-hypercolumn *`pattern`* with *`M1`* marks only.  Similarly, we create another `hyperframe` *`fluM2`* which consists of the *`M2`* marks only.  Note that as of package **`spatstat.geom`** v`r packageVersion('spatstat.geom')`, these tedious code are the only way to insure we do **not** use the row names of hyperframe as the element-names of the hypercolumn.
 
 ```{r}
 #| code-fold: false
