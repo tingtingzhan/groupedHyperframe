@@ -45,14 +45,13 @@ by sample clustering.
 }
 \examples{
 \dontshow{options(mc.cores = 1L)}
-library(spatstat.data)
 library(spatstat.geom)
 r = seq.int(from = 0, to = 100, by = 5)
-x0 = flu |>
+x0 = spatstat.data::flu |>
  subset(stain == 'M2-M1') 
 x0[-19L,] |> # this element gives error..
  as.groupedHyperframe(group = ~ virustype/frameid) |>
- Gcross_(i = 'M1', j = 'M2', r = r, correction = 'best') |>
+ Gcross_(i = 'M1', j = 'M2', r = r) |>
  aggregate_fv(by = ~ virustype)
 }
 \keyword{internal}

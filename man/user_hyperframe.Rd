@@ -56,21 +56,18 @@ See workhorse function \code{\link[=op_hyperframe]{op_hyperframe()}}.
 See explanations in workhorse function \code{\link[=op_hyperframe]{op_hyperframe()}}.
 }
 \examples{
-library(spatstat.data)
-library(spatstat.geom)
-# no good example for [Emark_.hyperframe]
+# in \CRANpkg{spatstat.data}
+# no good example for [Emark_]
 # no hyperframe with ppp-hypercolumn with numeric marks
 
-flu$pattern[] = flu$pattern |> 
- lapply(FUN = `mark_name<-`, value = 'stain') # read ?flu carefully
- 
+library(spatstat.geom)
+fluM = spatstat.data::flu |>
+ subset(subset = (stain == 'M2-M1') & (virustype == 'wt'))
+fluM
 r = seq.int(from = 0, to = 100, by = 5)
-flu |>
- subset(stain == 'M2-M1') |>
- Gcross_(i = 'M1', j = 'M2', r = r, correction = 'best', mc.cores = 1L)
- 
-flu |>
- subset(stain == 'M2-M1') |>
+fluM |>
+ Gcross_(i = 'M1', j = 'M2', r = r, mc.cores = 1L)
+fluM |>
  nncross_(i = 'M1', j = 'M2', mc.cores = 1L)
 }
 \keyword{internal}
