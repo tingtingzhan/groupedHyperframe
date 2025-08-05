@@ -38,28 +38,35 @@
   if (!is.call(formula) || formula[[1L]] != '~' || length(formula) != 2L) stop('`formula` must be one-sided formula')
   
   v <- formula[[2L]] |> all.vars()
+  v_m <- v |>
+    setdiff(y = c('x', 'y'))
   
-  if (markformat.ppp(x) != 'dataframe') stop('markformat must be dataframe')
+  #if (markformat.ppp(x) != 'dataframe') stop('markformat must be dataframe')
   
   m <- x |> 
     marks.ppp(drop = FALSE)
   
-  num_ <- m |>
-    vapply(FUN = is.numeric, FUN.VALUE = NA) |>
-    which() |>
-    names()
-  
-  v_m <- v |>
-    setdiff(y = c('x', 'y'))
-  
+  switch(markformat.ppp(x), none = {
+    num_ <- character()
+    m. <- NULL
+  }, vector = {
+    num_ <- 'marks' # `x$marks`
+    m. <- array(m, dim = c(length(m), 1L), dimnames = list(NULL, 'marks'))
+  }, dataframe = {
+    num_ <- m |>
+      vapply(FUN = is.numeric, FUN.VALUE = NA) |>
+      which() |>
+      names()
+    m. <- m[num_] |> 
+      as.matrix.data.frame()
+  })
+
   if (!all(v_m %in% num_)) stop('some terms in formula are not numeric mark')
   
   tmp <- cbind(
     x = if ('x' %in% v) x$x, # else NULL
-    y = if ('y' %in% v) x$y,
-    (m[v_m]) |> # !length(v_m) compatible
-      as.list.data.frame() |>
-      do.call(what = cbind)
+    y = if ('y' %in% v) x$y, # else NULL
+    m.[, v_m, drop = FALSE] # 'matrix'
   )
   
   tmp |> 

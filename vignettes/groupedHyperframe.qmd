@@ -22,10 +22,12 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
+```{=html}
 <!--
 `r knitr::asis_output('\U1f5dd')`
 seems not needed
 -->
+```
 
 # Introduction
 
@@ -49,8 +51,7 @@ Package **`groupedHyperframe`** `Enhances` the **`spatstat.*`** family of packag
 Package **`groupedHyperframe`** `Imports` packages
 
 -   **`cli`** [@cli, v`r packageVersion('cli')`], for attractive command line interfaces
--   `r '\U1f5dd'` **`GET`** [@GET, v`r packageVersion('GET')`],
-key dependency, for global envelope test
+-   `r '\U1f5dd'` **`GET`** [@GET, v`r packageVersion('GET')`], key dependency, for global envelope test
 -   `r '\U1f5dd'` **`matrixStats`** [@matrixStats, v`r packageVersion('matrixStats')`], key dependency, for matrix arithmetic
 -   **`parallel`** shipped with `r R.version$version.string`, for parallel computing
 -   `r '\U1f5dd'` **`pracma`** [@pracma, v`r packageVersion('pracma')`], key dependency, for (cumulative) trapezoidal integration
@@ -61,7 +62,6 @@ Package **`groupedHyperframe`** `Suggests` packages
 
 -   `r '\U1f5dd'` **`spatstat.data`** (dev v`r packageVersion('spatstat.data')`), key suggest, for example spatial data set
 -   `r '\U1f5dd'` **`survival`** [@survival, v`r packageVersion('survival')`], key suggest, <!--for function `survival:::as.data.frame.Surv()`--> to help `hyperframe` understand `Surv` object
-
 
 ## Prerequisite
 
@@ -94,7 +94,6 @@ Experimental (and maybe unstable) features are released *extremely frequently* t
 #| eval: false
 remotes::install_github('tingtingzhan/groupedHyperframe')
 ```
-
 
 ```{r}
 #| eval: false
@@ -437,19 +436,20 @@ Several `S3` method dispatches to `hyperframe` class in package **`spatstat.geom
 
 ### Superimpose multiple `hyperframe`s
 
-The S3 method dispatch `superimpose.hyperframe()`, which does not exist in package **`spatstat.geom`** as of v`r packageVersion('spatstat.geom')`, superimposes multiple `hyperframe`s if-and-only-if they have identical 
+The S3 method dispatch `superimpose.hyperframe()`, which does not exist in package **`spatstat.geom`** as of v`r packageVersion('spatstat.geom')`, superimposes multiple `hyperframe`s if-and-only-if they have identical
 
 -   `dim`ensions, i.e., `spatstat.geom::dim.hyperframe()`
 -   columns, i.e., `unclass(.)$df`
 -   `names` and `class` of the `hypercolumn`s, i.e., `unclass(.)$hypercolumns`
 
-The S3 method dispatch `superimpose.groupedHyperframe()` superimposes multiple `groupedHyperframe`s if-and-only-if they satisfy the *additional* criteria that they have identical 
+The S3 method dispatch `superimpose.groupedHyperframe()` superimposes multiple `groupedHyperframe`s if-and-only-if they satisfy the *additional* criteria that they have identical
 
 -   grouping structure, i.e., `attr(., 'group')`
 
 We use a subset of the data set `flu` from package **`spatstat.data`** to illustrate the superimpose of `hyperframe`s.
 
 ```{r}
+#| label: fluM
 fluM = spatstat.data::flu |>
   spatstat.geom::subset.hyperframe(subset = (stain == 'M2-M1') & (virustype == 'wt'))
 ```
@@ -469,8 +469,7 @@ fluM$pattern |>
   sapply(FUN = spatstat.geom::npoints)
 ```
 
-
-We create a `hyperframe` *`fluM1`* which consists of the same columns as *`fluM`*, but a `ppp`-hypercolumn *`pattern`* with *`M1`* marks only.  Similarly, we create another `hyperframe` *`fluM2`* which consists of the *`M2`* marks only.  Note that as of package **`spatstat.geom`** v`r packageVersion('spatstat.geom')`, these tedious code below are the only way to insure that we do **not** use the row names of hyperframe as the element-names of the hypercolumns.
+We create a `hyperframe` *`fluM1`* which consists of the same columns as *`fluM`*, but a `ppp`-hypercolumn *`pattern`* with *`M1`* marks only. Similarly, we create another `hyperframe` *`fluM2`* which consists of the *`M2`* marks only. Note that as of package **`spatstat.geom`** v`r packageVersion('spatstat.geom')`, these tedious code below are the only way to insure that we do **not** use the row names of hyperframe as the element-names of the hypercolumns.
 
 ```{r}
 #| code-fold: false
@@ -487,15 +486,12 @@ fluM2$hypercolumns$pattern[] = fluM2$hypercolumns$pattern |>
 class(fluM1) = class(fluM2) = class(fluM)
 ```
 
-
-
 ```{r}
 #| code-fold: true
 #| code-summary: Number of *`M1`* points per `ppp.object` in hypercolumn *`pattern`* of hyperframe *`fluM1`*
 fluM1$pattern |>
   sapply(FUN = spatstat.geom::npoints)
 ```
-
 
 ```{r}
 #| code-fold: true
@@ -504,13 +500,12 @@ fluM2$pattern |>
   sapply(FUN = spatstat.geom::npoints)
 ```
 
-User may recreate the hyperframe *`fluM`* by combining `hyperframe`s *`fluM2`* and *`fluM1`* using the `S3` method dispatch `superimpose.hyperframe()`.  Note that the order of *`fluM2`*-then-*`fluM1`* matters, because the points are arranged in *`M2`*-then-*`M1`* in the original hypercolumn *`fluM$pattern`*.
+User may recreate the hyperframe *`fluM`* by combining `hyperframe`s *`fluM2`* and *`fluM1`* using the `S3` method dispatch `superimpose.hyperframe()`. Note that the order of *`fluM2`*-then-*`fluM1`* matters, because the points are arranged in *`M2`*-then-*`M1`* in the original hypercolumn *`fluM$pattern`*.
 
 ```{r}
 fluS = superimpose.hyperframe(fluM2, fluM1)
 stopifnot(identical(fluS, fluM))
 ```
-
 
 ## On `fv.object`
 
@@ -686,146 +681,136 @@ s |> rmax_(fun = 'J', i = 'CK-.CD8+', j = 'CK+.CD8-')
 
 ### $k$-Means Clustering
 
-The `S3` generic `.kmeans()` performs $k$-means clustering. We name this generic function with a prefix `.` because the workhorse function `stats::kmeans()` is not an `S3` generic.  Here we use data set *`shapley`* from package **`spatstat.data`** to illustrate the use of the `S3` method dispatch `.kmeans.ppp()`.
+The `S3` generic `.kmeans()` performs $k$-means clustering. We name this generic function with a prefix `.` because the workhorse function `stats::kmeans()` is not an `S3` generic. The `S3` generic `.kmeans()` returns an object of class `'kmeans'` as defined in R package **`stats`**.  Currently only one `S3` method dispatch `.kmeans.ppp()` is planned.
+
+The `S3` method dispatch `.kmeans.ppp()` has parameters
+
+-   `formula`, $x$- and/or $y$- coordinate(s) and/or (one of the) numeric `marks`
+-   (optional) `centers`, number of clusters
+-   (optional) `clusterSize`, "expected" cluster size.
+
+User should specify one of the two optional parameters `centers` and `clusterSize`. If both are specified, then parameter `clusterSize` takes priority and parameter `centers` is ignored.
+
+Data set *`bei`* from package **`spatstat.data`** has $x$- and $y$-coordinates only, i.e., no `marks`.
+
+```{r}
+spatstat.data::bei
+```
+
+```{r}
+#| code-fold: true
+#| code-summary: 'Cluster *`bei`* by `~ x`'
+spatstat.data::bei |> 
+  .kmeans(formula = ~ x, centers = 3L)
+```
+
+
+```{r}
+#| code-fold: true
+#| code-summary: 'Cluster *`bei`* by `~ x + y`'
+spatstat.data::bei |> 
+  .kmeans(formula = ~ x + y, centers = 3L)
+```
+
+```{r}
+#| code-fold: true
+#| code-summary: 'Cluster *`bei`* by `~ x + y`, using parameter `clusterSize`'
+spatstat.data::bei |> 
+  .kmeans(formula = ~ x + y, clusterSize = 1000L)
+```
+
+
+Data set *`waka`* from package **`spatstat.data`** has `numeric` `marks` stored in `'vector'`-format.
+
+```{r}
+spatstat.data::waka
+```
+
+```{r}
+#| code-fold: true
+#| code-summary: 'Cluster *`waka`* by `~ x + marks`'
+spatstat.data::waka |> 
+  .kmeans(formula = ~ x + marks, centers = 3L)
+```
+
+
+```{r}
+#| code-fold: true
+#| code-summary: 'Cluster *`waka`* by `~ x + y + marks`'
+spatstat.data::waka |> 
+  .kmeans(formula = ~ x + y + marks, centers = 3L)
+```
+
+
+Data set *`shapley`* from package **`spatstat.data`** has three (3) `numeric` `marks` stored in `'dataframe'`-format.
 
 ```{r}
 spatstat.data::shapley
 ```
 
-The `S3` method dispatch `.kmeans.ppp()` has parameters
-
--   `formula`, $x$- and/or $y$- coordinate(s) and/or numeric `marks`
--   (optional) `centers`, number of clusters
--   (optional) `clusterSize`, "expected" cluster size.
-
-User should specify one of the two optional parameters `centers` and `clusterSize`.  If both are specified, then parameter `clusterSize` takes priority and parameter `centers` is ignored.
-
-The `S3` method dispatch `.kmeans.ppp()` returns an object of class `'kmeans'` as defined in R package **`stats`**.
 
 ```{r}
-#| label: km1
-#| results: hide
+#| code-fold: true
+#| code-summary: 'Cluster *`shapley`* by `~ x + y + Mag`'
 spatstat.data::shapley |> 
   .kmeans(formula = ~ x + y + Mag, centers = 3L)
 ```
 
 ```{r}
 #| code-fold: true
-#| code-summary: 'Result'
-<<km1>>
-```
-
-```{r}
-#| label: km2
-#| results: hide
+#| code-summary: 'Cluster *`shapley`* by `~ x + Mag`'
 spatstat.data::shapley |> 
   .kmeans(formula = ~ x + Mag, centers = 3L)
-```
-
-```{r}
-#| code-fold: true
-#| code-summary: 'Result'
-<<km2>>
-```
-
-```{r}
-#| label: km3
-#| results: hide
-spatstat.data::shapley |> 
-  .kmeans(formula = ~ x + y, centers = 3L)
-```
-
-```{r}
-#| code-fold: true
-#| code-summary: 'Result'
-<<km3>>
-```
-
-```{r}
-#| label: km4
-#| results: hide
-spatstat.data::shapley |> 
-  .kmeans(formula = ~ x + y, clusterSize = 1e3L)
-```
-
-```{r}
-#| code-fold: true
-#| code-summary: 'Result'
-<<km4>>
 ```
 
 
 #### Split by $k$-Means Clustering
 
-The `S3` generic function `split_kmeans()` splits `ppp.object`, `listof` `ppp.object`s, and `hyperframe` by $k$-means clustering.
-
-Note that many functions in package **`groupedHyperframe`** require a `'dataframe'` `markformat` for `ppp.object`s.
+The `S3` generic function `split_kmeans()` splits `ppp.object`, `ppplist`, and `hyperframe` by $k$-means clustering.  We use a subset of the data set `flu` from package **`spatstat.data`** to illustrate the various `S3` method dispatches of `split_kmeans()`.
 
 ```{r}
-data(flu, package = 'spatstat.data')
-flu$pattern[[1L]] |> 
-  spatstat.geom::markformat()
-```
-
-User may convert a `'vector'` `markformat` to `'dataframe'` using the syntactic sugar `` `mark_name<-` ``,
-
-```{r}
-flu$pattern[] = flu$pattern |> 
-  lapply(FUN = `mark_name<-`, value = 'stain') # read ?flu carefully
-flu$pattern[[1L]] |> 
-  spatstat.geom::markformat()
-```
-
-The `S3` method dispatch `split_kmeans.default()` splits a `ppp.object` by $k$-means clustering.
-
-```{r}
-#| label: splitkm_ppp
-#| results: hide
-flu$pattern[[1L]] |> 
-  split_kmeans(formula = ~ x + y, centers = 3L)
+<<fluM>>
 ```
 
 ```{r}
 #| code-fold: true
-#| code-summary: 'Result'
-<<splitkm_ppp>>
+#| code-summary: The `hyperframe` *`fluM`*
+fluM
 ```
 
-The `S3` method dispatch `split_kmeans.listof()` splits a `listof` `ppp.object`s by $k$-means clustering.  The returned object has `attributes`
+
+The `S3` method dispatch `split_kmeans.default()` splits a `ppp.object` by $k$-means clustering.
+
+```{r}
+#| code-fold: true
+#| code-summary: 'Split `ppp.object` by $k$-means clustering'
+fluM$pattern[[1L]] |> 
+  split_kmeans(formula = ~ x + y, centers = 3L)
+```
+
+
+The `S3` method dispatch `split_kmeans.listof()` splits a `ppplist`, i.e., a `listof` `ppp.object`s by $k$-means clustering. The returned object has `attributes`
 
 -   `attr(.,'.id')`, indices of the `ppp.object`s before splitting.
 -   `attr(.,'.cluster')`, indices of $k$-means clusters, nested in `.id`.
 
 ```{r}
-#| label: splitkm_listof
-#| results: hide
-flu$pattern[1:2] |> 
+#| code-fold: true
+#| code-summary: 'Split `ppplist` by $k$-means clustering'
+fluM$pattern |> 
   split_kmeans(formula = ~ x + y, centers = 3L) 
 ```
 
-```{r}
-#| code-fold: true
-#| code-summary: 'Result'
-<<splitkm_listof>>
-```
-
-
-The `S3` method dispatch `split_kmeans.hyperframe()` splits a `hyperframe` and/or `groupedHyperframe` by $k$-means clustering of the *one-and-only-one* `ppp`-hypercolumn.  The returned object is a `groupedHyperframe` with grouping structure
+The `S3` method dispatch `split_kmeans.hyperframe()` splits a `hyperframe` and/or `groupedHyperframe` by $k$-means clustering of the *one-and-only-one* `ppp`-hypercolumn. The returned object is a `groupedHyperframe` with grouping structure
 
 -   `~.id/.cluster`, if the input is a `hyperframe`
 -   `~ <existing/grouping/structure>/.cluster`, if the input is a `groupedHyperframe`. Note that the grouping level `.id` is **believed** to be equivalent to *the lowest level of existing grouping structure*.
 
 ```{r}
-#| label: splitkm_hyperframe
-#| results: hide
-flu[1:2,] |> 
-  split_kmeans(formula = ~ x + y, centers = 3L)
-```
-
-```{r}
 #| code-fold: true
-#| code-summary: 'Result'
-<<splitkm_hyperframe>>
+#| code-summary: 'Split `hyperframe` by $k$-means clustering of the one-and-only-one `ppp`-hypercolumn'
+fluM |> 
+  split_kmeans(formula = ~ x + y, centers = 3L)
 ```
 
 
@@ -933,7 +918,7 @@ The authors suggest users do `base::merge.data.frame()` first, then do `as.group
 | `S4`, `generic`, `methods` | `S4` object oriented system, [`isS4`](https://search.r-project.org/R/refmans/base/html/isS4.html); [`setClass`](https://search.r-project.org/R/refmans/methods/html/setClass.html); [`setMethod`](https://search.r-project.org/R/refmans/methods/html/setMethod.html); [`getMethod`](https://search.r-project.org/R/refmans/methods/html/getMethod.html); <https://adv-r.hadley.nz/s4.html> |
 | [`sd`](https://search.r-project.org/R/refmans/stats/html/sd.html) | Standard deviation |
 | [`search`](https://search.r-project.org/R/refmans/base/html/search.html) | Search path |
-| [`split`](https://search.r-project.org/R/refmans/base/html/split.html) | Divide into Groups and Reassemble | 
+| [`split`](https://search.r-project.org/R/refmans/base/html/split.html) | Divide into Groups and Reassemble |
 | [`Surv`](https://search.r-project.org/CRAN/refmans/survival/html/Surv.html) | Survival, i.e., time-to-event, object, from package **`survival`** [@survival] |
 | [`symbol`, `name`](https://search.r-project.org/R/refmans/base/html/name.html) | R object name/symbol |
 | [`trapz`, `cumtrapz`](https://search.r-project.org/CRAN/refmans/pracma/html/trapz.html) | (Cumulative) [trapezoidal integration](https://en.wikipedia.org/wiki/Trapezoidal_rule), from package **`pracma`** [@pracma] |
