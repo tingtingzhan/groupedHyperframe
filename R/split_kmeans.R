@@ -114,7 +114,6 @@ split_kmeans.hyperframe <- function(x, ...) {
     
   } else stop('more than one ppp-hypercolumn, ambiguity!')
     
-    
 }
 
 
