@@ -476,17 +476,16 @@ fluM$pattern |>
   addmargins()
 ```
 
-We create a `hyperframe` *`fluM1`* which consists of the same columns as *`fluM`*, but a `ppp`-hypercolumn *`pattern`* with *`M1`* marks only. Similarly, we create another `hyperframe` *`fluM2`* which consists of the *`M2`* marks only. Note that as of package **`spatstat.geom`** v`r packageVersion('spatstat.geom')`, these tedious code below are the only way to insure that we do **not** use the row names of hyperframe as the element-names of the hypercolumns.
+We create a `hyperframe` *`fluM1`* which consists of the same columns as *`fluM`*, but a `ppp`-hypercolumn *`pattern`* with *`M1`* marks only. Similarly, we create another `hyperframe` *`fluM2`* which consists of the *`M2`* marks only. Note that as of package **`spatstat.geom`** v`r packageVersion('spatstat.geom')`, the tedious code below is the only way to insure that we do **not** use the row names of hyperframe as the element-names of the hypercolumns.  In other words, we use `unclass()` to avoid invoking the `S3` method dispatch `` spatstat.geom::`$.hyperframe` ``.  The `S3` method dispatch `` spatstat.geom::`$<-.hyperframe` `` is fine in this application.
 
 ```{r}
 #| code-fold: false
 #| code-summary: Some tedious code to create *`fluM1`* and *`fluM2`*
-fluM1 = fluM2 = unclass(fluM)
-fluM1$hypercolumns$pattern[] = fluM1$hypercolumns$pattern |> 
-  lapply(FUN = spatstat.geom::subset.ppp, subset = (marks == 'M1'))
-fluM2$hypercolumns$pattern[] = fluM2$hypercolumns$pattern |> 
-  lapply(FUN = spatstat.geom::subset.ppp, subset = (marks == 'M2'))
-class(fluM1) = class(fluM2) = class(fluM)
+fluM1 = fluM2 = fluM
+fluM1$pattern = unclass(fluM)$hypercolumns$pattern |> 
+  spatstat.geom::solapply(FUN = spatstat.geom::subset.ppp, subset = (marks == 'M1'))
+fluM2$pattern = unclass(fluM)$hypercolumns$pattern |> 
+  spatstat.geom::solapply(FUN = spatstat.geom::subset.ppp, subset = (marks == 'M2'))
 ```
 
 ```{r}
@@ -925,6 +924,7 @@ The authors suggest users do `base::merge.data.frame()` first, then do `as.group
 | [`Surv`](https://search.r-project.org/CRAN/refmans/survival/html/Surv.html) | Survival, i.e., time-to-event, object, from package **`survival`** [@survival] |
 | [`symbol`, `name`](https://search.r-project.org/R/refmans/base/html/name.html) | R object name/symbol |
 | [`trapz`, `cumtrapz`](https://search.r-project.org/CRAN/refmans/pracma/html/trapz.html) | (Cumulative) [trapezoidal integration](https://en.wikipedia.org/wiki/Trapezoidal_rule), from package **`pracma`** [@pracma] |
+| [`unclass`](https://search.r-project.org/R/refmans/base/html/class.html) | Remove `S3` `'class'` attribute |
 | [`vector`](https://search.r-project.org/R/refmans/base/html/vector.html) | Vector |
 
 # References
