@@ -891,7 +891,7 @@ The authors suggest users do `base::merge.data.frame()` first, then do `as.group
 | [`fv`, `fv.object`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/fv.object.html), [`plot.fv`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/plot.fv.html) | (Plot of) function value table, from package **`spatstat.explore`** |
 | [`groupedHyperframe`](https://CRAN.R-project.org/package=groupedHyperframe) | Grouped hyper data frame |
 | `hypercolumns`, [`hyperframe`](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/hyperframe.html) | (Hyper columns of) hyper data frame, from package **`spatstat.geom`** |
-| [`identical`](https://search.r-project.org/R/refmans/base/html/identical.html) | Exact Equality in R |
+| [`identical`](https://search.r-project.org/R/refmans/base/html/identical.html) | Exact equality in R |
 | [`im`](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/im.html) | Pixel image object, from package **`spatstat.geom`** |
 | [`inherits`](https://search.r-project.org/R/refmans/base/html/class.html) | Class inheritance |
 | [`Inf`](https://search.r-project.org/R/refmans/base/html/is.finite.html) | Positive infinity $\infty$ |
@@ -904,7 +904,7 @@ The authors suggest users do `base::merge.data.frame()` first, then do `as.group
 | [`marks`](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/spatstat.geom-internal.html), [`is.marked`](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/is.marked.html) | Marks of a point pattern, from package **`spatstat.geom`** |
 | [`match`](https://search.r-project.org/R/refmans/base/html/match.html) | Value matching |
 | [`merge`](https://search.r-project.org/R/refmans/base/html/merge.html) | Merge two `data.frame`s |
-| [`mc.cores`](https://search.r-project.org/R/refmans/parallel/html/mclapply.html) | Number of CPU cores to use for parallel computing |
+| [`mc.cores`](https://search.r-project.org/R/refmans/parallel/html/mclapply.html) | Number of central processing unit (CPU) cores to use for parallel computing |
 | [`message`](https://search.r-project.org/R/refmans/base/html/message.html) | Diagnostic message printed in R console |
 | [`multitype`](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/spatstat.geom-internal.html) | Multitype spatial object, from package **`spatstat.geom`** |
 | [`NaN`](https://search.r-project.org/R/refmans/base/html/is.finite.html) | Not-a-Number |
