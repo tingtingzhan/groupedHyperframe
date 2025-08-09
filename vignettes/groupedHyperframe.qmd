@@ -408,7 +408,10 @@ cumvtrapz(x, y)
 
 
 ```{r}
+#| label: fig-vtrapz
 #| fig-height: 4
+#| fig-align: left
+#| fig-cap: "(Cumulative) average height of trapezoidal integration"
 visualize_vtrapz(x, y) + 
   ggplot2::theme_minimal()
 ```
