@@ -31,26 +31,7 @@ vtrapz(x, y)
 pracma::cumtrapz(x, y)
 cumvtrapz(x, y)
 
-\donttest{
-library(ggplot2)
-library(geomtextpath)
+visualize_vtrapz(x, y) + ggplot2::theme_minimal()
 
-ggplot() + 
- geom_path(mapping = aes(x = x, y = y), alpha = .5) +
- geom_rect(mapping = aes(xmin = min(x), xmax = max(x), ymin = 0, ymax = vtrapz(x, y)), alpha = .1) +
- geom_textpath(
-  mapping = aes(x = x, y = vtrapz(x, y), label = 'Average Height'),
-  hjust = .1, text_only = TRUE, colour = 'red', fontface = 'bold'
- ) +
- geom_textpath(
-  mapping = aes(
-   x = x[-1L], y = cumvtrapz(x, y)[-1L], label = 'Cumulative Average Height'
-  ),
-  colour = 'blue', fontface = 'bold'
- ) +
- scale_x_continuous(breaks = x, limits = c(9, 21)) + 
- ylim(c(0, 1.5)) + 
- theme_bw()
-}
 }
 \keyword{internal}

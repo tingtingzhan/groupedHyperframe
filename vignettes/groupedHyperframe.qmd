@@ -52,6 +52,7 @@ Package **`groupedHyperframe`** `Imports` packages
 
 -   **`cli`** [@cli, v`r packageVersion('cli')`], for attractive command line interfaces
 -   `r '\U1f5dd'` **`GET`** [@GET, v`r packageVersion('GET')`], key dependency, for global envelope test
+-   **`ggplot2`** [@ggplot2, v`r packageVersion('ggplot2')`], **`geomtextpath`** [@geomtextpath, v`r packageVersion('geomtextpath')`], for educational visualization
 -   `r '\U1f5dd'` **`matrixStats`** [@matrixStats, v`r packageVersion('matrixStats')`], key dependency, for matrix arithmetic
 -   **`parallel`** shipped with `r R.version$version.string`, for parallel computing
 -   `r '\U1f5dd'` **`pracma`** [@pracma, v`r packageVersion('pracma')`], key dependency, for (cumulative) trapezoidal integration
@@ -387,6 +388,31 @@ out |>
 # Appendix
 
 We cover some minor and/or experimental features in the appendix, in order not to interrupt the main narrative of this vignette.
+
+## (Cumulative) Average Height of Trapezoidal Integration
+
+```{r}
+x = seq.int(from = 10L, to = 20L, by = 2L)
+set.seed(12); (y = rnorm(n = length(x), mean = 1, sd = .2))
+```
+
+```{r}
+pracma::trapz(x, y)
+vtrapz(x, y)
+```
+
+```{r}
+pracma::cumtrapz(x, y)
+cumvtrapz(x, y)
+```
+
+
+```{r}
+#| fig-height: 4
+visualize_vtrapz(x, y) + 
+  ggplot2::theme_minimal()
+```
+
 
 ## On `groupedHyperframe`
 
