@@ -66,7 +66,7 @@ Package **`groupedHyperframe`** `Suggests` packages
 
 ## Prerequisite
 
-Package **`groupedHyperframe`** requires R version 4.5.0 (released 2025-04-11) or higher. [RStudio](https://posit.co/download/rstudio-desktop/) is not required, but highly recommended. This vignette is generated under `r R.version$version.string` using packages **`knitr`** [@knitr, v`r packageVersion('knitr')`], **`quarto`** [@quarto, v`r packageVersion('quarto')`], **`rmarkdown`** [@rmarkdown, v`r packageVersion('rmarkdown')`], and the development versions of the **`spatstat.*`** family of packages.
+Package **`groupedHyperframe`** requires R version 4.5.0 (released 2025-04-11) or higher ([macOS](https://cran.r-project.org/bin/macosx/), [Windows](https://cran.r-project.org/bin/windows/base/)). An Integrated Development Environment (IDE), e.g., [RStudio](https://posit.co/download/rstudio-desktop/) or [Positron](https://positron.posit.co/download.html), is not required, but highly recommended. This vignette is created under `r R.version$version.string` using packages **`knitr`** [@knitr, v`r packageVersion('knitr')`], **`quarto`** [@quarto, v`r packageVersion('quarto')`] and **`rmarkdown`** [@rmarkdown, v`r packageVersion('rmarkdown')`].
 
 ```{r}
 #| code-fold: true
@@ -74,6 +74,8 @@ Package **`groupedHyperframe`** requires R version 4.5.0 (released 2025-04-11) o
 Sys.info()[c('sysname', 'release', 'machine')]
 R.version
 ```
+
+Package **`groupedHyperframe`** requires the development versions of the **`spatstat.*`** family of packages.
 
 ```{r}
 #| eval: false
@@ -128,7 +130,7 @@ This work is supported by National Institutes of Health, U.S. Department of Heal
 
 # Grouped Hyper Data Frame {#sec-groupedHyperframe}
 
-An `S3` class `hyperframe`, for **hyper data frame**, is defined in package **`spatstat.geom`**. A `hyperframe` contains columns either as `vector`s like in a `data.frame`, or as `list`s of objects of the same class, a.k.a., the `hypercolumns`. The `hyperframe` data structure is particularly useful in spatial analysis, e.g., with medical images, where the spatial information in each image would be represented by one element in a hypercolumn. For example, example data ***`demohyper`*** from package **`spatstat.data`** contains a `factor` column *`Group`*, a point-pattern `ppp`-hypercolumn *`Points`*, and a pixel image `im`-hypercolumn *`Image`*. Several `S3` method dispatches to the `hyperframe` class behave *very differently* from their counterpart in vanilla R, see Appendix @sec-hyperframe.
+An `S3` class `hyperframe`, for **hyper data frame**, is defined in package **`spatstat.geom`**. A `hyperframe` contains columns either as `vector`s like in a `data.frame`, or as `list`s of objects of the same class, a.k.a., the `hypercolumns`. The `hyperframe` data structure is particularly useful in spatial analysis, e.g., with medical images, where the spatial information in each image would be represented by one element in a hypercolumn. For example, example data *`demohyper`* from package **`spatstat.data`** contains a `factor` column *`Group`*, a point-pattern `ppp`-hypercolumn *`Points`*, and a pixel image `im`-hypercolumn *`Image`*. Several `S3` method dispatches to the `hyperframe` class behave *very differently* from their counterpart in vanilla R, see Appendix @sec-hyperframe.
 
 ```{r}
 spatstat.data::demohyper
@@ -192,7 +194,7 @@ wrobel_lung0g |>
 
 ## From `hyperframe`
 
-The `S3` method dispatch `as.groupedHyperframe.hyperframe()` converts a `hyperframe`, e.g., from package **`spatstat.data`**, into a `groupedHyperframe`. This function simply inspects and adds a (nested) grouping structure to the input `hyperframe`. In the following example, we inspect the data set `spatstat.data::osteo`, which has the serial number of sampling volume `brick` nested in the bone sample `id`, and add the nested grouping structure `~id/brick` to it.
+The `S3` method dispatch `as.groupedHyperframe.hyperframe()` converts a `hyperframe`, e.g., from package **`spatstat.data`**, into a `groupedHyperframe`. This function simply inspects and adds a (nested) grouping structure to the input `hyperframe`. In the following example, we inspect the data set *`osteo`* from package **`spatstat.data`**, which has the serial number of sampling volume `brick` nested in the bone sample `id`, and add the nested grouping structure `~id/brick` to it.
 
 ```{r}
 spatstat.data::osteo |> 
@@ -467,17 +469,17 @@ Several `S3` method dispatches to `hyperframe` class in package **`spatstat.geom
 
 ### Superimpose multiple `hyperframe`s
 
-The S3 method dispatch `superimpose.hyperframe()`, which does not exist in package **`spatstat.geom`** as of v`r packageVersion('spatstat.geom')`, superimposes multiple `hyperframe`s if-and-only-if they have identical
+The S3 method dispatch `superimpose.hyperframe()`, which does not exist in package **`spatstat.geom`** as of v`r packageVersion('spatstat.geom')`, superimposes multiple `hyperframe`s if-and-only-if they have `identical`
 
 -   `dim`ensions, i.e., `spatstat.geom::dim.hyperframe()`
 -   columns, i.e., `unclass(.)$df`
 -   `names` and `class` of the `hypercolumn`s, i.e., `unclass(.)$hypercolumns`
 
-The S3 method dispatch `superimpose.groupedHyperframe()` superimposes multiple `groupedHyperframe`s if-and-only-if they satisfy the *additional* criteria that they have identical
+The S3 method dispatch `superimpose.groupedHyperframe()` superimposes multiple `groupedHyperframe`s if-and-only-if they satisfy the *additional* criteria that they have `identical`
 
 -   grouping structures, i.e., `attr(., 'group')`
 
-We use a subset of the data set `flu` from package **`spatstat.data`** to illustrate the superimpose of `hyperframe`s.
+We use a subset of the data set *`flu`* from package **`spatstat.data`** to illustrate the superimpose of `hyperframe`s.
 
 ```{r}
 #| label: fluM
@@ -799,7 +801,7 @@ spatstat.data::shapley |>
 
 #### Split by $k$-Means Clustering
 
-The `S3` generic function `split_kmeans()` splits `ppp.object`, `ppplist`, and `hyperframe` by $k$-means clustering.  We use a subset of the data set `flu` from package **`spatstat.data`** to illustrate the various `S3` method dispatches of `split_kmeans()`.
+The `S3` generic function `split_kmeans()` splits `ppp.object`, `ppplist`, and `hyperframe` by $k$-means clustering.  We use a subset of the data set *`flu`* from package **`spatstat.data`** to illustrate the various `S3` method dispatches of `split_kmeans()`.
 
 ```{r}
 <<fluM>>
