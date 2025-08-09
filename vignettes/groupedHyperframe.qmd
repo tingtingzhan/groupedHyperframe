@@ -389,7 +389,9 @@ out |>
 
 We cover some minor and/or experimental features in the appendix, in order not to interrupt the main narrative of this vignette.
 
-## (Cumulative) Average Height of Trapezoidal Integration
+## On Trapezoidal Integration
+
+### (Cumulative) Average Height
 
 ```{r}
 x = seq.int(from = 10L, to = 20L, by = 2L)
