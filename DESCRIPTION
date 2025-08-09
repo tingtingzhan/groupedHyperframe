@@ -27,6 +27,6 @@ Authors@R: c(person(given = 'Tingting', family =
      c(ORCID = '0000-0002-9104-4505')))
 Imports: cli, parallel, matrixStats, pracma, GET, SpatialPack,
      spatstat.explore, spatstat.geom, spatstat.random
-Suggests: knitr, quarto, rmarkdown, survival,
+Suggests: knitr, quarto, rmarkdown, ggplot2, geomtextpath, survival,
      spatstat.data
 VignetteBuilder: quarto
