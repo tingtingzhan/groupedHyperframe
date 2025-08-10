@@ -430,14 +430,14 @@ The [trapezoidal integration](https://en.wikipedia.org/wiki/Trapezoidal_rule) [b
 $$
 \begin{split}
 \int_a^b f(x)\,dx & \approx \sum_{k=1}^{N}{\dfrac{f(x_{k-1})+f(x_{k})}{2}}\Delta x_{k} \\
-& = \left(\frac{f(x_0)}{2}+\sum _{k=1}^{N-1}f(x_{k})+\frac{f(x_N)}{2}\right)\Delta x, \quad\text{if}\ \forall k, \Delta x_{k}\equiv \Delta x
+& = \left(\frac{f(x_0)}{2}+\sum _{k=1}^{N-1}f(x_{k})+\frac{f(x_N)}{2}\right)\Delta x, \quad\iff\ \forall k, \Delta x_{k}\equiv \Delta x
 \end{split}
 $${#eq-trapz}
 
-We define the *average vertical height* of a trapezoidal integration as (@eq-trapz) divided by $N\Delta x$, the length of $x$-domain,
+We define the *average vertical height* of a trapezoidal integration as (@eq-trapz) divided by $N\Delta x=b-a$, the length of $x$-domain,
 
 $$
-\dfrac{\displaystyle\int_{a}^{b}f(x)\,dx}{N\Delta x}\approx N^{-1}\left(\frac{f(x_0)}{2}+\sum _{k=1}^{N-1}f(x_{k})+\frac{f(x_N)}{2}\right)
+\dfrac{\displaystyle\int_{a}^{b}f(x)\,dx}{b-a}\approx N^{-1}\left(\frac{f(x_0)}{2}+\sum _{k=1}^{N-1}f(x_{k})+\frac{f(x_N)}{2}\right)
 $${#eq-vtrapz}
 
 We illustrate the average vertical height (@eq-vtrapz) of a trapezoidal integration using a toy example with $x_k$ and $y_k = f(x_k)$ below.
@@ -459,7 +459,11 @@ Function `vtrapz()` calculates the average vertical height of a trapezoidal inte
 vtrapz(x, y)
 ```
 
-In R nomenclature, the term "cumulative" indicates that *the `i`th element of the output is the operation result of the first-`i`-elements of the input*.  Function `pracma::cumtrapz()` calculates a cumulative trapezoidal integration. Note that the first element of the output is always `0`, as a trapezoidal integration needs at least $\left(x_0, f(x_0)\right)$ and $\left(x_1, f(x_1)\right)$. 
+In R nomenclature, the term "cumulative" indicates that 
+
+> The `i`th element of the output is the operation result of the first-`i`-elements of the input.  
+
+Function `pracma::cumtrapz()` calculates a cumulative trapezoidal integration. Note that the first element of the output is always `0`, as a trapezoidal integration needs at least $\left(x_0, f(x_0)\right)$ and $\left(x_1, f(x_1)\right)$. 
 
 ```{r}
 pracma::cumtrapz(x, y)
@@ -966,6 +970,16 @@ The authors plan [**not**]{style="background-color: #FFFF00"} to implement an `S
 The authors suggest users do `base::merge.data.frame()` first, then do `as.groupedHyperframe()` as a workaround.
 
 ## Terms & Abbreviations {#sec-terms}
+
+### in Math
+
+| Symbol | [LaTeX](https://www.latex-project.org) Source | Description | Example |
+|------------------------------------|------------------------------------|------------------------------------|------------------------------------|
+| $\equiv$ | `$\equiv$` | Equivalent to | $x\equiv a$ says "variable $x$ is equivalent to constant $a$" |
+| $\forall$ | `$\forall$` | For all | $\forall k$ says "for all $k$" |
+| $\iff$ | `$\iff$` | If-and-only-if | $A\iff B$ says "$A$ is true, if and only if $B$ is true" |
+
+### in R
 
 | Term / Abbreviation | Description |
 |------------------------------------|------------------------------------|
