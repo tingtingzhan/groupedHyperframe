@@ -424,7 +424,7 @@ We cover some minor and/or experimental features in the appendix, in order not t
 
 ## On Trapezoidal Integration
 
-### (Cumulative) Average Height
+### Average Vertical Height
 
 The [trapezoidal integration](https://en.wikipedia.org/wiki/Trapezoidal_rule) [blah blah (copy some English from Wikipedia)]{style="background-color: #FFFF00"}.   Let $\{x_k; k=0,\cdots,N\}$ be a partition of the real interval $[a,b]$ such that $a = x_0 < x_1 < \cdots < x_{N-1} < x_N = b$ and $\Delta x_k= x_k - x_{k-1}$ be the length of the $k$-th sub-interval, then the trapezoidal approximation of the integration
 $$
@@ -434,13 +434,13 @@ $$
 \end{split}
 $${#eq-trapz}
 
-We define the *average height* of a trapezoidal integration as (@eq-trapz) divided by $N\Delta x$, the length of $x$-domain,
+We define the *average vertical height* of a trapezoidal integration as (@eq-trapz) divided by $N\Delta x$, the length of $x$-domain,
 
 $$
 \dfrac{\displaystyle\int_{a}^{b}f(x)\,dx}{N\Delta x}\approx N^{-1}\left(\frac{f(x_0)}{2}+\sum _{k=1}^{N-1}f(x_{k})+\frac{f(x_N)}{2}\right)
 $${#eq-vtrapz}
 
-We illustrate the average height (@eq-vtrapz) of a trapezoidal integration using a toy example with $x_k$ and $y_k = f(x_k)$ below.
+We illustrate the average vertical height (@eq-vtrapz) of a trapezoidal integration using a toy example with $x_k$ and $y_k = f(x_k)$ below.
 
 ```{r}
 x = seq.int(from = 10L, to = 20L, by = 2L)
@@ -453,7 +453,7 @@ Function `pracma::trapz()` calculates a trapezoidal integration (@eq-trapz).
 pracma::trapz(x, y)
 ```
 
-Function `vtrapz()` calculates the average height of a trapezoidal integration (@eq-vtrapz).  The (tentative) prefix `v` indicates "vertical".  The shaded rectangle in @fig-vtrapz has the same area as the trapezoidal integration.  Therefore, we define the height of the shaded rectangle as the *average height* of the trapezoidal integration.
+Function `vtrapz()` calculates the average vertical height of a trapezoidal integration (@eq-vtrapz).  The (tentative) prefix `v` indicates "vertical".  The shaded rectangle in @fig-vtrapz has the same area as the trapezoidal integration.  Therefore, we define the vertical height of the shaded rectangle as the *average vertical height* of the trapezoidal integration.
 
 ```{r}
 vtrapz(x, y)
@@ -465,21 +465,21 @@ In R nomenclature, the term "cumulative" indicates that *the `i`th element of th
 pracma::cumtrapz(x, y)
 ```
 
-Function `cumvtrapz()` calculates the cumulative average height of a trapezoidal integration.  Note that the first element of the output is always `NaN`, i.e., the result of `0` (trapzoidal integration) divided by `0` (length of $x$-domain).
+Function `cumvtrapz()` calculates the cumulative average vertical height of a trapezoidal integration.  Note that the first element of the output is always `NaN`, i.e., the result of `0` (trapzoidal integration) divided by `0` (length of $x$-domain).
 
 ```{r}
 cumvtrapz(x, y)
 ```
 
-@fig-vtrapz illustrates the concept of (cumulative) average height of a trapezoidal integration using our toy example.  [Say some English as a summary statement.]{style="background-color: #FFFF00"}
+@fig-vtrapz illustrates the concept of (cumulative) average vertical height of a trapezoidal integration using our toy example.  [Say some English as a summary statement.]{style="background-color: #FFFF00"}
 
 ```{r}
 #| label: fig-vtrapz
 #| code-fold: true
-#| code-summary: "R code to illustrate (cumulative) average height of trapezoidal integration"  
+#| code-summary: "R code to illustrate (cumulative) average vertical height of trapezoidal integration"  
 #| fig-height: 4
 #| fig-align: left
-#| fig-cap: "(Cumulative) average height of trapezoidal integration"
+#| fig-cap: "(Cumulative) average vertical height of trapezoidal integration"
 visualize_vtrapz(x, y) + 
   ggplot2::theme_minimal()
 ```
