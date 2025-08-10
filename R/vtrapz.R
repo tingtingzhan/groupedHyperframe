@@ -76,11 +76,11 @@ visualize_vtrapz <- function(x, y) {
    geom_path(mapping = aes(x = x, y = y), alpha = .5) +
    geom_rect(mapping = aes(xmin = min(x), xmax = max(x), ymin = 0, ymax = v), alpha = .1) +
    geom_textpath(
-    mapping = aes(x = x, y = v, label = 'Average Height'),
+    mapping = aes(x = x, y = v, label = 'Average Vertical Height'),
     hjust = .1, text_only = TRUE, colour = 'red', fontface = 'bold'
    ) +
    geom_textpath(
-    mapping = aes(x = x[-1L], y = cv[-1L], label = 'Cumulative Average Height'),
+    mapping = aes(x = x[-1L], y = cv[-1L], label = 'Cumulative Average Vertical Height'),
     colour = 'blue', fontface = 'bold'
    ) +
    scale_x_continuous(breaks = x, limits = x_lim) + 
