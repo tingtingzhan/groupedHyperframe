@@ -434,7 +434,7 @@ $$
 \end{split}
 $${#eq-trapz}
 
-We define the *average height* of a trapezoidal integration as equation (@eq-trapz) divided by $N\Delta x$, the length of $x$-domain,
+We define the *average height* of a trapezoidal integration as (@eq-trapz) divided by $N\Delta x$, the length of $x$-domain,
 
 $$
 \dfrac{\displaystyle\int_{a}^{b}f(x)\,dx}{N\Delta x}\approx N^{-1}\left(\frac{f(x_0)}{2}+\sum _{k=1}^{N-1}f(x_{k})+\frac{f(x_N)}{2}\right)
