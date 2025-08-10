@@ -459,13 +459,13 @@ Function `vtrapz()` calculates the average height of a trapezoidal integration (
 vtrapz(x, y)
 ```
 
-In R nomenclature, the term "cumulative" indicates that *the `i`th element of the output is the operation result of the first-`i`-elements of the input*.  Function `pracma::cumtrapz()` calculates a cumulative trapezoidal integration. Note that the first element of the output is always `0`, as a trapezoidal integration needs at least the first and second elements $x_0$ and $x_1$. 
+In R nomenclature, the term "cumulative" indicates that *the `i`th element of the output is the operation result of the first-`i`-elements of the input*.  Function `pracma::cumtrapz()` calculates a cumulative trapezoidal integration. Note that the first element of the output is always `0`, as a trapezoidal integration needs at least $\left(x_0, f(x_0)\right)$ and $\left(x_1, f(x_1)\right)$. 
 
 ```{r}
 pracma::cumtrapz(x, y)
 ```
 
-Function `cumvtrapz()` calculates the cumulative average height of a trapezoidal integration.  Note that the first element of the output is always `NaN`, which is a result of `0` (trapzoidal integration) divided by `0` (length of $x$-domain).
+Function `cumvtrapz()` calculates the cumulative average height of a trapezoidal integration.  Note that the first element of the output is always `NaN`, i.e., the result of `0` (trapzoidal integration) divided by `0` (length of $x$-domain).
 
 ```{r}
 cumvtrapz(x, y)
