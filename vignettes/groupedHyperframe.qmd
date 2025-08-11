@@ -983,9 +983,8 @@ The authors suggest users do `base::merge.data.frame()` first, then do `as.group
 | `/` | Forward slash operator for nested grouping structure, see section *Details* of [`formula`](https://search.r-project.org/R/refmans/stats/html/formula.html) documentation |
 | [`::`](https://search.r-project.org/R/refmans/base/html/ns-dblcolon.html) | Explicitly-[namespace](https://search.r-project.org/R/refmans/base/html/ns-reflect.html)d function or object |
 | [`attr`](https://search.r-project.org/R/refmans/base/html/attr.html), [`attributes`](https://search.r-project.org/R/refmans/base/html/attributes.html) | Attributes |
-| [`cor`](https://search.r-project.org/R/refmans/stats/html/cor.html) | Correlation matrix |
+| [`cor`, `cov`, `cov2cor`](https://search.r-project.org/R/refmans/stats/html/cor.html) | Correlation matrix, variance-covariance matrix, and their conversion |
 | [`cor.spatial`](https://search.r-project.org/CRAN/refmans/SpatialPack/html/cor.spatial.html) | Tjøstheim's nonparametric correlation coefficient, from package **`SpatialPack`** [@SpatialPack] |
-| [`cov`, `cov2cor`](https://search.r-project.org/R/refmans/stats/html/cor.html) | Variance-covariance matrix, and conversion to correlation matrix |
 | [`data.frame`](https://search.r-project.org/R/refmans/base/html/data.frame.html) | Data frame |
 | [`diag`](https://search.r-project.org/R/refmans/base/html/diag.html) | Matrix diagonals |
 | [`dist`](https://search.r-project.org/R/refmans/stats/html/dist.html) | Distance matrix; to take advantage of `stats:::as.matrix.dist` |
