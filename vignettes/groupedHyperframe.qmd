@@ -457,9 +457,10 @@ Function `vtrapz()` calculates the average vertical height of a trapezoidal inte
 vtrapz(x, y)
 ```
 
-In R nomenclature, the term "cumulative" indicates that
+In R nomenclature, the term "cumulative" indicates an inclusive [scan](https://en.wikipedia.org/wiki/Prefix_sum#Scan_higher_order_function), that
 
-> The `i`th element of the output is the operation result of the first-`i`-elements of the input.
+> The `i`th element of the output is the operation result of the first-`i`-elements of the input
+
 
 Function `pracma::cumtrapz()` calculates a cumulative trapezoidal integration. Note that the first element of the output is always `0`, as a trapezoidal integration needs at least $\left(x_0, f(x_0)\right)$ and $\left(x_1, f(x_1)\right)$.
 
