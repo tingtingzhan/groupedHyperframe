@@ -145,7 +145,7 @@ rmax_.hyperframe <- function(X, ...) {
     }
     paste(
       'Default', 
-      'rmax' |> col_red() |> style_bold(),
+      'rmax' |> col_magenta() |> style_bold(),
       'for', 
       nm |> col_blue() |> style_bold(),
       'are',

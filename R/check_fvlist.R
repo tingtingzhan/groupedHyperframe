@@ -74,11 +74,11 @@ check_fvlist <- function(X, data.name = deparse1(substitute(X))) {
       vapply(FUN = \(u) {
         which(id == u) |>
           paste0('L', collapse = ', ') |>
-          col_red() |> style_bold()
+          col_magenta() |> style_bold()
       }, FUN.VALUE = '')
     paste0(
       'Legal ', 
-      'rmax' |> col_red() |> style_bold(),
+      'rmax' |> col_magenta() |> style_bold(),
       '(', 
       data.name |> col_blue() |> style_bold(), 
       sprintf(fmt = '), smaller than user input of rmax = %.1f, are\n', max(r)), 

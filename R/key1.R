@@ -96,7 +96,7 @@ key1val.fv <- function(x, key = key1.fv(x)) {
 #' of a function value \link[spatstat.explore]{fv.object}.
 #' 
 #' @returns
-#' Function [trapz.fv()] returns a \link[base]{numeric} scalar.
+#' Functions [trapz.fv()] and [vtrapz.fv()] return a \link[base]{numeric} scalar.
 #' 
 #' @importFrom pracma trapz
 #' @export
@@ -108,15 +108,22 @@ trapz.fv <- function(x, key = key1.fv(x)) {
     unname()
 }
 
-
-
+#' @rdname key1
+#' @export
+vtrapz.fv <- function(x, key = key1.fv(x)) {
+  x |> 
+    key1val.fv(key = key) |>
+    vtrapz(x = x[[1L]], y = _) |> # which way is more robust?
+    #vtrapz(x = x[['r']], y = _) |> # which way is more robust?
+    unname()
+}
 
 
 
 
 #' @rdname key1
 #' @returns 
-#' Function [cumtrapz.fv()] returns a \link[base]{numeric} \link[base]{vector}.
+#' Functions [cumtrapz.fv()] and [cumvtrapz.fv()] return a \link[base]{numeric} \link[base]{vector}.
 #' @importFrom pracma cumtrapz
 #' @export 
 cumtrapz.fv <- function(x, key = key1.fv(x)) {
@@ -138,6 +145,26 @@ cumtrapz.fv <- function(x, key = key1.fv(x)) {
   
 }
 
+#' @rdname key1
+#' @export 
+cumvtrapz.fv <- function(x, key = key1.fv(x)) {
+  
+  # 'fv' inherits from 'data.frame', as of 2025-02-04 # packageDate('spatstat.explore')
+  r <- x[[1L]]
+  n <- length(r)
+  if (n == 1L) return(invisible()) # exception handling
+  # needed! Otherwise ?pracma::cumtrapz errs
+  
+  ret0 <- x |> 
+    key1val.fv(key = key) |> 
+    unclass() |>
+    cumvtrapz(x = r, y = _)
+  # a trapz needs two points; therefore `[-1L]`
+  ret <- c(ret0[-1L])
+  names(ret) <- r[-1L]
+  return(ret)
+  
+}
 
 
 

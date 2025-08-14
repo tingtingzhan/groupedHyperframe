@@ -10,7 +10,7 @@
 #' Function [print.groupedHyperframe()] does not have a returned value.
 #' 
 #' @keywords internal
-#' @importFrom cli col_red col_blue col_magenta style_bold
+#' @importFrom cli col_blue col_magenta style_bold
 #' @importFrom spatstat.geom as.data.frame.hyperframe as.list.hyperframe
 #' @importFrom utils head
 #' @export print.groupedHyperframe

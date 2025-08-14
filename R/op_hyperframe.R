@@ -139,7 +139,7 @@ nncross_ <- function(X, ...) X |> op_hyperframe(op = dist_ppp, fn = .nncross, ..
 #' 
 #'  
 #' @keywords internal
-#' @importFrom cli col_red col_blue col_br_magenta style_bold
+#' @importFrom cli col_blue col_br_magenta style_bold
 #' @importFrom spatstat.geom is.ppplist as.list.hyperframe cbind.hyperframe
 #' @importFrom utils tail
 #' @export

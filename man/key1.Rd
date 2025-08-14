@@ -5,7 +5,9 @@
 \alias{key1.fv}
 \alias{key1val.fv}
 \alias{trapz.fv}
+\alias{vtrapz.fv}
 \alias{cumtrapz.fv}
+\alias{cumvtrapz.fv}
 \alias{is.finite.fv}
 \title{Black-Solid-Curve in \link[spatstat.explore]{plot.fv}}
 \usage{
@@ -15,7 +17,11 @@ key1val.fv(x, key = key1.fv(x))
 
 trapz.fv(x, key = key1.fv(x))
 
+vtrapz.fv(x, key = key1.fv(x))
+
 cumtrapz.fv(x, key = key1.fv(x))
+
+cumvtrapz.fv(x, key = key1.fv(x))
 
 \method{is.finite}{fv}(x)
 }
@@ -30,9 +36,9 @@ Function \code{\link[=key1.fv]{key1.fv()}} returns a \link[base]{character} scal
 
 Function \code{\link[=key1val.fv]{key1val.fv()}} returns a \link[base]{numeric} \link[base]{vector}.
 
-Function \code{\link[=trapz.fv]{trapz.fv()}} returns a \link[base]{numeric} scalar.
+Functions \code{\link[=trapz.fv]{trapz.fv()}} and \code{\link[=vtrapz.fv]{vtrapz.fv()}} return a \link[base]{numeric} scalar.
 
-Function \code{\link[=cumtrapz.fv]{cumtrapz.fv()}} returns a \link[base]{numeric} \link[base]{vector}.
+Functions \code{\link[=cumtrapz.fv]{cumtrapz.fv()}} and \code{\link[=cumvtrapz.fv]{cumvtrapz.fv()}} return a \link[base]{numeric} \link[base]{vector}.
 
 Function \code{\link[=is.finite.fv]{is.finite.fv()}} returns a \link[base]{logical} \link[base]{vector}.
 }
