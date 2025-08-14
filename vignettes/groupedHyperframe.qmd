@@ -433,7 +433,7 @@ We cover some minor and/or experimental features in the appendix, in order not t
 
 ### Average Vertical Height {#sec-vtrapz}
 
-The [trapezoidal integration](https://en.wikipedia.org/wiki/Trapezoidal_rule) [blah blah (copy some English from Wikipedia)]{style="background-color: #FFFF00"}. Let $\{x_k; k=0,\cdots,N\}$ be a partition of the real interval $[a,b]$ such that $a = x_0 < x_1 < \cdots < x_{N-1} < x_N = b$ and $\Delta x_k= x_k - x_{k-1}$ be the length of the $k$-th sub-interval, then the trapezoidal approximation of the integration $$
+The [trapezoidal rule](https://en.wikipedia.org/wiki/Trapezoidal_rule) of approximating a definite integral is an ancient idea since the dawn of human civilization.  Let $\{x_k; k=0,\cdots,N\}$ be a partition of the real interval $[a,b]$ such that $a = x_0 < x_1 < \cdots < x_{N-1} < x_N = b$ and $\Delta x_k= x_k - x_{k-1}$ be the length of the $k$-th sub-interval, then the trapezoidal approximation of the integration $$
 \begin{split}
 \int_a^b f(x)\,dx & \approx \sum_{k=1}^{N}{\dfrac{f(x_{k-1})+f(x_{k})}{2}}\Delta x_{k} \\
 & = \left(\frac{f(x_0)}{2}+\sum _{k=1}^{N-1}f(x_{k})+\frac{f(x_N)}{2}\right)\Delta x, \quad\iff\ \forall k, \Delta x_{k}\equiv \Delta x
