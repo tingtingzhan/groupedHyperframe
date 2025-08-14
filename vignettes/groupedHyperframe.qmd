@@ -365,23 +365,7 @@ out |>
   aggregate_quantile(by = ~ patient_id, probs = seq.int(from = 0, to = 1, by = .1))
 ```
 
-In this package, we include a `groupedHyperframe` example ***`Ki67`*** with a `ppp`-hypercolumn *`ppp.`* and a nested grouping structure *`~patientID/tissueID`*.
-
-```{r}
-data(Ki67, package = 'groupedHyperframe')
-Ki67
-```
-
-We use function `aggregate_quantile()` to aggregate the `quantile`s of the numeric `marks`, i.e., the log-transformed Ki67 intensities, from each element of the `ppp`-hypercolumn *`ppp.`* at the second-lowest group `~patientID`.
-
-```{r}
-#| message: false
-Ki67 |>
-  aggregate_quantile(by = ~ patientID, probs = seq.int(from = .01, to = .99, by = .01)) |> 
-  head()
-```
-
-Users are encouraged to learn more about the applications of the aggregated quantiles of ***`Ki67`*** data from package **`hyper.gam`** vignettes ([RPubs](https://rpubs.com/tingtingzhan/hyper_gam), [CRAN](https://CRAN.R-project.org/package=hyper.gam/vignettes/applications.html)), section *Quantile Index*, and our peer-reviewed publications
+In our peer-reviewed publications
 
 ```{r}
 #| echo: false
@@ -407,7 +391,27 @@ bib_QI = bibentry(
 bib_QI |> toBibtex()
 ```
 
-and @Yi25; @Yi23a; @Yi23b.
+and @Yi25; @Yi23a; @Yi23b, we worked with a `groupedHyperframe` object *`Ki67g`* with a `ppp`-hypercolumn *`ppp.`* and a nested grouping structure *`~patientID/tissueID`*.
+
+```{r}
+#| code-fold: true
+#| code-summary: 'A `groupedHyperframe` *`Ki67g`*'
+Ki67g = groupedHyperframe::Ki67 |>
+  grouped_ppp(formula = logKi67 ~ PFS + Tstage + adj_rad + adj_chemo + histology + Her2 + HR + node + race + age | patientID/tissueID, data = _)
+```
+
+And aggregated the `quantile`s of the numeric `marks`, i.e., the log-transformed Ki-67 intensities, from each element of the `ppp`-hypercolumn *`ppp.`* at the second-lowest group `~patientID`.
+
+```{r}
+#| message: false
+#| code-fold: true
+#| code-summary: 'Aggregated quantile of *`Ki67g`*'
+Ki67g |>
+  aggregate_quantile(by = ~ patientID, probs = seq.int(from = .01, to = .99, by = .01)) |> 
+  head()
+```
+
+Users are encouraged to learn more about this application from package **`hyper.gam`** vignettes ([RPubs](https://rpubs.com/tingtingzhan/hyper_gam), [CRAN](https://CRAN.R-project.org/package=hyper.gam/vignettes/applications.html)), section *Quantile Index*.
 
 #### On kernel densities
 
