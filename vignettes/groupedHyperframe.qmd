@@ -391,16 +391,19 @@ bib_QI = bibentry(
 bib_QI |> toBibtex()
 ```
 
-and @Yi25; @Yi23a; @Yi23b, we worked with a `groupedHyperframe` object *`Ki67g`* with a `ppp`-hypercolumn *`ppp.`* and a nested grouping structure *`~patientID/tissueID`*.
+as well as @Yi25; @Yi23a; @Yi23b, we worked with a non-spatial `groupedHyperframe` object *`Ki67g`* with a `numeric`-hypercolumn *`logKi67`*, i.e., the log-transformed Ki-67 intensities, and a nested grouping structure *`~patientID/tissueID`*.
 
 ```{r}
 #| code-fold: true
-#| code-summary: 'A `groupedHyperframe` *`Ki67g`*'
+#| code-summary: 'A non-spatial `groupedHyperframe` *`Ki67g`*'
 Ki67g = groupedHyperframe::Ki67 |>
-  grouped_ppp(formula = logKi67 ~ PFS + Tstage + adj_rad + adj_chemo + histology + Her2 + HR + node + race + age | patientID/tissueID, data = _)
+  within.data.frame(expr = {
+    x = y = NULL # remove x- and y-coords for non-spacial application
+  }) |>
+  as.groupedHyperframe(group = ~ patientID/tissueID)
 ```
 
-And aggregated the `quantile`s of the numeric `marks`, i.e., the log-transformed Ki-67 intensities, from each element of the `ppp`-hypercolumn *`ppp.`* at the second-lowest group `~patientID`.
+We aggregated the `quantile`s of the `numeric`-hypercolumn *`logKi67`* at the second-lowest group `~patientID`.
 
 ```{r}
 #| message: false
@@ -411,7 +414,7 @@ Ki67g |>
   head()
 ```
 
-Users are encouraged to learn more about this application from package **`hyper.gam`** vignettes ([RPubs](https://rpubs.com/tingtingzhan/hyper_gam), [CRAN](https://CRAN.R-project.org/package=hyper.gam/vignettes/applications.html)), section *Quantile Index*.
+Users are encouraged to learn more about this application from package **`hyper.gam`** vignette ([RPubs](https://rpubs.com/tingtingzhan/hyper_gam), [CRAN](https://CRAN.R-project.org/package=hyper.gam/vignettes/applications.html)), section *Quantile Index*.
 
 #### On kernel densities
 
