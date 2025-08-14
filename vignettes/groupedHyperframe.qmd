@@ -149,7 +149,7 @@ The `S3` method dispatch `as.groupedHyperframe.data.frame()` converts a `data.fr
 1.  inspects the input `data.frame` by the user-specified (nested) `group`ing structure;
 2.  identifies the column(s) with *non-identical elements* within the lowest group, and converts them into hypercolumn(s).
 
-In the following example, consider a toy data set *`wrobel_lung0`* with non-identical column *`hladr`* in the lowest group *`image_id`* of the nested grouping structure *`~patient_id/image_id`*.
+We have a toy data example *`wrobel_lung`* in package **`groupedHyperframe`** originally from Dr. [Julia Wrobel](https://sph.emory.edu/profile/faculty/julia-wrobel).  In the following example, consider a subset of *`wrobel_lung0`* with the only non-identical column *`hladr`* in the lowest group *`image_id`* of the nested grouping structure *`~patient_id/image_id`*.
 
 ```{r}
 wrobel_lung0 = wrobel_lung |>
