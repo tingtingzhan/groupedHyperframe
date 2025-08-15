@@ -301,11 +301,6 @@ In this section, we discuss the aggregation over nested grouping structure.
 
 ### Of `fv`-hypercolumn(s)
 
-<!--
-> AuC_E in 2021 paper is created by `<groupedHyperframe> |> Emark_() |> aggregate_fv()`
--->
-
-
 Function `aggregate_fv()` performs (truncated) aggregation of
 
 -   *`<mark>.<fv>.value`*, the *function values*, i.e., the black-solid-curve (see Appendix @sec-blackSolidCurve) determined by function `spatstat.explore::plot.fv()`
@@ -374,61 +369,6 @@ out |>
   aggregate_quantile(by = ~ patient_id, probs = seq.int(from = 0, to = 1, by = .1))
 ```
 
-In our peer-reviewed publications
-
-```{r}
-#| echo: false
-#| warning: false
-bib_QI = bibentry(
-  bibtype = 'article',
-  title = 'Quantile Index predictors using R package hyper.gam',
-  author = c('Tingting Zhan', 'Misung Yi', 'Inna Chervoneva' ),
-  journal = 'Bioinformatics',
-  pages = 'btaf430',
-  year = '2025', 
-  month = '07',
-  issn = '1367-4811',
-  doi = '10.1093/bioinformatics/btaf430'
-)
-```
-
-> `r bib_QI |> format(style = 'text') |> gsub(pattern = '\n', replacement = ' ', x = _)`
-
-<details><summary>[BibTeX](https://ctan.org/pkg/bibtex) and/or [BibLaTeX](https://ctan.org/pkg/biblatex) entries for [LaTeX](https://www.latex-project.org) users</summary>
-
-```{r}
-#| echo: false
-#| comment: ''
-bib_QI |> toBibtex()
-```
-
-</details>
-
-as well as @Yi25; @Yi23a; @Yi23b, we worked with a non-spatial `groupedHyperframe` object *`Ki67g`* with a `numeric`-hypercolumn *`logKi67`*, i.e., the log-transformed Ki-67 intensities, and a nested grouping structure *`~patientID/tissueID`*.
-
-```{r}
-#| code-fold: true
-#| code-summary: 'A non-spatial `groupedHyperframe` *`Ki67g`*'
-Ki67g = groupedHyperframe::Ki67 |>
-  within.data.frame(expr = {
-    x = y = NULL # remove x- and y-coords for non-spacial application
-  }) |>
-  as.groupedHyperframe(group = ~ patientID/tissueID)
-```
-
-We aggregated the `quantile`s of the `numeric`-hypercolumn *`logKi67`* at the second-lowest group `~patientID`.
-
-```{r}
-#| message: false
-#| code-fold: true
-#| code-summary: 'Aggregated quantile of *`Ki67g`*'
-Ki67g |>
-  aggregate_quantile(by = ~ patientID, probs = seq.int(from = .01, to = .99, by = .01)) |> 
-  head()
-```
-
-Users are encouraged to learn more about this application from package **`hyper.gam`** vignette ([RPubs](https://rpubs.com/tingtingzhan/hyper_gam), [CRAN](https://CRAN.R-project.org/package=hyper.gam/vignettes/applications.html)), section *Quantile Index*.
-
 #### On kernel densities
 
 Function `aggregate_kerndens()` aggregates the kernel density of the numeric-hypercolumns and the numeric marks in the `ppp`-hypercolumn.
@@ -444,6 +384,50 @@ In the following example, we have
 out |> 
   aggregate_kerndens(by = ~ patient_id, from = 0, to = mdist)
 ```
+
+
+
+# Publication
+
+## Non-Spatial Application
+
+In our peer-reviewed publications
+
+> `r bib_btaf430() |> format(style = 'text') |> gsub(pattern = '\n', replacement = ' ', x = _)`
+
+<details><summary>[BibTeX](https://ctan.org/pkg/bibtex) and/or [BibLaTeX](https://ctan.org/pkg/biblatex) entries for [LaTeX](https://www.latex-project.org) users</summary>
+
+```{r}
+#| echo: false
+#| comment: ''
+bib_btaf430() |> toBibtex()
+bib_groupedHyperframe() |> toBibtex()
+bib_hypergam() |> toBibtex()
+```
+
+</details>
+
+as well as @Yi25; @Yi23a; @Yi23b, we worked with a non-spatial `hyperframe` *`Ki67q`* with a `numeric`-hypercolumn *`logKi67.quantile`*.
+
+```{r}
+Ki67q = groupedHyperframe::Ki67 |>
+  within.data.frame(expr = {
+    x = y = NULL # remove x- and y-coords for non-spacial application
+  }) |>
+  as.groupedHyperframe(group = ~ patientID/tissueID) |> 
+  aggregate_quantile(by = ~ patientID, probs = seq.int(from = .01, to = .99, by = .01))
+```
+
+```{r}
+#| message: false
+#| code-fold: true
+#| code-summary: 'A `hyperframe` *`Ki67q`*: aggregated quantiles'
+Ki67q |>
+  head()
+```
+
+Users are encouraged to learn more about this application from package **`hyper.gam`** vignette ([RPubs](https://rpubs.com/tingtingzhan/hyper_gam), [CRAN](https://CRAN.R-project.org/package=hyper.gam/vignettes/applications.html)), section *Quantile Index*.
+
 
 # Appendix
 
