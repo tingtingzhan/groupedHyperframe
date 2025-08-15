@@ -44,38 +44,32 @@ grouped_ppp <- function(
   
   group <- formula[[3L]][[3L]]
   
-  #g <- all.vars(group)
-  
-  #data[g] <- lapply(data[g], FUN = \(i) {
-  #  if (is.factor(i)) return(factor(i)) # drop empty levels!!
-  #  factor(i, levels = unique(i))
-  #}) 
-  
   fg <- group |> 
     get_nested_factors(data = data) |>
     interaction(drop = TRUE, sep = '.', lex.order = TRUE) # one or more hierarchy
 
-  #fg <- interaction(data[g], drop = TRUE, sep = '.', lex.order = TRUE) # one or more hierarchy
-
-  hf <- data[all.vars(formula[[3L]])] |>
+  fom3var <- all.vars(formula[[3L]])
+  if ('.' %in% fom3var) {
+    dotvar <- names(data) |>
+      setdiff(y = all.vars(formula[[2L]]))
+    fom3var <- fom3var |>
+      setdiff(y = '.') |>
+      c(dotvar) |>
+      unique.default()
+  } # ugly but works :)
+  
+  hf <- data[fom3var] |>
     mc_identical_by(f = fg, ...) |>
     as.hyperframe.data.frame()
   
   # Step 2: grouped ppp
   
-  #if (isFALSE(coords)) {
-  #  # .Deprecated(new = 'as.groupedHyperframe.data.frame')
-  #  # tzh's downstream package not using this functionality
-  #  .x <- runif(n = nrow(data))
-  #  .y <- runif(n = nrow(data))
-  #} else {
-    xy_ <- as.list.default(coords[[2L]])
-    if ((xy_[[1L]] != '+') || (length(xy_) != 3L)) stop('Specify x and y coordinates names as ~x+y')
-    if (!is.symbol(x <- xy_[[2L]])) stop('x-coordinates must be a symbol, for now')
-    if (!is.symbol(y <- xy_[[3L]])) stop('y-coordinates must be a symbol, for now')
-    if (!length(.x <- data[[x]]) || anyNA(.x)) stop('Do not allow missingness in x-coordinates')
-    if (!length(.y <- data[[y]]) || anyNA(.y)) stop('Do not allow missingness in y-coordinates')
-  #}
+  xy_ <- as.list.default(coords[[2L]])
+  if ((xy_[[1L]] != '+') || (length(xy_) != 3L)) stop('Specify x and y coordinates names as ~x+y')
+  if (!is.symbol(x <- xy_[[2L]])) stop('x-coordinates must be a symbol, for now')
+  if (!is.symbol(y <- xy_[[3L]])) stop('y-coordinates must be a symbol, for now')
+  if (!length(.x <- data[[x]]) || anyNA(.x)) stop('Do not allow missingness in x-coordinates')
+  if (!length(.y <- data[[y]]) || anyNA(.y)) stop('Do not allow missingness in y-coordinates')
   
   force(window)
   
