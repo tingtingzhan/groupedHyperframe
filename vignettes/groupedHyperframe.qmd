@@ -149,7 +149,7 @@ The `S3` method dispatch `as.groupedHyperframe.data.frame()` converts a `data.fr
 1.  inspects the input `data.frame` by the user-specified (nested) `group`ing structure;
 2.  identifies the column(s) with *non-identical elements* within the lowest group, and converts them into hypercolumn(s).
 
-We have a toy data example *`wrobel_lung`* in package **`groupedHyperframe`** originally from Dr. [Julia Wrobel](https://sph.emory.edu/profile/faculty/julia-wrobel).  In the following example, consider a subset of *`wrobel_lung0`* with the only non-identical column *`hladr`* in the lowest group *`image_id`* of the nested grouping structure *`~patient_id/image_id`*.
+We have a toy data example *`wrobel_lung`* in package **`groupedHyperframe`** originally from Dr. [Julia Wrobel](https://sph.emory.edu/profile/faculty/julia-wrobel). In the following example, consider a subset of *`wrobel_lung0`* with the only non-identical column *`hladr`* in the lowest group *`image_id`* of the nested grouping structure *`~patient_id/image_id`*.
 
 ```{r}
 wrobel_lung0 = wrobel_lung |>
@@ -219,7 +219,7 @@ In this section, we first introduce the creation of a `groupedHyperframe` with *
 Function `grouped_ppp()` creates a `groupedHyperframe` with *one-and-only-one* `ppp`-hypercolumn. In the following example, the argument `formula` takes form of `<marks> ~ <variable.of.interest> | <group>`, specifically,
 
 -   the point pattern `marks`, e.g., numeric mark *`hladr`* and `multitype` mark *`phenotype`*, on the left-hand-side
--   the additional predictors and/or endpoints for downstream analysis, e.g., *`OS`*, *`gender`* and *`age`*, before the `|` separator on the right-hand-side.  Alternatively, user may use the dot symbol `.` to denote the remaining variables except for those mentioned in the `marks` and the nested grouping structure. The grammar of dot symbol `.` is explained in section *Details* of [`stats::formula`](https://search.r-project.org/R/refmans/stats/html/formula.html) documentation, as well as section *Arguments* of [`stats::terms.formula`](https://search.r-project.org/R/refmans/stats/html/terms.formula.html) documentation.
+-   the additional predictors and/or endpoints for downstream analysis, e.g., *`OS`*, *`gender`* and *`age`*, before the `|` separator on the right-hand-side. Alternatively, user may use the dot symbol `.` to denote the remaining variables except for those mentioned in the `marks` and the nested grouping structure. The grammar of dot symbol `.` is explained in section *Details* of [`stats::formula`](https://search.r-project.org/R/refmans/stats/html/formula.html) documentation, as well as section *Arguments* of [`stats::terms.formula`](https://search.r-project.org/R/refmans/stats/html/terms.formula.html) documentation.
 -   the (nested) grouping structure, e.g., *`image_id`* nested in *`patient_id`*, after the `|` separator on the right-hand-side.
 
 ```{r}
@@ -234,8 +234,6 @@ wrobel_lung |>
    grouped_ppp(formula = hladr + phenotype ~ . | patient_id/image_id)
 ```
 
-
-
 ## Batch processes {#sec-batch}
 
 ### Return of `fv`-hypercolumn
@@ -243,7 +241,7 @@ wrobel_lung |>
 In this section, we discuss the batch processes that return a function value table (`fv`) hypercolumn, i.e., a hypercolumn which consists of a `list` of `fv.object`s.
 
 | Batch Process | Workhorse in package **`spatstat.explore`** | `fv`-hypercolumns Suffix |
-|------------------------|------------------------|------------------------|
+|----|----|----|
 | `Emark_()` and `Vmark_()` | [`Emark` and `Vmark`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/Emark.html), conditional mean $E(r)$ and variance $V(r)$, diagnostics for dependence between the points and the marks [@Emark] | `.E` and `.V` |
 | `markcorr_()` | [`markcorr`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/markcorr.html), marked correlation $k_{mm}(r)$ or generalized mark correlation $k_f(r)$ [@markcorr] | `.k` |
 | `markvario_()` | [`markvario`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/markvario.html), mark variogram $\gamma(r)$ [@markvario] | `.gamma` |
@@ -252,7 +250,7 @@ In this section, we discuss the batch processes that return a function value tab
 : Batch processes applicable to numeric `marks`
 
 | Batch Process | Workhorse in package **`spatstat.explore`** | `fv`-hypercolumns Suffix |
-|------------------------|------------------------|------------------------|
+|----|----|----|
 | `Gcross_()` | [`Gcross`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/Gcross.html), multitype nearest-neighbour distance $G_{ij}(r)$ | `.G` |
 | `Kcross_()` | [`Kcross`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/Kcross.html), multitype $K_{ij}(r)$ | `.K` |
 | `Jcross_()` | [`Jcross`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/Jcross.html), multitype $J_{ij}(r)$ [@Jcross] | `.J` |
@@ -265,7 +263,7 @@ In this section, we discuss the batch processes that return a function value tab
 In this section, we discuss the batch processes that return a numeric hypercolumn, i.e., a hypercolumn which consists of a `list` of numeric `vector`s.
 
 | Batch Process | Workhorse in package **`spatstat.geom`** | Applicable to | numeric-hypercolumns Suffix |
-|------------------|------------------|------------------|------------------|
+|----|----|----|----|
 | `nncross_()` | [`nncross.ppp`](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/nncross.html)`(., what = 'dist')`, nearest neighbour distance | `multitype` marks | `.nncross` |
 
 ### In a pipeline
@@ -307,7 +305,7 @@ Function `aggregate_fv()` performs (truncated) aggregation of
 -   *`<mark>.<fv>.cumtrapz`*, the *cumulative trapezoidal integration* under the black-solid-curve
 -   *`<mark>.<fv>.cumvtrapz`*, the *cumulative average vertical height of trapezoidal integration* (see Appendix @sec-vtrapz) under the black-solid-curve
 
-When a user-specified $r_\text{max}$ is provided to a batch process (in @sec-batch) on *all* `ppp.object`s in the `ppp`-hypercolumn, inevitably some of the `fv`-returns may contain exceptional/illegal function values (see Appendix @sec-legal_rmax). In this case, the aggregation is *truncated* at the minimum legal $r_\text{max}$ of the `fv.object`s in each `fv`-hypercolumn. 
+When a user-specified $r_\text{max}$ is provided to a batch process (in @sec-batch) on *all* `ppp.object`s in the `ppp`-hypercolumn, inevitably some of the `fv`-returns may contain exceptional/illegal function values (see Appendix @sec-legal_rmax). In this case, the aggregation is *truncated* at the minimum legal $r_\text{max}$ of the `fv.object`s in each `fv`-hypercolumn.
 
 In the following example, we have
 
@@ -385,8 +383,6 @@ out |>
   aggregate_kerndens(by = ~ patient_id, from = 0, to = mdist)
 ```
 
-
-
 # Publication
 
 ## Non-Spatial Application
@@ -395,7 +391,9 @@ In our peer-reviewed publications
 
 > `r citation(package = 'hyper.gam')[[1L]] |> format(style = 'text') |> gsub(pattern = '\n', replacement = ' ', x = _)`
 
-<details><summary>[BibTeX](https://ctan.org/pkg/bibtex) and/or [BibLaTeX](https://ctan.org/pkg/biblatex) entries for [LaTeX](https://www.latex-project.org) users</summary>
+<details>
+
+<summary>[BibTeX](https://ctan.org/pkg/bibtex) and/or [BibLaTeX](https://ctan.org/pkg/biblatex) entries for [LaTeX](https://www.latex-project.org) users</summary>
 
 ```{r}
 #| echo: false
@@ -429,7 +427,6 @@ Ki67q |>
 
 Users are encouraged to learn more about this application from package **`hyper.gam`** vignette ([RPubs](https://rpubs.com/tingtingzhan/hyper_gam), [CRAN](https://CRAN.R-project.org/package=hyper.gam/vignettes/applications.html)), section *Quantile Index*.
 
-
 # Appendix
 
 We cover some minor and/or experimental features in the appendix, in order not to interrupt the main narrative of this vignette.
@@ -438,7 +435,7 @@ We cover some minor and/or experimental features in the appendix, in order not t
 
 ### Average Vertical Height {#sec-vtrapz}
 
-The [trapezoidal rule](https://en.wikipedia.org/wiki/Trapezoidal_rule) of approximating a definite integral is an ancient idea since the dawn of human civilization.  Let $\{x_k; k=0,\cdots,N\}$ be a partition of the real interval $[a,b]$ such that $a = x_0 < x_1 < \cdots < x_{N-1} < x_N = b$ and $\Delta x_k= x_k - x_{k-1}$ be the length of the $k$-th sub-interval, then the trapezoidal approximation of the integration $$
+The [trapezoidal rule](https://en.wikipedia.org/wiki/Trapezoidal_rule) of approximating a definite integral is an ancient idea since the dawn of human civilization. Let $\{x_k; k=0,\cdots,N\}$ be a partition of the real interval $[a,b]$ such that $a = x_0 < x_1 < \cdots < x_{N-1} < x_N = b$ and $\Delta x_k= x_k - x_{k-1}$ be the length of the $k$-th sub-interval, then the trapezoidal approximation of the integration $$
 \begin{split}
 \int_a^b f(x)\,dx & \approx \sum_{k=1}^{N}{\dfrac{f(x_{k-1})+f(x_{k})}{2}}\Delta x_{k} \\
 & = \left(\frac{f(x_0)}{2}+\sum _{k=1}^{N-1}f(x_{k})+\frac{f(x_N)}{2}\right)\Delta x, \quad\iff\ \forall k, \Delta x_{k}\equiv \Delta x
@@ -473,7 +470,6 @@ vtrapz(x, y)
 In R nomenclature, the term "cumulative" indicates an inclusive [scan](https://en.wikipedia.org/wiki/Prefix_sum#Scan_higher_order_function), that
 
 > The `i`th element of the output is the operation result of the first-`i`-elements of the input
-
 
 Function `pracma::cumtrapz()` calculates a cumulative trapezoidal integration. Note that the first element of the output is always `0`, as a trapezoidal integration needs at least $\left(x_0, f(x_0)\right)$ and $\left(x_1, f(x_1)\right)$.
 
@@ -542,7 +538,7 @@ The (nested) grouping structure `attr(., 'group')` of a `groupedHyperframe`
 Several `S3` method dispatches to `hyperframe` class in package **`spatstat.geom`** behave *very differently* from their counterpart in vanilla R. Users are strongly advised to read the documentation of these functions from package **`spatstat.geom`**.
 
 | Generic Function | Method Dispatch to `data.frame` | Method Dispatch to `hyperframe` |
-|------------------------|------------------------|------------------------|
+|----|----|----|
 | [`` base::`[` ``](https://search.r-project.org/R/refmans/base/html/Extract.html) | [`` base::`[.data.frame` ``](https://search.r-project.org/R/refmans/base/html/Extract.data.frame.html) | [`` spatstat.geom::`[.hyperframe` ``](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/Extract.hyperframe.html) |
 | [`` base::`$<-` ``](https://search.r-project.org/R/refmans/base/html/Extract.html) | [`` base::`$<-.data.frame` ``](https://search.r-project.org/R/refmans/base/html/Extract.data.frame.html) | [`` spatstat.geom::`$<-.hyperframe` ``](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/Extract.hyperframe.html) |
 | [`base::subset`](https://search.r-project.org/R/refmans/base/html/subset.html) | [`base::subset.data.frame`](https://search.r-project.org/R/refmans/base/html/subset.html) | [`spatstat.geom::subset.hyperframe`](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/subset.hyperframe.html) |
@@ -624,6 +620,25 @@ User may recreate the `hyperframe` *`fluM`* by combining the `hyperframe`s *`flu
 ```{r}
 fluS = superimpose.hyperframe(fluM2, fluM1)
 stopifnot(identical(fluS, fluM))
+```
+
+## On `anylist`
+
+### Derived class `'vectorlist'`
+
+The derived class `'vectorlist'`, i.e., a `listof` `vector`s, `inherits` from class `'anylist'`. The implementation of `'vectorlist'` is inspired by class `'solist'`.
+
+The `S3` method dispatch `t.vectorlist()` transposes a `'vectorlist'` of equi-`length`.
+
+The motivation of the derived class `'vectorlist'` and the method dispatch `t.vectorlist()` is that function `spatstat.geom::with.hyperframe()` could be slow in a batch process.
+
+```{r}
+x = spatstat.data::Kovesi$values
+class(x) = c('vectorlist', class(x)) 
+z1 = x |> t()
+z2 = spatstat.data::Kovesi |> 
+  spatstat.geom::with.hyperframe(expr = values[1L])
+stopifnot(identical(z1[[1L]], z2))
 ```
 
 ## On `fv.object`
@@ -726,7 +741,7 @@ In this appendix section, we discuss a couple methods applicable to the `ppp.obj
 The `S3` generic function `rmax_()` provides the default $r_\text{max}$ used in package **`spatstat.explore`** functions that returns an `fv.object`. The primary `S3` method dispatch `rmax_.ppp()` is an off-label use of the un-documented functions `spatstat.explore::rmax.rule()` and `spatstat.geom::handle.r.b.args()`.
 
 | Function in package **`spatstat.explore`** | Call of `spatstat.explore::rmax.rule` | Default $r_\text{max}$ via `rmax_()` |
-|------------------------|------------------------|------------------------|
+|----|----|----|
 | [`Emark` and `Vmark`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/Emark.html), [`markcorr`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/markcorr.html), [`markvario`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/markvario.html) | `rmax.rule(fun = 'K', ...)` | `rmax_(fun = 'K')` |
 | [`Kcross`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/Kcross.html) , workhorse `Kest` and `Kmulti` | `rmax.rule(fun = 'K', ...)` | `rmax_(fun = 'K')` or `rmax_(fun = 'K', i, j)` |
 | [`Gcross`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/Gcross.html), workhorse `Gest` and `Gmulti` | `rmax.rule(fun = 'G', ...)` | `rmax_(fun = 'G')` or `rmax_(fun = 'G', i, j)` |
@@ -981,7 +996,7 @@ The authors suggest users do `base::merge.data.frame()` first, then do `as.group
 ### in Math
 
 | Symbol | [LaTeX](https://www.latex-project.org) Source | Description | Example |
-|------------------|------------------|------------------|------------------|
+|----|----|----|----|
 | $\equiv$ | `$\equiv$` | Equivalent to | $x\equiv a$ says "variable $x$ is equivalent to constant $a$" |
 | $\forall$ | `$\forall$` | For all | $\forall k$ says "for all $k$" |
 | $\iff$ | `$\iff$` | If-and-only-if | $A\iff B$ says "$A$ is true, if and only if $B$ is true" |
@@ -989,7 +1004,7 @@ The authors suggest users do `base::merge.data.frame()` first, then do `as.group
 ### in R
 
 | Term / Abbreviation | Description |
-|------------------------------------|------------------------------------|
+|----|----|
 | CRAN, R | The Comprehensive R Archive Network, <https://cran.r-project.org> |
 | `Depends`, `Imports`, `Suggests`, `Enhances` | [*Writing R Extensions*, Section 1.1.3 *Package Dependencies*](https://cran.r-project.org/doc/manuals/r-devel/R-exts.html#Package-Dependencies) |
 | [`|>`](https://search.r-project.org/R/refmans/base/html/pipeOp.html) | Forward pipe operator introduced since R version 4.1.0 |
@@ -997,6 +1012,7 @@ The authors suggest users do `base::merge.data.frame()` first, then do `as.group
 | [`:`](https://search.r-project.org/R/refmans/base/html/Colon.html) | Colon operator for [`interaction`](https://search.r-project.org/R/refmans/base/html/interaction.html) of [`factor`](https://search.r-project.org/R/refmans/base/html/factor.html)s, see section *Details* of [`formula`](https://search.r-project.org/R/refmans/stats/html/formula.html) documentation |
 | `/` | Forward slash operator for nested grouping structure, see section *Details* of [`formula`](https://search.r-project.org/R/refmans/stats/html/formula.html) documentation |
 | [`::`](https://search.r-project.org/R/refmans/base/html/ns-dblcolon.html) | Explicitly-[namespace](https://search.r-project.org/R/refmans/base/html/ns-reflect.html)d function or object |
+| [`anylist`](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/anylist.html) | List of objects, from package **`spatstat.geom`** |
 | [`attr`](https://search.r-project.org/R/refmans/base/html/attr.html), [`attributes`](https://search.r-project.org/R/refmans/base/html/attributes.html) | Attributes |
 | [`cor`, `cov`, `cov2cor`](https://search.r-project.org/R/refmans/stats/html/cor.html) | Correlation matrix, variance-covariance matrix, and their conversion |
 | [`cor.spatial`](https://search.r-project.org/CRAN/refmans/SpatialPack/html/cor.spatial.html) | Tjøstheim's nonparametric correlation coefficient, from package **`SpatialPack`** [@SpatialPack] |
@@ -1038,6 +1054,7 @@ The authors suggest users do `base::merge.data.frame()` first, then do `as.group
 | [`save`](https://search.r-project.org/R/refmans/base/html/save.html), [`saveRDS`](https://search.r-project.org/R/refmans/base/html/readRDS.html), `xz` | Save with [`xz`](https://en.wikipedia.org/wiki/XZ_Utils) compression |
 | [`sd`](https://search.r-project.org/R/refmans/stats/html/sd.html) | Standard deviation |
 | [`search`](https://search.r-project.org/R/refmans/base/html/search.html) | Search path |
+| [`solist`](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/solist.html) | List of two-dimensional spatial objects, from package **`spatstat.geom`** |
 | [`split`](https://search.r-project.org/R/refmans/base/html/split.html) | Divide into groups |
 | [`stopifnot`](https://search.r-project.org/R/refmans/base/html/stopifnot.html) | To ensure the truth of R [`expression`](https://search.r-project.org/R/refmans/base/html/expression.html)s |
 | [`Surv`](https://search.r-project.org/CRAN/refmans/survival/html/Surv.html) | Survival, i.e., time-to-event, object, from package **`survival`** [@survival] |
