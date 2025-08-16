@@ -1,0 +1,12 @@
+  
+  
+bibentry(
+  bibtype = 'Manual',
+  title = 'groupedHyperframe: Grouped Hyper Data Frame: An Extension of Hyper Data Frame',
+  author = c('Tingting Zhan', 'Inna Chervoneva'),
+  year = '2025', # Sys.Date() |> as.POSIXlt() |> then??? (without imports lubridate::year)
+  note = 'R package version 0.2.5',
+  url = 'http://github.com/tingtingzhan/groupedHyperframe',
+  doi = '10.32614/CRAN.package.groupedHyperframe'
+)
+
