@@ -8,7 +8,9 @@
 
 
 
-
+# citation(auto = packageDescription('groupedHyperframe'))
+# requires installed package from CRAN..
+# ?utils::citation does *not* need to Imports the package!!
 
 
 

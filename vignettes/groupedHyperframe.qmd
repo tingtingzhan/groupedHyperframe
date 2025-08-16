@@ -393,16 +393,17 @@ out |>
 
 In our peer-reviewed publications
 
-> `r bib_btaf430() |> format(style = 'text') |> gsub(pattern = '\n', replacement = ' ', x = _)`
+> `r citation(package = 'hyper.gam')[[1L]] |> format(style = 'text') |> gsub(pattern = '\n', replacement = ' ', x = _)`
 
 <details><summary>[BibTeX](https://ctan.org/pkg/bibtex) and/or [BibLaTeX](https://ctan.org/pkg/biblatex) entries for [LaTeX](https://www.latex-project.org) users</summary>
 
 ```{r}
 #| echo: false
 #| comment: ''
-bib_btaf430() |> toBibtex()
-bib_groupedHyperframe() |> toBibtex()
-bib_hypergam() |> toBibtex()
+c(
+  citation(package = 'hyper.gam'),
+  citation(package = 'groupedHyperframe')
+) |> toBibtex()
 ```
 
 </details>

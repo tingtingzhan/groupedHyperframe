@@ -12,6 +12,13 @@ An S3 class 'groupedHyperframe' that inherits from hyper data frame. Batch proce
 Help files of individual functions are intentionally suppressed in the \code{pdf} manual.
 Users are encouraged to get started with the vignettes.
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{http://github.com/tingtingzhan/groupedHyperframe}
+}
+
+}
 \author{
 \strong{Maintainer}: Tingting Zhan \email{tingtingzhan@gmail.com} (\href{https://orcid.org/0000-0001-9971-4844}{ORCID})
 
