@@ -15,7 +15,7 @@ bibliography: groupedHyperframe.bib
 knitr:
   opts_chunk: 
     collapse: true
-    comment: "#>" 
+    comment: "#" 
 vignette: >
   %\VignetteIndexEntry{intro}
   %\VignetteEngine{quarto::html}
