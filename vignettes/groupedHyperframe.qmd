@@ -442,7 +442,7 @@ The [trapezoidal rule](https://en.wikipedia.org/wiki/Trapezoidal_rule) of approx
 \end{split}
 $$ {#eq-trapz}
 
-We define the *average vertical height* of a trapezoidal integration as (@eq-trapz) divided by $N\Delta x=b-a$, the length of $x$-domain,
+We define the *average vertical height* of a trapezoidal integration as (@eq-trapz) divided by the length of $x$-domain $N\Delta x=b-a$,
 
 $$
 \dfrac{\displaystyle\int_{a}^{b}f(x)\,dx}{b-a}\approx N^{-1}\left(\frac{f(x_0)}{2}+\sum _{k=1}^{N-1}f(x_{k})+\frac{f(x_N)}{2}\right)
@@ -702,6 +702,15 @@ z256 = spatstat.data::Kovesi |>
   spatstat.geom::with.hyperframe(expr = values[256L])
 stopifnot(identical(Kovesi_values_t[[256L]], z256))
 ```
+
+The derived class `'vectorlist'` is not part of package **`spatstat.geom`** as of dev v`r packageVersion('spatstat.geom')`.  Users may call the `S3` method dispatch `t.vectorlist()` explicitly. 
+
+```{r}
+#| code-fold: true
+#| code-summary: 'Workaround before package **`spatstat.geom`** (ever) implements class `vectorlist`'
+stopifnot(identical(Kovesi_values_t, t.vectorlist(spatstat.data::Kovesi$values)))
+```
+
 
 
 ## On `fv.object`
