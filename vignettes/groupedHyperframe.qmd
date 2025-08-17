@@ -420,7 +420,7 @@ Ki67q = groupedHyperframe::Ki67 |>
 ```{r}
 #| message: false
 #| code-fold: true
-#| code-summary: 'A `hyperframe` *`Ki67q`*: aggregated quantiles'
+#| code-summary: 'A `hyperframe` object *`Ki67q`*: aggregated quantiles'
 Ki67q |>
   head()
 ```
@@ -624,22 +624,85 @@ stopifnot(identical(fluS, fluM))
 
 ## On `anylist`
 
-### Derived class `'vectorlist'`
+### Derived Class `'vectorlist'`
 
-The derived class `'vectorlist'`, i.e., a `listof` `vector`s, `inherits` from class `'anylist'`. The implementation of `'vectorlist'` is inspired by class `'solist'`.
+The derived class `'vectorlist'`, i.e., a `listof` `vector`s, `inherits` from class `'anylist'`. The implementation of `'vectorlist'` is inspired by class `'solist'`.  We use the `character`-hypercolumn *`values`* of data set *`Kovesi`* from package **`spatstat.data`** to illustrate this concept.
+
+```{r}
+#| code-fold: true
+#| code-summary: 'A `hyperframe` object *`spatstat.data::Kovesi`*'
+spatstat.data::Kovesi |>
+  head()
+```
+
+The `character`-hypercolumn *`spatstat.data::Kovesi$values`* has class `'anylist'`, which inherits from `'listof'`.  This is a `length`-41 `listof` `character` `vector`s of equi-`length`, i.e., all `vector`-elements have `length`-256.
+
+```{r}
+#| code-fold: true
+#| code-summary: 'An `anylist` object *`spatstat.data::Kovesi$values`*'
+spatstat.data::Kovesi$values |>
+  class()
+spatstat.data::Kovesi$values |>
+  length()
+spatstat.data::Kovesi$values |>
+  lengths() |>
+  unique.default()
+```
+
+Now we create an object *`Kovesi_values`* of a derived class `'vectorlist'`.
+
+```{r}
+Kovesi_values = spatstat.data::Kovesi$values
+class(Kovesi_values) = c('vectorlist', class(Kovesi_values))
+class(Kovesi_values)
+```
 
 The `S3` method dispatch `t.vectorlist()` transposes a `'vectorlist'` of equi-`length`.
 
-The motivation of the derived class `'vectorlist'` and the method dispatch `t.vectorlist()` is that function `spatstat.geom::with.hyperframe()` could be slow in a batch process.
+```{r}
+Kovesi_values_t = Kovesi_values |> t()
+```
+
+The `S3` method dispatch `t.vectorlist()` returns a `'vectorlist'`, but with the `length` and `lengths` of the input switched.  The use of the term "transpose", and the extension of the generic function `base::t()`, mirrors the use of `base:::t.default()` to transpose a `'matrix'`, i.e., to switch the `ncol` and `nrow` of the input `'matrix'`.   The returned object *`Kovesi_values_t`* is a `length`-256 `listof` `vector`s, all elements of which have `length`-41.
 
 ```{r}
-x = spatstat.data::Kovesi$values
-class(x) = c('vectorlist', class(x)) 
-z1 = x |> t()
-z2 = spatstat.data::Kovesi |> 
-  spatstat.geom::with.hyperframe(expr = values[1L])
-stopifnot(identical(z1[[1L]], z2))
+#| code-fold: true
+#| code-summary: 'Transposed object *`Kovesi_values_t`*'
+class(Kovesi_values_t)
+Kovesi_values_t |>
+  length()
+Kovesi_values_t |>
+  lengths() |>
+  unique.default()
 ```
+
+
+The motivation of the derived class `'vectorlist'` and the `S3` method dispatch `t.vectorlist()` is that the function `spatstat.geom::with.hyperframe()` could be slow in a batch process.
+
+```{r}
+#| code-fold: true
+#| code-summary: 'Transposed element 1'
+z1 = spatstat.data::Kovesi |> 
+  spatstat.geom::with.hyperframe(expr = values[1L])
+stopifnot(identical(Kovesi_values_t[[1L]], z1))
+```
+
+```{r}
+#| code-fold: true
+#| code-summary: 'Transposed element 2'
+z2 = spatstat.data::Kovesi |> 
+  spatstat.geom::with.hyperframe(expr = values[2L])
+stopifnot(identical(Kovesi_values_t[[2L]], z2))
+```
+
+```{r}
+#| code-fold: true
+#| code-summary: 'Transposed element 256'
+z256 = spatstat.data::Kovesi |> 
+  spatstat.geom::with.hyperframe(expr = values[256L])
+stopifnot(identical(Kovesi_values_t[[256L]], z256))
+```
+
 
 ## On `fv.object`
 
@@ -1032,17 +1095,21 @@ The authors suggest users do `base::merge.data.frame()` first, then do `as.group
 | `kerndens` | Kernel [`density`](https://search.r-project.org/R/refmans/stats/html/density.html), `stats::density.default()$y` |
 | [`kmeans`](https://search.r-project.org/R/refmans/stats/html/kmeans.html) | $k$-means clustering [@kmeans] |
 | [`language`](https://search.r-project.org/R/refmans/base/html/is.language.html) | R language object |
+| [`length`](https://search.r-project.org/R/refmans/base/html/length.html) | Length of an object |
+| [`lengths`](https://search.r-project.org/R/refmans/base/html/lengths.html) | Lengths of `list` or `vector` elements |
 | [`list`](https://search.r-project.org/R/refmans/base/html/list.html), [`listof`](https://search.r-project.org/R/refmans/stats/html/listof.html) | Lists of objects |
 | [`.Machine`](https://search.r-project.org/R/refmans/base/html/zMachine.html) | Numerical characteristics of the machine R is running on, e.g., 32-bit integers and IEC 60559 floating-point (double precision) arithmetic |
 | [`markformat`](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/spatstat.geom-internal.html) | Storage mode of `marks`, from package **`spatstat.geom`** |
 | [`marks`](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/spatstat.geom-internal.html), [`is.marked`](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/is.marked.html) | Marks of a point pattern, from package **`spatstat.geom`** |
 | [`match`](https://search.r-project.org/R/refmans/base/html/match.html) | Value matching |
+| [`matrix`](https://search.r-project.org/R/refmans/base/html/matrix.html) | Matrices |
 | [`merge`](https://search.r-project.org/R/refmans/base/html/merge.html) | Merge two `data.frame`s |
 | [`mc.cores`](https://search.r-project.org/R/refmans/parallel/html/mclapply.html) | Number of central processing unit (CPU) cores to use for parallel computing |
 | [`message`](https://search.r-project.org/R/refmans/base/html/message.html) | Diagnostic message printed in R console |
 | [`multitype`](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/spatstat.geom-internal.html) | Multitype spatial object, from package **`spatstat.geom`** |
 | [`NaN`](https://search.r-project.org/R/refmans/base/html/is.finite.html) | Not-a-Number |
 | [`names`](https://search.r-project.org/R/refmans/base/html/names.html) | Names of an R object |
+| [`ncol`, `nrow`](https://search.r-project.org/R/refmans/base/html/nrow.html) | Number of rows/columns of an [`array`](https://search.r-project.org/R/refmans/base/html/array.html) |
 | [`npoints`](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/npoints.html) | Number of points in a point pattern, from package **`spatstat.geom`** |
 | [`object.size`](https://search.r-project.org/R/refmans/utils/html/object.size.html) | Memory allocation |
 | `pmean`, `pmedian` | Point-wise mean and median, from package `groupedHyperframe` |
@@ -1059,6 +1126,7 @@ The authors suggest users do `base::merge.data.frame()` first, then do `as.group
 | [`stopifnot`](https://search.r-project.org/R/refmans/base/html/stopifnot.html) | To ensure the truth of R [`expression`](https://search.r-project.org/R/refmans/base/html/expression.html)s |
 | [`Surv`](https://search.r-project.org/CRAN/refmans/survival/html/Surv.html) | Survival, i.e., time-to-event, object, from package **`survival`** [@survival] |
 | [`symbol`, `name`](https://search.r-project.org/R/refmans/base/html/name.html) | R object name/symbol |
+| [`t`, `t.default`](https://search.r-project.org/R/refmans/base/html/t.html) | Transpose |
 | [`tempfile`](https://search.r-project.org/R/refmans/base/html/tempfile.html) | Create names for temporary files |
 | [`trapz`, `cumtrapz`](https://search.r-project.org/CRAN/refmans/pracma/html/trapz.html) | (Cumulative) [trapezoidal integration](https://en.wikipedia.org/wiki/Trapezoidal_rule), from package **`pracma`** [@pracma] |
 | [`unclass`](https://search.r-project.org/R/refmans/base/html/class.html) | Remove `S3` `'class'` attribute |
