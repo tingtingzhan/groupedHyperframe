@@ -128,6 +128,8 @@ This work is supported by National Institutes of Health, U.S. Department of Heal
 -   R01CA222847 ([I. Chervoneva](https://orcid.org/0000-0002-9104-4505), [T. Zhan](https://orcid.org/0000-0001-9971-4844), and [H. Rui](https://orcid.org/0000-0002-8778-261X))
 -   R01CA253977 (H. Rui and I. Chervoneva).
 
+{{< pagebreak >}}
+
 # Grouped Hyper Data Frame {#sec-groupedHyperframe}
 
 An `S3` class `hyperframe`, for **hyper data frame**, is defined in package **`spatstat.geom`**. A `hyperframe` contains columns either as `vector`s like in a `data.frame`, or as `list`s of objects of the same class, a.k.a., the `hypercolumns`. The `hyperframe` data structure is particularly useful in spatial analysis, e.g., with medical images, where the spatial information in each image would be represented by one element in a hypercolumn. For example, example data *`demohyper`* from package **`spatstat.data`** contains a `factor` column *`Group`*, a point-pattern `ppp`-hypercolumn *`Points`*, and a pixel image `im`-hypercolumn *`Image`*. Several `S3` method dispatches to the `hyperframe` class behave *very differently* from their counterpart in vanilla R, see Appendix @sec-hyperframe.
@@ -208,6 +210,8 @@ spatstat.data::osteo |>
 ```
 
 In this vignette, we do not place much emphasize on the objects provided in package **`spatstat.data`**, for now.
+
+{{< pagebreak >}}
 
 # Grouping `ppp`-Hypercolumn
 
@@ -334,23 +338,35 @@ out |>
   aggregate_fv(by = ~ patient_id, f_aggr_ = pmean, rmax = 260)
 ```
 
-Each one of the numeric-hypercolumns contains tabulated values on the common grid of $r$. One "slice" of the hypercolumn *`hladr.E.cumtrapz`* at $r=50$ may be extracted by calling the `S3` method dispatch `spatstat.geom::with.hyperframe()` (which behaves *very differently* from function `base::with.default()`, see Appendix @sec-hyperframe),
+Each one of the numeric-hypercolumns contains tabulated values on the common grid of $r$. One "slice" of the hypercolumn *`hladr.E.cumvtrapz`* at $r=50$ may be extracted by calling the `S3` method dispatch `spatstat.geom::with.hyperframe()` (which behaves *very differently* from function `base::with.default()`, see Appendix @sec-hyperframe),
 
 ```{r}
-afv |>
+E_r50_a = afv |>
   with(expr = {
-    hladr.E.cumtrapz['50']
+    hladr.E.cumvtrapz['50']
   })
+E_r50_a
 ```
 
-Alternatively, the 5th slice (which corresponds to $r=50$, as the cumulative trapzoidal integration starts at the second index $r=10$ instead of the first index $r=0$) of the hypercolumn *`hladr.E.cumtrapz`* may be extracted by
+Alternatively, the 5th slice (which corresponds to $r=50$, as the cumulative trapzoidal integration starts at $r=10$ instead of $r=0$) of the hypercolumn *`hladr.E.cumvtrapz`* may be extracted by
 
 ```{r}
-afv |>
+E_r50_b = afv |>
   with(expr = {
-    hladr.E.cumtrapz[5L]
+    hladr.E.cumvtrapz[5L]
   })
+E_r50_b
+stopifnot(identical(E_r50_a, E_r50_b))
 ```
+
+Advanced users may use the `S3` method dispatch `t.vectorlist()` in Appendix @sec-vectorlist.
+
+```{r}
+tE = afv$hladr.E.cumvtrapz |>
+  t.vectorlist()
+stopifnot(identical(E_r50_a, tE[[5L]]))
+```
+
 
 ### Of numeric-hypercolumn, and numeric marks in `ppp`-hypercolumn
 
@@ -382,6 +398,8 @@ In the following example, we have
 out |> 
   aggregate_kerndens(by = ~ patient_id, from = 0, to = mdist)
 ```
+
+{{< pagebreak >}}
 
 # Publication
 
@@ -426,6 +444,8 @@ Ki67q |>
 ```
 
 Users are encouraged to learn more about this application from package **`hyper.gam`** vignette ([RPubs](https://rpubs.com/tingtingzhan/hyper_gam), [CRAN](https://CRAN.R-project.org/package=hyper.gam/vignettes/applications.html)), section *Quantile Index*.
+
+{{< pagebreak >}}
 
 # Appendix
 
@@ -624,7 +644,7 @@ stopifnot(identical(fluS, fluM))
 
 ## On `anylist`
 
-### Derived Class `'vectorlist'`
+### Derived Class `'vectorlist'` {#sec-vectorlist}
 
 The derived class `'vectorlist'`, i.e., a `listof` `vector`s, `inherits` from class `'anylist'`. The implementation of `'vectorlist'` is inspired by class `'solist'`.  We use the `character`-hypercolumn *`values`* of data set *`Kovesi`* from package **`spatstat.data`** to illustrate this concept.
 
@@ -703,12 +723,12 @@ z256 = spatstat.data::Kovesi |>
 stopifnot(identical(Kovesi_values_t[[256L]], z256))
 ```
 
-The derived class `'vectorlist'` is not part of package **`spatstat.geom`** as of dev v`r packageVersion('spatstat.geom')`.  Users may call the `S3` method dispatch `t.vectorlist()` explicitly. 
+The derived class `'vectorlist'` is not part of package **`spatstat.geom`** as of dev v`r packageVersion('spatstat.geom')`.  Users may call the `S3` method dispatch `t.vectorlist()` explicitly as a workaround before package **`spatstat.geom`** (ever) implements the class `vectorlist`.
 
 ```{r}
-#| code-fold: true
-#| code-summary: 'Workaround before package **`spatstat.geom`** (ever) implements class `vectorlist`'
-stopifnot(identical(Kovesi_values_t, t.vectorlist(spatstat.data::Kovesi$values)))
+Kovesi_values_t2 = spatstat.data::Kovesi$values |>
+  t.vectorlist()
+stopifnot(identical(Kovesi_values_t, Kovesi_values_t2))
 ```
 
 
@@ -1140,6 +1160,8 @@ The authors suggest users do `base::merge.data.frame()` first, then do `as.group
 | [`trapz`, `cumtrapz`](https://search.r-project.org/CRAN/refmans/pracma/html/trapz.html) | (Cumulative) [trapezoidal integration](https://en.wikipedia.org/wiki/Trapezoidal_rule), from package **`pracma`** [@pracma] |
 | [`unclass`](https://search.r-project.org/R/refmans/base/html/class.html) | Remove `S3` `'class'` attribute |
 | [`vector`](https://search.r-project.org/R/refmans/base/html/vector.html) | Vector |
+
+{{< pagebreak >}}
 
 # References
 
