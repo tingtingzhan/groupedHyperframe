@@ -677,13 +677,12 @@ class(Kovesi_values) = c('vectorlist', class(Kovesi_values))
 class(Kovesi_values)
 ```
 
-The `S3` method dispatch `t.vectorlist()` transposes a `'vectorlist'` of equi-`length`.
+The `S3` method dispatch `t.vectorlist()` transposes a `'vectorlist'` of equi-`length` into another `'vectorlist'`, but with the `length` and `lengths` of the input switched.  The use of the term "transpose", and the extension of the generic function `base::t()`, mirrors the use of `base:::t.default()` to transpose a `'matrix'`, i.e., to switch the `ncol` and `nrow` of the input `'matrix'`.   The returned object *`Kovesi_values_t`* is a `length`-256 `listof` `vector`s, all elements of which have `length`-41.
 
 ```{r}
 Kovesi_values_t = Kovesi_values |> t()
 ```
 
-The `S3` method dispatch `t.vectorlist()` returns a `'vectorlist'`, but with the `length` and `lengths` of the input switched.  The use of the term "transpose", and the extension of the generic function `base::t()`, mirrors the use of `base:::t.default()` to transpose a `'matrix'`, i.e., to switch the `ncol` and `nrow` of the input `'matrix'`.   The returned object *`Kovesi_values_t`* is a `length`-256 `listof` `vector`s, all elements of which have `length`-41.
 
 ```{r}
 #| code-fold: true
