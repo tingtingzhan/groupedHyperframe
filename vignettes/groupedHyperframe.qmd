@@ -66,7 +66,7 @@ Package **`groupedHyperframe`** `Suggests` packages
 
 ## Prerequisite
 
-Package **`groupedHyperframe`** requires R version 4.5.0 (released 2025-04-11) or higher ([macOS](https://cran.r-project.org/bin/macosx/), [Windows](https://cran.r-project.org/bin/windows/base/)). An Integrated Development Environment (IDE), e.g., [RStudio](https://posit.co/download/rstudio-desktop/) or [Positron](https://positron.posit.co/download.html), is not required, but highly recommended. This vignette is created under `r R.version$version.string` using packages **`knitr`** [@knitr, v`r packageVersion('knitr')`], **`quarto`** [@quarto, v`r packageVersion('quarto')` with [Quarto](https://quarto.org/docs/get-started/) v`r quarto::quarto_version()`] and **`rmarkdown`** [@rmarkdown, v`r packageVersion('rmarkdown')`].
+Package **`groupedHyperframe`** requires R version 4.5.0 (released 2025-04-11) or higher ([macOS](https://cran.r-project.org/bin/macosx/), [Windows](https://cran.r-project.org/bin/windows/base/)). An Integrated Development Environment (IDE), e.g., [RStudio](https://posit.co/download/rstudio-desktop/) [@RStudio] or [Positron](https://positron.posit.co/download.html), is not required, but highly recommended. This vignette is created under `r R.version$version.string` using packages **`knitr`** [@knitr, v`r packageVersion('knitr')`], **`quarto`** [@quarto, v`r packageVersion('quarto')` with [Quarto](https://quarto.org/docs/get-started/) v`r quarto::quarto_version()`] and **`rmarkdown`** [@rmarkdown, v`r packageVersion('rmarkdown')`].
 
 ```{r}
 #| code-fold: true
@@ -635,7 +635,7 @@ fluM2$pattern |>
   sapply(FUN = spatstat.geom::npoints)
 ```
 
-User may recreate the `hyperframe` *`fluM`* by combining the `hyperframe`s *`fluM2`* and *`fluM1`* using the `S3` method dispatch `superimpose.hyperframe()`. Note that the order of *`fluM2`*-then-*`fluM1`* matters, because the points are arranged in *`M2`*-then-*`M1`* in the original hypercolumn *`fluM$pattern`*.
+The `S3` method dispatch `superimpose.hyperframe()` recreates the `hyperframe` *`fluM`* by combining the `hyperframe`s *`fluM2`* and *`fluM1`*. Note that the order of *`fluM2`*-then-*`fluM1`* matters, because the points are arranged in *`M2`*-then-*`M1`* in the original hypercolumn *`fluM$pattern`*.
 
 ```{r}
 fluS = superimpose.hyperframe(fluM2, fluM1)
