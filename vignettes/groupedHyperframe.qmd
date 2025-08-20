@@ -827,6 +827,52 @@ fv |>
 
 In this appendix section, we discuss a couple methods applicable to the `ppp.object`.
 
+### Append to Existing `marks`
+
+The `S3` generic syntactic sugar `append_marks<-()` appends an additional mark to the existing `marks`.
+
+The `S3` method dispatch `append_marks<-.ppp()` appends an additional mark to the existing `marks` of an `ppp.object`.
+
+```{r}
+#| code-fold: true
+#| code-summary: '`append_marks<-.ppp()`: no existing marks'
+data(vesicles, package = 'spatstat.data')
+vesicles |> spatstat.geom::print.ppp()
+set.seed(12); append_marks(vesicles) = rlnorm(n = spatstat.geom::npoints(vesicles))
+vesicles |> spatstat.geom::print.ppp()
+```
+
+
+```{r}
+#| code-fold: true
+#| code-summary: '`append_marks<-.ppp()`: existing `numeric` marks'
+data(waka, package = 'spatstat.data')
+waka |> spatstat.geom::print.ppp()
+set.seed(23); append_marks(waka) = rlnorm(n = spatstat.geom::npoints(waka))
+waka |> spatstat.geom::print.ppp()
+```
+
+
+```{r}
+#| code-fold: true
+#| code-summary: '`append_marks<-.ppp()`: existing `multitype` marks'
+data(urkiola, package = 'spatstat.data')
+urkiola |> spatstat.geom::print.ppp()
+set.seed(42); append_marks(urkiola) = rlnorm(n = spatstat.geom::npoints(urkiola))
+urkiola |> spatstat.geom::print.ppp()
+```
+
+
+```{r}
+#| code-fold: true
+#| code-summary: '`append_marks<-.ppp()`: existing `dataframe` marks'
+data(stonetools, package = 'spatstat.data')
+stonetools |> spatstat.geom::print.ppp()
+set.seed(33); append_marks(stonetools) = rlnorm(n = spatstat.geom::npoints(stonetools))
+stonetools |> spatstat.geom::print.ppp()
+```
+
+
 ### Default $r_\text{max}$ {#sec-default_rmax}
 
 The `S3` generic function `rmax_()` provides the default $r_\text{max}$ used in package **`spatstat.explore`** functions that returns an `fv.object`. The primary `S3` method dispatch `rmax_.ppp()` is an off-label use of the un-documented functions `spatstat.explore::rmax.rule()` and `spatstat.geom::handle.r.b.args()`.
