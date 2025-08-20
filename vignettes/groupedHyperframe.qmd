@@ -1132,11 +1132,11 @@ The authors suggest users do `base::merge.data.frame()` first, then do `as.group
 
 ### in Math
 
-| Symbol | [LaTeX](https://www.latex-project.org) Source | Description | Example |
+| Symbol | [LaTeX](https://www.latex-project.org) Source | Example | Translate To |
 |----|----|----|----|
-| $\equiv$ | `$\equiv$` | Equivalent to | $x\equiv a$ says "variable $x$ is equivalent to constant $a$" |
-| $\forall$ | `$\forall$` | For all | $\forall k$ says "for all $k$" |
-| $\iff$ | `$\iff$` | If-and-only-if | $A\iff B$ says "$A$ is true, if and only if $B$ is true" |
+| $\equiv$ | `$\equiv$` | $x\equiv a$ | Variable $x$ is equivalent to constant $a$ |
+| $\forall$ | `$\forall$` | $\forall k$ | For all $k$ |
+| $\iff$ | `$\iff$` | $A\iff B$ | $A$ is true, if and only if $B$ is true |
 
 ### in R
 
