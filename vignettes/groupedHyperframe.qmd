@@ -164,13 +164,24 @@ wrobel_lung0 = wrobel_lung |>
 ```
 
 ```{r}
-wrobel_lung0 |> head()
+#| code-fold: true
+#| code-summary: 'A `data.frame` object *`wrobel_lung0`*'
+wrobel_lung0 |> 
+  head()
 ```
 
-By converting *`wrobel_lung0`* into a `groupedHyperframe`, the numeric *`hladr`* values from each *`~patient_id/image_id`* are converted into elements of the numeric-hypercolumn *`hladr`* in the returned object *`wrobel_lung0g`*. Each row of a `groupedHyperframe` represents the lowest group of the nested grouping structure. The `S3` method dispatch `print.groupedHyperframe()` highlights the nested grouping structure, number of clusters at each grouping level, as well as the first 10 (or less) rows of the `groupedHyperframe`.
+The `S3` method dispatch `as.groupedHyperframe.data.frame()` converts *`wrobel_lung0`* into a `groupedHyperframe`. The numeric *`hladr`* values from each *`~patient_id/image_id`* are converted into elements of the numeric-hypercolumn *`hladr`* in the returned object *`wrobel_lung0g`*. Each row of a `groupedHyperframe` represents the lowest group of the nested grouping structure. 
 
 ```{r}
-(wrobel_lung0g = wrobel_lung0 |> as.groupedHyperframe(group = ~ patient_id/image_id))
+wrobel_lung0g = wrobel_lung0 |> 
+  as.groupedHyperframe(group = ~ patient_id/image_id)
+```
+
+
+The `S3` method dispatch `print.groupedHyperframe()` highlights the nested grouping structure, number of clusters at each grouping level, as well as the first 10 (or less) rows of the input.
+
+```{r}
+wrobel_lung0g
 ```
 
 Converting a `data.frame` with substantial amount of duplicated information into a `groupedHyperframe` greatly reduces the memory allocation. A `groupedHyperframe`, however, would not reduce much the `save`d `file.size` compared to a `data.frame`, if `xz` compression is used for both.
@@ -224,12 +235,12 @@ In this section, we first introduce the creation of a `groupedHyperframe` with *
 Function `grouped_ppp()` creates a `groupedHyperframe` with *one-and-only-one* `ppp`-hypercolumn. In the following example, the argument `formula` takes form of `<marks> ~ <variable.of.interest> | <group>`, specifically,
 
 -   the point pattern `marks`, e.g., numeric mark *`hladr`* and `multitype` mark *`phenotype`*, on the left-hand-side
--   the additional predictors and/or endpoints for downstream analysis, e.g., *`OS`*, *`gender`* and *`age`*, before the `|` separator on the right-hand-side. Alternatively, user may use the dot symbol `.` to denote the remaining variables except for those mentioned in the `marks` and the nested grouping structure. The grammar of dot symbol `.` is explained in section *Details* of [`stats::formula`](https://search.r-project.org/R/refmans/stats/html/formula.html) documentation, as well as section *Arguments* of [`stats::terms.formula`](https://search.r-project.org/R/refmans/stats/html/terms.formula.html) documentation.
+-   the additional predictors and/or endpoints for downstream analysis, e.g., *`OS`*, *`gender`* and *`age`*, before the `|` separator on the right-hand-side. Alternatively, user may use the dot symbol `.` to denote the remaining variables except for those mentioned in the `marks` and the nested grouping structure. 
 -   the (nested) grouping structure, e.g., *`image_id`* nested in *`patient_id`*, after the `|` separator on the right-hand-side.
 
 ```{r}
-(s = wrobel_lung |>
-   grouped_ppp(formula = hladr + phenotype ~ OS + gender + age | patient_id/image_id))
+s = wrobel_lung |>
+   grouped_ppp(formula = hladr + phenotype ~ OS + gender + age | patient_id/image_id)
 ```
 
 ```{r}
@@ -238,6 +249,15 @@ Function `grouped_ppp()` creates a `groupedHyperframe` with *one-and-only-one* `
 wrobel_lung |>
    grouped_ppp(formula = hladr + phenotype ~ . | patient_id/image_id)
 ```
+
+
+The `S3` method dispatch `print.groupedHyperframe()` highlights the nested grouping structure, number of clusters at each grouping level, as well as the first 10 (or less) rows of the `groupedHyperframe`.
+
+```{r}
+s
+```
+
+
 
 ## Batch processes {#sec-batch}
 
