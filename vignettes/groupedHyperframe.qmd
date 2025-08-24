@@ -534,7 +534,7 @@ cumvtrapz(x, y)
 ```{r}
 #| label: fig-vtrapz
 #| code-fold: true
-#| code-summary: "R code to illustrate (cumulative) average vertical height of trapezoidal integration"  
+#| code-summary: "R code: (cumulative) average vertical height of trapezoidal integration"  
 #| fig-height: 3
 #| fig-width: 5.5
 #| fig-align: left
@@ -542,6 +542,39 @@ cumvtrapz(x, y)
 visualize_vtrapz(x, y) + 
   ggplot2::theme_minimal()
 ```
+
+
+@fig-vtrapz-E shows the `cumvtrapz()` of function `spatstat.explore::Emark()`.  [Say some English]{style="background-color: #FFFF00"}
+
+```{r}
+#| label: fig-vtrapz-E
+#| code-fold: true
+#| code-summary: "R code: `cumvtrapz()` of `spatstat.explore::Emark()`"  
+#| fig-height: 3
+#| fig-width: 5.5
+#| fig-align: left
+#| fig-cap: "(Cumulative) average vertical height of `spatstat.explore::Emark()`"
+spatstat.data::spruces |>
+  spatstat.explore::Emark() |>
+  visualize_vtrapz.fv() + ggplot2::theme_minimal()
+```
+
+@fig-vtrapz-V shows the `cumvtrapz()` of function `spatstat.explore::Vmark()`.  [Say some English]{style="background-color: #FFFF00"}
+
+
+```{r}
+#| label: fig-vtrapz-V
+#| code-fold: true
+#| code-summary: "R code: `cumvtrapz()` of `spatstat.explore::Vmark()`"  
+#| fig-height: 3
+#| fig-width: 5.5
+#| fig-align: left
+#| fig-cap: "(Cumulative) average vertical height of `spatstat.explore::Vmark()`"
+spatstat.data::spruces |>
+  spatstat.explore::Vmark() |>
+  visualize_vtrapz.fv() + ggplot2::theme_minimal()
+```
+
 
 ## On `groupedHyperframe` {#sec-groupedHyperframe-appendix}
 
