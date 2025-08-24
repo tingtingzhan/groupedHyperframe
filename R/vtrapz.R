@@ -58,6 +58,8 @@ cumvtrapz <- function(x, ...) {
 #' 
 #' @param draw.rect \link[base]{logical} scalar, whether to plot the rectangle, default `TRUE`
 #' 
+#' @param ... additional parameters, currently of no use
+#' 
 #' @keywords internal
 #' @importFrom ggplot2 ggplot aes geom_path geom_rect scale_x_continuous ylim
 #' @importFrom geomtextpath geom_textpath
@@ -67,7 +69,8 @@ visualize_vtrapz <- function(
     x, y,
     draw.v = TRUE,
     draw.cumv = TRUE,
-    draw.rect = TRUE
+    draw.rect = TRUE, 
+    ...
 ) {
   
   if (!is.vector(y, mode = 'numeric')) stop('`y` must be double numeric')
@@ -104,6 +107,10 @@ visualize_vtrapz <- function(
 #' 
 #' @param x an \link[spatstat.explore]{fv.object}
 #' 
+#' @param draw.v,draw.cumv,draw.rect see function [visualize_vtrapz()]
+#' 
+#' @param ... additional parameters, currently of no use
+#' 
 #' @examples
 #' spatstat.data::spruces |>
 #'  spatstat.explore::Emark() |>
@@ -116,11 +123,16 @@ visualize_vtrapz <- function(
 #' @keywords internal
 #' @importFrom ggplot2 labs
 #' @export 
-visualize_vtrapz.fv <- function(x) {
+visualize_vtrapz.fv <- function(
+    x,
+    draw.v = FALSE, # no vtrapz()
+    draw.cumv = TRUE,
+    draw.rect = FALSE, # no rectangle
+    ...
+) {
   visualize_vtrapz(
     x = x$r, y = key1val.fv(x),
-    draw.v = FALSE, # no vtrapz()
-    draw.rect = FALSE # no rectangle
+    draw.v = draw.v, draw.cumv = draw.cumv, draw.rect = draw.rect
   ) + 
     labs(x = 'r', y = attr(x, which = 'ylab', exact = TRUE))
 }

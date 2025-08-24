@@ -4,10 +4,20 @@
 \alias{visualize_vtrapz.fv}
 \title{Visualize \code{\link[=vtrapz]{vtrapz()}} and \code{\link[=cumvtrapz]{cumvtrapz()}} of \link[spatstat.explore]{fv.object}}
 \usage{
-visualize_vtrapz.fv(x)
+visualize_vtrapz.fv(
+  x,
+  draw.v = FALSE,
+  draw.cumv = TRUE,
+  draw.rect = FALSE,
+  ...
+)
 }
 \arguments{
 \item{x}{an \link[spatstat.explore]{fv.object}}
+
+\item{draw.v, draw.cumv, draw.rect}{see function \code{\link[=visualize_vtrapz]{visualize_vtrapz()}}}
+
+\item{...}{additional parameters, currently of no use}
 }
 \description{
 Visualize \code{\link[=vtrapz]{vtrapz()}} and \code{\link[=cumvtrapz]{cumvtrapz()}} of \link[spatstat.explore]{fv.object}

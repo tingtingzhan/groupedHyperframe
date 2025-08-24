@@ -4,7 +4,7 @@
 \alias{visualize_vtrapz}
 \title{Visualize \code{\link[=vtrapz]{vtrapz()}} and \code{\link[=cumvtrapz]{cumvtrapz()}}}
 \usage{
-visualize_vtrapz(x, y, draw.v = TRUE, draw.cumv = TRUE, draw.rect = TRUE)
+visualize_vtrapz(x, y, draw.v = TRUE, draw.cumv = TRUE, draw.rect = TRUE, ...)
 }
 \arguments{
 \item{x, y}{\link[base]{numeric} \link[base]{vector}s}
@@ -14,6 +14,8 @@ visualize_vtrapz(x, y, draw.v = TRUE, draw.cumv = TRUE, draw.rect = TRUE)
 \item{draw.cumv}{\link[base]{logical} scalar, whether to plot \code{\link[=cumvtrapz]{cumvtrapz()}}, default \code{TRUE}}
 
 \item{draw.rect}{\link[base]{logical} scalar, whether to plot the rectangle, default \code{TRUE}}
+
+\item{...}{additional parameters, currently of no use}
 }
 \description{
 Visualize \code{\link[=vtrapz]{vtrapz()}} and \code{\link[=cumvtrapz]{cumvtrapz()}}
