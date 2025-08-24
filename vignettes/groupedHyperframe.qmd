@@ -985,7 +985,7 @@ s |> rmax_(fun = 'J', i = 'CK-.CD8+', j = 'CK+.CD8-')
 
 ### $k$-Means Clustering {#sec-kmeans}
 
-The `S3` generic `.kmeans()` performs $k$-means clustering. We name this generic function with a prefix `.` because the workhorse function `stats::kmeans()` is not an `S3` generic. The `S3` generic `.kmeans()` returns an object of class `'kmeans'` as defined in R package **`stats`**. Currently only one `S3` method dispatch `.kmeans.ppp()` is planned.
+The `S3` generic function `.kmeans()` performs $k$-means clustering. We name this generic function with a prefix `.` because the workhorse function `stats::kmeans()` is not an `S3` generic function. The `S3` generic function `.kmeans()` returns an object of class `'kmeans'` defined in R package **`stats`** shipped with `r R.version$version.string`. Currently only one `S3` method dispatch `.kmeans.ppp()` is planned.
 
 The `S3` method dispatch `.kmeans.ppp()` has parameters
 
@@ -1111,7 +1111,7 @@ fluM |>
 
 ### Pairwise Tjøstheim's Coefficient
 
-The `S3` generic `pairwise_cor_spatial()` calculates the nonparametric, rank-based, Tjøstheim's correlation coefficients [@Tjostheim78; @Hubert82] in a pairwise-combination fashion, using the workhorse function `SpatialPack::cor.spatial()` from package **`SpatialPack`** [@SpatialPack].
+The `S3` generic function `pairwise_cor_spatial()` calculates the nonparametric, rank-based, Tjøstheim's correlation coefficients [@Tjostheim78; @Hubert82] in a pairwise-combination fashion, using the workhorse function `SpatialPack::cor.spatial()` from package **`SpatialPack`** [@SpatialPack].
 
 All `S3` method dispatches return an object of class `'pairwise_cor_spatial'`, which `inherits` from class `'dist'` defined in package **`stats`** shipped with `r R.version$version.string`. Such inheritance enables us to make use of existing `S3` method dispatches to class `'dist'`, e.g., `stats:::print.dist()`, `stats:::as.matrix.dist()`, `stats:::format.dist()` and `stats:::labels.dist()`.
 
