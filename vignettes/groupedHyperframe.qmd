@@ -467,7 +467,7 @@ Users are encouraged to learn more about this application from package **`hyper.
 
 We cover some minor and/or experimental features in the appendix, in order not to interrupt the main narrative of this vignette.
 
-## On Trapezoidal Integration
+## On Trapezoidal Integration {#sec-trapz}
 
 ### Average Vertical Height {#sec-vtrapz}
 
@@ -584,7 +584,7 @@ Several `S3` method dispatches to `hyperframe` class in package **`spatstat.geom
 
 : `S3` methods `*.hyperframe()` that are drastically different from `*.data.frame()` or `*.default()`
 
-### Superimpose multiple `hyperframe`s
+### Superimpose Multiple `hyperframe`s
 
 The S3 method dispatch `superimpose.hyperframe()`, which does not exist in package **`spatstat.geom`** as of v`r packageVersion('spatstat.geom')`, superimposes multiple `hyperframe`s if-and-only-if they have `identical`
 
@@ -978,7 +978,7 @@ s |> rmax_(fun = 'J', i = 'CK+.CD8-', j = 'CK-.CD8+')
 s |> rmax_(fun = 'J', i = 'CK-.CD8+', j = 'CK+.CD8-')
 ```
 
-### $k$-Means Clustering
+### $k$-Means Clustering {#sec-kmeans}
 
 The `S3` generic `.kmeans()` performs $k$-means clustering. We name this generic function with a prefix `.` because the workhorse function `stats::kmeans()` is not an `S3` generic. The `S3` generic `.kmeans()` returns an object of class `'kmeans'` as defined in R package **`stats`**. Currently only one `S3` method dispatch `.kmeans.ppp()` is planned.
 
@@ -1108,14 +1108,13 @@ fluM |>
 
 The `S3` generic `pairwise_cor_spatial()` calculates the nonparametric, rank-based, Tjøstheim's correlation coefficients [@Tjostheim78; @Hubert82] in a pairwise-combination fashion, using the workhorse function `SpatialPack::cor.spatial()` from package **`SpatialPack`** [@SpatialPack].
 
-All `S3` method dispatches return an object of class `'pairwise_cor_spatial'`, which `inherits` from class `'dist'` defined in package **`stats`** shipped with `r R.version$version.string`.  Such inheritance enables us to make use of existing `S3` method dispatches to class `'dist'`, e.g., `stats:::print.dist()`, `stats:::as.matrix.dist()`, `stats:::format.dist()` and `stats:::labels.dist()`.
+All `S3` method dispatches return an object of class `'pairwise_cor_spatial'`, which `inherits` from class `'dist'` defined in package **`stats`** shipped with `r R.version$version.string`. Such inheritance enables us to make use of existing `S3` method dispatches to class `'dist'`, e.g., `stats:::print.dist()`, `stats:::as.matrix.dist()`, `stats:::format.dist()` and `stats:::labels.dist()`.
 
-|  | `'pairwise_cor_spatial'` object | `'dist'` object |
-|-------|-------|-------|
+|   | `'pairwise_cor_spatial'` object | `'dist'` object |
+|------------------------|------------------------|------------------------|
 | Constant `diag`onal values | of `1`; i.e., perfect correlation | of `0`; i.e., zero distance |
 
 : Similarity in data structure
-
 
 The `S3` method dispatch `pairwise_cor_spatial.ppp()` finds the nonparametric Tjøstheim's correlation coefficients from the pairwise-combinations of all numeric marks of a `ppp.object`.
 
@@ -1150,7 +1149,7 @@ finpines_paircor |>
 
 Lastly, we keep note of the features that we plan **not** to support in package **`groupedHyperframe`**. Those features are technically tedious to implement, and/or have relatively easy workaround.
 
-### `S4` method dispatch of `merge()` to `hyperframe` 
+### `S4` method dispatch of `merge()` to `hyperframe`
 
 The authors plan [**not**]{style="background-color: #FFFF00"} to implement an `S4` method dispatch `merge` (e.g., `S3` method dispatch `base::merge.data.frame()`) to `hyperframe` and/or `groupedHyperframe` classes, for the obstacles explained below.
 
@@ -1165,7 +1164,6 @@ The authors plan [**not**]{style="background-color: #FFFF00"} to implement an `S
 
 The authors suggest users do `base::merge.data.frame()` first, then do `as.groupedHyperframe()` as a workaround.
 
-
 ### `S3` method dispatch of `marks()` to `solist`
 
 The authors plan [**not**]{style="background-color: #FFFF00"} to implement an `S3` method dispatch `marks` to `solist` class.
@@ -1177,7 +1175,6 @@ The data set *`btb.extra`* from package **`spatstat.data`** is a `ppplist`, whic
 #| code-summary: 'A `ppplist` object *`spatstat.data::btb.extra`*'
 spatstat.data::btb.extra
 ```
-
 
 ```{r}
 spatstat.data::btb.extra |> 
@@ -1192,7 +1189,6 @@ spatstat.data::btb.extra$full |>
   head()
 ```
 
-
 The `ppp`-hypercolumn of the `hyperframe` *`flu`* from package **`spatstat.data`** is another `ppplist`.
 
 ```{r}
@@ -1201,7 +1197,6 @@ The `ppp`-hypercolumn of the `hyperframe` *`flu`* from package **`spatstat.data`
 spatstat.data::flu$pattern |>
   head(n = 3L)
 ```
-
 
 ```{r}
 spatstat.data::flu$pattern |>
@@ -1216,7 +1211,7 @@ spatstat.data::flu$pattern[[1L]] |>
   head()
 ```
 
-The authors suggest users use the function `base::lapply()` as a workaround, e.g., 
+The authors suggest users use the function `base::lapply()` as a workaround, e.g.,
 
 ```{r}
 #| results: hide
@@ -1231,7 +1226,6 @@ spatstat.data::flu$pattern |>
   lapply(FUN = spatstat.geom::marks.ppp)
 # result suppressed to save vignette space
 ```
-
 
 # Terms & Abbreviations {#sec-terms}
 
@@ -1314,6 +1308,16 @@ spatstat.data::flu$pattern |>
 | [`vector`](https://search.r-project.org/R/refmans/base/html/vector.html) | Vector |
 
 {{< pagebreak >}}
+
+# Index of Topics
+
+| Topic | Where to Find |
+|-----|-----|
+| `groupedHyperframe` | @sec-groupedHyperframe |
+| $k$-means clustering | @sec-kmeans |
+| $r_\text{max}$, default | @sec-default_rmax |
+| $r_\text{max}$, legal | @sec-legal_rmax |
+| trapezoidal integration | @sec-trapz |
 
 # References
 
