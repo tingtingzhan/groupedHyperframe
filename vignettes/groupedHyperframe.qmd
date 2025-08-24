@@ -575,6 +575,10 @@ The (nested) grouping structure `attr(., 'group')` of a `groupedHyperframe`
 
 ## On `hyperframe` {#sec-hyperframe-appendix}
 
+The authors plan [**not**]{style="background-color: #FFFF00"} to implement 
+
+-   an `S4` method dispatch of `merge()` to `hyperframe` and/or `groupedHyperframe` classes (Appendix @sec-dont-merge-hyperframe).
+
 ### `S3` methods in package **`spatstat.geom`**
 
 Several `S3` method dispatches to `hyperframe` class in package **`spatstat.geom`** behave *very differently* from their counterpart in vanilla R. Users are strongly advised to read the documentation of these functions from package **`spatstat.geom`**.
@@ -670,6 +674,10 @@ stopifnot(identical(fluS, fluM))
 ```
 
 ## On `anylist`
+
+The authors plan [**not**]{style="background-color: #FFFF00"} to implement 
+
+-   an `S3` method dispatch of `marks()` to `solist` class (Appendix @sec-dont-marks-solist).
 
 ### Derived Class `'vectorlist'` {#sec-vectorlist}
 
@@ -1154,7 +1162,7 @@ finpines_paircor |>
 
 Lastly, we keep note of the features that we plan **not** to support in package **`groupedHyperframe`**. Those features are technically tedious to implement, and/or have relatively easy workaround.
 
-### `S4` method dispatch of `merge()` to `hyperframe`
+### `S4` method dispatch of `merge()` to `hyperframe` {#sec-dont-merge-hyperframe}
 
 The authors plan [**not**]{style="background-color: #FFFF00"} to implement an `S4` method dispatch `merge` (e.g., `S3` method dispatch `base::merge.data.frame()`) to `hyperframe` and/or `groupedHyperframe` classes, for the obstacles explained below.
 
@@ -1169,7 +1177,7 @@ The authors plan [**not**]{style="background-color: #FFFF00"} to implement an `S
 
 The authors suggest users do `base::merge.data.frame()` first, then do `as.groupedHyperframe()` as a workaround.
 
-### `S3` method dispatch of `marks()` to `solist`
+### `S3` method dispatch of `marks()` to `solist` {#sec-dont-marks-solist}
 
 The authors plan [**not**]{style="background-color: #FFFF00"} to implement an `S3` method dispatch `marks` to `solist` class.
 
