@@ -133,7 +133,7 @@ This work is supported by National Institutes of Health, U.S. Department of Heal
 
 # Grouped Hyper Data Frame {#sec-groupedHyperframe}
 
-An `S3` class `hyperframe`, for **hyper data frame**, is defined in package **`spatstat.geom`**. A `hyperframe` contains columns either as `vector`s like in a `data.frame`, or as `list`s of objects of the same class, a.k.a., the `hypercolumns`. The `hyperframe` data structure is particularly useful in spatial analysis, e.g., with medical images, where the spatial information in each image would be represented by one element in a hypercolumn. For example, example data *`demohyper`* from package **`spatstat.data`** contains a `factor` column *`Group`*, a point-pattern `ppp`-hypercolumn *`Points`*, and a pixel image `im`-hypercolumn *`Image`*. Several `S3` method dispatches to the `hyperframe` class behave *very differently* from their counterpart in vanilla R, see Appendix @sec-hyperframe.
+An `S3` class `hyperframe`, for **hyper data frame**, is defined in package **`spatstat.geom`**. A `hyperframe` contains columns either as `vector`s like in a `data.frame`, or as `list`s of objects of the same class, a.k.a., the `hypercolumns`. The `hyperframe` data structure is particularly useful in spatial analysis, e.g., with medical images, where the spatial information in each image would be represented by one element in a hypercolumn. For example, example data *`demohyper`* from package **`spatstat.data`** contains a `factor` column *`Group`*, a point-pattern `ppp`-hypercolumn *`Points`*, and a pixel image `im`-hypercolumn *`Image`*. Several `S3` method dispatches to the `hyperframe` class behave *very differently* from their counterpart in vanilla R, see Appendix @sec-hyperframe-appendix.
 
 ```{r}
 spatstat.data::demohyper
@@ -355,7 +355,7 @@ out |>
   aggregate_fv(by = ~ patient_id, f_aggr_ = pmean, rmax = 260)
 ```
 
-Each one of the numeric-hypercolumns contains tabulated values on the common grid of $r$. One "slice" of the hypercolumn *`hladr.E.cumvtrapz`* at $r=50$ may be extracted by calling the `S3` method dispatch `spatstat.geom::with.hyperframe()` (which behaves *very differently* from function `base::with.default()`, see Appendix @sec-hyperframe),
+In `hyperframe` *`afv`*, each one of the numeric-hypercolumns contains tabulated values on the common grid of $r$. One "slice" of the hypercolumn *`hladr.E.cumvtrapz`* at $r=50$ may be extracted by calling the `S3` method dispatch `spatstat.geom::with.hyperframe()` (which behaves *very differently* from function `base::with.default()`, see Appendix @sec-hyperframe-appendix),
 
 ```{r}
 E_r50_a = afv |>
@@ -376,7 +376,7 @@ E_r50_b
 stopifnot(identical(E_r50_a, E_r50_b))
 ```
 
-Advanced users may use the `S3` method dispatch `t.vectorlist()` in Appendix @sec-vectorlist.
+Developers may use the `S3` method dispatch `t.vectorlist()` in Appendix @sec-vectorlist.
 
 ```{r}
 tE = afv$hladr.E.cumvtrapz |>
@@ -440,7 +440,7 @@ c(
 
 </details>
 
-as well as @Yi25; @Yi23a; @Yi23b, we worked with a non-spatial `hyperframe` *`Ki67q`* with a `numeric`-hypercolumn *`logKi67.quantile`*.
+as well as @Yi25; @Yi23a; @Yi23b, we worked with a non-spatial `hyperframe` *`Ki67q`* with a numeric-hypercolumn *`logKi67.quantile`*.
 
 ```{r}
 Ki67q = groupedHyperframe::Ki67 |>
@@ -538,7 +538,7 @@ visualize_vtrapz(x, y) +
   ggplot2::theme_minimal()
 ```
 
-## On `groupedHyperframe`
+## On `groupedHyperframe` {#sec-groupedHyperframe-appendix}
 
 ### Nested Grouping Structure {#sec-nestedGroup}
 
@@ -568,7 +568,7 @@ The (nested) grouping structure `attr(., 'group')` of a `groupedHyperframe`
 -   must denote the highest level using a `symbol` (e.g., `g1`)
 -   may denote the lower levels using a `symbol` (e.g., `g2`) or an interaction-term (e.g., `g2a:g2b`)
 
-## On `hyperframe` {#sec-hyperframe}
+## On `hyperframe` {#sec-hyperframe-appendix}
 
 ### `S3` methods in package **`spatstat.geom`**
 
@@ -884,7 +884,7 @@ vesicles |> spatstat.geom::print.ppp()
 
 ```{r}
 #| code-fold: true
-#| code-summary: '`append_marks<-.ppp()`: existing `numeric` marks'
+#| code-summary: '`append_marks<-.ppp()`: existing numeric marks'
 data(waka, package = 'spatstat.data')
 waka |> spatstat.geom::print.ppp()
 set.seed(23); append_marks(waka) = rlnorm(n = spatstat.geom::npoints(waka))
@@ -1017,7 +1017,7 @@ spatstat.data::bei |>
   .kmeans(formula = ~ x + y, clusterSize = 1000L)
 ```
 
-Data set *`waka`* from package **`spatstat.data`** has `numeric` `marks` stored in `'vector'`-format.
+Data set *`waka`* from package **`spatstat.data`** has numeric `marks` stored in `'vector'`-format.
 
 ```{r}
 spatstat.data::waka
@@ -1037,7 +1037,7 @@ spatstat.data::waka |>
   .kmeans(formula = ~ x + y + marks, centers = 3L)
 ```
 
-Data set *`shapley`* from package **`spatstat.data`** has three (3) `numeric` `marks` stored in `'dataframe'`-format.
+Data set *`shapley`* from package **`spatstat.data`** has three (3) numeric `marks` stored in `'dataframe'`-format.
 
 ```{r}
 spatstat.data::shapley
@@ -1284,6 +1284,7 @@ spatstat.data::flu$pattern |>
 | [`names`](https://search.r-project.org/R/refmans/base/html/names.html) | Names of an R object |
 | [`ncol`, `nrow`](https://search.r-project.org/R/refmans/base/html/nrow.html) | Number of rows/columns of an [`array`](https://search.r-project.org/R/refmans/base/html/array.html) |
 | [`npoints`](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/npoints.html) | Number of points in a point pattern, from package **`spatstat.geom`** |
+| [`numeric`](https://search.r-project.org/R/refmans/base/html/numeric.html) | numeric, i.e., [`double`](https://search.r-project.org/R/refmans/base/html/double.html)-precision object |
 | [`object.size`](https://search.r-project.org/R/refmans/utils/html/object.size.html) | Memory allocation |
 | `pmean`, `pmedian` | Point-wise mean and median, from package `groupedHyperframe` |
 | [`pmax`, `pmin`](https://search.r-project.org/R/refmans/base/html/Extremes.html) | Point-wise maxima and minima |
@@ -1313,7 +1314,8 @@ spatstat.data::flu$pattern |>
 
 | Topic | Where to Find |
 |-----|-----|
-| `groupedHyperframe` | @sec-groupedHyperframe |
+| `groupedHyperframe` | @sec-groupedHyperframe, @sec-groupedHyperframe-appendix |
+| `hyperframe` | @sec-hyperframe-appendix, or package [**`spatstat.geom`**](https://CRAN.R-project.org/package=spatstat.geom) documentation |
 | $k$-means clustering | @sec-kmeans |
 | $r_\text{max}$, default | @sec-default_rmax |
 | $r_\text{max}$, legal | @sec-legal_rmax |
