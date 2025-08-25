@@ -50,7 +50,9 @@ cumvtrapz <- function(x, ...) {
 
 #' @title Visualize [vtrapz()] and [cumvtrapz()]
 #' 
-#' @param x,y \link[base]{numeric} \link[base]{vector}s
+#' @param x see **Usage**
+#' 
+#' @param y \link[base]{numeric} \link[base]{vector}
 #' 
 #' @param draw.v \link[base]{logical} scalar, whether to plot [vtrapz()], default `TRUE`
 #' 
@@ -61,11 +63,18 @@ cumvtrapz <- function(x, ...) {
 #' @param ... additional parameters, currently of no use
 #' 
 #' @keywords internal
+#' @name visualize_vtrapz
 #' @importFrom ggplot2 ggplot aes geom_path geom_rect scale_x_continuous ylim
 #' @importFrom geomtextpath geom_textpath
 #' @importFrom stats median.default
 #' @export
-visualize_vtrapz <- function(
+visualize_vtrapz <- function(x, ...) UseMethod(generic = 'visualize_vtrapz')
+
+
+#' @rdname visualize_vtrapz
+#' @export visualize_vtrapz.numeric
+#' @export
+visualize_vtrapz.numeric <- function(
     x, y,
     draw.v = TRUE,
     draw.cumv = TRUE,
@@ -103,14 +112,7 @@ visualize_vtrapz <- function(
 }
 
 
-#' @title Visualize [vtrapz()] and [cumvtrapz()] of \link[spatstat.explore]{fv.object}
-#' 
-#' @param x an \link[spatstat.explore]{fv.object}
-#' 
-#' @param draw.v,draw.cumv,draw.rect see function [visualize_vtrapz()]
-#' 
-#' @param ... additional parameters, currently of no use
-#' 
+#' @rdname visualize_vtrapz
 #' @examples
 #' spatstat.data::spruces |>
 #'  spatstat.explore::Emark() |>
@@ -120,19 +122,16 @@ visualize_vtrapz <- function(
 #'  spatstat.explore::Vmark() |>
 #'  visualize_vtrapz.fv() + ggplot2::theme_minimal()
 #' 
-#' @keywords internal
 #' @importFrom ggplot2 labs
+#' @export visualize_vtrapz.fv
 #' @export 
 visualize_vtrapz.fv <- function(
     x,
-    draw.v = FALSE, # no vtrapz()
-    draw.cumv = TRUE,
-    draw.rect = FALSE, # no rectangle
+    #draw.v = FALSE, # no vtrapz()
+    #draw.cumv = TRUE,
+    #draw.rect = FALSE, # no rectangle
     ...
 ) {
-  visualize_vtrapz(
-    x = x$r, y = key1val.fv(x),
-    draw.v = draw.v, draw.cumv = draw.cumv, draw.rect = draw.rect
-  ) + 
+  visualize_vtrapz.numeric(x = x$r, y = key1val.fv(x), ...) + 
     labs(x = 'r', y = attr(x, which = 'ylab', exact = TRUE))
 }

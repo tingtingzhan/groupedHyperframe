@@ -133,7 +133,7 @@ This work is supported by National Institutes of Health, U.S. Department of Heal
 
 # Grouped Hyper Data Frame {#sec-groupedHyperframe}
 
-An `S3` class `hyperframe`, for **hyper data frame**, is defined in package **`spatstat.geom`**. A `hyperframe` contains columns either as `vector`s like in a `data.frame`, or as `list`s of objects of the same class, a.k.a., the `hypercolumns`. The `hyperframe` data structure is particularly useful in spatial analysis, e.g., with medical images, where the spatial information in each image would be represented by one element in a hypercolumn. For example, example data *`demohyper`* from package **`spatstat.data`** contains a `factor` column *`Group`*, a point-pattern `ppp`-hypercolumn *`Points`*, and a pixel image `im`-hypercolumn *`Image`*. Several `S3` method dispatches to the `hyperframe` class behave *very differently* from their counterpart in vanilla R, see Appendix @sec-hyperframe-appendix.
+An `S3` class `hyperframe`, for **hyper data frame**, is defined in package **`spatstat.geom`**. A `hyperframe` contains columns either as `vector`s like in a `data.frame`, or as `list`s of objects of the same class, a.k.a., the `hypercolumns`. The `hyperframe` data structure is particularly useful in spatial analysis, e.g., with medical images, where the spatial information in each image would be represented by one element in a hypercolumn. For example, example data *`demohyper`* from package **`spatstat.data`** contains a `factor` column *`Group`*, a point-pattern `ppp`-hypercolumn *`Points`*, and a pixel image `im`-hypercolumn *`Image`*. Several `S3` method dispatches to the `hyperframe` class behave *very differently* from their counterpart in vanilla R (Appendix @sec-hyperframe-appendix).
 
 ```{r}
 spatstat.data::demohyper
@@ -304,7 +304,7 @@ out = s |>
   nncross_(i = 'CK+.CD8-', j = 'CK-.CD8+', correction = 'none') # fast
 ```
 
-The `message` of "Legal $r_\text{max}$" provides the indices in the `ppp`-hypercolumn, i.e., the row indices of the `hyperframe`, where the legal $r_\text{max}$ (see Appendix @sec-legal_rmax) is smalller than the user-specified $r_\text{max}$. The returned `hyperframe` (and/or `groupedHyperframe`) has
+The `message` of "Legal $r_\text{max}$" provides the indices in the `ppp`-hypercolumn, i.e., the row indices of the `hyperframe`, where the legal $r_\text{max}$ (Appendix @sec-legal_rmax) is smalller than the user-specified $r_\text{max}$. The returned `hyperframe` (and/or `groupedHyperframe`) has
 
 -   `fv`-hypercolumn *`hladr.E`*, created by function `Emark_()` on numeric mark *`hladr`*
 -   `fv`-hypercolumn *`phenotype.G`*, created by function `Gcross_()` on `multitype` mark *`phenotype`*
@@ -322,11 +322,11 @@ In this section, we discuss the aggregation over nested grouping structure.
 
 Function `aggregate_fv()` performs (truncated) aggregation of
 
--   *`<mark>.<fv>.value`*, the *function values*, i.e., the black-solid-curve (see Appendix @sec-blackSolidCurve) determined by function `spatstat.explore::plot.fv()`
--   *`<mark>.<fv>.cumtrapz`*, the *cumulative trapezoidal integration* under the black-solid-curve
--   *`<mark>.<fv>.cumvtrapz`*, the *cumulative average vertical height of trapezoidal integration* (see Appendix @sec-vtrapz) under the black-solid-curve
+-   *`<mark>.<fv>.value`*, the *function values*, i.e., the black-solid-curve (Appendix @sec-blackSolidCurve) determined by function `spatstat.explore::plot.fv()`
+-   *`<mark>.<fv>.cumtrapz`*, the *cumulative trapezoidal integration* (Appendix @sec-trapz) under the black-solid-curve
+-   *`<mark>.<fv>.cumvtrapz`*, the *cumulative average vertical height of trapezoidal integration* (Appendix @sec-vtrapz) under the black-solid-curve
 
-When a user-specified $r_\text{max}$ is provided to a batch process (in @sec-batch) on *all* `ppp.object`s in the `ppp`-hypercolumn, inevitably some of the `fv`-returns may contain exceptional/illegal function values (see Appendix @sec-legal_rmax). In this case, the aggregation is *truncated* at the minimum legal $r_\text{max}$ of the `fv.object`s in each `fv`-hypercolumn.
+When a user-specified $r_\text{max}$ is provided to a batch process (in @sec-batch) on *all* `ppp.object`s in the `ppp`-hypercolumn, inevitably some of the `fv`-returns may contain exceptional/illegal function values (Appendix @sec-legal_rmax). In this case, the aggregation is *truncated* at the minimum legal $r_\text{max}$ of the `fv.object`s in each `fv`-hypercolumn.
 
 In the following example, we have
 
@@ -355,7 +355,7 @@ out |>
   aggregate_fv(by = ~ patient_id, f_aggr_ = pmean, rmax = 260)
 ```
 
-In `hyperframe` *`afv`*, each one of the numeric-hypercolumns contains tabulated values on the common grid of $r$. One "slice" of the hypercolumn *`hladr.E.cumvtrapz`* at $r=50$ may be extracted by calling the `S3` method dispatch `spatstat.geom::with.hyperframe()` (which behaves *very differently* from function `base::with.default()`, see Appendix @sec-hyperframe-appendix),
+In `hyperframe` *`afv`*, each one of the numeric-hypercolumns contains tabulated values on the common grid of $r$. One "slice" of the hypercolumn *`hladr.E.cumvtrapz`* at $r=50$ may be extracted by calling the `S3` method dispatch `spatstat.geom::with.hyperframe()` (which behaves *very differently* from function `base::with.default()`, Appendix @sec-hyperframe-appendix),
 
 ```{r}
 E_r50_a = afv |>
@@ -563,7 +563,7 @@ visualize_vtrapz(x, y) +
 #| fig-cap: "Cumulative average vertical height for `spatstat.explore::Emark()`"
 spatstat.data::spruces |>
   spatstat.explore::Emark() |>
-  visualize_vtrapz.fv() + ggplot2::theme_minimal()
+  visualize_vtrapz(draw.v = FALSE, draw.rect = FALSE) + ggplot2::theme_minimal()
 ```
 
 @fig-vtrapz-V visualizes the cumulative average vertical height of the trapezoidal integration for function `spatstat.explore::Vmark()`.  [Say some English]{style="background-color: #FFFF00"}
@@ -579,7 +579,7 @@ spatstat.data::spruces |>
 #| fig-cap: "Cumulative average vertical height for `spatstat.explore::Vmark()`"
 spatstat.data::spruces |>
   spatstat.explore::Vmark() |>
-  visualize_vtrapz.fv() + ggplot2::theme_minimal()
+  visualize_vtrapz(draw.v = FALSE, draw.rect = FALSE) + ggplot2::theme_minimal()
 ```
 
 
@@ -855,7 +855,7 @@ spatstat.data::spruces |>
   tail(n = 3L)
 ```
 
-Functions `vtrapz.fv()` and `cumvtrapz.fv()` calculate the (cumulative) average vertical height of the trapezoidal integration (see Appendix @sec-vtrapz) under the black-solid-curve. They are both "psuedo" `S3` method dispatches, as the workhorse functions `vtrapz()` and `cumvtrapz()` are not `S3` generic functions as of package **`groupedHyperframe`** v`r packageVersion('groupedHyperframe')`.
+Functions `vtrapz.fv()` and `cumvtrapz.fv()` calculate the (cumulative) average vertical height of the trapezoidal integration (Appendix @sec-vtrapz) under the black-solid-curve. They are both "psuedo" `S3` method dispatches, as the workhorse functions `vtrapz()` and `cumvtrapz()` are not `S3` generic functions as of package **`groupedHyperframe`** v`r packageVersion('groupedHyperframe')`.
 
 ```{r}
 spatstat.data::spruces |> 
@@ -887,7 +887,7 @@ Function `markcorr()` relies on the un-exported workhorse function `spatstat.exp
 c(2.5e-324, 2.6e-324) / 0
 ```
 
-Function `markcorr()` provides a default argument of parameter $r$ (see Appendix @sec-default_rmax), at which the mark correlation function $k_f(r)$ are evaluated. The S3 method dispatch `spatstat.explore::print.fv()` prints the *recommended range* and *available range* of the argument $r$.
+Function `markcorr()` provides a default argument of parameter $r$ (Appendix @sec-default_rmax), at which the mark correlation function $k_f(r)$ are evaluated. The S3 method dispatch `spatstat.explore::print.fv()` prints the *recommended range* and *available range* of the argument $r$.
 
 ```{r}
 #| code-fold: true

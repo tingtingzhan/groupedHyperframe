@@ -2,22 +2,40 @@
 % Please edit documentation in R/vtrapz.R
 \name{visualize_vtrapz}
 \alias{visualize_vtrapz}
+\alias{visualize_vtrapz.numeric}
+\alias{visualize_vtrapz.fv}
 \title{Visualize \code{\link[=vtrapz]{vtrapz()}} and \code{\link[=cumvtrapz]{cumvtrapz()}}}
 \usage{
-visualize_vtrapz(x, y, draw.v = TRUE, draw.cumv = TRUE, draw.rect = TRUE, ...)
+visualize_vtrapz(x, ...)
+
+\method{visualize_vtrapz}{numeric}(x, y, draw.v = TRUE, draw.cumv = TRUE, draw.rect = TRUE, ...)
+
+\method{visualize_vtrapz}{fv}(x, ...)
 }
 \arguments{
-\item{x, y}{\link[base]{numeric} \link[base]{vector}s}
+\item{x}{see \strong{Usage}}
+
+\item{...}{additional parameters, currently of no use}
+
+\item{y}{\link[base]{numeric} \link[base]{vector}s}
 
 \item{draw.v}{\link[base]{logical} scalar, whether to plot \code{\link[=vtrapz]{vtrapz()}}, default \code{TRUE}}
 
 \item{draw.cumv}{\link[base]{logical} scalar, whether to plot \code{\link[=cumvtrapz]{cumvtrapz()}}, default \code{TRUE}}
 
 \item{draw.rect}{\link[base]{logical} scalar, whether to plot the rectangle, default \code{TRUE}}
-
-\item{...}{additional parameters, currently of no use}
 }
 \description{
 Visualize \code{\link[=vtrapz]{vtrapz()}} and \code{\link[=cumvtrapz]{cumvtrapz()}}
+}
+\examples{
+spatstat.data::spruces |>
+ spatstat.explore::Emark() |>
+ visualize_vtrapz.fv() + ggplot2::theme_minimal()
+
+spatstat.data::spruces |>
+ spatstat.explore::Vmark() |>
+ visualize_vtrapz.fv() + ggplot2::theme_minimal()
+
 }
 \keyword{internal}
