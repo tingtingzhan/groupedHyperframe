@@ -5,6 +5,7 @@
 \alias{visualize_vtrapz.numeric}
 \alias{visualize_vtrapz.fv}
 \alias{visualize_vtrapz.density}
+\alias{visualize_vtrapz.ecdf}
 \title{Visualize \code{\link[=vtrapz]{vtrapz()}} and \code{\link[=cumvtrapz]{cumvtrapz()}}}
 \usage{
 visualize_vtrapz(x, ...)
@@ -14,6 +15,8 @@ visualize_vtrapz(x, ...)
 \method{visualize_vtrapz}{fv}(x, ...)
 
 \method{visualize_vtrapz}{density}(x, ...)
+
+\method{visualize_vtrapz}{ecdf}(x, ...)
 }
 \arguments{
 \item{x}{see \strong{Usage}}
@@ -45,6 +48,10 @@ spatstat.data::spruces |>
 
 rnorm(n = 1e3L) |>
  density() |>
+ visualize_vtrapz() + ggplot2::theme_minimal()
+
+rnorm(n = 1e3L) |>
+ ecdf() |>
  visualize_vtrapz() + ggplot2::theme_minimal()
 
 }

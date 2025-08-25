@@ -151,3 +151,26 @@ visualize_vtrapz.density <- function(x, ...) {
     labs(x = 'x', y = 'stats::density')
 }
 
+
+#' @rdname visualize_vtrapz
+#' @examples
+#' rnorm(n = 1e3L) |>
+#'  ecdf() |>
+#'  visualize_vtrapz() + ggplot2::theme_minimal()
+#' 
+#' @importFrom ggplot2 labs
+#' @export visualize_vtrapz.ecdf
+#' @export
+visualize_vtrapz.ecdf <- function(x, ...) {
+  fn <- x; x <- NULL # make code more readable
+  ev <- environment(fn)
+  visualize_vtrapz.numeric(
+    x = get('x', envir = ev),
+    y = get('y', envir = ev),
+    ...
+  ) +
+    labs(x = 'x', y = 'stats::ecdf')
+}
+  
+
+
