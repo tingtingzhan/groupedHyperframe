@@ -17,7 +17,7 @@ visualize_vtrapz(x, ...)
 
 \item{...}{additional parameters, currently of no use}
 
-\item{y}{\link[base]{numeric} \link[base]{vector}s}
+\item{y}{\link[base]{numeric} \link[base]{vector}}
 
 \item{draw.v}{\link[base]{logical} scalar, whether to plot \code{\link[=vtrapz]{vtrapz()}}, default \code{TRUE}}
 
