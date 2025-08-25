@@ -45,7 +45,7 @@ spatstat.data::spruces |>
 
 rnorm(n = 1e3L) |>
  density() |>
- visualize_vtrapz(draw.v = FALSE, draw.rect = FALSE) + ggplot2::theme_minimal()
+ visualize_vtrapz() + ggplot2::theme_minimal()
 
 }
 \keyword{internal}
