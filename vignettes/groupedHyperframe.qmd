@@ -1220,11 +1220,11 @@ finpines_paircor |>
 
 `r '\U1f6a7'` This section is under construction.
 
-## What We Don't Do
+# What We Don't Do
 
 Lastly, we keep note of the features that we plan **not** to support in package **`groupedHyperframe`**. Those features are technically tedious to implement, and/or have relatively easy workaround.
 
-### `S4` method dispatch of `merge()` to `hyperframe` {#sec-dont-merge-hyperframe}
+## `S4` method dispatch of `merge()` to `hyperframe` {#sec-dont-merge-hyperframe}
 
 The authors plan [**not**]{style="background-color: #FFFF00"} to implement an `S4` method dispatch `merge` (e.g., `S3` method dispatch `base::merge.data.frame()`) to `hyperframe` and/or `groupedHyperframe` classes, for the obstacles explained below.
 
@@ -1239,7 +1239,7 @@ The authors plan [**not**]{style="background-color: #FFFF00"} to implement an `S
 
 The authors suggest users do `base::merge.data.frame()` first, then do `as.groupedHyperframe()` as a workaround.
 
-### `S3` method dispatch of `marks()` to `solist` {#sec-dont-marks-solist}
+## `S3` method dispatch of `marks()` to `solist` {#sec-dont-marks-solist}
 
 The authors plan [**not**]{style="background-color: #FFFF00"} to implement an `S3` method dispatch `marks` to `solist` class.
 
