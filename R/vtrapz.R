@@ -1,5 +1,5 @@
 
-#' @title (Cumulative) Trapezoidal Integration Divided by \eqn{x}-Domain
+#' @title (Cumulative) Average Vertical Height of Trapezoidal Integration
 #' 
 #' @description
 #' (Cumulative) trapezoidal integration divided by \eqn{x}-domain.
@@ -50,28 +50,34 @@ cumvtrapz <- function(x, ...) {
 
 #' @title Visualize [vtrapz()] and [cumvtrapz()]
 #' 
+#' @description
+#' Visualize (cumulative) average vertical height of trapezoidal integration.
+#' 
 #' @param x see **Usage**
 #' 
 #' @param y \link[base]{numeric} \link[base]{vector}
 #' 
-#' @param draw.v \link[base]{logical} scalar, whether to plot [vtrapz()], default `TRUE`
+#' @param draw.v \link[base]{logical} scalar, whether to plot the average vertical height [vtrapz()], default `TRUE`
 #' 
-#' @param draw.cumv \link[base]{logical} scalar, whether to plot [cumvtrapz()], default `TRUE`
+#' @param draw.cumv \link[base]{logical} scalar, whether to plot the cumulative average vertical height [cumvtrapz()], default `TRUE`
 #' 
 #' @param draw.rect \link[base]{logical} scalar, whether to plot the rectangle, default `TRUE`
 #' 
 #' @param ... additional parameters, currently of no use
 #' 
+#' @returns
+#' The `S3` generic function [visualize_vtrapz()] returns a \link[ggplot2]{ggplot} object.
+#' 
 #' @keywords internal
 #' @name visualize_vtrapz
-#' @importFrom ggplot2 ggplot aes geom_path geom_rect scale_x_continuous ylim
-#' @importFrom geomtextpath geom_textpath
-#' @importFrom stats median.default
 #' @export
 visualize_vtrapz <- function(x, ...) UseMethod(generic = 'visualize_vtrapz')
 
 
 #' @rdname visualize_vtrapz
+#' @importFrom ggplot2 ggplot aes geom_path geom_rect scale_x_continuous ylim
+#' @importFrom geomtextpath geom_textpath
+#' @importFrom stats median.default
 #' @export visualize_vtrapz.numeric
 #' @export
 visualize_vtrapz.numeric <- function(
@@ -116,22 +122,32 @@ visualize_vtrapz.numeric <- function(
 #' @examples
 #' spatstat.data::spruces |>
 #'  spatstat.explore::Emark() |>
-#'  visualize_vtrapz.fv() + ggplot2::theme_minimal()
+#'  visualize_vtrapz(draw.v = FALSE, draw.rect = FALSE) + ggplot2::theme_minimal()
 #'
 #' spatstat.data::spruces |>
 #'  spatstat.explore::Vmark() |>
-#'  visualize_vtrapz.fv() + ggplot2::theme_minimal()
+#'  visualize_vtrapz(draw.v = FALSE, draw.rect = FALSE) + ggplot2::theme_minimal()
 #' 
 #' @importFrom ggplot2 labs
 #' @export visualize_vtrapz.fv
 #' @export 
-visualize_vtrapz.fv <- function(
-    x,
-    #draw.v = FALSE, # no vtrapz()
-    #draw.cumv = TRUE,
-    #draw.rect = FALSE, # no rectangle
-    ...
-) {
+visualize_vtrapz.fv <- function(x, ...) {
   visualize_vtrapz.numeric(x = x$r, y = key1val.fv(x), ...) + 
     labs(x = 'r', y = attr(x, which = 'ylab', exact = TRUE))
 }
+
+
+#' @rdname visualize_vtrapz
+#' @examples
+#' rnorm(n = 1e3L) |>
+#'  density() |>
+#'  visualize_vtrapz(draw.v = FALSE, draw.rect = FALSE) + ggplot2::theme_minimal()
+#' 
+#' @importFrom ggplot2 labs
+#' @export visualize_vtrapz.density
+#' @export
+visualize_vtrapz.density <- function(x, ...) {
+  visualize_vtrapz.numeric(x = x$x, y = x$y, ...) + 
+    labs(x = 'x', y = 'stats::density')
+}
+

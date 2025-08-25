@@ -4,6 +4,7 @@
 \alias{visualize_vtrapz}
 \alias{visualize_vtrapz.numeric}
 \alias{visualize_vtrapz.fv}
+\alias{visualize_vtrapz.density}
 \title{Visualize \code{\link[=vtrapz]{vtrapz()}} and \code{\link[=cumvtrapz]{cumvtrapz()}}}
 \usage{
 visualize_vtrapz(x, ...)
@@ -11,6 +12,8 @@ visualize_vtrapz(x, ...)
 \method{visualize_vtrapz}{numeric}(x, y, draw.v = TRUE, draw.cumv = TRUE, draw.rect = TRUE, ...)
 
 \method{visualize_vtrapz}{fv}(x, ...)
+
+\method{visualize_vtrapz}{density}(x, ...)
 }
 \arguments{
 \item{x}{see \strong{Usage}}
@@ -19,23 +22,30 @@ visualize_vtrapz(x, ...)
 
 \item{y}{\link[base]{numeric} \link[base]{vector}}
 
-\item{draw.v}{\link[base]{logical} scalar, whether to plot \code{\link[=vtrapz]{vtrapz()}}, default \code{TRUE}}
+\item{draw.v}{\link[base]{logical} scalar, whether to plot the average vertical height \code{\link[=vtrapz]{vtrapz()}}, default \code{TRUE}}
 
-\item{draw.cumv}{\link[base]{logical} scalar, whether to plot \code{\link[=cumvtrapz]{cumvtrapz()}}, default \code{TRUE}}
+\item{draw.cumv}{\link[base]{logical} scalar, whether to plot the cumulative average vertical height \code{\link[=cumvtrapz]{cumvtrapz()}}, default \code{TRUE}}
 
 \item{draw.rect}{\link[base]{logical} scalar, whether to plot the rectangle, default \code{TRUE}}
 }
+\value{
+The \code{S3} generic function \code{\link[=visualize_vtrapz]{visualize_vtrapz()}} returns a \link[ggplot2]{ggplot} object.
+}
 \description{
-Visualize \code{\link[=vtrapz]{vtrapz()}} and \code{\link[=cumvtrapz]{cumvtrapz()}}
+Visualize (cumulative) average vertical height of trapezoidal integration.
 }
 \examples{
 spatstat.data::spruces |>
  spatstat.explore::Emark() |>
- visualize_vtrapz.fv() + ggplot2::theme_minimal()
+ visualize_vtrapz(draw.v = FALSE, draw.rect = FALSE) + ggplot2::theme_minimal()
 
 spatstat.data::spruces |>
  spatstat.explore::Vmark() |>
- visualize_vtrapz.fv() + ggplot2::theme_minimal()
+ visualize_vtrapz(draw.v = FALSE, draw.rect = FALSE) + ggplot2::theme_minimal()
+
+rnorm(n = 1e3L) |>
+ density() |>
+ visualize_vtrapz(draw.v = FALSE, draw.rect = FALSE) + ggplot2::theme_minimal()
 
 }
 \keyword{internal}

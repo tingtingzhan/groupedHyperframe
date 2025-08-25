@@ -3,7 +3,7 @@
 \name{vtrapz}
 \alias{vtrapz}
 \alias{cumvtrapz}
-\title{(Cumulative) Trapezoidal Integration Divided by \eqn{x}-Domain}
+\title{(Cumulative) Average Vertical Height of Trapezoidal Integration}
 \usage{
 vtrapz(x, ...)
 
