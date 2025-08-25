@@ -525,7 +525,7 @@ Function `vtrapz()` calculates the average vertical height of a trapezoidal inte
 vtrapz(x, y)
 ```
 
-Function `cumvtrapz()` calculates the cumulative average vertical height of a trapezoidal integration. The output has,
+Function `cumvtrapz()` calculates the cumulative average vertical height of a trapezoidal integration. If $\forall k$, $\Delta x_{k}\equiv \Delta x$, the output has,
 
 -   the 1st element `NaN`, i.e., the result of `0` (trapzoidal integration) divided by `0` (length of $x$-domain).
 -   the 2nd element $(f(x_0)+f(x_1))/2$
