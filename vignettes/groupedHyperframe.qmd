@@ -540,8 +540,8 @@ cumvtrapz(x, y)
 @fig-vtrapz visualizes the concept of (cumulative) average vertical height of a trapezoidal integration using
 
 (A) our toy example; 
-(B) kernel `stats::density()`;
-(C) empirical cumulative distribution function `stats::ecdf()`;
+(B) kernel `stats::density()`, using element `$x` and `$y`;
+(C) empirical cumulative distribution function `stats::ecdf()`, using object `x` and `y` in the enclosing `environment`;
 (D) conditional mean $E(r)$ between the points and the marks, from function `spatstat.explore::Emark()`.  [Say some English]{style="background-color: #FFFF00"}
 (E) conditional variance $V(r)$ between the points and the marks, from function `spatstat.explore::Vmark()`.  [Say some English]{style="background-color: #FFFF00"}
 
