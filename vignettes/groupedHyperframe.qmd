@@ -541,7 +541,7 @@ cumvtrapz(x, y)
 
 (A) our toy example; 
 (B) kernel `stats::density()`, using element `$x` and `$y`;
-(C) empirical cumulative distribution function `stats::ecdf()`, using object `x` and `y` in the enclosing `environment`;
+(C) empirical cumulative distribution function `stats::ecdf()`, using the objects `x` and `y` in the enclosing `environment`;
 (D) conditional mean $E(r)$ between the points and the marks, from function `spatstat.explore::Emark()`.  [Say some English]{style="background-color: #FFFF00"}
 (E) conditional variance $V(r)$ between the points and the marks, from function `spatstat.explore::Vmark()`.  [Say some English]{style="background-color: #FFFF00"}
 
