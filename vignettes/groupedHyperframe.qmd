@@ -142,7 +142,7 @@ spatstat.data::demohyper
 
 We introduce a new `S3` class `groupedHyperframe`, for **grouped hyper data frame**, which `inherits` from the `hyperframe` class. The derived class `groupedHyperframe` has additional `attributes`
 
--   `attr(., 'group')`, a one-sided `formula` of the (nested) grouping structure, e.g., *`~patient/image`* when each patient has one or more images. The grammar of the nested grouping structure $g_1/.../g_m$ (`~g1/.../gm`) is explained in section *Details* of [`stats::formula`](https://search.r-project.org/R/refmans/stats/html/formula.html) documentation. This grammar is also made well known by the parameter `random` of functions `nlme::lme()` and `nlme::nlme()`. In fact, the 'grouped' extension of a `hyperframe` is inspired by the `nlme::groupedData` class which inherits from `data.frame` [@nlme]. Appendix @sec-nestedGroup outlines some experimental usage of nested grouping structure that are subject to change.
+-   `attr(., 'group')`, a one-sided `formula` of the (nested) grouping structure, e.g., *`~patient/image`* when each patient has one or more images. The grammar of the nested grouping structure $g_1/.../g_m$ (`~g1/.../gm`) is explained in section *Details* of [`stats::formula`](https://search.r-project.org/R/refmans/stats/html/formula.html) documentation. This grammar is also made well known by the parameter `random` of functions `nlme::lme()` and `nlme::nlme()`. In fact, the 'grouped' extension of a `hyperframe` is inspired by the `nlme::groupedData` class which `inherits` from the class `'data.frame'` [@nlme]. Appendix @sec-nestedGroup outlines some experimental usage of nested grouping structure that are subject to change.
 
 The `S3` generic function `as.groupedHyperframe()` converts objects of various classes into a `groupedHyperframe`. Functions `aggregate_*()` aggregates the hypercolumns in a `groupedHyperframe` at either one of the nested grouping levels $g_1,\cdots,g_{m-1}$. Aggregation at the lowest grouping level $g_m$ is ignored, i.e., no aggregation to be performed. Available aggregation methods are the point-wise minima `base::pmin()`, maxima `base::pmax()`, means `pmean()` (default) and medians `pmedian()`.
 
@@ -737,13 +737,22 @@ stopifnot(identical(fluS, fluM))
 
 ## On `anylist`
 
+Function `spatstat.geom::anylist()` returns an object of `S3` class `'anylist'`, which `inherits` from the class `'listof'`.  
+
+We discuss some extensions of the class `'anylist'` in this section.
+
+### On `solist`
+
+Function `spatstat.geom::solist()` returns an object of `S3` class `'solist'`, which `inherits` from the class `'anylist'`.
+
 The authors plan [**not**]{style="background-color: #FFFF00"} to implement 
 
--   an `S3` method dispatch of `marks()` to `solist` class (Appendix @sec-dont-marks-solist).
+-   an `S3` method dispatch of `marks()` to the class `'solist'` (Appendix @sec-dont-marks-solist).
+
 
 ### Derived Class `'vectorlist'` {#sec-vectorlist}
 
-The derived class `'vectorlist'`, i.e., a `listof` `vector`s, `inherits` from class `'anylist'`. The implementation of `'vectorlist'` is inspired by class `'solist'`. We use the `character`-hypercolumn *`values`* of data set *`Kovesi`* from package **`spatstat.data`** to illustrate this concept.
+The derived class `'vectorlist'`, i.e., a `listof` `vector`s, `inherits` from the class `'anylist'`. The implementation of `'vectorlist'` is inspired by the class `'solist'`. We use the `character`-hypercolumn *`values`* of data set *`Kovesi`* from package **`spatstat.data`** to illustrate this concept.
 
 ```{r}
 #| code-fold: true
@@ -752,7 +761,7 @@ spatstat.data::Kovesi |>
   head()
 ```
 
-The `character`-hypercolumn *`spatstat.data::Kovesi$values`* has class `'anylist'`, which inherits from `'listof'`. This is a `length`-41 `listof` `character` `vector`s of equi-`length`, i.e., all `vector`-elements have `length`-256.
+The `character`-hypercolumn *`spatstat.data::Kovesi$values`* has the class `'anylist'`. This is a `length`-41 `listof` `character` `vector`s of equi-`length`, i.e., all `vector`-elements have `length`-256.
 
 ```{r}
 #| code-fold: true
@@ -830,6 +839,8 @@ Kovesi_values_t2 = spatstat.data::Kovesi$values |>
 stopifnot(identical(Kovesi_values_t, Kovesi_values_t2))
 ```
 
+
+
 ## On `fv.object`
 
 ### "Black solid curve" {#sec-blackSolidCurve}
@@ -862,7 +873,7 @@ spatstat.data::spruces |>
   head(n = 3L)
 ```
 
-Functions `trapz.fv()` and `cumtrapz.fv()` calculate the (cumulative) trapezoidal integration under the black-solid-curve. They are both "psuedo" `S3` method dispatches, as the workhorse functions `pracma::trapz()` and `pracma::cumtrapz()` are not `S3` generic functions as of package **`pracma`** v`r packageVersion('pracma')`.
+Functions `trapz.fv()` and `cumtrapz.fv()` calculate the (cumulative) trapezoidal integration (Appendix @sec-trapz) under the black-solid-curve. They are both "psuedo" `S3` method dispatches, as the workhorse functions `pracma::trapz()` and `pracma::cumtrapz()` are not `S3` generic functions as of package **`pracma`** v`r packageVersion('pracma')`.
 
 ```{r}
 spatstat.data::spruces |> 
@@ -1183,7 +1194,7 @@ fluM |>
 
 The `S3` generic function `pairwise_cor_spatial()` calculates the nonparametric, rank-based, Tjøstheim's correlation coefficients [@Tjostheim78; @Hubert82] in a pairwise-combination fashion, using the workhorse function `SpatialPack::cor.spatial()` from package **`SpatialPack`** [@SpatialPack].
 
-All `S3` method dispatches return an object of class `'pairwise_cor_spatial'`, which `inherits` from class `'dist'` defined in package **`stats`** shipped with `r R.version$version.string`. Such inheritance enables us to make use of existing `S3` method dispatches to class `'dist'`, e.g., `stats:::print.dist()`, `stats:::as.matrix.dist()`, `stats:::format.dist()` and `stats:::labels.dist()`.
+All `S3` method dispatches return an object of class `'pairwise_cor_spatial'`, which `inherits` from the class `'dist'` defined in package **`stats`** shipped with `r R.version$version.string`. Such inheritance enables us to make use of existing `S3` method dispatches to class `'dist'`, e.g., `stats:::print.dist()`, `stats:::as.matrix.dist()`, `stats:::format.dist()` and `stats:::labels.dist()`.
 
 |   | `'pairwise_cor_spatial'` object | `'dist'` object |
 |------------------------|------------------------|------------------------|
@@ -1224,7 +1235,7 @@ finpines_paircor |>
 
 Lastly, we keep note of the features that we plan **not** to support in package **`groupedHyperframe`**. Those features are technically tedious to implement, and/or have relatively easy workaround.
 
-## `S4` method dispatch of `merge()` to `hyperframe` {#sec-dont-merge-hyperframe}
+## `S4` method dispatch of `merge()` to `'hyperframe'` {#sec-dont-merge-hyperframe}
 
 The authors plan [**not**]{style="background-color: #FFFF00"} to implement an `S4` method dispatch `merge` (e.g., `S3` method dispatch `base::merge.data.frame()`) to `hyperframe` and/or `groupedHyperframe` classes, for the obstacles explained below.
 
@@ -1239,11 +1250,11 @@ The authors plan [**not**]{style="background-color: #FFFF00"} to implement an `S
 
 The authors suggest users do `base::merge.data.frame()` first, then do `as.groupedHyperframe()` as a workaround.
 
-## `S3` method dispatch of `marks()` to `solist` {#sec-dont-marks-solist}
+## `S3` method dispatch of `marks()` to `'solist'` {#sec-dont-marks-solist}
 
-The authors plan [**not**]{style="background-color: #FFFF00"} to implement an `S3` method dispatch `marks` to `solist` class.
+The authors plan [**not**]{style="background-color: #FFFF00"} to implement an `S3` method dispatch `marks` to the class `'solist'`.
 
-The data set *`btb.extra`* from package **`spatstat.data`** is a `ppplist`, which inherits from `solist`.
+The data set *`btb.extra`* from package **`spatstat.data`** is a `'ppplist'`, which `inherits` from the class `'solist'`.
 
 ```{r}
 #| code-fold: true
