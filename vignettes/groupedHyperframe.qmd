@@ -639,7 +639,8 @@ The (nested) grouping structure `attr(., 'group')` of a `groupedHyperframe`
 
 The authors plan [**not**]{style="background-color: #FFFF00"} to implement 
 
--   an `S4` method dispatch of `merge()` to `hyperframe` and/or `groupedHyperframe` classes (Appendix @sec-dont-merge-hyperframe).
+-   an `S3` method dispatch of `as.environment()` to the class `'hyperframe'` (Appendix @sec-dont-asenvironment-hyperframe).
+-   an `S4` method dispatch of `merge()` to the classes `'hyperframe'` and/or `'groupedHyperframe'` (Appendix @sec-dont-merge-hyperframe).
 
 ### `S3` methods in package **`spatstat.geom`**
 
@@ -1235,22 +1236,51 @@ finpines_paircor |>
 
 Lastly, we keep note of the features that we plan **not** to support in package **`groupedHyperframe`**. Those features are technically tedious to implement, and/or have relatively easy workaround.
 
-## `S4` method dispatch of `merge()` to `'hyperframe'` {#sec-dont-merge-hyperframe}
+## For `'hyperframe'`
 
-The authors plan [**not**]{style="background-color: #FFFF00"} to implement an `S4` method dispatch `merge` (e.g., `S3` method dispatch `base::merge.data.frame()`) to `hyperframe` and/or `groupedHyperframe` classes, for the obstacles explained below.
+### `S3` method dispatch of `as.environment()` {#sec-dont-asenvironment-hyperframe}
 
--   There is not an `S3` method dispatch `merge.hyperframe` in package **`spatstat.geom`** (as of v`r packageVersion('spatstat.geom')`);
--   Should the authors decide to implement `setMethod(f = merge, ...)` for `hyperframe` class, at least two (2) `S4` method dispatches need to be written for
-    -   `signature = c(x = 'hyperframe', y = 'data.frame')`
-    -   `signature = c(x = 'hyperframe', y = 'hyperframe')`, for which the authors need to define a `match` mechanism for hypercolumns.
--   Should the authors decide to implement `setMethod(f = merge, ...)` for `groupedHyperframe` class, at least three (3) `S4` method dispatches need to be written for
-    -   `signature = c(x = 'groupedHyperframe', y = 'data.frame')`
-    -   `signature = c(x = 'groupedHyperframe', y = 'hyperframe')`, similar as above;
-    -   `signature = c(x = 'groupedHyperframe', y = 'groupedHyperframe')`, for which the authors need to consider the (potentially different) grouping structures of `x` and `y` inputs.
+The authors plan [**not**]{style="background-color: #FFFF00"} to write an `S3` method dispatch `as.environment` to the class `'hyperframe'`, as it would be a simple pipeline of functions `spatstat.geom::as.list.hyperframe()` and `base::list2env()`.
 
-The authors suggest users do `base::merge.data.frame()` first, then do `as.groupedHyperframe()` as a workaround.
+```{r}
+ev = spatstat.data::demohyper |> 
+  spatstat.geom::as.list.hyperframe() |>
+  list2env()
+```
 
-## `S3` method dispatch of `marks()` to `'solist'` {#sec-dont-marks-solist}
+
+```{r}
+#| code-fold: true
+#| code-summary: 'Check the content of `spatstat.geom::as.list.hyperframe() |> base::list2env()`'
+ls(envir = ev) |>
+  mget(envir = ev) |>
+  lapply(FUN = class)
+```
+
+
+
+### `S4` method dispatch of `merge()` {#sec-dont-merge-hyperframe}
+
+The authors plan [**not**]{style="background-color: #FFFF00"} to implement an `S4` method dispatch `merge` to `hyperframe` and/or `groupedHyperframe` classes, for the obstacles explained below.
+
+First, there is not an `S3` method dispatch `merge.hyperframe` in package **`spatstat.geom`** (as of v`r packageVersion('spatstat.geom')`);
+
+Second, should the authors decide to implement `setMethod(f = merge, ...)` for `hyperframe` class, at least two (2) `S4` method dispatches need to be written for
+
+-   `signature = c(x = 'hyperframe', y = 'data.frame')`
+-   `signature = c(x = 'hyperframe', y = 'hyperframe')`, for which the authors need to define a `match` mechanism for hypercolumns.
+
+Lastly, should the authors decide to implement `setMethod(f = merge, ...)` for `groupedHyperframe` class, at least three (3) `S4` method dispatches need to be written for
+
+-   `signature = c(x = 'groupedHyperframe', y = 'data.frame')`
+-   `signature = c(x = 'groupedHyperframe', y = 'hyperframe')`, similar as above;
+-   `signature = c(x = 'groupedHyperframe', y = 'groupedHyperframe')`, for which the authors need to consider the (potentially different) grouping structures of `x` and `y` inputs.
+
+The authors suggest users use the pipeline of functions `base::merge.data.frame()` and `as.groupedHyperframe()` as a workaround.
+
+## For `'solist'`
+
+### `S3` method dispatch of `marks()` {#sec-dont-marks-solist}
 
 The authors plan [**not**]{style="background-color: #FFFF00"} to implement an `S3` method dispatch `marks` to the class `'solist'`.
 
