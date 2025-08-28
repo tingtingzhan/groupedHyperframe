@@ -1284,7 +1284,7 @@ The authors suggest users use the pipeline of functions `base::merge.data.frame(
 
 The authors plan [**not**]{style="background-color: #FFFF00"} to implement an `S3` method dispatch `marks` to the class `'solist'`.
 
-The data set *`btb.extra`* from package **`spatstat.data`** is a `'ppplist'`, which `inherits` from the class `'solist'`.
+The data set *`btb.extra`* from package **`spatstat.data`** is a `ppplist`, which `inherits` from the class `'solist'`.
 
 ```{r}
 #| code-fold: true
@@ -1321,7 +1321,7 @@ spatstat.data::flu$pattern |>
 
 ```{r}
 #| code-fold: true
-#| code-summary: 'The `marks` in 1st `ppp`-element of *`spatstat.data::flu$pattern`*'
+#| code-summary: 'The `marks` in *`spatstat.data::flu$pattern[[1L]]`*'
 spatstat.data::flu$pattern[[1L]] |> 
   spatstat.geom::marks.ppp() |>
   head()
