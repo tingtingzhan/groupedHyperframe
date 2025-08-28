@@ -1425,6 +1425,9 @@ spatstat.data::flu$pattern |>
 | [`trapz`, `cumtrapz`](https://search.r-project.org/CRAN/refmans/pracma/html/trapz.html) | (Cumulative) [trapezoidal integration](https://en.wikipedia.org/wiki/Trapezoidal_rule), from package **`pracma`** [@pracma] |
 | [`unclass`](https://search.r-project.org/R/refmans/base/html/class.html) | Remove `S3` `'class'` attribute |
 | [`vector`](https://search.r-project.org/R/refmans/base/html/vector.html) | Vector |
+| [`with`, `with.default`](https://search.r-project.org/R/refmans/base/html/with.html), [`with.hyperframe`](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/with.hyperframe.html) | To `eval`uate an `expression` in a local `environment`, or in *each row* of a `hyperframe` |
+| [`within`, `within.data.frame`](https://search.r-project.org/R/refmans/base/html/with.html) | To `eval`uate an `expression` in a local `environment` and makes modifications to the `environment` |
+
 
 {{< pagebreak >}}
 
