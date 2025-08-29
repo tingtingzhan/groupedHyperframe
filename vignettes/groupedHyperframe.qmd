@@ -1251,9 +1251,9 @@ ev = spatstat.data::demohyper |>
 
 ```{r}
 #| code-fold: true
-#| code-summary: 'Check the content of `spatstat.geom::as.list.hyperframe() |> base::list2env()`'
-ls(envir = ev) |>
-  mget(envir = ev) |>
+#| code-summary: 'Content of `environment` *`ev`*'
+ev |> 
+  as.list.environment() |>
   lapply(FUN = class)
 ```
 
@@ -1276,7 +1276,7 @@ Lastly, should the authors decide to implement `setMethod(f = merge, ...)` for `
 -   `signature = c(x = 'groupedHyperframe', y = 'hyperframe')`, similar as above;
 -   `signature = c(x = 'groupedHyperframe', y = 'groupedHyperframe')`, for which the authors need to consider the (potentially different) grouping structures of `x` and `y` inputs.
 
-The authors suggest users use the pipeline of functions `base::merge.data.frame()` and `as.groupedHyperframe()` as a workaround.
+The authors suggest using the pipeline of functions `base::merge.data.frame()` and `as.groupedHyperframe()` as a workaround.
 
 ## For `'solist'`
 
@@ -1296,6 +1296,8 @@ spatstat.data::btb.extra
 spatstat.data::btb.extra |> 
   class()
 ```
+
+The `S3` method dispatch `spatstat.geom::marks.ppp()` obtains the `marks` in each `ppp`-element of *`btb.extra`*.
 
 ```{r}
 #| code-fold: true
@@ -1319,6 +1321,9 @@ spatstat.data::flu$pattern |>
   class()
 ```
 
+The `S3` method dispatch `spatstat.geom::marks.ppp()` obtains the `marks` in each `ppp`-element of the hypercolumn *`flu$pattern`*.
+
+
 ```{r}
 #| code-fold: true
 #| code-summary: 'The `marks` in *`spatstat.data::flu$pattern[[1L]]`*'
@@ -1327,7 +1332,7 @@ spatstat.data::flu$pattern[[1L]] |>
   head()
 ```
 
-The authors suggest users use the function `base::lapply()` as a workaround, e.g.,
+To obtain the `marks` from all `ppp`-elements of a `ppplist`, the authors suggest using the function `base::lapply()` as a workaround, e.g.,
 
 ```{r}
 #| results: hide
@@ -1389,6 +1394,7 @@ spatstat.data::flu$pattern |>
 | [`length`](https://search.r-project.org/R/refmans/base/html/length.html) | Length of an object |
 | [`lengths`](https://search.r-project.org/R/refmans/base/html/lengths.html) | Lengths of `list` or `vector` elements |
 | [`list`](https://search.r-project.org/R/refmans/base/html/list.html), [`listof`](https://search.r-project.org/R/refmans/stats/html/listof.html) | Lists of objects |
+| [`list2env`](https://search.r-project.org/R/refmans/stats/html/list2env.html) | Create an `environment` containing all `list` components as objects |
 | [`.Machine`](https://search.r-project.org/R/refmans/base/html/zMachine.html) | Numerical characteristics of the machine R is running on, e.g., 32-bit integers and IEC 60559 floating-point (double precision) arithmetic |
 | [`markformat`](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/spatstat.geom-internal.html) | Storage mode of `marks`, from package **`spatstat.geom`** |
 | [`marks`](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/spatstat.geom-internal.html), [`is.marked`](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/is.marked.html) | Marks of a point pattern, from package **`spatstat.geom`** |
