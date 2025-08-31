@@ -636,24 +636,19 @@ library(spatstat.geom)
 methods(class = 'hyperframe') |> 
   attr(which = 'info', exact = TRUE) |>
   subset(subset = from == 'spatstat.geom')
-detach('package:spatstat.geom')
-detach('package:spatstat.univar')
-detach('package:spatstat.data')
 ```
 
 Package **`groupedHyperframe`** implements additional `S3` method dispatches to class `'hyperframe'`,
 
 ```{r}
-#| echo: false
 #| message: false
-library(spatstat.geom) # must! for `spatstat.geom::superimpose`
+#| code-fold: true
+#| code-summary: "Additional `S3` method dispatches to class `'hyperframe'`"
+library(spatstat.geom) # must! for S3 generic function `spatstat.geom::superimpose`
 methods(class = 'hyperframe') |> 
   attr(which = 'info', exact = TRUE) |>
   subset(subset = from == 'groupedHyperframe') |>
   knitr::kable()
-detach('package:spatstat.geom')
-detach('package:spatstat.univar')
-detach('package:spatstat.data')
 ```
 
 
@@ -893,17 +888,13 @@ library(spatstat.explore)
 methods(class = 'fv') |> 
   attr(which = 'info', exact = TRUE) |>
   subset(subset = from == 'spatstat.explore')
-detach('package:spatstat.explore')
-detach('package:spatstat.random')
-detach('package:spatstat.geom')
-detach('package:spatstat.univar')
-detach('package:spatstat.data')
 ```
 
 Package **`groupedHyperframe`** implements additional `S3` method dispatches to `fv.object`,
 
 ```{r}
-#| echo: false
+#| code-fold: true
+#| code-summary: 'Additional `S3` method dispatches to `fv.object`'
 methods(class = 'fv') |> 
   attr(which = 'info', exact = TRUE) |>
   subset(subset = from == 'groupedHyperframe') |>
@@ -1029,15 +1020,13 @@ library(spatstat.geom)
 methods(class = 'ppp') |> 
   attr(which = 'info', exact = TRUE) |>
   subset(subset = from == 'spatstat.geom')
-detach('package:spatstat.geom')
-detach('package:spatstat.univar')
-detach('package:spatstat.data')
 ```
 
 Package **`groupedHyperframe`** implements additional `S3` method dispatches to `ppp.object`,
 
 ```{r}
-#| echo: false
+#| code-fold: true
+#| code-summary: 'Additional `S3` method dispatches to `ppp.object`'
 methods(class = 'ppp') |> 
   attr(which = 'info', exact = TRUE) |>
   subset(subset = from == 'groupedHyperframe') |>
