@@ -1000,7 +1000,9 @@ stonetools |> spatstat.geom::print.ppp()
 
 ### Default $r_\text{max}$ {#sec-default_rmax}
 
-The `S3` generic function `rmax_()` provides the default $r_\text{max}$ used in package **`spatstat.explore`** functions that returns an `fv.object`. The primary `S3` method dispatch `rmax_.ppp()` is an off-label use of the un-documented functions `spatstat.explore::rmax.rule()` and `spatstat.geom::handle.r.b.args()`.
+The `S3` generic function `rmax_()` provides the default $r_\text{max}$ used in package **`spatstat.explore`** functions that returns an `fv.object`. 
+
+The primary `S3` method dispatch `rmax_.ppp()` is an off-label use of the un-documented functions `spatstat.explore::rmax.rule()` and `spatstat.geom::handle.r.b.args()`.
 
 | Function in package **`spatstat.explore`** | Call of `spatstat.explore::rmax.rule` | Default $r_\text{max}$ via `rmax_()` |
 |------------------------|------------------------|------------------------|
@@ -1011,31 +1013,76 @@ The `S3` generic function `rmax_()` provides the default $r_\text{max}$ used in 
 
 : Default $r_\text{max}$ from functions in package **`spatstat.explore`** that return an `fv.object`
 
-We demonstrate the use of `S3` method dispatch `rmax_.ppp()` using examples from package **`spatstat.data`**.
+
+The `S3` method dispatch `rmax_.ppp()` finds the default $r_\text{max}$ used by, e.g., function `spatstat.explore::markcorr()`.
+
+```{r}
+spatstat.data::spruces
+r1 = spatstat.data::spruces |>
+  spatstat.explore::markcorr() |>
+  spatstat.explore::with.fv(expr = r) |>
+  max()
+r2 = spatstat.data::spruces |> 
+  rmax_(fun = 'K')
+stopifnot(identical(r1, r2))
+```
+
+More examples of the `S3` method dispatch `rmax_.ppp()` are below.
 
 ```{r}
 #| code-fold: true
-#| code-summary: "numeric-mark, rectangle-window, for function markcorr()"
-spatstat.data::anemones |> rmax_(fun = 'K')
+#| code-summary: "integer-mark, rectangle-window, for function `spatstat.explore::markcorr()`"
+spatstat.data::anemones
+r1 = spatstat.data::anemones |>
+  spatstat.explore::markcorr() |>
+  spatstat.explore::with.fv(expr = r) |>
+  max()
+r2 = spatstat.data::anemones |> 
+  rmax_(fun = 'K')
+stopifnot(identical(r1, r2))
 ```
 
 ```{r}
 #| code-fold: true
-#| code-summary: "multitype-mark, rectangle-window, for function Gcross()"
-spatstat.data::amacrine |> rmax_(fun = 'G')
-spatstat.data::amacrine |> rmax_(fun = 'G', i = 'on', j = 'off')
-spatstat.data::amacrine |> rmax_(fun = 'G', i = 'off', j = 'on')
+#| code-summary: "multitype-mark, rectangle-window, for function `spatstat.explore::Gcross()`"
+spatstat.data::amacrine
+r1a = spatstat.data::amacrine |>
+  spatstat.explore::Gcross(i = 'on', j = 'off') |>
+  spatstat.explore::with.fv(expr = r) |>
+  max()
+r2a = spatstat.data::amacrine |> 
+  rmax_(fun = 'G', i = 'on', j = 'off')
+stopifnot(identical(r1a, r2a))
+r1b = spatstat.data::amacrine |>
+  spatstat.explore::Gcross(i = 'off', j = 'on') |>
+  spatstat.explore::with.fv(expr = r) |>
+  max()
+r2b = spatstat.data::amacrine |> 
+  rmax_(fun = 'G', i = 'off', j = 'on')
+stopifnot(identical(r1b, r2b))
 ```
 
 ```{r}
 #| code-fold: true
-#| code-summary: "multitype-mark, rectangle-window, for function Jcross()"
-spatstat.data::paracou |> rmax_(fun = 'J')
-spatstat.data::paracou |> rmax_(fun = 'J', i = 'adult', j = 'juvenile')
-spatstat.data::paracou |> rmax_(fun = 'J', i = 'juvenile', j = 'adult')
+#| code-summary: "multitype-mark, rectangle-window, for function `spatstat.explore::Jcross()`"
+spatstat.data::paracou
+r1a = spatstat.data::paracou |>
+  spatstat.explore::Jcross(i = 'adult', j = 'juvenile') |>
+  spatstat.explore::with.fv(expr = r) |>
+  max()
+r2a = spatstat.data::paracou |> 
+  rmax_(fun = 'J', i = 'adult', j = 'juvenile')
+stopifnot(identical(r1a, r2a))
+r1b = spatstat.data::paracou |>
+  spatstat.explore::Jcross(i = 'juvenile', j = 'adult') |>
+  spatstat.explore::with.fv(expr = r) |>
+  max()
+r2b = spatstat.data::paracou |> 
+  rmax_(fun = 'J', i = 'juvenile', j = 'adult')
+stopifnot(identical(r1b, r2b))
 ```
 
-Together with the additional `S3` method dispatches `rmax_.ppplist()` and `rmax_.hyperframe()`, user may obtain the default $r_\text{max}$ *before* applying the (potentially) very slow batch processes.
+The `S3` method dispatches `rmax_.ppplist()` and `rmax_.hyperframe()` obtain the default $r_\text{max}$ *before* the (potentially) very slow batch processes.
 
 ```{r}
 #| code-fold: true
@@ -1046,7 +1093,6 @@ s |> rmax_(fun = 'K')
 ```{r}
 #| code-fold: true
 #| code-summary: "Function `Kcross_()`: multitype mark"
-s |> rmax_(fun = 'K')
 s |> rmax_(fun = 'K', i = 'CK+.CD8-', j = 'CK-.CD8+')
 s |> rmax_(fun = 'K', i = 'CK-.CD8+', j = 'CK+.CD8-')
 ```
@@ -1054,7 +1100,6 @@ s |> rmax_(fun = 'K', i = 'CK-.CD8+', j = 'CK+.CD8-')
 ```{r}
 #| code-fold: true
 #| code-summary: "Function `Gcross_()`: multitype mark"
-s |> rmax_(fun = 'G')
 s |> rmax_(fun = 'G', i = 'CK+.CD8-', j = 'CK-.CD8+')
 s |> rmax_(fun = 'G', i = 'CK-.CD8+', j = 'CK+.CD8-')
 ```
@@ -1062,7 +1107,6 @@ s |> rmax_(fun = 'G', i = 'CK-.CD8+', j = 'CK+.CD8-')
 ```{r}
 #| code-fold: true
 #| code-summary: "Function `Jcross_()`: multitype mark"
-s |> rmax_(fun = 'J')
 s |> rmax_(fun = 'J', i = 'CK+.CD8-', j = 'CK-.CD8+')
 s |> rmax_(fun = 'J', i = 'CK-.CD8+', j = 'CK+.CD8-')
 ```
