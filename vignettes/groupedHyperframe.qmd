@@ -641,12 +641,19 @@ detach('package:spatstat.univar')
 detach('package:spatstat.data')
 ```
 
-Package **`groupedHyperframe`** implements additional method dispatches below,
+Package **`groupedHyperframe`** implements additional `S3` method dispatches to class `'hyperframe'`,
 
 ```{r}
+#| echo: false
+#| message: false
+library(spatstat.geom) # must! for `spatstat.geom::superimpose`
 methods(class = 'hyperframe') |> 
   attr(which = 'info', exact = TRUE) |>
-  subset(subset = from == 'groupedHyperframe', select = c('visible', 'generic', 'isS4'))
+  subset(subset = from == 'groupedHyperframe') |>
+  knitr::kable()
+detach('package:spatstat.geom')
+detach('package:spatstat.univar')
+detach('package:spatstat.data')
 ```
 
 
@@ -893,12 +900,14 @@ detach('package:spatstat.univar')
 detach('package:spatstat.data')
 ```
 
-Package **`groupedHyperframe`** implements additional method dispatches below,
+Package **`groupedHyperframe`** implements additional `S3` method dispatches to `fv.object`,
 
 ```{r}
+#| echo: false
 methods(class = 'fv') |> 
   attr(which = 'info', exact = TRUE) |>
-  subset(subset = from == 'groupedHyperframe')
+  subset(subset = from == 'groupedHyperframe') |>
+  knitr::kable()
 ```
 
 
@@ -1025,12 +1034,14 @@ detach('package:spatstat.univar')
 detach('package:spatstat.data')
 ```
 
-Package **`groupedHyperframe`** implements additional method dispatches below,
+Package **`groupedHyperframe`** implements additional `S3` method dispatches to `ppp.object`,
 
 ```{r}
+#| echo: false
 methods(class = 'ppp') |> 
   attr(which = 'info', exact = TRUE) |>
-  subset(subset = from == 'groupedHyperframe')
+  subset(subset = from == 'groupedHyperframe') |>
+  knitr::kable()
 ```
 
 ### Append to Existing `marks`
