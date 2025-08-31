@@ -479,7 +479,7 @@ $$
 \end{split}
 $$ {#eq-trapz}
 
-We illustrate the concepts in Appendix @sec-trapz using a toy example with $(x_0,x_1,x_2,x_3,x_4,x_5)^t$ and $\{y_k = f(x_k);k=0,1,\cdots,5\}$ below.
+Consider a toy example with $(x_0,x_1,x_2,x_3,x_4,x_5)^t$ and $\{y_k = f(x_k);k=0,1,\cdots,5\}$ with values below,
 
 ```{r}
 (x = seq.int(from = 10L, to = 20L, by = 2L))
@@ -487,7 +487,7 @@ set.seed(12); (y = rnorm(n = length(x), mean = 1, sd = .2))
 ```
 
 
-Function `pracma::trapz()` calculates a trapezoidal integration (@eq-trapz), visualized in @fig-vtrapz, panel (A).
+Function `pracma::trapz()` calculates a trapezoidal integration (@eq-trapz), visualized in @fig-vtrapz(A).
 
 ```{r}
 pracma::trapz(x, y)
@@ -520,7 +520,7 @@ $$ {#eq-vtrapz}
 
 
 
-Function `vtrapz()` calculates the average vertical height of a trapezoidal integration (@eq-vtrapz). The (tentative) prefix `v` indicates "vertical". The shaded rectangle in @fig-vtrapz, panel (A) has the same area as the trapezoidal integration. Therefore, we define the vertical height of the shaded rectangle as the *average vertical height* of the trapezoidal integration.
+Function `vtrapz()` calculates the average vertical height of a trapezoidal integration (@eq-vtrapz). The (tentative) prefix `v` indicates "vertical". The shaded rectangle in @fig-vtrapz(A) has the same area as the trapezoidal integration. Therefore, we define the vertical height of the shaded rectangle as the *average vertical height* of the trapezoidal integration.
 
 ```{r}
 vtrapz(x, y)
@@ -786,19 +786,22 @@ class(Kovesi_values) = c('vectorlist', class(Kovesi_values))
 ```{r}
 #| code-fold: true
 #| code-summary: 'A `vectorlist` object *`Kovesi_values`*'
-Kovesi_values |> class()
+Kovesi_values |> 
+  class()
 ```
 
-The `S3` method dispatch `t.vectorlist()` transposes a `'vectorlist'` of equi-`length` into another `'vectorlist'`, but with the `length` and `lengths` of the input switched. The use of the term "transpose", and the extension of the generic function `base::t()`, mirrors the use of `base:::t.default()` to transpose a `'matrix'`, i.e., to switch the `ncol` and `nrow` of the input. The returned object *`Kovesi_values_t`* is a `length`-256 `listof` `vector`s, all elements of which have `length`-41.
+The `S3` method dispatch `t.vectorlist()` transposes a `'vectorlist'` of equi-`length` into another `'vectorlist'`, but with the `length` and `lengths` of the input switched. The use of the term "transpose", and the extension of the generic function `base::t()`, mirrors the use of the default dispatch `base:::t.default()` to transpose a `'matrix'`, i.e., to switch the `ncol` and `nrow` of the input. The returned object *`Kovesi_values_t`* is a `length`-256 `listof` `vector`s, all elements of which have `length`-41.
 
 ```{r}
-Kovesi_values_t = Kovesi_values |> t()
+Kovesi_values_t = Kovesi_values |> 
+  t()
 ```
 
 ```{r}
 #| code-fold: true
 #| code-summary: 'Transposed object *`Kovesi_values_t`*'
-class(Kovesi_values_t)
+Kovesi_values_t |>
+  class()
 Kovesi_values_t |>
   length()
 Kovesi_values_t |>
@@ -849,12 +852,11 @@ stopifnot(identical(Kovesi_values_t, Kovesi_values_t2))
 The `S3` method dispatch `spatstat.explore::plot.fv()` visualizes the function values stored in an `fv.object` as a black-solid-curve.
 
 ```{r}
-#| code-fold: true
-#| code-summary: "Figure suppressed to reduce vignette file size"
 #| fig-show: hide
 spatstat.data::spruces |> 
   spatstat.explore::markcorr() |>
   spatstat.explore::plot.fv()
+# Figure suppressed to reduce vignette file size
 ```
 
 Function `key1.fv()` finds the "name" of the function values in an `fv.object`. Function `key1.fv()`, named after the code snippet `key[lty == 1L & col == 1L]`, is a "psuedo" `S3` method dispatch, i.e., named in the fashion of `<generic>.<class>`, because we do not have an `S3` generic function `key1()` defined as of package **`groupedHyperframe`** v`r packageVersion('groupedHyperframe')`.
@@ -911,7 +913,7 @@ Function `spatstat.explore::markcorr()` is the workhorse inside functions `Emark
 Function `markcorr()` relies on the un-exported workhorse function `spatstat.explore:::sewsmod()`, whose default `method = "density"` contains the calculation of the ratio of two kernel densities. Due to the floating-point precision of R, such density ratios may have exceptional/illegal returns of
 
 -   `0`, from $0/\delta$, where $\delta\geq$ (approximately) `2.6e-324`
--   `NaN`, from $0/\varepsilon$, where $\varepsilon\leq$ (approximately) `2.5e-324`
+-   `NaN`, from $0/\varepsilon$ or $\varepsilon/0$, where $\varepsilon\leq$ (approximately) `2.5e-324`
 -   `Inf`, from $\delta/0$, where $\delta\geq$ (approximately) `2.6e-324`
 
 ```{r}
