@@ -876,7 +876,7 @@ stopifnot(identical(Kovesi_values_t, Kovesi_values_t2))
 
 ## On `fv.object`
 
-Many function in package **`spatstat.explore`** calls the workhorse function `spatstat.explore::fv()` and returns an `fv.object`, i.e., an object with `S3` class `'fv'`.  In addition to these
+Many functions in package **`spatstat.explore`** call the workhorse function `spatstat.explore::fv()` and return an `fv.object`, i.e., an object with `S3` class `'fv'`.  In addition to these
 
 ```{r}
 #| message: false
