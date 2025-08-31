@@ -405,11 +405,11 @@ out |>
 
 {{< pagebreak >}}
 
-# Publication
+# Peer-Reviewed Publications
 
-## Non-Spatial Application
+Package **`groupedHyperframe`** plays a pivotal role in these peer reviewed publications from the authors.
 
-In our peer-reviewed publications
+## @Zhan25
 
 > `r citation(package = 'hyper.gam')[[1L]] |> format(style = 'text') |> gsub(pattern = '\n', replacement = ' ', x = _)`
 
@@ -428,7 +428,7 @@ c(
 
 </details>
 
-as well as @Yi25; @Yi23a; @Yi23b, we worked with a non-spatial `hyperframe` *`Ki67q`* with a numeric-hypercolumn *`logKi67.quantile`*.
+as well as @Yi25; @Yi23a; @Yi23b, was featured with a non-spatial `hyperframe` *`Ki67q`* with a numeric-hypercolumn *`logKi67.quantile`*.
 
 ```{r}
 Ki67q = groupedHyperframe::Ki67 |>
@@ -453,11 +453,13 @@ Users are encouraged to learn more about this application from package **`hyper.
 
 # Appendix
 
-We cover some minor and/or experimental features in the appendix, in order not to interrupt the main narrative of this vignette.
+Technical details, as well as the minor and/or experimental features, are covered in the Appendix, in order not to interrupt the main narrative of this vignette.
 
 ## On Trapezoidal Integration {#sec-trapz}
 
-The [trapezoidal rule](https://en.wikipedia.org/wiki/Trapezoidal_rule) of approximating a definite integral is an ancient idea since the dawn of human civilization. Let $\{x_k; k=0,\cdots,N\}$ be a partition of the real interval $[a,b]$ such that $a = x_0 < x_1 < \cdots < x_{N-1} < x_N = b$ and $\Delta x_k= x_k - x_{k-1}$ be the length of the $k$-th sub-interval, then the trapezoidal approximation of the integration
+The [chained trapezoidal rule](https://en.wikipedia.org/wiki/Trapezoidal_rule) of approximating a definite integral is an ancient idea since the dawn of human civilization. 
+
+Let $\{x_k; k=0,\cdots,N\}$ be a partition of the real interval $[a,b]$ such that $a = x_0 < x_1 < \cdots < x_{N-1} < x_N = b$ and $\Delta x_k= x_k - x_{k-1}$ be the length of the $k$-th sub-interval, then the trapezoidal approximation of the integration
 
 $$
 \begin{split}
@@ -466,9 +468,11 @@ $$
 \end{split}
 $$ {#eq-trapz}
 
-Consider a toy example with $(x_0,x_1,x_2,x_3,x_4,x_5)^t$ and $\{y_k = f(x_k);k=0,1,\cdots,5\}$ with values below,
+Consider
 
 ```{r}
+#| code-fold: true
+#| code-summary: 'A toy example $(x_0,x_1,x_2,x_3,x_4,x_5)^t$ and $\\{y_k = f(x_k);k=0,1,\cdots,5\\}$'
 (x = seq.int(from = 10L, to = 20L, by = 2L))
 set.seed(12); (y = rnorm(n = length(x), mean = 1, sd = .2))
 ```
@@ -495,7 +499,7 @@ pracma::cumtrapz(x, y)
 
 ### Average Vertical Height {#sec-vtrapz}
 
-We define the *average vertical height* of a trapezoidal integration as (@eq-trapz) divided by the length of $x$-domain $b-a$,
+We define the *average vertical height* of a trapezoidal integration as the trapezoid (@eq-trapz) divided by the length of $x$-domain $b-a$,
 
 $$
 \begin{split}
@@ -732,8 +736,8 @@ fluM$pattern |>
 We create a `hyperframe` *`fluM1`* which consists of the same columns as *`fluM`*, but a `ppp`-hypercolumn *`pattern`* with *`M1`* marks only. Similarly, we create another `hyperframe` *`fluM2`* which consists of the *`M2`* marks only. Note that as of package **`spatstat.geom`** v`r packageVersion('spatstat.geom')`, the tedious code below is the only way to insure that we do **not** use the row names of hyperframe as the element-names of the hypercolumns. In other words, function `unclass()` avoids invoking the `S3` method dispatch `` spatstat.geom::`$.hyperframe` ``. The `S3` method dispatch `` spatstat.geom::`$<-.hyperframe` `` is fine in this application.
 
 ```{r}
-#| code-fold: false
-#| code-summary: Some tedious code to create *`fluM1`* and *`fluM2`*
+#| code-fold: true
+#| code-summary: 'Two `hyperframe` objects *`fluM1`* and *`fluM2`*'
 fluM1 = fluM2 = fluM
 fluM1$pattern = unclass(fluM)$hypercolumns$pattern |> 
   spatstat.geom::solapply(FUN = spatstat.geom::subset.ppp, subset = (marks == 'M1'))
@@ -893,7 +897,7 @@ methods(class = 'fv') |>
   knitr::kable()
 ```
 
-### "Black solid curve" {#sec-blackSolidCurve}
+### "Black Solid Curve" {#sec-blackSolidCurve}
 
 The `S3` method dispatch `spatstat.explore::plot.fv()` visualizes the function values stored in an `fv.object` as a black-solid-curve.
 
@@ -987,7 +991,7 @@ Function `markcorr()` provides a default argument of parameter $r$ (Appendix @se
 
 ```{r}
 #| code-fold: true
-#| code-summary: "Function `spatstat.explore::print.fv()` output"
+#| code-summary: "Review: `spatstat.explore::print.fv()`"
 spatstat.data::spruces |> 
   spatstat.explore::markcorr()
 ```
@@ -1267,6 +1271,8 @@ User should specify one of the two optional parameters `centers` and `clusterSiz
 Data set *`bei`* from package **`spatstat.data`** has $x$- and $y$-coordinates only, i.e., no `marks`.
 
 ```{r}
+#| code-fold: true
+#| code-summary: 'Data: `spatstat.data::bei`'
 spatstat.data::bei
 ```
 
@@ -1294,6 +1300,8 @@ spatstat.data::bei |>
 Data set *`waka`* from package **`spatstat.data`** has numeric `marks` stored in `'vector'`-format.
 
 ```{r}
+#| code-fold: true
+#| code-summary: 'Data: `spatstat.data::waka`'
 spatstat.data::waka
 ```
 
@@ -1314,6 +1322,8 @@ spatstat.data::waka |>
 Data set *`shapley`* from package **`spatstat.data`** has three (3) numeric `marks` stored in `'dataframe'`-format.
 
 ```{r}
+#| code-fold: true
+#| code-summary: 'Data: `spatstat.data::shapley`'
 spatstat.data::shapley
 ```
 
@@ -1434,18 +1444,16 @@ Lastly, we keep note of the features that we plan **not** to support in package 
 The authors plan [**not**]{style="background-color: #FFFF00"} to write an `S3` method dispatch `as.environment` to the class `'hyperframe'`, as it would be a simple pipeline of functions `spatstat.geom::as.list.hyperframe()` and `base::list2env()`.
 
 ```{r}
+#| code-fold: true
+#| code-summary: 'Workaround: `as.environment` of `hyperframe`'
 ev = spatstat.data::demohyper |> 
   spatstat.geom::as.list.hyperframe() |>
   list2env()
-```
-
-```{r}
-#| code-fold: true
-#| code-summary: 'Content of `environment` *`ev`*'
 ev |> 
   as.list.environment() |>
   lapply(FUN = class)
 ```
+
 
 ### `S4` method dispatch of `merge()` {#sec-dont-merge-hyperframe}
 
@@ -1478,18 +1486,16 @@ The data set *`btb.extra`* from package **`spatstat.data`** is a `ppplist`, whic
 #| code-fold: true
 #| code-summary: 'A `ppplist` object *`spatstat.data::btb.extra`*'
 spatstat.data::btb.extra
-```
-
-```{r}
 spatstat.data::btb.extra |> 
   class()
 ```
+
 
 The `S3` method dispatch `spatstat.geom::marks.ppp()` obtains the `marks` in each `ppp`-element of *`btb.extra`*.
 
 ```{r}
 #| code-fold: true
-#| code-summary: 'The `marks` in *`spatstat.data::btb.extra$full`*'
+#| code-summary: 'Review: `marks` in *`spatstat.data::btb.extra$full`*'
 spatstat.data::btb.extra$full |> 
   spatstat.geom::marks.ppp() |>
   head()
@@ -1502,18 +1508,16 @@ The `ppp`-hypercolumn of the `hyperframe` *`flu`* from package **`spatstat.data`
 #| code-summary: 'A `ppplist` object, as `ppp`-hypercolumn, *`spatstat.data::flu$pattern`*'
 spatstat.data::flu$pattern |>
   head(n = 3L)
-```
-
-```{r}
 spatstat.data::flu$pattern |>
   class()
 ```
+
 
 The `S3` method dispatch `spatstat.geom::marks.ppp()` obtains the `marks` in each `ppp`-element of the hypercolumn *`flu$pattern`*.
 
 ```{r}
 #| code-fold: true
-#| code-summary: 'The `marks` in *`spatstat.data::flu$pattern[[1L]]`*'
+#| code-summary: 'Review: `marks` in *`spatstat.data::flu$pattern[[1L]]`*'
 spatstat.data::flu$pattern[[1L]] |> 
   spatstat.geom::marks.ppp() |>
   head()
@@ -1523,6 +1527,8 @@ To obtain the `marks` from all `ppp`-elements of a `ppplist`, the authors sugges
 
 ```{r}
 #| results: hide
+#| code-fold: true
+#| code-summary: 'Workaround: `marks` in `spatstat.data::btb.extra`'
 spatstat.data::btb.extra |>
   lapply(FUN = spatstat.geom::marks.ppp)
 # result suppressed to save vignette space
@@ -1530,6 +1536,8 @@ spatstat.data::btb.extra |>
 
 ```{r}
 #| results: hide
+#| code-fold: true
+#| code-summary: 'Workaround: `marks` in `spatstat.data::flu$pattern`'
 spatstat.data::flu$pattern |>
   lapply(FUN = spatstat.geom::marks.ppp)
 # result suppressed to save vignette space
