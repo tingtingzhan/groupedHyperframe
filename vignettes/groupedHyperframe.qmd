@@ -144,14 +144,7 @@ We introduce a new `S3` class `groupedHyperframe`, for **grouped hyper data fram
 
 -   `attr(., 'group')`, a one-sided `formula` of the (nested) grouping structure, e.g., *`~patient/image`* when each patient has one or more images. The grammar of the nested grouping structure $g_1/.../g_m$ (`~g1/.../gm`) is explained in section *Details* of [`stats::formula`](https://search.r-project.org/R/refmans/stats/html/formula.html) documentation. This grammar is also made well known by the parameter `random` of functions `nlme::lme()` and `nlme::nlme()`. In fact, the 'grouped' extension of a `hyperframe` is inspired by the `nlme::groupedData` class which `inherits` from the class `'data.frame'` [@nlme]. Appendix @sec-nestedGroup outlines some experimental usage of nested grouping structure that are subject to change.
 
-The `S3` generic function `as.groupedHyperframe()` converts objects of various classes into a `groupedHyperframe`. Functions `aggregate_*()` aggregates the hypercolumns in a `groupedHyperframe` at either one of the nested grouping levels $g_1,\cdots,g_{m-1}$. Aggregation at the lowest grouping level $g_m$ is ignored, i.e., no aggregation to be performed. Available aggregation methods are the point-wise minima `base::pmin()`, maxima `base::pmax()`, means `pmean()` (default) and medians `pmedian()`.
-
-## From `data.frame`
-
-The `S3` method dispatch `as.groupedHyperframe.data.frame()` converts a `data.frame` with substantial amount of duplicated information into a `groupedHyperframe`. This function
-
-1.  inspects the input `data.frame` by the user-specified (nested) `group`ing structure;
-2.  identifies the column(s) with *non-identical elements* within the lowest group, and converts them into hypercolumn(s).
+The `S3` generic function `as.groupedHyperframe()` converts objects of various classes into a `groupedHyperframe`.   
 
 We have a toy data example *`wrobel_lung`* in package **`groupedHyperframe`** originally from Dr. [Julia Wrobel](https://sph.emory.edu/profile/faculty/julia-wrobel). In the following example, consider a subset of *`wrobel_lung0`* with the only non-identical column *`hladr`* in the lowest group *`image_id`* of the nested grouping structure *`~patient_id/image_id`*.
 
@@ -171,12 +164,17 @@ wrobel_lung0 |>
   head()
 ```
 
-The `S3` method dispatch `as.groupedHyperframe.data.frame()` converts *`wrobel_lung0`* into a `groupedHyperframe`. The numeric *`hladr`* values from each *`~patient_id/image_id`* are converted into elements of the numeric-hypercolumn *`hladr`* in the returned object *`wrobel_lung0g`*. Each row of a `groupedHyperframe` represents the lowest group of the nested grouping structure.
+The `S3` method dispatch `as.groupedHyperframe.data.frame()` converts a `data.frame`, e.g., *`wrobel_lung0`*, with substantial amount of duplicated information into a `groupedHyperframe`. This function
+
+1.  inspects the input `data.frame` by the user-specified (nested) `group`ing structure, e.g., *`~patient_id/image_id`*;
+2.  identifies the `data.frame` column(s), e.g., the numeric column *`wrobel_lung0$hladr`*, with *non-identical elements* within the lowest group, and converts them into the hypercolumn(s) of the output `groupedHyperframe`, e.g., *`wrobel_lung0g$hladr`*.  Each row of a `groupedHyperframe` represents the lowest group of the nested grouping structure.
 
 ```{r}
 wrobel_lung0g = wrobel_lung0 |> 
   as.groupedHyperframe(group = ~ patient_id/image_id)
 ```
+
+Another `S3` method dispatch `as.groupedHyperframe.hyperframe()` is discussed in Appendix @sec-asgroupedHyperframe-hyperframe.
 
 The `S3` method dispatch `print.groupedHyperframe()` highlights the nested grouping structure, number of clusters at each grouping level, as well as the first 10 (or less) rows of the input.
 
@@ -202,7 +200,7 @@ wrobel_lung0 |> saveRDS(file = f, compress = 'xz')
 file.size(f_g) / file.size(f)
 ```
 
-### Aggregate numeric-hypercolumn
+Functions `aggregate_*()` aggregates the hypercolumns in a `groupedHyperframe` at either one of the nested grouping levels $g_1,\cdots,g_{m-1}$. Aggregation at the lowest grouping level $g_m$ is ignored, i.e., no aggregation to be performed. Available aggregation methods are the point-wise minima `base::pmin()`, maxima `base::pmax()`, means `pmean()` (default) and medians `pmedian()`.
 
 Function `aggregate_quantile()` aggregates the `quantile`s of each element in the numeric-hypercolumn, e.g., *`hladr`* in *`wrobel_lung0g`*, by point-wise means (default of parameter `f_aggr_`) at the biologically independent group, e.g., *`~patient_id`*. The returned object is a `hyperframe` instead of a `groupedHyperframe`, as we have *one* aggregated *`hladr.quantile`* per *`~patient_id`*, thus eliminates the need for a grouping structure. The R console output is taken care of by the `S3` method dispatch `spatstat.geom::print.hyperframe()`.
 
@@ -212,16 +210,7 @@ wrobel_lung0g |>
   aggregate_quantile(by = ~ patient_id, probs = seq.int(from = .01, to = .99, by = .01))
 ```
 
-## From `hyperframe`
 
-The `S3` method dispatch `as.groupedHyperframe.hyperframe()` converts a `hyperframe`, e.g., from package **`spatstat.data`**, into a `groupedHyperframe`. This function simply inspects and adds a (nested) grouping structure to the input `hyperframe`. In the following example, we inspect the data set *`osteo`* from package **`spatstat.data`**, which has the serial number of sampling volume `brick` nested in the bone sample `id`, and add the nested grouping structure `~id/brick` to it.
-
-```{r}
-spatstat.data::osteo |> 
-  as.groupedHyperframe(group = ~ id/brick)
-```
-
-In this vignette, we do not place much emphasize on the objects provided in package **`spatstat.data`**, for now.
 
 {{< pagebreak >}}
 
@@ -637,6 +626,32 @@ The (nested) grouping structure `attr(., 'group')` of a `groupedHyperframe`
 
 ## On `hyperframe` {#sec-hyperframe-appendix}
 
+Function `spatstat.geom::hyperframe()` returns a `hyperframe`, i.e., an object with `S3` class `'hyperframe'`.  In addition to these
+
+```{r}
+#| message: false
+#| code-fold: true
+#| code-summary: "`S3` method dispatches to class `'hyperframe'` defined in package **`spatstat.geom`**"
+library(spatstat.geom)
+methods(class = 'hyperframe') |> 
+  attr(which = 'info', exact = TRUE) |>
+  subset(subset = from == 'spatstat.geom')
+detach('package:spatstat.geom')
+detach('package:spatstat.univar')
+detach('package:spatstat.data')
+```
+
+Package **`groupedHyperframe`** implements additional method dispatches below,
+
+```{r}
+methods(class = 'hyperframe') |> 
+  attr(which = 'info', exact = TRUE) |>
+  subset(subset = from == 'groupedHyperframe', select = c('visible', 'generic', 'isS4'))
+```
+
+
+
+
 The authors plan [**not**]{style="background-color: #FFFF00"} to implement 
 
 -   an `S3` method dispatch of `as.environment()` to the class `'hyperframe'` (Appendix @sec-dont-asenvironment-hyperframe).
@@ -655,6 +670,20 @@ Several `S3` method dispatches to `hyperframe` class in package **`spatstat.geom
 | [`base::within`](https://search.r-project.org/R/refmans/base/html/with.html) | [`base::within.data.frame`](https://search.r-project.org/R/refmans/base/html/with.html) | do not exist (as of v`r packageVersion('spatstat.geom')`) |
 
 : `S3` methods `*.hyperframe()` that are drastically different from `*.data.frame()` or `*.default()`
+
+
+### Convert to `groupedHyperframe` {#sec-asgroupedHyperframe-hyperframe}
+
+The `S3` method dispatch `as.groupedHyperframe.hyperframe()` converts a `hyperframe` into a `groupedHyperframe`. This function simply inspects and adds a (nested) grouping structure to the input `hyperframe`.  Data set *`osteo`* from package **`spatstat.data`** has the serial number of sampling volume `brick` nested in the bone sample `id`, i.e., a nested grouping structure `~id/brick`.
+
+```{r}
+#| code-fold: true
+#| code-summary: 'Example: `as.groupedHyperframe.hyperframe()`'
+spatstat.data::osteo |> 
+  as.groupedHyperframe(group = ~ id/brick)
+```
+
+
 
 ### Superimpose Multiple `hyperframe`s
 
@@ -847,6 +876,33 @@ stopifnot(identical(Kovesi_values_t, Kovesi_values_t2))
 
 ## On `fv.object`
 
+Many function in package **`spatstat.explore`** calls the workhorse function `spatstat.explore::fv()` and returns an `fv.object`, i.e., an object with `S3` class `'fv'`.  In addition to these
+
+```{r}
+#| message: false
+#| code-fold: true
+#| code-summary: '`S3` method dispatches to `fv.object` defined in package **`spatstat.geom`**'
+library(spatstat.explore)
+methods(class = 'fv') |> 
+  attr(which = 'info', exact = TRUE) |>
+  subset(subset = from == 'spatstat.explore')
+detach('package:spatstat.explore')
+detach('package:spatstat.random')
+detach('package:spatstat.geom')
+detach('package:spatstat.univar')
+detach('package:spatstat.data')
+```
+
+Package **`groupedHyperframe`** implements additional method dispatches below,
+
+```{r}
+methods(class = 'fv') |> 
+  attr(which = 'info', exact = TRUE) |>
+  subset(subset = from == 'groupedHyperframe')
+```
+
+
+
 ### "Black solid curve" {#sec-blackSolidCurve}
 
 The `S3` method dispatch `spatstat.explore::plot.fv()` visualizes the function values stored in an `fv.object` as a black-solid-curve.
@@ -954,7 +1010,28 @@ fv |>
 
 ## On `ppp.object`
 
-In this appendix section, we discuss a couple methods applicable to the `ppp.object`.
+Function `spatstat.geom::ppp()` returns a `ppp.object`, i.e., an object with `S3` class `'ppp'`.  In addition to these
+
+```{r}
+#| message: false
+#| code-fold: true
+#| code-summary: '`S3` method dispatches to `ppp.object` defined in package **`spatstat.geom`**'
+library(spatstat.geom)
+methods(class = 'ppp') |> 
+  attr(which = 'info', exact = TRUE) |>
+  subset(subset = from == 'spatstat.geom')
+detach('package:spatstat.geom')
+detach('package:spatstat.univar')
+detach('package:spatstat.data')
+```
+
+Package **`groupedHyperframe`** implements additional method dispatches below,
+
+```{r}
+methods(class = 'ppp') |> 
+  attr(which = 'info', exact = TRUE) |>
+  subset(subset = from == 'groupedHyperframe')
+```
 
 ### Append to Existing `marks`
 
@@ -964,7 +1041,7 @@ The `S3` method dispatch `append_marks<-.ppp()` appends an additional mark to th
 
 ```{r}
 #| code-fold: true
-#| code-summary: '`append_marks<-.ppp()`: no existing marks'
+#| code-summary: 'Example: `append_marks<-.ppp()`, no existing marks'
 data(vesicles, package = 'spatstat.data')
 vesicles |> spatstat.geom::print.ppp()
 set.seed(12); append_marks(vesicles) = rlnorm(n = spatstat.geom::npoints(vesicles))
@@ -973,7 +1050,7 @@ vesicles |> spatstat.geom::print.ppp()
 
 ```{r}
 #| code-fold: true
-#| code-summary: '`append_marks<-.ppp()`: existing numeric marks'
+#| code-summary: 'Example: `append_marks<-.ppp()`, existing numeric marks'
 data(waka, package = 'spatstat.data')
 waka |> spatstat.geom::print.ppp()
 set.seed(23); append_marks(waka) = rlnorm(n = spatstat.geom::npoints(waka))
@@ -982,7 +1059,7 @@ waka |> spatstat.geom::print.ppp()
 
 ```{r}
 #| code-fold: true
-#| code-summary: '`append_marks<-.ppp()`: existing `multitype` marks'
+#| code-summary: 'Example: `append_marks<-.ppp()`, existing `multitype` marks'
 data(urkiola, package = 'spatstat.data')
 urkiola |> spatstat.geom::print.ppp()
 set.seed(42); append_marks(urkiola) = rlnorm(n = spatstat.geom::npoints(urkiola))
@@ -991,12 +1068,74 @@ urkiola |> spatstat.geom::print.ppp()
 
 ```{r}
 #| code-fold: true
-#| code-summary: '`append_marks<-.ppp()`: existing `dataframe` marks'
+#| code-summary: 'Example: `append_marks<-.ppp()`, existing `dataframe` marks'
 data(stonetools, package = 'spatstat.data')
 stonetools |> spatstat.geom::print.ppp()
 set.seed(33); append_marks(stonetools) = rlnorm(n = spatstat.geom::npoints(stonetools))
 stonetools |> spatstat.geom::print.ppp()
 ```
+
+### Log of `numeric` `marks`
+
+The `S3` method dispatches `log.ppp()` and `log1p.ppp()` perform `log`- and $\log(x+1)$-transformation on numeric `marks`, respectively.
+
+```{r}
+#| code-fold: true
+#| code-summary: 'Example: `log.ppp()` on numeric-`marks`'
+spatstat.data::longleaf
+spatstat.data::longleaf |>
+  spatstat.geom::marks.ppp() |>
+  range()
+spatstat.data::longleaf |> 
+  log() |>
+  spatstat.geom::marks.ppp() |>
+  range()
+```
+
+```{r}
+#| code-fold: true
+#| code-summary: 'Example: `log1p.ppp()` on numeric-`marks`'
+spatstat.data::bronzefilter
+spatstat.data::bronzefilter |>
+  spatstat.geom::marks.ppp() |>
+  range()
+spatstat.data::bronzefilter |> 
+  log1p() |>
+  spatstat.geom::marks.ppp() |>
+  range()
+```
+
+
+```{r}
+#| code-fold: true
+#| code-summary: "Example: `log.ppp()` on numeric-`marks` when `markformat` being `'dataframe'`"
+spatstat.data::betacells
+spatstat.data::betacells |>
+  spatstat.geom::marks.ppp() |>
+  with(expr = area) |>
+  range()
+spatstat.data::betacells |> 
+  log() |>
+  spatstat.geom::marks.ppp() |>
+  with(expr = area) |>
+  range()
+```
+
+
+### Remove Missing `marks`
+
+The `S3` method dispatch `na.omit.ppp()` removes missing `marks` from a `ppp.object`.
+
+```{r}
+#| code-fold: true
+#| code-summary: 'Example: `na.omit.ppp()`'
+spatstat.data::nbfires |> 
+  spatstat.geom::npoints()
+spatstat.data::nbfires |> 
+  na.omit() |> 
+  spatstat.geom::npoints()
+```
+
 
 ### Default $r_\text{max}$ {#sec-default_rmax}
 
