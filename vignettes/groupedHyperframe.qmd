@@ -881,7 +881,7 @@ Many functions in package **`spatstat.explore`** call the workhorse function `sp
 ```{r}
 #| message: false
 #| code-fold: true
-#| code-summary: '`S3` method dispatches to `fv.object` defined in package **`spatstat.geom`**'
+#| code-summary: '`S3` method dispatches to `fv.object` defined in package **`spatstat.explore`**'
 library(spatstat.explore)
 methods(class = 'fv') |> 
   attr(which = 'info', exact = TRUE) |>
