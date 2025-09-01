@@ -455,6 +455,16 @@ Users are encouraged to learn more about this application from package **`hyper.
 
 Technical details, as well as the minor and/or experimental features, are covered in the Appendix, in order not to interrupt the main narrative of this vignette.
 
+All R code-chunks are folded in the Appendix, for ease of navigation. They are categorized as 
+
+-   **Data**.  Creation of an R object for further operations.
+-   **Review**.  Demonstration of functions from other packages, most often from the **`spatstat.*`** family of packages.
+-   **Example**.  Demonstration of functions from package **`groupedHyperframe`**.
+-   **Workaround**.  Alternative solutions to a problem.
+
+
+
+
 ## On Trapezoidal Integration {#sec-trapz}
 
 The [chained trapezoidal rule](https://en.wikipedia.org/wiki/Trapezoidal_rule) of approximating a definite integral is an ancient idea since the dawn of human civilization. 
@@ -1617,6 +1627,7 @@ spatstat.data::flu$pattern |>
 | [`save`](https://search.r-project.org/R/refmans/base/html/save.html), [`saveRDS`](https://search.r-project.org/R/refmans/base/html/readRDS.html), `xz` | Save with [`xz`](https://en.wikipedia.org/wiki/XZ_Utils) compression |
 | [`sd`](https://search.r-project.org/R/refmans/stats/html/sd.html) | Standard deviation |
 | [`search`](https://search.r-project.org/R/refmans/base/html/search.html) | Search path |
+| [`signature`](https://search.r-project.org/R/refmans/methods/html/GenericFunctions.html) | Tools for managing `S4` generic functions |
 | [`solist`](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/solist.html) | List of two-dimensional spatial objects, from package **`spatstat.geom`** |
 | [`split`](https://search.r-project.org/R/refmans/base/html/split.html) | Divide into groups |
 | [`stopifnot`](https://search.r-project.org/R/refmans/base/html/stopifnot.html) | To ensure the truth of R [`expression`](https://search.r-project.org/R/refmans/base/html/expression.html)s |
