@@ -473,6 +473,7 @@ Consider
 ```{r}
 #| code-fold: true
 #| code-summary: 'A toy example $(x_0,x_1,x_2,x_3,x_4,x_5)^t$ and $\\{y_k = f(x_k);k=0,1,\cdots,5\\}$'
+#| label: trapz_toy
 (x = seq.int(from = 10L, to = 20L, by = 2L))
 set.seed(12); (y = rnorm(n = length(x), mean = 1, sd = .2))
 ```
@@ -540,6 +541,7 @@ cumvtrapz(x, y)
 ```{r}
 #| code-fold: true
 #| code-summary: "Panel (A): visualize `vtrapz` and `cumvtrapz` of a toy example"  
+<<trapz_toy>>
 fig_vtrapz_1 = visualize_vtrapz(x, y) + 
   ggplot2::labs(title = '(A). a toy example') +
   ggplot2::theme_minimal()
