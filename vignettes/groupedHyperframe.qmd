@@ -481,7 +481,7 @@ Function `pracma::trapz()` calculates a trapezoidal integration (@eq-trapz), vis
 
 ```{r}
 #| code-fold: true
-#| code-summary: 'Review: `pracma::trapz()`'
+#| code-summary: '**Review**: `pracma::trapz()`'
 pracma::trapz(x, y)
 ```
 
@@ -493,7 +493,7 @@ Function `pracma::cumtrapz()` calculates a cumulative trapezoidal integration. N
 
 ```{r}
 #| code-fold: true
-#| code-summary: 'Review: `pracma::cumtrapz()`'
+#| code-summary: '**Review**: `pracma::cumtrapz()`'
 pracma::cumtrapz(x, y)
 ```
 
@@ -512,7 +512,7 @@ Function `vtrapz()` calculates the average vertical height of a trapezoidal inte
 
 ```{r}
 #| code-fold: true
-#| code-summary: 'Example: `vtrapz()`'
+#| code-summary: '**Example**: `vtrapz()`'
 vtrapz(x, y)
 ```
 
@@ -525,7 +525,7 @@ Function `cumvtrapz()` calculates the cumulative average vertical height of a tr
 
 ```{r}
 #| code-fold: true
-#| code-summary: 'Example: `cumvtrapz()`'
+#| code-summary: '**Example**: `cumvtrapz()`'
 cumvtrapz(x, y)
 ```
 
@@ -612,14 +612,14 @@ Function `get_nested()` breaks down a nested grouping structure by the forward s
 
 ```{r}
 #| code-fold: true
-#| code-summary: 'Example: `get_nested()`'
+#| code-summary: '**Example**: `get_nested()`'
 quote(g1/g2/g3) |>
   get_nested()
 ```
 
 ```{r}
 #| code-fold: true
-#| code-summary: 'Example: `get_nested()` with interaction terms'
+#| code-summary: '**Example**: `get_nested()` with interaction terms'
 quote(g1/g2a:g2b/g3a:g3b:g3c) |>
   get_nested()
 ```
@@ -681,7 +681,7 @@ The `S3` method dispatch `as.groupedHyperframe.hyperframe()` converts a `hyperfr
 
 ```{r}
 #| code-fold: true
-#| code-summary: 'Example: `as.groupedHyperframe.hyperframe()`'
+#| code-summary: '**Example**: `as.groupedHyperframe.hyperframe()`'
 spatstat.data::osteo |> 
   as.groupedHyperframe(group = ~ id/brick)
 ```
@@ -702,15 +702,13 @@ We use a subset of the data set *`flu`* from package **`spatstat.data`** to illu
 
 ```{r}
 #| label: fluM
+#| code-fold: true
+#| code-summary: '**Data**: a `hyperframe` object *`fluM`*'
 fluM = spatstat.data::flu |>
   spatstat.geom::subset.hyperframe(subset = (stain == 'M2-M1') & (virustype == 'wt'))
-```
-
-```{r}
-#| code-fold: true
-#| code-summary: A `hyperframe` object *`fluM`*
 fluM
 ```
+
 
 The `hyperframe` *`fluM`* contains `r nrow(fluM)` subjects, each of them has a `ppp.object` with 200-500 points.
 
@@ -737,7 +735,7 @@ We create a `hyperframe` *`fluM1`* which consists of the same columns as *`fluM`
 
 ```{r}
 #| code-fold: true
-#| code-summary: 'Two `hyperframe` objects *`fluM1`* and *`fluM2`*'
+#| code-summary: '**Data**: two `hyperframe` objects *`fluM1`* and *`fluM2`*'
 fluM1 = fluM2 = fluM
 fluM1$pattern = unclass(fluM)$hypercolumns$pattern |> 
   spatstat.geom::solapply(FUN = spatstat.geom::subset.ppp, subset = (marks == 'M1'))
@@ -762,6 +760,8 @@ fluM2$pattern |>
 The `S3` method dispatch `superimpose.hyperframe()` recreates the `hyperframe` *`fluM`* by combining the `hyperframe`s *`fluM2`* and *`fluM1`*. Note that the order of *`fluM2`*-then-*`fluM1`* matters, because the points are arranged in *`M2`*-then-*`M1`* in the original hypercolumn *`fluM$pattern`*.
 
 ```{r}
+#| code-fold: true
+#| code-summary: '**Example**: `superimpose.hyperframe()`'
 fluS = superimpose.hyperframe(fluM2, fluM1)
 stopifnot(identical(fluS, fluM))
 ```
@@ -786,7 +786,7 @@ The derived class `'vectorlist'`, i.e., a `listof` `vector`s, `inherits` from th
 
 ```{r}
 #| code-fold: true
-#| code-summary: 'A `hyperframe` object *`spatstat.data::Kovesi`*'
+#| code-summary: '**Data**: a `hyperframe` object *`spatstat.data::Kovesi`*'
 spatstat.data::Kovesi |>
   head()
 ```
@@ -795,7 +795,7 @@ The `character`-hypercolumn *`spatstat.data::Kovesi$values`* has the class `'any
 
 ```{r}
 #| code-fold: true
-#| code-summary: 'An `anylist` object *`spatstat.data::Kovesi$values`*'
+#| code-summary: '**Data**: an `anylist` object *`spatstat.data::Kovesi$values`*'
 spatstat.data::Kovesi$values |>
   class()
 spatstat.data::Kovesi$values |>
@@ -808,20 +808,20 @@ spatstat.data::Kovesi$values |>
 Now we create an object *`Kovesi_values`* of a derived class `'vectorlist'`.
 
 ```{r}
+#| code-fold: true
+#| code-summary: '**Data**: a `vectorlist` object *`Kovesi_values`*'
 Kovesi_values = spatstat.data::Kovesi$values
 class(Kovesi_values) = c('vectorlist', class(Kovesi_values))
-```
-
-```{r}
-#| code-fold: true
-#| code-summary: 'A `vectorlist` object *`Kovesi_values`*'
 Kovesi_values |> 
   class()
 ```
 
+
 The `S3` method dispatch `t.vectorlist()` transposes a `'vectorlist'` of equi-`length` into another `'vectorlist'`, but with the `length` and `lengths` of the input switched. The use of the term "transpose", and the extension of the generic function `base::t()`, mirrors the use of the default dispatch `base:::t.default()` to transpose a `'matrix'`, i.e., to switch the `ncol` and `nrow` of the input. The returned object *`Kovesi_values_t`* is a `length`-256 `listof` `vector`s, all elements of which have `length`-41.
 
 ```{r}
+#| code-fold: true
+#| code-summary: '**Example**: `t.vectorlist()`'
 Kovesi_values_t = Kovesi_values |> 
   t()
 ```
@@ -867,6 +867,8 @@ stopifnot(identical(Kovesi_values_t[[256L]], z256))
 The derived class `'vectorlist'` is not part of package **`spatstat.geom`** as of dev v`r packageVersion('spatstat.geom')`. Users may call the `S3` method dispatch `t.vectorlist()` explicitly as a workaround before package **`spatstat.geom`** (ever) implements the class `vectorlist`.
 
 ```{r}
+#| code-fold: true
+#| code-summary: "**Workaround**: without derived class `'vectorlist'`"
 Kovesi_values_t2 = spatstat.data::Kovesi$values |>
   t.vectorlist()
 stopifnot(identical(Kovesi_values_t, Kovesi_values_t2))
@@ -904,7 +906,7 @@ The `S3` method dispatch `spatstat.explore::plot.fv()` visualizes the function v
 ```{r}
 #| fig-show: hide
 #| code-fold: true
-#| code-summary: 'Review: `spatstat.explore::plot.fv()`'
+#| code-summary: '**Review**: `spatstat.explore::plot.fv()`'
 spatstat.data::spruces |> 
   spatstat.explore::markcorr() |>
   spatstat.explore::plot.fv()
@@ -915,7 +917,7 @@ Function `key1.fv()` finds the "name" of the function values in an `fv.object`. 
 
 ```{r}
 #| code-fold: true
-#| code-summary: 'Example: `key1.fv()`'
+#| code-summary: '**Example**: `key1.fv()`'
 spatstat.data::spruces |> 
   spatstat.explore::markcorr() |>
   key1.fv()
@@ -925,7 +927,7 @@ Function `key1val.fv()` finds the function values in an `fv.object`, with the co
 
 ```{r}
 #| code-fold: true
-#| code-summary: 'Example: `key1val.fv()`'
+#| code-summary: '**Example**: `key1val.fv()`'
 spatstat.data::spruces |> 
   spatstat.explore::markcorr() |>
   key1val.fv() |>
@@ -936,7 +938,7 @@ Functions `trapz.fv()` and `cumtrapz.fv()` calculate the (cumulative) trapezoida
 
 ```{r}
 #| code-fold: true
-#| code-summary: 'Example: `trapz.fv()`'
+#| code-summary: '**Example**: `trapz.fv()`'
 spatstat.data::spruces |> 
   spatstat.explore::markcorr() |>
   trapz.fv()
@@ -944,7 +946,7 @@ spatstat.data::spruces |>
 
 ```{r}
 #| code-fold: true
-#| code-summary: 'Example: `cumtrapz.fv()`'
+#| code-summary: '**Example**: `cumtrapz.fv()`'
 spatstat.data::spruces |> 
   spatstat.explore::markcorr() |>
   cumtrapz.fv() |>
@@ -955,7 +957,7 @@ Functions `vtrapz.fv()` and `cumvtrapz.fv()` calculate the (cumulative) average 
 
 ```{r}
 #| code-fold: true
-#| code-summary: 'Example: `vtrapz.fv()`'
+#| code-summary: '**Example**: `vtrapz.fv()`'
 spatstat.data::spruces |> 
   spatstat.explore::markcorr() |>
   vtrapz.fv()
@@ -963,7 +965,7 @@ spatstat.data::spruces |>
 
 ```{r}
 #| code-fold: true
-#| code-summary: 'Example: `cumvtrapz.fv()`'
+#| code-summary: '**Example**: `cumvtrapz.fv()`'
 spatstat.data::spruces |> 
   spatstat.explore::markcorr() |>
   cumvtrapz.fv() |>
@@ -991,7 +993,7 @@ Function `markcorr()` provides a default argument of parameter $r$ (Appendix @se
 
 ```{r}
 #| code-fold: true
-#| code-summary: "Review: `spatstat.explore::print.fv()`"
+#| code-summary: "**Review**: `spatstat.explore::print.fv()`"
 spatstat.data::spruces |> 
   spatstat.explore::markcorr()
 ```
@@ -1012,7 +1014,7 @@ Function `lastLegal()` provides the *index* of the last legal function value in 
 
 ```{r}
 #| code-fold: true
-#| code-summary: 'Example: `lastLegal()`'
+#| code-summary: '**Example**: `lastLegal()`'
 fv |>
   key1val.fv() |>
   lastLegal()
@@ -1051,7 +1053,7 @@ The `S3` method dispatch `append_marks<-.ppp()` appends an additional mark to th
 
 ```{r}
 #| code-fold: true
-#| code-summary: 'Example: `append_marks<-.ppp()`, no existing marks'
+#| code-summary: '**Example**: `append_marks<-.ppp()`, no existing marks'
 data(vesicles, package = 'spatstat.data')
 vesicles |> spatstat.geom::print.ppp()
 set.seed(12); append_marks(vesicles) = rlnorm(n = spatstat.geom::npoints(vesicles))
@@ -1060,7 +1062,7 @@ vesicles |> spatstat.geom::print.ppp()
 
 ```{r}
 #| code-fold: true
-#| code-summary: 'Example: `append_marks<-.ppp()`, existing numeric marks'
+#| code-summary: '**Example**: `append_marks<-.ppp()`, existing numeric marks'
 data(waka, package = 'spatstat.data')
 waka |> spatstat.geom::print.ppp()
 set.seed(23); append_marks(waka) = rlnorm(n = spatstat.geom::npoints(waka))
@@ -1069,7 +1071,7 @@ waka |> spatstat.geom::print.ppp()
 
 ```{r}
 #| code-fold: true
-#| code-summary: 'Example: `append_marks<-.ppp()`, existing `multitype` marks'
+#| code-summary: '**Example**: `append_marks<-.ppp()`, existing `multitype` marks'
 data(urkiola, package = 'spatstat.data')
 urkiola |> spatstat.geom::print.ppp()
 set.seed(42); append_marks(urkiola) = rlnorm(n = spatstat.geom::npoints(urkiola))
@@ -1078,7 +1080,7 @@ urkiola |> spatstat.geom::print.ppp()
 
 ```{r}
 #| code-fold: true
-#| code-summary: 'Example: `append_marks<-.ppp()`, existing `dataframe` marks'
+#| code-summary: '**Example**: `append_marks<-.ppp()`, existing `dataframe` marks'
 data(stonetools, package = 'spatstat.data')
 stonetools |> spatstat.geom::print.ppp()
 set.seed(33); append_marks(stonetools) = rlnorm(n = spatstat.geom::npoints(stonetools))
@@ -1091,7 +1093,7 @@ The `S3` method dispatches `log.ppp()` and `log1p.ppp()` perform `log`- and $\lo
 
 ```{r}
 #| code-fold: true
-#| code-summary: 'Example: `log.ppp()` on numeric-`marks`'
+#| code-summary: '**Example**: `log.ppp()` on numeric-`marks`'
 spatstat.data::longleaf
 spatstat.data::longleaf |>
   spatstat.geom::marks.ppp() |>
@@ -1104,7 +1106,7 @@ spatstat.data::longleaf |>
 
 ```{r}
 #| code-fold: true
-#| code-summary: 'Example: `log1p.ppp()` on numeric-`marks`'
+#| code-summary: '**Example**: `log1p.ppp()` on numeric-`marks`'
 spatstat.data::bronzefilter
 spatstat.data::bronzefilter |>
   spatstat.geom::marks.ppp() |>
@@ -1117,7 +1119,7 @@ spatstat.data::bronzefilter |>
 
 ```{r}
 #| code-fold: true
-#| code-summary: "Example: `log.ppp()` on numeric-`marks` when `markformat` being `'dataframe'`"
+#| code-summary: "**Example**: `log.ppp()` on numeric-`marks` when `markformat` being `'dataframe'`"
 spatstat.data::betacells
 spatstat.data::betacells |>
   spatstat.geom::marks.ppp() |>
@@ -1136,7 +1138,7 @@ The `S3` method dispatch `na.omit.ppp()` removes missing `marks` from a `ppp.obj
 
 ```{r}
 #| code-fold: true
-#| code-summary: 'Example: `na.omit.ppp()`'
+#| code-summary: '**Example**: `na.omit.ppp()`'
 spatstat.data::nbfires |> 
   spatstat.geom::npoints()
 spatstat.data::nbfires |> 
@@ -1163,7 +1165,7 @@ The `S3` method dispatch `rmax_.ppp()` finds the default $r_\text{max}$ used by 
 
 ```{r}
 #| code-fold: true
-#| code-summary: "Example: `rmax_.ppp()`; function `spatstat.explore::markcorr()` on `double`-mark"
+#| code-summary: "**Example**: `rmax_.ppp()`; function `spatstat.explore::markcorr()` on `double`-mark"
 spatstat.data::spruces
 r1 = spatstat.data::spruces |>
   spatstat.explore::markcorr() |>
@@ -1176,7 +1178,7 @@ stopifnot(identical(r1, r2))
 
 ```{r}
 #| code-fold: true
-#| code-summary: "Example: `rmax_.ppp()`; function `spatstat.explore::markcorr()` on `integer`-mark"
+#| code-summary: "**Example**: `rmax_.ppp()`; function `spatstat.explore::markcorr()` on `integer`-mark"
 spatstat.data::anemones
 r1 = spatstat.data::anemones |>
   spatstat.explore::markcorr() |>
@@ -1189,7 +1191,7 @@ stopifnot(identical(r1, r2))
 
 ```{r}
 #| code-fold: true
-#| code-summary: "Example: `rmax_.ppp()`; function `spatstat.explore::Gcross()` on `multitype`-mark"
+#| code-summary: "**Example**: `rmax_.ppp()`; function `spatstat.explore::Gcross()` on `multitype`-mark"
 spatstat.data::amacrine
 r1a = spatstat.data::amacrine |>
   spatstat.explore::Gcross(i = 'on', j = 'off') |>
@@ -1209,7 +1211,7 @@ stopifnot(identical(r1b, r2b))
 
 ```{r}
 #| code-fold: true
-#| code-summary: "Example: `rmax_.ppp()`; function `spatstat.explore::Jcross()` on `multitype`-mark"
+#| code-summary: "**Example**: `rmax_.ppp()`; function `spatstat.explore::Jcross()` on `multitype`-mark"
 spatstat.data::paracou
 r1a = spatstat.data::paracou |>
   spatstat.explore::Jcross(i = 'adult', j = 'juvenile') |>
@@ -1231,27 +1233,27 @@ The `S3` method dispatches `rmax_.ppplist()` and `rmax_.hyperframe()` obtain the
 
 ```{r}
 #| code-fold: true
-#| code-summary: "Example: `rmax_.hyperframe()`; functions `Emark_()`, `Vmark_()`, `markcorr_()`, `markvario_()` on numeric (and `multitype`) mark"
+#| code-summary: "**Example**: `rmax_.hyperframe()`; functions `Emark_()`, `Vmark_()`, `markcorr_()`, `markvario_()` on numeric (and `multitype`) mark"
 s |> rmax_(fun = 'K')
 ```
 
 ```{r}
 #| code-fold: true
-#| code-summary: "Example: `rmax_.hyperframe()`; function `Kcross_()` on `multitype` mark"
+#| code-summary: "**Example**: `rmax_.hyperframe()`; function `Kcross_()` on `multitype` mark"
 s |> rmax_(fun = 'K', i = 'CK+.CD8-', j = 'CK-.CD8+')
 s |> rmax_(fun = 'K', i = 'CK-.CD8+', j = 'CK+.CD8-')
 ```
 
 ```{r}
 #| code-fold: true
-#| code-summary: "Example: `rmax_.hyperframe()`; function `Gcross_()` on `multitype` mark"
+#| code-summary: "**Example**: `rmax_.hyperframe()`; function `Gcross_()` on `multitype` mark"
 s |> rmax_(fun = 'G', i = 'CK+.CD8-', j = 'CK-.CD8+')
 s |> rmax_(fun = 'G', i = 'CK-.CD8+', j = 'CK+.CD8-')
 ```
 
 ```{r}
 #| code-fold: true
-#| code-summary: "Example: `rmax_.hyperframe()`; function `Jcross_()` on multitype mark"
+#| code-summary: "**Example**: `rmax_.hyperframe()`; function `Jcross_()` on multitype mark"
 s |> rmax_(fun = 'J', i = 'CK+.CD8-', j = 'CK-.CD8+')
 s |> rmax_(fun = 'J', i = 'CK-.CD8+', j = 'CK+.CD8-')
 ```
@@ -1272,27 +1274,27 @@ Data set *`bei`* from package **`spatstat.data`** has $x$- and $y$-coordinates o
 
 ```{r}
 #| code-fold: true
-#| code-summary: 'Data: `spatstat.data::bei`'
+#| code-summary: '**Data**: `spatstat.data::bei`'
 spatstat.data::bei
 ```
 
 ```{r}
 #| code-fold: true
-#| code-summary: 'Example: `.kmeans.ppp()`; cluster *`bei`* by `~ x`'
+#| code-summary: '**Example**: `.kmeans.ppp()`; cluster *`bei`* by `~ x`'
 spatstat.data::bei |> 
   .kmeans(formula = ~ x, centers = 3L)
 ```
 
 ```{r}
 #| code-fold: true
-#| code-summary: 'Example: `.kmeans.ppp()`; cluster *`bei`* by `~ x + y`'
+#| code-summary: '**Example**: `.kmeans.ppp()`; cluster *`bei`* by `~ x + y`'
 spatstat.data::bei |> 
   .kmeans(formula = ~ x + y, centers = 3L)
 ```
 
 ```{r}
 #| code-fold: true
-#| code-summary: 'Example: `.kmeans.ppp()`; cluster *`bei`* by `~ x + y` and parameter `clusterSize`'
+#| code-summary: '**Example**: `.kmeans.ppp()`; cluster *`bei`* by `~ x + y` and parameter `clusterSize`'
 spatstat.data::bei |> 
   .kmeans(formula = ~ x + y, clusterSize = 1000L)
 ```
@@ -1301,20 +1303,20 @@ Data set *`waka`* from package **`spatstat.data`** has numeric `marks` stored in
 
 ```{r}
 #| code-fold: true
-#| code-summary: 'Data: `spatstat.data::waka`'
+#| code-summary: '**Data**: `spatstat.data::waka`'
 spatstat.data::waka
 ```
 
 ```{r}
 #| code-fold: true
-#| code-summary: 'Example: `.kmeans.ppp()`; cluster *`waka`* by `~ x + marks`'
+#| code-summary: '**Example**: `.kmeans.ppp()`; cluster *`waka`* by `~ x + marks`'
 spatstat.data::waka |> 
   .kmeans(formula = ~ x + marks, centers = 3L)
 ```
 
 ```{r}
 #| code-fold: true
-#| code-summary: 'Example: `.kmeans.ppp()`; cluster *`waka`* by `~ x + y + marks`'
+#| code-summary: '**Example**: `.kmeans.ppp()`; cluster *`waka`* by `~ x + y + marks`'
 spatstat.data::waka |> 
   .kmeans(formula = ~ x + y + marks, centers = 3L)
 ```
@@ -1323,20 +1325,20 @@ Data set *`shapley`* from package **`spatstat.data`** has three (3) numeric `mar
 
 ```{r}
 #| code-fold: true
-#| code-summary: 'Data: `spatstat.data::shapley`'
+#| code-summary: '**Data**: `spatstat.data::shapley`'
 spatstat.data::shapley
 ```
 
 ```{r}
 #| code-fold: true
-#| code-summary: 'Example: `.kmeans.ppp()`; cluster *`shapley`* by `~ x + y + Mag`'
+#| code-summary: '**Example**: `.kmeans.ppp()`; cluster *`shapley`* by `~ x + y + Mag`'
 spatstat.data::shapley |> 
   .kmeans(formula = ~ x + y + Mag, centers = 3L)
 ```
 
 ```{r}
 #| code-fold: true
-#| code-summary: 'Example: `.kmeans.ppp()`; cluster *`shapley`* by `~ x + Mag + V`'
+#| code-summary: '**Example**: `.kmeans.ppp()`; cluster *`shapley`* by `~ x + Mag + V`'
 spatstat.data::shapley |> 
   .kmeans(formula = ~ x + Mag + V, centers = 3L)
 ```
@@ -1346,20 +1348,17 @@ spatstat.data::shapley |>
 The `S3` generic function `split_kmeans()` splits `ppp.object`, `ppplist`, and `hyperframe` by $k$-means clustering. We use a subset of the data set *`flu`* from package **`spatstat.data`** to illustrate the various `S3` method dispatches of `split_kmeans()`.
 
 ```{r}
+#| code-fold: true
+#| code-summary: '**Data**: a `hyperframe` object *`fluM`*'
 <<fluM>>
 ```
 
-```{r}
-#| code-fold: true
-#| code-summary: The `hyperframe` *`fluM`*
-fluM
-```
 
 The `S3` method dispatch `split_kmeans.default()` splits a `ppp.object` by $k$-means clustering.
 
 ```{r}
 #| code-fold: true
-#| code-summary: 'Example: `split_kmeans.default()`'
+#| code-summary: '**Example**: `split_kmeans.default()`'
 fluM$pattern[[1L]] |> 
   split_kmeans(formula = ~ x + y, centers = 3L)
 ```
@@ -1371,7 +1370,7 @@ The `S3` method dispatch `split_kmeans.listof()` splits a `ppplist`, i.e., a `li
 
 ```{r}
 #| code-fold: true
-#| code-summary: 'Example: `split_kmeans.listof()`'
+#| code-summary: '**Example**: `split_kmeans.listof()`'
 fluM$pattern |> 
   split_kmeans(formula = ~ x + y, centers = 3L) 
 ```
@@ -1383,7 +1382,7 @@ The `S3` method dispatch `split_kmeans.hyperframe()` splits a `hyperframe` and/o
 
 ```{r}
 #| code-fold: true
-#| code-summary: 'Example: `split_kmeans.hyperframe()`'
+#| code-summary: '**Example**: `split_kmeans.hyperframe()`'
 fluM |> 
   split_kmeans(formula = ~ x + y, centers = 3L)
 ```
@@ -1404,7 +1403,7 @@ The `S3` method dispatch `pairwise_cor_spatial.ppp()` finds the nonparametric Tj
 
 ```{r}
 #| code-fold: true
-#| code-summary: 'Example: `pairwise_cor_spatial.ppp()`'
+#| code-summary: '**Example**: `pairwise_cor_spatial.ppp()`'
 finpines_paircor = spatstat.data::finpines |>
   pairwise_cor_spatial()
 ```
@@ -1424,7 +1423,7 @@ The `S3` method dispatch `as.matrix.pairwise_cor_spatial()` returns a `matrix` o
 
 ```{r}
 #| code-fold: true
-#| code-summary: 'Example: `as.matrix.pairwise_cor_spatial()`'
+#| code-summary: '**Example**: `as.matrix.pairwise_cor_spatial()`'
 finpines_paircor |> 
   as.matrix()
 ```
@@ -1445,7 +1444,7 @@ The authors plan [**not**]{style="background-color: #FFFF00"} to write an `S3` m
 
 ```{r}
 #| code-fold: true
-#| code-summary: 'Workaround: `as.environment` of `hyperframe`'
+#| code-summary: '**Workaround**: `as.environment` of `hyperframe`'
 ev = spatstat.data::demohyper |> 
   spatstat.geom::as.list.hyperframe() |>
   list2env()
@@ -1484,7 +1483,7 @@ The data set *`btb.extra`* from package **`spatstat.data`** is a `ppplist`, whic
 
 ```{r}
 #| code-fold: true
-#| code-summary: 'A `ppplist` object *`spatstat.data::btb.extra`*'
+#| code-summary: '**Data**: a `ppplist` object *`spatstat.data::btb.extra`*'
 spatstat.data::btb.extra
 spatstat.data::btb.extra |> 
   class()
@@ -1495,7 +1494,7 @@ The `S3` method dispatch `spatstat.geom::marks.ppp()` obtains the `marks` in eac
 
 ```{r}
 #| code-fold: true
-#| code-summary: 'Review: `marks` in *`spatstat.data::btb.extra$full`*'
+#| code-summary: '**Review**: `marks` in *`spatstat.data::btb.extra$full`*'
 spatstat.data::btb.extra$full |> 
   spatstat.geom::marks.ppp() |>
   head()
@@ -1505,7 +1504,7 @@ The `ppp`-hypercolumn of the `hyperframe` *`flu`* from package **`spatstat.data`
 
 ```{r}
 #| code-fold: true
-#| code-summary: 'A `ppplist` object, as `ppp`-hypercolumn, *`spatstat.data::flu$pattern`*'
+#| code-summary: '**Data**: a `ppplist` object, as `ppp`-hypercolumn, *`spatstat.data::flu$pattern`*'
 spatstat.data::flu$pattern |>
   head(n = 3L)
 spatstat.data::flu$pattern |>
@@ -1517,7 +1516,7 @@ The `S3` method dispatch `spatstat.geom::marks.ppp()` obtains the `marks` in eac
 
 ```{r}
 #| code-fold: true
-#| code-summary: 'Review: `marks` in *`spatstat.data::flu$pattern[[1L]]`*'
+#| code-summary: '**Review**: `marks` in *`spatstat.data::flu$pattern[[1L]]`*'
 spatstat.data::flu$pattern[[1L]] |> 
   spatstat.geom::marks.ppp() |>
   head()
@@ -1528,7 +1527,7 @@ To obtain the `marks` from all `ppp`-elements of a `ppplist`, the authors sugges
 ```{r}
 #| results: hide
 #| code-fold: true
-#| code-summary: 'Workaround: `marks` in `spatstat.data::btb.extra`'
+#| code-summary: '**Workaround**: `marks` in `spatstat.data::btb.extra`'
 spatstat.data::btb.extra |>
   lapply(FUN = spatstat.geom::marks.ppp)
 # result suppressed to save vignette space
@@ -1537,7 +1536,7 @@ spatstat.data::btb.extra |>
 ```{r}
 #| results: hide
 #| code-fold: true
-#| code-summary: 'Workaround: `marks` in `spatstat.data::flu$pattern`'
+#| code-summary: '**Workaround**: `marks` in `spatstat.data::flu$pattern`'
 spatstat.data::flu$pattern |>
   lapply(FUN = spatstat.geom::marks.ppp)
 # result suppressed to save vignette space
