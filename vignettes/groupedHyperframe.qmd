@@ -675,9 +675,11 @@ The authors plan [**not**]{style="background-color: #FFFF00"} to implement
 
 ### `S3` methods in package **`spatstat.geom`**
 
-Several `S3` method dispatches to `hyperframe` class in package **`spatstat.geom`** behave *very differently* from their counterpart in vanilla R. Users are strongly advised to read the documentation of these functions from package **`spatstat.geom`**.
+Several `S3` method dispatches to the class `'hyperframe'` in package **`spatstat.geom`** behave *very differently* from their counterpart in vanilla R. Users are strongly advised to read the documentation of these functions from package **`spatstat.geom`**.
 
-| Generic Function | Method Dispatch to `data.frame` | Method Dispatch to `hyperframe` |
+<details><summary>**Review**: `S3` methods `*.hyperframe()` that are drastically different from `*.data.frame()` or `*.default()`</summary>
+
+| Generic Function | Method Dispatch to `'data.frame'` | Method Dispatch to `'hyperframe'` |
 |------------------------|------------------------|------------------------|
 | [`` base::`[` ``](https://search.r-project.org/R/refmans/base/html/Extract.html) | [`` base::`[.data.frame` ``](https://search.r-project.org/R/refmans/base/html/Extract.data.frame.html) | [`` spatstat.geom::`[.hyperframe` ``](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/Extract.hyperframe.html) |
 | [`` base::`$<-` ``](https://search.r-project.org/R/refmans/base/html/Extract.html) | [`` base::`$<-.data.frame` ``](https://search.r-project.org/R/refmans/base/html/Extract.data.frame.html) | [`` spatstat.geom::`$<-.hyperframe` ``](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/Extract.hyperframe.html) |
@@ -686,6 +688,8 @@ Several `S3` method dispatches to `hyperframe` class in package **`spatstat.geom
 | [`base::within`](https://search.r-project.org/R/refmans/base/html/with.html) | [`base::within.data.frame`](https://search.r-project.org/R/refmans/base/html/with.html) | do not exist (as of v`r packageVersion('spatstat.geom')`) |
 
 : `S3` methods `*.hyperframe()` that are drastically different from `*.data.frame()` or `*.default()`
+
+</details>
 
 ### Convert to `groupedHyperframe` {#sec-asgroupedHyperframe-hyperframe}
 
@@ -726,14 +730,14 @@ The `hyperframe` *`fluM`* contains `r nrow(fluM)` subjects, each of them has a `
 
 ```{r}
 #| code-fold: true
-#| code-summary: Number of points per `ppp.object` in hypercolumn *`fluM$pattern`*
+#| code-summary: '**Review**: number of points per `ppp.object` in hypercolumn *`fluM$pattern`*'
 fluM$pattern |>
   sapply(FUN = spatstat.geom::npoints)
 ```
 
 ```{r}
 #| code-fold: true
-#| code-summary: Number of *`M1`* and/or *`M2`* points per `ppp.object` in hypercolumn *`fluM$pattern`*
+#| code-summary: '**Review**: number of *`M1`* and/or *`M2`* points per `ppp.object` in hypercolumn *`fluM$pattern`*'
 fluM$pattern |>
   sapply(FUN = \(i) {
     i |> 
@@ -757,14 +761,14 @@ fluM2$pattern = unclass(fluM)$hypercolumns$pattern |>
 
 ```{r}
 #| code-fold: true
-#| code-summary: Number of *`M1`* points per `ppp.object` in hypercolumn *`fluM1$pattern`*
+#| code-summary: '**Review**: number of *`M1`* points per `ppp.object` in hypercolumn *`fluM1$pattern`*'
 fluM1$pattern |>
   sapply(FUN = spatstat.geom::npoints)
 ```
 
 ```{r}
 #| code-fold: true
-#| code-summary: Number of *`M2`* points per `ppp.object` in hypercolumn *`fluM2$pattern`*
+#| code-summary: '**Review**: number of *`M2`* points per `ppp.object` in hypercolumn *`fluM2$pattern`*'
 fluM2$pattern |>
   sapply(FUN = spatstat.geom::npoints)
 ```
