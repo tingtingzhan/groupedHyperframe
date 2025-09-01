@@ -457,10 +457,11 @@ Technical details, as well as the minor and/or experimental features, are covere
 
 All R code-chunks are folded in the Appendix, for ease of navigation. They are categorized as 
 
--   **Data**.  Creation of an R object for further operations.
--   **Review**.  Demonstration of functions from other packages, most often from the **`spatstat.*`** family of packages.
--   **Example**.  Demonstration of functions from package **`groupedHyperframe`**.
--   **Workaround**.  Alternative solutions to a problem.
+-   **Data**, to create an R object for further operations.
+-   **Review**, to demonstrate functions shipped with vanilla `r R.version.string`, or from other packages.
+-   **Example**, to demonstrate functions from package **`groupedHyperframe`**.
+-   **Figure**, to create a `ggplot`.
+-   **Workaround**, to provide alternative solutions to a problem.
 
 
 
@@ -482,7 +483,7 @@ Consider
 
 ```{r}
 #| code-fold: true
-#| code-summary: 'A toy example $(x_0,x_1,x_2,x_3,x_4,x_5)^t$ and $\\{y_k = f(x_k);k=0,1,\cdots,5\\}$'
+#| code-summary: '**Data**: a toy example $(x_0,x_1,x_2,x_3,x_4,x_5)^t$ and $\\{y_k = f(x_k);k=0,1,\cdots,5\\}$'
 #| label: trapz_toy
 (x = seq.int(from = 10L, to = 20L, by = 2L))
 set.seed(12); (y = rnorm(n = length(x), mean = 1, sd = .2))
@@ -550,7 +551,7 @@ cumvtrapz(x, y)
 
 ```{r}
 #| code-fold: true
-#| code-summary: "Panel (A): visualize `vtrapz` and `cumvtrapz` of a toy example"  
+#| code-summary: "**Figure**: Panel (A), visualize `vtrapz` and `cumvtrapz` of a toy example"  
 <<trapz_toy>>
 fig_vtrapz_1 = visualize_vtrapz(x, y) + 
   ggplot2::labs(title = '(A). a toy example') +
@@ -559,7 +560,7 @@ fig_vtrapz_1 = visualize_vtrapz(x, y) +
 
 ```{r}
 #| code-fold: true
-#| code-summary: "Panel (B): visualize `vtrapz` and `cumvtrapz` of `stats::density()`"  
+#| code-summary: "**Figure**: Panel (B), visualize `vtrapz` and `cumvtrapz` of `stats::density()`"  
 set.seed(12); fig_vtrapz_2 = rnorm(n = 1e3L) |> density() |> visualize_vtrapz() + 
   ggplot2::labs(title = '(B). kernel density') +
   ggplot2::theme_minimal()
@@ -567,7 +568,7 @@ set.seed(12); fig_vtrapz_2 = rnorm(n = 1e3L) |> density() |> visualize_vtrapz() 
 
 ```{r}
 #| code-fold: true
-#| code-summary: "Panel (C): visualize `vtrapz` and `cumvtrapz` of `stats::ecdf()`"  
+#| code-summary: "**Figure**: Panel (C), visualize `vtrapz` and `cumvtrapz` of `stats::ecdf()`"  
 set.seed(27); fig_vtrapz_3 = rnorm(n = 1e3L) |> ecdf() |> visualize_vtrapz() + 
   ggplot2::labs(title = '(C). empirical distribution') +
   ggplot2::theme_minimal()
@@ -575,7 +576,7 @@ set.seed(27); fig_vtrapz_3 = rnorm(n = 1e3L) |> ecdf() |> visualize_vtrapz() +
 
 ```{r}
 #| code-fold: true
-#| code-summary: "Panel (D): visualize `cumvtrapz` of `spatstat.explore::Emark()`"  
+#| code-summary: "**Figure**: Panel (D), visualize `cumvtrapz` of `spatstat.explore::Emark()`"  
 fig_vtrapz_4 = spatstat.data::spruces |>
   spatstat.explore::Emark() |>
   visualize_vtrapz(draw.v = FALSE, draw.rect = FALSE) +
@@ -585,7 +586,7 @@ fig_vtrapz_4 = spatstat.data::spruces |>
 
 ```{r}
 #| code-fold: true
-#| code-summary: "Panel (E): visualize `cumvtrapz` of `spatstat.explore::Vmark()`"  
+#| code-summary: "**Figure**: Panel (E), visualize `cumvtrapz` of `spatstat.explore::Vmark()`"  
 fig_vtrapz_5 = spatstat.data::spruces |>
   spatstat.explore::Vmark() |>
   visualize_vtrapz(draw.v = FALSE, draw.rect = FALSE) +
@@ -597,7 +598,7 @@ fig_vtrapz_5 = spatstat.data::spruces |>
 #| label: fig-vtrapz
 #| warning: false
 #| code-fold: true
-#| code-summary: "Panels collaged: visualize `vtrapz` and `cumvtrapz`"  
+#| code-summary: "**Figure**: Panels collaged, visualize `vtrapz` and `cumvtrapz`"  
 #| fig-height: 7.5
 #| fig-width: 10
 #| fig-align: left
@@ -611,7 +612,7 @@ fig_vtrapz_1 + fig_vtrapz_2 + fig_vtrapz_3 + fig_vtrapz_4 + fig_vtrapz_5 +
 
 ### Nested Grouping Structure {#sec-nestedGroup}
 
-Interaction terms using colon operator `:` are allowed in the grouping structure, such as `g1/g2a:g2b/g3a:g3b:g3c`. This feature is made possible because the colon operator `:` has higher priority than the forward slash `/` in R `formula`.
+Interaction terms using colon operator `:` are allowed in the grouping structure, e.g., `g1/g2a:g2b/g3a:g3b:g3c`. This feature is made possible because the colon operator `:` has higher priority than the forward slash `/` in R `formula`.
 
 ```{r}
 #| code-fold: true
@@ -994,18 +995,18 @@ Function `spatstat.explore::markcorr()` is the workhorse inside functions `Emark
 
 Function `markcorr()` relies on the un-exported workhorse function `spatstat.explore:::sewsmod()`, whose default `method = "density"` contains the calculation of the ratio of two kernel densities. Due to the floating-point precision of R, such density ratios may have exceptional/illegal returns of
 
--   `0`, from $0/\delta$, where $\delta\geq$ (approximately) `2.6e-324`
--   `NaN`, from $0/\varepsilon$ or $\varepsilon/0$, where $\varepsilon\leq$ (approximately) `2.5e-324`
--   `Inf`, from $\delta/0$, where $\delta\geq$ (approximately) `2.6e-324`
+-   `0`, from $0/\delta$, with a [real number](https://en.wikipedia.org/wiki/Real_number) $\delta\geq$ (approximately) `2.6e-324`
+-   `NaN`, from $0/\varepsilon$ or $\varepsilon/0$, with a real number $\varepsilon\leq$ (approximately) `2.5e-324`
+-   `Inf`, from $\delta/0$, with a real number $\delta\geq$ (approximately) `2.6e-324`
 
 ```{r}
 #| code-fold: true
-#| code-summary: "Exceptional/illegal returns due to floating-point precision"
+#| code-summary: "**Review**: exceptional/illegal ratio due to floating-point precision"
 0 / c(2.6e-324, 2.5e-324)
 c(2.5e-324, 2.6e-324) / 0
 ```
 
-Function `markcorr()` provides a default argument of parameter $r$ (Appendix @sec-default_rmax), at which the mark correlation function $k_f(r)$ are evaluated. The S3 method dispatch `spatstat.explore::print.fv()` prints the *recommended range* and *available range* of the argument $r$.
+Function `markcorr()` provides a default argument of parameter $r$ (Appendix @sec-default_rmax), at which the mark correlation function $k_f(r)$ are evaluated. The S3 method dispatch `spatstat.explore::print.fv()` prints the *recommended range* and *available range* of $r$.
 
 ```{r}
 #| code-fold: true
@@ -1014,11 +1015,11 @@ spatstat.data::spruces |>
   spatstat.explore::markcorr()
 ```
 
-We may observe exceptional/illegal returns if we go beyond the recommended and/or available range. In the following example, we see that the mark correlation $k_f(r)$ (column *`iso`*) having exceptional/illegal values `0`, `NaN` and `Inf`.
+We may observe exceptional/illegal values `0`, `NaN` and `Inf` in the mark correlation function $k_f(r)$, if $r$ goes beyond the recommended and/or available range.
 
 ```{r}
 #| code-fold: true
-#| code-summary: "Exceptions when parameter `r` out-of-range"
+#| code-summary: "**Review**: exceptional/illegal function values *`iso`* when $r$ is out-of-range"
 fv = spatstat.data::spruces |> 
   spatstat.explore::markcorr(r = 0:100)
 fv |>
@@ -1166,7 +1167,9 @@ spatstat.data::nbfires |>
 
 The `S3` generic function `rmax_()` provides the default $r_\text{max}$ used in package **`spatstat.explore`** functions that returns an `fv.object`.
 
-The primary `S3` method dispatch `rmax_.ppp()` is an off-label use of the un-documented functions `spatstat.explore::rmax.rule()` and `spatstat.geom::handle.r.b.args()`.
+The primary `S3` method dispatch `rmax_.ppp()` is
+
+<details><summary>An off-label use of functions `spatstat.explore::rmax.rule()` and `spatstat.geom::handle.r.b.args()`</summary>
 
 | Function in package **`spatstat.explore`** | Call of `spatstat.explore::rmax.rule` | Default $r_\text{max}$ via `rmax_()` |
 |------------------------|------------------------|------------------------|
@@ -1177,7 +1180,9 @@ The primary `S3` method dispatch `rmax_.ppp()` is an off-label use of the un-doc
 
 : Default $r_\text{max}$ from functions in package **`spatstat.explore`** that return an `fv.object`
 
-The `S3` method dispatch `rmax_.ppp()` finds the default $r_\text{max}$ used by various functions returning an `fv.object`.
+</details>
+
+The `S3` method dispatch `rmax_.ppp()` finds the default $r_\text{max}$ used by various functions applicable to `ppp.object` and returning an `fv.object`.
 
 ```{r}
 #| code-fold: true
@@ -1223,6 +1228,20 @@ r1b = spatstat.data::amacrine |>
 r2b = spatstat.data::amacrine |> 
   rmax_(fun = 'G', i = 'off', j = 'on')
 stopifnot(identical(r1b, r2b))
+r1c = spatstat.data::amacrine |>
+  spatstat.explore::Gcross(i = 'on', j = 'on') |>
+  spatstat.explore::with.fv(expr = r) |>
+  max()
+r2c = spatstat.data::amacrine |> 
+  rmax_(fun = 'G', i = 'on', j = 'on')
+stopifnot(identical(r1c, r2c))
+r1d = spatstat.data::amacrine |>
+  spatstat.explore::Gcross(i = 'off', j = 'off') |>
+  spatstat.explore::with.fv(expr = r) |>
+  max()
+r2d = spatstat.data::amacrine |> 
+  rmax_(fun = 'G', i = 'off', j = 'off')
+stopifnot(identical(r1d, r2d))
 ```
 
 ```{r}
@@ -1243,6 +1262,20 @@ r1b = spatstat.data::paracou |>
 r2b = spatstat.data::paracou |> 
   rmax_(fun = 'J', i = 'juvenile', j = 'adult')
 stopifnot(identical(r1b, r2b))
+r1c = spatstat.data::paracou |>
+  spatstat.explore::Gcross(i = 'juvenile', j = 'juvenile') |>
+  spatstat.explore::with.fv(expr = r) |>
+  max()
+r2c = spatstat.data::paracou |> 
+  rmax_(fun = 'G', i = 'juvenile', j = 'juvenile')
+stopifnot(identical(r1c, r2c))
+r1d = spatstat.data::paracou |>
+  spatstat.explore::Gcross(i = 'adult', j = 'adult') |>
+  spatstat.explore::with.fv(expr = r) |>
+  max()
+r2d = spatstat.data::paracou |> 
+  rmax_(fun = 'G', i = 'adult', j = 'adult')
+stopifnot(identical(r1d, r2d))
 ```
 
 The `S3` method dispatches `rmax_.ppplist()` and `rmax_.hyperframe()` obtain the default $r_\text{max}$ *before* the (potentially) very slow batch processes.
@@ -1592,6 +1625,7 @@ spatstat.data::flu$pattern |>
 | [`file.size`](https://search.r-project.org/R/refmans/base/html/file.info.html) | File size in bytes |
 | (one-sided) [`formula`](https://search.r-project.org/R/refmans/stats/html/formula.html) | Formula, or [one-sided formula](https://search.r-project.org/R/refmans/stats/html/asOneSidedFormula.html) |
 | [`fv`, `fv.object`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/fv.object.html), [`plot.fv`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/plot.fv.html) | (Plot of) function value table, from package **`spatstat.explore`** |
+| [`ggplot`](https://search.r-project.org/CRAN/refmans/ggplot2/html/ggplot.html) | Elegant data visualisations using the grammar-of-graphics, from package **`ggplot2`** [@ggplot2] |
 | [`groupedHyperframe`](https://CRAN.R-project.org/package=groupedHyperframe) | Grouped hyper data frame |
 | `hypercolumns`, [`hyperframe`](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/hyperframe.html) | (Hyper columns of) hyper data frame, from package **`spatstat.geom`** |
 | [`identical`](https://search.r-project.org/R/refmans/base/html/identical.html) | Exact equality in R |
