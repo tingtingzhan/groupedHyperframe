@@ -615,7 +615,7 @@ Interaction terms using colon operator `:` are allowed in the grouping structure
 
 ```{r}
 #| code-fold: true
-#| code-summary: "Colon operator `:` has higher priority than forward slash `/`"
+#| code-summary: "**Review**: colon operator `:` has higher priority than forward slash `/`"
 quote(g1/g2a:g2b/g3a:g3b:g3c) |>
   as.list()
 ```
