@@ -149,7 +149,7 @@ We introduce a new `S3` class `groupedHyperframe`, for **grouped hyper data fram
 
 The `S3` generic function `as.groupedHyperframe()` converts objects of various classes into a `groupedHyperframe`.
 
-We have a toy data example *`wrobel_lung`* in package **`groupedHyperframe`** originally from Dr. [Julia Wrobel](https://sph.emory.edu/profile/faculty/julia-wrobel). In the following example, consider a subset of *`wrobel_lung0`* with the only non-identical column *`hladr`* in the lowest group *`image_id`* of the nested grouping structure *`~patient_id/image_id`*.
+We have a toy data example *`wrobel_lung`* in package **`groupedHyperframe`** originally from Dr. [Julia Wrobel](https://sph.emory.edu/profile/faculty/julia-wrobel). Consider a subset *`wrobel_lung0`* with the only non-identical column *`hladr`* in the lowest group *`image_id`* of the nested grouping structure *`~patient_id/image_id`*.
 
 ```{r}
 #| label: wrobel_lung0
@@ -435,7 +435,7 @@ c(
 
 </details>
 
-as well as @Yi25; @Yi23a; @Yi23b, was featured with a non-spatial `hyperframe` *`Ki67q`* with a numeric-hypercolumn *`logKi67.quantile`*.
+as well as @Yi25; @Yi23a; @Yi23b, was featured with a non-spatial `hyperframe` *`Ki67q`* with a numeric-hypercolumn *`logKi67.quantile`*.  Functions in the code-chunk below are explained in @sec-groupedHyperframe.
 
 ```{r}
 Ki67q = groupedHyperframe::Ki67 |>
@@ -1513,15 +1513,15 @@ The authors plan [**not**]{style="background-color: #FFFF00"} to implement an `S
 
 First, there is not an `S3` method dispatch `merge.hyperframe` in package **`spatstat.geom`** (as of v`r packageVersion('spatstat.geom')`);
 
-Second, should the authors decide to implement `setMethod(f = merge, ...)` for `hyperframe` class, at least two (2) `S4` method dispatches need to be written for
+Second, should the authors decide to implement `setMethod(f = merge, ...)` for the class `'hyperframe'`, at least two (2) `S4` method dispatches need to be written for
 
 -   `signature = c(x = 'hyperframe', y = 'data.frame')`
 -   `signature = c(x = 'hyperframe', y = 'hyperframe')`, for which the authors need to define a `match` mechanism for hypercolumns.
 
-Lastly, should the authors decide to implement `setMethod(f = merge, ...)` for `groupedHyperframe` class, at least three (3) `S4` method dispatches need to be written for
+Lastly, should the authors decide to implement `setMethod(f = merge, ...)` for the class `'groupedHyperframe'`, at least three (3) `S4` method dispatches need to be written for
 
 -   `signature = c(x = 'groupedHyperframe', y = 'data.frame')`
--   `signature = c(x = 'groupedHyperframe', y = 'hyperframe')`, similar as above;
+-   `signature = c(x = 'groupedHyperframe', y = 'hyperframe')`, as explained above;
 -   `signature = c(x = 'groupedHyperframe', y = 'groupedHyperframe')`, for which the authors need to consider the (potentially different) grouping structures of `x` and `y` inputs.
 
 The authors suggest using the pipeline of functions `base::merge.data.frame()` and `as.groupedHyperframe()` as a workaround.
@@ -1668,8 +1668,9 @@ R terminology and nomenclature could be *drastically different* from that of mat
 | `ppplist` | List of [`ppp.object`](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/ppp.object.html)s, which inherits from [`solist`](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/solist.html), from package **`spatstat.geom`** |
 | [`quantile`](https://search.r-project.org/R/refmans/stats/html/quantile.html) | Quantile |
 | [`rlnorm`](https://search.r-project.org/R/refmans/stats/html/Lognormal.html) | Random number generator for [log-normal distribution](https://en.wikipedia.org/wiki/Log-normal_distribution) |
-| `S3`, `generic`, [`methods`](https://search.r-project.org/R/refmans/utils/html/methods.html) | `S3` object oriented system, [`UseMethod`](https://search.r-project.org/R/refmans/base/html/UseMethod.html); [`getS3method`](https://search.r-project.org/R/refmans/utils/html/getS3method.html); <https://adv-r.hadley.nz/s3.html> |
-| `S4`, `generic`, `methods` | `S4` object oriented system, [`isS4`](https://search.r-project.org/R/refmans/base/html/isS4.html); [`setClass`](https://search.r-project.org/R/refmans/methods/html/setClass.html); [`setMethod`](https://search.r-project.org/R/refmans/methods/html/setMethod.html); [`getMethod`](https://search.r-project.org/R/refmans/methods/html/getMethod.html); <https://adv-r.hadley.nz/s4.html> |
+| `S3`, `generic`, [`UseMethod`](https://search.r-project.org/R/refmans/base/html/UseMethod.html), [`methods`](https://search.r-project.org/R/refmans/utils/html/methods.html), [`getS3method`](https://search.r-project.org/R/refmans/utils/html/getS3method.html) | `S3` object oriented system, <https://adv-r.hadley.nz/s3.html> |
+| `S4`, [`isS4`](https://search.r-project.org/R/refmans/base/html/isS4.html), [`setClass`](https://search.r-project.org/R/refmans/methods/html/setClass.html), [`setGeneric`](https://search.r-project.org/R/refmans/methods/html/setGeneric.html), [`setMethod`](https://search.r-project.org/R/refmans/methods/html/setMethod.html), [`getMethod`](https://search.r-project.org/R/refmans/methods/html/getMethod.html) | `S4` object oriented system, <https://adv-r.hadley.nz/s4.html>, implemented in package **`methods`** shipped with vanilla `r R.version.string` |
+| `S7`, [`new_generic`](https://search.r-project.org/CRAN/refmans/S7/html/new_generic.html), [`method`](https://search.r-project.org/CRAN/refmans/S7/html/method.html) | `S7` object oriented system, a successor to `S3` and `S4`, <https://rconsortium.github.io/S7>, currently in package **`S7`** [@S7] |
 | [`save`](https://search.r-project.org/R/refmans/base/html/save.html), [`saveRDS`](https://search.r-project.org/R/refmans/base/html/readRDS.html), `xz` | Save with [`xz`](https://en.wikipedia.org/wiki/XZ_Utils) compression |
 | [`sd`](https://search.r-project.org/R/refmans/stats/html/sd.html) | Standard deviation |
 | [`search`](https://search.r-project.org/R/refmans/base/html/search.html) | Search path |
@@ -1696,7 +1697,7 @@ R terminology and nomenclature could be *drastically different* from that of mat
 | Topic | Where to Find |
 |------------------------------------|------------------------------------|
 | `groupedHyperframe` | @sec-groupedHyperframe, @sec-groupedHyperframe-appendix |
-| `hyperframe` | @sec-hyperframe-appendix, or package [**`spatstat.geom`**](https://CRAN.R-project.org/package=spatstat.geom) documentation |
+| `hyperframe` | @sec-hyperframe-appendix, or package **`spatstat.geom`** documentation |
 | $k$-means clustering | @sec-kmeans |
 | $r_\text{max}$, default | @sec-default_rmax |
 | $r_\text{max}$, legal | @sec-legal_rmax |
