@@ -1479,13 +1479,13 @@ fluM |>
 
 The `S3` generic function `pairwise_cor_spatial()` calculates the nonparametric, rank-based, Tjøstheim's correlation coefficients [@Tjostheim78; @Hubert82] in a pairwise-combination fashion, using the workhorse function `SpatialPack::cor.spatial()` from package **`SpatialPack`** [@SpatialPack].
 
-All `S3` method dispatches return an object of class `'pairwise_cor_spatial'`, which `inherits` from the class `'dist'` defined in package **`stats`** shipped with `r R.version$version.string`. Such inheritance enables us to make use of existing `S3` method dispatches to class `'dist'`, e.g., `stats:::print.dist()`, `stats:::as.matrix.dist()`, `stats:::format.dist()` and `stats:::labels.dist()`.
+All `S3` method dispatches return an object of class `'pairwise_cor_spatial'`, which `inherits` from the class `'dist'` defined in package **`stats`** shipped with `r R.version$version.string`. Such inheritance enables us to make use of existing `S3` method dispatches to class `'dist'`, e.g., `stats:::print.dist()`, `stats:::as.matrix.dist()`, `stats:::format.dist()` and `stats:::labels.dist()`.  @tbl-dist explains the motivation of this inheritance, that the class `'pairwise_cor_spatial'` shares intrinsic similarity in data structure as the class `'dist'`.
 
 |   | `'pairwise_cor_spatial'` object | `'dist'` object |
-|------------------------|------------------------|------------------------|
+|:------------------------|:------------------------|:------------------------|
 | Constant `diag`onal values | of `1`; i.e., perfect correlation | of `0`; i.e., zero distance |
 
-: Similarity in Data Structure
+: Similarity in Data Structure, `'pairwise_cor_spatial'` & `'dist'` {#tbl-dist}
 
 The `S3` method dispatch `pairwise_cor_spatial.ppp()` finds the nonparametric Tjøstheim's correlation coefficients from the pairwise-combinations of all numeric `marks` in a `ppp.object`.
 
