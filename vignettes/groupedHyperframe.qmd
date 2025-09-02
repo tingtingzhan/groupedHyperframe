@@ -596,24 +596,21 @@ cumvtrapz(x, y)
 #| code-fold: true
 #| code-summary: "**Figure**: Panel (A), visualize `vtrapz` and `cumvtrapz` of a toy example"
 fig_vtrapz_1 = visualize_vtrapz(x, y) + 
-  ggplot2::labs(title = '(A). a toy example') +
-  ggplot2::theme_minimal()
+  ggplot2::labs(title = '(A). a toy example')
 ```
 
 ```{r}
 #| code-fold: true
 #| code-summary: "**Figure**: Panel (B), visualize `vtrapz` and `cumvtrapz` of `stats::density()`"  
 set.seed(12); fig_vtrapz_2 = rnorm(n = 1e3L) |> density() |> visualize_vtrapz() + 
-  ggplot2::labs(title = '(B). kernel density') +
-  ggplot2::theme_minimal()
+  ggplot2::labs(title = '(B). kernel density')
 ```
 
 ```{r}
 #| code-fold: true
 #| code-summary: "**Figure**: Panel (C), visualize `vtrapz` and `cumvtrapz` of `stats::ecdf()`"  
 set.seed(27); fig_vtrapz_3 = rnorm(n = 1e3L) |> ecdf() |> visualize_vtrapz() + 
-  ggplot2::labs(title = '(C). empirical distribution') +
-  ggplot2::theme_minimal()
+  ggplot2::labs(title = '(C). empirical distribution')
 ```
 
 ```{r}
@@ -622,8 +619,7 @@ set.seed(27); fig_vtrapz_3 = rnorm(n = 1e3L) |> ecdf() |> visualize_vtrapz() +
 fig_vtrapz_4 = spatstat.data::spruces |>
   spatstat.explore::Emark() |>
   visualize_vtrapz(draw.v = FALSE, draw.rect = FALSE) +
-  ggplot2::labs(title = '(D). spatstat.explore::Emark()') + 
-  ggplot2::theme_minimal()
+  ggplot2::labs(title = '(D). spatstat.explore::Emark()')
 ```
 
 ```{r}
@@ -632,8 +628,7 @@ fig_vtrapz_4 = spatstat.data::spruces |>
 fig_vtrapz_5 = spatstat.data::spruces |>
   spatstat.explore::Vmark() |>
   visualize_vtrapz(draw.v = FALSE, draw.rect = FALSE) +
-  ggplot2::labs(title = '(E). spatstat.explore::Vmark()') +
-  ggplot2::theme_minimal()
+  ggplot2::labs(title = '(E). spatstat.explore::Vmark()')
 ```
 
 ```{r}
@@ -646,8 +641,9 @@ fig_vtrapz_5 = spatstat.data::spruces |>
 #| fig-align: left
 #| fig-cap: "(Cumulative) average vertical height"
 library(patchwork)
-fig_vtrapz_1 + fig_vtrapz_2 + fig_vtrapz_3 + fig_vtrapz_4 + fig_vtrapz_5 +
-  plot_layout(ncol = 2L)
+(fig_vtrapz_1 + fig_vtrapz_2 + fig_vtrapz_3 + fig_vtrapz_4 + fig_vtrapz_5 +
+  plot_layout(ncol = 2L)) & 
+  ggplot2::theme_minimal()
 ```
 
 ## On `groupedHyperframe` {#sec-groupedHyperframe-appendix}
