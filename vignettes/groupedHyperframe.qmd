@@ -1659,7 +1659,7 @@ R terminology and nomenclature could be *drastically different* from that of mat
 | [`cor.spatial`](https://search.r-project.org/CRAN/refmans/SpatialPack/html/cor.spatial.html) | Tjøstheim's nonparametric correlation coefficient, from package **`SpatialPack`** [@SpatialPack] |
 | [`data.frame`](https://search.r-project.org/R/refmans/base/html/data.frame.html) | Data frame |
 | [`diag`](https://search.r-project.org/R/refmans/base/html/diag.html) | Matrix diagonals |
-| [`dist`](https://search.r-project.org/R/refmans/stats/html/dist.html) | Distance matrix; to take advantage of `stats:::as.matrix.dist` |
+| [`dist`](https://search.r-project.org/R/refmans/stats/html/dist.html) | Distance matrix |
 | [`ecdf`](https://search.r-project.org/R/refmans/stats/html/ecdf.html) | Empirical cumulative distribution function |
 | [`environment`](https://search.r-project.org/R/refmans/base/html/environment.html), [`as.environment`](https://search.r-project.org/R/refmans/base/html/as.environment.html) | (Coerce to an) environment |
 | [`eval`](https://search.r-project.org/R/refmans/base/html/eval.html) | Evaluate an R `expression` |
