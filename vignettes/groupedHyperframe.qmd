@@ -1627,6 +1627,8 @@ R terminology and nomenclature could be *drastically different* from that of mat
 | [`diag`](https://search.r-project.org/R/refmans/base/html/diag.html) | Matrix diagonals |
 | [`dist`](https://search.r-project.org/R/refmans/stats/html/dist.html) | Distance matrix; to take advantage of `stats:::as.matrix.dist` |
 | [`ecdf`](https://search.r-project.org/R/refmans/stats/html/ecdf.html) | Empirical cumulative distribution function |
+| [`eval`](https://search.r-project.org/R/refmans/base/html/eval.html) | Evaluate an R `expression` |
+| [`expression`](https://search.r-project.org/R/refmans/base/html/expression.html) | Unevaluated expressions |
 | [`factor`](https://search.r-project.org/R/refmans/base/html/factor.html) | Categorical object, a.k.a., factor |
 | [`file.size`](https://search.r-project.org/R/refmans/base/html/file.info.html) | File size in bytes |
 | (one-sided) [`formula`](https://search.r-project.org/R/refmans/stats/html/formula.html) | Formula, or [one-sided formula](https://search.r-project.org/R/refmans/stats/html/asOneSidedFormula.html) |
