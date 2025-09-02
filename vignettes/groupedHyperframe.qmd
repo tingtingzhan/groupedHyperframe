@@ -68,6 +68,8 @@ Package **`groupedHyperframe`** `Suggests` packages
 
 ## Prerequisite
 
+### Environment
+
 Package **`groupedHyperframe`** requires R version 4.5.0 (released 2025-04-11) or higher ([macOS](https://cran.r-project.org/bin/macosx/), [Windows](https://cran.r-project.org/bin/windows/base/)). An Integrated Development Environment (IDE), e.g., [RStudio](https://posit.co/download/rstudio-desktop/) [@RStudio] or [Positron](https://positron.posit.co/download.html), is not required, but highly recommended. This vignette is created under `r R.version$version.string` using packages **`knitr`** [@knitr, v`r packageVersion('knitr')`], **`quarto`** [@quarto, v`r packageVersion('quarto')` with [Quarto](https://quarto.org/docs/get-started/) v`r quarto::quarto_version()`] and **`rmarkdown`** [@rmarkdown, v`r packageVersion('rmarkdown')`].
 
 ```{r}
@@ -77,6 +79,8 @@ Package **`groupedHyperframe`** requires R version 4.5.0 (released 2025-04-11) o
 Sys.info()[c('sysname', 'release', 'machine')]
 R.version
 ```
+
+### **`spatstat.*`** Family
 
 Package **`groupedHyperframe`** requires the development versions of the **`spatstat.*`** family of packages.
 
@@ -94,7 +98,41 @@ remotes::install_github('spatstat/spatstat.univar', upgrade = 'always')
 remotes::install_github('spatstat/spatstat.utils', upgrade = 'always')
 ```
 
-Experimental (and maybe unstable) features are released *extremely frequently* to [Github](https://github.com/tingtingzhan/groupedHyperframe). [Active developers should use the Github version; suggestions and bug reports are welcome!]{style="background-color: #FFFF00"} Stable releases to [CRAN](https://CRAN.R-project.org/package=groupedHyperframe) are typically updated every 2 to 3 months, or when the authors have an upcoming manuscript in the peer-reviewing process.
+```{r}
+#| label: dev_spatstat
+#| code-fold: true
+#| code-summary: 'Developer version of **`spatstat.*`** family ahead of CRAN'
+spatstat = c(
+  'spatstat', 'spatstat.data', 'spatstat.explore', 'spatstat.geom', 'spatstat.linnet', 
+  'spatstat.model', 'spatstat.random', 'spatstat.sparse', 'spatstat.univar', 'spatstat.utils'
+)
+cran = available.packages(contriburl = 'https://cran.rstudio.com/src/contrib') |> 
+  as.data.frame.matrix() |>
+  subset.data.frame(subset = Package %in% spatstat, select = c('Package', 'Version')) |> 
+  within.data.frame(expr = {
+    `on CRAN` = Version; Version = NULL
+  })
+github = installed.packages() |>
+  as.data.frame.matrix() |>
+  subset.data.frame(subset = Package %in% spatstat, select = c('Package', 'Version')) |> 
+  within.data.frame(expr = {
+    `on GitHub` = Version; Version = NULL
+  })
+merge.data.frame(cran, github, by = 'Package') |> 
+  subset.data.frame(subset = `on CRAN` != `on GitHub`) |>
+  within.data.frame(expr = {
+    Package = Package |> sprintf(fmt = '**`%s`**')
+  }) |>
+  knitr::kable(
+    row.names = FALSE,
+    label = 'tbl-dev_spatstat', 
+    caption = Sys.Date() |> format() |> 
+      sprintf(fmt = 'Developer version of `spatstat.*` family ahead of CRAN, as of %s'))
+```
+
+### Package **`groupedHyperframe`**
+
+Experimental (and maybe unstable) features of package **`groupedHyperframe`** are released *extremely frequently* to [Github](https://github.com/tingtingzhan/groupedHyperframe). [Active developers should use the Github version; suggestions and bug reports are welcome!]{style="background-color: #FFFF00"} Stable releases to [CRAN](https://CRAN.R-project.org/package=groupedHyperframe) are typically updated every 2 to 3 months, or when the authors have an upcoming manuscript in the peer-reviewing process.
 
 ```{r}
 #| eval: false
@@ -435,7 +473,7 @@ c(
 
 </details>
 
-as well as @Yi25; @Yi23a; @Yi23b, was featured with a non-spatial `hyperframe` *`Ki67q`* with a numeric-hypercolumn *`logKi67.quantile`*.  Functions in the code-chunk below are explained in @sec-groupedHyperframe.
+as well as @Yi25; @Yi23a; @Yi23b, was featured with a non-spatial `hyperframe` *`Ki67q`* with a numeric-hypercolumn *`logKi67.quantile`*. Functions in the code-chunk below are explained in @sec-groupedHyperframe.
 
 ```{r}
 Ki67q = groupedHyperframe::Ki67 |>
@@ -616,7 +654,7 @@ fig_vtrapz_1 + fig_vtrapz_2 + fig_vtrapz_3 + fig_vtrapz_4 + fig_vtrapz_5 +
 
 ### Nested Grouping Structure {#sec-nestedGroup}
 
-Details of the nested grouping structure $g_1/.../g_m$ (`~g1/.../gm`) is provided in section *Details* of [`stats::formula`](https://search.r-project.org/R/refmans/stats/html/formula.html) documentation. 
+Details of the nested grouping structure $g_1/.../g_m$ (`~g1/.../gm`) is provided in section *Details* of [`stats::formula`](https://search.r-project.org/R/refmans/stats/html/formula.html) documentation.
 
 The nested grouping structure `~g1/.../gm` is made well known by the parameter `random` of functions `nlme::lme()` and `nlme::nlme()`. In fact, the 'grouped' extension of a `hyperframe` is inspired by the class `'groupedData'` defined in package **`nlme`** [@nlme], which `inherits` from the class `'data.frame'`.
 
@@ -1593,7 +1631,7 @@ spatstat.data::flu$pattern |>
 
 ## in Math {#sec-mathterm}
 
-@tbl-mathterm presents some mathematical symbols, as well as their [LaTeX](https://www.latex-project.org) source code, used in this vignette.   These symbols should be familiar to the audience with an advanced degree in mathematics.
+@tbl-mathterm presents some mathematical symbols, as well as their [LaTeX](https://www.latex-project.org) source code, used in this vignette. These symbols should be familiar to the audience with an advanced degree in mathematics.
 
 | Symbol | [LaTeX](https://www.latex-project.org) Source | Example | Translate To |
 |------------------|------------------|------------------|------------------|
@@ -1606,12 +1644,12 @@ spatstat.data::flu$pattern |>
 
 ## in R {#sec-Rterms}
 
-@tbl-Rterm presents a comprehensive glossary of R terms and abbreviations used in this vignette.  
+@tbl-Rterm presents a comprehensive glossary of R terms and abbreviations used in this vignette.
 
-R terminology and nomenclature could be *drastically different* from that of mathematics and statistics.  Users are *strongly advised* to read closely from the links in @tbl-Rterm, which point to webpages on [search.r-project.org](https://search.r-project.org), [cran.r-project.org](https://cran.r-project.org), and [en.wikipedia.org](https://en.wikipedia.org).
+R terminology and nomenclature could be *drastically different* from that of mathematics and statistics. Users are *strongly advised* to read closely from the links in @tbl-Rterm, which point to webpages on [search.r-project.org](https://search.r-project.org), [cran.r-project.org](https://cran.r-project.org), and [en.wikipedia.org](https://en.wikipedia.org).
 
 | Term / Abbreviation | Description |
-|:-----------------------------------|:------------------------------------|
+|:-----------------------------------|:-----------------------------------|
 | CRAN, R | The Comprehensive R Archive Network, <https://cran.r-project.org> |
 | `Depends`, `Imports`, `Suggests`, `Enhances` | [*Writing R Extensions*, Section 1.1.3 *Package Dependencies*](https://cran.r-project.org/doc/manuals/r-devel/R-exts.html#Package-Dependencies) |
 | [`|>`](https://search.r-project.org/R/refmans/base/html/pipeOp.html) | Forward pipe operator introduced since R version 4.1.0 |
