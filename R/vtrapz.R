@@ -65,6 +65,7 @@ visualize_vtrapz <- function(x, ...) UseMethod(generic = 'visualize_vtrapz')
 #' @importFrom ggplot2 ggplot aes geom_path geom_rect scale_x_continuous ylim
 #' @importFrom geomtextpath geom_textpath
 #' @importFrom stats median.default
+#' @importFrom scales label_number
 #' @export visualize_vtrapz.numeric
 #' @export
 visualize_vtrapz.numeric <- function(
@@ -99,7 +100,7 @@ visualize_vtrapz.numeric <- function(
     mapping = aes(x = x[-1L], y = cv[-1L], label = 'Cumulative Average Vertical Height'),
     colour = 'blue', fontface = 'bold', alpha = .7
    )) +
-   (if (length(x) <= 10L) scale_x_continuous(breaks = x, limits = x_lim)) + 
+   (if (length(x) <= 10L) scale_x_continuous(breaks = x, labels = label_number(accuracy = .1), limits = x_lim)) + 
    ylim(0, max(y)*1.1)
   
 }

@@ -2,15 +2,18 @@
 % Please edit documentation in R/check_fvlist.R
 \name{lastLegal}
 \alias{lastLegal}
-\title{Last Legal Index of \code{\link[=key1val.fv]{key1val.fv()}}}
+\title{Last Legal Index}
 \usage{
 lastLegal(v)
 }
 \arguments{
-\item{v}{\link[base]{numeric} \link[base]{vector}, return of function \code{\link[=key1val.fv]{key1val.fv()}}}
+\item{v}{\link[base]{double} \link[base]{vector}, return of function \code{\link[=key1val.fv]{key1val.fv()}}}
 }
 \description{
-Last Legal Index of \code{\link[=key1val.fv]{key1val.fv()}}
+Last Legal Index
+}
+\details{
+Legal, meaning not \code{0}, not \code{NaN} and not \code{Inf}.
 }
 \examples{
 c(1, 1, 1) |> lastLegal()

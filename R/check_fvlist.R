@@ -96,9 +96,12 @@ check_fvlist <- function(X, data.name = deparse1(substitute(X))) {
 
 
 
-#' @title Last Legal Index of [key1val.fv()]
+#' @title Last Legal Index
 #' 
-#' @param v \link[base]{numeric} \link[base]{vector}, return of function [key1val.fv()] 
+#' @param v \link[base]{double} \link[base]{vector}, return of function [key1val.fv()] 
+#' 
+#' @details
+#' Legal, meaning not `0`, not `NaN` and not `Inf`.
 #' 
 #' @examples
 #' c(1, 1, 1) |> lastLegal()
@@ -107,7 +110,7 @@ check_fvlist <- function(X, data.name = deparse1(substitute(X))) {
 #' # all return `3`
 #' @keywords internal
 #' @export
-lastLegal <- \(v) {
+lastLegal <- function(v) {
   
   vok <- is.finite(v) & (abs(v) > .Machine$double.eps) # not 0, not NaN, not Inf
   if (all(vok)) return(length(vok)) # faster than [.diff()]
