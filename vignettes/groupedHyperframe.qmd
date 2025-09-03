@@ -500,10 +500,10 @@ Users are encouraged to learn more about this application from package **`hyper.
 
 Technical details, as well as the minor and/or experimental features, are covered in the Appendix, in order not to interrupt the main narrative of this vignette.
 
-The Appendix is generally organized in the way that
+The Appendix is typically organized in the way that
 
--   the Markdown document **Header 2**, e.g. @sec-appendix `.x`, is about the object `class`;
--   the Markdown document **Header 3**, e.g. @sec-appendix `.x.x`, is about the method dispatches.
+-   the Markdown document **Header 2**, e.g. @sec-appendix `.0`, is about the object `class`;
+-   the Markdown document **Header 3**, e.g. @sec-appendix `.0.0`, is about the method dispatches.
 
 All R code-chunks are folded in the Appendix, for ease of navigation. They are categorized as
 
