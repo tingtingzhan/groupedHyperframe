@@ -646,435 +646,6 @@ library(patchwork)
   ggplot2::theme_minimal()
 ```
 
-## On `groupedHyperframe` {#sec-groupedHyperframe-appendix}
-
-### Nested Grouping Structure {#sec-nestedGroup}
-
-Details of the nested grouping structure $g_1/.../g_m$ (`~g1/.../gm`) is provided in section *Details* of [`stats::formula`](https://search.r-project.org/R/refmans/stats/html/formula.html) documentation.
-
-The nested grouping structure `~g1/.../gm` is made well known by the parameter `random` of functions `nlme::lme()` and `nlme::nlme()`. In fact, the 'grouped' extension of a `hyperframe` is inspired by the class `'groupedData'` defined in package **`nlme`** [@nlme], which `inherits` from the class `'data.frame'`.
-
-Package **`groupedHyperframe`** allows interaction terms using colon operator `:` in the grouping structure, e.g., `g1/g2a:g2b/g3a:g3b:g3c`. This feature is made possible because the colon operator `:` has higher priority than the forward slash `/` in R `formula`.
-
-```{r}
-#| code-fold: true
-#| code-summary: "**Review**: colon operator `:` has higher priority than forward slash `/`"
-quote(g1/g2a:g2b/g3a:g3b:g3c) |>
-  as.list()
-```
-
-Function `get_nested()` breaks down a nested grouping structure by the forward slash `/`.
-
-```{r}
-#| code-fold: true
-#| code-summary: '**Example**: `get_nested()`'
-quote(g1/g2/g3) |>
-  get_nested()
-```
-
-```{r}
-#| code-fold: true
-#| code-summary: '**Example**: `get_nested()` with interaction terms'
-quote(g1/g2a:g2b/g3a:g3b:g3c) |>
-  get_nested()
-```
-
-The (nested) grouping structure `attr(., 'group')` of a `groupedHyperframe`
-
--   must denote the highest level using a `symbol` (e.g., `g1`)
--   may denote the lower levels using a `symbol` (e.g., `g2`) or an interaction-term (e.g., `g2a:g2b`)
-
-## On `hyperframe` {#sec-hyperframe-appendix}
-
-Function `spatstat.geom::hyperframe()` returns a `hyperframe`, i.e., an object with `S3` class `'hyperframe'`. In addition to
-
-```{r}
-#| message: false
-#| code-fold: true
-#| code-summary: "The `S3` method dispatches to class `'hyperframe'` defined in package **`spatstat.geom`**"
-library(spatstat.geom)
-methods(class = 'hyperframe') |> 
-  attr(which = 'info', exact = TRUE) |>
-  subset(subset = from == 'spatstat.geom')
-```
-
-Package **`groupedHyperframe`** implements
-
-```{r}
-#| message: false
-#| code-fold: true
-#| code-summary: "Additional `S3` method dispatches to class `'hyperframe'`"
-library(spatstat.geom) # must! for S3 generic function `spatstat.geom::superimpose`
-methods(class = 'hyperframe') |> 
-  attr(which = 'info', exact = TRUE) |>
-  subset(subset = from == 'groupedHyperframe') |>
-  knitr::kable(label = 'tbl-S3_hyperframe', caption = '`S3` method dispatches to class `\'hyperframe\'`')
-```
-
-The authors plan [**not**]{style="background-color: #FFFF00"} to implement
-
--   an `S3` method dispatch of `as.environment()` to the class `'hyperframe'` (Appendix @sec-dont-asenvironment-hyperframe).
--   an `S4` method dispatch of `merge()` to the classes `'hyperframe'` and/or `'groupedHyperframe'` (Appendix @sec-dont-merge-hyperframe).
-
-### `S3` methods in package **`spatstat.geom`**
-
-Several `S3` method dispatches to the class `'hyperframe'` in package **`spatstat.geom`** behave *very differently* from their counterpart in vanilla R. Users are strongly advised to read the documentation of these functions from package **`spatstat.geom`**.
-
-<details>
-
-<summary>**Review**: `S3` methods `*.hyperframe()` that are drastically different from `*.data.frame()` or `*.default()`</summary>
-
-| Generic Function | Method Dispatch to `'data.frame'` | Method Dispatch to `'hyperframe'` |
-|------------------------|------------------------|------------------------|
-| [`` base::`[` ``](https://search.r-project.org/R/refmans/base/html/Extract.html) | [`` base::`[.data.frame` ``](https://search.r-project.org/R/refmans/base/html/Extract.data.frame.html) | [`` spatstat.geom::`[.hyperframe` ``](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/Extract.hyperframe.html) |
-| [`` base::`$<-` ``](https://search.r-project.org/R/refmans/base/html/Extract.html) | [`` base::`$<-.data.frame` ``](https://search.r-project.org/R/refmans/base/html/Extract.data.frame.html) | [`` spatstat.geom::`$<-.hyperframe` ``](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/Extract.hyperframe.html) |
-| [`base::subset`](https://search.r-project.org/R/refmans/base/html/subset.html) | [`base::subset.data.frame`](https://search.r-project.org/R/refmans/base/html/subset.html) | [`spatstat.geom::subset.hyperframe`](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/subset.hyperframe.html) |
-| [`base::with`](https://search.r-project.org/R/refmans/base/html/with.html) | [`base::with.default`](https://search.r-project.org/R/refmans/base/html/with.html) | [`spatstat.geom::with.hyperframe`](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/with.hyperframe.html) |
-| [`base::within`](https://search.r-project.org/R/refmans/base/html/with.html) | [`base::within.data.frame`](https://search.r-project.org/R/refmans/base/html/with.html) | do not exist (as of v`r packageVersion('spatstat.geom')`) |
-
-: `S3` methods `*.hyperframe()` that are drastically different from `*.data.frame()` or `*.default()`
-
-</details>
-
-### Convert to `groupedHyperframe` {#sec-asgroupedHyperframe-hyperframe}
-
-The `S3` method dispatch `as.groupedHyperframe.hyperframe()` converts a `hyperframe` into a `groupedHyperframe`. This function simply inspects and adds a (nested) grouping structure to the input `hyperframe`. Data set *`osteo`* from package **`spatstat.data`** has the serial number of sampling volume `brick` nested in the bone sample `id`, i.e., a nested grouping structure `~id/brick`.
-
-```{r}
-#| code-fold: true
-#| code-summary: '**Example**: `as.groupedHyperframe.hyperframe()`'
-spatstat.data::osteo |> 
-  as.groupedHyperframe(group = ~ id/brick)
-```
-
-### Superimpose Multiple `hyperframe`s
-
-The S3 method dispatch `superimpose.hyperframe()`, which does not exist in package **`spatstat.geom`** as of v`r packageVersion('spatstat.geom')`, superimposes multiple `hyperframe`s if-and-only-if they have `identical`
-
--   `dim`ensions, i.e., `spatstat.geom::dim.hyperframe()`
--   columns, i.e., `unclass(.)$df`
--   `names` and `class` of the `hypercolumn`s, i.e., `unclass(.)$hypercolumns`
-
-The S3 method dispatch `superimpose.groupedHyperframe()` superimposes multiple `groupedHyperframe`s if-and-only-if they satisfy the *additional* criteria that they have `identical`
-
--   grouping structures, i.e., `attr(., 'group')`
-
-We use a subset of the data set *`flu`* from package **`spatstat.data`** to illustrate the superimpose of `hyperframe`s.
-
-```{r}
-#| label: fluM
-#| code-fold: true
-#| code-summary: '**Data**: a `hyperframe` object *`fluM`*'
-fluM = spatstat.data::flu |>
-  spatstat.geom::subset.hyperframe(subset = (stain == 'M2-M1') & (virustype == 'wt'))
-fluM
-```
-
-The `hyperframe` *`fluM`* contains `r nrow(fluM)` subjects, each of them has a `ppp.object` with 200-500 points.
-
-```{r}
-#| code-fold: true
-#| code-summary: '**Review**: number of points per `ppp.object` in hypercolumn *`fluM$pattern`*'
-fluM$pattern |>
-  sapply(FUN = spatstat.geom::npoints)
-```
-
-```{r}
-#| code-fold: true
-#| code-summary: '**Review**: number of *`M1`* and/or *`M2`* points per `ppp.object` in hypercolumn *`fluM$pattern`*'
-fluM$pattern |>
-  sapply(FUN = \(i) {
-    i |> 
-      spatstat.geom::marks.ppp() |> 
-      table()
-  }) |>
-  addmargins()
-```
-
-We create a `hyperframe` *`fluM1`* which consists of the same columns as *`fluM`*, but a `ppp`-hypercolumn *`pattern`* with *`M1`* marks only. Similarly, we create another `hyperframe` *`fluM2`* which consists of the *`M2`* marks only. Note that as of package **`spatstat.geom`** v`r packageVersion('spatstat.geom')`, the tedious code below is the only way to insure that we do **not** use the row names of hyperframe as the element-names of the hypercolumns. In other words, function `unclass()` avoids invoking the `S3` method dispatch `` spatstat.geom::`$.hyperframe` ``. The `S3` method dispatch `` spatstat.geom::`$<-.hyperframe` `` is fine in this application.
-
-```{r}
-#| code-fold: true
-#| code-summary: '**Data**: two `hyperframe` objects *`fluM1`* and *`fluM2`*'
-fluM1 = fluM2 = fluM
-fluM1$pattern = unclass(fluM)$hypercolumns$pattern |> 
-  spatstat.geom::solapply(FUN = spatstat.geom::subset.ppp, subset = (marks == 'M1'))
-fluM2$pattern = unclass(fluM)$hypercolumns$pattern |> 
-  spatstat.geom::solapply(FUN = spatstat.geom::subset.ppp, subset = (marks == 'M2'))
-```
-
-```{r}
-#| code-fold: true
-#| code-summary: '**Review**: number of *`M1`* points per `ppp.object` in hypercolumn *`fluM1$pattern`*'
-fluM1$pattern |>
-  sapply(FUN = spatstat.geom::npoints)
-```
-
-```{r}
-#| code-fold: true
-#| code-summary: '**Review**: number of *`M2`* points per `ppp.object` in hypercolumn *`fluM2$pattern`*'
-fluM2$pattern |>
-  sapply(FUN = spatstat.geom::npoints)
-```
-
-The `S3` method dispatch `superimpose.hyperframe()` recreates the `hyperframe` *`fluM`* by combining the `hyperframe`s *`fluM2`* and *`fluM1`*. Note that the order of *`fluM2`*-then-*`fluM1`* matters, because the points are arranged in *`M2`*-then-*`M1`* in the original hypercolumn *`fluM$pattern`*.
-
-```{r}
-#| code-fold: true
-#| code-summary: '**Example**: `superimpose.hyperframe()`'
-fluS = superimpose.hyperframe(fluM2, fluM1)
-stopifnot(identical(fluS, fluM))
-```
-
-## On `anylist`
-
-Function `spatstat.geom::anylist()` returns an object of `S3` class `'anylist'`, which `inherits` from the class `'listof'`.
-
-We discuss some extensions of the class `'anylist'` in this section.
-
-### On `solist`
-
-Function `spatstat.geom::solist()` returns an object of `S3` class `'solist'`, which `inherits` from the class `'anylist'`.
-
-The authors plan [**not**]{style="background-color: #FFFF00"} to implement
-
--   an `S3` method dispatch of `marks()` to the class `'solist'` (Appendix @sec-dont-marks-solist).
-
-### Derived Class `'vectorlist'` {#sec-vectorlist}
-
-The derived class `'vectorlist'`, i.e., a `listof` `vector`s, `inherits` from the class `'anylist'`. The implementation of the class `'vectorlist'` is inspired by the class `'solist'`. We use the `character`-hypercolumn *`values`* of data set *`Kovesi`* from package **`spatstat.data`** to illustrate this concept.
-
-```{r}
-#| code-fold: true
-#| code-summary: '**Data**: a `hyperframe` object *`Kovesi`*'
-spatstat.data::Kovesi |>
-  head()
-```
-
-The `character`-hypercolumn *`Kovesi$values`* has the class `'anylist'`. This is a `length`-41 `listof` `character` `vector`s of equi-`length`, i.e., all `vector`-elements have `length`-256.
-
-```{r}
-#| code-fold: true
-#| code-summary: '**Data**: an `anylist` object *`Kovesi$values`*'
-spatstat.data::Kovesi$values |>
-  class()
-spatstat.data::Kovesi$values |>
-  length()
-spatstat.data::Kovesi$values |>
-  lengths() |>
-  unique.default()
-```
-
-Now we create an object *`Kovesi_values`* of a derived class `'vectorlist'`.
-
-```{r}
-#| code-fold: true
-#| code-summary: '**Data**: a `vectorlist` object *`Kovesi_values`*'
-Kovesi_values = spatstat.data::Kovesi$values
-class(Kovesi_values) = c('vectorlist', class(Kovesi_values))
-Kovesi_values |> 
-  class()
-```
-
-The `S3` method dispatch `t.vectorlist()` transposes a `vectorlist` of equi-`length` into another `vectorlist`, but with the `length` and `lengths` of the input switched. The use of the term "transpose", and the extension of the generic function `base::t()`, mirrors the use of the default dispatch `base:::t.default()` to transpose a `matrix`, i.e., to switch the `ncol` and `nrow` of the input. The returned object *`Kovesi_values_t`* is a `length`-256 `listof` `vector`s, all elements of which have `length`-41.
-
-```{r}
-#| code-fold: true
-#| code-summary: '**Example**: `t.vectorlist()`'
-#| label: t-vectorlist
-Kovesi_values_t = Kovesi_values |> 
-  t()
-Kovesi_values_t |>
-  class()
-Kovesi_values_t |>
-  length()
-Kovesi_values_t |>
-  lengths() |>
-  unique.default()
-```
-
-The motivation of the derived class `'vectorlist'` and the `S3` method dispatch `t.vectorlist()` is that the function `spatstat.geom::with.hyperframe()` could be slow in a batch process.
-
-```{r}
-#| code-fold: true
-#| code-summary: 'Transposed element 1'
-z1 = spatstat.data::Kovesi |> 
-  spatstat.geom::with.hyperframe(expr = values[1L])
-stopifnot(identical(Kovesi_values_t[[1L]], z1))
-```
-
-```{r}
-#| code-fold: true
-#| code-summary: 'Transposed element 2'
-z2 = spatstat.data::Kovesi |> 
-  spatstat.geom::with.hyperframe(expr = values[2L])
-stopifnot(identical(Kovesi_values_t[[2L]], z2))
-```
-
-```{r}
-#| code-fold: true
-#| code-summary: 'Transposed element 256'
-z256 = spatstat.data::Kovesi |> 
-  spatstat.geom::with.hyperframe(expr = values[256L])
-stopifnot(identical(Kovesi_values_t[[256L]], z256))
-```
-
-The derived class `'vectorlist'` is not part of package **`spatstat.geom`** as of dev v`r packageVersion('spatstat.geom')`. Users may call the `S3` method dispatch `t.vectorlist()` explicitly as a workaround before package **`spatstat.geom`** (ever) implements the class `vectorlist`.
-
-```{r}
-#| code-fold: true
-#| code-summary: "**Workaround**: without derived class `'vectorlist'`"
-Kovesi_values_t2 = spatstat.data::Kovesi$values |>
-  t.vectorlist()
-stopifnot(identical(Kovesi_values_t, Kovesi_values_t2))
-```
-
-## On `fv.object`
-
-Many functions in package **`spatstat.explore`** call the workhorse function `spatstat.explore::fv()` and return an `fv.object`, i.e., an object with `S3` class `'fv'`. In addition to
-
-```{r}
-#| message: false
-#| code-fold: true
-#| code-summary: 'The `S3` method dispatches to `fv.object` defined in package **`spatstat.explore`**'
-library(spatstat.explore)
-methods(class = 'fv') |> 
-  attr(which = 'info', exact = TRUE) |>
-  subset(subset = from == 'spatstat.explore')
-```
-
-Package **`groupedHyperframe`** implements
-
-```{r}
-#| code-fold: true
-#| code-summary: 'Additional `S3` method dispatches to `fv.object`'
-methods(class = 'fv') |> 
-  attr(which = 'info', exact = TRUE) |>
-  subset(subset = from == 'groupedHyperframe') |>
-  knitr::kable(label = 'tbl-S3_fv', caption = '`S3` method dispatches to class `\'fv\'`')
-```
-
-### "Black Solid Curve" {#sec-blackSolidCurve}
-
-The `S3` method dispatch `spatstat.explore::plot.fv()` visualizes the function values stored in an `fv.object` as a black-solid-curve.
-
-```{r}
-#| fig-show: hide
-#| code-fold: true
-#| code-summary: '**Review**: `spatstat.explore::plot.fv()`'
-spatstat.data::spruces |> 
-  spatstat.explore::markcorr() |>
-  spatstat.explore::plot.fv()
-# Figure suppressed to reduce vignette file size
-```
-
-Function `key1.fv()` finds the "name" of the function values in an `fv.object`. Function `key1.fv()`, named after the code snippet `key[lty == 1L & col == 1L]`, is a "psuedo" `S3` method dispatch, i.e., named in the fashion of `<generic>.<class>`, because we do not have an `S3` generic function `key1()` defined as of package **`groupedHyperframe`** v`r packageVersion('groupedHyperframe')`.
-
-```{r}
-#| code-fold: true
-#| code-summary: '**Example**: `key1.fv()`'
-spatstat.data::spruces |> 
-  spatstat.explore::markcorr() |>
-  key1.fv()
-```
-
-Function `key1val.fv()` finds the function values in an `fv.object`, with the corresponding $r$-values as the `vector` `names`. Function `key1val.fv()` is also a "psuedo" `S3` method dispatch, because we do not have an `S3` generic function `key1val()` defined as of package **`groupedHyperframe`** v`r packageVersion('groupedHyperframe')`.
-
-```{r}
-#| code-fold: true
-#| code-summary: '**Example**: `key1val.fv()`'
-spatstat.data::spruces |> 
-  spatstat.explore::markcorr() |>
-  key1val.fv() |>
-  head(n = 3L)
-```
-
-Functions `trapz.fv()` and `cumtrapz.fv()` calculate the (cumulative) trapezoidal integration (Appendix @sec-trapz) under the black-solid-curve. They are both "psuedo" `S3` method dispatches, as the workhorse functions `pracma::trapz()` and `pracma::cumtrapz()` are not `S3` generic functions as of package **`pracma`** v`r packageVersion('pracma')`.
-
-```{r}
-#| code-fold: true
-#| code-summary: '**Example**: `trapz.fv()`'
-spatstat.data::spruces |> 
-  spatstat.explore::markcorr() |>
-  trapz.fv()
-```
-
-```{r}
-#| code-fold: true
-#| code-summary: '**Example**: `cumtrapz.fv()`'
-spatstat.data::spruces |> 
-  spatstat.explore::markcorr() |>
-  cumtrapz.fv() |>
-  tail(n = 3L)
-```
-
-Functions `vtrapz.fv()` and `cumvtrapz.fv()` calculate the (cumulative) average vertical height of the trapezoidal integration (Appendix @sec-vtrapz) under the black-solid-curve. They are both "psuedo" `S3` method dispatches, as the workhorse functions `vtrapz()` and `cumvtrapz()` are not `S3` generic functions as of package **`groupedHyperframe`** v`r packageVersion('groupedHyperframe')`.
-
-```{r}
-#| code-fold: true
-#| code-summary: '**Example**: `vtrapz.fv()`'
-spatstat.data::spruces |> 
-  spatstat.explore::markcorr() |>
-  vtrapz.fv()
-```
-
-```{r}
-#| code-fold: true
-#| code-summary: '**Example**: `cumvtrapz.fv()`'
-spatstat.data::spruces |> 
-  spatstat.explore::markcorr() |>
-  cumvtrapz.fv() |>
-  tail(n = 3L)
-```
-
-### Legal $r_\text{max}$ {#sec-legal_rmax}
-
-Function `spatstat.explore::markcorr()` is the workhorse inside functions `Emark()`, `Vmark()` and `markvario()` as of package **`spatstat.explore`** v`r packageVersion('spatstat.explore')`.
-
-Function `markcorr()` relies on the un-exported workhorse function `spatstat.explore:::sewsmod()`, whose default `method = "density"` contains the calculation of the ratio of two kernel densities. Due to the floating-point precision of R, such density ratios may have exceptional/illegal returns of
-
--   `0`, from $0/\delta$, with a [real number](https://en.wikipedia.org/wiki/Real_number) $\delta\geq$ (approximately) `2.6e-324`
--   `NaN`, from $0/\varepsilon$ or $\varepsilon/0$, with a real number $\varepsilon\leq$ (approximately) `2.5e-324`
--   `Inf`, from $\delta/0$, with a real number $\delta\geq$ (approximately) `2.6e-324`
-
-```{r}
-#| code-fold: true
-#| code-summary: "**Review**: exceptional/illegal ratio due to floating-point precision"
-0 / c(2.6e-324, 2.5e-324)
-c(2.5e-324, 2.6e-324) / 0
-```
-
-Function `markcorr()` provides a default argument of parameter $r$ (Appendix @sec-default_rmax), at which the mark correlation function $k_f(r)$ are evaluated. The S3 method dispatch `spatstat.explore::print.fv()` prints the *recommended range* and *available range* of $r$.
-
-```{r}
-#| code-fold: true
-#| code-summary: "**Review**: `spatstat.explore::print.fv()`"
-spatstat.data::spruces |> 
-  spatstat.explore::markcorr()
-```
-
-We may observe exceptional/illegal values `0`, `NaN` and `Inf` in the mark correlation function $k_f(r)$, if $r$ goes beyond the recommended and/or available range.
-
-```{r}
-#| code-fold: true
-#| code-summary: "**Review**: exceptional/illegal function values *`iso`* when $r$ is out-of-range"
-fv = spatstat.data::spruces |> 
-  spatstat.explore::markcorr(r = 0:100)
-fv |>
-  spatstat.explore::as.data.frame.fv() |>
-  utils::tail(n = 30L)
-```
-
-Function `lastLegal()` provides the *index* of the last legal function value in an `fv.object`.
-
-```{r}
-#| code-fold: true
-#| code-summary: '**Example**: `lastLegal()`'
-fv |>
-  key1val.fv() |>
-  lastLegal()
-```
-
 ## On `ppp.object`
 
 Function `spatstat.geom::ppp()` returns a `ppp.object`, i.e., an object with `S3` class `'ppp'`. In addition to
@@ -1094,9 +665,12 @@ Package **`groupedHyperframe`** implements
 ```{r}
 #| code-fold: true
 #| code-summary: 'Additional `S3` method dispatches to `ppp.object`'
-methods(class = 'ppp') |> 
+S3_ppp = methods(class = 'ppp') |> 
   attr(which = 'info', exact = TRUE) |>
-  subset(subset = from == 'groupedHyperframe') |> 
+  subset(subset = from == 'groupedHyperframe') 
+rownames(S3_ppp) = rownames(S3_ppp) |> 
+  sprintf(fmt = '`%s`')
+S3_ppp |> 
   knitr::kable(label = 'tbl-S3_ppp', caption = '`S3` method dispatches to class `\'ppp\'`')
 ```
 
@@ -1378,34 +952,9 @@ r2d = spatstat.data::paracou |>
 stopifnot(identical(r1d, r2d))
 ```
 
-The `S3` method dispatches `rmax_.ppplist()` and `rmax_.hyperframe()` obtain the default $r_\text{max}$ *before* the (potentially) very slow batch processes.
+Additional `S3` method dispatches are discussed in @sec-ppplist and @sec-default_rmax-hyperframe.
 
-```{r}
-#| code-fold: true
-#| code-summary: "**Example**: `rmax_.hyperframe()`; functions `Emark_()`, `Vmark_()`, `markcorr_()`, `markvario_()` on numeric (and `multitype`) mark"
-s |> rmax_(fun = 'K')
-```
 
-```{r}
-#| code-fold: true
-#| code-summary: "**Example**: `rmax_.hyperframe()`; function `Kcross_()` on `multitype` mark"
-s |> rmax_(fun = 'K', i = 'CK+.CD8-', j = 'CK-.CD8+')
-s |> rmax_(fun = 'K', i = 'CK-.CD8+', j = 'CK+.CD8-')
-```
-
-```{r}
-#| code-fold: true
-#| code-summary: "**Example**: `rmax_.hyperframe()`; function `Gcross_()` on `multitype` mark"
-s |> rmax_(fun = 'G', i = 'CK+.CD8-', j = 'CK-.CD8+')
-s |> rmax_(fun = 'G', i = 'CK-.CD8+', j = 'CK+.CD8-')
-```
-
-```{r}
-#| code-fold: true
-#| code-summary: "**Example**: `rmax_.hyperframe()`; function `Jcross_()` on multitype mark"
-s |> rmax_(fun = 'J', i = 'CK+.CD8-', j = 'CK-.CD8+')
-s |> rmax_(fun = 'J', i = 'CK-.CD8+', j = 'CK+.CD8-')
-```
 
 ### $k$-Means Clustering {#sec-kmeans}
 
@@ -1492,7 +1041,7 @@ spatstat.data::shapley |>
   .kmeans(formula = ~ x + Mag + V, centers = 3L)
 ```
 
-#### Split by $k$-Means Clustering
+#### Split by $k$-Means Clustering {#sec-split_kmeans}
 
 The `S3` generic function `split_kmeans()` splits `ppp.object`, `ppplist`, and `hyperframe` by $k$-means clustering. We use a subset of the data set *`flu`* from package **`spatstat.data`** to illustrate the various `S3` method dispatches of `split_kmeans()`.
 
@@ -1511,29 +1060,8 @@ fluM$pattern[[1L]] |>
   split_kmeans(formula = ~ x + y, centers = 3L)
 ```
 
-The `S3` method dispatch `split_kmeans.listof()` splits a `ppplist`, i.e., a `listof` `ppp.object`s by $k$-means clustering. The returned object has `attributes`
+Additional `S3` method dispatches are discussed in @sec-ppplist and @sec-split_kmeans-hyperframe.
 
--   `attr(.,'.id')`, indices of the `ppp.object`s before splitting.
--   `attr(.,'.cluster')`, indices of $k$-means clusters, nested in `.id`.
-
-```{r}
-#| code-fold: true
-#| code-summary: '**Example**: `split_kmeans.listof()`'
-fluM$pattern |> 
-  split_kmeans(formula = ~ x + y, centers = 3L) 
-```
-
-The `S3` method dispatch `split_kmeans.hyperframe()` splits a `hyperframe` and/or `groupedHyperframe` by $k$-means clustering of the *one-and-only-one* `ppp`-hypercolumn. The returned object is a `groupedHyperframe` with grouping structure
-
--   `~.id/.cluster`, if the input is a `hyperframe`
--   `~ <existing/grouping/structure>/.cluster`, if the input is a `groupedHyperframe`. Note that the grouping level `.id` is **believed** to be equivalent to *the lowest level of existing grouping structure*.
-
-```{r}
-#| code-fold: true
-#| code-summary: '**Example**: `split_kmeans.hyperframe()`'
-fluM |> 
-  split_kmeans(formula = ~ x + y, centers = 3L)
-```
 
 ### Pairwise Tjøstheim's Coefficient
 
@@ -1580,45 +1108,545 @@ finpines_paircor |>
 
 `r '\U1f6a7'` This section is under construction.
 
+## On `fv.object`
+
+Many functions in package **`spatstat.explore`** call the workhorse function `spatstat.explore::fv()` and return an `fv.object`, i.e., an object with `S3` class `'fv'`. In addition to
+
+```{r}
+#| message: false
+#| code-fold: true
+#| code-summary: 'The `S3` method dispatches to `fv.object` defined in package **`spatstat.explore`**'
+library(spatstat.explore)
+methods(class = 'fv') |> 
+  attr(which = 'info', exact = TRUE) |>
+  subset(subset = from == 'spatstat.explore')
+```
+
+Package **`groupedHyperframe`** implements
+
+```{r}
+#| code-fold: true
+#| code-summary: 'Additional `S3` method dispatches to `fv.object`'
+S3_fv = methods(class = 'fv') |> 
+  attr(which = 'info', exact = TRUE) |>
+  subset(subset = from == 'groupedHyperframe')
+rownames(S3_fv) = rownames(S3_fv) |> 
+  sprintf(fmt = '`%s`')
+S3_fv |>
+  knitr::kable(label = 'tbl-S3_fv', caption = '`S3` method dispatches to class `\'fv\'`')
+```
+
+### "Black Solid Curve" {#sec-blackSolidCurve}
+
+The `S3` method dispatch `spatstat.explore::plot.fv()` visualizes the function values stored in an `fv.object` as a black-solid-curve.
+
+```{r}
+#| fig-show: hide
+#| code-fold: true
+#| code-summary: '**Review**: `spatstat.explore::plot.fv()`'
+spatstat.data::spruces |> 
+  spatstat.explore::markcorr() |>
+  spatstat.explore::plot.fv()
+# Figure suppressed to reduce vignette file size
+```
+
+Function `key1.fv()` finds the "name" of the function values in an `fv.object`. Function `key1.fv()`, named after the code snippet `key[lty == 1L & col == 1L]`, is a "psuedo" `S3` method dispatch, i.e., named in the fashion of `<generic>.<class>`, because we do not have an `S3` generic function `key1()` defined as of package **`groupedHyperframe`** v`r packageVersion('groupedHyperframe')`.
+
+```{r}
+#| code-fold: true
+#| code-summary: '**Example**: `key1.fv()`'
+spatstat.data::spruces |> 
+  spatstat.explore::markcorr() |>
+  key1.fv()
+```
+
+Function `key1val.fv()` finds the function values in an `fv.object`, with the corresponding $r$-values as the `vector` `names`. Function `key1val.fv()` is also a "psuedo" `S3` method dispatch, because we do not have an `S3` generic function `key1val()` defined as of package **`groupedHyperframe`** v`r packageVersion('groupedHyperframe')`.
+
+```{r}
+#| code-fold: true
+#| code-summary: '**Example**: `key1val.fv()`'
+spatstat.data::spruces |> 
+  spatstat.explore::markcorr() |>
+  key1val.fv() |>
+  head(n = 3L)
+```
+
+Functions `trapz.fv()` and `cumtrapz.fv()` calculate the (cumulative) trapezoidal integration (Appendix @sec-trapz) under the black-solid-curve. They are both "psuedo" `S3` method dispatches, as the workhorse functions `pracma::trapz()` and `pracma::cumtrapz()` are not `S3` generic functions as of package **`pracma`** v`r packageVersion('pracma')`.
+
+```{r}
+#| code-fold: true
+#| code-summary: '**Example**: `trapz.fv()`'
+spatstat.data::spruces |> 
+  spatstat.explore::markcorr() |>
+  trapz.fv()
+```
+
+```{r}
+#| code-fold: true
+#| code-summary: '**Example**: `cumtrapz.fv()`'
+spatstat.data::spruces |> 
+  spatstat.explore::markcorr() |>
+  cumtrapz.fv() |>
+  tail(n = 3L)
+```
+
+Functions `vtrapz.fv()` and `cumvtrapz.fv()` calculate the (cumulative) average vertical height of the trapezoidal integration (Appendix @sec-vtrapz) under the black-solid-curve. They are both "psuedo" `S3` method dispatches, as the workhorse functions `vtrapz()` and `cumvtrapz()` are not `S3` generic functions as of package **`groupedHyperframe`** v`r packageVersion('groupedHyperframe')`.
+
+```{r}
+#| code-fold: true
+#| code-summary: '**Example**: `vtrapz.fv()`'
+spatstat.data::spruces |> 
+  spatstat.explore::markcorr() |>
+  vtrapz.fv()
+```
+
+```{r}
+#| code-fold: true
+#| code-summary: '**Example**: `cumvtrapz.fv()`'
+spatstat.data::spruces |> 
+  spatstat.explore::markcorr() |>
+  cumvtrapz.fv() |>
+  tail(n = 3L)
+```
+
+### Legal $r_\text{max}$ {#sec-legal_rmax}
+
+Function `spatstat.explore::markcorr()` is the workhorse inside functions `Emark()`, `Vmark()` and `markvario()` as of package **`spatstat.explore`** v`r packageVersion('spatstat.explore')`.
+
+Function `markcorr()` relies on the un-exported workhorse function `spatstat.explore:::sewsmod()`, whose default `method = "density"` contains the calculation of the ratio of two kernel densities. Due to the floating-point precision of R, such density ratios may have exceptional/illegal returns of
+
+-   `0`, from $0/\delta$, with a [real number](https://en.wikipedia.org/wiki/Real_number) $\delta\geq$ (approximately) `2.6e-324`
+-   `NaN`, from $0/\varepsilon$ or $\varepsilon/0$, with a real number $\varepsilon\leq$ (approximately) `2.5e-324`
+-   `Inf`, from $\delta/0$, with a real number $\delta\geq$ (approximately) `2.6e-324`
+
+```{r}
+#| code-fold: true
+#| code-summary: "**Review**: exceptional/illegal ratio due to floating-point precision"
+0 / c(2.6e-324, 2.5e-324)
+c(2.5e-324, 2.6e-324) / 0
+```
+
+Function `markcorr()` provides a default argument of parameter $r$ (Appendix @sec-default_rmax), at which the mark correlation function $k_f(r)$ are evaluated. The S3 method dispatch `spatstat.explore::print.fv()` prints the *recommended range* and *available range* of $r$.
+
+```{r}
+#| code-fold: true
+#| code-summary: "**Review**: `spatstat.explore::print.fv()`"
+spatstat.data::spruces |> 
+  spatstat.explore::markcorr()
+```
+
+We may observe exceptional/illegal values `0`, `NaN` and `Inf` in the mark correlation function $k_f(r)$, if $r$ goes beyond the recommended and/or available range.
+
+```{r}
+#| code-fold: true
+#| code-summary: "**Review**: exceptional/illegal function values *`iso`* when $r$ is out-of-range"
+fv = spatstat.data::spruces |> 
+  spatstat.explore::markcorr(r = 0:100)
+fv |>
+  spatstat.explore::as.data.frame.fv() |>
+  utils::tail(n = 30L)
+```
+
+Function `lastLegal()` provides the *index* of the last legal function value in an `fv.object`.
+
+```{r}
+#| code-fold: true
+#| code-summary: '**Example**: `lastLegal()`'
+fv |>
+  key1val.fv() |>
+  lastLegal()
+```
+
+## On `anylist`
+
+Function `spatstat.geom::anylist()` returns an object of `S3` class `'anylist'`, which `inherits` from the class `'listof'`.
+
+We discuss some extensions of the class `'anylist'` in this section.
+
+### On `solist`
+
+Function `spatstat.geom::solist()` returns an object of `S3` class `'solist'`, which `inherits` from the class `'anylist'`.
+
+The authors plan [**not**]{style="background-color: #FFFF00"} to implement
+
+-   an `S3` method dispatch of `marks()` to the class `'solist'` (Appendix @sec-dont-marks-solist).
+
+#### On `ppplist` {#sec-ppplist}
+
+An `S3` derived class `'ppplist'`, e.g., class of the returned object from function `spatstat.geom::split.ppp()`, etc., `inherits` from the `S3` class `'solist'`.  A `'ppplist'` is essentially a `listof` `ppp.object`s.
+
+The `S3` generic function `rmax_()` has been introduced in Appendix @sec-default_rmax.  The `S3` method dispatch `rmax_.ppplist()` obtains the default $r_\text{max}$ *before* the (potentially) very slow batch processes.
+
+```{r}
+#| code-fold: true
+#| code-summary: '**Example**: `rmax_.ppplist()`'
+spatstat.data::btb.extra$full |> 
+  markcorr() |> 
+  vapply(FUN = \(i) {
+    i |> 
+      with.fv(expr = r) |> 
+      max()
+  }, FUN.VALUE = NA_real_)
+spatstat.data::btb.extra$standard |> 
+  markcorr() |> 
+  vapply(FUN = \(i) {
+    i |> 
+      with.fv(expr = r) |> 
+      max()
+  }, FUN.VALUE = NA_real_)
+spatstat.data::btb.extra |> 
+  rmax_(fun = 'K')
+```
+
+
+The `S3` generic function `split_kmeans()` has been introduced in Appendix @sec-split_kmeans.  The `S3` method dispatch `split_kmeans.listof()` splits a `ppplist` by $k$-means clustering. The returned object has `attributes`
+
+-   `attr(.,'.id')`, indices of the `ppp.object`s before splitting.
+-   `attr(.,'.cluster')`, indices of $k$-means clusters, nested in `.id`.
+
+```{r}
+#| code-fold: true
+#| code-summary: '**Example**: `split_kmeans.listof()`'
+<<fluM>>
+fluM$pattern |> 
+  split_kmeans(formula = ~ x + y, centers = 3L) 
+```
+
+
+
+
+
+### Derived Class `'vectorlist'` {#sec-vectorlist}
+
+The derived class `'vectorlist'`, i.e., a `listof` `vector`s, `inherits` from the class `'anylist'`. The implementation of the class `'vectorlist'` is inspired by the class `'solist'`. We use the `character`-hypercolumn *`values`* of data set *`Kovesi`* from package **`spatstat.data`** to illustrate this concept.
+
+```{r}
+#| code-fold: true
+#| code-summary: '**Data**: a `hyperframe` object *`Kovesi`*'
+spatstat.data::Kovesi |>
+  head()
+```
+
+The `character`-hypercolumn *`Kovesi$values`* has the class `'anylist'`. This is a `length`-41 `listof` `character` `vector`s of equi-`length`, i.e., all `vector`-elements have `length`-256.
+
+```{r}
+#| code-fold: true
+#| code-summary: '**Data**: an `anylist` object *`Kovesi$values`*'
+spatstat.data::Kovesi$values |>
+  class()
+spatstat.data::Kovesi$values |>
+  length()
+spatstat.data::Kovesi$values |>
+  lengths() |>
+  unique.default()
+```
+
+Now we create an object *`Kovesi_values`* of a derived class `'vectorlist'`.
+
+```{r}
+#| code-fold: true
+#| code-summary: '**Data**: a `vectorlist` object *`Kovesi_values`*'
+Kovesi_values = spatstat.data::Kovesi$values
+class(Kovesi_values) = c('vectorlist', class(Kovesi_values))
+Kovesi_values |> 
+  class()
+```
+
+The `S3` method dispatch `t.vectorlist()` transposes a `vectorlist` of equi-`length` into another `vectorlist`, but with the `length` and `lengths` of the input switched. The use of the term "transpose", and the extension of the generic function `base::t()`, mirrors the use of the default dispatch `base:::t.default()` to transpose a `matrix`, i.e., to switch the `ncol` and `nrow` of the input. The returned object *`Kovesi_values_t`* is a `length`-256 `listof` `vector`s, all elements of which have `length`-41.
+
+```{r}
+#| code-fold: true
+#| code-summary: '**Example**: `t.vectorlist()`'
+#| label: t-vectorlist
+Kovesi_values_t = Kovesi_values |> 
+  t()
+Kovesi_values_t |>
+  class()
+Kovesi_values_t |>
+  length()
+Kovesi_values_t |>
+  lengths() |>
+  unique.default()
+```
+
+The motivation of the derived class `'vectorlist'` and the `S3` method dispatch `t.vectorlist()` is that the function `spatstat.geom::with.hyperframe()` could be slow in a batch process.
+
+```{r}
+#| code-fold: true
+#| code-summary: 'Transposed element 1'
+z1 = spatstat.data::Kovesi |> 
+  spatstat.geom::with.hyperframe(expr = values[1L])
+stopifnot(identical(Kovesi_values_t[[1L]], z1))
+```
+
+```{r}
+#| code-fold: true
+#| code-summary: 'Transposed element 2'
+z2 = spatstat.data::Kovesi |> 
+  spatstat.geom::with.hyperframe(expr = values[2L])
+stopifnot(identical(Kovesi_values_t[[2L]], z2))
+```
+
+```{r}
+#| code-fold: true
+#| code-summary: 'Transposed element 256'
+z256 = spatstat.data::Kovesi |> 
+  spatstat.geom::with.hyperframe(expr = values[256L])
+stopifnot(identical(Kovesi_values_t[[256L]], z256))
+```
+
+The derived class `'vectorlist'` is not part of package **`spatstat.geom`** as of dev v`r packageVersion('spatstat.geom')`. Users may call the `S3` method dispatch `t.vectorlist()` explicitly as a workaround before package **`spatstat.geom`** (ever) implements the class `vectorlist`.
+
+```{r}
+#| code-fold: true
+#| code-summary: "**Workaround**: without derived class `'vectorlist'`"
+Kovesi_values_t2 = spatstat.data::Kovesi$values |>
+  t.vectorlist()
+stopifnot(identical(Kovesi_values_t, Kovesi_values_t2))
+```
+
+## On `hyperframe` {#sec-hyperframe-appendix}
+
+Function `spatstat.geom::hyperframe()` returns a `hyperframe`, i.e., an object with `S3` class `'hyperframe'`. In addition to
+
+```{r}
+#| message: false
+#| code-fold: true
+#| code-summary: "The `S3` method dispatches to class `'hyperframe'` defined in package **`spatstat.geom`**"
+library(spatstat.geom)
+methods(class = 'hyperframe') |> 
+  attr(which = 'info', exact = TRUE) |>
+  subset(subset = from == 'spatstat.geom')
+```
+
+Package **`groupedHyperframe`** implements
+
+```{r}
+#| message: false
+#| code-fold: true
+#| code-summary: "Additional `S3` method dispatches to class `'hyperframe'`"
+library(spatstat.geom) # must! for S3 generic function `spatstat.geom::superimpose`
+S3_hyperframe = methods(class = 'hyperframe') |> 
+  attr(which = 'info', exact = TRUE) |>
+  subset(subset = from == 'groupedHyperframe') 
+rownames(S3_hyperframe) = rownames(S3_hyperframe) |> 
+  sprintf(fmt = '`%s`')
+S3_hyperframe |>
+  knitr::kable(label = 'tbl-S3_hyperframe', caption = '`S3` method dispatches to class `\'hyperframe\'`')
+```
+
+The authors plan [**not**]{style="background-color: #FFFF00"} to implement
+
+-   an `S3` method dispatch of `as.environment()` to the class `'hyperframe'` (Appendix @sec-dont-asenvironment-hyperframe).
+-   an `S4` method dispatch of `merge()` to the classes `'hyperframe'` and/or `'groupedHyperframe'` (Appendix @sec-dont-merge-hyperframe).
+
+### `S3` methods in package **`spatstat.geom`**
+
+Several `S3` method dispatches to the class `'hyperframe'` in package **`spatstat.geom`** behave *very differently* from their counterpart in vanilla R. Users are strongly advised to read the documentation of these functions from package **`spatstat.geom`**.
+
+<details>
+
+<summary>**Review**: `S3` methods `*.hyperframe()` that are drastically different from `*.data.frame()` or `*.default()`</summary>
+
+| Generic Function | Method Dispatch to `'data.frame'` | Method Dispatch to `'hyperframe'` |
+|------------------------|------------------------|------------------------|
+| [`` base::`[` ``](https://search.r-project.org/R/refmans/base/html/Extract.html) | [`` base::`[.data.frame` ``](https://search.r-project.org/R/refmans/base/html/Extract.data.frame.html) | [`` spatstat.geom::`[.hyperframe` ``](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/Extract.hyperframe.html) |
+| [`` base::`$<-` ``](https://search.r-project.org/R/refmans/base/html/Extract.html) | [`` base::`$<-.data.frame` ``](https://search.r-project.org/R/refmans/base/html/Extract.data.frame.html) | [`` spatstat.geom::`$<-.hyperframe` ``](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/Extract.hyperframe.html) |
+| [`base::subset`](https://search.r-project.org/R/refmans/base/html/subset.html) | [`base::subset.data.frame`](https://search.r-project.org/R/refmans/base/html/subset.html) | [`spatstat.geom::subset.hyperframe`](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/subset.hyperframe.html) |
+| [`base::with`](https://search.r-project.org/R/refmans/base/html/with.html) | [`base::with.default`](https://search.r-project.org/R/refmans/base/html/with.html) | [`spatstat.geom::with.hyperframe`](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/with.hyperframe.html) |
+| [`base::within`](https://search.r-project.org/R/refmans/base/html/with.html) | [`base::within.data.frame`](https://search.r-project.org/R/refmans/base/html/with.html) | do not exist (as of v`r packageVersion('spatstat.geom')`) |
+
+: `S3` methods `*.hyperframe()` that are drastically different from `*.data.frame()` or `*.default()`
+
+</details>
+
+### Convert to `groupedHyperframe` {#sec-asgroupedHyperframe-hyperframe}
+
+The `S3` method dispatch `as.groupedHyperframe.hyperframe()` converts a `hyperframe` into a `groupedHyperframe`. This function simply inspects and adds a (nested) grouping structure to the input `hyperframe`. Data set *`osteo`* from package **`spatstat.data`** has the serial number of sampling volume `brick` nested in the bone sample `id`, i.e., a nested grouping structure `~id/brick`.
+
+```{r}
+#| code-fold: true
+#| code-summary: '**Example**: `as.groupedHyperframe.hyperframe()`'
+spatstat.data::osteo |> 
+  as.groupedHyperframe(group = ~ id/brick)
+```
+
+### Superimpose Multiple `hyperframe`s
+
+The S3 method dispatch `superimpose.hyperframe()`, which does not exist in package **`spatstat.geom`** as of v`r packageVersion('spatstat.geom')`, superimposes multiple `hyperframe`s if-and-only-if they have `identical`
+
+-   `dim`ensions, i.e., `spatstat.geom::dim.hyperframe()`
+-   columns, i.e., `unclass(.)$df`
+-   `names` and `class` of the `hypercolumn`s, i.e., `unclass(.)$hypercolumns`
+
+The S3 method dispatch `superimpose.groupedHyperframe()` superimposes multiple `groupedHyperframe`s if-and-only-if they satisfy the *additional* criteria that they have `identical`
+
+-   grouping structures, i.e., `attr(., 'group')`
+
+We use a subset of the data set *`flu`* from package **`spatstat.data`** to illustrate the superimpose of `hyperframe`s.
+
+```{r}
+#| label: fluM
+#| code-fold: true
+#| code-summary: '**Data**: a `hyperframe` object *`fluM`*'
+fluM = spatstat.data::flu |>
+  spatstat.geom::subset.hyperframe(subset = (stain == 'M2-M1') & (virustype == 'wt'))
+fluM
+```
+
+The `hyperframe` *`fluM`* contains `r nrow(fluM)` subjects, each of them has a `ppp.object` with 200-500 points.
+
+```{r}
+#| code-fold: true
+#| code-summary: '**Review**: number of points per `ppp.object` in hypercolumn *`fluM$pattern`*'
+fluM$pattern |>
+  sapply(FUN = spatstat.geom::npoints)
+```
+
+```{r}
+#| code-fold: true
+#| code-summary: '**Review**: number of *`M1`* and/or *`M2`* points per `ppp.object` in hypercolumn *`fluM$pattern`*'
+fluM$pattern |>
+  sapply(FUN = \(i) {
+    i |> 
+      spatstat.geom::marks.ppp() |> 
+      table()
+  }) |>
+  addmargins()
+```
+
+We create a `hyperframe` *`fluM1`* which consists of the same columns as *`fluM`*, but a `ppp`-hypercolumn *`pattern`* with *`M1`* marks only. Similarly, we create another `hyperframe` *`fluM2`* which consists of the *`M2`* marks only. Note that as of package **`spatstat.geom`** v`r packageVersion('spatstat.geom')`, the tedious code below is the only way to insure that we do **not** use the row names of hyperframe as the element-names of the hypercolumns. In other words, function `unclass()` avoids invoking the `S3` method dispatch `` spatstat.geom::`$.hyperframe` ``. The `S3` method dispatch `` spatstat.geom::`$<-.hyperframe` `` is fine in this application.
+
+```{r}
+#| code-fold: true
+#| code-summary: '**Data**: two `hyperframe` objects *`fluM1`* and *`fluM2`*'
+fluM1 = fluM2 = fluM
+fluM1$pattern = unclass(fluM)$hypercolumns$pattern |> 
+  spatstat.geom::solapply(FUN = spatstat.geom::subset.ppp, subset = (marks == 'M1'))
+fluM2$pattern = unclass(fluM)$hypercolumns$pattern |> 
+  spatstat.geom::solapply(FUN = spatstat.geom::subset.ppp, subset = (marks == 'M2'))
+```
+
+```{r}
+#| code-fold: true
+#| code-summary: '**Review**: number of *`M1`* points per `ppp.object` in hypercolumn *`fluM1$pattern`*'
+fluM1$pattern |>
+  sapply(FUN = spatstat.geom::npoints)
+```
+
+```{r}
+#| code-fold: true
+#| code-summary: '**Review**: number of *`M2`* points per `ppp.object` in hypercolumn *`fluM2$pattern`*'
+fluM2$pattern |>
+  sapply(FUN = spatstat.geom::npoints)
+```
+
+The `S3` method dispatch `superimpose.hyperframe()` recreates the `hyperframe` *`fluM`* by combining the `hyperframe`s *`fluM2`* and *`fluM1`*. Note that the order of *`fluM2`*-then-*`fluM1`* matters, because the points are arranged in *`M2`*-then-*`M1`* in the original hypercolumn *`fluM$pattern`*.
+
+```{r}
+#| code-fold: true
+#| code-summary: '**Example**: `superimpose.hyperframe()`'
+fluS = superimpose.hyperframe(fluM2, fluM1)
+stopifnot(identical(fluS, fluM))
+```
+
+### Default $r_\text{max}$ {#sec-default_rmax-hyperframe}
+
+The `S3` generic function `rmax_()` has been introduced in Appendix @sec-default_rmax.  The `S3` method dispatch `rmax_.hyperframe()` obtains the default $r_\text{max}$ *before* the (potentially) very slow batch processes.
+
+```{r}
+#| code-fold: true
+#| code-summary: "**Example**: `rmax_.hyperframe()`; functions `Emark_()`, `Vmark_()`, `markcorr_()`, `markvario_()` on numeric (and `multitype`) mark"
+s |> rmax_(fun = 'K')
+```
+
+```{r}
+#| code-fold: true
+#| code-summary: "**Example**: `rmax_.hyperframe()`; function `Kcross_()` on `multitype` mark"
+s |> rmax_(fun = 'K', i = 'CK+.CD8-', j = 'CK-.CD8+')
+s |> rmax_(fun = 'K', i = 'CK-.CD8+', j = 'CK+.CD8-')
+```
+
+```{r}
+#| code-fold: true
+#| code-summary: "**Example**: `rmax_.hyperframe()`; function `Gcross_()` on `multitype` mark"
+s |> rmax_(fun = 'G', i = 'CK+.CD8-', j = 'CK-.CD8+')
+s |> rmax_(fun = 'G', i = 'CK-.CD8+', j = 'CK+.CD8-')
+```
+
+```{r}
+#| code-fold: true
+#| code-summary: "**Example**: `rmax_.hyperframe()`; function `Jcross_()` on multitype mark"
+s |> rmax_(fun = 'J', i = 'CK+.CD8-', j = 'CK-.CD8+')
+s |> rmax_(fun = 'J', i = 'CK-.CD8+', j = 'CK+.CD8-')
+```
+
+### Split by $k$-Means Clustering {#sec-split_kmeans-hyperframe}
+
+The `S3` generic function `split_kmeans()` has been introduced in Appendix @sec-split_kmeans.  The `S3` method dispatch `split_kmeans.hyperframe()` splits a `hyperframe` and/or `groupedHyperframe` by $k$-means clustering of the *one-and-only-one* `ppp`-hypercolumn. The returned object is a `groupedHyperframe` with grouping structure
+
+-   `~.id/.cluster`, if the input is a `hyperframe`
+-   `~ <existing/grouping/structure>/.cluster`, if the input is a `groupedHyperframe`. Note that the grouping level `.id` is **believed** to be equivalent to *the lowest level of existing grouping structure*.
+
+```{r}
+#| code-fold: true
+#| code-summary: '**Example**: `split_kmeans.hyperframe()`'
+<<fluM>>
+fluM |> 
+  split_kmeans(formula = ~ x + y, centers = 3L)
+```
+
+## On `groupedHyperframe` {#sec-groupedHyperframe-appendix}
+
+### Nested Grouping Structure {#sec-nestedGroup}
+
+Details of the nested grouping structure $g_1/.../g_m$ (`~g1/.../gm`) is provided in section *Details* of [`stats::formula`](https://search.r-project.org/R/refmans/stats/html/formula.html) documentation.
+
+The nested grouping structure `~g1/.../gm` is made well known by the parameter `random` of functions `nlme::lme()` and `nlme::nlme()`. In fact, the 'grouped' extension of a `hyperframe` is inspired by the class `'groupedData'` defined in package **`nlme`** [@nlme], which `inherits` from the class `'data.frame'`.
+
+Package **`groupedHyperframe`** allows interaction terms using colon operator `:` in the grouping structure, e.g., `g1/g2a:g2b/g3a:g3b:g3c`. This feature is made possible because the colon operator `:` has higher priority than the forward slash `/` in R `formula`.
+
+```{r}
+#| code-fold: true
+#| code-summary: "**Review**: colon operator `:` has higher priority than forward slash `/`"
+quote(g1/g2a:g2b/g3a:g3b:g3c) |>
+  as.list()
+```
+
+Function `get_nested()` breaks down a nested grouping structure by the forward slash `/`.
+
+```{r}
+#| code-fold: true
+#| code-summary: '**Example**: `get_nested()`'
+quote(g1/g2/g3) |>
+  get_nested()
+```
+
+```{r}
+#| code-fold: true
+#| code-summary: '**Example**: `get_nested()` with interaction terms'
+quote(g1/g2a:g2b/g3a:g3b:g3c) |>
+  get_nested()
+```
+
+The (nested) grouping structure `attr(., 'group')` of a `groupedHyperframe`
+
+-   must denote the highest level using a `symbol` (e.g., `g1`)
+-   may denote the lower levels using a `symbol` (e.g., `g2`) or an interaction-term (e.g., `g2a:g2b`)
+
 # What We Don't Do
 
 Lastly, we keep note of the features that we plan **not** to support in package **`groupedHyperframe`**. Those features are technically tedious to implement, and/or have relatively easy workaround.
 
-## For `'hyperframe'`
+## For `ppp.object`
 
-### `S3` method dispatch of `as.environment()` {#sec-dont-asenvironment-hyperframe}
+### Missing `marks` Handling {#sec-dont-na-ppp}
 
-The authors plan [**not**]{style="background-color: #FFFF00"} to write an `S3` method dispatch `as.environment` to the class `'hyperframe'`, as it would be a simple pipeline of functions `spatstat.geom::as.list.hyperframe()` and `base::list2env()`.
+Other than the `S3` method dispatch `na.omit.ppp()` and `na.exclude.ppp()` (Appendix @sec-na-omit-ppp), the authors have [**not**]{style="background-color: #FFFF00"} implemented the `S3` method dispatches `na.fail` and `na.pass` to a `ppp.object`.  The authors may implement some or all of them in future.
 
-```{r}
-#| code-fold: true
-#| code-summary: '**Workaround**: `as.environment` of `hyperframe`'
-ev = spatstat.data::demohyper |> 
-  spatstat.geom::as.list.hyperframe() |>
-  list2env()
-ev |> 
-  as.list.environment() |>
-  lapply(FUN = class)
-```
 
-### `S4` method dispatch of `merge()` {#sec-dont-merge-hyperframe}
 
-The authors plan [**not**]{style="background-color: #FFFF00"} to implement an `S4` method dispatch `merge` to `hyperframe` and/or `groupedHyperframe` classes, for the obstacles explained below.
 
-First, there is not an `S3` method dispatch `merge.hyperframe` in package **`spatstat.geom`** (as of v`r packageVersion('spatstat.geom')`);
-
-Second, should the authors decide to implement `setMethod(f = merge, ...)` for the class `'hyperframe'`, at least two (2) `S4` method dispatches need to be written for
-
--   `signature = c(x = 'hyperframe', y = 'data.frame')`
--   `signature = c(x = 'hyperframe', y = 'hyperframe')`, for which the authors need to define a `match` mechanism for hypercolumns.
-
-Lastly, should the authors decide to implement `setMethod(f = merge, ...)` for the class `'groupedHyperframe'`, at least three (3) `S4` method dispatches need to be written for
-
--   `signature = c(x = 'groupedHyperframe', y = 'data.frame')`
--   `signature = c(x = 'groupedHyperframe', y = 'hyperframe')`, as explained above;
--   `signature = c(x = 'groupedHyperframe', y = 'groupedHyperframe')`, for which the authors need to consider the (potentially different) grouping structures of `x` and `y` inputs.
-
-The authors suggest using the pipeline of functions `base::merge.data.frame()` and `as.groupedHyperframe()` as a workaround.
 
 ## For `'solist'`
 
@@ -1683,12 +1711,42 @@ spatstat.data::flu$pattern |>
 # result suppressed to save vignette space
 ```
 
-## For `ppp.object`
 
-### Missing `marks` Handling {#sec-dont-na-ppp}
+## For `'hyperframe'`
 
-Other than the `S3` method dispatch `na.omit.ppp()` and `na.exclude.ppp()` (Appendix @sec-na-omit-ppp), the authors have [**not**]{style="background-color: #FFFF00"} implemented the `S3` method dispatches `na.fail` and `na.pass` to a `ppp.object`.  The authors may implement some or all of them in future.
+### `S3` method dispatch of `as.environment()` {#sec-dont-asenvironment-hyperframe}
 
+The authors plan [**not**]{style="background-color: #FFFF00"} to write an `S3` method dispatch `as.environment` to the class `'hyperframe'`, as it would be a simple pipeline of functions `spatstat.geom::as.list.hyperframe()` and `base::list2env()`.
+
+```{r}
+#| code-fold: true
+#| code-summary: '**Workaround**: `as.environment` of `hyperframe`'
+ev = spatstat.data::demohyper |> 
+  spatstat.geom::as.list.hyperframe() |>
+  list2env()
+ev |> 
+  as.list.environment() |>
+  lapply(FUN = class)
+```
+
+### `S4` method dispatch of `merge()` {#sec-dont-merge-hyperframe}
+
+The authors plan [**not**]{style="background-color: #FFFF00"} to implement an `S4` method dispatch `merge` to `hyperframe` and/or `groupedHyperframe` classes, for the obstacles explained below.
+
+First, there is not an `S3` method dispatch `merge.hyperframe` in package **`spatstat.geom`** (as of v`r packageVersion('spatstat.geom')`);
+
+Second, should the authors decide to implement `setMethod(f = merge, ...)` for the class `'hyperframe'`, at least two (2) `S4` method dispatches need to be written for
+
+-   `signature = c(x = 'hyperframe', y = 'data.frame')`
+-   `signature = c(x = 'hyperframe', y = 'hyperframe')`, for which the authors need to define a `match` mechanism for hypercolumns.
+
+Lastly, should the authors decide to implement `setMethod(f = merge, ...)` for the class `'groupedHyperframe'`, at least three (3) `S4` method dispatches need to be written for
+
+-   `signature = c(x = 'groupedHyperframe', y = 'data.frame')`
+-   `signature = c(x = 'groupedHyperframe', y = 'hyperframe')`, as explained above;
+-   `signature = c(x = 'groupedHyperframe', y = 'groupedHyperframe')`, for which the authors need to consider the (potentially different) grouping structures of `x` and `y` inputs.
+
+The authors suggest using the pipeline of functions `base::merge.data.frame()` and `as.groupedHyperframe()` as a workaround.
 
 
 
