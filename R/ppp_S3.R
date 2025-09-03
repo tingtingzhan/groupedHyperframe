@@ -1,6 +1,6 @@
 
 
-#' @title log.ppp
+#' @title \link[base]{log} of \link[spatstat.geom]{ppp.object}
 #' 
 #' @description
 #' ...
@@ -13,8 +13,11 @@
 #' Function [log.ppp()] takes a \link[base]{log} of continuous marks 
 #' of a \link[spatstat.geom]{ppp.object}.
 #' 
+#' Functions [log1p.ppp()], [log10.ppp()] and [log2.ppp()] are similar.
+#' 
 #' @return 
-#' Function [log.ppp()] returns a \link[spatstat.geom]{ppp.object}.
+#' Functions [log.ppp()], [log1p.ppp()], [log10.ppp()] and [log2.ppp()] 
+#' all return a \link[spatstat.geom]{ppp.object}.
 #' 
 #' @keywords internal
 #' @name log_ppp
@@ -33,7 +36,7 @@ log.ppp <- function(x, base = exp(1)) {
         vapply(FUN = is.numeric, FUN.VALUE = NA)
       marks(x, dfok = TRUE, drop = FALSE)[id] <- m[id] |> lapply(FUN = log, base = base)
     }, 'vector' = {
-      if (is.numeric(m)) marks(x) <- log(m, base = base)
+      if (is.numeric(m)) marks(x) <- m |> log(base = base)
       # else do nothing
     }, 'none' = {
       # do nothing
@@ -72,6 +75,58 @@ log1p.ppp <- function(x) {
 }
 
 
+#' @rdname log_ppp
+#' @importFrom spatstat.geom markformat marks marks<-
+#' @export log10.ppp
+#' @export
+log10.ppp <- function(x) {
+  
+  m <- x |>
+    marks(dfok = TRUE, drop = FALSE)
+  
+  x |>
+    markformat() |>
+    switch('dataframe' = {
+      id <- m |>
+        vapply(FUN = is.numeric, FUN.VALUE = NA)
+      marks(x, dfok = TRUE, drop = FALSE)[id] <- m[id] |> lapply(FUN = log10)
+    }, 'vector' = {
+      if (is.numeric(m)) marks(x) <- m |> log10()
+      # else do nothing
+    }, 'none' = {
+      # do nothing
+    })
+  
+  return(x)
+  
+}
+
+
+#' @rdname log_ppp
+#' @importFrom spatstat.geom markformat marks marks<-
+#' @export log2.ppp
+#' @export
+log2.ppp <- function(x) {
+  
+  m <- x |>
+    marks(dfok = TRUE, drop = FALSE)
+  
+  x |>
+    markformat() |>
+    switch('dataframe' = {
+      id <- m |>
+        vapply(FUN = is.numeric, FUN.VALUE = NA)
+      marks(x, dfok = TRUE, drop = FALSE)[id] <- m[id] |> lapply(FUN = log2)
+    }, 'vector' = {
+      if (is.numeric(m)) marks(x) <- m |> log2()
+      # else do nothing
+    }, 'none' = {
+      # do nothing
+    })
+  
+  return(x)
+  
+}
 
 
 

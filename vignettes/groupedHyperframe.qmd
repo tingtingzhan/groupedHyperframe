@@ -129,9 +129,10 @@ merge.data.frame(cran, github, by = 'Package') |>
   }) |>
   knitr::kable(
     row.names = FALSE,
-    label = 'tbl-dev_spatstat', 
+    # label = 'tbl-dev_spatstat', # no use!
     caption = Sys.Date() |> format() |> 
-      sprintf(fmt = 'Developer version of `spatstat.*` family ahead of CRAN, as of %s'))
+      sprintf(fmt = 'Developer version of `spatstat.*` family ahead of CRAN, as of %s')
+  )
 ```
 
 ### Package **`groupedHyperframe`**
@@ -669,11 +670,12 @@ methods(class = 'ppp') |>
   subset(subset = from == 'spatstat.geom')
 ```
 
-Package **`groupedHyperframe`** implements
+Package **`groupedHyperframe`** implements the additional `S3` method dispatches in @tbl-S3_ppp,
 
 ```{r}
 #| code-fold: true
 #| code-summary: 'Additional `S3` method dispatches to `ppp.object`'
+#| label: tbl-S3_ppp
 S3_ppp = methods(class = 'ppp') |> 
   attr(which = 'info', exact = TRUE) |>
   subset(subset = from == 'groupedHyperframe') |>
@@ -683,7 +685,10 @@ S3_ppp = methods(class = 'ppp') |>
 rownames(S3_ppp) = rownames(S3_ppp) |> 
   sprintf(fmt = '`%s`')
 S3_ppp |> 
-  knitr::kable(label = 'tbl-S3_ppp', caption = '`S3` method dispatches to class `\'ppp\'`')
+  knitr::kable(
+    # label = 'tbl-S3_ppp', # no use!
+    caption = '`S3` method dispatches to class `\'ppp\'`'
+  )
 ```
 
 The authors have [**not**]{style="background-color: #FFFF00"} implemented
@@ -692,15 +697,32 @@ The authors have [**not**]{style="background-color: #FFFF00"} implemented
 
 ### Log of `numeric` `marks`
 
-The `S3` method dispatches `log.ppp()` and `log1p.ppp()` perform `log`- and $\log(x+1)$-transformation, respectively, on one or more numeric `marks` of a `ppp.object`.
+The `S3` method dispatches 
+
+-   `log.ppp()` and `log1p.ppp()` perform `log`- and $\log(x+1)$-transformation, respectively,
+-   `log2.ppp()` and `log10.ppp()` performs base-`2` and base-`10` `log`-transformations, respectively, 
+
+on one or more numeric `marks` of a `ppp.object`.
+
 
 ```{r}
 #| code-fold: true
-#| code-summary: "**Example**: `log.ppp()` on `'none'`-`markformat`"
+#| code-summary: "**Example**: `log`-transformations on `'none'`-`markformat`"
 spatstat.data::cells
 cells_log = spatstat.data::cells |>
   log()
-stopifnot(identical(cells_log, spatstat.data::cells))
+cells_log1p = spatstat.data::cells |>
+  log1p()
+cells_log2 = spatstat.data::cells |>
+  log2()
+cells_log10 = spatstat.data::cells |>
+  log10()
+stopifnot(
+  identical(cells_log, spatstat.data::cells),
+  identical(cells_log1p, spatstat.data::cells),
+  identical(cells_log2, spatstat.data::cells),
+  identical(cells_log10, spatstat.data::cells)
+)
 ```
 
 ```{r}
@@ -721,6 +743,10 @@ spatstat.data::longleaf |>
 #| code-summary: "**Example**: `log1p.ppp()` on numeric-`marks` in `'vector'`-`markformat`"
 spatstat.data::bronzefilter
 spatstat.data::bronzefilter |>
+  spatstat.geom::marks.ppp() |>
+  range()
+spatstat.data::bronzefilter |> 
+  log() |>
   spatstat.geom::marks.ppp() |>
   range()
 spatstat.data::bronzefilter |> 
@@ -1122,11 +1148,12 @@ methods(class = 'fv') |>
   subset(subset = from == 'spatstat.explore')
 ```
 
-Package **`groupedHyperframe`** implements
+Package **`groupedHyperframe`** implements the additional `S3` method dispatches in @tbl-S3_fv,
 
 ```{r}
 #| code-fold: true
 #| code-summary: 'Additional `S3` method dispatches to `fv.object`'
+#| label: tbl-S3_fv
 S3_fv = methods(class = 'fv') |> 
   attr(which = 'info', exact = TRUE) |>
   subset(subset = from == 'groupedHyperframe') |>
@@ -1136,7 +1163,10 @@ S3_fv = methods(class = 'fv') |>
 rownames(S3_fv) = rownames(S3_fv) |> 
   sprintf(fmt = '`%s`')
 S3_fv |>
-  knitr::kable(label = 'tbl-S3_fv', caption = '`S3` method dispatches to class `\'fv\'`')
+  knitr::kable(
+    # label = 'tbl-S3_fv', # no use
+    caption = '`S3` method dispatches to class `\'fv\'`'
+  )
 ```
 
 ### "Black Solid Curve" {#sec-blackSolidCurve}
@@ -1417,12 +1447,13 @@ methods(class = 'hyperframe') |>
   subset(subset = from == 'spatstat.geom')
 ```
 
-Package **`groupedHyperframe`** implements
+Package **`groupedHyperframe`** implements the additional `S3` method dispatches in @tbl-S3_hyperframe,
 
 ```{r}
 #| message: false
 #| code-fold: true
 #| code-summary: "Additional `S3` method dispatches to class `'hyperframe'`"
+#| label: tbl-S3_hyperframe
 library(spatstat.geom) # must! for S3 generic function `spatstat.geom::superimpose`
 S3_hyperframe = methods(class = 'hyperframe') |> 
   attr(which = 'info', exact = TRUE) |>
@@ -1433,7 +1464,10 @@ S3_hyperframe = methods(class = 'hyperframe') |>
 rownames(S3_hyperframe) = rownames(S3_hyperframe) |> 
   sprintf(fmt = '`%s`')
 S3_hyperframe |>
-  knitr::kable(label = 'tbl-S3_hyperframe', caption = '`S3` method dispatches to class `\'hyperframe\'`')
+  knitr::kable(
+    # label = 'tbl-S3_hyperframe', # no use! 
+    caption = '`S3` method dispatches to class `\'hyperframe\'`'
+  )
 ```
 
 The authors plan [**not**]{style="background-color: #FFFF00"} to implement
@@ -1826,6 +1860,7 @@ R terminology and nomenclature could be *drastically different* from that of mat
 | [`lengths`](https://search.r-project.org/R/refmans/base/html/lengths.html) | Lengths of `list` or `vector` elements |
 | [`list`](https://search.r-project.org/R/refmans/base/html/list.html), [`listof`](https://search.r-project.org/R/refmans/stats/html/listof.html) | Lists of objects |
 | [`list2env`](https://search.r-project.org/R/refmans/stats/html/list2env.html) | Create an `environment` containing all `list` components as objects |
+| [`log`, `log1p`, `log2`, `log10`](https://search.r-project.org/R/refmans/base/html/Log.html) | $\log(x)$ and $\log(x+1)$ transformations |
 | [`.Machine`](https://search.r-project.org/R/refmans/base/html/zMachine.html) | Numerical characteristics of the machine R is running on, e.g., 32-bit integers and IEC 60559 floating-point (double precision) arithmetic |
 | [`markformat`](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/spatstat.geom-internal.html) | Storage mode of `marks`, from package **`spatstat.geom`** |
 | [`marks`](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/spatstat.geom-internal.html), [`is.marked`](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/is.marked.html) | Marks of a point pattern, from package **`spatstat.geom`** |

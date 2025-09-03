@@ -4,11 +4,17 @@
 \alias{log_ppp}
 \alias{log.ppp}
 \alias{log1p.ppp}
-\title{log.ppp}
+\alias{log10.ppp}
+\alias{log2.ppp}
+\title{\link[base]{log} of \link[spatstat.geom]{ppp.object}}
 \usage{
 \method{log}{ppp}(x, base = exp(1))
 
 \method{log1p}{ppp}(x)
+
+\method{log10}{ppp}(x)
+
+\method{log2}{ppp}(x)
 }
 \arguments{
 \item{x}{a \link[spatstat.geom]{ppp.object}}
@@ -16,7 +22,8 @@
 \item{base}{\link[base]{numeric} scalar}
 }
 \value{
-Function \code{\link[=log.ppp]{log.ppp()}} returns a \link[spatstat.geom]{ppp.object}.
+Functions \code{\link[=log.ppp]{log.ppp()}}, \code{\link[=log1p.ppp]{log1p.ppp()}}, \code{\link[=log10.ppp]{log10.ppp()}} and \code{\link[=log2.ppp]{log2.ppp()}}
+all return a \link[spatstat.geom]{ppp.object}.
 }
 \description{
 ...
@@ -24,5 +31,7 @@ Function \code{\link[=log.ppp]{log.ppp()}} returns a \link[spatstat.geom]{ppp.ob
 \details{
 Function \code{\link[=log.ppp]{log.ppp()}} takes a \link[base]{log} of continuous marks
 of a \link[spatstat.geom]{ppp.object}.
+
+Functions \code{\link[=log1p.ppp]{log1p.ppp()}}, \code{\link[=log10.ppp]{log10.ppp()}} and \code{\link[=log2.ppp]{log2.ppp()}} are similar.
 }
 \keyword{internal}
