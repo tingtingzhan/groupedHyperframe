@@ -1642,7 +1642,7 @@ Lastly, we keep note of the features that we plan **not** to support in package 
 
 ### Missing `marks` Handling {#sec-dont-na-ppp}
 
-Other than the `S3` method dispatch `na.omit.ppp()` and `na.exclude.ppp()` (Appendix @sec-na-omit-ppp), the authors have [**not**]{style="background-color: #FFFF00"} implemented the `S3` method dispatches `na.fail` and `na.pass` to a `ppp.object`.  The authors may implement some or all of them in future.
+Other than the `S3` method dispatches `na.omit.ppp()` and `na.exclude.ppp()` (Appendix @sec-na-omit-ppp), the authors have [**not**]{style="background-color: #FFFF00"} implemented the `S3` method dispatches `na.fail` and `na.pass` to a `ppp.object`.  The authors may implement one or both of them in future.
 
 
 
