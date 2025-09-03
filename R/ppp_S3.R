@@ -152,8 +152,8 @@ na.exclude.ppp <- function(object, ...) {
   }, {
     
     tmp <- na.exclude(object$marks)
-    # ?stats:::na.omit.data.frame; if (markformat.ppp(object) == 'dataframe')
-    # ?stats:::na.omit.default; if (markformat.ppp(object) == 'vector')
+    # ?stats:::na.exclude.data.frame; if (markformat.ppp(object) == 'dataframe')
+    # ?stats:::na.exclude.default; if (markformat.ppp(object) == 'vector')
     
     id <- attr(tmp, which = 'na.action', exact = TRUE)
     
