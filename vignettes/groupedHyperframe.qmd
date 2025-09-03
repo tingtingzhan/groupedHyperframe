@@ -496,9 +496,14 @@ Users are encouraged to learn more about this application from package **`hyper.
 
 {{< pagebreak >}}
 
-# Appendix
+# Appendix {#sec-appendix}
 
 Technical details, as well as the minor and/or experimental features, are covered in the Appendix, in order not to interrupt the main narrative of this vignette.
+
+The Appendix is generally organized in the way that
+
+-   the Markdown document **Header 2**, e.g. @sec-appendix `.x`, is about the object `class`;
+-   the Markdown document **Header 3**, e.g. @sec-appendix `.x.x`, is about the method dispatches.
 
 All R code-chunks are folded in the Appendix, for ease of navigation. They are categorized as
 
@@ -678,8 +683,6 @@ The authors have [**not**]{style="background-color: #FFFF00"} implemented
 
 -   the `S3` method dispatches of `na.fail()` and `na.pass()` to a `ppp.object` (Appendix @sec-dont-na-ppp).
 
-
-
 ### Log of `numeric` `marks`
 
 The `S3` method dispatches `log.ppp()` and `log1p.ppp()` perform `log`- and $\log(x+1)$-transformation, respectively, on one or more numeric `marks` of a `ppp.object`.
@@ -692,7 +695,6 @@ cells_log = spatstat.data::cells |>
   log()
 stopifnot(identical(cells_log, spatstat.data::cells))
 ```
-
 
 ```{r}
 #| code-fold: true
@@ -737,10 +739,9 @@ spatstat.data::betacells |>
 
 ### Missing `marks` Handling {#sec-na-omit-ppp}
 
-The `S3` method dispatches `na.omit.ppp()` and `na.exclude.ppp()` `omit`s and `exclude`s, respectively, the missing `marks` from a `ppp.object`.  Both functions return a `ppp.object`.  
+The `S3` method dispatches `na.omit.ppp()` and `na.exclude.ppp()` `omit`s and `exclude`s, respectively, the missing `marks` from a `ppp.object`. Both functions return a `ppp.object`.
 
 If missingness exists in the `marks`, the `'na.action'`-`attr`ibute of the `marks` is saved as an `attr`ibute of the returned `ppp.object`.
-
 
 ```{r}
 #| code-fold: true
@@ -770,8 +771,6 @@ stopifnot(
 )
 ```
 
-
-
 ```{r}
 #| code-fold: true
 #| code-summary: "**Example**: `na.omit.ppp()` and  `na.exclude.ppp()` on `'dataframe'`-`markformat`"
@@ -789,7 +788,6 @@ nbfires_omit |>
 nbfires_exclude |> 
   attr(which = 'na.action', exact = TRUE)
 ```
-
 
 ### Append to Existing `marks`
 
@@ -832,8 +830,6 @@ stonetools |> spatstat.geom::print.ppp()
 set.seed(33); append_marks(stonetools) = rlnorm(n = spatstat.geom::npoints(stonetools))
 stonetools |> spatstat.geom::print.ppp()
 ```
-
-
 
 ### Default $r_\text{max}$ {#sec-default_rmax}
 
@@ -954,8 +950,6 @@ stopifnot(identical(r1d, r2d))
 
 Additional `S3` method dispatches are discussed in @sec-ppplist and @sec-default_rmax-hyperframe.
 
-
-
 ### $k$-Means Clustering {#sec-kmeans}
 
 The `S3` generic function `.kmeans()` performs $k$-means clustering. We name this generic function with a prefix `.` because the workhorse function `stats::kmeans()` is not an `S3` generic function. The `S3` generic function `.kmeans()` returns an object of class `'kmeans'` defined in R package **`stats`** shipped with `r R.version$version.string`. Currently only one `S3` method dispatch `.kmeans.ppp()` is planned.
@@ -1062,15 +1056,14 @@ fluM$pattern[[1L]] |>
 
 Additional `S3` method dispatches are discussed in @sec-ppplist and @sec-split_kmeans-hyperframe.
 
-
 ### Pairwise Tjøstheim's Coefficient
 
 The `S3` generic function `pairwise_cor_spatial()` calculates the nonparametric, rank-based, Tjøstheim's correlation coefficients [@Tjostheim78; @Hubert82] in a pairwise-combination fashion, using the workhorse function `SpatialPack::cor.spatial()` from package **`SpatialPack`** [@SpatialPack].
 
-All `S3` method dispatches return an object of class `'pairwise_cor_spatial'`, which `inherits` from the class `'dist'` defined in package **`stats`** shipped with `r R.version$version.string`. Such inheritance enables us to make use of existing `S3` method dispatches to class `'dist'`, e.g., `stats:::print.dist()`, `stats:::as.matrix.dist()`, `stats:::format.dist()` and `stats:::labels.dist()`.  @tbl-dist explains the motivation of this inheritance, that the class `'pairwise_cor_spatial'` shares intrinsic similarity in data structure as the class `'dist'`.
+All `S3` method dispatches return an object of class `'pairwise_cor_spatial'`, which `inherits` from the class `'dist'` defined in package **`stats`** shipped with `r R.version$version.string`. Such inheritance enables us to make use of existing `S3` method dispatches to class `'dist'`, e.g., `stats:::print.dist()`, `stats:::as.matrix.dist()`, `stats:::format.dist()` and `stats:::labels.dist()`. @tbl-dist explains the motivation of this inheritance, that the class `'pairwise_cor_spatial'` shares intrinsic similarity in data structure as the class `'dist'`.
 
 |   | `'pairwise_cor_spatial'` object | `'dist'` object |
-|:------------------------|:------------------------|:------------------------|
+|:-----------------------|:-----------------------|:-----------------------|
 | Constant `diag`onal values | of `1`; i.e., perfect correlation | of `0`; i.e., zero distance |
 
 : Similarity in Data Structure, `'pairwise_cor_spatial'` & `'dist'` {#tbl-dist}
@@ -1273,9 +1266,9 @@ The authors plan [**not**]{style="background-color: #FFFF00"} to implement
 
 #### On `ppplist` {#sec-ppplist}
 
-An `S3` derived class `'ppplist'`, e.g., class of the returned object from function `spatstat.geom::split.ppp()`, etc., `inherits` from the `S3` class `'solist'`.  A `'ppplist'` is essentially a `listof` `ppp.object`s.
+An `S3` derived class `'ppplist'`, e.g., class of the returned object from function `spatstat.geom::split.ppp()`, etc., `inherits` from the `S3` class `'solist'`. A `'ppplist'` is essentially a `listof` `ppp.object`s.
 
-The `S3` generic function `rmax_()` has been introduced in Appendix @sec-default_rmax.  The `S3` method dispatch `rmax_.ppplist()` obtains the default $r_\text{max}$ *before* the (potentially) very slow batch processes.
+The `S3` generic function `rmax_()` has been introduced in Appendix @sec-default_rmax. The `S3` method dispatch `rmax_.ppplist()` obtains the default $r_\text{max}$ *before* the (potentially) very slow batch processes.
 
 ```{r}
 #| code-fold: true
@@ -1298,8 +1291,7 @@ spatstat.data::btb.extra |>
   rmax_(fun = 'K')
 ```
 
-
-The `S3` generic function `split_kmeans()` has been introduced in Appendix @sec-split_kmeans.  The `S3` method dispatch `split_kmeans.listof()` splits a `ppplist` by $k$-means clustering. The returned object has `attributes`
+The `S3` generic function `split_kmeans()` has been introduced in Appendix @sec-split_kmeans. The `S3` method dispatch `split_kmeans.listof()` splits a `ppplist` by $k$-means clustering. The returned object has `attributes`
 
 -   `attr(.,'.id')`, indices of the `ppp.object`s before splitting.
 -   `attr(.,'.cluster')`, indices of $k$-means clusters, nested in `.id`.
@@ -1311,10 +1303,6 @@ The `S3` generic function `split_kmeans()` has been introduced in Appendix @sec-
 fluM$pattern |> 
   split_kmeans(formula = ~ x + y, centers = 3L) 
 ```
-
-
-
-
 
 ### Derived Class `'vectorlist'` {#sec-vectorlist}
 
@@ -1552,7 +1540,7 @@ stopifnot(identical(fluS, fluM))
 
 ### Default $r_\text{max}$ {#sec-default_rmax-hyperframe}
 
-The `S3` generic function `rmax_()` has been introduced in Appendix @sec-default_rmax.  The `S3` method dispatch `rmax_.hyperframe()` obtains the default $r_\text{max}$ *before* the (potentially) very slow batch processes.
+The `S3` generic function `rmax_()` has been introduced in Appendix @sec-default_rmax. The `S3` method dispatch `rmax_.hyperframe()` obtains the default $r_\text{max}$ *before* the (potentially) very slow batch processes.
 
 ```{r}
 #| code-fold: true
@@ -1583,7 +1571,7 @@ s |> rmax_(fun = 'J', i = 'CK-.CD8+', j = 'CK+.CD8-')
 
 ### Split by $k$-Means Clustering {#sec-split_kmeans-hyperframe}
 
-The `S3` generic function `split_kmeans()` has been introduced in Appendix @sec-split_kmeans.  The `S3` method dispatch `split_kmeans.hyperframe()` splits a `hyperframe` and/or `groupedHyperframe` by $k$-means clustering of the *one-and-only-one* `ppp`-hypercolumn. The returned object is a `groupedHyperframe` with grouping structure
+The `S3` generic function `split_kmeans()` has been introduced in Appendix @sec-split_kmeans. The `S3` method dispatch `split_kmeans.hyperframe()` splits a `hyperframe` and/or `groupedHyperframe` by $k$-means clustering of the *one-and-only-one* `ppp`-hypercolumn. The returned object is a `groupedHyperframe` with grouping structure
 
 -   `~.id/.cluster`, if the input is a `hyperframe`
 -   `~ <existing/grouping/structure>/.cluster`, if the input is a `groupedHyperframe`. Note that the grouping level `.id` is **believed** to be equivalent to *the lowest level of existing grouping structure*.
@@ -1642,11 +1630,7 @@ Lastly, we keep note of the features that we plan **not** to support in package 
 
 ### Missing `marks` Handling {#sec-dont-na-ppp}
 
-Other than the `S3` method dispatches `na.omit.ppp()` and `na.exclude.ppp()` (Appendix @sec-na-omit-ppp), the authors have [**not**]{style="background-color: #FFFF00"} implemented the `S3` method dispatches `na.fail` and `na.pass` to a `ppp.object`.  The authors may implement one or both of them in future.
-
-
-
-
+Other than the `S3` method dispatches `na.omit.ppp()` and `na.exclude.ppp()` (Appendix @sec-na-omit-ppp), the authors have [**not**]{style="background-color: #FFFF00"} implemented the `S3` method dispatches `na.fail` and `na.pass` to a `ppp.object`. The authors may implement one or both of them in future.
 
 ## For `'solist'`
 
@@ -1711,7 +1695,6 @@ spatstat.data::flu$pattern |>
 # result suppressed to save vignette space
 ```
 
-
 ## For `'hyperframe'`
 
 ### `S3` method dispatch of `as.environment()` {#sec-dont-asenvironment-hyperframe}
@@ -1747,8 +1730,6 @@ Lastly, should the authors decide to implement `setMethod(f = merge, ...)` for t
 -   `signature = c(x = 'groupedHyperframe', y = 'groupedHyperframe')`, for which the authors need to consider the (potentially different) grouping structures of `x` and `y` inputs.
 
 The authors suggest using the pipeline of functions `base::merge.data.frame()` and `as.groupedHyperframe()` as a workaround.
-
-
 
 # Terms & Abbreviations {#sec-terms}
 
