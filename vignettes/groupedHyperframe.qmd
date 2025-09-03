@@ -1100,6 +1100,123 @@ methods(class = 'ppp') |>
   knitr::kable(label = 'tbl-S3_ppp', caption = '`S3` method dispatches to class `\'ppp\'`')
 ```
 
+The authors have [**not**]{style="background-color: #FFFF00"} implemented
+
+-   the `S3` method dispatches of `na.fail()` and `na.pass()` to a `ppp.object` (Appendix @sec-dont-na-ppp).
+
+
+
+### Log of `numeric` `marks`
+
+The `S3` method dispatches `log.ppp()` and `log1p.ppp()` perform `log`- and $\log(x+1)$-transformation, respectively, on one or more numeric `marks` of a `ppp.object`.
+
+```{r}
+#| code-fold: true
+#| code-summary: "**Example**: `log.ppp()` on `'none'`-`markformat`"
+spatstat.data::cells
+cells_log = spatstat.data::cells |>
+  log()
+stopifnot(identical(cells_log, spatstat.data::cells))
+```
+
+
+```{r}
+#| code-fold: true
+#| code-summary: "**Example**: `log.ppp()` on numeric-`marks` in `'vector'`-`markformat`"
+spatstat.data::longleaf
+spatstat.data::longleaf |>
+  spatstat.geom::marks.ppp() |>
+  range()
+spatstat.data::longleaf |> 
+  log() |>
+  spatstat.geom::marks.ppp() |>
+  range()
+```
+
+```{r}
+#| code-fold: true
+#| code-summary: "**Example**: `log1p.ppp()` on numeric-`marks` in `'vector'`-`markformat`"
+spatstat.data::bronzefilter
+spatstat.data::bronzefilter |>
+  spatstat.geom::marks.ppp() |>
+  range()
+spatstat.data::bronzefilter |> 
+  log1p() |>
+  spatstat.geom::marks.ppp() |>
+  range()
+```
+
+```{r}
+#| code-fold: true
+#| code-summary: "**Example**: `log.ppp()` on numeric-`marks` in `'dataframe'`-`markformat`"
+spatstat.data::betacells
+spatstat.data::betacells |>
+  spatstat.geom::marks.ppp() |>
+  with(expr = area) |>
+  range()
+spatstat.data::betacells |> 
+  log() |>
+  spatstat.geom::marks.ppp() |>
+  with(expr = area) |>
+  range()
+```
+
+### Missing `marks` Handling {#sec-na-omit-ppp}
+
+The `S3` method dispatches `na.omit.ppp()` and `na.exclude.ppp()` `omit`s and `exclude`s, respectively, the missing `marks` from a `ppp.object`.  Both functions return a `ppp.object`.  
+
+If missingness exists in the `marks`, the `'na.action'`-`attr`ibute of the `marks` is saved as an `attr`ibute of the returned `ppp.object`.
+
+
+```{r}
+#| code-fold: true
+#| code-summary: "**Example**: `na.omit.ppp()` and  `na.exclude.ppp()` on `'none'`-`markformat`"
+spatstat.data::cells
+cells_omit = spatstat.data::cells |>
+  na.omit()
+cells_exclude = spatstat.data::cells |>
+  na.exclude()
+stopifnot(
+  identical(cells_omit, spatstat.data::cells),
+  identical(cells_exclude, spatstat.data::cells)
+)
+```
+
+```{r}
+#| code-fold: true
+#| code-summary: "**Example**: `na.omit.ppp()` and  `na.exclude.ppp()` on `'vector'`-`markformat`, no missingness"
+spatstat.data::amacrine
+amacrine_omit = spatstat.data::amacrine |>
+  na.omit()
+amacrine_exclude = spatstat.data::amacrine |>
+  na.exclude()
+stopifnot(
+  identical(amacrine_omit, spatstat.data::amacrine),
+  identical(amacrine_exclude, spatstat.data::amacrine)
+)
+```
+
+
+
+```{r}
+#| code-fold: true
+#| code-summary: "**Example**: `na.omit.ppp()` and  `na.exclude.ppp()` on `'dataframe'`-`markformat`"
+nbfires. = spatstat.data::nbfires[1:100]
+nbfires. |> 
+  spatstat.geom::npoints()
+nbfires_omit = nbfires. |> 
+  na.omit() 
+nbfires_exclude = nbfires. |> 
+  na.exclude() 
+nbfires_omit |> 
+  spatstat.geom::npoints()
+nbfires_omit |> 
+  attr(which = 'na.action', exact = TRUE)
+nbfires_exclude |> 
+  attr(which = 'na.action', exact = TRUE)
+```
+
+
 ### Append to Existing `marks`
 
 The `S3` generic syntactic sugar `append_marks<-()` appends an additional mark to the existing `marks`.
@@ -1142,64 +1259,7 @@ set.seed(33); append_marks(stonetools) = rlnorm(n = spatstat.geom::npoints(stone
 stonetools |> spatstat.geom::print.ppp()
 ```
 
-### Log of `numeric` `marks`
 
-The `S3` method dispatches `log.ppp()` and `log1p.ppp()` perform `log`- and $\log(x+1)$-transformation on numeric `marks`, respectively.
-
-```{r}
-#| code-fold: true
-#| code-summary: '**Example**: `log.ppp()` on numeric-`marks`'
-spatstat.data::longleaf
-spatstat.data::longleaf |>
-  spatstat.geom::marks.ppp() |>
-  range()
-spatstat.data::longleaf |> 
-  log() |>
-  spatstat.geom::marks.ppp() |>
-  range()
-```
-
-```{r}
-#| code-fold: true
-#| code-summary: '**Example**: `log1p.ppp()` on numeric-`marks`'
-spatstat.data::bronzefilter
-spatstat.data::bronzefilter |>
-  spatstat.geom::marks.ppp() |>
-  range()
-spatstat.data::bronzefilter |> 
-  log1p() |>
-  spatstat.geom::marks.ppp() |>
-  range()
-```
-
-```{r}
-#| code-fold: true
-#| code-summary: "**Example**: `log.ppp()` on numeric-`marks` when `markformat` being `'dataframe'`"
-spatstat.data::betacells
-spatstat.data::betacells |>
-  spatstat.geom::marks.ppp() |>
-  with(expr = area) |>
-  range()
-spatstat.data::betacells |> 
-  log() |>
-  spatstat.geom::marks.ppp() |>
-  with(expr = area) |>
-  range()
-```
-
-### Remove Missing `marks`
-
-The `S3` method dispatch `na.omit.ppp()` removes missing `marks` from a `ppp.object`.
-
-```{r}
-#| code-fold: true
-#| code-summary: '**Example**: `na.omit.ppp()`'
-spatstat.data::nbfires |> 
-  spatstat.geom::npoints()
-spatstat.data::nbfires |> 
-  na.omit() |> 
-  spatstat.geom::npoints()
-```
 
 ### Default $r_\text{max}$ {#sec-default_rmax}
 
@@ -1623,6 +1683,15 @@ spatstat.data::flu$pattern |>
 # result suppressed to save vignette space
 ```
 
+## For `ppp.object`
+
+### Missing `marks` Handling {#sec-dont-na-ppp}
+
+Other than the `S3` method dispatch `na.omit.ppp()` and `na.exclude.ppp()` (Appendix @sec-na-omit-ppp), the authors have [**not**]{style="background-color: #FFFF00"} implemented the `S3` method dispatches `na.fail` and `na.pass` to a `ppp.object`.  The authors may implement some or all of them in future.
+
+
+
+
 # Terms & Abbreviations {#sec-terms}
 
 ## in Math {#sec-mathterm}
@@ -1694,6 +1763,7 @@ R terminology and nomenclature could be *drastically different* from that of mat
 | [`message`](https://search.r-project.org/R/refmans/base/html/message.html) | Diagnostic message printed in R console |
 | [`multitype`](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/spatstat.geom-internal.html) | Multitype spatial object, from package **`spatstat.geom`** |
 | [`NaN`](https://search.r-project.org/R/refmans/base/html/is.finite.html) | Not-a-Number |
+| [`na.fail`, `na.omit`, `na.exclude`, `na.pass`](https://search.r-project.org/R/refmans/stats/html/na.fail.html) | Handle missing values in R objects |
 | [`names`](https://search.r-project.org/R/refmans/base/html/names.html) | Names of an R object |
 | [`ncol`, `nrow`](https://search.r-project.org/R/refmans/base/html/nrow.html) | Number of rows/columns of an [`array`](https://search.r-project.org/R/refmans/base/html/array.html) |
 | [`npoints`](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/npoints.html) | Number of points in a point pattern, from package **`spatstat.geom`** |

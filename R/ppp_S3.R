@@ -100,9 +100,6 @@ log1p.ppp <- function(x) {
 #' library(spatstat.data)
 #' library(spatstat.geom)
 #' 
-#' npoints(nbfires)
-#' npoints(na.omit.ppp(nbfires))
-#' 
 #' npoints(amacrine)
 #' npoints(na.omit.ppp(amacrine)) # no missing marks to be removed
 #' 
@@ -111,6 +108,7 @@ log1p.ppp <- function(x) {
 #' suppressWarnings(plot.ppp(nbfires_julian))
 #' na.omit.ppp(nbfires_julian)
 #' @keywords internal
+#' @name na_fail_ppp
 #' @importFrom stats na.omit
 #' @importFrom spatstat.geom subset.ppp markformat.ppp
 #' @method na.omit ppp
@@ -124,6 +122,36 @@ na.omit.ppp <- function(object, ...) {
   }, {
     
     tmp <- na.omit(object$marks)
+    # ?stats:::na.omit.data.frame; if (markformat.ppp(object) == 'dataframe')
+    # ?stats:::na.omit.default; if (markformat.ppp(object) == 'vector')
+    
+    id <- attr(tmp, which = 'na.action', exact = TRUE)
+    
+    if (!length(id)) return(object) # nothing to omit
+    
+    ret <- subset.ppp(object, subset = -id)
+    attr(ret, which = 'na.action') <- id
+    return(ret)
+    
+  })
+  
+}
+
+
+#' @name na_fail_ppp
+#' @importFrom stats na.exclude
+#' @importFrom spatstat.geom subset.ppp markformat.ppp
+#' @method na.exclude ppp
+#' @export na.exclude.ppp
+#' @export
+na.exclude.ppp <- function(object, ...) {
+  
+  switch(markformat.ppp(object), none = {
+    return(object) # exception handling
+    
+  }, {
+    
+    tmp <- na.exclude(object$marks)
     # ?stats:::na.omit.data.frame; if (markformat.ppp(object) == 'dataframe')
     # ?stats:::na.omit.default; if (markformat.ppp(object) == 'vector')
     
