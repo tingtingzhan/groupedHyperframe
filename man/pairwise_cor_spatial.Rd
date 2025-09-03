@@ -26,8 +26,4 @@ Pairwise Tjostheim's Coefficient
 \details{
 Workhorse function \link[SpatialPack]{cor.spatial}.
 }
-\examples{
-(r = spatstat.data::finpines |> pairwise_cor_spatial.ppp())
-r |> as.matrix()
-}
 \keyword{internal}

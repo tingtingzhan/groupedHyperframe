@@ -38,13 +38,4 @@ is that
 function \link[spatstat.geom]{with.hyperframe}
 could be slow in a batch process.
 }
-\examples{
-x = spatstat.data::Kovesi$values
-class(x) = c('vectorlist', class(x)) 
-z1 = x |> t.vectorlist()
-z2 = spatstat.data::Kovesi |> 
-  spatstat.geom::with.hyperframe(expr = values[1L])
-stopifnot(identical(z1[[1L]], z2))
-
-}
 \keyword{internal}

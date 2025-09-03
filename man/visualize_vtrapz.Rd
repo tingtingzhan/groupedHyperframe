@@ -37,22 +37,4 @@ The \code{S3} generic function \code{\link[=visualize_vtrapz]{visualize_vtrapz()
 \description{
 Visualize (cumulative) average vertical height of trapezoidal integration.
 }
-\examples{
-spatstat.data::spruces |>
- spatstat.explore::Emark() |>
- visualize_vtrapz(draw.v = FALSE, draw.rect = FALSE) + ggplot2::theme_minimal()
-
-spatstat.data::spruces |>
- spatstat.explore::Vmark() |>
- visualize_vtrapz(draw.v = FALSE, draw.rect = FALSE) + ggplot2::theme_minimal()
-
-rnorm(n = 1e3L) |>
- density() |>
- visualize_vtrapz() + ggplot2::theme_minimal()
-
-rnorm(n = 1e3L) |>
- ecdf() |>
- visualize_vtrapz() + ggplot2::theme_minimal()
-
-}
 \keyword{internal}

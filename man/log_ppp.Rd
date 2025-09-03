@@ -25,8 +25,4 @@ Function \code{\link[=log.ppp]{log.ppp()}} returns a \link[spatstat.geom]{ppp.ob
 Function \code{\link[=log.ppp]{log.ppp()}} takes a \link[base]{log} of continuous marks
 of a \link[spatstat.geom]{ppp.object}.
 }
-\examples{
-spatstat.data::longleaf |> plot()
-spatstat.data::longleaf |> log() |> plot()
-}
 \keyword{internal}

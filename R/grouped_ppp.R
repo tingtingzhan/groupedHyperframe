@@ -94,14 +94,6 @@ grouped_ppp <- function(
 #' 
 #' @param group a \link[base]{language} object, (nested) grouping structure
 #' 
-#' @examples
-#' # nested structure
-#' quote(a/b:c/d:e) |> get_nested()
-#' (~a/b:c/d:e) |> get_nested()
-#' 
-#' # exceptions
-#' (~a) |> get_nested()
-#' (~b:c) |> get_nested()
 #' @keywords internal
 #' @name get_nested
 #' @export

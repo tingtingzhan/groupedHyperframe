@@ -31,21 +31,4 @@ rmax_(X, ...)
 \description{
 Default \eqn{r_\text{max}} of Various Functions in Package \CRANpkg{spatstat.explore}
 }
-\examples{
-# ppp, fun = 'K'
-spatstat.data::spruces |> rmax_(fun = 'K') # rectangle window
-spatstat.data::urkiola |> rmax_(fun = 'K') # polygonal boundary 
-spatstat.data::swedishpines |> rmax_(fun = 'K') # not-marked, exception handling
-
-# hyperframe, fun = 'K'
-spatstat.data::flu |> rmax_(fun = 'K') # rectangle window
-spatstat.data::cetaceans |> rmax_(fun = 'K') # polygonal boundary, marked and unmarked
-spatstat.data::pyramidal |> rmax_(fun = 'K') # not-marked
-
-# hyperframe, fun = 'G'
-spatstat.data::flu |> rmax_(fun = 'G')
-flu0 = spatstat.data::flu |> subset(subset = (stain == 'M2-M1'))
-flu0 |> rmax_(fun = 'G', i = 'M1', j = 'M2')
-flu0 |> rmax_(fun = 'G', i = 'M2', j = 'M1')
-}
 \keyword{internal}

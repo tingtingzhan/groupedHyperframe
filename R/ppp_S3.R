@@ -16,9 +16,6 @@
 #' @return 
 #' Function [log.ppp()] returns a \link[spatstat.geom]{ppp.object}.
 #' 
-#' @examples
-#' spatstat.data::longleaf |> plot()
-#' spatstat.data::longleaf |> log() |> plot()
 #' @keywords internal
 #' @name log_ppp
 #' @importFrom spatstat.geom markformat marks marks<-
@@ -96,17 +93,6 @@ log1p.ppp <- function(x) {
 #' tzh suppose missing `$x` and `$y` are 
 #' forbidden in \link[spatstat.geom]{ppp.object} anyway.
 #' 
-#' @examples
-#' library(spatstat.data)
-#' library(spatstat.geom)
-#' 
-#' npoints(amacrine)
-#' npoints(na.omit.ppp(amacrine)) # no missing marks to be removed
-#' 
-#' nbfires_julian = unstack.ppp(nbfires)$out.julian
-#' suppressWarnings(print.ppp(nbfires_julian))
-#' suppressWarnings(plot.ppp(nbfires_julian))
-#' na.omit.ppp(nbfires_julian)
 #' @keywords internal
 #' @name na_fail_ppp
 #' @importFrom stats na.omit

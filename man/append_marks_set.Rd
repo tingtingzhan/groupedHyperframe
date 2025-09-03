@@ -21,32 +21,4 @@ The \code{S3} method dispatch \code{\link{append_marks<-.ppp}} returns a \link[s
 \description{
 Append an additional \code{mark} to existing \link[spatstat.geom]{marks}.
 }
-\examples{
-library(spatstat.geom)
-
-# no existing marks
-data(vesicles, package = 'spatstat.data')
-vesicles
-set.seed(12); append_marks(vesicles) = rlnorm(n = npoints(vesicles))
-vesicles
-
-# existing `numeric` marks
-data(waka, package = 'spatstat.data')
-waka
-set.seed(23); append_marks(waka) = rlnorm(n = npoints(waka))
-waka
-
-# existing `multitype` marks
-data(urkiola, package = 'spatstat.data')
-urkiola
-set.seed(42); append_marks(urkiola) = rlnorm(n = npoints(urkiola))
-urkiola
-
-# existing `dataframe` marks
-data(stonetools, package = 'spatstat.data')
-stonetools
-set.seed(33); append_marks(stonetools) = rlnorm(n = npoints(stonetools))
-stonetools
-
-}
 \keyword{internal}

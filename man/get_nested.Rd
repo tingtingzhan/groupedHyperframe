@@ -17,13 +17,4 @@ get_nested_factors(group, data)
 \description{
 Get Nested Levels
 }
-\examples{
-# nested structure
-quote(a/b:c/d:e) |> get_nested()
-(~a/b:c/d:e) |> get_nested()
-
-# exceptions
-(~a) |> get_nested()
-(~b:c) |> get_nested()
-}
 \keyword{internal}

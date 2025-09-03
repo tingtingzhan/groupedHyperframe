@@ -8,7 +8,6 @@
 \alias{vtrapz.fv}
 \alias{cumtrapz.fv}
 \alias{cumvtrapz.fv}
-\alias{is.finite.fv}
 \title{Black-Solid-Curve in \link[spatstat.explore]{plot.fv}}
 \usage{
 key1.fv(x)
@@ -22,8 +21,6 @@ vtrapz.fv(x, key = key1.fv(x))
 cumtrapz.fv(x, key = key1.fv(x))
 
 cumvtrapz.fv(x, key = key1.fv(x))
-
-\method{is.finite}{fv}(x)
 }
 \arguments{
 \item{x}{an \link[spatstat.explore]{fv.object}}
@@ -39,8 +36,6 @@ Function \code{\link[=key1val.fv]{key1val.fv()}} returns a \link[base]{numeric} 
 Functions \code{\link[=trapz.fv]{trapz.fv()}} and \code{\link[=vtrapz.fv]{vtrapz.fv()}} return a \link[base]{numeric} scalar.
 
 Functions \code{\link[=cumtrapz.fv]{cumtrapz.fv()}} and \code{\link[=cumvtrapz.fv]{cumvtrapz.fv()}} return a \link[base]{numeric} \link[base]{vector}.
-
-Function \code{\link[=is.finite.fv]{is.finite.fv()}} returns a \link[base]{logical} \link[base]{vector}.
 }
 \description{
 Name and value of the \emph{black solid curve} as shown in \link[spatstat.explore]{plot.fv},
@@ -58,11 +53,6 @@ Functions \code{\link[=trapz.fv]{trapz.fv()}} and \code{\link[=cumtrapz.fv]{cumt
 obtain the (cumulative)
 \link[pracma]{trapz}oidal integration of the area under the primary outcome
 of a function value \link[spatstat.explore]{fv.object}.
-
-Function \code{\link[=is.finite.fv]{is.finite.fv()}} (dispatch of S3 generic \link[base]{is.finite})
-finds the \link[base]{finite},
-i.e., non-\code{NA}, non-\code{NaN} and non-\code{Inf},
-indices of the primary outcome of an \link[spatstat.explore]{fv.object}.
 }
 \examples{
 library(spatstat.data)

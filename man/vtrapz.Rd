@@ -20,18 +20,4 @@ cumvtrapz(x, ...)
 \note{
 This is a tentative thought: the prefix \code{v} stands for 'vertical'.
 }
-\examples{
-(x = seq.int(from = 10L, to = 20L, by = 2L))
-set.seed(12); (y = rnorm(n = length(x), mean = 1, sd = .2))
-plot(x, y, type = 'b')
-
-pracma::trapz(x, y)
-vtrapz(x, y)
-
-pracma::cumtrapz(x, y)
-cumvtrapz(x, y)
-
-visualize_vtrapz(x, y) + ggplot2::theme_minimal()
-
-}
 \keyword{internal}

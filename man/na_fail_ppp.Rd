@@ -28,16 +28,4 @@ Function \code{\link[=na.omit.ppp]{na.omit.ppp()}} omits missing \link[spatstat.
 tzh suppose missing \verb{$x} and \verb{$y} are
 forbidden in \link[spatstat.geom]{ppp.object} anyway.
 }
-\examples{
-library(spatstat.data)
-library(spatstat.geom)
-
-npoints(amacrine)
-npoints(na.omit.ppp(amacrine)) # no missing marks to be removed
-
-nbfires_julian = unstack.ppp(nbfires)$out.julian
-suppressWarnings(print.ppp(nbfires_julian))
-suppressWarnings(plot.ppp(nbfires_julian))
-na.omit.ppp(nbfires_julian)
-}
 \keyword{internal}

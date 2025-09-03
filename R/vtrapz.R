@@ -11,19 +11,6 @@
 #' @note
 #' This is a tentative thought: the prefix `v` stands for 'vertical'.
 #' 
-#' @examples
-#' (x = seq.int(from = 10L, to = 20L, by = 2L))
-#' set.seed(12); (y = rnorm(n = length(x), mean = 1, sd = .2))
-#' plot(x, y, type = 'b')
-#' 
-#' pracma::trapz(x, y)
-#' vtrapz(x, y)
-#' 
-#' pracma::cumtrapz(x, y)
-#' cumvtrapz(x, y)
-#' 
-#' visualize_vtrapz(x, y) + ggplot2::theme_minimal()
-#' 
 #' @keywords internal
 #' @name vtrapz
 #' @importFrom pracma trapz
@@ -119,15 +106,6 @@ visualize_vtrapz.numeric <- function(
 
 
 #' @rdname visualize_vtrapz
-#' @examples
-#' spatstat.data::spruces |>
-#'  spatstat.explore::Emark() |>
-#'  visualize_vtrapz(draw.v = FALSE, draw.rect = FALSE) + ggplot2::theme_minimal()
-#'
-#' spatstat.data::spruces |>
-#'  spatstat.explore::Vmark() |>
-#'  visualize_vtrapz(draw.v = FALSE, draw.rect = FALSE) + ggplot2::theme_minimal()
-#' 
 #' @importFrom ggplot2 labs
 #' @export visualize_vtrapz.fv
 #' @export 
@@ -138,11 +116,6 @@ visualize_vtrapz.fv <- function(x, ...) {
 
 
 #' @rdname visualize_vtrapz
-#' @examples
-#' rnorm(n = 1e3L) |>
-#'  density() |>
-#'  visualize_vtrapz() + ggplot2::theme_minimal()
-#' 
 #' @importFrom ggplot2 labs
 #' @export visualize_vtrapz.density
 #' @export
@@ -153,11 +126,6 @@ visualize_vtrapz.density <- function(x, ...) {
 
 
 #' @rdname visualize_vtrapz
-#' @examples
-#' rnorm(n = 1e3L) |>
-#'  ecdf() |>
-#'  visualize_vtrapz() + ggplot2::theme_minimal()
-#' 
 #' @importFrom ggplot2 labs
 #' @export visualize_vtrapz.ecdf
 #' @export

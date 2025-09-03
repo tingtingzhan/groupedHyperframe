@@ -169,25 +169,5 @@ cumvtrapz.fv <- function(x, key = key1.fv(x)) {
 
 
 
-#' @rdname key1
-#' @details
-#' Function [is.finite.fv()] (dispatch of S3 generic \link[base]{is.finite}) 
-#' finds the \link[base]{finite},
-#' i.e., non-`NA`, non-`NaN` and non-`Inf`,
-#' indices of the primary outcome of an \link[spatstat.explore]{fv.object}.
-#' 
-#' @returns 
-#' Function [is.finite.fv()] returns a \link[base]{logical} \link[base]{vector}.
-#' 
-#' @method is.finite fv
-#' @export is.finite.fv
-#' @export
-is.finite.fv <- function(x) {
-  x |> key1val.fv() |> is.finite()
-}
-
-
-
-
 
 

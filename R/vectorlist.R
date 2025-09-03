@@ -29,14 +29,6 @@
 #' The `S3` method dispatch [t.vectorlist()] returns
 #' a `'vectorlist'` of equi-\link[base]{length}.
 #' 
-#' @examples
-#' x = spatstat.data::Kovesi$values
-#' class(x) = c('vectorlist', class(x)) 
-#' z1 = x |> t.vectorlist()
-#' z2 = spatstat.data::Kovesi |> 
-#'   spatstat.geom::with.hyperframe(expr = values[1L])
-#' stopifnot(identical(z1[[1L]], z2))
-#' 
 #' @keywords internal
 #' @export t.vectorlist
 #' @export
