@@ -672,7 +672,10 @@ Package **`groupedHyperframe`** implements
 #| code-summary: 'Additional `S3` method dispatches to `ppp.object`'
 S3_ppp = methods(class = 'ppp') |> 
   attr(which = 'info', exact = TRUE) |>
-  subset(subset = from == 'groupedHyperframe') 
+  subset(subset = from == 'groupedHyperframe') |>
+  within(expr = {
+    generic = generic |> sprintf(fmt = '`%s`')
+  })
 rownames(S3_ppp) = rownames(S3_ppp) |> 
   sprintf(fmt = '`%s`')
 S3_ppp |> 
@@ -1122,7 +1125,10 @@ Package **`groupedHyperframe`** implements
 #| code-summary: 'Additional `S3` method dispatches to `fv.object`'
 S3_fv = methods(class = 'fv') |> 
   attr(which = 'info', exact = TRUE) |>
-  subset(subset = from == 'groupedHyperframe')
+  subset(subset = from == 'groupedHyperframe') |>
+  within(expr = {
+    generic = generic |> sprintf(fmt = '`%s`')
+  })
 rownames(S3_fv) = rownames(S3_fv) |> 
   sprintf(fmt = '`%s`')
 S3_fv |>
@@ -1277,14 +1283,14 @@ spatstat.data::btb.extra$full |>
   markcorr() |> 
   vapply(FUN = \(i) {
     i |> 
-      with.fv(expr = r) |> 
+      spatstat.explore::with.fv(expr = r) |> 
       max()
   }, FUN.VALUE = NA_real_)
 spatstat.data::btb.extra$standard |> 
   markcorr() |> 
   vapply(FUN = \(i) {
     i |> 
-      with.fv(expr = r) |> 
+      spatstat.explore::with.fv(expr = r) |> 
       max()
   }, FUN.VALUE = NA_real_)
 spatstat.data::btb.extra |> 
@@ -1416,7 +1422,10 @@ Package **`groupedHyperframe`** implements
 library(spatstat.geom) # must! for S3 generic function `spatstat.geom::superimpose`
 S3_hyperframe = methods(class = 'hyperframe') |> 
   attr(which = 'info', exact = TRUE) |>
-  subset(subset = from == 'groupedHyperframe') 
+  subset(subset = from == 'groupedHyperframe') |>
+  within(expr = {
+    generic = generic |> sprintf(fmt = '`%s`')
+  })
 rownames(S3_hyperframe) = rownames(S3_hyperframe) |> 
   sprintf(fmt = '`%s`')
 S3_hyperframe |>
