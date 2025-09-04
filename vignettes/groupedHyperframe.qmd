@@ -180,7 +180,7 @@ This work is supported by National Institutes of Health, U.S. Department of Heal
 
 # Grouped Hyper Data Frame {#sec-groupedHyperframe}
 
-An `S3` class `hyperframe`, for **hyper data frame**, is defined in package **`spatstat.geom`**. A `hyperframe` contains columns either as `vector`s like in a `data.frame`, or as `list`s of objects of the same class, a.k.a., the `hypercolumns`. The `hyperframe` data structure is particularly useful in spatial analysis, e.g., with medical images, where the spatial information in each image would be represented by one element in a hypercolumn. For example, example data *`demohyper`* from package **`spatstat.data`** contains a `factor` column *`Group`*, a point-pattern `ppp`-hypercolumn *`Points`*, and a pixel image `im`-hypercolumn *`Image`*. Several `S3` method dispatches to the `hyperframe` class behave *very differently* from their counterpart in vanilla R (Appendix @sec-hyperframe-appendix).
+An `S3` class `hyperframe`, for **hyper data frame**, is defined in package **`spatstat.geom`**. A `hyperframe` contains columns either as `vector`s like in a `data.frame`, or as `list`s of objects of the same class, a.k.a., the `hypercolumns`. The `hyperframe` data structure is particularly useful in spatial analysis, e.g., with medical images, where the spatial information in each image would be represented by one element in a hypercolumn. For example, example data *`demohyper`* from package **`spatstat.data`** contains a `factor` column *`Group`*, a point-pattern `ppp`-hypercolumn *`Points`*, and a pixel image `im`-hypercolumn *`Image`*. Several `S3` method dispatches to the `hyperframe` class behave *very differently* from their counterpart in vanilla R (Appendix @sec-hyperframe).
 
 ```{r}
 spatstat.data::demohyper
@@ -393,7 +393,7 @@ out |>
   aggregate_fv(by = ~ patient_id, f_aggr_ = pmean, rmax = 260)
 ```
 
-In `hyperframe` *`afv`*, each one of the numeric-hypercolumns contains tabulated values on the common grid of $r$. One "slice" of the hypercolumn *`hladr.E.cumvtrapz`* at $r=50$ may be extracted by calling the `S3` method dispatch `spatstat.geom::with.hyperframe()` (which behaves *very differently* from function `base::with.default()`, Appendix @sec-hyperframe-appendix),
+In `hyperframe` *`afv`*, each one of the numeric-hypercolumns contains tabulated values on the common grid of $r$. One "slice" of the hypercolumn *`hladr.E.cumvtrapz`* at $r=50$ may be extracted by calling the `S3` method dispatch `spatstat.geom::with.hyperframe()` (which behaves *very differently* from function `base::with.default()`, Appendix @sec-hyperframe),
 
 ```{r}
 E_r50_a = afv |>
@@ -659,7 +659,7 @@ library(patchwork)
   ggplot2::theme_minimal()
 ```
 
-## On `ppp.object`
+## On `ppp.object` {#sec-ppp}
 
 Function `spatstat.geom::ppp()` returns a `ppp.object`, i.e., an object with `S3` class `'ppp'`. In addition to
 
@@ -1137,7 +1137,7 @@ finpines_paircor |>
 
 `r '\U1f6a7'` This section is under construction.
 
-## On `fv.object`
+## On `fv.object` {#sec-fv}
 
 Many functions in package **`spatstat.explore`** call the workhorse function `spatstat.explore::fv()` and return an `fv.object`, i.e., an object with `S3` class `'fv'`. In addition to
 
@@ -1329,7 +1329,7 @@ Function `spatstat.geom::anylist()` returns an object of `S3` class `'anylist'`,
 
 We discuss some extensions of the class `'anylist'` in this section.
 
-### On `solist`
+### On `solist` {#sec-solist}
 
 Function `spatstat.geom::solist()` returns an object of `S3` class `'solist'`, which `inherits` from the class `'anylist'`.
 
@@ -1466,7 +1466,7 @@ Kovesi_values_t2 = spatstat.data::Kovesi$values |>
 stopifnot(identical(Kovesi_values_t, Kovesi_values_t2))
 ```
 
-## On `hyperframe` {#sec-hyperframe-appendix}
+## On `hyperframe` {#sec-hyperframe}
 
 Function `spatstat.geom::hyperframe()` returns a `hyperframe`, i.e., an object with `S3` class `'hyperframe'`. In addition to
 
@@ -1726,13 +1726,13 @@ The (nested) grouping structure `attr(., 'group')` of a `groupedHyperframe`
 
 Lastly, we keep note of the features that we plan **not** to support in package **`groupedHyperframe`**. Those features are technically tedious to implement, and/or have relatively easy workaround.
 
-## For `ppp.object`
+## For `ppp.object` {#sec-dont-ppp}
 
 ### Missing `marks` Handling {#sec-dont-na-ppp}
 
 Other than the `S3` method dispatches `na.omit.ppp()` and `na.exclude.ppp()` (Appendix @sec-na-omit-ppp), the authors have [**not**]{style="background-color: #FFFF00"} implemented the `S3` method dispatches `na.fail` and `na.pass` to a `ppp.object`. The authors may implement one or both of them in future.
 
-## For `'solist'`
+## For `'solist'` {#sec-dont-solist}
 
 ### `S3` method dispatch of `marks()` {#sec-dont-marks-solist}
 
@@ -1795,7 +1795,7 @@ spatstat.data::flu$pattern |>
 # result suppressed to save vignette space
 ```
 
-## For `'hyperframe'`
+## For `'hyperframe'` {#sec-dont-hyperframe}
 
 ### `S3` method dispatch of `as.environment()` {#sec-dont-asenvironment-hyperframe}
 
@@ -1838,7 +1838,7 @@ The authors suggest using the pipeline of functions `base::merge.data.frame()` a
 @tbl-mathterm presents some mathematical symbols, as well as their [LaTeX](https://www.latex-project.org) source code, used in this vignette. These symbols should be familiar to the audience with an advanced degree in mathematics.
 
 | Symbol | [LaTeX](https://www.latex-project.org) Source | Example | Translate To |
-|------------------|------------------|------------------|------------------|
+|:------------------|:------------------|:------------------|:------------------|
 | $\Delta$ | `$\Delta$` | $\Delta x_k= x_k - x_{k-1}$ | Delta-$x_k$ is defined as the difference between $x_k$ and $x_{k-1}$ |
 | $\equiv$ | `$\equiv$` | $x\equiv a$ | Variable $x$ is equivalent to constant $a$ |
 | $\forall$ | `$\forall$` | $\forall k$ | For all $k$ |
@@ -1948,14 +1948,23 @@ R terminology and nomenclature could be *drastically different* from that of mat
 
 # Index of Topics
 
+@tbl-index summarizes the topics covered in this vignette, and where to find them.
+
 | Topic | Where to Find |
-|------------------------------------|------------------------------------|
+|:------------------------------------|:------------------------------------|
+| `fv.object` | @sec-fv |
 | `groupedHyperframe` | @sec-groupedHyperframe, @sec-groupedHyperframe-appendix |
-| `hyperframe` | @sec-hyperframe-appendix, or package **`spatstat.geom`** documentation |
+| `hyperframe` | @sec-hyperframe, @sec-dont-hyperframe |
+| `ppplist` | @sec-ppplist |
+| `ppp.object` | @sec-ppp, @sec-dont-ppp |
+| `solist` | @sec-solist, @sec-dont-solist |
 | $k$-means clustering | @sec-kmeans |
-| $r_\text{max}$, default | @sec-default_rmax |
+| $r_\text{max}$, default | @sec-default_rmax, @sec-ppplist, @sec-default_rmax-hyperframe |
 | $r_\text{max}$, legal | @sec-legal_rmax |
+| split by $k$-means clustering | @sec-split_kmeans, @sec-ppplist, @sec-split_kmeans-hyperframe |
 | trapezoidal integration | @sec-trapz |
+
+: Index of Topics {#tbl-index}
 
 # References
 
