@@ -74,7 +74,7 @@ Package **`groupedHyperframe`** requires R version 4.5.0 (released 2025-04-11) o
 
 An Integrated Development Environment (IDE), e.g., [RStudio](https://posit.co/download/rstudio-desktop/) [@RStudio] or [Positron](https://positron.posit.co/download.html), is not required, but highly recommended. 
 
-This vignette is created under `r R.version$version.string` using packages **`knitr`** [@knitr, v`r packageVersion('knitr')`], **`quarto`** [@quarto, v`r packageVersion('quarto')` with [Quarto](https://quarto.org/docs/get-started/) v`r quarto::quarto_version()`] and **`rmarkdown`** [@rmarkdown, v`r packageVersion('rmarkdown')`].
+This vignette is created under `r R.version$version.string` using packages **`knitr`** [@knitr, v`r packageVersion('knitr')`], **`quarto`** [@quarto, v`r packageVersion('quarto')` with [Quarto](https://quarto.org/docs/get-started/) v`r quarto::quarto_version()`] and **`rmarkdown`** [@rmarkdown, v`r packageVersion('rmarkdown')`].  Package documentation is facilitated using package **`roxygen2`** [@roxygen2, v`r packageVersion('roxygen2')`]
 
 ```{r}
 #| code-fold: true
@@ -1919,6 +1919,7 @@ R terminology and nomenclature could be *drastically different* from that of mat
 | `ppplist` | List of [`ppp.object`](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/ppp.object.html)s, which inherits from [`solist`](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/solist.html), from package **`spatstat.geom`** |
 | [`quantile`](https://search.r-project.org/R/refmans/stats/html/quantile.html) | Quantile |
 | [`range`](https://search.r-project.org/R/refmans/base/html/range.html) | Range of values |
+| [`rnorm`](https://search.r-project.org/R/refmans/stats/html/Normal.html) | Random number generator for [normal distribution](https://en.wikipedia.org/wiki/Normal_distribution) |
 | [`rlnorm`](https://search.r-project.org/R/refmans/stats/html/Lognormal.html) | Random number generator for [log-normal distribution](https://en.wikipedia.org/wiki/Log-normal_distribution) |
 | `S3`, `generic`, [`UseMethod`](https://search.r-project.org/R/refmans/base/html/UseMethod.html), [`methods`](https://search.r-project.org/R/refmans/utils/html/methods.html), [`getS3method`](https://search.r-project.org/R/refmans/utils/html/getS3method.html) | `S3` object oriented system, <https://adv-r.hadley.nz/s3.html> |
 | `S4`, [`isS4`](https://search.r-project.org/R/refmans/base/html/isS4.html), [`setClass`](https://search.r-project.org/R/refmans/methods/html/setClass.html), [`setGeneric`](https://search.r-project.org/R/refmans/methods/html/setGeneric.html), [`setMethod`](https://search.r-project.org/R/refmans/methods/html/setMethod.html), [`getMethod`](https://search.r-project.org/R/refmans/methods/html/getMethod.html) | `S4` object oriented system, <https://adv-r.hadley.nz/s4.html>, implemented in package **`methods`** shipped with vanilla `r R.version.string` |
@@ -1926,6 +1927,7 @@ R terminology and nomenclature could be *drastically different* from that of mat
 | [`save`](https://search.r-project.org/R/refmans/base/html/save.html), [`saveRDS`](https://search.r-project.org/R/refmans/base/html/readRDS.html), `xz` | Save with [`xz`](https://en.wikipedia.org/wiki/XZ_Utils) compression |
 | [`sd`](https://search.r-project.org/R/refmans/stats/html/sd.html) | Standard deviation |
 | [`search`](https://search.r-project.org/R/refmans/base/html/search.html) | Search path |
+| [`seq`, `seq.int`](https://search.r-project.org/R/refmans/base/html/search.html) | Sequence generation |
 | [`signature`](https://search.r-project.org/R/refmans/methods/html/GenericFunctions.html) | Tools for managing `S4` generic functions |
 | [`solist`](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/solist.html) | List of two-dimensional spatial objects, from package **`spatstat.geom`** |
 | [`split`](https://search.r-project.org/R/refmans/base/html/split.html) | Divide into groups |
