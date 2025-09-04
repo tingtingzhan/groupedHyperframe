@@ -22,6 +22,7 @@
 #' 
 #' @keywords internal
 #' @importFrom spatstat.geom ppp verifyclass intersect.owin inside.owin unitname unitname<- solutionset marksubset markformat marks<- is.vanilla
+#' @export [.ppp_tzh
 #' @export
 `[.ppp_tzh` <- function (x, i, j, drop = FALSE, ..., clip = FALSE) {
   verifyclass(x, "ppp")

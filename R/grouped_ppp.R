@@ -76,8 +76,7 @@ grouped_ppp <- function(
   tmp <- ppp(x = .x, y = .y, window = window, marks = data[all.vars(formula[[2L]])], checkdup = FALSE, drop = FALSE) # `drop = FALSE` important!!!
   class(tmp) <- c('ppp_tzh', class(tmp))
   hf$ppp. <- tmp |> 
-    #split_ppp_dataframe(f = fg)
-    split.ppp(f = fg)
+    split.ppp(f = fg, drop = FALSE)
   
   # additional attributes to mimic ?nlme::groupedData
   # also see example 'groupedData's from package datasets
