@@ -64,7 +64,7 @@ Package **`groupedHyperframe`** `Suggests` packages
 
 -   **`patchwork`** [@patchwork v`r packageVersion('patchwork')`], for collage of `ggplot`s
 -   `r '\U1f5dd'` **`spatstat.data`** (dev v`r packageVersion('spatstat.data')`), key suggest, for example spatial data set
--   `r '\U1f5dd'` **`survival`** [@survival, v`r packageVersion('survival')`], key suggest, <!--for function `survival:::as.data.frame.Surv()`--> to help `hyperframe` understand `Surv` object
+-   `r '\U1f5dd'` **`survival`** [@survival, v`r packageVersion('survival')`], key suggest (@sec-start-library)
 
 ## Prerequisite
 
@@ -162,7 +162,7 @@ library(groupedHyperframe)
 library(survival)
 ```
 
-### Use of `library()`
+### Use of `library()` {#sec-start-library}
 
 In this vignette, the authors try their best to avoid using `library()`, in order to keep the user's `search` path as clean as possible.  The authors use explicitly `namespace`d function calls, e.g., `pracma::trapz()` instead of `library(pracma); trapz()`, so that the users always know from which package a function is defined.  
 
@@ -355,7 +355,7 @@ wrobel_lung0g |>
 
 {{< pagebreak >}}
 
-# Grouping `ppp`-Hypercolumn
+# Grouping `ppp`-Hypercolumn {#sec-grouped_ppp}
 
 In this section, we first introduce the creation of a `groupedHyperframe` with *one-and-only-one* point pattern (`ppp`) hypercolumn. Then, we discuss
 
@@ -907,18 +907,61 @@ stopifnot(
 #| code-summary: "**Example**: `na.omit.ppp()` and  `na.exclude.ppp()` on `'dataframe'`-`markformat`"
 nbfires. = spatstat.data::nbfires[1:100]
 nbfires. |> 
-  spatstat.geom::npoints()
+  spatstat.geom::npoints.ppp()
 nbfires_omit = nbfires. |> 
   na.omit() 
 nbfires_exclude = nbfires. |> 
   na.exclude() 
 nbfires_omit |> 
-  spatstat.geom::npoints()
+  spatstat.geom::npoints.ppp()
 nbfires_omit |> 
   attr(which = 'na.action', exact = TRUE)
 nbfires_exclude |> 
   attr(which = 'na.action', exact = TRUE)
 ```
+
+
+### Extract via `[`
+
+In an email to the authors, [Prof. Adrian Baddeley](https://en.wikipedia.org/wiki/Adrian_Baddeley) [@spatstat15; @spatstat05] has kindly explained that in the package **`spatstat.geom`**
+
+<blockquote>
+
+The design of the `'ppp'` class specifies that if the `marks` are a `data.frame` with only 1 column, then the `marks` will be converted to a `vector`.
+
+This design choice was made a long time ago, in order to avoid problems that would otherwise occur in the rest of the **`spatstat`** code.
+
+If we were to retrospectively change the specification, we would have a lot of work to do in the rest of the code, and the documentation.
+
+</blockquote>
+
+On the other hand, function `grouped_ppp()` (@sec-grouped_ppp) relies on the support of `ncol`-`1L` `'dataframe'`-`marks`.  As an *ad hoc* solution, the authors defined
+
+-   an (internal) derived class `'ppp_tzh'` (initials of T. Zhan) that `inherits` from a `ppp.object`, and 
+-   an `S3` method dispatch `` `[.ppp_tzh` `` that respects the `ncol`-`1L` `'dataframe'`-`marks`.  [The `S3` method dispatch `` `[.ppp_tzh` `` is a teeny-tiny modification of the `S3` method dispatch `` spatstat.geom::`[.ppp` ``.  Permision from Dr. Baddeley?  [GPL-2](https://cran.r-project.org/web/licenses/GPL-2)? ]{style="background-color: #FFFF00"}
+
+In the example below, the name of the mark *`hladr`* is retained, as the column name of the `ncol`-`1L` `'dataframe'`-`marks`, for downstream analysis.
+
+```{r}
+#| code-fold: true
+#| code-summary: "**Example**: `grouped_ppp()` with one `mark`"
+s_a = wrobel_lung |>
+   grouped_ppp(formula = hladr ~ OS + gender + age | patient_id/image_id)
+```
+
+```{r}
+#| code-fold: true
+#| code-summary: "**Example**: support of `ncol`-`1L` `'dataframe'`-`markformat`, name of `mark` retained"
+s_a$ppp.[[1L]] |>
+  spatstat.geom::markformat.ppp()
+s_a$ppp.[[1L]] |>
+  spatstat.geom::marks.ppp(drop = FALSE) |> 
+  head()
+```
+
+
+
+
 
 ### Append to Existing `marks`
 
@@ -932,8 +975,9 @@ The `S3` method dispatch `append_marks<-.ppp()` appends an additional mark to th
 spatstat.data::vesicles |>
   spatstat.geom::print.ppp()
 ves = spatstat.data::vesicles
-set.seed(12); append_marks(ves) = rlnorm(n = spatstat.geom::npoints(ves))
-ves |> spatstat.geom::print.ppp()
+set.seed(12); append_marks(ves) = rlnorm(n = spatstat.geom::npoints.ppp(ves))
+ves |> 
+  spatstat.geom::print.ppp()
 ```
 
 ```{r}
@@ -942,8 +986,9 @@ ves |> spatstat.geom::print.ppp()
 spatstat.data::waka |>
   spatstat.geom::print.ppp()
 wak = spatstat.data::waka
-set.seed(23); append_marks(wak) = rlnorm(n = spatstat.geom::npoints(wak))
-wak |> spatstat.geom::print.ppp()
+set.seed(23); append_marks(wak) = rlnorm(n = spatstat.geom::npoints.ppp(wak))
+wak |> 
+  spatstat.geom::print.ppp()
 ```
 
 ```{r}
@@ -952,8 +997,9 @@ wak |> spatstat.geom::print.ppp()
 spatstat.data::urkiola |>
   spatstat.geom::print.ppp()
 urki = spatstat.data::urkiola
-set.seed(42); append_marks(urki) = rlnorm(n = spatstat.geom::npoints(urki))
-urki |> spatstat.geom::print.ppp()
+set.seed(42); append_marks(urki) = rlnorm(n = spatstat.geom::npoints.ppp(urki))
+urki |> 
+  spatstat.geom::print.ppp()
 ```
 
 ```{r}
@@ -962,8 +1008,9 @@ urki |> spatstat.geom::print.ppp()
 spatstat.data::stonetools |>
   spatstat.geom::print.ppp()
 stonest = spatstat.data::stonetools
-set.seed(33); append_marks(stonest) = rlnorm(n = spatstat.geom::npoints(stonest))
-stonest |> spatstat.geom::print.ppp()
+set.seed(33); append_marks(stonest) = rlnorm(n = spatstat.geom::npoints.ppp(stonest))
+stonest |> 
+  spatstat.geom::print.ppp()
 ```
 
 ### Default $r_\text{max}$ {#sec-default_rmax}
@@ -1102,7 +1149,8 @@ Data set *`bei`* from package **`spatstat.data`** has $x$- and $y$-coordinates o
 ```{r}
 #| code-fold: true
 #| code-summary: '**Data**: *`bei`*'
-spatstat.data::bei
+spatstat.data::bei |>
+  spatstat.geom::print.ppp()
 ```
 
 ```{r}
@@ -1131,7 +1179,8 @@ Data set *`waka`* from package **`spatstat.data`** has numeric `marks` stored in
 ```{r}
 #| code-fold: true
 #| code-summary: '**Data**: *`waka`*'
-spatstat.data::waka
+spatstat.data::waka |>
+  spatstat.geom::print.ppp()
 ```
 
 ```{r}
@@ -1153,7 +1202,8 @@ Data set *`shapley`* from package **`spatstat.data`** has three (3) numeric `mar
 ```{r}
 #| code-fold: true
 #| code-summary: '**Data**: *`shapley`*'
-spatstat.data::shapley
+spatstat.data::shapley |>
+  spatstat.geom::print.ppp()
 ```
 
 ```{r}
@@ -1667,7 +1717,7 @@ The `hyperframe` *`fluM`* contains `r nrow(fluM)` subjects, each of them has a `
 #| code-fold: true
 #| code-summary: '**Review**: number of points per `ppp.object` in hypercolumn *`fluM$pattern`*'
 fluM$pattern |>
-  sapply(FUN = spatstat.geom::npoints)
+  sapply(FUN = spatstat.geom::npoints.ppp)
 ```
 
 ```{r}
@@ -1698,14 +1748,14 @@ fluM2$pattern = unclass(fluM)$hypercolumns$pattern |>
 #| code-fold: true
 #| code-summary: '**Review**: number of *`M1`* points per `ppp.object` in hypercolumn *`fluM1$pattern`*'
 fluM1$pattern |>
-  sapply(FUN = spatstat.geom::npoints)
+  sapply(FUN = spatstat.geom::npoints.ppp)
 ```
 
 ```{r}
 #| code-fold: true
 #| code-summary: '**Review**: number of *`M2`* points per `ppp.object` in hypercolumn *`fluM2$pattern`*'
 fluM2$pattern |>
-  sapply(FUN = spatstat.geom::npoints)
+  sapply(FUN = spatstat.geom::npoints.ppp)
 ```
 
 The `S3` method dispatch `superimpose.hyperframe()` recreates the `hyperframe` *`fluM`* by combining the `hyperframe`s *`fluM2`* and *`fluM1`*. Note that the order of *`fluM2`*-then-*`fluM1`* matters, because the points are arranged in *`M2`*-then-*`M1`* in the original hypercolumn *`fluM$pattern`*.

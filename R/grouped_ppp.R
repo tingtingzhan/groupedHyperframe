@@ -29,7 +29,7 @@
 #' \link[spatstat.geom]{ppp}-\link[spatstat.geom:hyperframe]{hypercolumn}.
 #' 
 #' @keywords internal
-#' @importFrom spatstat.geom owin ppp as.hyperframe.data.frame
+#' @importFrom spatstat.geom owin ppp as.hyperframe.data.frame split.ppp
 #' @importFrom stats runif
 #' @export
 grouped_ppp <- function(
@@ -74,8 +74,10 @@ grouped_ppp <- function(
   force(window)
   
   tmp <- ppp(x = .x, y = .y, window = window, marks = data[all.vars(formula[[2L]])], checkdup = FALSE, drop = FALSE) # `drop = FALSE` important!!!
+  class(tmp) <- c('ppp_tzh', class(tmp))
   hf$ppp. <- tmp |> 
-    split_ppp_dataframe(f = fg)
+    #split_ppp_dataframe(f = fg)
+    split.ppp(f = fg)
   
   # additional attributes to mimic ?nlme::groupedData
   # also see example 'groupedData's from package datasets
@@ -150,31 +152,6 @@ get_nested_factors <- \(group, data) {
 }
 
 
-
-
-
-
-# tzh is not ready to suggest changing ?spatstat.geom::split.ppp to Dr. Baddeley, yet..
-# [split_ppp_dataframe()] is a bandage-fix which respects ncol-1 dataframe
-# haha tzh now knows the real problem is ?spatstat.geom::`[.ppp`
-# and has written to Dr. Baddeley :)
-#' @importFrom spatstat.geom markformat.ppp
-split_ppp_dataframe <- function(x, f) {
-  # `f` must be 'factor'
-  mapply(FUN = \(...) {
-    ret <- list(...)
-    class(ret) <- class(x)
-    return(ret)
-  }, 
-  x = split.default(x$x, f = f),
-  y = split.default(x$y, f = f),
-  marks = split.data.frame(x$marks, f = f),
-  n = split.default(seq_along(f), f = f) |> lengths(use.names = FALSE),
-  MoreArgs = list(
-    window = x$window,
-    markformat = markformat.ppp(x)
-  ), SIMPLIFY = FALSE)
-}
 
 
 
