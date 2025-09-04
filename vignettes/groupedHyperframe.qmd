@@ -151,16 +151,109 @@ remotes::install_github('tingtingzhan/groupedHyperframe')
 utils::install.packages('groupedHyperframe') # Developers, do NOT use!!
 ```
 
-## Getting Started
+## Getting Started {#sec-start}
 
-Examples in this vignette require that the `search` path has
+Examples in the main text of this vignette, i.e., excluding those in the Appendix, require that the `search` path has
 
 ```{r}
 #| message: false
 #| label: search
 library(groupedHyperframe)
-library(survival) # to help hyperframe understand Surv object
+library(survival)
 ```
+
+### Use of `library()`
+
+In this vignette, the authors try their best to avoid using `library()`, in order to keep the user's `search` path as clean as possible.  The authors use explicitly `namespace`d function calls, e.g., `pracma::trapz()` instead of `library(pracma); trapz()`, so that the users always know from which package a function is defined.  
+
+The only places where the authors have to use `library()` are
+
+<details><summary>`library(survival)` in @sec-start</summary>
+To put the un-exported `S3` method dispatch `survival:::as.data.frame.Surv()` on the `search` path. This is necessary, so that the function `spatstat.geom::hyperframe()` could treat a `Surv` object as a column instead of a `hypercolumn`.
+</details>
+
+<details><summary>`library(patchwork)` in Appendix @sec-vtrapz</summary>
+To put the un-exported `S3` method dispatch `patchwork:::ggplot_add.ggplot()` on the `search` path.  This is necessary, so that the `S3` generic function `ggplot2::ggplot_add()` could dispatch correctly when needed.
+</details>
+
+<details><summary>`library(spatstat.geom)` in Appendix @sec-ppp and @sec-hyperframe, and `library(spatstat.explore)` in Appendix @sec-fv</summary>  
+These are necessary, so that the function `utils::methods()` could recognize `from` which package the `S3` method dispatches are defined.
+</details>
+
+
+### Use of `S3` Method Dispatch & Namespace
+
+In this vignette, for education of junior statisticians, the authors try their best to call the `S3` method dispatches
+
+<details><summary>explicitly without namespace, if they are exported from package **`base`**, **`stats`**, **`utils`**, etc.</summary>  
+
+e.g., the authors use `within.data.frame()` instead of 
+
+-   `within()` or 
+-   `base::within()` or 
+-   `base::within.data.frame()`
+
+Obviously, it is impractical to use *`` `[.data.frame`(swiss, 'Fertility') ``* instead of *`swiss[, 'Fertility']`* or *`swiss$Fertility`*.
+
+</details>
+
+<details><summary>by their generic functions without namespace, if they are un-exported from package **`base`**, **`stats`**, **`utils`**, etc.</summary>  
+
+e.g., the authors use `head()` instead of 
+
+-   `utils::head()` or 
+-   `utils:::head.default()`
+</details>
+
+
+<details><summary>explicitly with namespace, no matter they are exported or un-exported from [`contrib`uted packages](https://cran.r-project.org/web/packages)</summary>  
+
+e.g., the authors use `spatstat.geom::with.hyperframe()` instead of 
+
+-   `library(spatstat.geom); with.hyperframe()`, or 
+-   `library(spatstat.geom); with()`.
+
+e.g., the authors use `spatstat.geom::print.ppp()` instead of 
+
+-   `library(spatstat.geom); print.ppp()`, or 
+-   `library(spatstat.geom); print()`, or
+-   `library(spatstat.geom); (.)`
+
+e.g., the authors use `patchwork:::ggplot_add.ggplot()`.
+
+Obviously, it is impractical to use *`` spatstat.geom::`$.hyperframe`(flu, 'pattern') ``* instead of *`flu$pattern`*.
+
+</details>
+
+
+<details><summary>in package **`groupedHyperframe`** by their generic functions without namespace</summary>  
+
+e.g., the authors use `library(groupedHyperframe); log()` instead of 
+
+-   `library(groupedHyperframe); log.ppp()` or 
+-   `groupedHyperframe::log.ppp()`.
+
+All `S3` method dispatches in package **`groupedHyperframe`** are exported.
+</details>
+
+
+Data sets are always called with its namespace. 
+
+<details><summary>data from package **`datasets`** shipped with vanilla `r R.version.string`</summary>  
+e.g., the authors use *`datasets::penguins`* instead of 
+
+-   *`penguins`* or
+-   *`data('penguins', package = 'datasets')`*
+
+</details>
+
+<details><summary>data from [`contrib`uted packages](https://cran.r-project.org/web/packages)</summary>  
+e.g., the authors use *`spatstat.data::amacrine`* instead of 
+
+-   *`library(spatstat.data); amacrine`* or
+-   *`data('amacrine', package = 'spatstat.data')`*
+
+</details>
 
 ```{r}
 #| echo: false
@@ -397,7 +490,7 @@ In `hyperframe` *`afv`*, each one of the numeric-hypercolumns contains tabulated
 
 ```{r}
 E_r50_a = afv |>
-  with(expr = {
+  spatstat.geom::with.hyperframe(expr = {
     hladr.E.cumvtrapz['50']
   })
 E_r50_a
@@ -407,7 +500,7 @@ Alternatively, the 5th slice (which corresponds to $r=50$, as the cumulative tra
 
 ```{r}
 E_r50_b = afv |>
-  with(expr = {
+  spatstat.geom::with.hyperframe(expr = {
     hladr.E.cumvtrapz[5L]
   })
 E_r50_b
@@ -505,10 +598,12 @@ Users are encouraged to learn more about this application from package **`hyper.
 
 Technical details, as well as the minor and/or experimental features, are covered in the Appendix, in order not to interrupt the main narrative of this vignette.
 
+<!--
 The Appendix is typically organized in the way that
 
 -   the Markdown document **Header 2**, e.g. @sec-appendix `.0`, is about the object `class`;
 -   the Markdown document **Header 3**, e.g. @sec-appendix `.0.0`, is about the method dispatches.
+-->
 
 All R code-chunks are folded in the Appendix, for ease of navigation. They are categorized as
 
@@ -670,7 +765,7 @@ Function `spatstat.geom::ppp()` returns a `ppp.object`, i.e., an object with `S3
 library(spatstat.geom)
 methods(class = 'ppp') |> 
   attr(which = 'info', exact = TRUE) |>
-  subset(subset = from == 'spatstat.geom')
+  subset.data.frame(subset = from == 'spatstat.geom')
 ```
 
 Package **`groupedHyperframe`** implements the additional `S3` method dispatches in @tbl-S3_ppp,
@@ -681,8 +776,8 @@ Package **`groupedHyperframe`** implements the additional `S3` method dispatches
 #| label: tbl-S3_ppp
 S3_ppp = methods(class = 'ppp') |> 
   attr(which = 'info', exact = TRUE) |>
-  subset(subset = from == 'groupedHyperframe') |>
-  within(expr = {
+  subset.data.frame(subset = from == 'groupedHyperframe') |>
+  within.data.frame(expr = {
     generic = generic |> sprintf(fmt = '`%s`')
   })
 rownames(S3_ppp) = rownames(S3_ppp) |> 
@@ -764,12 +859,12 @@ spatstat.data::bronzefilter |>
 spatstat.data::betacells
 spatstat.data::betacells |>
   spatstat.geom::marks.ppp() |>
-  with(expr = area) |>
+  with.default(expr = area) |>
   range()
 spatstat.data::betacells |> 
   log() |>
   spatstat.geom::marks.ppp() |>
-  with(expr = area) |>
+  with.default(expr = area) |>
   range()
 ```
 
@@ -834,37 +929,41 @@ The `S3` method dispatch `append_marks<-.ppp()` appends an additional mark to th
 ```{r}
 #| code-fold: true
 #| code-summary: '**Example**: `append_marks<-.ppp()`, no existing marks'
-data(vesicles, package = 'spatstat.data')
-vesicles |> spatstat.geom::print.ppp()
-set.seed(12); append_marks(vesicles) = rlnorm(n = spatstat.geom::npoints(vesicles))
-vesicles |> spatstat.geom::print.ppp()
+spatstat.data::vesicles |>
+  spatstat.geom::print.ppp()
+ves = spatstat.data::vesicles
+set.seed(12); append_marks(ves) = rlnorm(n = spatstat.geom::npoints(ves))
+ves |> spatstat.geom::print.ppp()
 ```
 
 ```{r}
 #| code-fold: true
 #| code-summary: '**Example**: `append_marks<-.ppp()`, existing numeric marks'
-data(waka, package = 'spatstat.data')
-waka |> spatstat.geom::print.ppp()
-set.seed(23); append_marks(waka) = rlnorm(n = spatstat.geom::npoints(waka))
-waka |> spatstat.geom::print.ppp()
+spatstat.data::waka |>
+  spatstat.geom::print.ppp()
+wak = spatstat.data::waka
+set.seed(23); append_marks(wak) = rlnorm(n = spatstat.geom::npoints(wak))
+wak |> spatstat.geom::print.ppp()
 ```
 
 ```{r}
 #| code-fold: true
 #| code-summary: '**Example**: `append_marks<-.ppp()`, existing `multitype` marks'
-data(urkiola, package = 'spatstat.data')
-urkiola |> spatstat.geom::print.ppp()
-set.seed(42); append_marks(urkiola) = rlnorm(n = spatstat.geom::npoints(urkiola))
-urkiola |> spatstat.geom::print.ppp()
+spatstat.data::urkiola |>
+  spatstat.geom::print.ppp()
+urki = spatstat.data::urkiola
+set.seed(42); append_marks(urki) = rlnorm(n = spatstat.geom::npoints(urki))
+urki |> spatstat.geom::print.ppp()
 ```
 
 ```{r}
 #| code-fold: true
 #| code-summary: '**Example**: `append_marks<-.ppp()`, existing `dataframe` marks'
-data(stonetools, package = 'spatstat.data')
-stonetools |> spatstat.geom::print.ppp()
-set.seed(33); append_marks(stonetools) = rlnorm(n = spatstat.geom::npoints(stonetools))
-stonetools |> spatstat.geom::print.ppp()
+spatstat.data::stonetools |>
+  spatstat.geom::print.ppp()
+stonest = spatstat.data::stonetools
+set.seed(33); append_marks(stonest) = rlnorm(n = spatstat.geom::npoints(stonest))
+stonest |> spatstat.geom::print.ppp()
 ```
 
 ### Default $r_\text{max}$ {#sec-default_rmax}
@@ -1148,7 +1247,7 @@ Many functions in package **`spatstat.explore`** call the workhorse function `sp
 library(spatstat.explore)
 methods(class = 'fv') |> 
   attr(which = 'info', exact = TRUE) |>
-  subset(subset = from == 'spatstat.explore')
+  subset.data.frame(subset = from == 'spatstat.explore')
 ```
 
 Package **`groupedHyperframe`** implements the additional `S3` method dispatches in @tbl-S3_fv,
@@ -1159,8 +1258,8 @@ Package **`groupedHyperframe`** implements the additional `S3` method dispatches
 #| label: tbl-S3_fv
 S3_fv = methods(class = 'fv') |> 
   attr(which = 'info', exact = TRUE) |>
-  subset(subset = from == 'groupedHyperframe') |>
-  within(expr = {
+  subset.data.frame(subset = from == 'groupedHyperframe') |>
+  within.data.frame(expr = {
     generic = generic |> sprintf(fmt = '`%s`')
   })
 rownames(S3_fv) = rownames(S3_fv) |> 
@@ -1477,7 +1576,7 @@ Function `spatstat.geom::hyperframe()` returns a `hyperframe`, i.e., an object w
 library(spatstat.geom)
 methods(class = 'hyperframe') |> 
   attr(which = 'info', exact = TRUE) |>
-  subset(subset = from == 'spatstat.geom')
+  subset.data.frame(subset = from == 'spatstat.geom')
 ```
 
 Package **`groupedHyperframe`** implements the additional `S3` method dispatches in @tbl-S3_hyperframe,
@@ -1490,8 +1589,8 @@ Package **`groupedHyperframe`** implements the additional `S3` method dispatches
 library(spatstat.geom) # must! for S3 generic function `spatstat.geom::superimpose`
 S3_hyperframe = methods(class = 'hyperframe') |> 
   attr(which = 'info', exact = TRUE) |>
-  subset(subset = from == 'groupedHyperframe') |>
-  within(expr = {
+  subset.data.frame(subset = from == 'groupedHyperframe') |>
+  within.data.frame(expr = {
     generic = generic |> sprintf(fmt = '`%s`')
   })
 rownames(S3_hyperframe) = rownames(S3_hyperframe) |> 
@@ -1893,6 +1992,7 @@ R terminology and nomenclature could be *drastically different* from that of mat
 | [`language`](https://search.r-project.org/R/refmans/base/html/is.language.html) | R language object |
 | [`length`](https://search.r-project.org/R/refmans/base/html/length.html) | Length of an object |
 | [`lengths`](https://search.r-project.org/R/refmans/base/html/lengths.html) | Lengths of `list` or `vector` elements |
+| [`library`](https://search.r-project.org/R/refmans/base/html/library.html) | Loading/attaching packages |
 | [`list`](https://search.r-project.org/R/refmans/base/html/list.html), [`listof`](https://search.r-project.org/R/refmans/stats/html/listof.html) | Lists of objects |
 | [`list2env`](https://search.r-project.org/R/refmans/stats/html/list2env.html) | Create an `environment` containing all `list` components as objects |
 | [`log`, `log1p`, `log2`, `log10`](https://search.r-project.org/R/refmans/base/html/Log.html) | $\log(x)$ and $\log(x+1)$ transformations |
