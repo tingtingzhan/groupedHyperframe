@@ -63,7 +63,7 @@ Package **`groupedHyperframe`** `Imports` packages
 Package **`groupedHyperframe`** `Suggests` packages
 
 -   **`patchwork`** [@patchwork v`r packageVersion('patchwork')`], for collage of `ggplot`s
--   **`rpart``** [@rpart v`r packageVersion('rpart')`], required by function `spatstat.explore::rocEngine()` as of package **`spatstat.explore`** dev v`r packageVersion('spatstat.explore')`.
+-   **`rpart`** [@rpart v`r packageVersion('rpart')`], required by function `spatstat.explore::rocEngine()` as of package **`spatstat.explore`** dev v`r packageVersion('spatstat.explore')`.
 -   `r '\U1f5dd'` **`spatstat.data`** (dev v`r packageVersion('spatstat.data')`), key suggest, for example spatial data set
 -   `r '\U1f5dd'` **`survival`** [@survival, v`r packageVersion('survival')`], key suggest (@sec-start-library)
 
@@ -794,8 +794,7 @@ fig_vtrapz_6 = swedishpines_roc |>
 #| fig-align: left
 #| fig-cap: "(Cumulative) average vertical height of trapezoidal integration"
 library(patchwork)
-(fig_vtrapz_1 + fig_vtrapz_2 + fig_vtrapz_3 + fig_vtrapz_4 + fig_vtrapz_5 + 
-    # fig_vtrapz_6 +
+(fig_vtrapz_1 + fig_vtrapz_2 + fig_vtrapz_3 + fig_vtrapz_4 + fig_vtrapz_5 + fig_vtrapz_6 +
   plot_layout(ncol = 2L)) & 
   ggplot2::theme_minimal()
 ```
