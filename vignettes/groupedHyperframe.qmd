@@ -40,6 +40,26 @@ This vignette of R package **`groupedHyperframe`** ([CRAN](https://cran.r-projec
 
 R terminology might be different from that of mathematics and statistics. Please refer to @sec-Rterms for explanation and reference of the terms and abbreviations used in this vignette.
 
+## Prerequisite
+
+### Environment
+
+Package **`groupedHyperframe`** requires R version 4.5.0 (released 2025-04-11) or higher ([macOS](https://cran.r-project.org/bin/macosx/), [Windows](https://cran.r-project.org/bin/windows/base/), [Linux](https://cran.r-project.org/bin/linux/)).
+
+An Integrated Development Environment (IDE), e.g., [RStudio](https://posit.co/download/rstudio-desktop/) [@RStudio] or [Positron](https://positron.posit.co/download.html), is not required, but highly recommended.
+
+This vignette is created under `r R.version$version.string` using packages **`knitr`** [@knitr, v`r packageVersion('knitr')`], **`quarto`** [@quarto, v`r packageVersion('quarto')` with [Quarto](https://quarto.org/docs/get-started/) v`r quarto::quarto_version()`] and **`rmarkdown`** [@rmarkdown, v`r packageVersion('rmarkdown')`]. Package documentation is facilitated using package **`roxygen2`** [@roxygen2, v`r packageVersion('roxygen2')`]
+
+```{r}
+#| code-fold: true
+#| code-summary: "Environment on author's computer"
+#| label: author-env
+Sys.info()[c('sysname', 'release', 'machine')]
+R.version
+```
+
+### Dependency
+
 Package **`groupedHyperframe`** `Enhances` the **`spatstat.*`** family of packages [@spatstat15; @spatstat05], specifically
 
 -   **`spatstat.explore`** (dev v`r packageVersion('spatstat.explore')`), with
@@ -65,25 +85,8 @@ Package **`groupedHyperframe`** `Suggests` packages
 -   **`patchwork`** [@patchwork v`r packageVersion('patchwork')`], for collage of `ggplot`s
 -   **`rpart`** [@rpart v`r packageVersion('rpart')`], required by function `spatstat.explore::rocEngine()` as of package **`spatstat.explore`** dev v`r packageVersion('spatstat.explore')`.
 -   `r '\U1f5dd'` **`spatstat.data`** (dev v`r packageVersion('spatstat.data')`), key suggest, for example spatial data set
--   `r '\U1f5dd'` **`survival`** [@survival, v`r packageVersion('survival')`], key suggest (@sec-start-library)
+-   `r '\U1f5dd'` **`survival`** [@survival, v`r packageVersion('survival')`], key suggest (@sec-start-library).
 
-## Prerequisite
-
-### Environment
-
-Package **`groupedHyperframe`** requires R version 4.5.0 (released 2025-04-11) or higher ([macOS](https://cran.r-project.org/bin/macosx/), [Windows](https://cran.r-project.org/bin/windows/base/), [Linux](https://cran.r-project.org/bin/linux/)).
-
-An Integrated Development Environment (IDE), e.g., [RStudio](https://posit.co/download/rstudio-desktop/) [@RStudio] or [Positron](https://positron.posit.co/download.html), is not required, but highly recommended.
-
-This vignette is created under `r R.version$version.string` using packages **`knitr`** [@knitr, v`r packageVersion('knitr')`], **`quarto`** [@quarto, v`r packageVersion('quarto')` with [Quarto](https://quarto.org/docs/get-started/) v`r quarto::quarto_version()`] and **`rmarkdown`** [@rmarkdown, v`r packageVersion('rmarkdown')`]. Package documentation is facilitated using package **`roxygen2`** [@roxygen2, v`r packageVersion('roxygen2')`]
-
-```{r}
-#| code-fold: true
-#| code-summary: "Environment on author's computer"
-#| label: author-env
-Sys.info()[c('sysname', 'release', 'machine')]
-R.version
-```
 
 ### **`spatstat.*`** Family
 
@@ -188,7 +191,7 @@ To put the un-exported `S3` method dispatch `patchwork:::ggplot_add.ggplot()` on
 
 <details>
 
-<summary>`library(spatstat.geom)` and `library(spatstat.explore)` in Appendix @sec-ppp, @sec-hyperframe and @sec-fv</summary>
+<summary>`library(spatstat.geom)` and `library(spatstat.explore)` in Appendix @sec-ppp, @sec-fv and @sec-hyperframe. </summary>
 
 These are necessary, so that the function `utils::methods()` could recognize `from` which package the `S3` method dispatches are defined.
 
