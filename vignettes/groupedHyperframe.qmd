@@ -188,7 +188,7 @@ To put the un-exported `S3` method dispatch `patchwork:::ggplot_add.ggplot()` on
 
 <details>
 
-<summary>`library(spatstat.geom)` in Appendix @sec-ppp and @sec-hyperframe, and `library(spatstat.explore)` in Appendix @sec-fv</summary>
+<summary>`library(spatstat.geom)` and `library(spatstat.explore)` in Appendix @sec-ppp, @sec-hyperframe and @sec-fv</summary>
 
 These are necessary, so that the function `utils::methods()` could recognize `from` which package the `S3` method dispatches are defined.
 
@@ -623,7 +623,12 @@ Users are encouraged to learn more about this application from package **`hyper.
 
 # Appendix {#sec-appendix}
 
-Technical details, as well as the minor and/or experimental features, are covered in the Appendix, in order not to interrupt the main narrative of this vignette.
+The Appendix presents technical details intended for readers with advanced expertise in the R programming language, including minor and/or experimental features, to avoid disrupting the focus and flow of the main narrative in this vignette.  The audience is expected to 
+
+-   have a reasonably good understanding of the [`S3` object-oriented programming system of R](https://adv-r.hadley.nz/s3.html).
+-   be familiar with the `S3` generic functions in vanilla `r R.version.string` packages **`base`**, **`stats`**, **`utils`**, etc.
+-   be familiar with the `S3` generic functions in packages **`spatstat.geom`**, **`spatstat.explore`**, etc.
+
 
 ```{=html}
 <!--
@@ -634,14 +639,18 @@ The Appendix is typically organized in the way that
 -->
 ```
 
-All R code-chunks are folded in the Appendix, for ease of navigation. They are categorized as
+For ease of navigation, all R code-chunks in the Appendix are folded. The R code-chunks are categorized by their purpose, e.g.,
 
 -   **Data**, to create an R object for further operations.
--   **Review**, to demonstrate functions shipped with vanilla `r R.version.string`, or from [`contrib`uted packages](https://cran.r-project.org/web/packages).
--   **Example**, to demonstrate functions from package **`groupedHyperframe`**.
+-   **Review**, to demonstrate the use of functions shipped with vanilla `r R.version.string`, or from [`contrib`uted packages](https://cran.r-project.org/web/packages).
+-   **Example**, to demonstrate the use of functions from package **`groupedHyperframe`**.
 -   **Advanced**, discussions for R experts.
 -   **Figure**, to create a `ggplot`.
 -   **Workaround**, to provide alternative solutions to a problem.
+
+
+Readers who wish to extend the package **`groupedHypeframe`** or incorporate it into their own methodology are strongly encouraged to study the Appendix thoroughly.
+
 
 ## On Trapezoidal Integration {#sec-trapz}
 
@@ -723,12 +732,13 @@ cumvtrapz(x, y)
 
 @fig-vtrapz visualizes the concept of (cumulative) average vertical height of a trapezoidal integration with
 
-(A) the toy example $(x_0,x_1,\cdots,x_5)^t$ and $(y_0,y_1,\cdots,y_5)^t$;
+(A) the toy example of non-equidistant $(x_0,x_1,\cdots,x_5)^t$ and $(y_0,y_1,\cdots,y_5)^t$;
 (B) the kernel `stats::density()`, using the elements `$x` and `$y`. Obviously, this practice is meaningless mathematically, as a density function has $x$-domain of $(-\infty, \infty)$, thus the average vertical height of the trapzoidal integration under a density curve should be zero. This practice is meaningful to an *empirical* density though, if we use the `range` of the actual observations as the $x$-domain.
 (C) the empirical cumulative distribution function `stats::ecdf()`, using the objects `x` and `y` in the enclosing `environment`. Obviously, this practice is meaningless mathematically, as a distribution function has $x$-domain of $(-\infty, \infty)$, thus the average vertical height of the trapzoidal integration under a distribution curve should be zero. This practice is meaningful to an *empirical* distribution though, if we use the `range` of the actual observations as the $x$-domain.
 (D) the conditional mean $E(r)$ between the points and the marks, from function `spatstat.explore::Emark()`, using the element `$r` and the `keyval` (Appendix @sec-blackSolidCurve). [Say some English]{style="background-color: #FFFF00"}
 (E) the conditional variance $V(r)$ between the points and the marks, from function `spatstat.explore::Vmark()`, using the element `$r` and the `keyval` (Appendix @sec-blackSolidCurve). [Say some English]{style="background-color: #FFFF00"}
-(F) the [receiver operating characteristic (ROC) curve](https://en.wikipedia.org/wiki/Receiver_operating_characteristic) of a `ppp.object`, from function `spatstat.explore::roc.ppp()`, using the element `$p` and the `keyval` (Appendix @sec-blackSolidCurve). In this example, obviously, the average vertical height `vtrapz` is the area-under-ROC-curve `spatstat.explore:::auc.ppp()`.
+(F) the [receiver operating characteristic (ROC) curve](https://en.wikipedia.org/wiki/Receiver_operating_characteristic) of a `ppp.object`, from function `spatstat.explore::roc.ppp()`, using the element `$p` and the `keyval` (Appendix @sec-blackSolidCurve). The average vertical height of the trapezoidal integration `vtrapz` under the ROC-curve, is *not* numerically `identical` to the area-under-ROC-curve (AU-ROC) via `spatstat.explore:::auc.ppp()`. This is due to the fact that the workhorse function `spatstat.explore::spatialCDFframe()` of AU-ROC uses the interpolation via `stats::approxfun()` instead of the trapezoidal integration via `pracma::trapz()`, as of package **`spatstat.explore`** v`r packageVersion('spatstat.explore')`.
+
 
 ```{r}
 #| code-fold: true
@@ -810,8 +820,25 @@ Function `spatstat.geom::ppp()` returns a `ppp.object`, i.e., an object with `S3
 library(spatstat.geom)
 methods(class = 'ppp') |> 
   attr(which = 'info', exact = TRUE) |>
-  subset.data.frame(subset = from == 'spatstat.geom')
+  subset.data.frame(subset = from == 'spatstat.geom') |>
+  within.data.frame(expr = {
+    visible = NULL
+  })
 ```
+
+```{r}
+#| message: false
+#| code-fold: true
+#| code-summary: 'The `S3` method dispatches to `ppp.object` defined in package **`spatstat.explore`**'
+library(spatstat.explore)
+methods(class = 'ppp') |> 
+  attr(which = 'info', exact = TRUE) |>
+  subset.data.frame(subset = from == 'spatstat.explore') |>
+  within.data.frame(expr = {
+    visible = NULL
+  })
+```
+
 
 Package **`groupedHyperframe`** implements the additional `S3` method dispatches in @tbl-S3_ppp,
 
