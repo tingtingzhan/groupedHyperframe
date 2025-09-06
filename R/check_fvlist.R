@@ -24,7 +24,7 @@
 #' Function [check_fvlist()] returns an \link[base]{invisible} \link[base]{list} with elements
 #' \describe{
 #' \item{`$r`}{\link[base]{numeric} \link[base]{vector}, the \eqn{r}-values}
-#' \item{`$key1`}{\link[base]{character} scalar, the return of `spatstat.explore::fvnames(x, a = '.y')`}
+#' \item{`$.y`}{\link[base]{character} scalar, the return of `spatstat.explore::fvnames(x, a = '.y')`}
 #' \item{`$rmax`}{\link[base]{numeric} scalar or \link[base]{vector}, the \link[base]{unique} values of the legal \eqn{r_\text{max}} of each \link[spatstat.explore]{fv.object}, if any one of them is less than the user-specified \eqn{r_\text{max}}}
 #' }
 #' 
@@ -44,31 +44,31 @@ check_fvlist <- function(X, data.name = deparse1(substitute(X))) {
   if (!any(is.fv)) return(invisible())
   if (!all(is.fv)) stop('error!')
   
-  r. <- X |>
-    lapply(FUN = `[[`, 1L)
-    
-  if (!all(duplicated.default(r.)[-1L])) stop('x-axis of all fv.objects are not the same')
-  
-  fname. <- X |>
-    lapply(FUN = attr, which = 'fname', exact = TRUE) |>
-    duplicated.default()
-  if (!all(fname.[-1L])) stop('fname of all fv.objects are not the same')
-  
-  key1. <- X |> 
+  .x <- X |>
+    vapply(FUN = fvnames, a = '.x', FUN.VALUE = '')
+  if (!all(duplicated.default(.x)[-1L])) stop('`.x` of all fv.objects are not the same')
+  .y <- X |> 
     vapply(FUN = fvnames, a = '.y', FUN.VALUE = '')
-  if (!all(duplicated.default(key1.)[-1L])) stop('all fv-object must have same key1')
+  if (!all(duplicated.default(.y)[-1L])) stop('`.y` of all fv.objects are not the same')
+  fname. <- X |>
+    lapply(FUN = attr, which = 'fname', exact = TRUE)
+  if (!all(duplicated.default(fname.)[-1L])) stop('fname of all fv.objects are not the same')
   
+  r. <- X |>
+    lapply(FUN = `[[`, .x[1L])
+  if (!all(duplicated.default(r.)[-1L])) stop('x-axis of all fv.objects are not the same')
+
   r <- r.[[1L]]
   nr <- length(r)
   
   ret <- list(
     r = r,
-    key1 = key1.[[1L]]
+    .y = .y[[1L]]
   )
   
   id <- X |> 
     vapply(FUN = \(x) {
-      x[[key1.[1L]]] |> # do NOT use [keyval.fv()] here, slow!
+      x[[.y[1L]]] |>
         lastLegal()
     }, FUN.VALUE = NA_integer_)
   

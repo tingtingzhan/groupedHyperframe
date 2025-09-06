@@ -25,10 +25,10 @@ NULL
 #' @importFrom spatstat.explore fvnames
 #' @export
 keyval.fv <- function(x, key = fvnames(x, a = '.y')) {
-  # ?spatstat.explore::roc.ppp returns an `'roc'` object, inherits from `'fv'`, first argument being `p` instead of `r`!!!
-  if (key == fvnames(x, a = '.x')) stop('first column of `x` is not the output of `fv.object`')
+  .x <- fvnames(x, a = '.x')
+  if (key == .x) stop('first column of `x` is not the output of `fv.object`')
   ret <- x[[key]]
-  names(ret) <- x[[1L]]
+  names(ret) <- x[[.x]]
   return(ret)
 }
 
