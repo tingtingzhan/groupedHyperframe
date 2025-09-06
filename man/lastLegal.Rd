@@ -7,7 +7,7 @@
 lastLegal(v)
 }
 \arguments{
-\item{v}{\link[base]{double} \link[base]{vector}, return of function \code{\link[=key1val.fv]{key1val.fv()}}}
+\item{v}{\link[base]{double} \link[base]{vector}, return of function \code{\link[=keyval.fv]{keyval.fv()}}}
 }
 \description{
 Last Legal Index

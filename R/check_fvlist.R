@@ -32,6 +32,11 @@
 #' @export
 check_fvlist <- function(X, data.name = deparse1(substitute(X))) {
   
+  # tzh is aware that
+  # ?spatstat.explore::roc.ppp returns an `'roc'` object, inherits from `'fv'`, first argument being `p` instead of `r`!!!
+  # in [check_fvlist()] tzh still uses `r`
+  # because we have function [rmax_()] ...
+  
   is.fv <- X |>
     vapply(FUN = inherits, what = 'fv', FUN.VALUE = NA)
   
@@ -62,7 +67,7 @@ check_fvlist <- function(X, data.name = deparse1(substitute(X))) {
   
   id <- X |> 
     vapply(FUN = \(x) {
-      x[[key1.[1L]]] |> # do NOT use [key1val.fv()] here, slow!
+      x[[key1.[1L]]] |> # do NOT use [keyval.fv()] here, slow!
         lastLegal()
     }, FUN.VALUE = NA_integer_)
   
@@ -98,7 +103,7 @@ check_fvlist <- function(X, data.name = deparse1(substitute(X))) {
 
 #' @title Last Legal Index
 #' 
-#' @param v \link[base]{double} \link[base]{vector}, return of function [key1val.fv()] 
+#' @param v \link[base]{double} \link[base]{vector}, return of function [keyval.fv()] 
 #' 
 #' @details
 #' Legal, meaning not `0`, not `NaN` and not `Inf`.

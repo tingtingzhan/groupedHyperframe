@@ -3,7 +3,7 @@
 \name{key1}
 \alias{key1}
 \alias{key1.fv}
-\alias{key1val.fv}
+\alias{keyval.fv}
 \alias{trapz.fv}
 \alias{vtrapz.fv}
 \alias{cumtrapz.fv}
@@ -12,7 +12,7 @@
 \usage{
 key1.fv(x)
 
-key1val.fv(x, key = key1.fv(x))
+keyval.fv(x, key = key1.fv(x))
 
 trapz.fv(x, key = key1.fv(x))
 
@@ -31,7 +31,7 @@ to speed up batch processes.}
 \value{
 Function \code{\link[=key1.fv]{key1.fv()}} returns a \link[base]{character} scalar.
 
-Function \code{\link[=key1val.fv]{key1val.fv()}} returns a \link[base]{numeric} \link[base]{vector}.
+Function \code{\link[=keyval.fv]{keyval.fv()}} returns a \link[base]{numeric} \link[base]{vector}.
 
 Functions \code{\link[=trapz.fv]{trapz.fv()}} and \code{\link[=vtrapz.fv]{vtrapz.fv()}} return a \link[base]{numeric} scalar.
 
@@ -46,42 +46,12 @@ Function \code{\link[=key1.fv]{key1.fv()}} finds the name of the primary outcome
 of an \link[spatstat.explore]{fv.object}.
 Note that function \code{\link[=key1.fv]{key1.fv()}} is very slow, so avoid it as much as possible in batch processes!
 
-Function \code{\link[=key1val.fv]{key1val.fv()}} finds the value of the primary outcome
+Function \code{\link[=keyval.fv]{keyval.fv()}} finds the value of the (primary) outcome
 of an \link[spatstat.explore]{fv.object}.
 
 Functions \code{\link[=trapz.fv]{trapz.fv()}} and \code{\link[=cumtrapz.fv]{cumtrapz.fv()}}
 obtain the (cumulative)
 \link[pracma]{trapz}oidal integration of the area under the primary outcome
 of a function value \link[spatstat.explore]{fv.object}.
-}
-\examples{
-library(spatstat.data)
-library(spatstat.geom) # ?spatstat.geom::subset.ppp
-library(spatstat.explore)
-
-foo = function(x) {
- x |> plot()
- 'Trapzoid\n' |> cat()
- x |> trapz.fv() |> print()
- '\nCumulative Trapzoid\n' |> cat()
- x |> cumtrapz.fv() |> tail() |> print()
-}
-
-# numeric mark
-spruces |> Emark() |> foo()
-spruces |> Vmark() |> foo()
-spruces |> markcorr() |> foo()
-spruces |> markvario() |> foo()
-
-# multitype mark
-(btc = subset.ppp(betacells, select = 'type'))
-btc |> Gcross(i = 'off', j = 'on') |> foo()
-btc |> Kcross(i = 'off', j = 'on') |> foo()
-btc |> Lcross(i = 'off', j = 'on') |> foo()
-btc |> Jcross(i = 'off', j = 'on') |> foo()
-btc |> markconnect(i = 'off', j = 'on') |> foo()
-
-# swedishpines |> roc.ppp(covariate = 'x') |> foo() 
-# bug in devtools::check()
 }
 \keyword{internal}

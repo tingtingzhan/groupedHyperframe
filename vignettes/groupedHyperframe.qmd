@@ -55,7 +55,7 @@ Package **`groupedHyperframe`** `Imports` packages
 -   `r '\U1f5dd'` **`GET`** [@GET, v`r packageVersion('GET')`], key dependency, for global envelope test
 -   **`ggplot2`** [@ggplot2, v`r packageVersion('ggplot2')`], **`geomtextpath`** [@geomtextpath, v`r packageVersion('geomtextpath')`], **`scales`** [@scales, v`r packageVersion('scales')`] for educational visualization
 -   `r '\U1f5dd'` **`matrixStats`** [@matrixStats, v`r packageVersion('matrixStats')`], key dependency, for matrix arithmetic
--   **`parallel`** shipped with `r R.version$version.string`, for parallel computing
+-   **`parallel`** shipped with vanilla `r R.version$version.string`, for parallel computing
 -   `r '\U1f5dd'` **`pracma`** [@pracma, v`r packageVersion('pracma')`], key dependency, for (cumulative) trapezoidal integration
 -   `r '\U1f5dd'` **`SpatialPack`** [@SpatialPack, v`r packageVersion('SpatialPack')`], key dependency, for Tjøstheim's coefficient of spatial association
 -   `r '\U1f5dd'` **`spatstat.explore`** (dev v`r packageVersion('spatstat.explore')`), **`spatstat.geom`** (dev v`r packageVersion('spatstat.geom')`), **`spatstat.random`** (dev v`r packageVersion('spatstat.random')`), key dependency, for spatial statistics
@@ -63,6 +63,7 @@ Package **`groupedHyperframe`** `Imports` packages
 Package **`groupedHyperframe`** `Suggests` packages
 
 -   **`patchwork`** [@patchwork v`r packageVersion('patchwork')`], for collage of `ggplot`s
+-   **`rpart``** [@rpart v`r packageVersion('rpart')`], required by function `spatstat.explore::rocEngine()` as of package **`spatstat.explore`** dev v`r packageVersion('spatstat.explore')`.
 -   `r '\U1f5dd'` **`spatstat.data`** (dev v`r packageVersion('spatstat.data')`), key suggest, for example spatial data set
 -   `r '\U1f5dd'` **`survival`** [@survival, v`r packageVersion('survival')`], key suggest (@sec-start-library)
 
@@ -70,11 +71,11 @@ Package **`groupedHyperframe`** `Suggests` packages
 
 ### Environment
 
-Package **`groupedHyperframe`** requires R version 4.5.0 (released 2025-04-11) or higher ([macOS](https://cran.r-project.org/bin/macosx/), [Windows](https://cran.r-project.org/bin/windows/base/), [Linux](https://cran.r-project.org/bin/linux/)). 
+Package **`groupedHyperframe`** requires R version 4.5.0 (released 2025-04-11) or higher ([macOS](https://cran.r-project.org/bin/macosx/), [Windows](https://cran.r-project.org/bin/windows/base/), [Linux](https://cran.r-project.org/bin/linux/)).
 
-An Integrated Development Environment (IDE), e.g., [RStudio](https://posit.co/download/rstudio-desktop/) [@RStudio] or [Positron](https://positron.posit.co/download.html), is not required, but highly recommended. 
+An Integrated Development Environment (IDE), e.g., [RStudio](https://posit.co/download/rstudio-desktop/) [@RStudio] or [Positron](https://positron.posit.co/download.html), is not required, but highly recommended.
 
-This vignette is created under `r R.version$version.string` using packages **`knitr`** [@knitr, v`r packageVersion('knitr')`], **`quarto`** [@quarto, v`r packageVersion('quarto')` with [Quarto](https://quarto.org/docs/get-started/) v`r quarto::quarto_version()`] and **`rmarkdown`** [@rmarkdown, v`r packageVersion('rmarkdown')`].  Package documentation is facilitated using package **`roxygen2`** [@roxygen2, v`r packageVersion('roxygen2')`]
+This vignette is created under `r R.version$version.string` using packages **`knitr`** [@knitr, v`r packageVersion('knitr')`], **`quarto`** [@quarto, v`r packageVersion('quarto')` with [Quarto](https://quarto.org/docs/get-started/) v`r quarto::quarto_version()`] and **`rmarkdown`** [@rmarkdown, v`r packageVersion('rmarkdown')`]. Package documentation is facilitated using package **`roxygen2`** [@roxygen2, v`r packageVersion('roxygen2')`]
 
 ```{r}
 #| code-fold: true
@@ -104,6 +105,7 @@ remotes::install_github('spatstat/spatstat.utils', upgrade = 'always')
 
 ```{r}
 #| label: dev_spatstat
+#| eval: true
 #| code-fold: true
 #| code-summary: 'Developer version of **`spatstat.*`** family ahead of CRAN'
 spatstat = c(
@@ -164,58 +166,75 @@ library(survival)
 
 ### Use of `library()` {#sec-start-library}
 
-In this vignette, the authors try their best to avoid using `library()`, in order to keep the user's `search` path as clean as possible.  The authors use explicitly `namespace`d function calls, e.g., `pracma::trapz()` instead of `library(pracma); trapz()`, so that the users always know from which package a function is defined.  
+In this vignette, the authors try their best to avoid using `library()`, in order to keep the user's `search` path as clean as possible. The authors use explicitly `namespace`d function calls, e.g., `pracma::trapz()` instead of `library(pracma); trapz()`, so that the users always know from which package a function is defined.
 
 The only places where the authors have to use `library()` are
 
-<details><summary>`library(survival)` in @sec-start</summary>
-To put the un-exported `S3` method dispatch `survival:::as.data.frame.Surv()` on the `search` path. This is necessary, so that the function `spatstat.geom::hyperframe()` could treat a `Surv` object as a column instead of a `hypercolumn`.
+<details>
+
+<summary>`library(survival)` in @sec-start</summary>
+
+To put the un-exported `S3` method dispatch `survival:::as.data.frame.Surv()` on the `search` path. This is necessary, so that the function `spatstat.geom::hyperframe()` could recognize a `Surv`-column instead of treating it as a `matrix`-`hypercolumn`.
+
 </details>
 
-<details><summary>`library(patchwork)` in Appendix @sec-vtrapz</summary>
-To put the un-exported `S3` method dispatch `patchwork:::ggplot_add.ggplot()` on the `search` path.  This is necessary, so that the `S3` generic function `ggplot2::ggplot_add()` could dispatch correctly when needed.
+<details>
+
+<summary>`library(patchwork)` in Appendix @sec-vtrapz</summary>
+
+To put the un-exported `S3` method dispatch `patchwork:::ggplot_add.ggplot()` on the `search` path. This is necessary, so that the `S3` generic function `ggplot2::ggplot_add()` could dispatch correctly when needed.
+
 </details>
 
-<details><summary>`library(spatstat.geom)` in Appendix @sec-ppp and @sec-hyperframe, and `library(spatstat.explore)` in Appendix @sec-fv</summary>  
+<details>
+
+<summary>`library(spatstat.geom)` in Appendix @sec-ppp and @sec-hyperframe, and `library(spatstat.explore)` in Appendix @sec-fv</summary>
+
 These are necessary, so that the function `utils::methods()` could recognize `from` which package the `S3` method dispatches are defined.
-</details>
 
+</details>
 
 ### Use of `S3` Method Dispatch & Namespace
 
 In this vignette, for education of junior statisticians, the authors try their best to call the `S3` method dispatches
 
-<details><summary>explicitly without namespace, if they are exported from package **`base`**, **`stats`**, **`utils`**, etc.</summary>  
+<details>
 
-e.g., the authors use `within.data.frame()` instead of 
+<summary>explicitly without namespace, if they are exported from package **`base`**, **`stats`**, **`utils`**, etc.</summary>
 
--   `within()` or 
--   `base::within()` or 
+e.g., the authors use `within.data.frame()` instead of
+
+-   `within()` or
+-   `base::within()` or
 -   `base::within.data.frame()`
 
 Obviously, it is impractical to use *`` `[.data.frame`(swiss, 'Fertility') ``* instead of *`swiss[, 'Fertility']`* or *`swiss$Fertility`*.
 
 </details>
 
-<details><summary>by their generic functions without namespace, if they are un-exported from package **`base`**, **`stats`**, **`utils`**, etc.</summary>  
+<details>
 
-e.g., the authors use `head()` instead of 
+<summary>by their generic functions without namespace, if they are un-exported from package **`base`**, **`stats`**, **`utils`**, etc.</summary>
 
--   `utils::head()` or 
+e.g., the authors use `head()` instead of
+
+-   `utils::head()` or
 -   `utils:::head.default()`
+
 </details>
 
+<details>
 
-<details><summary>explicitly with namespace, no matter they are exported or un-exported from [`contrib`uted packages](https://cran.r-project.org/web/packages)</summary>  
+<summary>explicitly with namespace, no matter they are exported or un-exported from [`contrib`uted packages](https://cran.r-project.org/web/packages)</summary>
 
-e.g., the authors use `spatstat.geom::with.hyperframe()` instead of 
+e.g., the authors use `spatstat.geom::with.hyperframe()` instead of
 
--   `library(spatstat.geom); with.hyperframe()`, or 
+-   `library(spatstat.geom); with.hyperframe()`, or
 -   `library(spatstat.geom); with()`.
 
-e.g., the authors use `spatstat.geom::print.ppp()` instead of 
+e.g., the authors use `spatstat.geom::print.ppp()` instead of
 
--   `library(spatstat.geom); print.ppp()`, or 
+-   `library(spatstat.geom); print.ppp()`, or
 -   `library(spatstat.geom); print()`, or
 -   `library(spatstat.geom); (.)`
 
@@ -225,30 +244,37 @@ Obviously, it is impractical to use *`` spatstat.geom::`$.hyperframe`(flu, 'patt
 
 </details>
 
+<details>
 
-<details><summary>in package **`groupedHyperframe`** by their generic functions without namespace</summary>  
+<summary>in package **`groupedHyperframe`** by their generic functions without namespace</summary>
 
-e.g., the authors use `library(groupedHyperframe); log()` instead of 
+e.g., the authors use `library(groupedHyperframe)` in @sec-start and `log()` in the body of the vignette, instead of
 
--   `library(groupedHyperframe); log.ppp()` or 
+-   `library(groupedHyperframe); log.ppp()` or
 -   `groupedHyperframe::log.ppp()`.
 
-All `S3` method dispatches in package **`groupedHyperframe`** are exported.
+All `S3` method dispatches defined in package **`groupedHyperframe`** are exported.
+
 </details>
 
+Data sets are always called with its namespace.
 
-Data sets are always called with its namespace. 
+<details>
 
-<details><summary>data from package **`datasets`** shipped with vanilla `r R.version.string`</summary>  
-e.g., the authors use *`datasets::penguins`* instead of 
+<summary>data from package **`datasets`** shipped with vanilla `r R.version.string`</summary>
+
+e.g., the authors use *`datasets::penguins`* instead of
 
 -   *`penguins`* or
 -   *`data('penguins', package = 'datasets')`*
 
 </details>
 
-<details><summary>data from [`contrib`uted packages](https://cran.r-project.org/web/packages)</summary>  
-e.g., the authors use *`spatstat.data::amacrine`* instead of 
+<details>
+
+<summary>data from [`contrib`uted packages](https://cran.r-project.org/web/packages)</summary>
+
+e.g., the authors use *`spatstat.data::amacrine`* instead of
 
 -   *`library(spatstat.data); amacrine`* or
 -   *`data('amacrine', package = 'spatstat.data')`*
@@ -407,6 +433,7 @@ In this section, we discuss the batch processes that return a function value tab
 | `Kcross_()` | [`Kcross`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/Kcross.html), multitype $K_{ij}(r)$ | `.K` |
 | `Jcross_()` | [`Jcross`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/Jcross.html), multitype $J_{ij}(r)$ [@Jcross] | `.J` |
 | `Lcross_()` | [`Lcross`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/Lcross.html), multitype $L_{ij}(r)=\sqrt{\frac{K_{ij}(r)}{\pi}}$ | `.L` |
+| `markconnect_()` | [`markconnect`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/markconnect.html), multitype $p_{ij}(r)$ | `.p` |
 
 : Batch processes applicable to `multitype` `marks`
 
@@ -598,17 +625,19 @@ Users are encouraged to learn more about this application from package **`hyper.
 
 Technical details, as well as the minor and/or experimental features, are covered in the Appendix, in order not to interrupt the main narrative of this vignette.
 
+```{=html}
 <!--
 The Appendix is typically organized in the way that
 
 -   the Markdown document **Header 2**, e.g. @sec-appendix `.0`, is about the object `class`;
 -   the Markdown document **Header 3**, e.g. @sec-appendix `.0.0`, is about the method dispatches.
 -->
+```
 
 All R code-chunks are folded in the Appendix, for ease of navigation. They are categorized as
 
 -   **Data**, to create an R object for further operations.
--   **Review**, to demonstrate functions shipped with vanilla `r R.version.string`, or from other packages.
+-   **Review**, to demonstrate functions shipped with vanilla `r R.version.string`, or from [`contrib`uted packages](https://cran.r-project.org/web/packages).
 -   **Example**, to demonstrate functions from package **`groupedHyperframe`**.
 -   **Advanced**, discussions for R experts.
 -   **Figure**, to create a `ggplot`.
@@ -697,8 +726,9 @@ cumvtrapz(x, y)
 (A) the toy example $(x_0,x_1,\cdots,x_5)^t$ and $(y_0,y_1,\cdots,y_5)^t$;
 (B) the kernel `stats::density()`, using the elements `$x` and `$y`. Obviously, this practice is meaningless mathematically, as a density function has $x$-domain of $(-\infty, \infty)$, thus the average vertical height of the trapzoidal integration under a density curve should be zero. This practice is meaningful to an *empirical* density though, if we use the `range` of the actual observations as the $x$-domain.
 (C) the empirical cumulative distribution function `stats::ecdf()`, using the objects `x` and `y` in the enclosing `environment`. Obviously, this practice is meaningless mathematically, as a distribution function has $x$-domain of $(-\infty, \infty)$, thus the average vertical height of the trapzoidal integration under a distribution curve should be zero. This practice is meaningful to an *empirical* distribution though, if we use the `range` of the actual observations as the $x$-domain.
-(D) the conditional mean $E(r)$ between the points and the marks, from function `spatstat.explore::Emark()`, using the element `$r` and the `key1val` (Appendix @sec-blackSolidCurve). [Say some English]{style="background-color: #FFFF00"}
-(E) the conditional variance $V(r)$ between the points and the marks, from function `spatstat.explore::Vmark()`, using the element `$r` and the `key1val` (Appendix @sec-blackSolidCurve). [Say some English]{style="background-color: #FFFF00"}
+(D) the conditional mean $E(r)$ between the points and the marks, from function `spatstat.explore::Emark()`, using the element `$r` and the `keyval` (Appendix @sec-blackSolidCurve). [Say some English]{style="background-color: #FFFF00"}
+(E) the conditional variance $V(r)$ between the points and the marks, from function `spatstat.explore::Vmark()`, using the element `$r` and the `keyval` (Appendix @sec-blackSolidCurve). [Say some English]{style="background-color: #FFFF00"}
+(F) the [receiver operating characteristic (ROC) curve](https://en.wikipedia.org/wiki/Receiver_operating_characteristic) of a `ppp.object`, from function `spatstat.explore::roc.ppp()`, using the element `$p` and the `keyval` (Appendix @sec-blackSolidCurve). In this example, obviously, the average vertical height `vtrapz` is the area-under-ROC-curve `spatstat.explore:::auc.ppp()`.
 
 ```{r}
 #| code-fold: true
@@ -740,6 +770,21 @@ fig_vtrapz_5 = spatstat.data::spruces |>
 ```
 
 ```{r}
+#| code-fold: true
+#| code-summary: "**Figure**: Panel (F), visualize `vtrapz` & `cumvtrapz` of `spatstat.explore::roc()`"
+swedishpines_roc = spatstat.data::swedishpines |>
+  spatstat.explore::roc.ppp(covariate = 'x')
+swedishpines_roc |>
+  vtrapz.fv()
+spatstat.data::swedishpines |> 
+  spatstat.explore::auc.ppp(covariate = 'x')
+fig_vtrapz_6 = swedishpines_roc |> 
+  visualize_vtrapz() + 
+  ggplot2::labs(title = '(F). spatstat.explore::roc()')
+```
+
+
+```{r}
 #| label: fig-vtrapz
 #| warning: false
 #| code-fold: true
@@ -747,9 +792,10 @@ fig_vtrapz_5 = spatstat.data::spruces |>
 #| fig-height: 7.5
 #| fig-width: 10
 #| fig-align: left
-#| fig-cap: "(Cumulative) average vertical height"
+#| fig-cap: "(Cumulative) average vertical height of trapezoidal integration"
 library(patchwork)
-(fig_vtrapz_1 + fig_vtrapz_2 + fig_vtrapz_3 + fig_vtrapz_4 + fig_vtrapz_5 +
+(fig_vtrapz_1 + fig_vtrapz_2 + fig_vtrapz_3 + fig_vtrapz_4 + fig_vtrapz_5 + 
+    # fig_vtrapz_6 +
   plot_layout(ncol = 2L)) & 
   ggplot2::theme_minimal()
 ```
@@ -795,13 +841,12 @@ The authors have [**not**]{style="background-color: #FFFF00"} implemented
 
 ### Log of `numeric` `marks`
 
-The `S3` method dispatches 
+The `S3` method dispatches
 
 -   `log.ppp()` and `log1p.ppp()` perform `log`- and $\log(x+1)$-transformation, respectively,
--   `log2.ppp()` and `log10.ppp()` performs base-`2` and base-`10` `log`-transformations, respectively, 
+-   `log2.ppp()` and `log10.ppp()` performs base-`2` and base-`10` `log`-transformations, respectively,
 
 on one or more numeric `marks` of a `ppp.object`.
-
 
 ```{r}
 #| code-fold: true
@@ -920,7 +965,6 @@ nbfires_exclude |>
   attr(which = 'na.action', exact = TRUE)
 ```
 
-
 ### Extract via `[`
 
 In an email to the authors, [Prof. Adrian Baddeley](https://en.wikipedia.org/wiki/Adrian_Baddeley) [@spatstat15; @spatstat05] has kindly explained that in the package **`spatstat.geom`**
@@ -935,10 +979,10 @@ If we were to retrospectively change the specification, we would have a lot of w
 
 </blockquote>
 
-On the other hand, function `grouped_ppp()` (@sec-grouped_ppp) relies on the support of `ncol`-`1L` `'dataframe'`-`marks`.  As an *ad hoc* solution, the authors defined
+On the other hand, function `grouped_ppp()` (@sec-grouped_ppp) relies on the support of `ncol`-`1L` `'dataframe'`-`marks`. As an *ad hoc* solution, the authors defined
 
--   an (internal) derived class `'ppp_tzh'` (initials of T. Zhan) that `inherits` from a `ppp.object`, and 
--   an `S3` method dispatch `` `[.ppp_tzh` `` that respects the `ncol`-`1L` `'dataframe'`-`marks`.  [The `S3` method dispatch `` `[.ppp_tzh` `` is a teeny-tiny modification of the `S3` method dispatch `` spatstat.geom::`[.ppp` ``.  Permision from Dr. Baddeley?  [GPL-2](https://cran.r-project.org/web/licenses/GPL-2)? ]{style="background-color: #FFFF00"}
+-   an (internal) derived class `'ppp_tzh'` (initials of T. Zhan) that `inherits` from a `ppp.object`, and
+-   an `S3` method dispatch `` `[.ppp_tzh` `` that respects the `ncol`-`1L` `'dataframe'`-`marks`. [The `S3` method dispatch `` `[.ppp_tzh` `` is a teeny-tiny modification of the `S3` method dispatch `` spatstat.geom::`[.ppp` ``. Permision from Dr. Baddeley? [GPL-2](https://cran.r-project.org/web/licenses/GPL-2)?]{style="background-color: #FFFF00"}
 
 In the example below, the name of the mark *`hladr`* is retained, as the column name of the `ncol`-`1L` `'dataframe'`-`marks`, for downstream analysis.
 
@@ -958,10 +1002,6 @@ s_a$ppp.[[1L]] |>
   spatstat.geom::marks.ppp(drop = FALSE) |> 
   head()
 ```
-
-
-
-
 
 ### Append to Existing `marks`
 
@@ -1134,7 +1174,7 @@ Additional `S3` method dispatches are discussed in @sec-ppplist and @sec-default
 
 ### $k$-Means Clustering {#sec-kmeans}
 
-The `S3` generic function `.kmeans()` performs $k$-means clustering. We name this generic function with a prefix `.` because the workhorse function `stats::kmeans()` is not an `S3` generic function. The `S3` generic function `.kmeans()` returns an object of class `'kmeans'` defined in R package **`stats`** shipped with `r R.version$version.string`. Currently only one `S3` method dispatch `.kmeans.ppp()` is planned.
+The `S3` generic function `.kmeans()` performs $k$-means clustering. We name this generic function with a prefix `.` because the workhorse function `stats::kmeans()` is not an `S3` generic function. The `S3` generic function `.kmeans()` returns an object of class `'kmeans'` defined in R package **`stats`** shipped with vanilla `r R.version$version.string`. Currently only one `S3` method dispatch `.kmeans.ppp()` is planned.
 
 The `S3` method dispatch `.kmeans.ppp()` has parameters
 
@@ -1245,7 +1285,7 @@ Additional `S3` method dispatches are discussed in @sec-ppplist and @sec-split_k
 
 The `S3` generic function `pairwise_cor_spatial()` calculates the nonparametric, rank-based, Tjøstheim's correlation coefficients [@Tjostheim78; @Hubert82] in a pairwise-combination fashion, using the workhorse function `SpatialPack::cor.spatial()` from package **`SpatialPack`** [@SpatialPack].
 
-All `S3` method dispatches return an object of class `'pairwise_cor_spatial'`, which `inherits` from the class `'dist'` defined in package **`stats`** shipped with `r R.version$version.string`. Such inheritance enables us to make use of existing `S3` method dispatches to class `'dist'`, e.g., `stats:::print.dist()`, `stats:::as.matrix.dist()`, `stats:::format.dist()` and `stats:::labels.dist()`. @tbl-dist explains the motivation of this inheritance, that the class `'pairwise_cor_spatial'` shares intrinsic similarity in data structure as the class `'dist'`.
+All `S3` method dispatches return an object of class `'pairwise_cor_spatial'`, which `inherits` from the class `'dist'` defined in package **`stats`** shipped with vanilla `r R.version$version.string`. Such inheritance enables us to make use of existing `S3` method dispatches to class `'dist'`, e.g., `stats:::print.dist()`, `stats:::as.matrix.dist()`, `stats:::format.dist()` and `stats:::labels.dist()`. @tbl-dist explains the motivation of this inheritance, that the class `'pairwise_cor_spatial'` shares intrinsic similarity in data structure as the class `'dist'`.
 
 |   | `'pairwise_cor_spatial'` object | `'dist'` object |
 |:-----------------------|:-----------------------|:-----------------------|
@@ -1345,18 +1385,18 @@ spatstat.data::spruces |>
   key1.fv()
 ```
 
-Function `key1val.fv()` finds the function values in an `fv.object`, with the corresponding $r$-values as the `vector` `names`. Function `key1val.fv()` is also a "psuedo" `S3` method dispatch, because we do not have an `S3` generic function `key1val()` defined as of package **`groupedHyperframe`** v`r packageVersion('groupedHyperframe')`.
+Function `keyval.fv()` finds various function values in an `fv.object`, with the corresponding $r$-values as the `vector` `names`.  The default function value `key = key1.fv(.)` is the black-solid-curve.  Function `keyval.fv()` is also a "psuedo" `S3` method dispatch, because we do not have an `S3` generic function `keyval()` defined as of package **`groupedHyperframe`** v`r packageVersion('groupedHyperframe')`.
 
 ```{r}
 #| code-fold: true
-#| code-summary: '**Example**: `key1val.fv()`'
+#| code-summary: '**Example**: `keyval.fv()`'
 spatstat.data::spruces |> 
   spatstat.explore::markcorr() |>
-  key1val.fv() |>
+  keyval.fv() |>
   head(n = 3L)
 ```
 
-Functions `trapz.fv()` and `cumtrapz.fv()` calculate the (cumulative) trapezoidal integration (Appendix @sec-trapz) under the black-solid-curve, using the $r$-values as `x` and the `key1val.fv()` as `y`. They are both "psuedo" `S3` method dispatches, as the workhorse functions `pracma::trapz()` and `pracma::cumtrapz()` are not `S3` generic functions as of package **`pracma`** [@pracma, v`r packageVersion('pracma')`].
+Functions `trapz.fv()` and `cumtrapz.fv()` calculate the (cumulative) trapezoidal integration (Appendix @sec-trapz) under the black-solid-curve, using the $r$-values as `x` and the `keyval.fv()` as `y`. They are both "psuedo" `S3` method dispatches, as the workhorse functions `pracma::trapz()` and `pracma::cumtrapz()` are not `S3` generic functions as of package **`pracma`** [@pracma, v`r packageVersion('pracma')`].
 
 ```{r}
 #| code-fold: true
@@ -1396,7 +1436,7 @@ spatstat.data::spruces |>
 
 ### Legal $r_\text{max}$ {#sec-legal_rmax}
 
-Function `spatstat.explore::markcorr()` is the workhorse inside functions `Emark()`, `Vmark()` and `markvario()` as of package **`spatstat.explore`** v`r packageVersion('spatstat.explore')`.  Function `markcorr()` relies on the un-exported workhorse function `spatstat.explore:::sewsmod()`, whose default `method = "density"` contains the calculation of the ratio of two kernel densities. Due to the floating-point precision of R, such density ratios may have exceptional/illegal returns of
+Function `spatstat.explore::markcorr()` is the workhorse inside functions `Emark()`, `Vmark()` and `markvario()` as of package **`spatstat.explore`** v`r packageVersion('spatstat.explore')`. Function `markcorr()` relies on the un-exported workhorse function `spatstat.explore:::sewsmod()`, whose default `method = "density"` contains the calculation of the ratio of two kernel densities. Due to the floating-point precision of R, such density ratios may have exceptional/illegal returns of
 
 -   `0`, from $0/\delta$, with a [real number](https://en.wikipedia.org/wiki/Real_number) $\delta\geq$ (approximately) `2.6e-324`
 -   `NaN`, from $0/\varepsilon$ or $\varepsilon/0$, with a real number $\varepsilon\leq$ (approximately) `2.5e-324`
@@ -1438,7 +1478,6 @@ Inf |> typeof()
 NaN |> typeof()
 ```
 
-
 ```{r}
 #| code-fold: true
 #| code-summary: '**Advanced**: `lastLegal()`, definition of `legal`; and behavior of `base::is.finite()`'
@@ -1449,7 +1488,6 @@ lastLegal_body[[2L]]
 c(NA_real_, NaN, Inf) |>
   is.finite()
 ```
-
 
 ```{r}
 #| code-fold: true
@@ -1462,13 +1500,12 @@ c(exp(1), pi, NaN, 1, 0, Inf) |>
   lastLegal()
 ```
 
-
 ```{r}
 #| code-fold: true
-#| code-summary: '**Example**: `lastLegal()` of `key1val.fv()`'
+#| code-summary: '**Example**: `lastLegal()` of `keyval.fv()`'
 spatstat.data::spruces |> 
   spatstat.explore::markcorr(r = 0:100) |>
-  key1val.fv() |>
+  keyval.fv() |>
   lastLegal()
 ```
 
@@ -1821,7 +1858,7 @@ Details of the nested grouping structure $g_1/.../g_m$ (`~g1/.../gm`) is provide
 
 The nested grouping structure `~g1/.../gm` is made well known by the parameter `random` of functions `nlme::lme()` and `nlme::nlme()`. In fact, the 'grouped' extension of a `hyperframe` is inspired by the class `'groupedData'` defined in package **`nlme`** [@nlme], which `inherits` from the class `'data.frame'`.
 
-Package **`groupedHyperframe`** allows interaction terms using colon operator `:` in the grouping structure, e.g., `g1/g2a:g2b/g3a:g3b:g3c`. This feature is made possible because the colon operator `:` has higher priority than the forward slash `/` in R `formula`.  In the meanwhile, user should be aware that the tilde operator `~` has *lower* priority than the forward pipe `|>` in R `formula`.
+Package **`groupedHyperframe`** allows interaction terms using colon operator `:` in the grouping structure, e.g., `g1/g2a:g2b/g3a:g3b:g3c`. This feature is made possible because the colon operator `:` has higher priority than the forward slash `/` in R `formula`. In the meanwhile, user should be aware that the tilde operator `~` has *lower* priority than the forward pipe `|>` in R `formula`.
 
 ```{r}
 #| code-fold: true
@@ -1836,7 +1873,6 @@ quote(g1/g2a:g2b/g3a:g3b:g3c) |>
 ~ x |> foobar() # wrong!
 quote((~ x) |> foobar()) # correct
 ```
-
 
 Function `get_nested()` breaks down a nested grouping structure by the forward slash `/`.
 
@@ -1864,7 +1900,6 @@ quote(g1/g2a:g2b/g3a:g3b:g3c) |>
 (~a) |> get_nested()
 (~b:c) |> get_nested()
 ```
-
 
 The (nested) grouping structure `attr(., 'group')` of a `groupedHyperframe`
 
@@ -1987,7 +2022,7 @@ The authors suggest using the pipeline of functions `base::merge.data.frame()` a
 @tbl-mathterm presents some mathematical symbols, as well as their [LaTeX](https://www.latex-project.org) source code, used in this vignette. These symbols should be familiar to the audience with an advanced degree in mathematics.
 
 | Symbol | [LaTeX](https://www.latex-project.org) Source | Example | Translate To |
-|:------------------|:------------------|:------------------|:------------------|
+|:-----------------|:-----------------|:-----------------|:-----------------|
 | $\Delta$ | `$\Delta$` | $\Delta x_k= x_k - x_{k-1}$ | Delta-$x_k$ is defined as the difference between $x_k$ and $x_{k-1}$ |
 | $\equiv$ | `$\equiv$` | $x\equiv a$ | Variable $x$ is equivalent to constant $a$ |
 | $\forall$ | `$\forall$` | $\forall k$ | For all $k$ |
@@ -2101,7 +2136,7 @@ R terminology and nomenclature could be *drastically different* from that of mat
 @tbl-index summarizes the topics covered in this vignette, and where to find them.
 
 | Topic | Where to Find |
-|:------------------------------------|:------------------------------------|
+|:-----------------------------------|:-----------------------------------|
 | `fv.object` | @sec-fv |
 | `groupedHyperframe` | @sec-groupedHyperframe, @sec-groupedHyperframe-appendix |
 | `hyperframe` | @sec-hyperframe, @sec-dont-hyperframe |

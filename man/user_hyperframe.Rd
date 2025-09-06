@@ -11,6 +11,7 @@
 \alias{Jcross_}
 \alias{Kcross_}
 \alias{Lcross_}
+\alias{markconnect_}
 \alias{nncross_}
 \title{User Interface of Operations on \link[spatstat.geom]{hyperframe} with One-and-Only-One \link[spatstat.geom]{ppp}-\link[spatstat.geom:hyperframe]{hypercolumn}}
 \usage{
@@ -31,6 +32,8 @@ Jcross_(X, correction = "none", ...)
 Kcross_(X, correction = "none", ...)
 
 Lcross_(X, correction = "none", ...)
+
+markconnect_(X, correction = "none", ...)
 
 nncross_(X, ...)
 }

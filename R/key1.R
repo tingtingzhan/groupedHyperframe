@@ -7,38 +7,13 @@
 #' 
 #' @param x an \link[spatstat.explore]{fv.object}
 #' 
-#' @examples
-#' library(spatstat.data)
-#' library(spatstat.geom) # ?spatstat.geom::subset.ppp
-#' library(spatstat.explore)
-#' 
-#' foo = function(x) {
-#'  x |> plot()
-#'  'Trapzoid\n' |> cat()
-#'  x |> trapz.fv() |> print()
-#'  '\nCumulative Trapzoid\n' |> cat()
-#'  x |> cumtrapz.fv() |> tail() |> print()
-#' }
-#' 
-#' # numeric mark
-#' spruces |> Emark() |> foo()
-#' spruces |> Vmark() |> foo()
-#' spruces |> markcorr() |> foo()
-#' spruces |> markvario() |> foo()
-#' 
-#' # multitype mark
-#' (btc = subset.ppp(betacells, select = 'type'))
-#' btc |> Gcross(i = 'off', j = 'on') |> foo()
-#' btc |> Kcross(i = 'off', j = 'on') |> foo()
-#' btc |> Lcross(i = 'off', j = 'on') |> foo()
-#' btc |> Jcross(i = 'off', j = 'on') |> foo()
-#' btc |> markconnect(i = 'off', j = 'on') |> foo()
-#' 
-#' # swedishpines |> roc.ppp(covariate = 'x') |> foo() 
-#' # bug in devtools::check()
 #' @keywords internal
 #' @name key1
 NULL
+
+
+
+
 
 
 # plot(x <- pcfcross(btc, i = 'off', j = 'on')) 
@@ -75,14 +50,16 @@ key1.fv <- function(x) {
 #' to speed up batch processes.
 #' 
 #' @details
-#' Function [key1val.fv()] finds the value of the primary outcome
+#' Function [keyval.fv()] finds the value of the (primary) outcome
 #' of an \link[spatstat.explore]{fv.object}.
 #' @returns
-#' Function [key1val.fv()] returns a \link[base]{numeric} \link[base]{vector}.
+#' Function [keyval.fv()] returns a \link[base]{numeric} \link[base]{vector}.
 #' @export
-key1val.fv <- function(x, key = key1.fv(x)) {
+keyval.fv <- function(x, key = key1.fv(x)) {
+  # ?spatstat.explore::roc.ppp returns an `'roc'` object, inherits from `'fv'`, first argument being `p` instead of `r`!!!
+  if (key == names(x)[1L]) stop('first column of `x` is not the output of `fv.object`')
   ret <- x[[key]]
-  names(ret) <- x[['r']] # `r` being hard-coded here
+  names(ret) <- x[[1L]]
   return(ret)
 }
 
@@ -101,20 +78,20 @@ key1val.fv <- function(x, key = key1.fv(x)) {
 #' @importFrom pracma trapz
 #' @export
 trapz.fv <- function(x, key = key1.fv(x)) {
+  # ?spatstat.explore::roc.ppp returns an `'roc'` object, inherits from `'fv'`, first argument being `p` instead of `r`!!!
   x |> 
-    key1val.fv(key = key) |>
-    trapz(x = x[[1L]], y = _) |> # which way is more robust?
-    #trapz(x = x[['r']], y = _) |> # which way is more robust?
+    keyval.fv(key = key) |>
+    trapz(x = x[[1L]], y = _) |>
     unname()
 }
 
 #' @rdname key1
 #' @export
 vtrapz.fv <- function(x, key = key1.fv(x)) {
+  # ?spatstat.explore::roc.ppp returns an `'roc'` object, inherits from `'fv'`, first argument being `p` instead of `r`!!!
   x |> 
-    key1val.fv(key = key) |>
-    vtrapz(x = x[[1L]], y = _) |> # which way is more robust?
-    #vtrapz(x = x[['r']], y = _) |> # which way is more robust?
+    keyval.fv(key = key) |>
+    vtrapz(x = x[[1L]], y = _) |>
     unname()
 }
 
@@ -135,7 +112,7 @@ cumtrapz.fv <- function(x, key = key1.fv(x)) {
   # needed! Otherwise ?pracma::cumtrapz errs
   
   ret0 <- x |> 
-    key1val.fv(key = key) |> 
+    keyval.fv(key = key) |> 
     unclass() |>
     cumtrapz(x = r, y = _)
   # a trapz needs two points; therefore `[-1L]`
@@ -156,7 +133,7 @@ cumvtrapz.fv <- function(x, key = key1.fv(x)) {
   # needed! Otherwise ?pracma::cumtrapz errs
   
   ret0 <- x |> 
-    key1val.fv(key = key) |> 
+    keyval.fv(key = key) |> 
     unclass() |>
     cumvtrapz(x = r, y = _)
   # a trapz needs two points; therefore `[-1L]`

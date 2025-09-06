@@ -30,6 +30,6 @@ Depends: R (>= 4.5)
 Imports: cli, parallel, matrixStats, pracma, GET, SpatialPack,
     ggplot2, geomtextpath, scales,
     spatstat.explore, spatstat.geom, spatstat.random
-Suggests: knitr, quarto, rmarkdown, survival, patchwork,
+Suggests: knitr, quarto, rmarkdown, rpart, survival, patchwork,
     spatstat.data
 VignetteBuilder: quarto

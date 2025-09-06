@@ -86,6 +86,13 @@ Kcross_ <- function(X, correction = 'none', ...) X |> op_hyperframe(op = fv_ppp,
 #' @export
 Lcross_ <- function(X, correction = 'none', ...) X |> op_hyperframe(op = fv_ppp, fn = Lcross, correction = correction, ...)
 
+#' @rdname user_hyperframe
+#' @importFrom spatstat.explore markconnect
+#' @export
+markconnect_ <- function(X, correction = 'none', ...) X |> op_hyperframe(op = fv_ppp, fn = markconnect, correction = correction, ...)
+
+
+
 # Inside \link[spatstat.explore]{Gcross} and \link[spatstat.explore]{Kcross}
 # @param i type of the points *from* which distances are measured,
 # i.e., `X` (or \emph{of}) in \link[spatstat.geom]{nncross}.

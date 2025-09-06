@@ -101,7 +101,7 @@ visualize_vtrapz.numeric <- function(
     colour = 'blue', fontface = 'bold', alpha = .7
    )) +
    (if (length(x) <= 10L) scale_x_continuous(breaks = x, labels = label_number(accuracy = .1), limits = x_lim)) + 
-   ylim(0, max(y)*1.1)
+   (if (draw.rect) ylim(0, max(y)*1.1) else ylim(min(y)*.95, max(y)*1.05))
   
 }
 
@@ -111,9 +111,24 @@ visualize_vtrapz.numeric <- function(
 #' @export visualize_vtrapz.fv
 #' @export 
 visualize_vtrapz.fv <- function(x, ...) {
-  visualize_vtrapz.numeric(x = x$r, y = key1val.fv(x), ...) + 
+  visualize_vtrapz.numeric(x = x$r, y = keyval.fv(x), ...) + 
     labs(x = 'r', y = attr(x, which = 'ylab', exact = TRUE))
 }
+
+
+#' @rdname visualize_vtrapz
+#' @importFrom ggplot2 labs
+#' @export visualize_vtrapz.roc
+#' @export 
+visualize_vtrapz.roc <- function(x, ...) {
+  # c('roc', 'fv', 'data.frame')
+  # ?spatstat.explore::plot.roc uses workhorse ?spatstat.explore::plot.fv
+  visualize_vtrapz.numeric(x = x$p, y = keyval.fv(x), ...) + 
+    labs(x = 'p', y = attr(x, which = 'ylab', exact = TRUE))
+}
+
+
+
 
 
 #' @rdname visualize_vtrapz
