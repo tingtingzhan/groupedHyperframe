@@ -1392,7 +1392,7 @@ S3_fv |>
 
 ### "Black Solid Curve" {#sec-blackSolidCurve}
 
-The `S3` method dispatch `spatstat.explore::plot.fv()` visualizes the function values stored in an `fv.object` as a black-solid-curve.
+The `S3` method dispatch `spatstat.explore::plot.fv()` visualizes the recommended function value stored in an `fv.object` as a black-solid-curve.  Function `spatstat.explore::fvnames(., a = '.y')` finds the "name" of the black-solid-curve. 
 
 ```{r}
 #| fig-show: hide
@@ -1404,17 +1404,16 @@ spatstat.data::spruces |>
 # Figure suppressed to reduce vignette file size
 ```
 
-Function `key1.fv()` finds the "name" of the function values in an `fv.object`. Function `key1.fv()`, named after the code snippet `key[lty == 1L & col == 1L]`, is a "psuedo" `S3` method dispatch, i.e., named in the fashion of `<generic>.<class>`, because we do not have an `S3` generic function `key1()` defined as of package **`groupedHyperframe`** v`r packageVersion('groupedHyperframe')`.
 
 ```{r}
 #| code-fold: true
-#| code-summary: '**Example**: `key1.fv()`'
+#| code-summary: "**Review**: `spatstat.explore::fvnames(., a = '.y')`"
 spatstat.data::spruces |> 
   spatstat.explore::markcorr() |>
-  key1.fv()
+  spatstat.explore::fvnames(a = '.y')
 ```
 
-Function `keyval.fv()` finds various function values in an `fv.object`, with the corresponding $r$-values as the `vector` `names`.  The default function value `key = key1.fv(.)` is the black-solid-curve.  Function `keyval.fv()` is also a "psuedo" `S3` method dispatch, because we do not have an `S3` generic function `keyval()` defined as of package **`groupedHyperframe`** v`r packageVersion('groupedHyperframe')`.
+Function `keyval.fv()` finds various function values (default being the black-solid-curve) in an `fv.object`, with the corresponding function argument `spatstat.explore::fvnames(., a = '.x')` as the `vector` `names`.  Function `keyval.fv()` is a "psuedo" `S3` method dispatch, because we do not have an `S3` generic function `keyval()` defined as of package **`groupedHyperframe`** v`r packageVersion('groupedHyperframe')`.
 
 ```{r}
 #| code-fold: true
@@ -1425,7 +1424,7 @@ spatstat.data::spruces |>
   head(n = 3L)
 ```
 
-Functions `trapz.fv()` and `cumtrapz.fv()` calculate the (cumulative) trapezoidal integration (Appendix @sec-trapz) under the black-solid-curve, using the $r$-values as `x` and the `keyval.fv()` as `y`. They are both "psuedo" `S3` method dispatches, as the workhorse functions `pracma::trapz()` and `pracma::cumtrapz()` are not `S3` generic functions as of package **`pracma`** [@pracma, v`r packageVersion('pracma')`].
+Functions `trapz.fv()` and `cumtrapz.fv()` calculate the (cumulative) trapezoidal integration (Appendix @sec-trapz) under the black-solid-curve. They are both "psuedo" `S3` method dispatches, as the workhorse functions `pracma::trapz()` and `pracma::cumtrapz()` are not `S3` generic functions as of package **`pracma`** [@pracma, v`r packageVersion('pracma')`].
 
 ```{r}
 #| code-fold: true

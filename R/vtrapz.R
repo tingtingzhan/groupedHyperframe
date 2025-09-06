@@ -108,24 +108,18 @@ visualize_vtrapz.numeric <- function(
 
 #' @rdname visualize_vtrapz
 #' @importFrom ggplot2 labs
+#' @importFrom spatstat.explore fvnames
 #' @export visualize_vtrapz.fv
 #' @export 
 visualize_vtrapz.fv <- function(x, ...) {
-  visualize_vtrapz.numeric(x = x$r, y = keyval.fv(x), ...) + 
-    labs(x = 'r', y = attr(x, which = 'ylab', exact = TRUE))
-}
-
-
-#' @rdname visualize_vtrapz
-#' @importFrom ggplot2 labs
-#' @export visualize_vtrapz.roc
-#' @export 
-visualize_vtrapz.roc <- function(x, ...) {
-  # c('roc', 'fv', 'data.frame')
   # ?spatstat.explore::plot.roc uses workhorse ?spatstat.explore::plot.fv
-  visualize_vtrapz.numeric(x = x$p, y = keyval.fv(x), ...) + 
-    labs(x = 'p', y = attr(x, which = 'ylab', exact = TRUE))
+  .x <- fvnames(x, a = '.x')
+  .y <- fvnames(x, a = '.y')
+  visualize_vtrapz.numeric(x = x[[.x]], y = x[[.y]], ...) + 
+    labs(x = .x, y = attr(x, which = 'ylab', exact = TRUE))
 }
+
+
 
 
 

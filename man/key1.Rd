@@ -2,7 +2,6 @@
 % Please edit documentation in R/key1.R
 \name{key1}
 \alias{key1}
-\alias{key1.fv}
 \alias{keyval.fv}
 \alias{trapz.fv}
 \alias{vtrapz.fv}
@@ -10,27 +9,23 @@
 \alias{cumvtrapz.fv}
 \title{Black-Solid-Curve in \link[spatstat.explore]{plot.fv}}
 \usage{
-key1.fv(x)
+keyval.fv(x, key = fvnames(x, a = ".y"))
 
-keyval.fv(x, key = key1.fv(x))
+trapz.fv(x, key = fvnames(x, a = ".y"))
 
-trapz.fv(x, key = key1.fv(x))
+vtrapz.fv(x, key = fvnames(x, a = ".y"))
 
-vtrapz.fv(x, key = key1.fv(x))
+cumtrapz.fv(x, key = fvnames(x, a = ".y"))
 
-cumtrapz.fv(x, key = key1.fv(x))
-
-cumvtrapz.fv(x, key = key1.fv(x))
+cumvtrapz.fv(x, key = fvnames(x, a = ".y"))
 }
 \arguments{
 \item{x}{an \link[spatstat.explore]{fv.object}}
 
-\item{key}{\link[base]{character} scalar, default value is \code{key1.fv(x)},
+\item{key}{\link[base]{character} scalar, default value is \code{spatstat.explore::fvnames(x, a = '.y')},
 to speed up batch processes.}
 }
 \value{
-Function \code{\link[=key1.fv]{key1.fv()}} returns a \link[base]{character} scalar.
-
 Function \code{\link[=keyval.fv]{keyval.fv()}} returns a \link[base]{numeric} \link[base]{vector}.
 
 Functions \code{\link[=trapz.fv]{trapz.fv()}} and \code{\link[=vtrapz.fv]{vtrapz.fv()}} return a \link[base]{numeric} scalar.
@@ -42,10 +37,6 @@ Name and value of the \emph{black solid curve} as shown in \link[spatstat.explor
 i.e., the primary outcome of an \link[spatstat.explore]{fv.object}.
 }
 \details{
-Function \code{\link[=key1.fv]{key1.fv()}} finds the name of the primary outcome
-of an \link[spatstat.explore]{fv.object}.
-Note that function \code{\link[=key1.fv]{key1.fv()}} is very slow, so avoid it as much as possible in batch processes!
-
 Function \code{\link[=keyval.fv]{keyval.fv()}} finds the value of the (primary) outcome
 of an \link[spatstat.explore]{fv.object}.
 

@@ -15,7 +15,7 @@
 #' \itemize{
 #' \item {\eqn{x}-axis, or the \eqn{r}-values}
 #' \item {`attr(,'fname')`, see explanation of this \link[base]{attributes} in function \link[spatstat.explore]{fv}}
-#' \item {[key1.fv()] returns}
+#' \item {`spatstat.explore::fvnames(x, a = '.y')` returns}
 #' }
 #' 
 #' !!! 'Legal' not documented yet!!!
@@ -24,11 +24,12 @@
 #' Function [check_fvlist()] returns an \link[base]{invisible} \link[base]{list} with elements
 #' \describe{
 #' \item{`$r`}{\link[base]{numeric} \link[base]{vector}, the \eqn{r}-values}
-#' \item{`$key1`}{\link[base]{character} scalar, the return of function [key1.fv()]}
+#' \item{`$key1`}{\link[base]{character} scalar, the return of `spatstat.explore::fvnames(x, a = '.y')`}
 #' \item{`$rmax`}{\link[base]{numeric} scalar or \link[base]{vector}, the \link[base]{unique} values of the legal \eqn{r_\text{max}} of each \link[spatstat.explore]{fv.object}, if any one of them is less than the user-specified \eqn{r_\text{max}}}
 #' }
 #' 
 #' @keywords internal
+#' @importFrom spatstat.explore fvnames
 #' @export
 check_fvlist <- function(X, data.name = deparse1(substitute(X))) {
   
@@ -54,7 +55,7 @@ check_fvlist <- function(X, data.name = deparse1(substitute(X))) {
   if (!all(fname.[-1L])) stop('fname of all fv.objects are not the same')
   
   key1. <- X |> 
-    vapply(FUN = key1.fv, FUN.VALUE = '')
+    vapply(FUN = fvnames, a = '.y', FUN.VALUE = '')
   if (!all(duplicated.default(key1.)[-1L])) stop('all fv-object must have same key1')
   
   r <- r.[[1L]]
@@ -103,7 +104,7 @@ check_fvlist <- function(X, data.name = deparse1(substitute(X))) {
 
 #' @title Last Legal Index
 #' 
-#' @param v \link[base]{double} \link[base]{vector}, return of function [keyval.fv()] 
+#' @param v \link[base]{double} \link[base]{vector}
 #' 
 #' @details
 #' Legal, meaning not `0`, not `NaN` and not `Inf`.

@@ -15,7 +15,7 @@ check_fvlist(X, data.name = deparse1(substitute(X)))
 Function \code{\link[=check_fvlist]{check_fvlist()}} returns an \link[base]{invisible} \link[base]{list} with elements
 \describe{
 \item{\verb{$r}}{\link[base]{numeric} \link[base]{vector}, the \eqn{r}-values}
-\item{\verb{$key1}}{\link[base]{character} scalar, the return of function \code{\link[=key1.fv]{key1.fv()}}}
+\item{\verb{$key1}}{\link[base]{character} scalar, the return of \code{spatstat.explore::fvnames(x, a = '.y')}}
 \item{\verb{$rmax}}{\link[base]{numeric} scalar or \link[base]{vector}, the \link[base]{unique} values of the legal \eqn{r_\text{max}} of each \link[spatstat.explore]{fv.object}, if any one of them is less than the user-specified \eqn{r_\text{max}}}
 }
 }
@@ -28,7 +28,7 @@ in the input has the same
 \itemize{
 \item {\eqn{x}-axis, or the \eqn{r}-values}
 \item {\code{attr(,'fname')}, see explanation of this \link[base]{attributes} in function \link[spatstat.explore]{fv}}
-\item {\code{\link[=key1.fv]{key1.fv()}} returns}
+\item {\code{spatstat.explore::fvnames(x, a = '.y')} returns}
 }
 
 !!! 'Legal' not documented yet!!!

@@ -12,41 +12,9 @@
 NULL
 
 
-
-
-
-
-# plot(x <- pcfcross(btc, i = 'off', j = 'on')) 
-# head(x$iso) # why first is Inf ??
-# trapz.fv(x)
-# x |> cumtrapz.fv() |> tail()
-
-
-
-
-#' @rdname key1
-#' @details
-#' Function [key1.fv()] finds the name of the primary outcome
-#' of an \link[spatstat.explore]{fv.object}.  
-#' Note that function [key1.fv()] is very slow, so avoid it as much as possible in batch processes!
-#' @returns
-#' Function [key1.fv()] returns a \link[base]{character} scalar.
-#' @importFrom grDevices dev.off png
-#' @importFrom spatstat.explore plot.fv
-#' @export
-key1.fv <- function(x) {
-  x |>
-    plot.fv(do.plot = FALSE) |>  # 'data.frame'
-    with(expr = key[lty == 1L & col == 1L])
-  # must not use `with.default`; ?devtools::check warns on unknown `key` and `lty`
-}
-
-
-
-
 #' @rdname key1
 #' 
-#' @param key \link[base]{character} scalar, default value is `key1.fv(x)`,
+#' @param key \link[base]{character} scalar, default value is `spatstat.explore::fvnames(x, a = '.y')`,
 #' to speed up batch processes.
 #' 
 #' @details
@@ -54,10 +22,11 @@ key1.fv <- function(x) {
 #' of an \link[spatstat.explore]{fv.object}.
 #' @returns
 #' Function [keyval.fv()] returns a \link[base]{numeric} \link[base]{vector}.
+#' @importFrom spatstat.explore fvnames
 #' @export
-keyval.fv <- function(x, key = key1.fv(x)) {
+keyval.fv <- function(x, key = fvnames(x, a = '.y')) {
   # ?spatstat.explore::roc.ppp returns an `'roc'` object, inherits from `'fv'`, first argument being `p` instead of `r`!!!
-  if (key == names(x)[1L]) stop('first column of `x` is not the output of `fv.object`')
+  if (key == fvnames(x, a = '.x')) stop('first column of `x` is not the output of `fv.object`')
   ret <- x[[key]]
   names(ret) <- x[[1L]]
   return(ret)
@@ -76,22 +45,22 @@ keyval.fv <- function(x, key = key1.fv(x)) {
 #' Functions [trapz.fv()] and [vtrapz.fv()] return a \link[base]{numeric} scalar.
 #' 
 #' @importFrom pracma trapz
+#' @importFrom spatstat.explore fvnames
 #' @export
-trapz.fv <- function(x, key = key1.fv(x)) {
-  # ?spatstat.explore::roc.ppp returns an `'roc'` object, inherits from `'fv'`, first argument being `p` instead of `r`!!!
-  x |> 
-    keyval.fv(key = key) |>
-    trapz(x = x[[1L]], y = _) |>
+trapz.fv <- function(x, key = fvnames(x, a = '.y')) {
+  .x <- fvnames(x, a = '.x')
+  if (key == .x) stop('first column of `x` is not the output of `fv.object`')
+  trapz(x = x[[.x]], y = x[[key]]) |>
     unname()
 }
 
 #' @rdname key1
+#' @importFrom spatstat.explore fvnames
 #' @export
-vtrapz.fv <- function(x, key = key1.fv(x)) {
-  # ?spatstat.explore::roc.ppp returns an `'roc'` object, inherits from `'fv'`, first argument being `p` instead of `r`!!!
-  x |> 
-    keyval.fv(key = key) |>
-    vtrapz(x = x[[1L]], y = _) |>
+vtrapz.fv <- function(x, key = fvnames(x, a = '.y')) {
+  .x <- fvnames(x, a = '.x')
+  if (key == .x) stop('first column of `x` is not the output of `fv.object`')
+  vtrapz(x = x[[.x]], y = x[[key]]) |>
     unname()
 }
 
@@ -102,43 +71,41 @@ vtrapz.fv <- function(x, key = key1.fv(x)) {
 #' @returns 
 #' Functions [cumtrapz.fv()] and [cumvtrapz.fv()] return a \link[base]{numeric} \link[base]{vector}.
 #' @importFrom pracma cumtrapz
+#' @importFrom spatstat.explore fvnames
 #' @export 
-cumtrapz.fv <- function(x, key = key1.fv(x)) {
+cumtrapz.fv <- function(x, key = fvnames(x, a = '.y')) {
   
-  # 'fv' inherits from 'data.frame', as of 2025-02-04 # packageDate('spatstat.explore')
-  r <- x[[1L]]
-  n <- length(r)
+  .x <- fvnames(x, a = '.x')
+  if (key == .x) stop('first column of `x` is not the output of `fv.object`')
+  
+  n <- length(x[[.x]])
   if (n == 1L) return(invisible()) # exception handling
   # needed! Otherwise ?pracma::cumtrapz errs
   
-  ret0 <- x |> 
-    keyval.fv(key = key) |> 
-    unclass() |>
-    cumtrapz(x = r, y = _)
+  ret0 <- cumtrapz(x = x[[.x]], y = x[[key]])
   # a trapz needs two points; therefore `[-1L]`
   ret <- c(ret0[-1L])
-  names(ret) <- r[-1L]
+  names(ret) <- x[[.x]][-1L]
   return(ret)
   
 }
 
 #' @rdname key1
+#' @importFrom spatstat.explore fvnames
 #' @export 
-cumvtrapz.fv <- function(x, key = key1.fv(x)) {
+cumvtrapz.fv <- function(x, key = fvnames(x, a = '.y')) {
   
-  # 'fv' inherits from 'data.frame', as of 2025-02-04 # packageDate('spatstat.explore')
-  r <- x[[1L]]
-  n <- length(r)
+  .x <- fvnames(x, a = '.x')
+  if (key == .x) stop('first column of `x` is not the output of `fv.object`')
+  
+  n <- length(x[[.x]])
   if (n == 1L) return(invisible()) # exception handling
   # needed! Otherwise ?pracma::cumtrapz errs
   
-  ret0 <- x |> 
-    keyval.fv(key = key) |> 
-    unclass() |>
-    cumvtrapz(x = r, y = _)
+  ret0 <- cumvtrapz(x = x[[.x]], y = x[[key]])
   # a trapz needs two points; therefore `[-1L]`
   ret <- c(ret0[-1L])
-  names(ret) <- r[-1L]
+  names(ret) <- x[[.x]][-1L]
   return(ret)
   
 }
