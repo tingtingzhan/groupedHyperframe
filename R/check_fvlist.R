@@ -119,17 +119,29 @@ check_fvlist <- function(X, data.name = deparse1(substitute(X))) {
 lastLegal <- function(v) {
   
   vok <- is.finite(v) & (abs(v) > .Machine$double.eps) # not 0, not NaN, not Inf
-  if (all(vok)) return(length(vok)) # faster than [.diff()]
   
-  .diff <- \(x) {
-    x[-1L] - x[-length(x)]
-  } # faster than ?base::diff.default
-  
-  z <- vok |> 
-    which() |>
-    .diff()
-  if (all(z == 1L)) return(length(z) + 1L)
-  return(min(which(z != 1L))) # smart!
+  if (all(vok)) {
+    
+    id <- length(vok) # faster than [.diff()]
+    
+  } else {
+    
+    .diff <- \(x) {
+      x[-1L] - x[-length(x)]
+    } # faster than ?base::diff.default
+    
+    z <- vok |> 
+      which() |>
+      .diff()
+    
+    id <- if (all(z == 1L)) {
+      length(z) + 1L
+    } else min(which(z != 1L)) # smart!
+    
+  }
+
+  attr(id, which = 'value') <- v[id]
+  return(id)
   
 }
 

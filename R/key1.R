@@ -31,6 +31,7 @@ keyval.fv <- function(x, key = fvnames(x, a = '.y')) {
   names(ret) <- x[[.x]]
   return(ret)
 }
+# read ?spatstat.explore::eval.fv more carefully!!
 
 
 #' @rdname key1

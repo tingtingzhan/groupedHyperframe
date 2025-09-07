@@ -87,7 +87,6 @@ Package **`groupedHyperframe`** `Suggests` packages
 -   `r '\U1f5dd'` **`spatstat.data`** (dev v`r packageVersion('spatstat.data')`), key suggest, for example spatial data set
 -   `r '\U1f5dd'` **`survival`** [@survival, v`r packageVersion('survival')`], key suggest (@sec-start-library).
 
-
 ### **`spatstat.*`** Family
 
 Package **`groupedHyperframe`** requires the development versions of the **`spatstat.*`** family of packages.
@@ -191,7 +190,7 @@ To put the un-exported `S3` method dispatch `patchwork:::ggplot_add.ggplot()` on
 
 <details>
 
-<summary>`library(spatstat.geom)` and `library(spatstat.explore)` in Appendix @sec-ppp, @sec-fv and @sec-hyperframe. </summary>
+<summary>`library(spatstat.geom)` and `library(spatstat.explore)` in Appendix @sec-ppp, @sec-fv and @sec-hyperframe.</summary>
 
 These are necessary, so that the function `utils::methods()` could recognize `from` which package the `S3` method dispatches are defined.
 
@@ -626,12 +625,11 @@ Users are encouraged to learn more about this application from package **`hyper.
 
 # Appendix {#sec-appendix}
 
-The Appendix presents technical details intended for readers with advanced expertise in the R programming language, including minor and/or experimental features, to avoid disrupting the focus and flow of the main narrative in this vignette.  The audience is expected to 
+The Appendix presents technical details intended for readers with advanced expertise in the R programming language, including minor and/or experimental features, to avoid disrupting the focus and flow of the main narrative in this vignette. The audience is expected to
 
 -   have a reasonably good understanding of the [`S3` object-oriented programming system of R](https://adv-r.hadley.nz/s3.html).
 -   be familiar with the `S3` generic functions in vanilla `r R.version.string` packages **`base`**, **`stats`**, **`utils`**, etc.
 -   be familiar with the `S3` generic functions in packages **`spatstat.geom`**, **`spatstat.explore`**, etc.
-
 
 ```{=html}
 <!--
@@ -651,9 +649,7 @@ For ease of navigation, all R code-chunks in the Appendix are folded. The R code
 -   **Figure**, to create a `ggplot`.
 -   **Workaround**, to provide alternative solutions to a problem.
 
-
 Readers who wish to extend the package **`groupedHypeframe`** or incorporate it into their own methodology are strongly encouraged to study the Appendix thoroughly.
-
 
 ## On Trapezoidal Integration {#sec-trapz}
 
@@ -742,7 +738,6 @@ cumvtrapz(x, y)
 (E) the conditional variance $V(r)$ between the points and the marks, from function `spatstat.explore::Vmark()` (Appendix @sec-blackSolidCurve). [Say some English]{style="background-color: #FFFF00"}
 (F) the [receiver operating characteristic (ROC) curve](https://en.wikipedia.org/wiki/Receiver_operating_characteristic) of a `ppp.object`, from function `spatstat.explore::roc.ppp()` (Appendix @sec-blackSolidCurve). The average vertical height of the trapezoidal integration `vtrapz` under the ROC-curve, is *not* numerically `identical` to the area-under-ROC-curve (AU-ROC) via `spatstat.explore::auc.ppp()`. This is due to the fact that the workhorse function `spatstat.explore::spatialCDFframe()` of AU-ROC uses the interpolation via `stats::approxfun()` instead of the trapezoidal integration via `pracma::trapz()`, as of package **`spatstat.explore`** v`r packageVersion('spatstat.explore')`.
 
-
 ```{r}
 #| code-fold: true
 #| code-summary: "**Figure**: Panel (A), visualize `vtrapz` & `cumvtrapz` of a toy example"
@@ -796,7 +791,6 @@ fig_vtrapz_6 = swedishpines_roc |>
   ggplot2::labs(title = '(F). spatstat.explore::roc()')
 ```
 
-
 ```{r}
 #| label: fig-vtrapz
 #| warning: false
@@ -841,7 +835,6 @@ methods(class = 'ppp') |>
     visible = NULL
   })
 ```
-
 
 Package **`groupedHyperframe`** implements the additional `S3` method dispatches in @tbl-S3_ppp,
 
@@ -1392,7 +1385,7 @@ S3_fv |>
 
 ### "Black Solid Curve" {#sec-blackSolidCurve}
 
-The `S3` method dispatch `spatstat.explore::plot.fv()` visualizes the recommended function value stored in an `fv.object` as a black-solid-curve.  Function `spatstat.explore::fvnames(., a = '.y')` finds the "name" of the black-solid-curve. 
+The `S3` method dispatch `spatstat.explore::plot.fv()` visualizes the recommended function value stored in an `fv.object` as a black-solid-curve. Function `spatstat.explore::fvnames(., a = '.y')` finds the "name" of the black-solid-curve.
 
 ```{r}
 #| fig-show: hide
@@ -1404,7 +1397,6 @@ spatstat.data::spruces |>
 # Figure suppressed to reduce vignette file size
 ```
 
-
 ```{r}
 #| code-fold: true
 #| code-summary: "**Review**: `spatstat.explore::fvnames(., a = '.y')`"
@@ -1413,7 +1405,7 @@ spatstat.data::spruces |>
   spatstat.explore::fvnames(a = '.y')
 ```
 
-Function `keyval.fv()` finds various function values (default being the black-solid-curve) in an `fv.object`, with the corresponding function argument `spatstat.explore::fvnames(., a = '.x')` as the `vector` `names`.  Function `keyval.fv()` is a "psuedo" `S3` method dispatch, because we do not have an `S3` generic function `keyval()` defined as of package **`groupedHyperframe`** v`r packageVersion('groupedHyperframe')`.
+Function `keyval.fv()` finds various function values (default being the black-solid-curve) in an `fv.object`, with the corresponding function argument `spatstat.explore::fvnames(., a = '.x')` as the `vector` `names`. Function `keyval.fv()` is a "psuedo" `S3` method dispatch, because we do not have an `S3` generic function `keyval()` defined as of package **`groupedHyperframe`** v`r packageVersion('groupedHyperframe')`.
 
 ```{r}
 #| code-fold: true
@@ -1477,7 +1469,7 @@ Function `spatstat.explore::markcorr()` is the workhorse inside functions `Emark
 c(2.5e-324, 2.6e-324) / 0
 ```
 
-Function `markcorr()` provides a default argument of parameter $r$ (Appendix @sec-default_rmax), at which the mark correlation function $k_f(r)$ are evaluated. The `S3` method dispatch `spatstat.explore::print.fv()` prints the *recommended range* and *available range* of $r$.
+Function `spatstat.explore::``markcorr()` provides a default argument of parameter $r$ (Appendix @sec-default_rmax), at which the mark correlation function $k_f(r)$ are evaluated. The `S3` method dispatch `spatstat.explore::print.fv()` prints the *recommended range* and *available range* of $r$.
 
 ```{r}
 #| code-fold: true
@@ -1533,6 +1525,17 @@ c(exp(1), pi, NaN, 1, 0, Inf) |>
 #| code-summary: '**Example**: `lastLegal()` of `keyval.fv()`'
 spatstat.data::spruces |> 
   spatstat.explore::markcorr(r = 0:100) |>
+  keyval.fv() |>
+  lastLegal()
+```
+
+Legality of the function `spatstat.explore::markcorr()` returns depends not only on the input `ppp.object`, but also on the values of $r$. In other words, the creation of an `fv.object` by function `markcorr()` is a numerical procedure. Therefore, the discussion of Legal $r_\text{max}$ pertains to `fv.object` (Appendix @sec-fv), instead of `ppp.object` (Appendix @sec-ppp).
+
+```{r}
+#| code-fold: true
+#| code-summary: '**Example**: Legality of `spatstat.explore::markcorr()` return depends on $r$'
+spatstat.data::spruces |> 
+  spatstat.explore::markcorr(r = seq.int(from = 0, to = 100, by = .1)) |>
   keyval.fv() |>
   lastLegal()
 ```
