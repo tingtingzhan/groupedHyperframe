@@ -1469,7 +1469,7 @@ Function `spatstat.explore::markcorr()` is the workhorse inside functions `Emark
 c(2.5e-324, 2.6e-324) / 0
 ```
 
-Function `spatstat.explore::``markcorr()` provides a default argument of parameter $r$ (Appendix @sec-default_rmax), at which the mark correlation function $k_f(r)$ are evaluated. The `S3` method dispatch `spatstat.explore::print.fv()` prints the *recommended range* and *available range* of $r$.
+Function `spatstat.explore::markcorr()` provides a default argument of parameter $r$ (Appendix @sec-default_rmax), at which the mark correlation function $k_f(r)$ are evaluated. The `S3` method dispatch `spatstat.explore::print.fv()` prints the *recommended range* and *available range* of $r$.
 
 ```{r}
 #| code-fold: true
