@@ -170,7 +170,13 @@ library(survival)
 
 In this vignette, the authors try their best to avoid using `library()`, in order to keep the user's `search` path as clean as possible. The authors use explicitly `namespace`d function calls, e.g., `pracma::trapz()` instead of `library(pracma); trapz()`, so that the users always know from which package a function is defined.
 
-The only places where the authors have to use `library()` are
+The only places where the authors (have to) use `library()` are
+
+<details>
+
+<summary>`library(groupedHyperframe)` in @sec-start</summary>
+To indicate that this is a vignette of package **`groupedHyperframe`**.
+</details>
 
 <details>
 
@@ -282,6 +288,22 @@ e.g., the authors use *`spatstat.data::amacrine`* instead of
 -   *`data('amacrine', package = 'spatstat.data')`*
 
 </details>
+
+
+<details>
+
+<summary>data from package **`groupedHyperframe`**</summary>
+
+e.g., the authors use `library(groupedHyperframe)` in @sec-start and *`Ki67`* in R code-chunks in the body of the vignette, instead of
+
+-   *`groupedHyperframe::Ki67`* or
+-   *`data('Ki67', package = 'groupedHyperframe')`*
+
+</details>
+
+
+
+
 
 ```{r}
 #| echo: false
