@@ -176,7 +176,7 @@ The only places where the authors have to use `library()` are
 
 <summary>`library(survival)` in @sec-start</summary>
 
-To put the un-exported `S3` method dispatch `survival:::as.data.frame.Surv()` on the `search` path. This is necessary, so that the function `spatstat.geom::hyperframe()` could recognize a `Surv`-column instead of treating it as a `matrix`-`hypercolumn`.
+To put the un-`export`ed `S3` method dispatch `survival:::as.data.frame.Surv()` on the `search` path. This is necessary, so that the function `spatstat.geom::hyperframe()` could recognize a `Surv`-column instead of treating it as a `matrix`-`hypercolumn`.
 
 </details>
 
@@ -184,7 +184,7 @@ To put the un-exported `S3` method dispatch `survival:::as.data.frame.Surv()` on
 
 <summary>`library(patchwork)` in Appendix @sec-vtrapz</summary>
 
-To put the un-exported `S3` method dispatch `patchwork:::ggplot_add.ggplot()` on the `search` path. This is necessary, so that the `S3` generic function `ggplot2::ggplot_add()` could dispatch correctly when needed.
+To put the un-`export`ed `S3` method dispatch `patchwork:::ggplot_add.ggplot()` on the `search` path. This is necessary, so that the `S3` generic function `ggplot2::ggplot_add()` could dispatch correctly when needed.
 
 </details>
 
@@ -202,7 +202,7 @@ In this vignette, for education of junior statisticians, the authors try their b
 
 <details>
 
-<summary>explicitly without namespace, if they are exported from package **`base`**, **`stats`**, **`utils`**, etc.</summary>
+<summary>explicitly without namespace, if they are `export`ed from package **`base`**, **`stats`**, **`utils`**, etc.</summary>
 
 e.g., the authors use `within.data.frame()` instead of
 
@@ -210,13 +210,13 @@ e.g., the authors use `within.data.frame()` instead of
 -   `base::within()` or
 -   `base::within.data.frame()`
 
-Obviously, it is impractical to use *`` `[.data.frame`(swiss, 'Fertility') ``* instead of *`swiss[, 'Fertility']`* or *`swiss$Fertility`*.
+Obviously, it is impractical to use *`` `[.data.frame`(swiss, 'Fertility') ``* instead of *`swiss[, 'Fertility']`* or *`swiss$Fertility`* in R code-chunks. The audience is expected to be reasonably comfortable with the use of the `S3` generic functions `` base::`$` `` and `` base::`[` ``. The authors do not explicitly mention the `S3` method dispatch `` base::`[.data.frame`() `` unless required by the context.
 
 </details>
 
 <details>
 
-<summary>by their generic functions without namespace, if they are un-exported from package **`base`**, **`stats`**, **`utils`**, etc.</summary>
+<summary>by their generic functions without namespace, if they are un-`export`ed from package **`base`**, **`stats`**, **`utils`**, etc.</summary>
 
 e.g., the authors use `head()` instead of
 
@@ -227,7 +227,7 @@ e.g., the authors use `head()` instead of
 
 <details>
 
-<summary>explicitly with namespace, no matter they are exported or un-exported from [`contrib`uted packages](https://cran.r-project.org/web/packages)</summary>
+<summary>explicitly with namespace, no matter they are `export`ed or un-`export`ed from [`contrib`uted packages](https://cran.r-project.org/web/packages)</summary>
 
 e.g., the authors use `spatstat.geom::with.hyperframe()` instead of
 
@@ -242,7 +242,7 @@ e.g., the authors use `spatstat.geom::print.ppp()` instead of
 
 e.g., the authors use `patchwork:::ggplot_add.ggplot()`.
 
-Obviously, it is impractical to use *`` spatstat.geom::`$.hyperframe`(flu, 'pattern') ``* instead of *`flu$pattern`*.
+Obviously, it is impractical to use *`` spatstat.geom::`$.hyperframe`(flu, 'pattern') ``* instead of *`flu$pattern`* in R code-chunks.  The audience is expected to be reasonably comfortable with the use of the `S3` generic function `` base::`$` ``. The authors will explicitly mention the `S3` method dispatch `` spatstat.geom::`$.hyperframe`() `` in surrounding text to emphasize a different behavior from vanilla `r R.version.string`.
 
 </details>
 
@@ -250,12 +250,12 @@ Obviously, it is impractical to use *`` spatstat.geom::`$.hyperframe`(flu, 'patt
 
 <summary>in package **`groupedHyperframe`** by their generic functions without namespace</summary>
 
-e.g., the authors use `library(groupedHyperframe)` in @sec-start and `log()` in the body of the vignette, instead of
+e.g., the authors use `library(groupedHyperframe)` in @sec-start and `log()` in R code-chunks in the body of the vignette, instead of
 
 -   `library(groupedHyperframe); log.ppp()` or
 -   `groupedHyperframe::log.ppp()`.
 
-All `S3` method dispatches defined in package **`groupedHyperframe`** are exported.
+All `S3` method dispatches defined in package **`groupedHyperframe`** are `export`ed.
 
 </details>
 
@@ -1456,7 +1456,7 @@ spatstat.data::spruces |>
 
 ### Legal $r_\text{max}$ {#sec-legal_rmax}
 
-Function `spatstat.explore::markcorr()` is the workhorse inside functions `Emark()`, `Vmark()` and `markvario()` as of package **`spatstat.explore`** v`r packageVersion('spatstat.explore')`. Function `markcorr()` relies on the un-exported workhorse function `spatstat.explore:::sewsmod()`, whose default `method = "density"` contains the calculation of the ratio of two kernel densities. Due to the floating-point precision of R, such density ratios may have exceptional/illegal returns of
+Function `spatstat.explore::markcorr()` is the workhorse inside functions `Emark()`, `Vmark()` and `markvario()` as of package **`spatstat.explore`** v`r packageVersion('spatstat.explore')`. Function `markcorr()` relies on the un-`export`ed workhorse function `spatstat.explore:::sewsmod()`, whose default `method = "density"` contains the calculation of the ratio of two kernel densities. Due to the floating-point precision of R, such density ratios may have exceptional/illegal returns of
 
 -   `0`, from $0/\delta$, with a [real number](https://en.wikipedia.org/wiki/Real_number) $\delta\geq$ (approximately) `2.6e-324`
 -   `NaN`, from $0/\varepsilon$ or $\varepsilon/0$, with a real number $\varepsilon\leq$ (approximately) `2.5e-324`
@@ -1800,7 +1800,7 @@ fluM$pattern |>
   addmargins()
 ```
 
-We create a `hyperframe` *`fluM1`* which consists of the same columns as *`fluM`*, but a `ppp`-hypercolumn *`pattern`* with *`M1`* marks only. Similarly, we create another `hyperframe` *`fluM2`* which consists of the *`M2`* marks only. Note that as of package **`spatstat.geom`** v`r packageVersion('spatstat.geom')`, the tedious code below is the only way to insure that we do **not** use the row names of hyperframe as the element-names of the hypercolumns. In other words, function `unclass()` avoids invoking the `S3` method dispatch `` spatstat.geom::`$.hyperframe` ``. The `S3` method dispatch `` spatstat.geom::`$<-.hyperframe` `` is fine in this application.
+We create a `hyperframe` *`fluM1`* which consists of the same columns as *`fluM`*, but a `ppp`-hypercolumn *`pattern`* with *`M1`* marks only. Similarly, we create another `hyperframe` *`fluM2`* which consists of the *`M2`* marks only. Note that as of package **`spatstat.geom`** v`r packageVersion('spatstat.geom')`, the tedious code below is the only way to insure that we do **not** use the row names of hyperframe as the element-names of the hypercolumns. In other words, function `unclass()` avoids invoking the `S3` method dispatch `` spatstat.geom::`$.hyperframe`() ``. The `S3` method dispatch `` spatstat.geom::`$<-.hyperframe` `` is fine in this application.
 
 ```{r}
 #| code-fold: true
@@ -2088,6 +2088,7 @@ R terminology and nomenclature could be *drastically different* from that of mat
 | [`ecdf`](https://search.r-project.org/R/refmans/stats/html/ecdf.html) | Empirical cumulative distribution function |
 | [`environment`](https://search.r-project.org/R/refmans/base/html/environment.html), [`as.environment`](https://search.r-project.org/R/refmans/base/html/as.environment.html) | (Coerce to an) environment |
 | [`eval`](https://search.r-project.org/R/refmans/base/html/eval.html) | Evaluate an R `expression` |
+| [`export`](https://cran.r-project.org/web/packages/roxygen2/vignettes/namespace.html) | Export tags in [NAMESPACE](https://bookdown.dongzhuoer.com/hadley/r-pkgs/namespace) |
 | [`expression`](https://search.r-project.org/R/refmans/base/html/expression.html) | Unevaluated expressions |
 | [`factor`](https://search.r-project.org/R/refmans/base/html/factor.html) | Categorical object, a.k.a., factor |
 | [`file.size`](https://search.r-project.org/R/refmans/base/html/file.info.html) | File size in bytes |
