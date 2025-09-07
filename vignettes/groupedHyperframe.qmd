@@ -1907,11 +1907,9 @@ fluM |>
 
 ### Nested Grouping Structure {#sec-nestedGroup}
 
-Details of the nested grouping structure $g_1/.../g_m$ (`~g1/.../gm`) is provided in section *Details* of [`stats::formula`](https://search.r-project.org/R/refmans/stats/html/formula.html) documentation.
+The nested grouping structure $g_1/.../g_m$ (`~g1/.../gm`) is explained in section *Details* of [`stats::formula`](https://search.r-project.org/R/refmans/stats/html/formula.html) documentation.  The nested grouping structure is made well known by the parameter `random` of functions `nlme::lme()` and `nlme::nlme()`. In fact, the 'grouped' extension of the class `'hyperframe'` is inspired by the class `'groupedData'` defined in package **`nlme`** [@nlme], which `inherits` from the class `'data.frame'`.
 
-The nested grouping structure `~g1/.../gm` is made well known by the parameter `random` of functions `nlme::lme()` and `nlme::nlme()`. In fact, the 'grouped' extension of a `hyperframe` is inspired by the class `'groupedData'` defined in package **`nlme`** [@nlme], which `inherits` from the class `'data.frame'`.
-
-Package **`groupedHyperframe`** allows interaction terms using colon operator `:` in the grouping structure, e.g., `g1/g2a:g2b/g3a:g3b:g3c`. This feature is made possible because the colon operator `:` has higher priority than the forward slash `/` in R `formula`. In the meanwhile, user should be aware that the tilde operator `~` has *lower* priority than the forward pipe `|>` in R `formula`.
+Package **`groupedHyperframe`** allows interaction terms using colon operator `:` in the (nested) grouping structure, e.g., `~g1/g2a:g2b/g3a:g3b:g3c`. This feature is made possible because the colon operator `:` has higher priority than the forward slash `/` in R `formula`. In the meanwhile, user should be aware that the tilde operator `~` has *lower* priority than the forward pipe `|>` in R `formula`.
 
 ```{r}
 #| code-fold: true
