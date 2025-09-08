@@ -55,7 +55,12 @@ op_ppplist <- function(
   n <- length(x)
   
   .rstudio <- identical(Sys.getenv('RSTUDIO'), '1')
-  # mclapply + system('printf ...') kills vanilla R 4.5.1
+  # Sys.getenv('RSTUDIO') returns '' in both vanilla R and Positron
+  
+  # mclapply + system('printf ...')
+  # mclapply + system('echo ...') 
+  # both give warning and kills vanilla R 4.5.1
+  # both give warning in R 4.5.1 in Positron, but does not kill R 4.5.1
   
   ret0 <- n |>
     seq_len() |>
