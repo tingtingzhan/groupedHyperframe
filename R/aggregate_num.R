@@ -117,8 +117,6 @@ aggregate_num <- function(
 #' a \link[stats]{listof} \link[base]{numeric} \link[base]{matrix}es.
 #'  
 #' @keywords internal
-#' @importFrom cli col_cyan col_magenta 
-#' @importFrom cli cli_text
 #' @importFrom spatstat.geom cbind.hyperframe
 #' @export
 aggregate_by_ <- function(

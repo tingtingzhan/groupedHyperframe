@@ -46,9 +46,7 @@
 #'  Gcross_(i = 'M1', j = 'M2', r = r) |>
 #'  aggregate_fv(by = ~ virustype)
 #' @keywords internal
-#' @importFrom cli col_blue col_cyan col_magenta style_bold
-#' @importFrom cli bg_br_yellow
-#' @importFrom spatstat.geom names.hyperframe
+#' @importFrom spatstat.geom names.hyperframe as.list.hyperframe
 #' @importFrom stats setNames
 #' @export
 aggregate_fv <- function(

@@ -50,11 +50,11 @@
 #' a `NULL` value will be returned.
 #' 
 #' @returns 
-#' Function [fv_ppp()] returns a \link[stats]{listof} 
+#' Function [ppp2fv()] returns a \link[stats]{listof} 
 #' \link[spatstat.explore]{fv.object}s, 
 #' one per each eligible \link[spatstat.geom]{marks}.
 #' 
-#' Function [dist_ppp()] returns a \link[stats]{listof} 
+#' Function [ppp2dist()] returns a \link[stats]{listof} 
 #' \link[base]{double} \link[base]{vector}s,
 #' one per each eligible \link[spatstat.geom]{marks}.
 #' 
@@ -62,18 +62,18 @@
 #' library(spatstat.data)
 #' library(spatstat.explore)
 #' 
-#' fv_ppp(betacells, fn = Emark) # applicable to numeric mark
-#' fv_ppp(betacells, fn = Kmark) # applicable to numeric mark
-#' fv_ppp(betacells, fn = Gcross, i = 'off', j = 'on') # applicable to multitype mark
+#' ppp2fv(betacells, fn = Emark) # applicable to numeric mark
+#' ppp2fv(betacells, fn = Kmark) # applicable to numeric mark
+#' ppp2fv(betacells, fn = Gcross, i = 'off', j = 'on') # applicable to multitype mark
 #' 
-#' dist_ppp(betacells, fn = .nncross, i = 'off', j = 'on')
-#' dist_ppp(gorillas, fn = .nncross, i = 'major', j = 'minor')
-#' dist_ppp(gorillas, fn = .nncross, i = 'rainy', j = 'dry')
+#' ppp2dist(betacells, fn = .nncross, i = 'off', j = 'on')
+#' ppp2dist(gorillas, fn = .nncross, i = 'major', j = 'minor')
+#' ppp2dist(gorillas, fn = .nncross, i = 'rainy', j = 'dry')
 #' @keywords internal
-#' @name op_ppp
+#' @name ppp2.
 #' @importFrom spatstat.geom unstack.ppp is.multitype.ppp
 #' @export
-dist_ppp <- function(x, fn, ...) {
+ppp2dist <- function(x, fn, ...) {
   
   x. <- unstack.ppp(x)
   if (length(x.) == 1L && !length(names(x.))) {
@@ -104,18 +104,17 @@ dist_ppp <- function(x, fn, ...) {
 
 
 
-#' @rdname op_ppp
+#' @rdname ppp2.
 #' @importFrom spatstat.explore Emark Vmark markcorr markvario
 #' @importFrom spatstat.explore Kmark
 #' @importFrom spatstat.explore Gcross Jcross Kcross Lcross markconnect
 #' @importFrom spatstat.geom unstack.ppp is.multitype.ppp
 #' @export
-fv_ppp <- function(x, fn, ...) {
+ppp2fv <- function(x, fn, ...) {
   
   x. <- unstack.ppp(x)
   if (length(x.) == 1L && !length(names(x.))) {
     # unstacking a 'vector' `mark`
-    #stop('unstacked `x` must be named, see ?mark_names')
     names(x.) <- 'm'
   }
   
