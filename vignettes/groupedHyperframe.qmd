@@ -905,26 +905,19 @@ spatstat.data::urkiola |>
 ```
 
 
-
-```{r}
-#| code-fold: true
-#| code-summary: "**Example**: `is.numeric.ppp()` on `'dataframe'`-`markformat`"
-spatstat.data::betacells
-spatstat.data::betacells |>
-  is.numeric()
-```
-
 Note that the `S3` method dispatches `is.numeric.ppp()` and `spatstat.geom::is.multitype.ppp()` behave differently for `'dataframe'`-`markformat`.
 
+
 ```{r}
 #| code-fold: true
-#| code-summary: "**Review**: `spatstat.geom::is.multitype.ppp()` on `'dataframe'`-`markformat`"
+#| code-summary: "**Review** & **Example**: `is.numeric.ppp()` vs. `spatstat.geom::is.multitype.ppp()` on `'dataframe'`-`markformat`"
 spatstat.data::betacells
 spatstat.data::betacells |>
-  is.numeric()
-spatstat.data::betacells |>
   spatstat.geom::is.multitype.ppp()
+spatstat.data::betacells |>
+  is.numeric()
 ```
+
 
 
 ### Log of `numeric` `marks`
