@@ -120,8 +120,10 @@ ppp2fv <- function(x, fn, ...) {
   
   mtp <- x. |> 
     vapply(FUN = is.multitype.ppp, FUN.VALUE = NA)
-  num <- x. |>
-    vapply(FUN = \(i) is.numeric(i$marks), FUN.VALUE = NA)
+  #num <- x. |>
+  #  vapply(FUN = \(i) is.numeric(i$marks), FUN.VALUE = NA)
+  num <- x |>
+    is.numeric.ppp()
   # stopifnot(is.double(POSIXct), !is.numeric(POSIXct))
   
   fn_num <- list(

@@ -880,6 +880,53 @@ The authors have [**not**]{style="background-color: #FFFF00"} implemented
 
 -   the `S3` method dispatches of `na.fail()` and `na.pass()` to a `ppp.object` (Appendix @sec-dont-na-ppp).
 
+### Are `marks` `numeric`?
+
+The `S3` method dispatch `is.numeric.ppp()` determines if a `ppp.object` contains `numeric` `marks`.
+
+```{r}
+#| code-fold: true
+#| code-summary: "**Example**: `is.numeric.ppp()` on `'none'`-`markformat`"
+spatstat.data::cells
+spatstat.data::cells |>
+  is.numeric()
+```
+
+
+```{r}
+#| code-fold: true
+#| code-summary: "**Example**: `is.numeric.ppp()` on `'vector'`-`markformat`"
+spatstat.data::longleaf
+spatstat.data::longleaf |>
+  is.numeric()
+spatstat.data::urkiola
+spatstat.data::urkiola |>
+  is.numeric()
+```
+
+
+
+```{r}
+#| code-fold: true
+#| code-summary: "**Example**: `is.numeric.ppp()` on `'dataframe'`-`markformat`"
+spatstat.data::betacells
+spatstat.data::betacells |>
+  is.numeric()
+```
+
+Note that the `S3` method dispatches `is.numeric.ppp()` and `spatstat.geom::is.multitype.ppp()` behave differently for `'dataframe'`-`markformat`.
+
+```{r}
+#| code-fold: true
+#| code-summary: "**Review**: `spatstat.geom::is.multitype.ppp()` on `'dataframe'`-`markformat`"
+spatstat.data::betacells
+spatstat.data::betacells |>
+  is.numeric()
+spatstat.data::betacells |>
+  spatstat.geom::is.multitype.ppp()
+```
+
+
 ### Log of `numeric` `marks`
 
 The `S3` method dispatches

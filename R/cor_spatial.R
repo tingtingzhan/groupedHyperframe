@@ -26,8 +26,6 @@ pairwise_cor_spatial <- function(x, ...) UseMethod(generic = 'pairwise_cor_spati
 #' @export
 pairwise_cor_spatial.ppp <- function(x, ...) {
   
-  # use of `formula` is defunct; `formula` will just be ignored
-  
   m <- x |> marks()
   
   v <- m |> vapply(FUN = is.numeric, FUN.VALUE = NA) |> which() |> names()

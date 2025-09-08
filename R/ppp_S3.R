@@ -1,5 +1,33 @@
 
 
+#' @title Is \link[spatstat.geom]{marks} of \link[spatstat.geom]{ppp.object} \link[base]{numeric} ?
+#' 
+#' @param x a \link[spatstat.geom]{ppp.object}
+#' 
+#' @keywords internal
+#' @export is.numeric.ppp
+#' @export
+is.numeric.ppp <- function(x) {
+  
+  m <- x |>
+    marks(dfok = TRUE, drop = FALSE)
+  
+  x |>
+    markformat() |>
+    switch('dataframe' = {
+      m |>
+        vapply(FUN = is.numeric, FUN.VALUE = NA)
+    }, 'vector' = {
+      is.numeric(m)
+    }, 'none' = {
+      logical()
+    })
+  
+}
+
+
+
+
 #' @title \link[base]{log} of \link[spatstat.geom]{ppp.object}
 #' 
 #' @description
