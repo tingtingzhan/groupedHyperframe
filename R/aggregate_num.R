@@ -57,16 +57,11 @@ aggregate_num <- function(
 
   hc <- unclass(X)$hypercolumns
   
-  # now we have [is.numeric.ppp()], so must remove 'ppplist' first!!
   # 'numeric' 'marks' in 'ppp'-`hypercolumns`
-  #X_ppp <- vapply(X, FUN = is.ppplist, FUN.VALUE = NA)
   hc_ppp <- hc |>
     vapply(FUN = is.ppplist, FUN.VALUE = NA)
-  #if (sum(X_ppp) > 1L) stop('does not allow more than 1 ppp-hypercolumn')
   if (sum(hc_ppp) > 1L) stop('does not allow more than 1 ppp-hypercolumn')
-  #if (sum(X_ppp) == 1L) {
   if (sum(hc_ppp) == 1L) {
-    #mk_ <- lapply(X[[names(which(X_ppp))]], FUN = marks.ppp, drop = FALSE)
     mk_ <- hc[[which(hc_ppp)]] |> 
       lapply(FUN = marks.ppp, drop = FALSE)
     mk <- .mapply(FUN = list, dots = mk_, MoreArgs = NULL)
@@ -78,9 +73,8 @@ aggregate_num <- function(
     mark_num_ <- if (any(mk_num)) mk[mk_num] # else NULL
   } else mark_num_ <- NULL
   
-  hc <- hc[!hc_ppp]
-  
   # 'numeric'-`hypercolumns`
+  hc <- hc[!hc_ppp] # now we have [is.numeric.ppp()], so must remove 'ppplist' first!!
   hc_num <- hc |>
     vapply(FUN = \(x) {
       x |>
