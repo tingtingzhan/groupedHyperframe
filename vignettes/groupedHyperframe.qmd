@@ -309,6 +309,55 @@ op = par(no.readonly = TRUE)
 #options(mc.cores = 1L) # for CRAN submission
 ```
 
+## Peer-Reviewed Publications
+
+Package **`groupedHyperframe`** plays a pivotal role in these peer reviewed publications from the authors.
+
+### @Zhan25
+
+> `r citation(package = 'hyper.gam')[[1L]] |> format(style = 'text') |> gsub(pattern = '\n', replacement = ' ', x = _)`
+
+<details>
+
+<summary>[BibTeX](https://ctan.org/pkg/bibtex) and/or [BibLaTeX](https://ctan.org/pkg/biblatex) entries for [LaTeX](https://www.latex-project.org) users</summary>
+
+```{r}
+#| echo: false
+#| comment: ''
+c(
+  citation(package = 'hyper.gam'),
+  citation(package = 'groupedHyperframe')
+) |> toBibtex()
+```
+
+</details>
+
+as well as @Yi25; @Yi23a; @Yi23b, was featured with a non-spatial `hyperframe` *`Ki67q`* with a numeric-hypercolumn *`logKi67.quantile`*. Functions in the code-chunk below are explained in @sec-groupedHyperframe.
+
+```{r}
+Ki67q = groupedHyperframe::Ki67 |>
+  within.data.frame(expr = {
+    x = y = NULL # remove x- and y-coords for non-spacial application
+  }) |>
+  as.groupedHyperframe(group = ~ patientID/tissueID) |> 
+  aggregate_quantile(by = ~ patientID, probs = seq.int(from = .01, to = .99, by = .01))
+```
+
+```{r}
+#| message: false
+#| code-fold: true
+#| code-summary: 'A `hyperframe` object *`Ki67q`*: aggregated quantiles'
+Ki67q |>
+  head()
+```
+
+Readers are encouraged to learn more about this application from package **`hyper.gam`** vignette ([RPubs](https://rpubs.com/tingtingzhan/hyper_gam), [CRAN](https://CRAN.R-project.org/package=hyper.gam/vignettes/applications.html)), section *Quantile Index*.
+
+{{< pagebreak >}}
+
+
+
+
 ## Acknowledgement
 
 This work is supported by National Institutes of Health, U.S. Department of Health and Human Services grants
@@ -326,13 +375,13 @@ An `S3` class `hyperframe`, for **hyper data frame**, is defined in package **`s
 spatstat.data::demohyper
 ```
 
-We introduce a new `S3` class `groupedHyperframe`, for **grouped hyper data frame**, which `inherits` from the `hyperframe` class. The derived class `groupedHyperframe` has additional `attributes`
+The authors introduce a new `S3` class `groupedHyperframe`, for **grouped hyper data frame**, which `inherits` from the `hyperframe` class. The derived class `groupedHyperframe` has additional `attributes`
 
 -   `attr(., 'group')`, a one-sided `formula` of the (nested) grouping structure, e.g., *`~patient/image`* when each patient has one or more images. Appendix @sec-nestedGroup provides references to the grammar of the nested grouping structure $g_1/.../g_m$ (`~g1/.../gm`).
 
 The `S3` generic function `as.groupedHyperframe()` converts objects of various classes into a `groupedHyperframe`.
 
-We have a toy data example *`wrobel_lung`* in package **`groupedHyperframe`** originally from Dr. [Julia Wrobel](https://sph.emory.edu/profile/faculty/julia-wrobel). Consider a subset *`wrobel_lung0`* with the only non-identical column *`hladr`* in the lowest group *`image_id`* of the nested grouping structure *`~patient_id/image_id`*.
+The authors have a toy data example *`wrobel_lung`* in package **`groupedHyperframe`** originally from Dr. [Julia Wrobel](https://sph.emory.edu/profile/faculty/julia-wrobel). Consider a subset *`wrobel_lung0`* with the only non-identical column *`hladr`* in the lowest group *`image_id`* of the nested grouping structure *`~patient_id/image_id`*.
 
 ```{r}
 #| label: wrobel_lung0
@@ -404,7 +453,7 @@ wrobel_lung0g |>
 
 # Grouping `ppp`-Hypercolumn {#sec-grouped_ppp}
 
-In this section, we first introduce the creation of a `groupedHyperframe` with *one-and-only-one* point pattern (`ppp`) hypercolumn. Then, we discuss
+In this section, the authors first introduce the creation of a `groupedHyperframe` with *one-and-only-one* point pattern (`ppp`) hypercolumn. Then, the authors discuss
 
 -   the batch processes of spatial point pattern analyses on the *one-and-only-one* `ppp`-hypercolumn of a `hyperframe` (and/or `groupedHyperframe`). These batch processes are not intended for a `hyperframe` (and/or `groupedHyperframe`) with multiple `ppp`-hypercolumns in the foreseeable future, as that would require checking for name clashes in the `marks` from multiple `ppp`-hypercolumns.
 -   the aggregation of batch-process-returns over the nested grouping structure.
@@ -499,9 +548,9 @@ The returned `hyperframe` (and/or `groupedHyperframe`) has
 out
 ```
 
-## Truncated Aggregation
+## Truncated Aggregation {#sec-aggregate}
 
-In this section, we discuss the aggregation over nested grouping structure.
+In this section, the authors discuss the aggregation over nested grouping structure.
 
 ### Of `fv`-hypercolumn(s)
 
@@ -513,7 +562,7 @@ Function `aggregate_fv()` performs (truncated) aggregation of
 
 When a user-specified $r_\text{max}$ is provided to a batch process (in @sec-batch) on *all* `ppp.object`s in the `ppp`-hypercolumn, inevitably some of the `fv`-returns may contain exceptional/illegal function values (Appendix @sec-legal_rmax). In this case, the aggregation is *truncated* at the minimum legal $r_\text{max}$ of the `fv.object`s in each `fv`-hypercolumn.
 
-In the following example, we have
+In the following example, the returned object *`afv`* has
 
 -   numeric-hypercolumns *`hladr.E.y`*, *`hladr.E.cumtrapz`* and *`hladr.E.cumvtrapz`* from `fv`-hypercolumns *`hladr.E`*. Function values from all `fv.object`s in the `fv`-hypercolumns *`hladr.E`* are legal, therefore, this aggregation is not truncated.
 -   numeric-hypercolumns *`phenotype.G.y`*, *`phenotype.G.cumtrapz`* and *`phenotype.G.cumvtrapz`* from `fv`-hypercolumns *`phenotype.G`*. This aggregation is *truncated* at the minimum legal $r_\text{max}=240$ of the `fv.object`s in the `fv`-hypercolumn *`phenotype.G`*.
@@ -578,7 +627,7 @@ Function `aggregate_quantile()` aggregates the `quantile`s
 -   of the numeric marks in the one-and-only-one `ppp`-hypercolumn (Appendix @sec-isnumeric-ppp). 
 
 
-In the following example, we have
+In the following example, the returned object has
 
 -   numeric-hypercolumn *`phenotype.nncross.quantile`*, the aggregated `quantile`s of numeric-hypercolumn *`phenotype.nncross`*.
 -   numeric-hypercolumn *`hladr.quantile`*, the aggregated `quantile`s of the numeric mark *`hladr`* in `ppp`-hypercolumn.
@@ -593,7 +642,7 @@ out |>
 
 Function `aggregate_kerndens()` aggregates the kernel density of the numeric-hypercolumns and the numeric marks in the `ppp`-hypercolumn.
 
-In the following example, we have
+In the following example, the returned object has
 
 -   numeric-hypercolumn *`phenotype.nncross.kerndens`*, the aggregated kernel densities of numeric-hypercolumn *`phenotype.nncross`*.
 -   numeric-hypercolumn *`hladr.kerndens`*, the aggregated kernel densities of the numeric mark *`hladr`* in `ppp`-hypercolumn.
@@ -607,13 +656,9 @@ out |>
 
 {{< pagebreak >}}
 
-# Peer-Reviewed Publications
+# Manuscript in Progress
 
-Package **`groupedHyperframe`** plays a pivotal role in these peer reviewed publications from the authors.
-
-## @Zhan25
-
-> `r citation(package = 'hyper.gam')[[1L]] |> format(style = 'text') |> gsub(pattern = '\n', replacement = ' ', x = _)`
+## Paper 1
 
 <details>
 
@@ -623,35 +668,29 @@ Package **`groupedHyperframe`** plays a pivotal role in these peer reviewed publ
 #| echo: false
 #| comment: ''
 c(
-  citation(package = 'hyper.gam'),
   citation(package = 'groupedHyperframe')
 ) |> toBibtex()
 ```
 
 </details>
 
-as well as @Yi25; @Yi23a; @Yi23b, was featured with a non-spatial `hyperframe` *`Ki67q`* with a numeric-hypercolumn *`logKi67.quantile`*. Functions in the code-chunk below are explained in @sec-groupedHyperframe.
+The authors are working on a manuscript about the batch process (@sec-batch) and the truncated aggregation (@sec-aggregate, Appendix @sec-fvlist).
 
-```{r}
-Ki67q = groupedHyperframe::Ki67 |>
-  within.data.frame(expr = {
-    x = y = NULL # remove x- and y-coords for non-spacial application
-  }) |>
-  as.groupedHyperframe(group = ~ patientID/tissueID) |> 
-  aggregate_quantile(by = ~ patientID, probs = seq.int(from = .01, to = .99, by = .01))
-```
+## Paper 2
 
-```{r}
-#| message: false
-#| code-fold: true
-#| code-summary: 'A `hyperframe` object *`Ki67q`*: aggregated quantiles'
-Ki67q |>
-  head()
-```
+The authors are working on a manuscript about the simulation of grouped hyper data frame.  
 
-Users are encouraged to learn more about this application from package **`hyper.gam`** vignette ([RPubs](https://rpubs.com/tingtingzhan/hyper_gam), [CRAN](https://CRAN.R-project.org/package=hyper.gam/vignettes/applications.html)), section *Quantile Index*.
+Readers are encouraged to learn more about this application from package **`groupedHyperframe.random`** vignette ([RPubs](https://rpubs.com/tingtingzhan/groupedHyperframe_random), [CRAN](https://CRAN.R-project.org/package=groupedHyperframe.random/vignettes/intro.html)).
 
-{{< pagebreak >}}
+
+## Paper 3
+
+The authors are working on a manuscript about predictor selection from a numeric-`hypercolumn`.
+
+
+Readers are encouraged to learn more about this application from package **`maxEff`** vignette ([RPubs](https://rpubs.com/tingtingzhan/maxEff), [CRAN](https://CRAN.R-project.org/package=maxEff/vignettes/intro.html)).
+
+
 
 # Appendix {#sec-appendix}
 
@@ -686,7 +725,7 @@ Readers who wish to extend the package **`groupedHypeframe`** or incorporate it 
 
 The [chained trapezoidal rule](https://en.wikipedia.org/wiki/Trapezoidal_rule) of approximating a definite integral is an ancient idea since the dawn of human civilization.
 
-Let $\{x_k; k=0,\cdots,N\}$ be a partition of the real interval $[a,b]$ such that $a = x_0 < x_1 < \cdots < x_{N-1} < x_N = b$ and $\Delta x_k= x_k - x_{k-1}$ be the length of the $k$-th sub-interval, then the trapezoidal approximation of the integration
+Let $\{x_k; k=0,\cdots,N\}$ be a partition of the real interval $[a,b]$ such that $a = x_0 < x_1 < \cdots < x_{N-1} < x_N = b$ and $\Delta x_k= x_k - x_{k-1}$ be the length of the $k$-th sub-interval, then the chained-trapezoidal approximation of the integration
 
 $$
 \begin{split}
@@ -706,13 +745,13 @@ set.seed(23); (x = rnorm(n = length(x.), mean = x., sd = .5))
 set.seed(12); (y = rnorm(n = length(x.), mean = 1, sd = .2))
 ```
 
-Note that we intentionally make the toy example data *`x`* *not* equidistant, as neither the chained trapezoidal rule framework nor the function `pracma::trapz()` *requires* the equidistant assumption.
+Note that the authors intentionally make the toy example data *`x`* *not* equidistant, as neither the chained trapezoidal rule framework nor the function `pracma::trapz()` *requires* the equidistant assumption.
 
 Function `pracma::trapz()` calculates a trapezoidal integration (@eq-trapz), visualized in @fig-vtrapz(A).
 
 ```{r}
 #| code-fold: true
-#| code-summary: '**Review**: `pracma::trapz()`'
+#| code-summary: '**Review**: function `pracma::trapz()`'
 pracma::trapz(x, y)
 ```
 
@@ -724,13 +763,13 @@ Function `pracma::cumtrapz()` calculates a cumulative trapezoidal integration. N
 
 ```{r}
 #| code-fold: true
-#| code-summary: '**Review**: `pracma::cumtrapz()`'
+#| code-summary: '**Review**: function  `pracma::cumtrapz()`'
 pracma::cumtrapz(x, y)
 ```
 
 ### Average Vertical Height {#sec-vtrapz}
 
-We define the *average vertical height* of a trapezoidal integration as the trapezoid (@eq-trapz) divided by the length of $x$-domain $b-a$,
+The authors define the *average vertical height* of a trapezoidal integration as the chained-trapezoid (@eq-trapz) divided by the length of $x$-domain $b-a$,
 
 $$
 \begin{split}
@@ -739,11 +778,11 @@ $$
 \end{split}
 $$ {#eq-vtrapz}
 
-Function `vtrapz()` calculates the average vertical height of a trapezoidal integration (@eq-vtrapz). The (tentative) prefix `v` indicates "vertical". The shaded rectangle in @fig-vtrapz(A) has the same area as the trapezoidal integration. Therefore, we define the vertical height of the shaded rectangle as the *average vertical height* of the trapezoidal integration.
+Function `vtrapz()` calculates the average vertical height of a trapezoidal integration (@eq-vtrapz). The (tentative) prefix `v` indicates "vertical". The shaded rectangle in @fig-vtrapz(A) has the same area as the trapezoidal integration. Therefore, the authors define the vertical height of the shaded rectangle as the *average vertical height* of the trapezoidal integration.
 
 ```{r}
 #| code-fold: true
-#| code-summary: '**Example**: `vtrapz()`'
+#| code-summary: '**Example**: function `vtrapz()`'
 vtrapz(x, y)
 ```
 
@@ -756,7 +795,7 @@ Function `cumvtrapz()` calculates the cumulative average vertical height of a tr
 
 ```{r}
 #| code-fold: true
-#| code-summary: '**Example**: `cumvtrapz()`'
+#| code-summary: '**Example**: function `cumvtrapz()`'
 cumvtrapz(x, y)
 ```
 
@@ -898,7 +937,7 @@ The `S3` method dispatch `is.numeric.ppp()` determines whether the `marks`, if a
 
 ```{r}
 #| code-fold: true
-#| code-summary: "**Example**: `is.numeric.ppp()` on `'none'`-`markformat`"
+#| code-summary: "**Example**: function `is.numeric.ppp()` on `'none'`-`markformat`"
 spatstat.data::cells
 spatstat.data::cells |>
   is.numeric()
@@ -906,7 +945,7 @@ spatstat.data::cells |>
 
 ```{r}
 #| code-fold: true
-#| code-summary: "**Example**: `is.numeric.ppp()` on `'vector'`-`markformat`"
+#| code-summary: "**Example**: function `is.numeric.ppp()` on `'vector'`-`markformat`"
 spatstat.data::longleaf
 spatstat.data::longleaf |>
   is.numeric()
@@ -919,7 +958,7 @@ Note that the `S3` method dispatches `is.numeric.ppp()` and `spatstat.geom::is.m
 
 ```{r}
 #| code-fold: true
-#| code-summary: "**Review** & **Example**: `is.numeric.ppp()` vs. `spatstat.geom::is.multitype.ppp()` on `'dataframe'`-`markformat`"
+#| code-summary: "**Review** & **Example**: functions `is.numeric.ppp()` vs. `spatstat.geom::is.multitype.ppp()` on `'dataframe'`-`markformat`"
 spatstat.data::betacells
 spatstat.data::betacells |>
   spatstat.geom::is.multitype.ppp()
@@ -1009,7 +1048,7 @@ If missingness exists in the `marks`, the `'na.action'`-`attr`ibute of the `mark
 
 ```{r}
 #| code-fold: true
-#| code-summary: "**Example**: `na.omit.ppp()` and  `na.exclude.ppp()` on `'none'`-`markformat`"
+#| code-summary: "**Example**: functions `na.omit.ppp()` and  `na.exclude.ppp()` on `'none'`-`markformat`"
 spatstat.data::cells
 cells_omit = spatstat.data::cells |>
   na.omit()
@@ -1023,7 +1062,7 @@ stopifnot(
 
 ```{r}
 #| code-fold: true
-#| code-summary: "**Example**: `na.omit.ppp()` and  `na.exclude.ppp()` on `'vector'`-`markformat`, no missingness"
+#| code-summary: "**Example**: functions `na.omit.ppp()` and  `na.exclude.ppp()` on `'vector'`-`markformat`, no missingness"
 spatstat.data::amacrine
 amacrine_omit = spatstat.data::amacrine |>
   na.omit()
@@ -1037,7 +1076,7 @@ stopifnot(
 
 ```{r}
 #| code-fold: true
-#| code-summary: "**Example**: `na.omit.ppp()` and  `na.exclude.ppp()` on `'dataframe'`-`markformat`"
+#| code-summary: "**Example**: functions `na.omit.ppp()` and  `na.exclude.ppp()` on `'dataframe'`-`markformat`"
 nbfires. = spatstat.data::nbfires[1:100]
 nbfires. |> 
   spatstat.geom::npoints.ppp()
@@ -1076,7 +1115,7 @@ In the example below, the name of the mark *`hladr`* is retained, as the column 
 
 ```{r}
 #| code-fold: true
-#| code-summary: "**Example**: `grouped_ppp()` with one `mark`"
+#| code-summary: "**Example**: function `grouped_ppp()` with one `mark`"
 s_a = wrobel_lung |>
    grouped_ppp(formula = hladr ~ OS + gender + age | patient_id/image_id)
 ```
@@ -1099,7 +1138,7 @@ The `S3` method dispatch `append_marks<-.ppp()` appends an additional mark to th
 
 ```{r}
 #| code-fold: true
-#| code-summary: '**Example**: `append_marks<-.ppp()`, no existing marks'
+#| code-summary: '**Example**: function `append_marks<-.ppp()`, no existing marks'
 spatstat.data::vesicles |>
   spatstat.geom::print.ppp()
 ves = spatstat.data::vesicles
@@ -1110,7 +1149,7 @@ ves |>
 
 ```{r}
 #| code-fold: true
-#| code-summary: '**Example**: `append_marks<-.ppp()`, existing numeric marks'
+#| code-summary: '**Example**: function `append_marks<-.ppp()`, existing numeric marks'
 spatstat.data::waka |>
   spatstat.geom::print.ppp()
 wak = spatstat.data::waka
@@ -1121,7 +1160,7 @@ wak |>
 
 ```{r}
 #| code-fold: true
-#| code-summary: '**Example**: `append_marks<-.ppp()`, existing `multitype` marks'
+#| code-summary: '**Example**: function `append_marks<-.ppp()`, existing `multitype` marks'
 spatstat.data::urkiola |>
   spatstat.geom::print.ppp()
 urki = spatstat.data::urkiola
@@ -1132,7 +1171,7 @@ urki |>
 
 ```{r}
 #| code-fold: true
-#| code-summary: '**Example**: `append_marks<-.ppp()`, existing `dataframe` marks'
+#| code-summary: '**Example**: function `append_marks<-.ppp()`, existing `dataframe` marks'
 spatstat.data::stonetools |>
   spatstat.geom::print.ppp()
 stonest = spatstat.data::stonetools
@@ -1166,7 +1205,7 @@ The `S3` method dispatch `rmax_.ppp()` finds the default $r_\text{max}$ used by 
 
 ```{r}
 #| code-fold: true
-#| code-summary: "**Example**: `rmax_.ppp()`; function `spatstat.explore::markcorr()` on `double`-mark"
+#| code-summary: "**Example**: function `rmax_.ppp()` for `spatstat.explore::markcorr()` on `double`-mark"
 spatstat.data::spruces
 r1 = spatstat.data::spruces |>
   spatstat.explore::markcorr() |>
@@ -1179,7 +1218,7 @@ stopifnot(identical(r1, r2))
 
 ```{r}
 #| code-fold: true
-#| code-summary: "**Example**: `rmax_.ppp()`; function `spatstat.explore::markcorr()` on `integer`-mark"
+#| code-summary: "**Example**: function `rmax_.ppp()` for `spatstat.explore::markcorr()` on `integer`-mark"
 spatstat.data::anemones
 r1 = spatstat.data::anemones |>
   spatstat.explore::markcorr() |>
@@ -1192,7 +1231,7 @@ stopifnot(identical(r1, r2))
 
 ```{r}
 #| code-fold: true
-#| code-summary: "**Example**: `rmax_.ppp()`; function `spatstat.explore::Gcross()` on `multitype`-mark"
+#| code-summary: "**Example**: function `rmax_.ppp()` for `spatstat.explore::Gcross()` on `multitype`-mark"
 spatstat.data::amacrine
 r1a = spatstat.data::amacrine |>
   spatstat.explore::Gcross(i = 'on', j = 'off') |>
@@ -1226,7 +1265,7 @@ stopifnot(identical(r1d, r2d))
 
 ```{r}
 #| code-fold: true
-#| code-summary: "**Example**: `rmax_.ppp()`; function `spatstat.explore::Jcross()` on `multitype`-mark"
+#| code-summary: "**Example**: function `rmax_.ppp()` for `spatstat.explore::Jcross()` on `multitype`-mark"
 spatstat.data::paracou
 r1a = spatstat.data::paracou |>
   spatstat.explore::Jcross(i = 'adult', j = 'juvenile') |>
@@ -1262,7 +1301,7 @@ Additional `S3` method dispatches are discussed in @sec-ppplist and @sec-default
 
 ### $k$-Means Clustering {#sec-kmeans}
 
-The `S3` generic function `.kmeans()` performs $k$-means clustering. We name this generic function with a prefix `.` because the workhorse function `stats::kmeans()` is not an `S3` generic function. The `S3` generic function `.kmeans()` returns an object of class `'kmeans'` defined in R package **`stats`** shipped with vanilla `r R.version$version.string`. Currently only one `S3` method dispatch `.kmeans.ppp()` is planned.
+The `S3` generic function `.kmeans()` performs $k$-means clustering. The authors name this generic function with a prefix `.` because the workhorse function `stats::kmeans()` is not an `S3` generic function. The `S3` generic function `.kmeans()` returns an object of class `'kmeans'` defined in R package **`stats`** shipped with vanilla `r R.version$version.string`. Currently only one `S3` method dispatch `.kmeans.ppp()` is planned.
 
 The `S3` method dispatch `.kmeans.ppp()` has parameters
 
@@ -1283,21 +1322,21 @@ spatstat.data::bei |>
 
 ```{r}
 #| code-fold: true
-#| code-summary: '**Example**: `.kmeans.ppp()`; cluster *`bei`* by `~ x`'
+#| code-summary: '**Example**: function `.kmeans.ppp()`; cluster *`bei`* by `~ x`'
 spatstat.data::bei |> 
   .kmeans(formula = ~ x, centers = 3L)
 ```
 
 ```{r}
 #| code-fold: true
-#| code-summary: '**Example**: `.kmeans.ppp()`; cluster *`bei`* by `~ x + y`'
+#| code-summary: '**Example**: function `.kmeans.ppp()`; cluster *`bei`* by `~ x + y`'
 spatstat.data::bei |> 
   .kmeans(formula = ~ x + y, centers = 3L)
 ```
 
 ```{r}
 #| code-fold: true
-#| code-summary: '**Example**: `.kmeans.ppp()`; cluster *`bei`* by `~ x + y` and parameter `clusterSize`'
+#| code-summary: '**Example**: function `.kmeans.ppp()`; cluster *`bei`* by `~ x + y` and parameter `clusterSize`'
 spatstat.data::bei |> 
   .kmeans(formula = ~ x + y, clusterSize = 1000L)
 ```
@@ -1313,14 +1352,14 @@ spatstat.data::waka |>
 
 ```{r}
 #| code-fold: true
-#| code-summary: '**Example**: `.kmeans.ppp()`; cluster *`waka`* by `~ x + marks`'
+#| code-summary: '**Example**: function `.kmeans.ppp()`; cluster *`waka`* by `~ x + marks`'
 spatstat.data::waka |> 
   .kmeans(formula = ~ x + marks, centers = 3L)
 ```
 
 ```{r}
 #| code-fold: true
-#| code-summary: '**Example**: `.kmeans.ppp()`; cluster *`waka`* by `~ x + y + marks`'
+#| code-summary: '**Example**: function `.kmeans.ppp()`; cluster *`waka`* by `~ x + y + marks`'
 spatstat.data::waka |> 
   .kmeans(formula = ~ x + y + marks, centers = 3L)
 ```
@@ -1336,21 +1375,21 @@ spatstat.data::shapley |>
 
 ```{r}
 #| code-fold: true
-#| code-summary: '**Example**: `.kmeans.ppp()`; cluster *`shapley`* by `~ x + y + Mag`'
+#| code-summary: '**Example**: function `.kmeans.ppp()`; cluster *`shapley`* by `~ x + y + Mag`'
 spatstat.data::shapley |> 
   .kmeans(formula = ~ x + y + Mag, centers = 3L)
 ```
 
 ```{r}
 #| code-fold: true
-#| code-summary: '**Example**: `.kmeans.ppp()`; cluster *`shapley`* by `~ x + Mag + V`'
+#| code-summary: '**Example**: function `.kmeans.ppp()`; cluster *`shapley`* by `~ x + Mag + V`'
 spatstat.data::shapley |> 
   .kmeans(formula = ~ x + Mag + V, centers = 3L)
 ```
 
 #### Split by $k$-Means Clustering {#sec-split_kmeans}
 
-The `S3` generic function `split_kmeans()` splits `ppp.object`, `ppplist` (Appendix @sec-ppplist), and `hyperframe` (Appendix @sec-split_kmeans-hyperframe) by $k$-means clustering. We use a `subset` of the data set *`flu`* from package **`spatstat.data`** to illustrate the various `S3` method dispatches of `split_kmeans()`.
+The `S3` generic function `split_kmeans()` splits `ppp.object`, `ppplist` (Appendix @sec-ppplist), and `hyperframe` (Appendix @sec-split_kmeans-hyperframe) by $k$-means clustering. The authors use a `subset` of the data set *`flu`* from package **`spatstat.data`** to illustrate the various `S3` method dispatches of `split_kmeans()`.
 
 ```{r}
 #| code-fold: true
@@ -1362,7 +1401,7 @@ The `S3` method dispatch `split_kmeans.default()` splits a `ppp.object` by $k$-m
 
 ```{r}
 #| code-fold: true
-#| code-summary: '**Example**: `split_kmeans.default()`'
+#| code-summary: '**Example**: function `split_kmeans.default()`'
 fluM$pattern[[1L]] |> 
   split_kmeans(formula = ~ x + y, centers = 3L)
 ```
@@ -1384,7 +1423,7 @@ The `S3` method dispatch `pairwise_cor_spatial.ppp()` finds the nonparametric Tj
 
 ```{r}
 #| code-fold: true
-#| code-summary: '**Example**: `pairwise_cor_spatial.ppp()`'
+#| code-summary: '**Example**: function `pairwise_cor_spatial.ppp()`'
 finpines_paircor = spatstat.data::finpines |>
   pairwise_cor_spatial()
 ```
@@ -1404,7 +1443,7 @@ The `S3` method dispatch `as.matrix.pairwise_cor_spatial()` returns a `matrix` o
 
 ```{r}
 #| code-fold: true
-#| code-summary: '**Example**: `as.matrix.pairwise_cor_spatial()`'
+#| code-summary: '**Example**: function `as.matrix.pairwise_cor_spatial()`'
 finpines_paircor |> 
   as.matrix()
 ```
@@ -1455,7 +1494,7 @@ The `S3` method dispatch `spatstat.explore::plot.fv()` visualizes the recommende
 ```{r}
 #| fig-show: hide
 #| code-fold: true
-#| code-summary: '**Review**: `spatstat.explore::plot.fv()`'
+#| code-summary: '**Review**: function `spatstat.explore::plot.fv()`'
 spatstat.data::spruces |> 
   spatstat.explore::markcorr() |>
   spatstat.explore::plot.fv()
@@ -1464,17 +1503,17 @@ spatstat.data::spruces |>
 
 ```{r}
 #| code-fold: true
-#| code-summary: "**Review**: `spatstat.explore::fvnames(., a = '.y')`"
+#| code-summary: "**Review**: function `spatstat.explore::fvnames(., a = '.y')`"
 spatstat.data::spruces |> 
   spatstat.explore::markcorr() |>
   spatstat.explore::fvnames(a = '.y')
 ```
 
-Function `keyval.fv()` finds various function values (default being the black-solid-curve) in an `fv.object`, with the corresponding function argument `spatstat.explore::fvnames(., a = '.x')` as the `vector` `names`. Function `keyval.fv()` is a "psuedo" `S3` method dispatch, because we do not have an `S3` generic function `keyval()` defined as of package **`groupedHyperframe`** v`r packageVersion('groupedHyperframe')`.
+Function `keyval.fv()` finds various function values (default being the black-solid-curve) in an `fv.object`, with the corresponding function argument `spatstat.explore::fvnames(., a = '.x')` as the `vector` `names`. Function `keyval.fv()` is a "psuedo" `S3` method dispatch, because the authors do not have an `S3` generic function `keyval()` defined as of package **`groupedHyperframe`** v`r packageVersion('groupedHyperframe')`.
 
 ```{r}
 #| code-fold: true
-#| code-summary: '**Example**: `keyval.fv()`'
+#| code-summary: '**Example**: function `keyval.fv()`'
 spatstat.data::spruces |> 
   spatstat.explore::markcorr() |>
   keyval.fv() |>
@@ -1485,7 +1524,7 @@ Functions `trapz.fv()` and `cumtrapz.fv()` calculate the (cumulative) trapezoida
 
 ```{r}
 #| code-fold: true
-#| code-summary: '**Example**: `trapz.fv()`'
+#| code-summary: '**Example**: function `trapz.fv()`'
 spatstat.data::spruces |> 
   spatstat.explore::markcorr() |>
   trapz.fv()
@@ -1493,7 +1532,7 @@ spatstat.data::spruces |>
 
 ```{r}
 #| code-fold: true
-#| code-summary: '**Example**: `cumtrapz.fv()`'
+#| code-summary: '**Example**: function `cumtrapz.fv()`'
 spatstat.data::spruces |> 
   spatstat.explore::markcorr() |>
   cumtrapz.fv() |>
@@ -1504,7 +1543,7 @@ Functions `vtrapz.fv()` and `cumvtrapz.fv()` calculate the (cumulative) average 
 
 ```{r}
 #| code-fold: true
-#| code-summary: '**Example**: `vtrapz.fv()`'
+#| code-summary: '**Example**: function `vtrapz.fv()`'
 spatstat.data::spruces |> 
   spatstat.explore::markcorr() |>
   vtrapz.fv()
@@ -1512,7 +1551,7 @@ spatstat.data::spruces |>
 
 ```{r}
 #| code-fold: true
-#| code-summary: '**Example**: `cumvtrapz.fv()`'
+#| code-summary: '**Example**: function `cumvtrapz.fv()`'
 spatstat.data::spruces |> 
   spatstat.explore::markcorr() |>
   cumvtrapz.fv() |>
@@ -1538,12 +1577,12 @@ Function `spatstat.explore::markcorr()` provides a default argument of parameter
 
 ```{r}
 #| code-fold: true
-#| code-summary: "**Review**: `spatstat.explore::print.fv()`"
+#| code-summary: "**Review**: function `spatstat.explore::print.fv()`"
 spatstat.data::spruces |> 
   spatstat.explore::markcorr()
 ```
 
-We may observe exceptional/illegal values `0`, `NaN` and `Inf` in the mark correlation function $k_f(r)$, if $r$ goes beyond the recommended and/or available range.
+Exceptional/illegal values `0`, `NaN` and `Inf` may appear in the mark correlation function $k_f(r)$, if $r$ goes beyond the recommended and/or available range.
 
 ```{r}
 #| code-fold: true
@@ -1573,7 +1612,7 @@ c(NA_real_, NaN, Inf) |>
 
 ```{r}
 #| code-fold: true
-#| code-summary: '**Example**: `lastLegal()`, toy examples'
+#| code-summary: '**Example**: function `lastLegal()`, toy examples'
 c(exp(1), pi) |> 
   lastLegal()
 c(exp(1), pi, NaN) |> 
@@ -1584,7 +1623,7 @@ c(exp(1), pi, NaN, 1, 0, Inf) |>
 
 ```{r}
 #| code-fold: true
-#| code-summary: '**Example**: `lastLegal()` of `keyval.fv()`'
+#| code-summary: '**Example**: function `lastLegal()` of `keyval.fv()`'
 spatstat.data::spruces |> 
   spatstat.explore::markcorr(r = 0:100) |>
   keyval.fv() |>
@@ -1606,7 +1645,7 @@ spatstat.data::spruces |>
 
 Function `spatstat.geom::anylist()` returns an object of `S3` class `'anylist'`, which `inherits` from the class `'listof'`.
 
-We discuss some extensions of the class `'anylist'` in this section.
+The authors discuss some extensions of the class `'anylist'` in this section.
 
 ### On `solist` {#sec-solist}
 
@@ -1624,7 +1663,7 @@ The `S3` generic function `rmax_()` has been introduced in Appendix @sec-default
 
 ```{r}
 #| code-fold: true
-#| code-summary: '**Example**: `rmax_.ppplist()`'
+#| code-summary: '**Example**: function `rmax_.ppplist()`'
 spatstat.data::btb.extra$full |> 
   markcorr() |> 
   vapply(FUN = \(i) {
@@ -1643,7 +1682,7 @@ spatstat.data::btb.extra |>
   rmax_(fun = 'K')
 ```
 
-The `S3` generic function `split_kmeans()` has been introduced in Appendix @sec-split_kmeans. The `S3` method dispatch `split_kmeans.listof()` splits a `ppplist` by $k$-means clustering. We use a `subset` of the data set *`flu`* from package **`spatstat.data`** to illustrate this concept.  The returned object has `attributes`
+The `S3` generic function `split_kmeans()` has been introduced in Appendix @sec-split_kmeans. The `S3` method dispatch `split_kmeans.listof()` splits a `ppplist` by $k$-means clustering. The authors use a `subset` of the data set *`flu`* from package **`spatstat.data`** to illustrate this concept.  The returned object has `attributes`
 
 -   `attr(.,'.id')`, indices of the `ppp.object`s before splitting.
 -   `attr(.,'.cluster')`, indices of $k$-means clusters, nested in `.id`.
@@ -1651,7 +1690,7 @@ The `S3` generic function `split_kmeans()` has been introduced in Appendix @sec-
 
 ```{r}
 #| code-fold: true
-#| code-summary: '**Example**: `split_kmeans.listof()`'
+#| code-summary: '**Example**: function `split_kmeans.listof()`'
 <<fluM>>
 fluM$pattern |> 
   split_kmeans(formula = ~ x + y, centers = 3L) 
@@ -1659,7 +1698,7 @@ fluM$pattern |>
 
 ### Derived Class `'vectorlist'` {#sec-vectorlist}
 
-The derived class `'vectorlist'`, i.e., a `listof` `vector`s, `inherits` from the class `'anylist'`. The implementation of the class `'vectorlist'` is inspired by the class `'solist'`. We use the `character`-hypercolumn *`values`* of data set *`Kovesi`* from package **`spatstat.data`** to illustrate this concept.
+The derived class `'vectorlist'`, i.e., a `listof` `vector`s, `inherits` from the class `'anylist'`. The implementation of the class `'vectorlist'` is inspired by the class `'solist'`. The authors use the `character`-hypercolumn *`values`* of data set *`Kovesi`* from package **`spatstat.data`** to illustrate this concept.
 
 ```{r}
 #| code-fold: true
@@ -1682,7 +1721,7 @@ spatstat.data::Kovesi$values |>
   unique.default()
 ```
 
-Now we create an object *`Kovesi_values`* of a derived class `'vectorlist'`.
+The authors create an object *`Kovesi_values`* of a derived class `'vectorlist'`.
 
 ```{r}
 #| code-fold: true
@@ -1697,7 +1736,7 @@ The `S3` method dispatch `t.vectorlist()` transposes a `vectorlist` of equi-`len
 
 ```{r}
 #| code-fold: true
-#| code-summary: '**Example**: `t.vectorlist()`'
+#| code-summary: '**Example**: function `t.vectorlist()`'
 #| label: t-vectorlist
 Kovesi_values_t = Kovesi_values |> 
   t()
@@ -1736,7 +1775,7 @@ z256 = spatstat.data::Kovesi |>
 stopifnot(identical(Kovesi_values_t[[256L]], z256))
 ```
 
-The derived class `'vectorlist'` is not part of package **`spatstat.geom`** as of dev v`r packageVersion('spatstat.geom')`. Users may call the `S3` method dispatch `t.vectorlist()` explicitly as a workaround before package **`spatstat.geom`** (ever) implements the class `vectorlist`.
+The derived class `'vectorlist'` is not part of package **`spatstat.geom`** as of dev v`r packageVersion('spatstat.geom')`. Readers may call the `S3` method dispatch `t.vectorlist()` explicitly as a workaround before package **`spatstat.geom`** (ever) implements the class `vectorlist`.
 
 ```{r}
 #| code-fold: true
@@ -1753,7 +1792,7 @@ The derived class `'fvlist'`, i.e., a `listof` function value table `fv.object`s
 As of package **`spatstat.geom`** v`r packageVersion('spatstat.geom')`, an `fv`-hypercolumn in a `hyperframe` has class `c('anylist, 'listof', 'list')`.  The authors want to convince [Prof. Adrian Baddeley](https://en.wikipedia.org/wiki/Adrian_Baddeley) [@spatstat05] to [support the class `'fvlist'` in function `spatstat.geom::hyperframe()`]{style="background-color: #FFFF00"}, so that an `fv`-hypercolumn shall have class `c('fvlist', 'anylist, 'listof', 'list')`. Before this happens, the authors propose some workaround in package **`groupedHyperframe`**, so that active developers could make use of the `S3` method dispatches to the class `'fvlist'`.
 
 
-We use a `subset` of the data set *`flu`* from package **`spatstat.data`** to illustrate this concept.
+The authors use a `subset` of the data set *`flu`* from package **`spatstat.data`** to illustrate this concept.
 
 ```{r}
 #| code-fold: true
@@ -1765,7 +1804,7 @@ The batch process `Gcross_()` (@sec-batch) adds an `fv`-hypercolumn *`m.G`* to t
  
 ```{r}
 #| code-fold: true
-#| code-summary: '**Example**: `Gcross_()`'
+#| code-summary: '**Example**: function `Gcross_()`'
 r = seq.int(from = 0, to = 100, by = 5)
 fluM_G = fluM |>
   Gcross_(i = 'M1', j = 'M2', r = r)
@@ -1789,7 +1828,7 @@ Function `as.fvlist()` inspects a `listof` `fv.object`s and convert it to an obj
 
 ```{r}
 #| code-fold: true
-#| code-summary: '**Example**: `as.fvlist()`'
+#| code-summary: '**Example**: function `as.fvlist()`'
 m_G = fluM_G$m.G |>
   as.fvlist()
 m_G |> 
@@ -1820,7 +1859,7 @@ The `S3` method dispatch `summary.fvlist()` performs truncated summarization at 
 
 ```{r}
 #| code-fold: true
-#| code-summary: '**Example**: `summary.fvlist()`, truncated at $r_\text{max}>$ minimum Legal $r_\text{max}$ of all `fv.object`s'
+#| code-summary: '**Example**: function `summary.fvlist()`, truncated at $r_\text{max}>$ minimum Legal $r_\text{max}$ of all `fv.object`s'
 m_G_s1 = m_G |>
   summary(rmax = 85, data.name = 'm.G')
 m_G_s1 |> 
@@ -1831,7 +1870,7 @@ m_G_s1 |>
 
 ```{r}
 #| code-fold: true
-#| code-summary: '**Example**: `summary.fvlist()`, truncated at $r_\text{max}\leq$ minimum Legal $r_\text{max}$ of all `fv.object`s'
+#| code-summary: '**Example**: function `summary.fvlist()`, truncated at $r_\text{max}\leq$ minimum Legal $r_\text{max}$ of all `fv.object`s'
 m_G_s2 = m_G |>
   summary(rmax = 70, data.name = 'm.G')
 m_G_s2 |> 
@@ -1855,7 +1894,7 @@ methods(class = 'hyperframe') |>
   subset.data.frame(subset = from == 'spatstat.geom')
 ```
 
-Several of them behave *very differently* from their counterpart in vanilla `r R.version.string`. Users are strongly advised to read the documentation of these functions from package **`spatstat.geom`**.
+Several of them behave *very differently* from their counterpart in vanilla `r R.version.string`. Readers are strongly advised to read the documentation of these functions from package **`spatstat.geom`**.
 
 <details>
 
@@ -1907,7 +1946,7 @@ The S3 generic function `as.groupedHyperframe()` has been introduced in @sec-gro
 
 ```{r}
 #| code-fold: true
-#| code-summary: '**Example**: `as.groupedHyperframe.hyperframe()`'
+#| code-summary: '**Example**: function `as.groupedHyperframe.hyperframe()`'
 spatstat.data::osteo |> 
   as.groupedHyperframe(group = ~ id/brick)
 ```
@@ -1924,7 +1963,7 @@ The `S3` method dispatch `superimpose.groupedHyperframe()` superimposes multiple
 
 -   grouping structures, i.e., `attr(., 'group')`
 
-We use a `subset` of the data set *`flu`* from package **`spatstat.data`** to illustrate the superimpose of `hyperframe`s.
+The authors use a `subset` of the data set *`flu`* from package **`spatstat.data`** to illustrate the superimpose of `hyperframe`s.
 
 ```{r}
 #| label: fluM
@@ -1956,7 +1995,7 @@ fluM$pattern |>
   addmargins()
 ```
 
-We create a `hyperframe` *`fluM1`* which consists of the same columns as *`fluM`*, but a `ppp`-hypercolumn *`pattern`* with *`M1`* marks only. Similarly, we create another `hyperframe` *`fluM2`* which consists of the *`M2`* marks only. Note that as of package **`spatstat.geom`** v`r packageVersion('spatstat.geom')`, the tedious code below is the only way to insure that we do **not** use the row names of hyperframe as the element-names of the hypercolumns. In other words, function `unclass()` avoids invoking the `S3` method dispatch `` spatstat.geom::`$.hyperframe`() ``. The `S3` method dispatch `` spatstat.geom::`$<-.hyperframe` `` is fine in this application.
+The authors create a `hyperframe` *`fluM1`* which consists of the same columns as *`fluM`*, but a `ppp`-hypercolumn *`pattern`* with *`M1`* marks only. Similarly, the authors create another `hyperframe` *`fluM2`* which consists of the *`M2`* marks only. Note that as of package **`spatstat.geom`** v`r packageVersion('spatstat.geom')`, the tedious code below is the only way to avoid using the row names of hyperframe as the element-names of the hypercolumns. In other words, function `unclass()` avoids invoking the `S3` method dispatch `` spatstat.geom::`$.hyperframe`() ``. The `S3` method dispatch `` spatstat.geom::`$<-.hyperframe` `` is fine in this application.
 
 ```{r}
 #| code-fold: true
@@ -1986,7 +2025,7 @@ The `S3` method dispatch `superimpose.hyperframe()` recreates the `hyperframe` *
 
 ```{r}
 #| code-fold: true
-#| code-summary: '**Example**: `superimpose.hyperframe()`'
+#| code-summary: '**Example**: function `superimpose.hyperframe()`'
 fluS = superimpose.hyperframe(fluM2, fluM1)
 stopifnot(identical(fluS, fluM))
 ```
@@ -1997,27 +2036,27 @@ The `S3` generic function `rmax_()` has been introduced in Appendix @sec-default
 
 ```{r}
 #| code-fold: true
-#| code-summary: "**Example**: `rmax_.hyperframe()`; functions `Emark_()`, `Vmark_()`, `markcorr_()`, `markvario_()` on numeric (and `multitype`) mark"
+#| code-summary: "**Example**: function `rmax_.hyperframe()` for `Emark_()`, `Vmark_()`, `markcorr_()`, `markvario_()` on numeric (and `multitype`) mark"
 s |> rmax_(fun = 'K')
 ```
 
 ```{r}
 #| code-fold: true
-#| code-summary: "**Example**: `rmax_.hyperframe()`; function `Kcross_()` on `multitype` mark"
+#| code-summary: "**Example**: function `rmax_.hyperframe()` for `Kcross_()` on `multitype` mark"
 s |> rmax_(fun = 'K', i = 'CK+.CD8-', j = 'CK-.CD8+')
 s |> rmax_(fun = 'K', i = 'CK-.CD8+', j = 'CK+.CD8-')
 ```
 
 ```{r}
 #| code-fold: true
-#| code-summary: "**Example**: `rmax_.hyperframe()`; function `Gcross_()` on `multitype` mark"
+#| code-summary: "**Example**: function `rmax_.hyperframe()` for `Gcross_()` on `multitype` mark"
 s |> rmax_(fun = 'G', i = 'CK+.CD8-', j = 'CK-.CD8+')
 s |> rmax_(fun = 'G', i = 'CK-.CD8+', j = 'CK+.CD8-')
 ```
 
 ```{r}
 #| code-fold: true
-#| code-summary: "**Example**: `rmax_.hyperframe()`; function `Jcross_()` on multitype mark"
+#| code-summary: "**Example**: function `rmax_.hyperframe()` for `Jcross_()` on multitype mark"
 s |> rmax_(fun = 'J', i = 'CK+.CD8-', j = 'CK-.CD8+')
 s |> rmax_(fun = 'J', i = 'CK-.CD8+', j = 'CK+.CD8-')
 ```
@@ -2031,7 +2070,7 @@ The `S3` generic function `split_kmeans()` has been introduced in Appendix @sec-
 
 ```{r}
 #| code-fold: true
-#| code-summary: '**Example**: `split_kmeans.hyperframe()`'
+#| code-summary: '**Example**: function `split_kmeans.hyperframe()`'
 <<fluM>>
 fluM |> 
   split_kmeans(formula = ~ x + y, centers = 3L)
@@ -2063,7 +2102,7 @@ Function `get_nested()` breaks down a nested grouping structure by the forward s
 
 ```{r}
 #| code-fold: true
-#| code-summary: '**Example**: `get_nested()`'
+#| code-summary: '**Example**: function `get_nested()`'
 quote(g1/g2/g3) |>
   get_nested()
 (~g1/g2/g3) |>
@@ -2072,7 +2111,7 @@ quote(g1/g2/g3) |>
 
 ```{r}
 #| code-fold: true
-#| code-summary: '**Example**: `get_nested()` with interaction terms'
+#| code-summary: '**Example**: function `get_nested()` with interaction terms'
 quote(g1/g2a:g2b/g3a:g3b:g3c) |>
   get_nested()
 (~g1/g2a:g2b/g3a:g3b:g3c) |>
@@ -2081,7 +2120,7 @@ quote(g1/g2a:g2b/g3a:g3b:g3c) |>
 
 ```{r}
 #| code-fold: true
-#| code-summary: '**Example**: `get_nested()`, exception handling'
+#| code-summary: '**Example**: function `get_nested()`, exception handling'
 (~a) |> get_nested()
 (~b:c) |> get_nested()
 ```
@@ -2093,7 +2132,7 @@ The (nested) grouping structure `attr(., 'group')` of a `groupedHyperframe`
 
 # What We Don't Do
 
-Lastly, we keep note of the features that we plan **not** to support in package **`groupedHyperframe`**. Those features are technically tedious to implement, and/or have relatively easy workaround.
+The authors keep note of the features **not** planned to be support in package **`groupedHyperframe`**. Those features are technically tedious to implement, and/or have relatively easy workaround.
 
 ## For `ppp.object` {#sec-dont-ppp}
 
@@ -2219,7 +2258,7 @@ The authors suggest using the pipeline of functions `base::merge.data.frame()` a
 
 @tbl-Rterm presents a comprehensive glossary of R terms and abbreviations used in this vignette.
 
-R terminology and nomenclature could be *drastically different* from that of mathematics and statistics. Users are *strongly advised* to read closely from the links in @tbl-Rterm, most of which point to webpages on [search.r-project.org](https://search.r-project.org), [cran.r-project.org](https://cran.r-project.org), [adv-r.hadley.nz](https://adv-r.hadley.nz) and [en.wikipedia.org](https://en.wikipedia.org).
+R terminology and nomenclature could be *drastically different* from that of mathematics and statistics. Readers are *strongly advised* to read closely from the links in @tbl-Rterm, most of which point to webpages on [search.r-project.org](https://search.r-project.org), [cran.r-project.org](https://cran.r-project.org), [adv-r.hadley.nz](https://adv-r.hadley.nz) and [en.wikipedia.org](https://en.wikipedia.org).
 
 | Term / Abbreviation | Description |
 |:-----------------------------------|:-----------------------------------|
