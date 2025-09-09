@@ -743,7 +743,7 @@ In R nomenclature, the term "cumulative" indicates an inclusive [scan](https://e
 
 > The `i`th element of the output is the operation result of the first-`i`-elements of the input
 
-Function `pracma::cumtrapz()` calculates a cumulative trapezoidal integration. Note that the first element of the output is always `0`, as a trapezoidal integration needs at least $\left(x_0, f(x_0)\right)$ and $\left(x_1, f(x_1)\right)$.
+Function `pracma::cumtrapz()` calculates a cumulative trapezoidal integration. Note that the first element of the output is always `0`, as a trapezoidal integration needs at least $\left(x_0, f(x_0)\right)$ and $\left(x_1, f(x_1)\right)$. The first `0`-value is often removed for downstream analysis, e.g. in Appendix @sec-summary_fvlist.
 
 ```{r}
 #| code-fold: true
@@ -772,7 +772,7 @@ vtrapz(x, y)
 
 Function `cumvtrapz()` calculates the cumulative average vertical height of a trapezoidal integration. If $\forall k$, $\Delta x_{k}\equiv \Delta x$, the output has,
 
--   the 1st element `NaN`, i.e., the result of `0` (trapzoidal integration) divided by `0` (length of $x$-domain).
+-   the 1st element `NaN`, i.e., the result of `0` (trapzoidal integration) divided by `0` (length of $x$-domain). The first `NaN`-value is often removed for downstream analysis, e.g. in Appendix @sec-summary_fvlist.
 -   the 2nd element $(f(x_0)+f(x_1))/2$
 -   the $(i+1)$-th element $i^{-1}(f(x_0)/2+\sum_{k=1}^{i-1}f(x_k)+f(x_i)/2)$. Note that the R does *not* use [zero-based numbering](https://en.wikipedia.org/wiki/Zero-based_numbering); i.e., R `vector` indices start at `1L` instead of `0L`
 -   the $(N+1)$-th and last element as (@eq-vtrapz)
@@ -1841,15 +1841,15 @@ m_G
 ```
 
 
-#### Truncated Summary
+#### Truncated Summary {#sec-summary_fvlist}
 
 The `S3` method dispatch `summary.fvlist()` performs a *truncated summary* at a user-specified $r_\text{max}$ `rmax` and returns a `list` with elements
 
--   *`$y`*, the (truncated) function values, i.e., the black-solid-curve (Appendix @sec-blackSolidCurve) per `fv.object`;
--   *`$cumtrapz`*, the (truncated) cumulative trapezoidal integration (Appendix @sec-trapz) under the black-solid-curve per `fv.object`;
--   *`$cumvtrapz`*, the (truncated) cumulative average vertical height of trapezoidal integration (Appendix @sec-vtrapz) under the black-solid-curve per `fv.object`.
+-   *`$y`*, the (truncated) function values, i.e., the black-solid-curve (Appendix @sec-blackSolidCurve), per `fv.object`;
+-   *`$cumtrapz`*, the (truncated) cumulative trapezoidal integration after removing the first `0`-value (Appendix @sec-trapz), per `fv.object`;
+-   *`$cumvtrapz`*, the (truncated) cumulative average vertical height of trapezoidal integration after removing the first `NaN`-value (Appendix @sec-vtrapz), per `fv.object`.
 
-Specifically,
+Specifically, the *truncation* is performed under the following rules,
 
 -   if user-specified $r_\text{max}$ `rmax` is `missing`, then the `fv.object`s are truncated at the minimum Legal $r_\text{max}$ `attr(.,'rmax')`.
 -   if user-specified $r_\text{max}$ `rmax` is greater than the minimum Legal $r_\text{max}$ `attr(.,'rmax')`, then the `fv.object`s are truncated at the minimum Legal $r_\text{max}$ `attr(.,'rmax')` and the user `rmax` is ignored.
