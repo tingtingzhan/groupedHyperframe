@@ -1615,7 +1615,7 @@ spruces_markcorr_lastLegal = spatstat.data::spruces |>
 ```
 
 
-The term *Legal $r_\text{max}$* is (the index) of the $r$-`vector`, where the last of the consecutive legal function values appears. In the example below, the last consecutive legal function value of `r spruces_markcorr_lastLegal |> attr('value') |> sprintf(fmt = '$k_f(r)=%.3f$')` appears at the `r spruces_markcorr_lastLegal`-th index of the $r$-`vector`, i.e., `r spruces_markcorr_lastLegal |> attr('value') |> names() |> sprintf(fmt = '$r=%s$')`.
+The term *Legal $r_\text{max}$* indicates (the index) of the $r$-`vector`, where the last of the consecutive legal function values appears. In the example below, the last consecutive legal function value of `r spruces_markcorr_lastLegal |> attr('value') |> sprintf(fmt = '$k_f(r)=%.3f$')` appears at the `r spruces_markcorr_lastLegal`-th index of the $r$-`vector`, i.e., `r spruces_markcorr_lastLegal |> attr('value') |> names() |> sprintf(fmt = '$r=%s$')`.
 
 ```{r}
 #| code-fold: true
