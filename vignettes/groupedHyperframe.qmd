@@ -1780,7 +1780,13 @@ fluM_G$m.G |>
   class() # not yet :)
 ```
 
-Function `as.fvlist()` inspects a `listof` `fv.object`s and convert it to an object of class `'fvlist'`, before `spatstat.geom::hyperframe()` (ever) recognizes the class `'fvlist'`.
+Function `as.fvlist()` inspects a `listof` `fv.object`s and convert it to an object of class `'fvlist'`, before `spatstat.geom::hyperframe()` (ever) recognizes the class `'fvlist'`.  To be converted to an `fvlist`, the `listof` `fv.object`s must have `identical`
+
+-   names of function argument, i.e., returns of `spatstat.explore::fvnames(., a = '.x')` per `fv.object`;
+-   function arguments, i.e., the values of $r$ per `fv.object`;
+-   names of recommended function value, i.e., returns of `spatstat.explore::fvnames(., a = '.y')` per `fv.object`;
+-   function names, i.e., returns of `attr(., 'fname')` per `fv.object`.
+
 
 ```{r}
 #| code-fold: true
