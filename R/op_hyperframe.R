@@ -34,9 +34,9 @@
 #' fluM
 #' r = seq.int(from = 0, to = 100, by = 5)
 #' fluM |>
-#'  Gcross_(i = 'M1', j = 'M2', r = r, mc.cores = 1L)
+#'  Gcross_(i = 'M1', j = 'M2', r = r)
 #' fluM |>
-#'  nncross_(i = 'M1', j = 'M2', mc.cores = 1L)
+#'  nncross_(i = 'M1', j = 'M2')
 #' @keywords internal
 #' @name user_hyperframe
 #' @importFrom spatstat.explore Emark
@@ -155,10 +155,27 @@ op_hyperframe <- function(X, ...) {
   ret0 <- hc[[which(id)]] |> 
     op_ppplist(x = _, ...)
   
+  if (FALSE) {
+    ret0$m.G |> class()
+    ret0$m.G |> attributes()
+  }
+  
   ret <- do.call(
     what = cbind.hyperframe, 
     args = c(list(X), ret0)
   )
+  
+  if (FALSE) {
+    # ?spatstat.geom::hyperframe drops derived classes from 'anylist'
+    # tzh thinks it's in `if (any(hypercolumns))`;
+    # .. |> lapply(FUN = as.solist)
+    # tzh will think if it's worth while to write to Dr. Baddeley
+    # best solution might be add an exception call in ?spatstat.geom::as.solist
+    # if (x is a-derived-class-of-anylist-other-than-solist) return(x)
+    ret$m.G |> class() # 'fvlist' dropped
+    ret$m.G |> attributes() # dropped too!!!!
+    class(ret$m.G) = c('fvlist', class(ret$m.G)) # suppressed!!!
+  }
   
   if (inherits(X, what = 'groupedHyperframe')) {
     attr(ret, which = 'group') <- attr(X, which = 'group', exact = TRUE)

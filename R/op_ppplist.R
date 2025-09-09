@@ -83,11 +83,11 @@ op_ppplist <- function(
   ret <- .mapply(FUN = list, dots = ret0, MoreArgs = NULL)
   names(ret) <- names(ret0[[1L]])
 
-  .mapply(FUN = check_fvlist, dots = list(
-    X = ret, data.name = names(ret)
-  ), MoreArgs = NULL)
-  
-  return(ret)
+  mapply(
+    FUN = as.fvlist, 
+    X = ret, data.name = names(ret), 
+    MoreArgs = NULL, SIMPLIFY = FALSE
+  )
   
 }
 

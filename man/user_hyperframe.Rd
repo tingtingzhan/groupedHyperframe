@@ -69,8 +69,8 @@ fluM = spatstat.data::flu |>
 fluM
 r = seq.int(from = 0, to = 100, by = 5)
 fluM |>
- Gcross_(i = 'M1', j = 'M2', r = r, mc.cores = 1L)
+ Gcross_(i = 'M1', j = 'M2', r = r)
 fluM |>
- nncross_(i = 'M1', j = 'M2', mc.cores = 1L)
+ nncross_(i = 'M1', j = 'M2')
 }
 \keyword{internal}

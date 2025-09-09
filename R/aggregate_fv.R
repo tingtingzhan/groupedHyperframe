@@ -61,54 +61,18 @@ aggregate_fv <- function(
   if (!inherits(X, what = 'hyperframe')) stop('input must be hyperframe')
   
   if (!any(id <- (unclass(X)$vclass == 'fv'))) stop('input `X` must contain at least one `fv` column')
-  
-  fv <- as.list.hyperframe(X)[names.hyperframe(X)[id]] # one or more 'fv' column(s)
+  nm <- names.hyperframe(X)[id]
   
   if (!missing(rmax)) {
     if (!is.numeric(rmax) || length(rmax) != 1L || is.na(rmax) || (rmax <= 0)) stop('illegal user-specified `rmax`')
-  } else rmax <- numeric() # cannot use ?base::missing inside ?base::lapply
+  } else rmax <- numeric() # cannot use ?base::missing inside ?base::mapply
   
-  setNames(nm = names(fv)) |> 
-    lapply(FUN = \(nm) { # (nm = names(fv)[1L])
-      
-      x <- fv[[nm]]
-      suppressMessages(fvcheck <- check_fvlist(x, data.name = nm))
-      
-      r <- fvcheck[['r']]
-      rmax_fv <- fvcheck[['rmax']]
-      if (rmax_fv == 0) stop('check your ppp-hypercolumn')
-      
-      if (!length(rmax)) { # missing user `rmax`
-        if (rmax_fv < max(r)) {
-          sprintf(fmt = 'Aggregation truncated at rmax(%s) = %.1f', nm, rmax_fv) |>
-            style_bold() |> bg_br_yellow() |> message()
-          id <- (r <= rmax_fv)
-        } else id <- rep(TRUE, times = length(r)) # cannot just be `TRUE` (for later use..)
-      } else if (rmax > rmax_fv) { # user `rmax > rmax_fv`
-        if (rmax_fv < max(r)) {
-          sprintf(fmt = 'Aggregation truncated at rmax(%s) = %.1f (user rmax = %.1f ignored)', nm, rmax_fv, rmax) |>
-            style_bold() |> bg_br_yellow() |> message()
-        } else {
-          sprintf(fmt = 'Aggregation at maximum r(%s) = %.1f (user rmax = %.1f ignored)', nm, rmax_fv, rmax) |>
-            style_bold() |> bg_br_yellow() |> message()
-        }
-        id <- (r <= rmax_fv)
-      } else { # use user `rmax`
-        sprintf(fmt = 'Aggregation truncated at rmax = %.1f for %s', rmax, nm) |>
-          style_bold() |> bg_br_yellow() |> message()
-        id <- (r <= rmax)
-      }
-      
-      return(list(
-        value = x |> 
-          lapply(FUN = \(i) keyval.fv(i, key = fvcheck[['.y']])[id]),
-        cumtrapz = x |> 
-          mclapply(mc.cores = mc.cores, FUN = \(i) cumtrapz.fv(i, key = fvcheck[['.y']])[id[-1L]]), # `-1L` super important!!!
-        cumvtrapz = x |> 
-          mclapply(mc.cores = mc.cores, FUN = \(i) cumvtrapz.fv(i, key = fvcheck[['.y']])[id[-1L]]) # `-1L` super important!!!
-      ))
-      
-    }) |>
+  (as.list.hyperframe(X)[nm]) |>
+    mapply(
+      FUN = summary.fvlist, 
+      object = _, data.name = nm, 
+      MoreArgs = list(rmax = rmax, mc.cores = mc.cores), SIMPLIFY = FALSE
+    ) |> 
     unlist(recursive = FALSE, use.names = TRUE) |> # smart!!
     aggregate_by_(X = X, by = by, f_aggr_ = f_aggr_, ...)
 

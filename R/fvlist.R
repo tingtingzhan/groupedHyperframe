@@ -1,0 +1,236 @@
+
+
+#' @title [as.fvlist]
+#' 
+#' @description
+#' A helper function to check the validity of a \link[stats]{listof} \link[spatstat.explore]{fv.object}s.
+#' 
+#' @param X a \link[stats]{listof} \link[spatstat.explore]{fv.object}s
+#' 
+#' @param data.name \link[base]{character} scalar, name of `X`, for console message output
+#' 
+#' @details
+#' Function [as.fvlist()] checks that whether all \link[spatstat.explore]{fv.object}s
+#' in the input has the same
+#' \itemize{
+#' \item {\eqn{x}-axis, or the \eqn{r}-values}
+#' \item {`attr(,'fname')`, see explanation of this \link[base]{attributes} in function \link[spatstat.explore]{fv}}
+#' \item {`spatstat.explore::fvnames(x, a = '.y')` returns}
+#' }
+#' 
+#' !!! 'Legal' not documented yet!!!
+#' 
+#' @returns 
+#' Function [as.fvlist()] returns an \link[base]{invisible} \link[base]{list} with elements
+#' \describe{
+#' \item{`$r`}{\link[base]{numeric} \link[base]{vector}, the \eqn{r}-values}
+#' \item{`$.y`}{\link[base]{character} scalar, the return of `spatstat.explore::fvnames(x, a = '.y')`}
+#' \item{`$rmax`}{\link[base]{numeric} scalar or \link[base]{vector}, the \link[base]{unique} values of the legal \eqn{r_\text{max}} of each \link[spatstat.explore]{fv.object}, if any one of them is less than the user-specified \eqn{r_\text{max}}}
+#' }
+#' 
+#' @keywords internal
+#' @importFrom spatstat.explore fvnames
+#' @export
+as.fvlist <- function(X, data.name) { # data.name = deparse1(substitute(X))
+  
+  # tzh is aware that
+  # ?spatstat.explore::roc.ppp returns an `'roc'` object, inherits from `'fv'`, first argument being `p` instead of `r`!!!
+  # in [as.fvlist()] tzh still uses `r`
+  # because we have function [rmax_()] ...
+  
+  id_fv <- X |>
+    vapply(FUN = inherits, what = 'fv', FUN.VALUE = NA)
+  
+  if (!any(id_fv)) return(X) # exception handling
+  if (!all(id_fv)) stop('not all elements are `fv.object`')
+  
+  .x <- X |>
+    vapply(FUN = fvnames, a = '.x', FUN.VALUE = '')
+  if (!all(duplicated.default(.x)[-1L])) stop('`.x` of all fv.objects are not the same')
+  .y <- X |> 
+    vapply(FUN = fvnames, a = '.y', FUN.VALUE = '')
+  if (!all(duplicated.default(.y)[-1L])) stop('`.y` of all fv.objects are not the same')
+  fname. <- X |>
+    lapply(FUN = attr, which = 'fname', exact = TRUE)
+  if (!all(duplicated.default(fname.)[-1L])) stop('fname of all fv.objects are not the same')
+  
+  r. <- X |>
+    lapply(FUN = `[[`, .x[1L])
+  if (!all(duplicated.default(r.)[-1L])) stop('x-axis of all fv.objects are not the same')
+  
+  r <- r.[[1L]]
+  nr <- length(r)
+  
+  attr(X, which = 'r') <- r
+  attr(X, which = '.y') <- .y[[1L]]
+  
+  id <- X |> 
+    vapply(FUN = \(x) {
+      x[[.y[1L]]] |>
+        lastLegal()
+    }, FUN.VALUE = NA_integer_)
+  
+  if (any(id < nr)) {
+    
+    id0 <- id[id != nr]
+    tb <- id0 |> table()
+    uid <- id0 |> unique.default() |> sort.int()
+    loc <- uid |>
+      vapply(FUN = \(u) {
+        which(id == u) |>
+          paste0('L', collapse = ', ') |>
+          col_magenta() |> style_bold()
+      }, FUN.VALUE = '')
+    
+    if (!missing(data.name)) {
+      paste0(
+        'Legal ', 
+        'rmax' |> col_magenta() |> style_bold(),
+        '(', 
+        data.name |> col_blue() |> style_bold(), 
+        sprintf(fmt = '), smaller than user input of rmax = %.1f, are\n', max(r)), 
+        sprintf(fmt = '%d\u2a2f ', tb) |> col_br_magenta() |> style_bold() |>
+          paste0('rmax=', r[uid], ' at location ', loc, collapse = '\n')
+      ) |>
+        message()
+    }
+    
+    rmax <- min(r[uid]) # minimum legal rmax of 'fvlist'
+    
+  } else rmax <- max(r)
+  
+  if (rmax == 0) stop("check the `'ppplist'` that created the input `x`")
+  attr(X, which = 'rmax') <- rmax
+  
+  class(X) <- c('fvlist', 'anylist', 'listof', 'list', class(X)) |> 
+    unique.default()
+  return(X)
+  
+}
+
+
+#' @title summary.fvlist
+#' 
+#' @param object an `'fvlist'`
+#' 
+#' @param data.name \link[base]{character} scalar
+#' 
+#' @param rmax (optional) \link[base]{numeric} scalar, user \eqn{r_\text{max}}
+#' 
+#' @param mc.cores \link[base]{integer} scalar, see function \link[parallel]{mclapply}.
+#' Default is 1L on Windows, or \link[parallel]{detectCores} on Mac.
+#' 
+#' @param ... additional parameters, currently of no use
+#' 
+#' @keywords internal
+#' @importFrom parallel mclapply
+#' @export summary.fvlist
+#' @export
+summary.fvlist <- function(
+    object, 
+    data.name,
+    rmax, 
+    mc.cores = getOption('mc.cores'), 
+    ...
+) {
+  
+  x <- object |>
+    as.fvlist() |> # because ?spatstat.geom::hyperframe drops tzh's 'fvlist'
+    suppressMessages()
+  
+  r <- attr(x, which = 'r', exact = TRUE)
+  x_rmax <- attr(x, which = 'rmax', exact = TRUE)
+  .y <- attr(x, which = '.y', exact = TRUE)
+  
+  if (!length(rmax)) { # missing user `rmax` -- maybe still need this
+  #if (missing(rmax)) { # missing user `rmax`
+    if (x_rmax < max(r)) {
+      sprintf(fmt = 'summary.fvlist truncated at rmax(%s) = %.1f', data.name, x_rmax) |>
+        style_bold() |> bg_br_yellow() |> message()
+      id <- (r <= x_rmax)
+    } else id <- rep(TRUE, times = length(r)) # cannot just be `TRUE` (for later use..)
+    
+  } else if (rmax > x_rmax) { # user `rmax > x_rmax`
+    if (x_rmax < max(r)) {
+      sprintf(fmt = 'summary.fvlist truncated at rmax(%s) = %.1f (user rmax = %.1f ignored)', data.name, x_rmax, rmax) |>
+        style_bold() |> bg_br_yellow() |> message()
+    } else {
+      sprintf(fmt = 'summary.fvlist at maximum r(%s) = %.1f (user rmax = %.1f ignored)', data.name, x_rmax, rmax) |>
+        style_bold() |> bg_br_yellow() |> message()
+    }
+    id <- (r <= x_rmax)
+    
+  } else { # use user `rmax`
+    sprintf(fmt = 'summary.fvlist truncated at rmax = %.1f for %s', rmax, data.name) |>
+      style_bold() |> bg_br_yellow() |> message()
+    id <- (r <= rmax)
+  }
+  
+  return(list(
+    y = x |> 
+      lapply(FUN = \(i) keyval.fv(i, key = .y)[id]),
+    cumtrapz = x |> 
+      mclapply(mc.cores = mc.cores, FUN = \(i) cumtrapz.fv(i, key = .y)[id[-1L]]), # `-1L` super important!!!
+    cumvtrapz = x |> 
+      mclapply(mc.cores = mc.cores, FUN = \(i) cumvtrapz.fv(i, key = .y)[id[-1L]]) # `-1L` super important!!!
+  ))
+  
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#' @title Last Legal Index
+#' 
+#' @param v \link[base]{double} \link[base]{vector}
+#' 
+#' @details
+#' Legal, meaning not `0`, not `NaN` and not `Inf`.
+#' 
+#' @examples
+#' c(1, 1, 1) |> lastLegal()
+#' c(1, 1, 1, NaN) |> lastLegal()
+#' c(1, 1, 1, NaN, 1, 0, Inf) |> lastLegal()
+#' # all return `3`
+#' @keywords internal
+#' @export
+lastLegal <- function(v) {
+  
+  vok <- is.finite(v) & (abs(v) > .Machine$double.eps) # not 0, not NaN, not Inf
+  
+  if (all(vok)) {
+    
+    id <- length(vok) # faster than [.diff()]
+    
+  } else {
+    
+    .diff <- \(x) {
+      x[-1L] - x[-length(x)]
+    } # faster than ?base::diff.default
+    
+    z <- vok |> 
+      which() |>
+      .diff()
+    
+    id <- if (all(z == 1L)) {
+      length(z) + 1L
+    } else min(which(z != 1L)) # smart!
+    
+  }
+
+  attr(id, which = 'value') <- v[id]
+  return(id)
+  
+}
+
