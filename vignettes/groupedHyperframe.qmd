@@ -707,9 +707,9 @@ Readers who wish to extend the package **`groupedHypeframe`** or incorporate it 
 
 ## On Trapezoidal Integration {#sec-trapz}
 
-The [chained trapezoidal rule](https://en.wikipedia.org/wiki/Trapezoidal_rule) of approximating a definite integral is an ancient idea since the dawn of human civilization.
+The [chained trapezoidal rule](https://en.wikipedia.org/wiki/Trapezoidal_rule) of numerically approximating a definite integral is an ancient idea since the dawn of human civilization.
 
-Let $\{x_k; k=0,\cdots,N\}$ be a partition of the real interval $[a,b]$ such that $a = x_0 < x_1 < \cdots < x_{N-1} < x_N = b$ and $\Delta x_k= x_k - x_{k-1}$ be the length of the $k$-th sub-interval, then the chained-trapezoidal approximation of the integration
+Let $\{x_k; k=0,\cdots,N\}$ be a partition of the real interval $[a,b]$ such that $a = x_0 < x_1 < \cdots < x_{N-1} < x_N = b$ and $\Delta x_k= x_k - x_{k-1}$ be the length of the $k$-th sub-interval, then the chained-trapezoidal approximation of the integration is,
 
 $$
 \begin{split}
@@ -729,7 +729,7 @@ set.seed(23); (x = rnorm(n = length(x.), mean = x., sd = .5))
 set.seed(12); (y = rnorm(n = length(x.), mean = 1, sd = .2))
 ```
 
-Note that the authors intentionally make the toy example data *`x`* *not* equidistant, as neither the chained trapezoidal rule framework nor the function `pracma::trapz()` *requires* the equidistant assumption.
+Note that the authors intentionally make the toy example data *`x`* *not* equidistant, as neither the chained trapezoidal rule framework nor the functions `pracma::trapz()` and `pracma::cumtrapz()` *require* the equidistant assumption.
 
 Function `pracma::trapz()` calculates a trapezoidal integration (@eq-trapz), visualized in @fig-vtrapz(A).
 
@@ -753,7 +753,7 @@ pracma::cumtrapz(x, y)
 
 ### Average Vertical Height {#sec-vtrapz}
 
-The authors define the *average vertical height* of a trapezoidal integration as the chained-trapezoid (@eq-trapz) divided by the length of $x$-domain $b-a$,
+The *average vertical height* of a trapezoidal integration is the chained-trapezoid (@eq-trapz) divided by the length of $x$-domain $b-a$,
 
 $$
 \begin{split}
