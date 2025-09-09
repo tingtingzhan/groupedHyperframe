@@ -355,9 +355,6 @@ Readers are encouraged to learn more about this application from package **`hype
 
 {{< pagebreak >}}
 
-
-
-
 ## Acknowledgement
 
 This work is supported by National Institutes of Health, U.S. Department of Health and Human Services grants
@@ -377,7 +374,7 @@ spatstat.data::demohyper
 
 The authors introduce a new `S3` class `groupedHyperframe`, for **grouped hyper data frame**, which `inherits` from the `hyperframe` class. The derived class `groupedHyperframe` has additional `attributes`
 
--   `attr(., 'group')`, a one-sided `formula` of the (nested) grouping structure, e.g., *`~patient/image`* when each patient has one or more images. Appendix @sec-nestedGroup provides references to the grammar of the nested grouping structure $g_1/.../g_m$ (`~g1/.../gm`).
+-   `attr(.,'group')`, a one-sided `formula` of the (nested) grouping structure, e.g., *`~patient/image`* when each patient has one or more images. Appendix @sec-nestedGroup provides references to the grammar of the nested grouping structure $g_1/.../g_m$ (`~g1/.../gm`).
 
 The `S3` generic function `as.groupedHyperframe()` converts objects of various classes into a `groupedHyperframe`.
 
@@ -487,7 +484,7 @@ s
 @tbl-batch-numeric-fv and @tbl-batch-multitype-fv present the batch processes that return a function value table (`fv`) hypercolumn, i.e., a `listof` `fv.object`s (Appendix @sec-fvlist).
 
 | Batch Process | Workhorse Function in Package **`spatstat.explore`** | `fv`-hypercolumns Suffix |
-|:------------------------|:------------------------|:------------------------|
+|:-----------------------|:-----------------------|:-----------------------|
 | `Emark_()` and `Vmark_()` | [`Emark` and `Vmark`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/Emark.html), conditional mean $E(r)$ and variance $V(r)$, diagnostics for dependence between the points and the marks [@Emark] | `.E` and `.V` |
 | `markcorr_()` | [`markcorr`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/markcorr.html), marked correlation $k_{mm}(r)$ or generalized mark correlation $k_f(r)$ [@markcorr] | `.k` |
 | `markvario_()` | [`markvario`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/markvario.html), mark variogram $\gamma(r)$ [@markvario] | `.gamma` |
@@ -495,31 +492,23 @@ s
 
 : Batch processes; numeric `marks` to `fv`-hypercolumn {#tbl-batch-numeric-fv}
 
-
-
-
-
 | Batch Process | Workhorse Function in Package **`spatstat.explore`** | `fv`-hypercolumns Suffix |
-|:------------------------|:------------------------|:------------------------|
+|:-----------------------|:-----------------------|:-----------------------|
 | `Gcross_()` | [`Gcross`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/Gcross.html), multitype nearest-neighbour distance $G_{ij}(r)$ | `.G` |
 | `Kcross_()` | [`Kcross`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/Kcross.html), multitype $K_{ij}(r)$ | `.K` |
 | `Jcross_()` | [`Jcross`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/Jcross.html), multitype $J_{ij}(r)$ [@Jcross] | `.J` |
 | `Lcross_()` | [`Lcross`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/Lcross.html), multitype $L_{ij}(r)=\sqrt{\frac{K_{ij}(r)}{\pi}}$ | `.L` |
 | `markconnect_()` | [`markconnect`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/markconnect.html), multitype $p_{ij}(r)$ | `.p` |
 
-: Batch processes; `multitype` `marks` to `fv`-hypercolumn {#tbl-batch-multitype-fv} 
-
+: Batch processes; `multitype` `marks` to `fv`-hypercolumn {#tbl-batch-multitype-fv}
 
 @tbl-batch-multitype-numeric presents the batch processes that return a numeric hypercolumn, i.e., a hypercolumn which consists of a `list` of numeric `vector`s.
 
 | Batch Process | Workhorse Function in Package **`spatstat.geom`** | numeric-hypercolumns Suffix |
-|:------------------|:------------------|:------------------|
+|:-----------------------|:-----------------------|:-----------------------|
 | `nncross_()` | [`nncross.ppp`](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/nncross.html)`(., what = 'dist')`, nearest neighbour distance | `.nncross` |
 
-: Batch processes; `multitype` `marks` to numeric-hypercolumn {#tbl-batch-multitype-numeric} 
-
-
-
+: Batch processes; `multitype` `marks` to numeric-hypercolumn {#tbl-batch-multitype-numeric}
 
 Multiple batch processes may be applied to a `hyperframe` (and/or `groupedHyperframe`) in a pipeline using the native pipe operator `|>` introduced since R version 4.1.0.
 
@@ -560,7 +549,7 @@ Function `aggregate_fv()` performs (truncated) aggregation of
 -   *`<mark>.<fv>.cumtrapz`*, the *cumulative trapezoidal integration* (Appendix @sec-trapz) under the black-solid-curve
 -   *`<mark>.<fv>.cumvtrapz`*, the *cumulative average vertical height of trapezoidal integration* (Appendix @sec-vtrapz) under the black-solid-curve
 
-When a user-specified $r_\text{max}$ is provided to a batch process (in @sec-batch) on *all* `ppp.object`s in the `ppp`-hypercolumn, inevitably some of the `fv`-returns may contain exceptional/illegal function values (Appendix @sec-legal_rmax). In this case, the aggregation is *truncated* at the minimum legal $r_\text{max}$ of the `fv.object`s in each `fv`-hypercolumn.
+When a user-specified $r$-`vector` is provided to a batch process (@sec-batch) on *all* `ppp.object`s in the `ppp`-hypercolumn, inevitably some of the `fv`-returns may contain exceptional/illegal function values (Appendix @sec-legal_rmax). In this case, the aggregation is *truncated* at the minimum legal $r_\text{max}$ of the `fv.object`s in each `fv`-hypercolumn.
 
 In the following example, the returned object *`afv`* has
 
@@ -580,7 +569,7 @@ out |>
   aggregate_fv(by = ~ patient_id, f_aggr_ = pmean, rmax = 220)
 ```
 
-If the user-specified $r_\text{max}$ is greater than the minimum legal $r_\text{max}$, the user's $r_\text{max}$ will be ignored.
+If the user-specified $r_\text{max}$ `rmax` is greater than the minimum legal $r_\text{max}$ (Appendix @sec-legal_rmax), the user's $r_\text{max}$ `rmax` will be ignored.
 
 ```{r}
 #| results: hide
@@ -588,7 +577,7 @@ out |>
   aggregate_fv(by = ~ patient_id, f_aggr_ = pmean, rmax = 260)
 ```
 
-In `hyperframe` *`afv`*, each one of the numeric-hypercolumns contains tabulated values on the common grid of $r$. One "slice" of the hypercolumn *`hladr.E.cumvtrapz`* at $r=50$ may be extracted by calling the `S3` method dispatch `spatstat.geom::with.hyperframe()` (which behaves *very differently* from function `base::with.default()`, Appendix @sec-hyperframe),
+In `hyperframe` *`afv`*, each one of the numeric-hypercolumns contains tabulated values on the common grid of the $r$-`vector`. One "slice" of the hypercolumn *`hladr.E.cumvtrapz`* at $r=50$ may be extracted by calling the `S3` method dispatch `spatstat.geom::with.hyperframe()` (which behaves *very differently* from function `base::with.default()`, Appendix @sec-hyperframe),
 
 ```{r}
 E_r50_a = afv |>
@@ -609,7 +598,7 @@ E_r50_b
 stopifnot(identical(E_r50_a, E_r50_b))
 ```
 
-Developers may use the `S3` method dispatch `t.vectorlist()` in Appendix @sec-vectorlist.
+Developers may use the `S3` method dispatch `t.vectorlist()` (Appendix @sec-vectorlist).
 
 ```{r}
 tE = afv$hladr.E.cumvtrapz |>
@@ -621,11 +610,10 @@ stopifnot(identical(E_r50_a, tE[[5L]]))
 
 #### On `quantile`s
 
-Function `aggregate_quantile()` aggregates the `quantile`s 
+Function `aggregate_quantile()` aggregates the `quantile`s
 
--   of the numeric-hypercolumns, and 
--   of the numeric marks in the one-and-only-one `ppp`-hypercolumn (Appendix @sec-isnumeric-ppp). 
-
+-   of the numeric-hypercolumns, and
+-   of the numeric marks in the one-and-only-one `ppp`-hypercolumn (Appendix @sec-isnumeric-ppp).
 
 In the following example, the returned object has
 
@@ -678,19 +666,15 @@ The authors are working on a manuscript about the batch process (@sec-batch) and
 
 ## Paper 2
 
-The authors are working on a manuscript about the simulation of grouped hyper data frame.  
+The authors are working on a manuscript about the simulation of grouped hyper data frame.
 
 Readers are encouraged to learn more about this application from package **`groupedHyperframe.random`** vignette ([RPubs](https://rpubs.com/tingtingzhan/groupedHyperframe_random), [CRAN](https://CRAN.R-project.org/package=groupedHyperframe.random/vignettes/intro.html)).
-
 
 ## Paper 3
 
 The authors are working on a manuscript about predictor selection from a numeric-`hypercolumn`.
 
-
 Readers are encouraged to learn more about this application from package **`maxEff`** vignette ([RPubs](https://rpubs.com/tingtingzhan/maxEff), [CRAN](https://CRAN.R-project.org/package=maxEff/vignettes/intro.html)).
-
-
 
 # Appendix {#sec-appendix}
 
@@ -1406,7 +1390,6 @@ fluM$pattern[[1L]] |>
   split_kmeans(formula = ~ x + y, centers = 3L)
 ```
 
-
 ### Pairwise Tjøstheim's Coefficient
 
 The `S3` generic function `pairwise_cor_spatial()` calculates the nonparametric, rank-based, Tjøstheim's correlation coefficients [@Tjostheim78; @Hubert82] in a pairwise-combination fashion, using the workhorse function `SpatialPack::cor.spatial()` from package **`SpatialPack`** [@SpatialPack].
@@ -1450,7 +1433,7 @@ finpines_paircor |>
 
 ### `r '\U1f6a7'` Global Envelope Test
 
-`r '\U1f6a7'` [This section is under construction.  Expected delivery by 2025-12-31.]{style="background-color: #FFFF00"}
+`r '\U1f6a7'` [This section is under construction. Expected delivery by 2025-12-31.]{style="background-color: #FFFF00"}
 
 ## On `fv.object` {#sec-fv}
 
@@ -1573,7 +1556,7 @@ Function `spatstat.explore::markcorr()` is the workhorse inside functions `Emark
 c(2.5e-324, 2.6e-324) / 0
 ```
 
-Function `spatstat.explore::markcorr()` provides a default argument of parameter $r$ (Appendix @sec-default_rmax), at which the mark correlation function $k_f(r)$ are evaluated. The `S3` method dispatch `spatstat.explore::print.fv()` prints the *recommended range* and *available range* of $r$.
+Function `spatstat.explore::markcorr()` provides a default argument of parameter $r$-`vector` (Appendix @sec-default_rmax), at which the mark correlation function $k_f(r)$ are evaluated. The `S3` method dispatch `spatstat.explore::print.fv()` prints the *recommended range* and *available range* of $r$-`vector`.
 
 ```{r}
 #| code-fold: true
@@ -1582,7 +1565,7 @@ spatstat.data::spruces |>
   spatstat.explore::markcorr()
 ```
 
-Exceptional/illegal values `0`, `NaN` and `Inf` may appear in the mark correlation function $k_f(r)$, if $r$ goes beyond the recommended and/or available range.
+Exceptional/illegal values `0`, `NaN` and `Inf` may appear in the mark correlation function $k_f(r)$, if the $r$-`vector` goes beyond the recommended and/or available range.
 
 ```{r}
 #| code-fold: true
@@ -1593,7 +1576,7 @@ spatstat.data::spruces |>
   tail(n = 30L)
 ```
 
-Function `lastLegal()` provides the *index* of the last *consecutive* legal value in a `double` `vector`, i.e., the first exceptional/illegal value of `0`, `NaN`, or `Inf` appears at the next index. "Legal" in function `lastLegal()` is defined as a `double` scalar being not-`NaN`, not-`Inf`, and with `abs`olute value greater than `.Machine$double.eps`.
+Function `lastLegal()` returns the *index* of the last *consecutive* legal value in a `double` `vector`, i.e., the first exceptional/illegal value of `0`, `NaN`, or `Inf` appears at the next index. "Legal" in function `lastLegal()` is defined as a `double` scalar being not-`NaN`, not-`Inf`, and with `abs`olute value greater than `.Machine$double.eps`.
 
 ```{r}
 #| code-fold: true
@@ -1630,7 +1613,7 @@ spatstat.data::spruces |>
   lastLegal()
 ```
 
-Legality of the function `spatstat.explore::markcorr()` returns depends not only on the input `ppp.object`, but also on the values of $r$. In other words, the creation of an `fv.object` by function `markcorr()` is a numerical procedure. Therefore, the discussion of Legal $r_\text{max}$ pertains to `fv.object` (Appendix @sec-fv), instead of to `ppp.object` (Appendix @sec-ppp).
+Legality of the function `spatstat.explore::markcorr()` returns depends not only on the input `ppp.object`, but also on the values of the $r$-`vector`. In other words, the creation of an `fv.object` by function `markcorr()` is a numerical procedure. Therefore, the discussion of Legal $r_\text{max}$ pertains to `fv.object` (Appendix @sec-fv), instead of to `ppp.object` (Appendix @sec-ppp).
 
 ```{r}
 #| code-fold: true
@@ -1649,7 +1632,7 @@ The authors discuss some extensions of the class `'anylist'` in this section.
 
 ### On `solist` {#sec-solist}
 
-Function `spatstat.geom::solist()` returns an object of `S3` class `'solist'`, i.e., list of two-dimensional spatial objects.  The `S3` class `'solist'` `inherits` from the class `'anylist'`.
+Function `spatstat.geom::solist()` returns an object of `S3` class `'solist'`, i.e., list of two-dimensional spatial objects. The `S3` class `'solist'` `inherits` from the class `'anylist'`.
 
 The authors plan [**not**]{style="background-color: #FFFF00"} to implement
 
@@ -1682,11 +1665,10 @@ spatstat.data::btb.extra |>
   rmax_(fun = 'K')
 ```
 
-The `S3` generic function `split_kmeans()` has been introduced in Appendix @sec-split_kmeans. The `S3` method dispatch `split_kmeans.listof()` splits a `ppplist` by $k$-means clustering. The authors use a `subset` of the data set *`flu`* from package **`spatstat.data`** to illustrate this concept.  The returned object has `attributes`
+The `S3` generic function `split_kmeans()` has been introduced in Appendix @sec-split_kmeans. The `S3` method dispatch `split_kmeans.listof()` splits a `ppplist` by $k$-means clustering. The authors use a `subset` of the data set *`flu`* from package **`spatstat.data`** to illustrate this concept. The returned object has `attributes`
 
 -   `attr(.,'.id')`, indices of the `ppp.object`s before splitting.
 -   `attr(.,'.cluster')`, indices of $k$-means clusters, nested in `.id`.
-
 
 ```{r}
 #| code-fold: true
@@ -1787,10 +1769,9 @@ stopifnot(identical(Kovesi_values_t, Kovesi_values_t2))
 
 ### Derived Class `'fvlist'` {#sec-fvlist}
 
-The derived class `'fvlist'`, i.e., a `listof` function value table `fv.object`s, `inherits` from the class `'anylist'`. The implementation of the class `'fvlist'` is inspired by the class `'solist'`. 
+The derived class `'fvlist'`, i.e., a `listof` function value table `fv.object`s, `inherits` from the class `'anylist'`. The implementation of the class `'fvlist'` is inspired by the class `'solist'`.
 
-As of package **`spatstat.geom`** v`r packageVersion('spatstat.geom')`, an `fv`-hypercolumn in a `hyperframe` has class `c('anylist, 'listof', 'list')`.  The authors want to convince [Prof. Adrian Baddeley](https://en.wikipedia.org/wiki/Adrian_Baddeley) [@spatstat05] to [support the class `'fvlist'` in function `spatstat.geom::hyperframe()`]{style="background-color: #FFFF00"}, so that an `fv`-hypercolumn shall have class `c('fvlist', 'anylist, 'listof', 'list')`. Before this happens, the authors propose some workaround in package **`groupedHyperframe`**, so that active developers could make use of the `S3` method dispatches to the class `'fvlist'`.
-
+As of package **`spatstat.geom`** v`r packageVersion('spatstat.geom')`, an `fv`-hypercolumn in a `hyperframe` has class `c('anylist, 'listof', 'list')`. The authors may try to convince [Prof. Adrian Baddeley](https://en.wikipedia.org/wiki/Adrian_Baddeley) [@spatstat05] to [support the class `'fvlist'` in function `spatstat.geom::hyperframe()`]{style="background-color: #FFFF00"}, so that an `fv`-hypercolumn shall have class `c('fvlist', 'anylist, 'listof', 'list')`. Before this happens, the authors propose some workaround in package **`groupedHyperframe`**, so that active developers could make use of the `S3` method dispatches to the class `'fvlist'`.
 
 The authors use a `subset` of the data set *`flu`* from package **`spatstat.data`** to illustrate this concept.
 
@@ -1800,8 +1781,8 @@ The authors use a `subset` of the data set *`flu`* from package **`spatstat.data
 <<fluM>>
 ```
 
-The batch process `Gcross_()` (@sec-batch) adds an `fv`-hypercolumn *`m.G`* to the input `hyperframe` *`fluM`*.  The `message` of "Legal $r_\text{max}$" provides the indices in the `fv`-hypercolumn, i.e., the row indices of the `hyperframe`, where the legal $r_\text{max}$ (Appendix @sec-legal_rmax) is smaller than the user-specified $r_\text{max}$.
- 
+The `ppp`-hypercolumn *`fluM$pattern`* contains `ppp.object`s with `multitype` `marks`.  A batch process (@sec-batch) applicable to `multitype` `marks`, e.g., `Gcross_()`, adds an `fv`-hypercolumn *`m.G`* to the input `hyperframe` *`fluM`*. The `message` of "Legal $r_\text{max}$" provides the indices in the `fv`-hypercolumn, i.e., the row indices of the `hyperframe`, where the legal $r_\text{max}$ (Appendix @sec-legal_rmax) is smaller than the maximum value of the user-specified $r$-`vector`.
+
 ```{r}
 #| code-fold: true
 #| code-summary: '**Example**: function `Gcross_()`'
@@ -1818,13 +1799,14 @@ fluM_G$m.G |>
   class() # not yet :)
 ```
 
-Function `as.fvlist()` inspects a `listof` `fv.object`s and convert it to an object of class `'fvlist'`, before `spatstat.geom::hyperframe()` (ever) recognizes the class `'fvlist'`.  To be converted to an `fvlist`, the `listof` `fv.object`s must have `identical`
+#### Validity
 
--   names of function argument, i.e., returns of `spatstat.explore::fvnames(., a = '.x')` per `fv.object`;
--   function arguments, i.e., the values of $r$ per `fv.object`;
--   names of recommended function value, i.e., returns of `spatstat.explore::fvnames(., a = '.y')` per `fv.object`;
--   function names, i.e., returns of `attr(., 'fname')` per `fv.object`.
+Function `as.fvlist()` inspects a `listof` `fv.object`s and convert it to an object of class `'fvlist'`. To qualify as an `fvlist`, all the members of `fv.object`s in the `list` must have `identical`
 
+-   names of function argument, i.e., returns of `spatstat.explore::fvnames(., a = '.x')`;
+-   function arguments, i.e., the values of the $r$-`vector`;
+-   names of recommended function value, i.e., returns of `spatstat.explore::fvnames(., a = '.y')`;
+-   function names, i.e., returns of `attr(.,'fname')`.
 
 ```{r}
 #| code-fold: true
@@ -1837,10 +1819,9 @@ m_G |>
 
 The class `'fvlist'` has `attributes`
 
--   `attr(., 'r')`, a `numeric` `vector`, the common values of `r` shared by all `fv.object`s;
--   `attr(., '.y')`, a `character` scalar, the name of the recommended function value, i.e., the common returned value of `spatstat.explore::fvnames(., a = '.y')` from all `fv.object`s;
--   `attr(., 'rmax')`, a `numeric` scalar, the minimum Legal $r_\text{max}$ (Appendix @sec-legal_rmax) of all `fv.object`s.
-
+-   `attr(.,'r')`, a `numeric` `vector`, the `identical` values of $r$-vector in all `fv.object`s;
+-   `attr(.,'.y')`, a `character` scalar, the name of the recommended function value, i.e., the `identical` returned values of `spatstat.explore::fvnames(., a = '.y')` from all `fv.object`s;
+-   `attr(.,'rmax')`, a `numeric` scalar, the minimum Legal $r_\text{max}$ (Appendix @sec-legal_rmax) of all `fv.object`s.  Obviously, the minimum Legal $r_\text{max}$ `attr(.,'rmax')` is less than or equal to the maximum value of the $r$-vector `attr(.,'r')`.
 
 ```{r}
 #| code-fold: true
@@ -1849,35 +1830,40 @@ m_G |>
   attributes()
 ```
 
+#### Truncated Summary
 
-The `S3` method dispatch `summary.fvlist()` performs truncated summarization at a user-specified $r_\text{max}$. The `S3` method dispatch `summary.fvlist()` returns a `list` with elements 
+The `S3` method dispatch `summary.fvlist()` performs a *truncated summary* at a user-specified $r_\text{max}$ `rmax` and returns a `list` with elements
 
--   *`$y`*, the *function values*, i.e., the black-solid-curve (Appendix @sec-blackSolidCurve) per `fv.object`;
--   *`$cumtrapz`*, the *cumulative trapezoidal integration* (Appendix @sec-trapz) under the black-solid-curve per `fv.object`;
--   *`$cumvtrapz`*, the *cumulative average vertical height of trapezoidal integration* (Appendix @sec-vtrapz) under the black-solid-curve per `fv.object`.
+-   *`$y`*, the (truncated) function values, i.e., the black-solid-curve (Appendix @sec-blackSolidCurve) per `fv.object`;
+-   *`$cumtrapz`*, the (truncated) cumulative trapezoidal integration (Appendix @sec-trapz) under the black-solid-curve per `fv.object`;
+-   *`$cumvtrapz`*, the (truncated) cumulative average vertical height of trapezoidal integration (Appendix @sec-vtrapz) under the black-solid-curve per `fv.object`.
+
+Specifically,
+
+-   if user-specified $r_\text{max}$ `rmax` is `missing`, then the `fv.object`s are truncated at the minimum Legal $r_\text{max}$ `attr(.,'rmax')`.
+-   if user-specified $r_\text{max}$ `rmax` is greater than the minimum Legal $r_\text{max}$ `attr(.,'rmax')`, then the `fv.object`s are truncated at the minimum Legal $r_\text{max}$ `attr(.,'rmax')` and the user `rmax` is ignored.
+-   if user-specified $r_\text{max}$ `rmax` is less than or equal to the minimum Legal $r_\text{max}$ `attr(.,'rmax')`, then the `fv.object`s are truncated at the user `rmax`.
 
 
 ```{r}
 #| code-fold: true
-#| code-summary: '**Example**: function `summary.fvlist()`, truncated at $r_\text{max}>$ minimum Legal $r_\text{max}$ of all `fv.object`s'
+#| code-summary: '**Example**: function `summary.fvlist()`, user $r_\text{max}>$ minimum Legal $r_\text{max}$'
 m_G_s1 = m_G |>
-  summary(rmax = 85, data.name = 'm.G')
+  summary(rmax = 85)
 m_G_s1 |> 
   lapply(FUN = head, n = 2L)
 ```
 
-
-
 ```{r}
 #| code-fold: true
-#| code-summary: '**Example**: function `summary.fvlist()`, truncated at $r_\text{max}\leq$ minimum Legal $r_\text{max}$ of all `fv.object`s'
+#| code-summary: '**Example**: function `summary.fvlist()`, user $r_\text{max}\leq$ minimum Legal $r_\text{max}$'
 m_G_s2 = m_G |>
-  summary(rmax = 70, data.name = 'm.G')
+  summary(rmax = 70)
 m_G_s2 |> 
   lapply(FUN = head, n = 2L)
 ```
 
-
+The truncated summary is important, because the exceptional/illegal function values (Appendix @sec-legal_rmax) cause problems in downstream analyses.  Readers are encouraged to learn more about these analyses from package **`hyper.gam`** vignette ([RPubs](https://rpubs.com/tingtingzhan/hyper_gam), [CRAN](https://CRAN.R-project.org/package=hyper.gam/vignettes/applications.html)) and package **`maxEff`** vignette ([RPubs](https://rpubs.com/tingtingzhan/maxEff), [CRAN](https://CRAN.R-project.org/package=maxEff/vignettes/intro.html)).
 
 
 ## On `hyperframe` {#sec-hyperframe}
@@ -1961,7 +1947,7 @@ The `S3` method dispatch `superimpose.hyperframe()`, which does not exist in pac
 
 The `S3` method dispatch `superimpose.groupedHyperframe()` superimposes multiple `groupedHyperframe`s if-and-only-if they satisfy the *additional* criteria that they have `identical`
 
--   grouping structures, i.e., `attr(., 'group')`
+-   grouping structures, i.e., `attr(.,'group')`
 
 The authors use a `subset` of the data set *`flu`* from package **`spatstat.data`** to illustrate the superimpose of `hyperframe`s.
 
@@ -2125,7 +2111,7 @@ quote(g1/g2a:g2b/g3a:g3b:g3c) |>
 (~b:c) |> get_nested()
 ```
 
-The (nested) grouping structure `attr(., 'group')` of a `groupedHyperframe`
+The (nested) grouping structure `attr(.,'group')` of a `groupedHyperframe`
 
 -   must denote the highest level using a `symbol` (e.g., `g1`)
 -   may denote the lower levels using a `symbol` (e.g., `g2`) or an interaction-term (e.g., `g2a:g2b`)
@@ -2287,6 +2273,8 @@ R terminology and nomenclature could be *drastically different* from that of mat
 | [`file.size`](https://search.r-project.org/R/refmans/base/html/file.info.html) | File size in bytes |
 | (one-sided) [`formula`](https://search.r-project.org/R/refmans/stats/html/formula.html) | Formula, or [one-sided formula](https://search.r-project.org/R/refmans/stats/html/asOneSidedFormula.html) |
 | `foobar` | Placeholder; <https://en.wikipedia.org/wiki/Foobar> |
+| [`formals`](https://search.r-project.org/R/refmans/base/html/formals.html) | Formal arguments of R function |
+| [`function`](https://search.r-project.org/R/refmans/base/html/function.html) | R function definition |
 | [`fv`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/fv.html), [`fv.object`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/fv.object.html), [`plot.fv`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/plot.fv.html) | (Plot of) function value table, from package **`spatstat.explore`** |
 | [`ggplot`](https://search.r-project.org/CRAN/refmans/ggplot2/html/ggplot.html) | Elegant data visualisations using the grammar-of-graphics, from package **`ggplot2`** [@ggplot2] |
 | [`global_envelope_test`](https://search.r-project.org/CRAN/refmans/GET/html/global_envelope_test.html) | Global envelope test, from package **`GET`** [@GET] |
@@ -2314,6 +2302,7 @@ R terminology and nomenclature could be *drastically different* from that of mat
 | [`merge`, `merge.data.frame`](https://search.r-project.org/R/refmans/base/html/merge.html) | Merge two `data.frame`s |
 | [`mc.cores`](https://search.r-project.org/R/refmans/parallel/html/mclapply.html) | Number of central processing unit (CPU) cores to use for parallel computing |
 | [`message`](https://search.r-project.org/R/refmans/base/html/message.html) | Diagnostic message printed in R console |
+| [`missing`](https://search.r-project.org/R/refmans/base/html/missing.html) | R [`function`](https://search.r-project.org/R/refmans/base/html/function.html) not having a default value for a [`formals`](https://search.r-project.org/R/refmans/base/html/formals.html) argument |
 | [`multitype`](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/spatstat.geom-internal.html) | Multitype spatial object, from package **`spatstat.geom`** |
 | [`NaN`](https://search.r-project.org/R/refmans/base/html/is.finite.html) | Not-a-Number |
 | [`na.fail`, `na.omit`, `na.exclude`, `na.pass`](https://search.r-project.org/R/refmans/stats/html/na.fail.html) | Handle missing values in R objects |
@@ -2363,6 +2352,7 @@ R terminology and nomenclature could be *drastically different* from that of mat
 
 | Topic | Where to Find |
 |:-----------------------------------|:-----------------------------------|
+| `fvlist` | @sec-fvlist |
 | `fv.object` | @sec-fv |
 | `groupedHyperframe` | @sec-groupedHyperframe, @sec-groupedHyperframe-appendix |
 | `hyperframe` | @sec-hyperframe, @sec-dont-hyperframe |

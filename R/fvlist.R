@@ -128,7 +128,7 @@ as.fvlist <- function(X, data.name) { # data.name = deparse1(substitute(X))
 #' @export
 summary.fvlist <- function(
     object, 
-    data.name,
+    data.name = deparse1(substitute(object)),
     rmax, 
     mc.cores = getOption('mc.cores'), 
     ...
@@ -142,8 +142,8 @@ summary.fvlist <- function(
   x_rmax <- attr(x, which = 'rmax', exact = TRUE)
   .y <- attr(x, which = '.y', exact = TRUE)
   
-  if (!length(rmax)) { # missing user `rmax` -- maybe still need this
-  #if (missing(rmax)) { # missing user `rmax`
+  if (missing(rmax) || !length(rmax)) { # missing user `rmax`
+    # `!length(rmax)` needed in ?base::mapply (at least tzh thinks so, 2025-09-09)
     if (x_rmax < max(r)) {
       sprintf(fmt = 'summary.fvlist truncated at rmax(%s) = %.1f', data.name, x_rmax) |>
         style_bold() |> bg_br_yellow() |> message()

@@ -4,7 +4,13 @@
 \alias{summary.fvlist}
 \title{summary.fvlist}
 \usage{
-\method{summary}{fvlist}(object, data.name, rmax, mc.cores = getOption("mc.cores"), ...)
+\method{summary}{fvlist}(
+  object,
+  data.name = deparse1(substitute(object)),
+  rmax,
+  mc.cores = getOption("mc.cores"),
+  ...
+)
 }
 \arguments{
 \item{object}{an \code{'fvlist'}}
