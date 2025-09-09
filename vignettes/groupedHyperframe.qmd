@@ -1545,9 +1545,8 @@ spatstat.data::spruces |>
 
 Function `spatstat.explore::markcorr()` is the workhorse inside functions `Emark()`, `Vmark()` and `markvario()` as of package **`spatstat.explore`** v`r packageVersion('spatstat.explore')`. Function `markcorr()` relies on the un-`export`ed workhorse function `spatstat.explore:::sewsmod()`, whose default `method = "density"` contains the calculation of the ratio of two kernel densities. Due to the floating-point precision of R, such density ratios may have exceptional/illegal returns of
 
--   `0`, from $0/\delta$, with a [real number](https://en.wikipedia.org/wiki/Real_number) $\delta\geq$ (approximately) `2.6e-324`
--   `NaN`, from $0/\varepsilon$ or $\varepsilon/0$, with a real number $\varepsilon\leq$ (approximately) `2.5e-324`
--   `Inf`, from $\delta/0$, with a real number $\delta\geq$ (approximately) `2.6e-324`
+-   `0` from $0/\delta$, or `Inf` from $\delta/0$, with a [real number](https://en.wikipedia.org/wiki/Real_number) $\delta\geq$ (approximately) `2.6e-324`
+-   `NaN` from $0/\varepsilon$ or $\varepsilon/0$, with a real number $\varepsilon\leq$ (approximately) `2.5e-324`
 
 ```{r}
 #| code-fold: true
@@ -1565,7 +1564,7 @@ spatstat.data::spruces |>
   spatstat.explore::markcorr()
 ```
 
-Exceptional/illegal values `0`, `NaN` and `Inf` may appear in the mark correlation function $k_f(r)$, if the $r$-`vector` goes beyond the recommended and/or available range.
+Exceptional/illegal values of `0`, `Inf` and/or `NaN` may appear in the mark correlation function $k_f(r)$, if the $r$-`vector` goes beyond the recommended and/or available range.
 
 ```{r}
 #| code-fold: true
@@ -1576,7 +1575,7 @@ spatstat.data::spruces |>
   tail(n = 30L)
 ```
 
-Function `lastLegal()` returns the *index* of the last *consecutive* legal value in a `double` `vector`, i.e., the first exceptional/illegal value of `0`, `NaN`, or `Inf` appears at the next index. "Legal" in function `lastLegal()` is defined as a `double` scalar being not-`NaN`, not-`Inf`, and with `abs`olute value greater than `.Machine$double.eps`.
+The helper function `lastLegal()` returns the *index* of the last *consecutive* legal values in a `double` `vector`, i.e., the first exceptional/illegal value of `0`, `Inf`, or `NaN` appears at the next index. "Legal" in function `lastLegal()` is defined as a `double` scalar being not-`NaN`, not-`Inf`, and with `abs`olute value greater than `.Machine$double.eps`.
 
 ```{r}
 #| code-fold: true
@@ -1604,13 +1603,25 @@ c(exp(1), pi, NaN, 1, 0, Inf) |>
   lastLegal()
 ```
 
+
 ```{r}
-#| code-fold: true
-#| code-summary: '**Example**: function `lastLegal()` of `keyval.fv()`'
-spatstat.data::spruces |> 
+#| echo: false
+#| results: hide
+#| label: lastLegal_keyval
+spruces_markcorr_lastLegal = spatstat.data::spruces |> 
   spatstat.explore::markcorr(r = 0:100) |>
   keyval.fv() |>
   lastLegal()
+```
+
+
+The term *Legal $r_\text{max}$* is (the index) of the $r$-`vector`, where the last of the consecutive legal function values appears. In the example below, the last consecutive legal function value of `r spruces_markcorr_lastLegal |> attr('value') |> sprintf(fmt = '$k_f(r)=%.3f$')` appears at the `r spruces_markcorr_lastLegal`-th index of the $r$-`vector`, i.e., `r spruces_markcorr_lastLegal |> attr('value') |> names() |> sprintf(fmt = '$r=%s$')`.
+
+```{r}
+#| code-fold: true
+#| code-summary: '**Example**: function `lastLegal()` of `keyval.fv()`'
+<<lastLegal_keyval>>
+spruces_markcorr_lastLegal
 ```
 
 Legality of the function `spatstat.explore::markcorr()` returns depends not only on the input `ppp.object`, but also on the values of the $r$-`vector`. In other words, the creation of an `fv.object` by function `markcorr()` is a numerical procedure. Therefore, the discussion of Legal $r_\text{max}$ pertains to `fv.object` (Appendix @sec-fv), instead of to `ppp.object` (Appendix @sec-ppp).
