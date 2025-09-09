@@ -2,7 +2,7 @@
 % Please edit documentation in R/fvlist.R
 \name{summary.fvlist}
 \alias{summary.fvlist}
-\title{summary.fvlist}
+\title{Truncated Summary of \code{'fvlist'}}
 \usage{
 \method{summary}{fvlist}(
   object,
@@ -25,6 +25,6 @@ Default is 1L on Windows, or \link[parallel]{detectCores} on Mac.}
 \item{...}{additional parameters, currently of no use}
 }
 \description{
-summary.fvlist
+Truncated Summary of \code{'fvlist'}
 }
 \keyword{internal}

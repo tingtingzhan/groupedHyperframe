@@ -2,7 +2,7 @@
 % Please edit documentation in R/fvlist.R
 \name{as.fvlist}
 \alias{as.fvlist}
-\title{\link{as.fvlist}}
+\title{Convert a \link[stats]{listof} \link[spatstat.explore]{fv.object}s into \code{'fvlist'}}
 \usage{
 as.fvlist(X, data.name)
 }

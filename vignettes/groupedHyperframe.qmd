@@ -1806,7 +1806,7 @@ Function `as.fvlist()` inspects a `listof` `fv.object`s and convert it to an obj
 -   names of function argument, i.e., returns of `spatstat.explore::fvnames(., a = '.x')`;
 -   function arguments, i.e., the values of the $r$-`vector`;
 -   names of recommended function value, i.e., returns of `spatstat.explore::fvnames(., a = '.y')`;
--   function names, i.e., returns of `attr(.,'fname')`.
+-   function names and additional information, i.e., returns of `attr(.,'fname')`.
 
 ```{r}
 #| code-fold: true
@@ -1820,15 +1820,26 @@ m_G |>
 The class `'fvlist'` has `attributes`
 
 -   `attr(.,'r')`, a `numeric` `vector`, the `identical` values of $r$-vector in all `fv.object`s;
--   `attr(.,'.y')`, a `character` scalar, the name of the recommended function value, i.e., the `identical` returned values of `spatstat.explore::fvnames(., a = '.y')` from all `fv.object`s;
+-   `attr(.,'.x')`, a `character` scalar, the name of the function argument, i.e., the `identical` returns of `spatstat.explore::fvnames(., a = '.x')` from all `fv.object`s;
+-   `attr(.,'.y')`, a `character` scalar, the name of the recommended function value, i.e., the `identical` returns of `spatstat.explore::fvnames(., a = '.y')` from all `fv.object`s;
+-   `attr(.,'fname')`, a `character` scalar or `vector`, the function name and additional information, i.e., the `identical` returns of `attr(.,'fname')` from all `fv.object`s;
 -   `attr(.,'rmax')`, a `numeric` scalar, the minimum Legal $r_\text{max}$ (Appendix @sec-legal_rmax) of all `fv.object`s.  Obviously, the minimum Legal $r_\text{max}$ `attr(.,'rmax')` is less than or equal to the maximum value of the $r$-vector `attr(.,'r')`.
 
 ```{r}
 #| code-fold: true
-#| code-summary: "**Example**: `base::attributes()` of class `'fvlist'`"
+#| code-summary: "**Advanced**: `base::attributes()` of class `'fvlist'`"
 m_G |> 
   attributes()
 ```
+
+The `S3` method dispatch `print.fvlist()` prints the vital information of an `'fvlist'`.
+
+```{r}
+#| code-fold: true
+#| code-summary: '**Example**: function `print.fvlist()`'
+m_G
+```
+
 
 #### Truncated Summary
 

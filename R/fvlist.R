@@ -1,6 +1,6 @@
 
 
-#' @title [as.fvlist]
+#' @title Convert a \link[stats]{listof} \link[spatstat.explore]{fv.object}s into `'fvlist'`
 #' 
 #' @description
 #' A helper function to check the validity of a \link[stats]{listof} \link[spatstat.explore]{fv.object}s.
@@ -31,7 +31,7 @@
 #' @keywords internal
 #' @importFrom spatstat.explore fvnames
 #' @export
-as.fvlist <- function(X, data.name) { # data.name = deparse1(substitute(X))
+as.fvlist <- function(X, data.name) {
   
   # tzh is aware that
   # ?spatstat.explore::roc.ppp returns an `'roc'` object, inherits from `'fv'`, first argument being `p` instead of `r`!!!
@@ -62,7 +62,9 @@ as.fvlist <- function(X, data.name) { # data.name = deparse1(substitute(X))
   nr <- length(r)
   
   attr(X, which = 'r') <- r
+  attr(X, which = '.x') <- .x[[1L]]
   attr(X, which = '.y') <- .y[[1L]]
+  attr(X, which = 'fname') <- fname.[[1L]]
   
   id <- X |> 
     vapply(FUN = \(x) {
@@ -109,7 +111,68 @@ as.fvlist <- function(X, data.name) { # data.name = deparse1(substitute(X))
 }
 
 
-#' @title summary.fvlist
+
+
+#' @title Print `'fvlist'`
+#' 
+#' @param x an `'fvlist'`
+#' 
+#' @param ... additional parameters, currently of no use
+#' 
+#' @keywords internal
+#' @export print.fvlist
+#' @export  
+print.fvlist <- function(x, ...) {
+  
+  x |>
+    length() |>
+    col_red () |> style_bold() |>
+    sprintf(fmt = 'An \'fvlist\' of %s fv.objects') |>
+    message()
+  
+  r_range <- x |>
+    attr(which = 'r', exact = TRUE) |>
+    range() |>
+    paste(collapse = ' ~ ') |>
+    col_magenta() |> style_bold()
+  
+  .x <- x |>
+    attr(which = '.x', exact = TRUE)
+
+  fname <- x |> 
+    attr(which = 'fname', exact = TRUE)
+    
+  if (length(fname) == 1L) {
+    sprintf(fmt = '%s(%s)', fname, .x) |>
+      message()
+  } else if (length(fname) == 2L) {
+    fnm2 <- fname[2L] |> str2lang() |> as.list()
+    sprintf(
+      fmt = '%s[%s](%s)', 
+      fname[1L], 
+      fnm2[-1L] |> 
+        vapply(FUN = deparse1, FUN.VALUE = '') |>
+        paste(collapse = ','),
+      .x
+    ) |>
+      message()
+  } else stop('not supported!!')
+      
+  sprintf(fmt = '%s-range: %s', .x, r_range) |>
+    message()
+  
+  x |>
+    attr(which = 'rmax', exact = TRUE) |>
+    sprintf(fmt = 'Minimum Legal rmax: %.0f') |>
+    message()
+
+}
+
+
+
+
+
+#' @title Truncated Summary of `'fvlist'`
 #' 
 #' @param object an `'fvlist'`
 #' 
