@@ -662,7 +662,7 @@ c(
 
 </details>
 
-The authors are working on a manuscript about the batch process (@sec-batch) and the truncated aggregation (@sec-aggregate, Appendix @sec-fvlist).
+The authors are working on a manuscript about the batch process (@sec-batch) and the truncated aggregation (@sec-aggregate, Appendix @sec-legal_rmax, Appendix @sec-fvlist).
 
 ## Paper 2
 
