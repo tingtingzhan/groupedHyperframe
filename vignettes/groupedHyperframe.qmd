@@ -516,7 +516,6 @@ When a user-specified $r_\text{max}$ is provided to a batch process (in @sec-bat
 In the following example, we have
 
 -   numeric-hypercolumns *`hladr.E.y`*, *`hladr.E.cumtrapz`* and *`hladr.E.cumvtrapz`* from `fv`-hypercolumns *`hladr.E`*. Function values from all `fv.object`s in the `fv`-hypercolumns *`hladr.E`* are legal, therefore, this aggregation is not truncated.
-
 -   numeric-hypercolumns *`phenotype.G.y`*, *`phenotype.G.cumtrapz`* and *`phenotype.G.cumvtrapz`* from `fv`-hypercolumns *`phenotype.G`*. This aggregation is *truncated* at the minimum legal $r_\text{max}=240$ of the `fv.object`s in the `fv`-hypercolumn *`phenotype.G`*.
 
 ```{r}
