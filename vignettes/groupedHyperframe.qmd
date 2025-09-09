@@ -1751,7 +1751,7 @@ stopifnot(identical(Kovesi_values_t, Kovesi_values_t2))
 
 The derived class `'fvlist'`, i.e., a `listof` function value table `fv.object`s, `inherits` from the class `'anylist'`. The implementation of the class `'fvlist'` is inspired by the class `'solist'`. 
 
-As of package **`spatstat.geom`** v`r packageVersion('spatstat.geom')`, an `fv`-hypercolumn in a `hyperframe` has class `c('anylist, 'listof', 'list')`.  The authors want to convince [Prof. Adrian Baddeley](https://en.wikipedia.org/wiki/Adrian_Baddeley) [@spatstat05] to [support the class `'fvlist'` in function `spatstat.geom::hyperframe()`]{style="background-color: #FFFF00"}, so that an `fv`-hypercolumn shall have class `c('fvlist', 'anylist, 'listof', 'list')`. Before that happens, the authors propose some workaround in package **`groupedHyperframe`**, so that active developers could make use of the `S3` method dispatches to the class `'fvlist'`.
+As of package **`spatstat.geom`** v`r packageVersion('spatstat.geom')`, an `fv`-hypercolumn in a `hyperframe` has class `c('anylist, 'listof', 'list')`.  The authors want to convince [Prof. Adrian Baddeley](https://en.wikipedia.org/wiki/Adrian_Baddeley) [@spatstat05] to [support the class `'fvlist'` in function `spatstat.geom::hyperframe()`]{style="background-color: #FFFF00"}, so that an `fv`-hypercolumn shall have class `c('fvlist', 'anylist, 'listof', 'list')`. Before this happens, the authors propose some workaround in package **`groupedHyperframe`**, so that active developers could make use of the `S3` method dispatches to the class `'fvlist'`.
 
 
 We use a `subset` of the data set *`flu`* from package **`spatstat.data`** to illustrate this concept.
@@ -1762,7 +1762,7 @@ We use a `subset` of the data set *`flu`* from package **`spatstat.data`** to il
 <<fluM>>
 ```
 
-The batch process `Gcross_()` (@sec-batch) adds an `fv`-hypercolumn *`m.G`* to the input `hyperframe` *`fluM`*'.  The `message` of "Legal $r_\text{max}$" provides the indices in the `fv`-hypercolumn, i.e., the row indices of the `hyperframe`, where the legal $r_\text{max}$ (Appendix @sec-legal_rmax) is smaller than the user-specified $r_\text{max}$.
+The batch process `Gcross_()` (@sec-batch) adds an `fv`-hypercolumn *`m.G`* to the input `hyperframe` *`fluM`*.  The `message` of "Legal $r_\text{max}$" provides the indices in the `fv`-hypercolumn, i.e., the row indices of the `hyperframe`, where the legal $r_\text{max}$ (Appendix @sec-legal_rmax) is smaller than the user-specified $r_\text{max}$.
  
 ```{r}
 #| code-fold: true
