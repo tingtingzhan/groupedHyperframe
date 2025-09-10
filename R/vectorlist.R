@@ -1,4 +1,34 @@
 
+
+#' @title [is.vectorlist]
+#' 
+#' @param x an \link[spatstat.geom]{anylist}
+#' 
+#' @param ... additional parameter of \link[base]{is.vector}, currently only `mode`
+#' 
+#' @keywords internal
+#' @export
+is.vectorlist <- function(x, ...) {
+  
+  if (!inherits(x, what = 'anylist')) return(FALSE)
+
+  id <- x |>
+    vapply(FUN = is.vector, ..., FUN.VALUE = NA)
+  if (any(!id)) return(FALSE)
+  
+  id <- x |> 
+    lengths(use.names = FALSE) |>
+    duplicated.default()
+  if (!all(id[-1L])) return(FALSE)
+    
+  return(TRUE)
+  
+}
+
+
+
+
+
 #' @title Transpose a `'vectorlist'`
 #' 
 #' @param x a `'vectorlist'` of equi-\link[base]{length}
@@ -30,6 +60,7 @@
 #' a `'vectorlist'` of equi-\link[base]{length}.
 #' 
 #' @keywords internal
+#' @importFrom stats setNames
 #' @export t.vectorlist
 #' @export
 t.vectorlist <- function(x) {

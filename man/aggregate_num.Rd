@@ -2,7 +2,6 @@
 % Please edit documentation in R/aggregate_num.R
 \name{aggregate_num}
 \alias{aggregate_num}
-\alias{aggregate_quantile}
 \alias{aggregate_kerndens}
 \title{Aggregate \link[base]{numeric} \link[spatstat.geom:hyperframe]{hypercolumns} and/or \link[spatstat.geom]{marks}, by Cluster}
 \usage{
@@ -15,8 +14,6 @@ aggregate_num(
   mc.cores = getOption("mc.cores"),
   ...
 )
-
-aggregate_quantile(X, ...)
 
 aggregate_kerndens(X, ...)
 }
@@ -57,9 +54,6 @@ and/or \link[spatstat.geom]{marks}
 by sample clustering.
 }
 \details{
-Function \code{\link[=aggregate_quantile]{aggregate_quantile()}} is a wrapper of
-workhorse function \code{\link[=aggregate_num]{aggregate_num()}} with \code{FUN = quantile}.
-
 Function \code{\link[=aggregate_kerndens]{aggregate_kerndens()}} is a wrapper of
 workhorse function \code{\link[=aggregate_num]{aggregate_num()}} with \code{FUN = kerndens}.
 }

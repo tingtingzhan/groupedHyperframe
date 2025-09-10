@@ -130,6 +130,8 @@ aggregate_by_ <- function(
     ...
 ) {
   
+  .Deprecated(new = 'aggregate.hyperframe')
+  
   x <- unclass(X)$df
   if (any(names(dots) %in% names(X))) warning('Existing hypercolumn(s) overwritten')
   
@@ -218,26 +220,6 @@ aggregate_by_ <- function(
 
 
 
-
-#' @rdname aggregate_num
-#' 
-#' @details
-#' Function [aggregate_quantile()] is a wrapper of 
-#' workhorse function [aggregate_num()] with `FUN = quantile`.
-#' 
-#' @importFrom stats quantile
-#' @export
-aggregate_quantile <- function(X, ...) aggregate_num(X, FUN = .quantile_num_name, FUN.name = 'quantile', ...)
-
-
-
-#' @importFrom stats quantile
-.quantile_num_name <- function(x, probs, ...) {
-  qs <- quantile(x, probs, ...)
-  # see last few rows of ?stats:::quantile.default
-  names(qs) <- probs # numerical-name
-  return(qs)
-}
 
 
 

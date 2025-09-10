@@ -39,6 +39,7 @@ superimpose.hyperframe <- function(...) {
   z <- hc |>
     lapply(FUN = names)
   if (!all(duplicated(z)[-1L])) stop('all input must have same names of hypercolumn(s)')
+  
   hc_class <- hc |> 
     lapply(FUN = \(i) {
       i |> lapply(FUN = class)
@@ -115,14 +116,9 @@ if (FALSE) {
   
   hc[[1L]]$pattern$`wt M2-M1 13`$marks # unused level dropped correctly
   
-  undebug(spatstat.geom::superimpose.ppp); 
-  x = spatstat.geom::superimpose.ppplist(
-    hc[[1L]]$pattern,
-    hc[[2L]]$pattern,
-    check = FALSE
-  ) # error!!!!
-  # tzh does not know what ?spatstat.geom::superimpose.ppp does !!!!
-  
+  # ?spatstat.geom::superimpose.ppplist **not** what we need!
+  # already documented in vignette :)
+
   x1 = mapply(
     FUN = spatstat.geom::superimpose.ppp,
     hc[[1L]]$pattern, hc[[2L]]$pattern, 

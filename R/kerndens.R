@@ -4,6 +4,12 @@
 # has the same functionality as [kerndens()]. She could be wrong.
 
 
+# REWRITE as quantile!!!
+# density.ppp <- function() {}
+# density.ppplist <- function() {}
+# density.hyperframe <- function() {}
+
+
 #' @title Kernel Density via \link[stats]{density.default}
 #' 
 #' @description
