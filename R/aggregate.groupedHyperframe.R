@@ -23,7 +23,6 @@
 #' @export aggregate.groupedHyperframe
 #' @export
 aggregate.groupedHyperframe <- function(
-    # dots, # to remove!!!
     x, 
     by,
     fun = pmean,
@@ -67,8 +66,7 @@ aggregate.groupedHyperframe <- function(
 
   # aggregation drops `ppp`- and `fv`-hypercolumn !!!
   xdf_ag <- xdf |> 
-    mc_identical_by(f = f, ...)# |>
-    #as.hyperframe.data.frame()
+    mc_identical_by(f = f, ...)
   
   fun_supported <- list(pmean, pmedian, pmax, pmin) |>
     vapply(FUN = identical, y = fun, FUN.VALUE = NA) |>
@@ -95,10 +93,8 @@ aggregate.groupedHyperframe <- function(
           m[i] |> 
             do.call(what = fun, args = _)
         })
-    })# |>
-    #do.call(what = hyperframe)
+    })
   
-  #ret <- cbind.hyperframe(xdf_ag, xhc_ag)
   ret <- do.call(
     what = cbind.hyperframe, 
     args = c(list(xdf_ag), xhc_ag)

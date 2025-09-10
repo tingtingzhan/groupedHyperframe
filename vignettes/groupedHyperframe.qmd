@@ -596,17 +596,12 @@ out |>
 The S3 method dispatch `t.vectorlist()` is the fastest way to extract a "slice" from a `numeric`-hypercolumn, e.g., *`out_fv$hladr.E.cumvtrapz`* (Appendix @sec-vectorlist).
 
 
-### of `numeric` information {#sec-summary_quantile}
+### of `quantile`s {#sec-summary_quantile}
 
-The `S3` method dispatch `quantile.hyperframe()` finds the `quantile`s
+The `S3` method dispatch `quantile.hyperframe()` (Appendix @sec-quantile-hyperframe) appends the additional `numeric`-hypercolumns to the input `hyperframe` and/or `groupedHyperframe`, e.g., in the example below,
 
--   of the numeric-hypercolumns (Appendix @sec-quantile_anylist), and
--   of the numeric marks in the one-and-only-one `ppp`-hypercolumn (Appendix @sec-isnumeric-ppp, @sec-quantile_ppp and @sec-quantile_ppplist).
-
-and appends additional `numeric`-hypercolumns to the input.  In the following example, the returned object has
-
--   numeric-hypercolumn *`phenotype.nncross.quantile`*, the `quantile`s of numeric-hypercolumn *`phenotype.nncross`*.
--   numeric-hypercolumn *`hladr.quantile`*, the `quantile`s of the numeric mark *`hladr`* in `ppp`-hypercolumn.
+-   numeric-hypercolumn *`phenotype.nncross.quantile`*, the `quantile`s of the numeric-hypercolumn *`phenotype.nncross`*.
+-   numeric-hypercolumn *`hladr.quantile`*, the `quantile`s of the numeric mark *`hladr`* in the `ppp`-hypercolumn.
 
 ```{r}
 #| message: false
@@ -617,8 +612,29 @@ out_q = out |>
 
 ```{r}
 #| code-fold: true
-#| code-summary: 'A `groupedHyperframe` object *`out_q`*: summarizing `quantiles`'
+#| code-summary: 'A `groupedHyperframe` object *`out_q`*: summarizing `quantile`s'
 out_q
+```
+
+
+### of Kernel `density`s {#sec-summary_kerndens}
+
+The `S3` method dispatch `kerndens.hyperframe()` (Appendix @sec-kerndens-hyperframe) appends the additional `numeric`-hypercolumns to the input `hyperframe` and/or `groupedHyperframe`, e.g., in the example below,
+
+-   numeric-hypercolumn *`phenotype.nncross.kerndens`*, the aggregated kernel densities of the numeric-hypercolumn *`phenotype.nncross`*.
+-   numeric-hypercolumn *`hladr.kerndens`*, the aggregated kernel densities of the numeric mark *`hladr`* in the `ppp`-hypercolumn.
+
+```{r}
+#| message: false
+(mdist = out$phenotype.nncross |> unlist() |> max())
+out_k = out |> 
+  kerndens(from = 0, to = mdist)
+```
+
+```{r}
+#| code-fold: true
+#| code-summary: 'A `groupedHyperframe` object *`out_k`*: summarizing kernel `density`s'
+out_k
 ```
 
 
@@ -640,24 +656,13 @@ out_q |>
   aggregate(by = ~ patient_id)
 ```
 
-
-<!--
-#### On kernel densities
-
-Function `aggregate_kerndens()` aggregates the kernel density of the numeric-hypercolumns and the numeric marks in the `ppp`-hypercolumn.
-
-In the following example, the returned object has
-
--   numeric-hypercolumn *`phenotype.nncross.kerndens`*, the aggregated kernel densities of numeric-hypercolumn *`phenotype.nncross`*.
--   numeric-hypercolumn *`hladr.kerndens`*, the aggregated kernel densities of the numeric mark *`hladr`* in `ppp`-hypercolumn.
+Example below aggregates the kernel `density`s from numeric-hypercolumns or numeric-marks of `ppp`-hypercolumn (@sec-summary_kerndens),
 
 ```{r}
-#| message: false
-(mdist = out$phenotype.nncross |> unlist() |> max())
-out |> 
-  aggregate_kerndens(by = ~ patient_id, from = 0, to = mdist)
+out_k |>
+  aggregate(by = ~ patient_id)
 ```
--->
+
 
 {{< pagebreak >}}
 
@@ -1036,6 +1041,53 @@ spatstat.data::betacells |>
   with.default(expr = area) |>
   range()
 ```
+
+
+### Kernel Density of `numeric`-`marks` {#sec-kerndens_ppp}
+
+The `S3` generic function `kerndens()` extracts the `$y` element of a `density` object, i.e., `stats::density.default()$y`.  
+
+The `S3` method dispatch `kerndens.ppp()` finds the kernel `density`s of one or more `numeric` `marks` of a `ppp.object`.  Note that this is not `spatstat.explore::density.ppp()`!
+
+```{r}
+#| code-fold: true
+#| code-summary: "**Example**: function `kerndens.ppp()` on `'none'`-`markformat`"
+spatstat.data::cells
+spatstat.data::cells |>
+  kerndens() |>
+  is.null()
+```
+
+```{r}
+#| code-fold: true
+#| code-summary: "**Example**: function `kerndens.ppp()` on numeric-`marks` in `'vector'`-`markformat`"
+spatstat.data::longleaf
+spatstat.data::longleaf |>
+  kerndens(n = 8L)
+```
+
+
+
+```{r}
+#| code-fold: true
+#| code-summary: "**Example**: function `kerndens.ppp()` on `multitype`-`marks` in `'vector'`-`markformat`"
+spatstat.data::amacrine
+spatstat.data::amacrine |>
+  kerndens() |>
+  is.null()
+```
+
+
+```{r}
+#| code-fold: true
+#| code-summary: "**Example**: function `kerndens.ppp()` on numeric-`marks` in `'dataframe'`-`markformat`"
+spatstat.data::betacells
+spatstat.data::betacells |>
+  kerndens(n = 8L)
+```
+
+
+
 
 
 ### Quantile of `numeric`-`marks` {#sec-quantile_ppp}
@@ -1729,6 +1781,30 @@ S3_ppp |>
   )
 ```
 
+### Kernel Density of `numeric`-`vector`s {#sec-kerndens_anylist}
+
+The `S3` method dispatch `kerndens.anylist()` finds the kernel `density`s of each `numeric`-`vector`.
+
+```{r}
+#| code-fold: true
+#| code-summary: '**Example**: function `kerndens.anylist()`'
+spatstat.geom::anylist(
+  rnorm(1e2L),
+  rnorm(1e2L)
+) |> 
+  kerndens(n = 8L)
+```
+
+```{r}
+#| code-fold: true
+#| code-summary: '**Example**: function `quantile.anylist()`, no `numeric`-`marks`'
+spatstat.data::Kovesi$values |> 
+  kerndens() |>
+  is.null()
+```
+
+
+
 ### Quantile of `numeric`-`vector`s {#sec-quantile_anylist}
 
 The `S3` method dispatch `quantile.anylist()` finds the `quantile`s of each `numeric`-`vector`.
@@ -1804,6 +1880,31 @@ S3_ppp |>
     caption = '`S3` method dispatches to class `\'ppplist\'`'
   )
 ```
+
+### Kernel Density of `numeric`-`marks` {#sec-kerndens_ppplist}
+
+The `S3` method dispatch `kerndens.ppplist()` finds the kernel `density`s of all `ppp.object`s (Appendix @sec-quantile_ppp). Note that this is not `spatstat.explore::density.ppplist()`! 
+
+The authors use the hypercolumn *`s$ppp.`* (@sec-grouped_ppp) to illustrate this concept.
+
+```{r}
+#| code-fold: true
+#| code-summary: '**Example**: function `kerndens.ppplist()`'
+s$ppp. |> 
+  kerndens(n = 8L)
+```
+
+```{r}
+#| code-fold: true
+#| code-summary: '**Example**: function `kerndens.ppplist()`, no `numeric`-`marks`'
+spatstat.data::btb.extra |> 
+  kerndens()
+```
+
+
+
+
+
 
 ### Quantile of `numeric`-`marks` {#sec-quantile_ppplist}
 
@@ -2164,6 +2265,27 @@ The authors plan [**not**]{style="background-color: #FFFF00"} to implement
 -   an `S3` method dispatch of `as.environment()` to the class `'hyperframe'` (Appendix @sec-dont-asenvironment-hyperframe).
 -   an `S4` method dispatch of `merge()` to the classes `'hyperframe'` and/or `'groupedHyperframe'` (Appendix @sec-dont-merge-hyperframe).
 
+### Kernel Density {#sec-kerndens-hyperframe}
+
+The `S3` method dispatch `kerndens.hyperframe()` finds the kernel `density`s
+
+-   of the numeric-hypercolumns (Appendix @sec-kerndens_anylist), and
+-   of the numeric marks in the one-and-only-one `ppp`-hypercolumn (Appendix @sec-isnumeric-ppp, @sec-kerndens_ppp, @sec-kerndens_ppplist).
+
+and appends additional `numeric`-hypercolumns to the input.   Example has been discussed extensively in @sec-summary_kerndens.
+
+
+
+### Quantile {#sec-quantile-hyperframe}
+
+The `S3` method dispatch `quantile.hyperframe()` finds the `quantile`s
+
+-   of the numeric-hypercolumns (Appendix @sec-quantile_anylist), and
+-   of the numeric marks in the one-and-only-one `ppp`-hypercolumn (Appendix @sec-isnumeric-ppp, @sec-quantile_ppp, @sec-quantile_ppplist).
+
+and appends additional `numeric`-hypercolumns to the input.   Example has been discussed extensively in @sec-summary_quantile.
+
+
 ### Convert to `groupedHyperframe` {#sec-asgroupedHyperframe-hyperframe}
 
 The S3 generic function `as.groupedHyperframe()` has been introduced in @sec-groupedHyperframe. The `S3` method dispatch `as.groupedHyperframe.hyperframe()` converts a `hyperframe` into a `groupedHyperframe`. This function simply inspects and adds a (nested) grouping structure to the input `hyperframe`. Data set *`osteo`* from package **`spatstat.data`** has the serial number of sampling volume `brick` nested in the bone sample `id`, i.e., a nested grouping structure `~id/brick`.
@@ -2254,7 +2376,7 @@ fluS = superimpose.hyperframe(fluM2, fluM1)
 stopifnot(identical(fluS, fluM))
 ```
 
-The `S3` method dispatch `spatstat.geom::superimpose.ppplist()` superimposes *all* `ppp.object`s from *all* input `ppplist`s, as of package **`spatstat.geom`** v`r packageVersion('spatstat.geom')`, instead of performing a by-element superimpose of all input `ppplist`s as intended for the `S3` method dispatch `spatstat.geom::superimpose.hyperframe()`.
+The `S3` method dispatch `spatstat.geom::superimpose.ppplist()` superimposes *all* `ppp.object`s from *all* input `ppplist`s, as of package **`spatstat.geom`** v`r packageVersion('spatstat.geom')`, instead of performing a by-element superimpose of all input `ppplist`s as intended for the `S3` method dispatch `superimpose.hyperframe()`.
 
 ```{r}
 #| code-fold: true

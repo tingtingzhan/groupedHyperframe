@@ -2,12 +2,29 @@
 % Please edit documentation in R/kerndens.R
 \name{kerndens}
 \alias{kerndens}
+\alias{kerndens.default}
+\alias{kerndens.ppp}
+\alias{kerndens.ppplist}
+\alias{kerndens.anylist}
+\alias{kerndens.hyperframe}
 \title{Kernel Density via \link[stats]{density.default}}
 \usage{
-kerndens(...)
+kerndens(x, ...)
+
+\method{kerndens}{default}(x, ...)
+
+\method{kerndens}{ppp}(x, ...)
+
+\method{kerndens}{ppplist}(x, ...)
+
+\method{kerndens}{anylist}(x, ...)
+
+\method{kerndens}{hyperframe}(x, ...)
 }
 \arguments{
-\item{...}{parameters of function \link[stats]{density.default}}
+\item{x}{see \strong{Usage}}
+
+\item{...}{additional parameters of function \link[stats]{density.default}}
 }
 \value{
 Function \code{\link[=kerndens]{kerndens()}} returns
@@ -20,6 +37,9 @@ Kernel density estimates only.
 Function \code{\link[=kerndens]{kerndens()}} finds
 the estimated density values,
 i.e., element \verb{$y} of function \link[stats]{density.default} return.
+}
+\note{
+Do \emph{not} overwrite function \code{spatstat.explore::density.ppp()} !!
 }
 \examples{
 d = density(faithful$eruptions, bw = 'sj')
