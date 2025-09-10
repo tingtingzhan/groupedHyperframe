@@ -133,7 +133,6 @@ merge.data.frame(cran, github, by = 'Package') |>
   }) |>
   knitr::kable(
     row.names = FALSE,
-    # label = 'tbl-dev_spatstat', # no use!
     caption = Sys.Date() |> format() |> 
       sprintf(fmt = 'Developer version of `spatstat.*` family ahead of CRAN, as of %s')
   )
@@ -332,7 +331,7 @@ c(
 
 </details>
 
-as well as @Yi25; @Yi23a; @Yi23b, was featured with a non-spatial `hyperframe` *`Ki67q`* with a numeric-hypercolumn *`logKi67.quantile`*. Functions in the R code-chunk below are explained in @sec-groupedHyperframe.
+as well as @Yi25; @Yi23a; @Yi23b, was featured with a hyper data frame *`Ki67q`* with a numeric-hypercolumn *`logKi67.quantile`*. Functions in the R code-chunk below are explained in @sec-groupedHyperframe.
 
 ```{r}
 Ki67q = groupedHyperframe::Ki67 |>
@@ -343,8 +342,6 @@ Ki67q = groupedHyperframe::Ki67 |>
   quantile(probs = seq.int(from = .01, to = .99, by = .01)) |> 
   aggregate(by = ~ patientID)
 ```
-
-
 
 ```{r}
 #| message: false
@@ -362,7 +359,6 @@ Readers are encouraged to learn more about this application from package **`hype
 #| code-summary: 'Functions mentioned in @Zhan25 but later `.Deprecated` and/or `.Defunct`'
 aggregate_quantile()
 ```
-
 
 {{< pagebreak >}}
 
@@ -493,7 +489,7 @@ s
 @tbl-batch-numeric-fv and @tbl-batch-multitype-fv present the batch processes that return a function value table (`fv`) hypercolumn, i.e., a `listof` `fv.object`s (Appendix @sec-fvlist).
 
 | Batch Process | Workhorse Function in Package **`spatstat.explore`** | `fv`-hypercolumns Suffix |
-|:-----------------------|:-----------------------|:-----------------------|
+|:---|:---|:---|
 | `Emark_()` and `Vmark_()` | [`Emark` and `Vmark`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/Emark.html), conditional mean $E(r)$ and variance $V(r)$, diagnostics for dependence between the points and the marks [@Emark] | `.E` and `.V` |
 | `markcorr_()` | [`markcorr`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/markcorr.html), marked correlation $k_{mm}(r)$ or generalized mark correlation $k_f(r)$ [@markcorr] | `.k` |
 | `markvario_()` | [`markvario`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/markvario.html), mark variogram $\gamma(r)$ [@markvario] | `.gamma` |
@@ -502,7 +498,7 @@ s
 : Batch processes; numeric `marks` to `fv`-hypercolumn {#tbl-batch-numeric-fv}
 
 | Batch Process | Workhorse Function in Package **`spatstat.explore`** | `fv`-hypercolumns Suffix |
-|:-----------------------|:-----------------------|:-----------------------|
+|:---|:---|:---|
 | `Gcross_()` | [`Gcross`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/Gcross.html), multitype nearest-neighbour distance $G_{ij}(r)$ | `.G` |
 | `Kcross_()` | [`Kcross`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/Kcross.html), multitype $K_{ij}(r)$ | `.K` |
 | `Jcross_()` | [`Jcross`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/Jcross.html), multitype $J_{ij}(r)$ [@Jcross] | `.J` |
@@ -514,7 +510,7 @@ s
 @tbl-batch-multitype-numeric presents the batch processes that return a numeric hypercolumn, i.e., a hypercolumn which consists of a `list` of numeric `vector`s.
 
 | Batch Process | Workhorse Function in Package **`spatstat.geom`** | numeric-hypercolumns Suffix |
-|:-----------------------|:-----------------------|:-----------------------|
+|:---|:---|:---|
 | `nncross_()` | [`nncross.ppp`](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/nncross.html)`(., what = 'dist')`, nearest neighbour distance | `.nncross` |
 
 : Batch processes; `multitype` `marks` to numeric-hypercolumn {#tbl-batch-multitype-numeric}
@@ -550,13 +546,13 @@ out
 
 ### of `fv`-`hypercolumns` {#sec-summary_fv}
 
-Function `summary_fv()` runs the workhorse function `summary.fvlist()` (Appendix @sec-summary_fvlist) across all `fv`-hypercolumns of the input `hyperframe` and/or `groupedHyperframe`.  Function `summary_fv()` appends additional `numeric`-hypercolumns to the input,
+Function `summary_fv()` runs the workhorse function `summary.fvlist()` (Appendix @sec-summary_fvlist) across all `fv`-hypercolumns of the input `hyperframe` and/or `groupedHyperframe`. Function `summary_fv()` appends additional `numeric`-hypercolumns to the input,
 
 -   *`<mark>.<fv>.y`*, the *function values*, i.e., the black-solid-curve (Appendix @sec-blackSolidCurve);
 -   *`<mark>.<fv>.cumtrapz`*, the *cumulative trapezoidal integration* (Appendix @sec-trapz) under the black-solid-curve;
 -   *`<mark>.<fv>.cumvtrapz`*, the *cumulative average vertical height of trapezoidal integration* (Appendix @sec-vtrapz) under the black-solid-curve.
 
-When a user-specified $r$-`vector` is provided to a batch process (@sec-batch) on *all* `ppp.object`s in the `ppp`-hypercolumns, inevitably some of the `fv`-returns may contain exceptional/illegal function values (Appendix @sec-legal_rmax). In this case, the summary is *truncated* at the minimum legal $r_\text{max}$ (Appendix @sec-legal_rmax) of the `fv.object`s in each `fv`-hypercolumn.  
+When a user-specified $r$-`vector` is provided to a batch process (@sec-batch) on *all* `ppp.object`s in the `ppp`-hypercolumns, inevitably some of the `fv`-returns may contain exceptional/illegal function values (Appendix @sec-legal_rmax). In this case, the summary is *truncated* at the minimum legal $r_\text{max}$ (Appendix @sec-legal_rmax) of the `fv.object`s in each `fv`-hypercolumn.
 
 In the following example, the returned `groupedHyperframe` object *`out_fv`* has
 
@@ -574,18 +570,13 @@ out_fv = out |>
 out_fv
 ```
 
-
-
-
-User may specify an $r_\text{max}$ for truncation using the argument `rmax`.  If the user-specified $r_\text{max}$ is greater than the minimum legal $r_\text{max}$, the user's $r_\text{max}$ will be ignored (Appendix @sec-summary_fvlist).
-
+User may specify an $r_\text{max}$ for truncation using the argument `rmax`. If the user-specified $r_\text{max}$ is greater than the minimum legal $r_\text{max}$, the user's $r_\text{max}$ will be ignored (Appendix @sec-summary_fvlist).
 
 ```{r}
 #| results: hide
 out |>
   summary_fv(rmax = 220)
 ```
-
 
 ```{r}
 #| results: hide
@@ -594,7 +585,6 @@ out |>
 ```
 
 The S3 method dispatch `t.vectorlist()` is the fastest way to extract a "slice" from a `numeric`-hypercolumn, e.g., *`out_fv$hladr.E.cumvtrapz`* (Appendix @sec-vectorlist).
-
 
 ### of `quantile`s {#sec-summary_quantile}
 
@@ -609,13 +599,11 @@ out_q = out |>
   quantile(probs = seq.int(from = 0, to = 1, by = .1))
 ```
 
-
 ```{r}
 #| code-fold: true
 #| code-summary: 'A `groupedHyperframe` object *`out_q`*: summarizing `quantile`s'
 out_q
 ```
-
 
 ### of Kernel `density`s {#sec-summary_kerndens}
 
@@ -636,7 +624,6 @@ out_k = out |>
 #| code-summary: 'A `groupedHyperframe` object *`out_k`*: summarizing kernel `density`s'
 out_k
 ```
-
 
 ## Aggregation {#sec-aggregate}
 
@@ -662,7 +649,6 @@ Example below aggregates the kernel `density`s from numeric-hypercolumns or nume
 out_k |>
   aggregate(by = ~ patient_id)
 ```
-
 
 {{< pagebreak >}}
 
@@ -719,6 +705,7 @@ For ease of navigation, all R code-chunks in the Appendix are folded. The R code
 -   **Advanced**, discussions for R experts.
 -   **Figure**, to create a `ggplot`.
 -   **Workaround**, to provide alternative solutions to a problem.
+-   **Vignette**, to create tables in this vignette.
 -   **Future**, upcoming tasks of package **`groupedHyperframe`**.
 
 Readers who wish to extend the package **`groupedHypeframe`** or incorporate it into their own methodology are strongly encouraged to study the Appendix thoroughly.
@@ -878,14 +865,14 @@ library(patchwork)
   ggplot2::theme_minimal()
 ```
 
-## `ppp.object` {#sec-ppp}
+## `ppp` {#sec-ppp}
 
-Function `spatstat.geom::ppp()` returns a `ppp.object`, i.e., an object with `S3` class `'ppp'`. In addition to
+Function `spatstat.geom::ppp()` creates a two-dimensional point pattern object (`ppp.object`), i.e., an R object of `S3` class `'ppp'`. In addition to the existing `S3` method dispatches to the class `'ppp'` in packages **`spatstat.geom`** and **`spatstat.explore`**,
 
 ```{r}
 #| message: false
 #| code-fold: true
-#| code-summary: '`S3` method dispatches to `ppp.object` in package **`spatstat.geom`**'
+#| code-summary: 'Existing `S3` method dispatches `spatstat.geom::*.ppp`'
 library(spatstat.geom)
 methods(class = 'ppp') |> 
   attr(which = 'info', exact = TRUE) |>
@@ -898,7 +885,7 @@ methods(class = 'ppp') |>
 ```{r}
 #| message: false
 #| code-fold: true
-#| code-summary: 'Existing `S3` method dispatches to `ppp.object` in package **`spatstat.explore`**'
+#| code-summary: 'Existing `S3` method dispatches `spatstat.explore::*.ppp`'
 library(spatstat.explore)
 methods(class = 'ppp') |> 
   attr(which = 'info', exact = TRUE) |>
@@ -908,11 +895,11 @@ methods(class = 'ppp') |>
   })
 ```
 
-Package **`groupedHyperframe`** implements the additional `S3` method dispatches in @tbl-S3_ppp,
+Package **`groupedHyperframe`** implements more `S3` method dispatches to the class `'ppp'` (@tbl-S3_ppp),
 
 ```{r}
 #| code-fold: true
-#| code-summary: 'Additional `S3` method dispatches to `ppp.object`'
+#| code-summary: '**Vignette**: `S3` method dispatches `groupedHyperframe::*.ppp`'
 #| label: tbl-S3_ppp
 S3_ppp = methods(class = 'ppp') |> 
   attr(which = 'info', exact = TRUE) |>
@@ -924,14 +911,19 @@ rownames(S3_ppp) = rownames(S3_ppp) |>
   sprintf(fmt = '`%s`')
 S3_ppp |> 
   knitr::kable(
-    # label = 'tbl-S3_ppp', # no use!
-    caption = '`S3` method dispatches to class `\'ppp\'`'
+    caption = '`S3` method dispatches `groupedHyperframe::*.ppp`'
   )
 ```
 
-The authors have [**not**]{style="background-color: #FFFF00"} implemented
+<details><summary>@tbl-S3_ppp_no: `S3` method dispatches currently [**not**]{style="background-color: #FFFF00"} planned for class `'ppp'`</summary>
 
--   the `S3` method dispatches of `na.fail()` and `na.pass()` to a `ppp.object` (Appendix @sec-dont-na-ppp).
+| Not Planned | Explained in |
+|:-----------------|:--------------|
+| ~~`na.fail.ppp()`~~, ~~`na.pass.ppp()`~~ | Appendix @sec-dont-na-ppp |
+
+: S3 method dispatches currently not planned for class `'ppp'` {#tbl-S3_ppp_no}
+
+</details>
 
 ### Are `marks` `numeric`? {#sec-isnumeric-ppp}
 
@@ -1042,12 +1034,11 @@ spatstat.data::betacells |>
   range()
 ```
 
-
 ### Kernel Density of `numeric`-`marks` {#sec-kerndens_ppp}
 
-The `S3` generic function `kerndens()` extracts the `$y` element of a `density` object, i.e., `stats::density.default()$y`.  
+The `S3` generic function `kerndens()` extracts the `$y` element of a `density` object, i.e., `stats::density.default()$y`.
 
-The `S3` method dispatch `kerndens.ppp()` finds the kernel `density`s of one or more `numeric` `marks` of a `ppp.object`.  Note that this is not `spatstat.explore::density.ppp()`!
+The `S3` method dispatch `kerndens.ppp()` finds the kernel `density`s of one or more `numeric` `marks` of a `ppp.object`. Note that this is not `spatstat.explore::density.ppp()`!
 
 ```{r}
 #| code-fold: true
@@ -1066,8 +1057,6 @@ spatstat.data::longleaf |>
   kerndens(n = 8L)
 ```
 
-
-
 ```{r}
 #| code-fold: true
 #| code-summary: "**Example**: function `kerndens.ppp()` on `multitype`-`marks` in `'vector'`-`markformat`"
@@ -1077,7 +1066,6 @@ spatstat.data::amacrine |>
   is.null()
 ```
 
-
 ```{r}
 #| code-fold: true
 #| code-summary: "**Example**: function `kerndens.ppp()` on numeric-`marks` in `'dataframe'`-`markformat`"
@@ -1085,10 +1073,6 @@ spatstat.data::betacells
 spatstat.data::betacells |>
   kerndens(n = 8L)
 ```
-
-
-
-
 
 ### Quantile of `numeric`-`marks` {#sec-quantile_ppp}
 
@@ -1111,8 +1095,6 @@ spatstat.data::longleaf |>
   quantile()
 ```
 
-
-
 ```{r}
 #| code-fold: true
 #| code-summary: "**Example**: function `quantile.ppp()` on `multitype`-`marks` in `'vector'`-`markformat`"
@@ -1122,7 +1104,6 @@ spatstat.data::amacrine |>
   is.null()
 ```
 
-
 ```{r}
 #| code-fold: true
 #| code-summary: "**Example**: function `quantile.ppp()` on numeric-`marks` in `'dataframe'`-`markformat`"
@@ -1130,10 +1111,6 @@ spatstat.data::betacells
 spatstat.data::betacells |>
   quantile()
 ```
-
-
-
-
 
 ### Missing `marks` Handling {#sec-na-ppp}
 
@@ -1286,7 +1263,7 @@ The primary `S3` method dispatch `rmax_.ppp()` is
 <summary>An off-label use of functions `spatstat.explore::rmax.rule()` and `spatstat.geom::handle.r.b.args()`</summary>
 
 | Function in package **`spatstat.explore`** | Call of `spatstat.explore::rmax.rule` | Default $r_\text{max}$ via `rmax_()` |
-|------------------------|------------------------|------------------------|
+|----|----|----|
 | [`Emark` and `Vmark`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/Emark.html), [`markcorr`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/markcorr.html), [`markvario`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/markvario.html) | `rmax.rule(fun = 'K', ...)` | `rmax_(fun = 'K')` |
 | [`Kcross`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/Kcross.html) , workhorse `Kest` and `Kmulti` | `rmax.rule(fun = 'K', ...)` | `rmax_(fun = 'K')` or `rmax_(fun = 'K', i, j)` |
 | [`Gcross`](https://search.r-project.org/CRAN/refmans/spatstat.explore/html/Gcross.html), workhorse `Gest` and `Gmulti` | `rmax.rule(fun = 'G', ...)` | `rmax_(fun = 'G')` or `rmax_(fun = 'G', i, j)` |
@@ -1508,7 +1485,7 @@ The `S3` generic function `pairwise_cor_spatial()` calculates the nonparametric,
 All `S3` method dispatches return an object of class `'pairwise_cor_spatial'`, which `inherits` from the class `'dist'` defined in package **`stats`** shipped with vanilla `r R.version$version.string`. Such inheritance enables us to make use of existing `S3` method dispatches to class `'dist'`, e.g., `stats:::print.dist()`, `stats:::as.matrix.dist()`, `stats:::format.dist()` and `stats:::labels.dist()`. @tbl-dist explains the motivation of this inheritance, that the class `'pairwise_cor_spatial'` shares intrinsic similarity in data structure as the class `'dist'`.
 
 |   | `'pairwise_cor_spatial'` object | `'dist'` object |
-|:-----------------------|:-----------------------|:-----------------------|
+|:---|:---|:---|
 | Constant `diag`onal values | of `1`; i.e., perfect correlation | of `0`; i.e., zero distance |
 
 : Similarity in Data Structure, `'pairwise_cor_spatial'` & `'dist'` {#tbl-dist}
@@ -1546,25 +1523,25 @@ finpines_paircor |>
 
 `r '\U1f6a7'` [This section is under construction. Expected delivery by 2025-12-31.]{style="background-color: #FFFF00"}
 
-## `fv.object` {#sec-fv}
+## `fv` {#sec-fv}
 
-Many functions in package **`spatstat.explore`** call the workhorse function `spatstat.explore::fv()` and return an `fv.object`, i.e., an object with `S3` class `'fv'`. In addition to
+Function `spatstat.explore::fv()` creates a function value table object (`fv.object`), i.e., an R object of `S3` class `'fv'`. In addition to the existing `S3` method dispatches to the class `'fv'` in package **`spatstat.explore`**,
 
 ```{r}
 #| message: false
 #| code-fold: true
-#| code-summary: 'Existing `S3` method dispatches to `fv.object` in package **`spatstat.explore`**'
+#| code-summary: 'Existing `S3` method dispatches `spatstat.explore::*.fv`'
 library(spatstat.explore)
 methods(class = 'fv') |> 
   attr(which = 'info', exact = TRUE) |>
   subset.data.frame(subset = from == 'spatstat.explore')
 ```
 
-Package **`groupedHyperframe`** implements the additional `S3` method dispatches in @tbl-S3_fv,
+Package **`groupedHyperframe`** implements more `S3` method dispatches to the class `'fv'` (@tbl-S3_fv),
 
 ```{r}
 #| code-fold: true
-#| code-summary: 'Additional `S3` method dispatches to `fv.object`'
+#| code-summary: '**Vignette**: `S3` method dispatches `groupedHyperframe::*.fv`'
 #| label: tbl-S3_fv
 S3_fv = methods(class = 'fv') |> 
   attr(which = 'info', exact = TRUE) |>
@@ -1576,8 +1553,7 @@ rownames(S3_fv) = rownames(S3_fv) |>
   sprintf(fmt = '`%s`')
 S3_fv |>
   knitr::kable(
-    # label = 'tbl-S3_fv', # no use
-    caption = '`S3` method dispatches to class `\'fv\'`'
+    caption = '`S3` method dispatches `groupedHyperframe::*.fv`'
   )
 ```
 
@@ -1714,7 +1690,6 @@ c(exp(1), pi, NaN, 1, 0, Inf) |>
   lastLegal()
 ```
 
-
 ```{r}
 #| echo: false
 #| results: hide
@@ -1725,8 +1700,7 @@ spruces_markcorr_lastLegal = spatstat.data::spruces |>
   lastLegal()
 ```
 
-
-The term *Legal $r_\text{max}$* indicates (the index) of the $r$-`vector`, where the last of the consecutive legal function values appears. In the example below, the last consecutive legal function value of `r spruces_markcorr_lastLegal |> attr('value') |> sprintf(fmt = '$k_f(r)=%.3f$')` appears at the `r spruces_markcorr_lastLegal`-th index of the $r$-`vector`, i.e., `r spruces_markcorr_lastLegal |> attr('value') |> names() |> sprintf(fmt = '$r=%s$')`.
+The term *Legal* $r_\text{max}$ indicates (the index) of the $r$-`vector`, where the last of the consecutive legal function values appears. In the example below, the last consecutive legal function value of `r spruces_markcorr_lastLegal |> attr('value') |> sprintf(fmt = '$k_f(r)=%.3f$')` appears at the `r spruces_markcorr_lastLegal`-th index of the $r$-`vector`, i.e., `r spruces_markcorr_lastLegal |> attr('value') |> names() |> sprintf(fmt = '$r=%s$')`.
 
 ```{r}
 #| code-fold: true
@@ -1746,26 +1720,40 @@ spatstat.data::spruces |>
   lastLegal()
 ```
 
-## `anylist`
+## `anylist` {#sec-anylist}
 
-Function `spatstat.geom::anylist()` returns an object of `S3` class `'anylist'`, which `inherits` from the class `'listof'`.
+Function `spatstat.geom::anylist()` creates a `list` of objects of *any* type, i.e., an R object of `S3` class `'anylist'`.  
+
+The `S3` class `'anylist'` `inherits` from the class `'listof'` defined in package **`stats`** shipped with vanilla `r R.version.string`.
+
+In addition to the existing `S3` method dispatches to the class `'anylist'` in packages **`spatstat.geom`** and **`spatstat.explore`**,
 
 ```{r}
 #| message: false
 #| code-fold: true
-#| code-summary: 'Existing `S3` method dispatches to `anylist` in package **`spatstat.geom`**'
+#| code-summary: 'Existing `S3` method dispatches `spatstat.geom::*.anylist`'
 library(spatstat.geom)
 methods(class = 'anylist') |> 
   attr(which = 'info', exact = TRUE) |>
   subset.data.frame(subset = from == 'spatstat.geom')
 ```
 
+```{r}
+#| message: false
+#| code-fold: true
+#| code-summary: 'Existing `S3` method dispatches `spatstat.explore::*.anylist`'
+library(spatstat.explore)
+methods(class = 'anylist') |> 
+  attr(which = 'info', exact = TRUE) |>
+  subset.data.frame(subset = from == 'spatstat.explore')
+```
 
-Package **`groupedHyperframe`** implements the additional `S3` method dispatches in @tbl-S3_anylist,
+
+Package **`groupedHyperframe`** implements more `S3` method dispatches to the class `'anylist'` (@tbl-S3_anylist),
 
 ```{r}
 #| code-fold: true
-#| code-summary: 'Additional `S3` method dispatches to `anylist`'
+#| code-summary: '**Vignette**: `S3` method dispatches `groupedHyperframe::*.anylist`'
 #| label: tbl-S3_anylist
 S3_ppp = methods(class = 'anylist') |> 
   attr(which = 'info', exact = TRUE) |>
@@ -1777,7 +1765,7 @@ rownames(S3_ppp) = rownames(S3_ppp) |>
   sprintf(fmt = '`%s`')
 S3_ppp |> 
   knitr::kable(
-    caption = '`S3` method dispatches to class `\'anylist\'`'
+    caption = '`S3` method dispatches `groupedHyperframe::*.anylist`'
   )
 ```
 
@@ -1803,8 +1791,6 @@ spatstat.data::Kovesi$values |>
   is.null()
 ```
 
-
-
 ### Quantile of `numeric`-`vector`s {#sec-quantile_anylist}
 
 The `S3` method dispatch `quantile.anylist()` finds the `quantile`s of each `numeric`-`vector`.
@@ -1829,7 +1815,9 @@ spatstat.data::Kovesi$values |>
 
 ## `solist` From `anylist` {#sec-solist}
 
-Function `spatstat.geom::solist()` returns an object of `S3` class `'solist'`, i.e., list of two-dimensional spatial objects. The `S3` class `'solist'` `inherits` from the class `'anylist'`.
+Function `spatstat.geom::solist()` returns an object of `S3` class `'solist'`, i.e., list of two-dimensional spatial objects. 
+
+The `S3` class `'solist'` `inherits` from the class `'anylist'` (Appendix @sec-anylist).
 
 ```{r}
 #| message: false
@@ -1840,8 +1828,6 @@ methods(class = 'solist') |>
   attr(which = 'info', exact = TRUE) |>
   subset.data.frame(subset = from == 'spatstat.geom')
 ```
-
-
 
 The authors plan [**not**]{style="background-color: #FFFF00"} to implement
 
@@ -1883,14 +1869,13 @@ S3_ppp |>
 
 ### Kernel Density of `numeric`-`marks` {#sec-kerndens_ppplist}
 
-The `S3` method dispatch `kerndens.ppplist()` finds the kernel `density`s of all `ppp.object`s (Appendix @sec-quantile_ppp). Note that this is not `spatstat.explore::density.ppplist()`! 
-
-The authors use the hypercolumn *`s$ppp.`* (@sec-grouped_ppp) to illustrate this concept.
+The `S3` method dispatch `kerndens.ppplist()` finds the kernel `density`s of all `ppp.object`s (Appendix @sec-quantile_ppp). Note that this is not `spatstat.explore::density.ppplist()`!
 
 ```{r}
 #| code-fold: true
 #| code-summary: '**Example**: function `kerndens.ppplist()`'
-s$ppp. |> 
+spatstat.data::betacells |>
+  spatstat.geom::split.ppp(f = 'type') |>
   kerndens(n = 8L)
 ```
 
@@ -1901,19 +1886,15 @@ spatstat.data::btb.extra |>
   kerndens()
 ```
 
-
-
-
-
-
 ### Quantile of `numeric`-`marks` {#sec-quantile_ppplist}
 
-The `S3` method dispatch `quantile.ppplist()` finds the `quantile`s of all `ppp.object`s (Appendix @sec-quantile_ppp).  The authors use the hypercolumn *`s$ppp.`* (@sec-grouped_ppp) to illustrate this concept.
+The `S3` method dispatch `quantile.ppplist()` finds the `quantile`s of all `ppp.object`s (Appendix @sec-quantile_ppp).
 
 ```{r}
 #| code-fold: true
 #| code-summary: '**Example**: function `quantile.ppplist()`'
-s$ppp. |> 
+spatstat.data::betacells |>
+  spatstat.geom::split.ppp(f = 'type') |>
   quantile()
 ```
 
@@ -1923,7 +1904,6 @@ s$ppp. |>
 spatstat.data::btb.extra |> 
   quantile()
 ```
-
 
 ### Default $r_\text{max}$
 
@@ -2016,7 +1996,6 @@ spatstat.data::Kovesi$values |>
   is.vectorlist(mode = 'numeric')
 ```
 
-
 ### Transpose {#sec-t_vectorlist}
 
 The `S3` method dispatch `t.vectorlist()` transposes a `vectorlist` of equi-`length` into another `vectorlist`, but with the `length` and `lengths` of the input switched. The use of the term "transpose", and the extension of the generic function `base::t()`, mirrors the use of the default dispatch `base:::t.default()` to transpose a `matrix`, i.e., to switch the `ncol` and `nrow` of the input. The returned object *`Kovesi_values_t`* is a `length`-256 `listof` `vector`s, all elements of which have `length`-41.
@@ -2092,9 +2071,6 @@ tE = out_fv$hladr.E.cumvtrapz |>
 stopifnot(identical(E_r50_a, tE[[5L]]))
 ```
 
-
-
-
 ## `fvlist` From `anylist` {#sec-fvlist}
 
 The derived class `'fvlist'`, i.e., a `listof` function value table `fv.object`s, `inherits` from the class `'anylist'`. The implementation of the class `'fvlist'` is inspired by the class `'solist'`.
@@ -2109,7 +2085,7 @@ The authors use a `subset` of the data set *`flu`* from package **`spatstat.data
 <<fluM>>
 ```
 
-The `ppp`-hypercolumn *`fluM$pattern`* contains `ppp.object`s with `multitype` `marks`.  A batch process (@sec-batch) applicable to `multitype` `marks`, e.g., `Gcross_()`, adds an `fv`-hypercolumn *`m.G`* to the input `hyperframe` *`fluM`*. The `message` of "Legal $r_\text{max}$" provides the indices in the `fv`-hypercolumn, i.e., the row indices of the `hyperframe`, where the legal $r_\text{max}$ (Appendix @sec-legal_rmax) is smaller than the maximum value of the user-specified $r$-`vector`.
+The `ppp`-hypercolumn *`fluM$pattern`* contains `ppp.object`s with `multitype` `marks`. A batch process (@sec-batch) applicable to `multitype` `marks`, e.g., `Gcross_()`, adds an `fv`-hypercolumn *`m.G`* to the input `hyperframe` *`fluM`*. The `message` of "Legal $r_\text{max}$" provides the indices in the `fv`-hypercolumn, i.e., the row indices of the `hyperframe`, where the legal $r_\text{max}$ (Appendix @sec-legal_rmax) is smaller than the maximum value of the user-specified $r$-`vector`.
 
 ```{r}
 #| code-fold: true
@@ -2151,7 +2127,7 @@ The class `'fvlist'` has `attributes`
 -   `attr(.,'.x')`, a `character` scalar, the name of the function argument, i.e., the `identical` returns of `spatstat.explore::fvnames(., a = '.x')` from all `fv.object`s;
 -   `attr(.,'.y')`, a `character` scalar, the name of the recommended function value, i.e., the `identical` returns of `spatstat.explore::fvnames(., a = '.y')` from all `fv.object`s;
 -   `attr(.,'fname')`, a `character` scalar or `vector`, the function name and additional information, i.e., the `identical` returns of `attr(.,'fname')` from all `fv.object`s;
--   `attr(.,'rmax')`, a `numeric` scalar, the minimum Legal $r_\text{max}$ (Appendix @sec-legal_rmax) of all `fv.object`s.  Obviously, the minimum Legal $r_\text{max}$ `attr(.,'rmax')` is less than or equal to the maximum value of the $r$-vector `attr(.,'r')`.
+-   `attr(.,'rmax')`, a `numeric` scalar, the minimum Legal $r_\text{max}$ (Appendix @sec-legal_rmax) of all `fv.object`s. Obviously, the minimum Legal $r_\text{max}$ `attr(.,'rmax')` is less than or equal to the maximum value of the $r$-vector `attr(.,'r')`.
 
 ```{r}
 #| code-fold: true
@@ -2168,7 +2144,6 @@ The `S3` method dispatch `print.fvlist()` prints the vital information of an `'f
 m_G
 ```
 
-
 ### Truncated Summary {#sec-summary_fvlist}
 
 The `S3` method dispatch `summary.fvlist()` performs a *truncated summary* at a user-specified $r_\text{max}$ `rmax` and returns a `list` with elements
@@ -2182,7 +2157,6 @@ Specifically, the *truncation* is performed under the following rules,
 -   if user-specified $r_\text{max}$ `rmax` is `missing`, then the `fv.object`s are truncated at the minimum Legal $r_\text{max}$ `attr(.,'rmax')`.
 -   if user-specified $r_\text{max}$ `rmax` is greater than the minimum Legal $r_\text{max}$ `attr(.,'rmax')`, then the `fv.object`s are truncated at the minimum Legal $r_\text{max}$ `attr(.,'rmax')` and the user `rmax` is ignored.
 -   if user-specified $r_\text{max}$ `rmax` is less than or equal to the minimum Legal $r_\text{max}$ `attr(.,'rmax')`, then the `fv.object`s are truncated at the user `rmax`.
-
 
 ```{r}
 #| code-fold: true
@@ -2202,12 +2176,11 @@ m_G_s2 |>
   lapply(FUN = head, n = 2L)
 ```
 
-The truncated summary is important, because the exceptional/illegal function values (Appendix @sec-legal_rmax) cause problems in downstream analyses.  Readers are encouraged to learn more about these analyses from package **`hyper.gam`** vignette ([RPubs](https://rpubs.com/tingtingzhan/hyper_gam), [CRAN](https://CRAN.R-project.org/package=hyper.gam/vignettes/applications.html)) and package **`maxEff`** vignette ([RPubs](https://rpubs.com/tingtingzhan/maxEff), [CRAN](https://CRAN.R-project.org/package=maxEff/vignettes/intro.html)).
-
+The truncated summary is important, because the exceptional/illegal function values (Appendix @sec-legal_rmax) cause problems in downstream analyses. Readers are encouraged to learn more about these analyses from package **`hyper.gam`** vignette ([RPubs](https://rpubs.com/tingtingzhan/hyper_gam), [CRAN](https://CRAN.R-project.org/package=hyper.gam/vignettes/applications.html)) and package **`maxEff`** vignette ([RPubs](https://rpubs.com/tingtingzhan/maxEff), [CRAN](https://CRAN.R-project.org/package=maxEff/vignettes/intro.html)).
 
 ## `hyperframe` {#sec-hyperframe}
 
-Function `spatstat.geom::hyperframe()` returns a `hyperframe`, i.e., an object with `S3` class `'hyperframe'`. Among
+Function `spatstat.geom::hyperframe()` returns a `hyperframe`, i.e., an object of `S3` class `'hyperframe'`. Among
 
 ```{r}
 #| message: false
@@ -2226,7 +2199,7 @@ Several of them behave *very differently* from their counterpart in vanilla `r R
 <summary>The `S3` method dispatches `spatstat.geom::*.hyperframe()` that are drastically different from `*.data.frame()` or `*.default()`</summary>
 
 | Generic Function | Method Dispatch to `'data.frame'` | Method Dispatch to `'hyperframe'` |
-|------------------------|------------------------|------------------------|
+|----|----|----|
 | [`` base::`[` ``](https://search.r-project.org/R/refmans/base/html/Extract.html) | [`` base::`[.data.frame` ``](https://search.r-project.org/R/refmans/base/html/Extract.data.frame.html) | [`` spatstat.geom::`[.hyperframe` ``](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/Extract.hyperframe.html) |
 | [`` base::`$<-` ``](https://search.r-project.org/R/refmans/base/html/Extract.html) | [`` base::`$<-.data.frame` ``](https://search.r-project.org/R/refmans/base/html/Extract.data.frame.html) | [`` spatstat.geom::`$<-.hyperframe` ``](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/Extract.hyperframe.html) |
 | [`base::subset`](https://search.r-project.org/R/refmans/base/html/subset.html) | [`base::subset.data.frame`](https://search.r-project.org/R/refmans/base/html/subset.html) | [`spatstat.geom::subset.hyperframe`](https://search.r-project.org/CRAN/refmans/spatstat.geom/html/subset.hyperframe.html) |
@@ -2255,7 +2228,6 @@ rownames(S3_hyperframe) = rownames(S3_hyperframe) |>
   sprintf(fmt = '`%s`')
 S3_hyperframe |>
   knitr::kable(
-    # label = 'tbl-S3_hyperframe', # no use! 
     caption = '`S3` method dispatches to class `\'hyperframe\'`'
   )
 ```
@@ -2272,9 +2244,7 @@ The `S3` method dispatch `kerndens.hyperframe()` finds the kernel `density`s
 -   of the numeric-hypercolumns (Appendix @sec-kerndens_anylist), and
 -   of the numeric marks in the one-and-only-one `ppp`-hypercolumn (Appendix @sec-isnumeric-ppp, @sec-kerndens_ppp, @sec-kerndens_ppplist).
 
-and appends additional `numeric`-hypercolumns to the input.   Example has been discussed extensively in @sec-summary_kerndens.
-
-
+and appends additional `numeric`-hypercolumns to the input. Example has been discussed extensively in @sec-summary_kerndens.
 
 ### Quantile {#sec-quantile-hyperframe}
 
@@ -2283,8 +2253,7 @@ The `S3` method dispatch `quantile.hyperframe()` finds the `quantile`s
 -   of the numeric-hypercolumns (Appendix @sec-quantile_anylist), and
 -   of the numeric marks in the one-and-only-one `ppp`-hypercolumn (Appendix @sec-isnumeric-ppp, @sec-quantile_ppp, @sec-quantile_ppplist).
 
-and appends additional `numeric`-hypercolumns to the input.   Example has been discussed extensively in @sec-summary_quantile.
-
+and appends additional `numeric`-hypercolumns to the input. Example has been discussed extensively in @sec-summary_quantile.
 
 ### Convert to `groupedHyperframe` {#sec-asgroupedHyperframe-hyperframe}
 
@@ -2394,7 +2363,6 @@ fluM1$pattern |>
   sum()
 ```
 
-
 ### Default $r_\text{max}$ {#sec-default_rmax-hyperframe}
 
 The `S3` generic function `rmax_()` has been introduced in Appendix @sec-default_rmax. The `S3` method dispatch `rmax_.hyperframe()` obtains the default $r_\text{max}$ *before* the (potentially) very slow batch processes.
@@ -2495,10 +2463,9 @@ The (nested) grouping structure `attr(.,'group')` of a `groupedHyperframe`
 -   must denote the highest level using a `symbol` (e.g., `g1`)
 -   may denote the lower levels using a `symbol` (e.g., `g2`) or an interaction-term (e.g., `g2a:g2b`)
 
-
 ### Aggregation {#sec-aggregate_groupedHyperframe}
 
-The `S3` method dispatch `aggregate.groupedHyperframe()` 
+The `S3` method dispatch `aggregate.groupedHyperframe()`
 
 -   removes the `ppp`- and `fv`-hypercolumns of the input `groupedHyperframe`;
 -   aggregates the columns, i.e., *not* hypercolumns, of the input;
@@ -2508,7 +2475,6 @@ The `S3` method dispatch `aggregate.groupedHyperframe()`
 The aggregation may be specified at either one of the nested grouping levels $g_1,\cdots,g_{m-1}$. Aggregation at the lowest grouping level $g_m$ is ignored, i.e., no aggregation to be performed. Available aggregation methods in parameter `fun` are the point-wise minima `base::pmin()`, maxima `base::pmax()`, means `pmean()` (default) and medians `pmedian()`.
 
 Examples are provided in @sec-aggregate.
-
 
 # What We Don't Do
 
@@ -2626,7 +2592,7 @@ The authors suggest using the pipeline of functions `base::merge.data.frame()` a
 @tbl-mathterm presents some mathematical symbols, as well as their [LaTeX](https://www.latex-project.org) source code, used in this vignette. These symbols should be familiar to the audience with an advanced degree in mathematics.
 
 | Symbol | [LaTeX](https://www.latex-project.org) Source | Example | Translate To |
-|:-----------------|:-----------------|:-----------------|:-----------------|
+|:---|:---|:---|:---|
 | $\Delta$ | `$\Delta$` | $\Delta x_k= x_k - x_{k-1}$ | Delta-$x_k$ is defined as the difference between $x_k$ and $x_{k-1}$ |
 | $\equiv$ | `$\equiv$` | $x\equiv a$ | Variable $x$ is equivalent to constant $a$ |
 | $\forall$ | `$\forall$` | $\forall k$ | For all $k$ |
@@ -2641,7 +2607,7 @@ The authors suggest using the pipeline of functions `base::merge.data.frame()` a
 R terminology and nomenclature could be *drastically different* from that of mathematics and statistics. Readers are *strongly advised* to read closely from the links in @tbl-Rterm, most of which point to webpages on [search.r-project.org](https://search.r-project.org), [cran.r-project.org](https://cran.r-project.org), [adv-r.hadley.nz](https://adv-r.hadley.nz) and [en.wikipedia.org](https://en.wikipedia.org).
 
 | Term / Abbreviation | Description |
-|:-----------------------------------|:-----------------------------------|
+|:---|:---|
 | CRAN, R | The Comprehensive R Archive Network, <https://cran.r-project.org> |
 | `Depends`, `Imports`, `Suggests`, `Enhances` | [*Writing R Extensions*, Section 1.1.3 *Package Dependencies*](https://cran.r-project.org/doc/manuals/r-devel/R-exts.html#Package-Dependencies) |
 | [`|>`](https://search.r-project.org/R/refmans/base/html/pipeOp.html) | Forward pipe operator introduced since R version 4.1.0 |
@@ -2747,7 +2713,7 @@ R terminology and nomenclature could be *drastically different* from that of mat
 @tbl-index summarizes the topics covered in this vignette, and where to find them.
 
 | Topic | Where to Find |
-|:-----------------------------------|:-----------------------------------|
+|:---|:---|
 | `fvlist` | @sec-fvlist |
 | `fv.object` | @sec-fv |
 | `groupedHyperframe` | @sec-groupedHyperframe, @sec-groupedHyperframe-appendix |
