@@ -10,7 +10,15 @@
 \usage{
 visualize_vtrapz(x, ...)
 
-\method{visualize_vtrapz}{numeric}(x, y, draw.v = TRUE, draw.cumv = TRUE, draw.rect = TRUE, ...)
+\method{visualize_vtrapz}{numeric}(
+  x,
+  y,
+  yname,
+  draw.v = TRUE,
+  draw.cumv = TRUE,
+  draw.rect = TRUE,
+  ...
+)
 
 \method{visualize_vtrapz}{fv}(x, ...)
 
@@ -24,6 +32,8 @@ visualize_vtrapz(x, ...)
 \item{...}{additional parameters, currently of no use}
 
 \item{y}{\link[base]{numeric} \link[base]{vector}}
+
+\item{yname}{(optional) \link[base]{character} scalar, name of function}
 
 \item{draw.v}{\link[base]{logical} scalar, whether to plot the average vertical height \code{\link[=vtrapz]{vtrapz()}}, default \code{TRUE}}
 

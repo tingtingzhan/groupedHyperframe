@@ -814,7 +814,7 @@ cumvtrapz(x, y)
 #| code-fold: true
 #| code-summary: "**Figure**: Panel (A), visualize `vtrapz` & `cumvtrapz` of a toy example"
 fig_vtrapz_1 = visualize_vtrapz(x, y) + 
-  ggplot2::labs(title = '(A). a toy example')
+  ggplot2::labs(title = '(A). a toy example', y = NULL)
 ```
 
 ```{r}
@@ -869,7 +869,7 @@ fig_vtrapz_6 = swedishpines_roc |>
 #| code-fold: true
 #| code-summary: "**Figure**: Panels collaged, visualize `vtrapz` and `cumvtrapz`"  
 #| fig-height: 7.5
-#| fig-width: 10
+#| fig-width: 9
 #| fig-align: left
 #| fig-cap: "(Cumulative) average vertical height of trapezoidal integration"
 library(patchwork)

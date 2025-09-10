@@ -44,6 +44,8 @@ cumvtrapz <- function(x, ...) {
 #' 
 #' @param y \link[base]{numeric} \link[base]{vector}
 #' 
+#' @param yname (optional) \link[base]{character} scalar, name of function
+#' 
 #' @param draw.v \link[base]{logical} scalar, whether to plot the average vertical height [vtrapz()], default `TRUE`
 #' 
 #' @param draw.cumv \link[base]{logical} scalar, whether to plot the cumulative average vertical height [cumvtrapz()], default `TRUE`
@@ -70,6 +72,7 @@ visualize_vtrapz <- function(x, ...) UseMethod(generic = 'visualize_vtrapz')
 #' @export
 visualize_vtrapz.numeric <- function(
     x, y,
+    yname,
     draw.v = TRUE,
     draw.cumv = TRUE,
     draw.rect = TRUE, 
@@ -90,18 +93,26 @@ visualize_vtrapz.numeric <- function(
   x_lim <- c(xmin - (xmed - xmin) * .2, xmax + (xmax - xmed) * .2)
   
   ggplot() + 
-   geom_path(mapping = aes(x = x, y = y), alpha = .3, linewidth = 1.3) +
-   (if (draw.rect) geom_rect(mapping = aes(xmin = min(x), xmax = max(x), ymin = 0, ymax = v), alpha = .1)) +
-   (if (draw.v) geom_textpath(
-    mapping = aes(x = x, y = v, label = 'Average Vertical Height'),
-    hjust = .1, text_only = TRUE, colour = 'red', fontface = 'bold', alpha = .7
-   )) +
-   (if (draw.cumv) geom_textpath(
-    mapping = aes(x = x[-1L], y = cv[-1L], label = 'Cumulative Average Vertical Height'),
-    colour = 'blue', fontface = 'bold', alpha = .7
-   )) +
-   (if (length(x) <= 10L) scale_x_continuous(breaks = x, labels = label_number(accuracy = .1), limits = x_lim)) + 
-   (if (draw.rect) ylim(0, max(y)*1.1) else ylim(min(y)*.95, max(y)*1.05))
+    (if (missing(yname) || !length(yname)) {
+      geom_path(mapping = aes(x = x, y = y), alpha = .3, linewidth = 1.3)
+    } else {
+      geom_textpath(
+        mapping = aes(x = x, y = y, label = yname),
+        hjust = .1, alpha = .3, linewidth = 1.3, 
+        #colour = 'blue', fontface = 'bold', alpha = .7
+      )
+    }) +
+    (if (draw.rect) geom_rect(mapping = aes(xmin = min(x), xmax = max(x), ymin = 0, ymax = v), alpha = .1)) +
+    (if (draw.v) geom_textpath(
+      mapping = aes(x = x, y = v, label = 'Average Vertical Height'),
+      hjust = .1, text_only = TRUE, colour = 'red', fontface = 'bold', alpha = .7
+    )) +
+    (if (draw.cumv) geom_textpath(
+      mapping = aes(x = x[-1L], y = cv[-1L], label = 'Cumulative Average Vertical Height'),
+      colour = 'blue', fontface = 'bold', alpha = .7
+    )) +
+    (if (length(x) <= 10L) scale_x_continuous(breaks = x, labels = label_number(accuracy = .1), limits = x_lim)) + 
+    (if (draw.rect) ylim(0, max(y)*1.1) else ylim(min(y)*.95, max(y)*1.05))
   
 }
 
@@ -115,8 +126,16 @@ visualize_vtrapz.fv <- function(x, ...) {
   # ?spatstat.explore::plot.roc uses workhorse ?spatstat.explore::plot.fv
   .x <- fvnames(x, a = '.x')
   .y <- fvnames(x, a = '.y')
-  visualize_vtrapz.numeric(x = x[[.x]], y = x[[.y]], ...) + 
-    labs(x = .x, y = attr(x, which = 'ylab', exact = TRUE))
+  yname <- x |> 
+    attr(which = 'ylab', exact = TRUE) |> 
+    deparse1()
+  visualize_vtrapz.numeric(
+    x = x[[.x]], 
+    y = x[[.y]],
+    yname = if (!inherits(x, what = 'roc')) yname, # ?stats::stepfun, will be ugly 
+    ...
+  ) + 
+    labs(x = .x, y = NULL)
 }
 
 
@@ -130,8 +149,13 @@ visualize_vtrapz.fv <- function(x, ...) {
 #' @export visualize_vtrapz.density
 #' @export
 visualize_vtrapz.density <- function(x, ...) {
-  visualize_vtrapz.numeric(x = x$x, y = x$y, ...) + 
-    labs(x = 'x', y = 'stats::density')
+  visualize_vtrapz.numeric(
+    x = x$x, 
+    y = x$y, 
+    yname = 'stats::density',
+    ...
+  ) + 
+    labs(x = 'x', y = NULL)
 }
 
 
@@ -145,9 +169,10 @@ visualize_vtrapz.ecdf <- function(x, ...) {
   visualize_vtrapz.numeric(
     x = get('x', envir = ev),
     y = get('y', envir = ev),
+    # yname = 'stats::ecdf', # ?stats::stepfun, will be ugly
     ...
   ) +
-    labs(x = 'x', y = 'stats::ecdf')
+    labs(x = 'x', y = NULL)
 }
   
 
