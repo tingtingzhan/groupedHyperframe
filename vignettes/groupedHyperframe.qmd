@@ -106,38 +106,6 @@ remotes::install_github('spatstat/spatstat.univar', upgrade = 'always')
 remotes::install_github('spatstat/spatstat.utils', upgrade = 'always')
 ```
 
-```{r}
-#| label: dev_spatstat
-#| eval: true
-#| code-fold: true
-#| code-summary: 'Developer version of **`spatstat.*`** family ahead of CRAN'
-spatstat = c(
-  'spatstat', 'spatstat.data', 'spatstat.explore', 'spatstat.geom', 'spatstat.linnet', 
-  'spatstat.model', 'spatstat.random', 'spatstat.sparse', 'spatstat.univar', 'spatstat.utils'
-)
-cran = available.packages(contriburl = 'https://cran.rstudio.com/src/contrib') |> 
-  as.data.frame.matrix() |>
-  subset.data.frame(subset = Package %in% spatstat, select = c('Package', 'Version')) |> 
-  within.data.frame(expr = {
-    `on CRAN` = Version; Version = NULL
-  })
-github = installed.packages() |>
-  as.data.frame.matrix() |>
-  subset.data.frame(subset = Package %in% spatstat, select = c('Package', 'Version')) |> 
-  within.data.frame(expr = {
-    `on GitHub` = Version; Version = NULL
-  })
-merge.data.frame(cran, github, by = 'Package') |> 
-  subset.data.frame(subset = `on CRAN` != `on GitHub`) |>
-  within.data.frame(expr = {
-    Package = Package |> sprintf(fmt = '**`%s`**')
-  }) |>
-  knitr::kable(
-    row.names = FALSE,
-    caption = Sys.Date() |> format() |> 
-      sprintf(fmt = 'Developer version of `spatstat.*` family ahead of CRAN, as of %s')
-  )
-```
 
 ## Package **`groupedHyperframe`**
 
