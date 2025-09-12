@@ -4,12 +4,16 @@
 \alias{is.vectorlist}
 \title{\link{is.vectorlist}}
 \usage{
-is.vectorlist(x, ...)
+is.vectorlist(
+  x,
+  mode = c("logical", "integer", "numeric", "double", "character")
+)
 }
 \arguments{
 \item{x}{an \link[spatstat.geom]{anylist}}
 
-\item{...}{additional parameter of \link[base]{is.vector}, currently only \code{mode}}
+\item{mode}{\link[base]{character} scalar other than \code{'any'}, \code{'complex'} and '\code{raw}',
+see function \link[base]{is.vector}}
 }
 \description{
 \link{is.vectorlist}

@@ -4,16 +4,22 @@
 #' 
 #' @param x an \link[spatstat.geom]{anylist}
 #' 
-#' @param ... additional parameter of \link[base]{is.vector}, currently only `mode`
+#' @param mode \link[base]{character} scalar other than `'any'`, `'complex'` and '`raw`',
+#' see function \link[base]{is.vector}
 #' 
 #' @keywords internal
 #' @export
-is.vectorlist <- function(x, ...) {
+is.vectorlist <- function(
+    x, 
+    mode = c('logical', 'integer', 'numeric', 'double', 'character')
+) {
+  
+  mode <- match.arg(mode)
   
   if (!inherits(x, what = 'anylist')) return(FALSE)
 
   id <- x |>
-    vapply(FUN = is.vector, ..., FUN.VALUE = NA)
+    vapply(FUN = is.vector, mode = mode, FUN.VALUE = NA)
   if (any(!id)) return(FALSE)
   
   id <- x |> 
@@ -26,6 +32,23 @@ is.vectorlist <- function(x, ...) {
 }
 
 
+#' @title [as.vectorlist]
+#' 
+#' @param x an \link[spatstat.geom]{anylist}
+#' 
+#' @param ... additional parameters of function [is.vectorlist()]
+#' 
+#' @keywords internal
+#' @export
+as.vectorlist <- function(x, ...) {
+  
+  if (!is.vectorlist(x, ...)) stop('input does not qualify as a `vectorlist`')
+  
+  class(x) <- c('vectorlist', class(x)) |> 
+    unique.default()
+  return(x)
+  
+}
 
 
 
