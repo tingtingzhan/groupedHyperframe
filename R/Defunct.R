@@ -1,13 +1,28 @@
 
 
-Rpubs_tzh <- function(x) {
+# ?cli::cli_text()
+# The text to show .. will be concatenated into a single string. 
+# Newlines are `not` preserved.
+
+#' @title Defunct Messages using Package \CRANpkg{cli}
+#' 
+#' @param x \link[base]{character} scalar
+#' 
+#' @keywords internal
+#' @name cli_defunct_
+#' @export
+cli_RPubs_ <- function(x) {
   x |>
-    sprintf(fmt = '{.url https://rpubs.com/tingtingzhan/%s}')
+    sprintf(fmt = '{.url https://rpubs.com/%s}') |>
+    cli_text()
 }
 
-doi_link_ <- function(doi) {
-  # doi is character scalar
-  sprintf(fmt = '{.href [doi:%s](http://doi.org/%s)}', doi, doi)
+#' @rdname cli_defunct_
+#' @export
+cli_doi_ <- function(x) {
+  # `x`: 'character' scalar of doi
+  sprintf(fmt = '{.href [doi:%s](http://doi.org/%s)}', x, x) |>
+    cli_text()
 }
 
 
@@ -17,57 +32,52 @@ doi_link_ <- function(doi) {
 #' @description
 #' Functions mentioned in hard-copy journals, but later \link[base]{.Defunct}.
 #' 
+#' @param new \link[base]{character} scalar, see function \link[base]{.Defunct}.
+#' 
 #' @keywords internal
 #' @name defunct
 #' @export
-aggregate_quantile <- function(...) {
-  
-  # ?cli::cli_text()
-  # The text to show .. will be concatenated into a single string. 
-  # Newlines are `not` preserved.
+aggregate_quantile <- function(new = '<groupedHyperframe> |> quantile() |> aggregate()') {
   
   'Function aggregate_quantile() described in' |>
     message()
   
-  doi_link_('10.1093/bioinformatics/btaf430') |>
-    cli_text()
+  cli_doi_('10.1093/bioinformatics/btaf430')
   
   'has been replaced by pipeline' |> 
     message()
   
-  '<groupedHyperframe> |> quantile() |> aggregate()' |>
+  new |>
     col_red() |> style_bold() |>
     message()
   
   'Read vignette for details' |> 
     message()
   
-  Rpubs_tzh('groupedHyperframe') |>
-    cli_text()
+  cli_RPubs_('tingtingzhan/groupedHyperframe')
 
-  .Defunct(new = '<groupedHyperframe> |> quantile() |> aggregate()')
+  .Defunct(new = new)
   
 }
 
 
 #' @rdname defunct
 #' @export
-aggregate_fv <- function(...) {
+aggregate_fv <- function(new = '<groupedHyperframe> |> summary_fv() |> aggregate()') {
   
   'Function aggregate_fv() has been replaced by pipeline' |>
     message()
   
-  '<groupedHyperframe> |> summary_fv() |> aggregate()' |>
+  new |>
     col_red() |> style_bold() |>
     message()
   
   'Read vignette for details' |> 
     message()
   
-  Rpubs_tzh('groupedHyperframe') |>
-    cli_text()
+  cli_RPubs_('tingtingzhan/groupedHyperframe')
   
-  .Defunct(new = '<groupedHyperframe> |> summary_fv() |> aggregate()')
+  .Defunct(new = new)
 
 }
 

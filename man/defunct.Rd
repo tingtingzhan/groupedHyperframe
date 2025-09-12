@@ -6,9 +6,12 @@
 \alias{aggregate_fv}
 \title{Defunct Functions}
 \usage{
-aggregate_quantile(...)
+aggregate_quantile(new = "<groupedHyperframe> |> quantile() |> aggregate()")
 
-aggregate_fv(...)
+aggregate_fv(new = "<groupedHyperframe> |> summary_fv() |> aggregate()")
+}
+\arguments{
+\item{new}{\link[base]{character} scalar, see function \link[base]{.Defunct}.}
 }
 \description{
 Functions mentioned in hard-copy journals, but later \link[base]{.Defunct}.
