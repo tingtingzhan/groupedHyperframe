@@ -16,59 +16,13 @@
 #' 
 #' @param ... additional parameters of function `fn`
 #' 
-#' @details
-#' First, the input \link[spatstat.geom]{ppp.object} is \link[spatstat.geom]{unstack.ppp}-ed.
-#' 
-#' Each of the \link[base]{numeric} \link[spatstat.geom]{marks} could be analyzed by   
-#' following functions that return an \link[spatstat.explore]{fv.object},
-#' \itemize{
-#' \item {\link[spatstat.explore]{Emark}}
-#' \item {\link[spatstat.explore]{Vmark}}
-#' \item {\link[spatstat.explore]{markcorr}} 
-#' \item {\link[spatstat.explore]{markvario}}
-#' }
-#' If one of the functions above are provided 
-#' but there is no \link[base]{numeric} \link[spatstat.geom]{marks} in the input,
-#' a `NULL` value will be returned.
-#' 
-#' Each of the \link[spatstat.geom]{marks} that \link[spatstat.geom]{is.multitype}
-#' could be analyzed 
-#' by following functions that return an \link[spatstat.explore]{fv.object},
-#' \itemize{
-#' \item {\link[spatstat.explore]{Gcross}}
-#' \item {\link[spatstat.explore]{Jcross}}
-#' \item {\link[spatstat.explore]{Kcross}}
-#' \item {\link[spatstat.explore]{Lcross}}
-#' \item {\link[spatstat.explore]{markconnect}}
-#' }
-#' or by following functions that return a distance,
-#' \itemize{
-#' \item {[.nncross()]}
-#' }
-#' If one of the functions above are provided 
-#' but there is no \link[spatstat.geom]{marks} \link[spatstat.geom]{is.multitype} in the input,
-#' a `NULL` value will be returned.
-#' 
 #' @returns 
 #' Function [ppp2fv()] returns a \link[stats]{listof} 
-#' \link[spatstat.explore]{fv.object}s, 
-#' one per each eligible \link[spatstat.geom]{marks}.
+#' \link[spatstat.explore]{fv.object}s.
 #' 
 #' Function [ppp2dist()] returns a \link[stats]{listof} 
-#' \link[base]{double} \link[base]{vector}s,
-#' one per each eligible \link[spatstat.geom]{marks}.
+#' \link[base]{double} \link[base]{vector}s.
 #' 
-#' @examples
-#' library(spatstat.data)
-#' library(spatstat.explore)
-#' 
-#' ppp2fv(betacells, fn = Emark) # applicable to numeric mark
-#' ppp2fv(betacells, fn = Kmark) # applicable to numeric mark
-#' ppp2fv(betacells, fn = Gcross, i = 'off', j = 'on') # applicable to multitype mark
-#' 
-#' ppp2dist(betacells, fn = .nncross, i = 'off', j = 'on')
-#' ppp2dist(gorillas, fn = .nncross, i = 'major', j = 'minor')
-#' ppp2dist(gorillas, fn = .nncross, i = 'rainy', j = 'dry')
 #' @keywords internal
 #' @name ppp2.
 #' @importFrom spatstat.geom unstack.ppp is.multitype.ppp

@@ -12,17 +12,7 @@ op_hyperframe(X, ...)
 \item{...}{additional parameters of function \code{\link[=op_ppplist]{op_ppplist()}}}
 }
 \value{
-Function \code{\link[=op_hyperframe]{op_hyperframe()}} returns a \link[spatstat.geom]{hyperframe} with additional
-\itemize{
-
-\item \link[spatstat.explore]{fv.object} \link[spatstat.geom:hyperframe]{hypercolumns} if \code{op = ppp2fv}.
-\emph{\strong{One hypercolumn per \link[base]{numeric} mark}} in the \link[spatstat.geom]{ppp}-\link[spatstat.geom:hyperframe]{hypercolumn}.
-
-\item \link[base]{numeric} \link[spatstat.geom:hyperframe]{hypercolumns} if \code{op = ppp2dist}.
-\emph{\strong{One hypercolumn per \link[spatstat.geom]{is.multitype} mark}}
-in the \link[spatstat.geom]{ppp}-\link[spatstat.geom:hyperframe]{hypercolumn}.
-
-}
+Function \code{\link[=op_hyperframe]{op_hyperframe()}} returns a \link[spatstat.geom]{hyperframe}.
 }
 \description{
 Create hypercolumn(s) of

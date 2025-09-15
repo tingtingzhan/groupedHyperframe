@@ -33,16 +33,4 @@ then calls the workhorse function
 If mark values \code{i} and \code{j} does not exist in the \link[spatstat.geom]{ppp.object},
 a \code{NULL} value will be returned.
 }
-\examples{
-library(spatstat.data)
-library(spatstat.geom)
-
-(xs = split.ppp(amacrine))
-(a1 = nncross(X = xs$off, Y = xs$on, what = 'dist'))
-a2 = .nncross(amacrine, i = 'off', j = 'on')
-a3 = .nncross(amacrine, i = 1L, j = 2L)
-stopifnot(identical(a1, a2), identical(a1, a3))
-
-.nncross(amacrine, i = 'a', j = 'b') # exception handling
-}
 \keyword{internal}

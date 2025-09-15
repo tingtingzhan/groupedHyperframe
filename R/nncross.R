@@ -27,17 +27,6 @@
 #' if `i` and `j` are valid mark values of \link[spatstat.geom]{ppp.object} `X`;
 #' otherwise returns a `NULL` value.
 #' 
-#' @examples
-#' library(spatstat.data)
-#' library(spatstat.geom)
-#' 
-#' (xs = split.ppp(amacrine))
-#' (a1 = nncross(X = xs$off, Y = xs$on, what = 'dist'))
-#' a2 = .nncross(amacrine, i = 'off', j = 'on')
-#' a3 = .nncross(amacrine, i = 1L, j = 2L)
-#' stopifnot(identical(a1, a2), identical(a1, a3))
-#' 
-#' .nncross(amacrine, i = 'a', j = 'b') # exception handling
 #' @keywords internal
 #' @importFrom spatstat.geom nncross.ppp is.marked.ppp is.multitype.ppp marks.ppp split.ppp
 #' @export
