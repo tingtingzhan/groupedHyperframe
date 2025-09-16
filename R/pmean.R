@@ -16,7 +16,7 @@
 #' Functions [pmean()] and [pmedian()] return a \link[base]{numeric} \link[base]{vector}.
 #' 
 #' @examples
-#' pmean(1:3, 11:13, 21:23)
+#' pmean(1:3, c(11, 12, 14), c(21, 22, 25))
 #' @keywords internal
 #' @name pmean
 #' @export
@@ -25,6 +25,18 @@ pmean <- function(..., na.rm = TRUE) {
     do.call(what = cbind, args = _) |>
     rowMeans(na.rm = na.rm)
 }
+
+if (FALSE) {
+  pmean <- function(..., na.rm = TRUE) {
+    list(...) |>
+      .mapply(FUN = c, dots = _, MoreArgs = NULL) |>
+      vapply(FUN = mean, FUN.VALUE = NA_real_) 
+    # really slow!! why?
+  }
+}
+
+
+
 
 #' @rdname pmean
 #' @importFrom matrixStats rowMedians

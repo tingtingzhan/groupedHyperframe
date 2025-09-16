@@ -26,6 +26,6 @@ They are written in a very naive way.
 The pipeline \code{cbind() |> rowMeans()} is extremely slow.
 }
 \examples{
-pmean(1:3, 11:13, 21:23)
+pmean(1:3, c(11, 12, 14), c(21, 22, 25))
 }
 \keyword{internal}
