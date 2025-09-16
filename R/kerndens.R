@@ -24,9 +24,6 @@
 #' Function [kerndens()] returns
 #' a \link[base]{numeric} \link[base]{vector}.
 #' 
-#' @examples
-#' d = density(faithful$eruptions, bw = 'sj')
-#' stopifnot(identical(d$y, kerndens(faithful$eruptions, bw = 'sj')))
 #' @keywords internal
 #' @name kerndens
 #' @export

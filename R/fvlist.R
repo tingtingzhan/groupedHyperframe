@@ -260,11 +260,6 @@ summary.fvlist <- function(
 #' @details
 #' Legal, meaning not `0`, not `NaN` and not `Inf`.
 #' 
-#' @examples
-#' c(1, 1, 1) |> lastLegal()
-#' c(1, 1, 1, NaN) |> lastLegal()
-#' c(1, 1, 1, NaN, 1, 0, Inf) |> lastLegal()
-#' # all return `3`
 #' @keywords internal
 #' @export
 lastLegal <- function(v) {
