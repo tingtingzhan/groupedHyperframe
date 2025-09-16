@@ -24,19 +24,29 @@
 #' @export
 `append_marks<-.ppp` <- function(x, value) {
   
-  if (length(value) != npoints.ppp(x)) stop('length not match')
+  value. <- substitute(value)
+  
+  #v <- tryCatch(expr = eval(value., envir = parent.frame()), error = identity)
+  v <- eval(value., envir = parent.frame()) # let err; `language` `eval`uate correctly.
+  if (is.language(v)) {
+    v <- x |> 
+      marks.ppp() |>
+      eval(v, envir = _)
+  } # else do nothing
+
+  if (length(v) != npoints.ppp(x)) stop('length not match')
   
   switch(markformat.ppp(x), none = {
     x$markformat <- 'vector'
-    x$marks <- value
+    x$marks <- v
 
   }, vector = {
     x$markformat <- 'dataframe'
-    x$marks <- data.frame(m1 = x$marks, m2 = value)
+    x$marks <- data.frame(m1 = x$marks, m2 = v)
     
   }, dataframe = {
     newid <- length(x$marks) + 1L
-    x$marks <- data.frame(x$marks, value)
+    x$marks <- data.frame(x$marks, v)
     names(x$marks)[newid] <- paste0('m', newid)
       
   }, stop('incorrect markformat?'))

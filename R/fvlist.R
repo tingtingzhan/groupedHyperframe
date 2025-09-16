@@ -147,14 +147,14 @@ print.fvlist <- function(x, ...) {
       message()
   } else if (length(fname) == 2L) {
     fnm2 <- fname[2L] |> str2lang() |> as.list()
-    sprintf(
-      fmt = '%s[%s](%s)', 
-      fname[1L], 
+    .subscript <- if (length(fnm2) == 1L) {
+      fnm2[[1L]] |> deparse1()
+    } else {
       fnm2[-1L] |> 
         vapply(FUN = deparse1, FUN.VALUE = '') |>
-        paste(collapse = ','),
-      .x
-    ) |>
+        paste(collapse = ',')
+    }
+    sprintf(fmt = '%s[%s](%s)', fname[1L], .subscript, .x) |>
       message()
   } else stop('not supported!!')
       
@@ -163,7 +163,7 @@ print.fvlist <- function(x, ...) {
   
   x |>
     attr(which = 'rmax', exact = TRUE) |>
-    sprintf(fmt = 'Minimum Legal rmax: %.0f') |>
+    sprintf(fmt = 'Minimum Legal rmax: %.4g') |>
     message()
 
 }
@@ -186,7 +186,6 @@ print.fvlist <- function(x, ...) {
 #' @param ... additional parameters, currently of no use
 #' 
 #' @keywords internal
-#' @importFrom parallel mclapply
 #' @export summary.fvlist
 #' @export
 summary.fvlist <- function(

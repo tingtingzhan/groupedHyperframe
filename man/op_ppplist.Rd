@@ -31,21 +31,4 @@ Batch operations of function \code{\link[=ppp2fv]{ppp2fv()}} or \code{\link[=ppp
 Function \code{\link[=op_ppplist]{op_ppplist()}} is a \pkg{parallel} batch process of
 the workhorse function \code{\link[=ppp2fv]{ppp2fv()}} or \code{\link[=ppp2dist]{ppp2dist()}}.
 }
-\examples{
-\dontshow{options(mc.cores = 1L)}
-library(spatstat.data)
-library(spatstat.geom) # for ?spatstat.geom::split.ppp
-library(spatstat.explore) # for ?spatstat.explore::Emark, etc.
-
-Vc = with(shapley$marks, expr = {
- cut.default(V, breaks = quantile(V, probs = c(0, 1/3, 2/3, 1)), labels = c('L', 'M', 'H'))
-})
-\donttest{
-shapley |> 
- subset.ppp(select = c('Mag', 'SigV')) |>
- split.ppp(f = Vc) |>
- op_ppplist(op = ppp2fv, fn = markcorr)
-}
-
-}
 \keyword{internal}

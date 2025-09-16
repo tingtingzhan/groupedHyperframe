@@ -16,7 +16,6 @@
 #' Function `collapse::collap` does not support \link[survival]{Surv} column.
 #' 
 #' @keywords internal
-#' @importFrom parallel mclapply
 #' @export
 mc_identical_by <- function(
     data, 

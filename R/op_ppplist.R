@@ -26,24 +26,7 @@
 #' \item function [ppp2dist()] returns, if `op = ppp2dist`.
 #' }
 #' 
-#' @examples
-#' \dontshow{options(mc.cores = 1L)}
-#' library(spatstat.data)
-#' library(spatstat.geom) # for ?spatstat.geom::split.ppp
-#' library(spatstat.explore) # for ?spatstat.explore::Emark, etc.
-#' 
-#' Vc = with(shapley$marks, expr = {
-#'  cut.default(V, breaks = quantile(V, probs = c(0, 1/3, 2/3, 1)), labels = c('L', 'M', 'H'))
-#' })
-#' \donttest{
-#' shapley |> 
-#'  subset.ppp(select = c('Mag', 'SigV')) |>
-#'  split.ppp(f = Vc) |>
-#'  op_ppplist(op = ppp2fv, fn = markcorr)
-#' }
-#' 
 #' @keywords internal
-#' @importFrom parallel mclapply
 #' @export
 op_ppplist <- function(
     x, 
@@ -56,11 +39,6 @@ op_ppplist <- function(
   
   .rstudio <- identical(Sys.getenv('RSTUDIO'), '1')
   # Sys.getenv('RSTUDIO') returns '' in both vanilla R and Positron
-  
-  # mclapply + system('printf ...')
-  # mclapply + system('echo ...') 
-  # both give warning and kills vanilla R 4.5.1
-  # both give warning in R 4.5.1 in Positron, but does not kill R 4.5.1
   
   ret0 <- n |>
     seq_len() |>
@@ -91,14 +69,4 @@ op_ppplist <- function(
   
 }
 
-
-if (FALSE) {
-  # requires extra error check, for non-existing factor levels
-  x2 = spatstat.data::nbfires |> 
-    spatstat.geom::subset.ppp(select = c('fire.type', 'cause', 'ign.src')) |>
-    na.omit.ppp() |> 
-    spatstat.geom::split.ppp(f = 'fire.type')
-  x2 |> op_ppplist(op = ppp2dist, fn = .nncross, i = 'rrds', j = 'ltning')
-  x2 |> op_ppplist(op = ppp2dist, fn = .nncross, i = 'unknown', j = 'burn.no.perm')
-}
 

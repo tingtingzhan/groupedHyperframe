@@ -1,5 +1,5 @@
 
-#' @importFrom parallel detectCores
+#' @import parallel
 .onLoad <- function(libname, pkgname) {
   
   Sys.setenv(
@@ -12,6 +12,8 @@
   )
   
   options(
+    
+    bitmapType = 'cairo', # unicode support # MUST as of macOS, R 4.5.1
     
     mc.cores = switch(
       EXPR = .Platform$OS.type, # as of R 4.5, only two responses, 'windows' or 'unix'
