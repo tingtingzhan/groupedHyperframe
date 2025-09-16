@@ -41,8 +41,4 @@ i.e., element \verb{$y} of function \link[stats]{density.default} return.
 \note{
 Do \emph{not} overwrite function \code{spatstat.explore::density.ppp()} !!
 }
-\examples{
-d = density(faithful$eruptions, bw = 'sj')
-stopifnot(identical(d$y, kerndens(faithful$eruptions, bw = 'sj')))
-}
 \keyword{internal}

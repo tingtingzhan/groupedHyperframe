@@ -15,10 +15,4 @@ Last Legal Index
 \details{
 Legal, meaning not \code{0}, not \code{NaN} and not \code{Inf}.
 }
-\examples{
-c(1, 1, 1) |> lastLegal()
-c(1, 1, 1, NaN) |> lastLegal()
-c(1, 1, 1, NaN, 1, 0, Inf) |> lastLegal()
-# all return `3`
-}
 \keyword{internal}
