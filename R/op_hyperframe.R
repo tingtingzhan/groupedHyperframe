@@ -144,17 +144,10 @@ op_hyperframe <- function(X, ...) {
   ret0 <- hc[[which(id)]] |> 
     op_ppplist(x = _, ...)
   
-  ret <- do.call(
-    what = cbind.hyperframe, 
+  return(do.call(
+    what = cbind, # dispatch to \link[spatstat.geom]{cbind.hyperframe} or [cbind.groupedHyperframe()]
     args = c(list(X), ret0)
-  )
-  
-  if (inherits(X, what = 'groupedHyperframe')) {
-    attr(ret, which = 'group') <- attr(X, which = 'group', exact = TRUE)
-    class(ret) <- c('groupedHyperframe', class(X)) |> unique.default()
-  } # a bandage fix, for now
-  
-  return(ret)
+  ))
   
 }
 

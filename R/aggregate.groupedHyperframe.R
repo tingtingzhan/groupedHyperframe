@@ -19,7 +19,6 @@
 #'  
 #' @keywords internal
 #' @importFrom stats aggregate
-#' @importFrom spatstat.geom cbind.hyperframe
 #' @export aggregate.groupedHyperframe
 #' @export
 aggregate.groupedHyperframe <- function(
@@ -98,7 +97,7 @@ aggregate.groupedHyperframe <- function(
   ret <- do.call(
     what = cbind.hyperframe, 
     args = c(list(xdf_ag), xhc_ag)
-  ) # returns 'hyperframe' !!!
+  ) # returns 'hyperframe', *not* 'groupedHyperframe' !!
   
   return(ret)
   

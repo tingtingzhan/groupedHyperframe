@@ -117,17 +117,10 @@ quantile.hyperframe <- function(x, ...) {
   names(z) <- names(z) |>
     sprintf(fmt = '%s.quantile')
   
-  ret <- do.call(
-    what = cbind.hyperframe, 
+  return(do.call(
+    what = cbind, # dispatch to \link[spatstat.geom]{cbind.hyperframe} or [cbind.groupedHyperframe()]
     args = c(list(x), z)
-  )
-  
-  if (inherits(x, what = 'groupedHyperframe')) {
-    attr(ret, which = 'group') <- attr(x, which = 'group', exact = TRUE)
-    class(ret) <- c('groupedHyperframe', class(x)) |> unique.default()
-  } # a bandage fix, for now
-  
-  return(ret)
+  ))
 
 }
 
