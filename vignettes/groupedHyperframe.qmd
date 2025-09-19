@@ -83,7 +83,6 @@ Package **`groupedHyperframe`** `Imports` packages
 
 Package **`groupedHyperframe`** `Suggests` packages
 
--   **`patchwork`** [@patchwork v`r packageVersion('patchwork')`], for collage of `ggplot`s
 -   **`rpart`** [@rpart v`r packageVersion('rpart')`], required by function `spatstat.explore::rocEngine()` as of package **`spatstat.explore`** dev v`r packageVersion('spatstat.explore')`.
 -   `r '\U1f5dd'` **`spatstat.data`** (dev v`r packageVersion('spatstat.data')`), key suggest, for example spatial data set
 -   `r '\U1f5dd'` **`survival`** [@survival, v`r packageVersion('survival')`], key suggest.
