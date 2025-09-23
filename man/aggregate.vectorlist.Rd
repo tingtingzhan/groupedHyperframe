@@ -12,7 +12,7 @@
 \item{by}{\link[base]{factor}, of same \link[base]{length} as \code{x}}
 
 \item{fun}{\link[base]{function}, aggregation method,
-currently supports
+currently supports functions
 \code{\link[=pmean]{pmean()}}, \code{\link[=pmedian]{pmedian()}}, \link[base]{pmax}, and \link[base]{pmin}.}
 
 \item{...}{additional parameters, currently of no use}

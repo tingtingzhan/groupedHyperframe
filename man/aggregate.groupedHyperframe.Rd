@@ -20,7 +20,4 @@ Function \code{\link[=aggregate.groupedHyperframe]{aggregate.groupedHyperframe()
 \description{
 Aggregate \link{groupedHyperframe}
 }
-\details{
-Function \code{\link[=aggregate.groupedHyperframe]{aggregate.groupedHyperframe()}} checks \code{by} against \code{attr(x,'group')}.
-}
 \keyword{internal}

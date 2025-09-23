@@ -77,14 +77,7 @@ is.fvlist <- function(X) {
 #' @param data.name \link[base]{character} scalar, name of `X`, for console message output
 #' 
 #' @returns 
-#' Function [as.fvlist()] returns an \link[base]{invisible} \link[base]{list} with elements
-#' \describe{
-#' \item{`$r`}{\link[base]{numeric} \link[base]{vector}, the \eqn{r}-values}
-#' \item{`$.y`}{\link[base]{character} scalar, the return of `spatstat.explore::fvnames(x, a = '.y')`}
-#' \item{`$rmax`}{\link[base]{numeric} scalar or \link[base]{vector}, the \link[base]{unique} values of the legal \eqn{r_\text{max}} of each \link[spatstat.explore]{fv.object}, if any one of them is less than the user-specified \eqn{r_\text{max}}}
-#' }
-#' 
-#' !!! 'Legal' not documented yet!!!
+#' Function [as.fvlist()] returns an \link[base]{invisible} \link[base]{list}.
 #' 
 #' @keywords internal
 #' @importFrom spatstat.explore fvnames

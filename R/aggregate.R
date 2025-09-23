@@ -8,9 +8,6 @@
 #' @param ... additional parameters of function [aggregate.vectorlist()], 
 #' most importantly parameter `fun`
 #' 
-#' @details
-#' Function [aggregate.groupedHyperframe()] checks `by` against `attr(x,'group')`.
-#' 
 #' @returns 
 #' Function [aggregate.groupedHyperframe()] returns a \link[spatstat.geom]{hyperframe}.
 #'  
@@ -106,7 +103,7 @@ aggregate.groupedHyperframe <- function(
 #' @param by \link[base]{factor}, of same \link[base]{length} as `x`
 #' 
 #' @param fun \link[base]{function}, aggregation method, 
-#' currently supports
+#' currently supports functions
 #' [pmean()], [pmedian()], \link[base]{pmax}, and \link[base]{pmin}.
 #' 
 #' @param ... additional parameters, currently of no use
