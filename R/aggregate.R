@@ -93,6 +93,7 @@ aggregate.groupedHyperframe <- function(
 #' @param ... additional parameters, currently of no use
 #' 
 #' @keywords internal
+#' @importFrom stats aggregate
 #' @export aggregate.vectorlist
 #' @export
 aggregate.vectorlist <- function(x, by, fun = pmean, ...) {
