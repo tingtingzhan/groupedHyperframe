@@ -4,18 +4,15 @@
 \alias{aggregate.groupedHyperframe}
 \title{Aggregate \link{groupedHyperframe}}
 \usage{
-\method{aggregate}{groupedHyperframe}(x, by, fun = pmean, ...)
+\method{aggregate}{groupedHyperframe}(x, by, ...)
 }
 \arguments{
 \item{x}{a \link{groupedHyperframe}}
 
 \item{by}{a one-sided \link[stats]{formula}}
 
-\item{fun}{\link[base]{function}, aggregation method,
-currently supports
-\code{\link[=pmean]{pmean()}}, \code{\link[=pmedian]{pmedian()}}, \link[base]{pmax}, and \link[base]{pmin}.}
-
-\item{...}{additional parameters}
+\item{...}{additional parameters of function \code{\link[=aggregate.vectorlist]{aggregate.vectorlist()}},
+most importantly parameter \code{fun}}
 }
 \value{
 Function \code{\link[=aggregate.groupedHyperframe]{aggregate.groupedHyperframe()}} returns a \link[spatstat.geom]{hyperframe}.

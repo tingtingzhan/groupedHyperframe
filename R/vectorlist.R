@@ -44,7 +44,7 @@ as.vectorlist <- function(x, ...) {
   
   if (!is.vectorlist(x, ...)) stop('input does not qualify as a `vectorlist`')
   
-  class(x) <- c('vectorlist', class(x)) |> 
+  class(x) <- c('vectorlist', 'anylist', 'listof', class(x)) |> 
     unique.default()
   return(x)
   

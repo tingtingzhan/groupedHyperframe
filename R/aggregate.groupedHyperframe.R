@@ -5,11 +5,8 @@
 #' 
 #' @param by a one-sided \link[stats]{formula}
 #' 
-#' @param fun \link[base]{function}, aggregation method, 
-#' currently supports
-#' [pmean()], [pmedian()], \link[base]{pmax}, and \link[base]{pmin}.
-#' 
-#' @param ... additional parameters
+#' @param ... additional parameters of function [aggregate.vectorlist()], 
+#' most importantly parameter `fun`
 #' 
 #' @details
 #' Function [aggregate.groupedHyperframe()] checks `by` against `attr(x,'group')`.
@@ -24,7 +21,7 @@
 aggregate.groupedHyperframe <- function(
     x, 
     by,
-    fun = pmean,
+    # fun = pmean,
     ...
 ) {
   
@@ -56,16 +53,49 @@ aggregate.groupedHyperframe <- function(
   # grouping structure must be specified by `$df` part!!
   f <- xdf[g[seq_len(id)]] |>
     interaction(drop = TRUE, sep = '.', lex.order = TRUE)
-  fid <- split.default(seq_along(f), f = f)
   
-  if (all(lengths(fid) == 1L)) {
-    message('no need to aggregate')
-    return(x)
-  } 
-
   # aggregation drops `ppp`- and `fv`-hypercolumn !!!
   xdf_ag <- xdf |> 
     mc_identical_by(f = f, ...)
+  
+  id <- xhc |>
+    vapply(FUN = is.vectorlist, mode = 'numeric', FUN.VALUE = NA)
+  if (!any(id)) {
+    stop('no `vectorlist` to aggregate!')
+  }
+  
+  xhc_ag <- xhc[id] |> 
+    lapply(FUN = aggregate.vectorlist, by = f, ...)
+  
+  ret <- do.call(
+    what = cbind.hyperframe, 
+    args = c(list(xdf_ag), xhc_ag)
+  ) # returns 'hyperframe', *not* 'groupedHyperframe' !!
+  
+  return(ret)
+  
+}
+
+
+
+
+
+#' @title Aggregate `vectorlist`
+#' 
+#' @param x a `vectorlist`
+#' 
+#' @param by \link[base]{factor}
+#' 
+#' @param fun \link[base]{function}, aggregation method, 
+#' currently supports
+#' [pmean()], [pmedian()], \link[base]{pmax}, and \link[base]{pmin}.
+#' 
+#' @param ... additional parameters, currently of no use
+#' 
+#' @keywords internal
+#' @export aggregate.vectorlist
+#' @export
+aggregate.vectorlist <- function(x, by, fun = pmean, ...) {
   
   fun_supported <- list(pmean, pmedian, pmax, pmin) |>
     vapply(FUN = identical, y = fun, FUN.VALUE = NA) |>
@@ -79,28 +109,21 @@ aggregate.groupedHyperframe <- function(
     stop()
   }
   
-  id <- xhc |>
-    vapply(FUN = is.vectorlist, mode = 'numeric', FUN.VALUE = NA)
-  if (!any(id)) {
-    stop('no `vectorlist` to aggregate!')
-  }
+  if (!is.factor(by)) stop('`by` must be factor')
+  fid <- split.default(seq_along(by), f = by)
+  if (all(lengths(fid) == 1L)) {
+    message('no need to aggregate')
+    return(invisible(x))
+  } 
   
-  xhc_ag <- xhc[id] |> 
-    lapply(FUN = \(m) { # (m = xhc[id][[1L]])
-      fid |>
-        lapply(FUN = \(i) { # (i = fid[[1L]])
-          m[i] |> 
-            do.call(what = fun, args = _)
-        })
+  ret <- fid |>
+    lapply(FUN = \(i) { # (i = fid[[1L]])
+      x[i] |> 
+        do.call(what = fun, args = _)
     })
-  
-  ret <- do.call(
-    what = cbind.hyperframe, 
-    args = c(list(xdf_ag), xhc_ag)
-  ) # returns 'hyperframe', *not* 'groupedHyperframe' !!
-  
+  class(ret) <- c('vectorlist', 'anylist', 'listof', class(ret)) |> unique.default()
+  # 'vectorlist' not respected by spatstat.geom::hyperframe(), yet
   return(ret)
   
 }
-
 
