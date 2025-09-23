@@ -1,24 +1,80 @@
 
 
-#' @title Convert a \link[stats]{listof} \link[spatstat.explore]{fv.object}s into `'fvlist'`
+#' @title Inspect a \link[stats]{listof} \link[spatstat.explore]{fv.object}s
 #' 
 #' @description
 #' A helper function to check the validity of a \link[stats]{listof} \link[spatstat.explore]{fv.object}s.
 #' 
 #' @param X a \link[stats]{listof} \link[spatstat.explore]{fv.object}s
 #' 
-#' @param data.name \link[base]{character} scalar, name of `X`, for console message output
-#' 
-#' @details
-#' Function [as.fvlist()] checks that whether all \link[spatstat.explore]{fv.object}s
-#' in the input has the same
-#' \itemize{
-#' \item {\eqn{x}-axis, or the \eqn{r}-values}
-#' \item {`attr(,'fname')`, see explanation of this \link[base]{attributes} in function \link[spatstat.explore]{fv}}
-#' \item {`spatstat.explore::fvnames(x, a = '.y')` returns}
+#' @returns 
+#' Function [is.fvlist()] returns a \link[base]{logical} scalar with \link[base]{attributes}
+#' \describe{
+#' \item{`attr(,'r')`}{\eqn{x}-axis, or the \eqn{r}-values}
+#' \item{`attr(,'fname')`}{see explanation of this \link[base]{attributes} in function \link[spatstat.explore]{fv}}
+#' \item{`attr(,'.x')`}{`spatstat.explore::fvnames(x, a = '.x')` returns}
+#' \item{`attr(,'.y')`}{`spatstat.explore::fvnames(x, a = '.y')` returns}
 #' }
 #' 
-#' !!! 'Legal' not documented yet!!!
+#' @keywords internal
+#' @importFrom spatstat.explore fvnames
+#' @export
+is.fvlist <- function(X) {
+  
+  # tzh is aware that
+  # ?spatstat.explore::roc.ppp returns an `'roc'` object, inherits from `'fv'`, first argument being `p` instead of `r`!!!
+  # in [as.fvlist()] tzh still uses `r`
+  # because we have function [rmax_()] ...
+  
+  id <- X |>
+    vapply(FUN = inherits, what = 'fv', FUN.VALUE = NA)
+  if (!all(id)) {
+    message('not all elements are `fv.object`')
+    return(FALSE)
+  }
+  .x <- X |>
+    vapply(FUN = fvnames, a = '.x', FUN.VALUE = '')
+  if (!all(duplicated.default(.x)[-1L])) {
+    message('`.x` of all fv.objects are not the same')
+    return(FALSE)
+  }
+  
+  .y <- X |> 
+    vapply(FUN = fvnames, a = '.y', FUN.VALUE = '')
+  if (!all(duplicated.default(.y)[-1L])) {
+    message('`.y` of all fv.objects are not the same')
+    return(FALSE)
+  }
+  
+  fname. <- X |>
+    lapply(FUN = attr, which = 'fname', exact = TRUE)
+  if (!all(duplicated.default(fname.)[-1L])) {
+    message('`fname` of all fv.objects are not the same')
+    return(FALSE)
+  }
+  
+  r. <- X |>
+    lapply(FUN = `[[`, .x[1L])
+  if (!all(duplicated.default(r.)[-1L])) {
+    message('x-axis of all fv.objects are not the same')
+    return(FALSE)
+  }
+  
+  ret <- TRUE
+  attr(ret, which = 'r') <- r.[[1L]]
+  attr(ret, which = '.x') <- .x[[1L]]
+  attr(ret, which = '.y') <- .y[[1L]]
+  attr(ret, which = 'fname') <- fname.[[1L]]
+  return(ret)
+  
+}
+
+
+#' @title Convert a \link[stats]{listof} \link[spatstat.explore]{fv.object}s into `'fvlist'`
+#' 
+#' @param X a \link[stats]{listof} \link[spatstat.explore]{fv.object}s
+#' 
+#' @param data.name \link[base]{character} scalar, name of `X`, for console message output
 #' 
 #' @returns 
 #' Function [as.fvlist()] returns an \link[base]{invisible} \link[base]{list} with elements
@@ -28,47 +84,25 @@
 #' \item{`$rmax`}{\link[base]{numeric} scalar or \link[base]{vector}, the \link[base]{unique} values of the legal \eqn{r_\text{max}} of each \link[spatstat.explore]{fv.object}, if any one of them is less than the user-specified \eqn{r_\text{max}}}
 #' }
 #' 
+#' !!! 'Legal' not documented yet!!!
+#' 
 #' @keywords internal
 #' @importFrom spatstat.explore fvnames
 #' @export
 as.fvlist <- function(X, data.name) {
   
-  # tzh is aware that
-  # ?spatstat.explore::roc.ppp returns an `'roc'` object, inherits from `'fv'`, first argument being `p` instead of `r`!!!
-  # in [as.fvlist()] tzh still uses `r`
-  # because we have function [rmax_()] ...
+  tmp <- is.fvlist(X)
+  if (!tmp) return(X) # exception handling
   
-  id_fv <- X |>
-    vapply(FUN = inherits, what = 'fv', FUN.VALUE = NA)
-  
-  if (!any(id_fv)) return(X) # exception handling
-  if (!all(id_fv)) stop('not all elements are `fv.object`')
-  
-  .x <- X |>
-    vapply(FUN = fvnames, a = '.x', FUN.VALUE = '')
-  if (!all(duplicated.default(.x)[-1L])) stop('`.x` of all fv.objects are not the same')
-  .y <- X |> 
-    vapply(FUN = fvnames, a = '.y', FUN.VALUE = '')
-  if (!all(duplicated.default(.y)[-1L])) stop('`.y` of all fv.objects are not the same')
-  fname. <- X |>
-    lapply(FUN = attr, which = 'fname', exact = TRUE)
-  if (!all(duplicated.default(fname.)[-1L])) stop('fname of all fv.objects are not the same')
-  
-  r. <- X |>
-    lapply(FUN = `[[`, .x[1L])
-  if (!all(duplicated.default(r.)[-1L])) stop('x-axis of all fv.objects are not the same')
-  
-  r <- r.[[1L]]
+  attr(X, which = 'r') <- r <- attr(tmp, which = 'r', exact = TRUE)
   nr <- length(r)
-  
-  attr(X, which = 'r') <- r
-  attr(X, which = '.x') <- .x[[1L]]
-  attr(X, which = '.y') <- .y[[1L]]
-  attr(X, which = 'fname') <- fname.[[1L]]
+  attr(X, which = '.x') <- attr(tmp, which = '.x', exact = TRUE)
+  attr(X, which = '.y') <- .y <- attr(tmp, which = '.y', exact = TRUE)
+  attr(X, which = 'fname') <- attr(tmp, which = 'fname', exact = TRUE)
   
   id <- X |> 
     vapply(FUN = \(x) {
-      x[[.y[1L]]] |>
+      x[[.y]] |>
         lastLegal()
     }, FUN.VALUE = NA_integer_)
   

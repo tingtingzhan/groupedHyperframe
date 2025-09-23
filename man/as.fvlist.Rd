@@ -18,19 +18,10 @@ Function \code{\link[=as.fvlist]{as.fvlist()}} returns an \link[base]{invisible}
 \item{\verb{$.y}}{\link[base]{character} scalar, the return of \code{spatstat.explore::fvnames(x, a = '.y')}}
 \item{\verb{$rmax}}{\link[base]{numeric} scalar or \link[base]{vector}, the \link[base]{unique} values of the legal \eqn{r_\text{max}} of each \link[spatstat.explore]{fv.object}, if any one of them is less than the user-specified \eqn{r_\text{max}}}
 }
-}
-\description{
-A helper function to check the validity of a \link[stats]{listof} \link[spatstat.explore]{fv.object}s.
-}
-\details{
-Function \code{\link[=as.fvlist]{as.fvlist()}} checks that whether all \link[spatstat.explore]{fv.object}s
-in the input has the same
-\itemize{
-\item {\eqn{x}-axis, or the \eqn{r}-values}
-\item {\code{attr(,'fname')}, see explanation of this \link[base]{attributes} in function \link[spatstat.explore]{fv}}
-\item {\code{spatstat.explore::fvnames(x, a = '.y')} returns}
-}
 
 !!! 'Legal' not documented yet!!!
+}
+\description{
+Convert a \link[stats]{listof} \link[spatstat.explore]{fv.object}s into \code{'fvlist'}
 }
 \keyword{internal}

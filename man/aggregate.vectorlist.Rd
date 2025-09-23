@@ -9,7 +9,7 @@
 \arguments{
 \item{x}{a \code{vectorlist}}
 
-\item{by}{\link[base]{factor}}
+\item{by}{\link[base]{factor}, of same \link[base]{length} as \code{x}}
 
 \item{fun}{\link[base]{function}, aggregation method,
 currently supports

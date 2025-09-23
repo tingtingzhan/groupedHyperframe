@@ -54,22 +54,38 @@ aggregate.groupedHyperframe <- function(
   f <- xdf[g[seq_len(id)]] |>
     interaction(drop = TRUE, sep = '.', lex.order = TRUE)
   
-  # aggregation drops `ppp`- and `fv`-hypercolumn !!!
   xdf_ag <- xdf |> 
     mc_identical_by(f = f, ...)
-  
-  id <- xhc |>
+
+  # NO LONGER!!! aggregation drops `ppp`- and `fv`-hypercolumn !!!
+
+  id_vector <- xhc |>
     vapply(FUN = is.vectorlist, mode = 'numeric', FUN.VALUE = NA)
-  if (!any(id)) {
+  if (!any(id_vector)) {
     stop('no `vectorlist` to aggregate!')
   }
-  
-  xhc_ag <- xhc[id] |> 
+  xhc_vector <- xhc[id_vector] |> 
     lapply(FUN = aggregate.vectorlist, by = f, ...)
+  
+  id_ppp <- xhc |>
+    vapply(FUN = inherits, what = 'ppplist', FUN.VALUE = NA)
+  xhc_ppp <- if (any(id_ppp)) {
+    xhc[id_ppp] |> 
+      lapply(FUN = aggregate.anylist, by = f, ...)
+  } else NULL
+
+  id_fv <- xhc |>
+    vapply(FUN = is.fvlist, FUN.VALUE = NA) |>
+    suppressMessages()
+  xhc_fv <- if (any(id_fv)) {
+    xhc[id_fv] |> 
+      lapply(FUN = as.fvlist) |>
+      lapply(FUN = aggregate.anylist, by = f, ...)
+  } else NULL
   
   ret <- do.call(
     what = cbind.hyperframe, 
-    args = c(list(xdf_ag), xhc_ag)
+    args = c(list(xdf_ag), xhc_vector, xhc_ppp, xhc_fv)
   ) # returns 'hyperframe', *not* 'groupedHyperframe' !!
   
   return(ret)
@@ -84,7 +100,7 @@ aggregate.groupedHyperframe <- function(
 #' 
 #' @param x a `vectorlist`
 #' 
-#' @param by \link[base]{factor}
+#' @param by \link[base]{factor}, of same \link[base]{length} as `x`
 #' 
 #' @param fun \link[base]{function}, aggregation method, 
 #' currently supports
@@ -111,6 +127,8 @@ aggregate.vectorlist <- function(x, by, fun = pmean, ...) {
   }
   
   if (!is.factor(by)) stop('`by` must be factor')
+  if (length(by) != length(x)) stop('`by` and `x` must be of same length')
+  
   fid <- split.default(seq_along(by), f = by)
   if (all(lengths(fid) == 1L)) {
     message('no need to aggregate')
@@ -128,3 +146,32 @@ aggregate.vectorlist <- function(x, by, fun = pmean, ...) {
   
 }
 
+
+
+#' @title Aggregate \link[spatstat.geom]{anylist}
+#' 
+#' @param x an \link[spatstat.geom]{anylist}
+#' 
+#' @param by \link[base]{factor}, of same \link[base]{length} as `x`
+#' 
+#' @keywords internal
+#' @importFrom stats aggregate
+#' @export aggregate.anylist
+#' @export
+aggregate.anylist <- function(x, by, ...) {
+  
+  if (!is.factor(by)) stop('`by` must be factor')
+  if (length(by) != length(x)) stop('`by` and `x` must be of same length')
+  
+  fid <- split.default(seq_along(by), f = by)
+  if (all(lengths(fid) == 1L)) {
+    message('no need to aggregate')
+    return(invisible(x))
+  } 
+  
+  fid |>
+    lapply(FUN = \(i) { # (i = fid[[1L]])
+      x[i] # let ?spatstat.geom::`[.anylist` do its magic!!!
+    })
+  
+}
