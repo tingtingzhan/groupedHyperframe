@@ -16,6 +16,7 @@
 #'  
 #' @keywords internal
 #' @importFrom stats aggregate
+#' @importFrom spatstat.geom is.ppplist is.imlist
 #' @export aggregate.groupedHyperframe
 #' @export
 aggregate.groupedHyperframe <- function(
@@ -64,13 +65,18 @@ aggregate.groupedHyperframe <- function(
       lapply(FUN = aggregate.vectorlist, by = f, ...)
   } #else NULL
   
+  # object-list supported by spatstat family
   id_ppp <- xhc |>
-    vapply(FUN = inherits, what = 'ppplist', FUN.VALUE = NA)
-  xhc_ppp <- if (any(id_ppp)) {
-    xhc[id_ppp] |> 
+    vapply(FUN = is.ppplist, FUN.VALUE = NA)
+  id_im <- xhc |>
+    vapply(FUN = is.imlist, FUN.VALUE = NA)
+  id_lol <- id_ppp | id_im # list-of-list
+  xhc_lol <- if (any(id_lol)) {
+    xhc[id_lol] |> 
       lapply(FUN = split.default, f = f)
   } #else NULL
 
+  # object-list *not* supported by spatstat family
   id_fv <- xhc |>
     vapply(FUN = is.fvlist, FUN.VALUE = NA) |>
     suppressMessages()
@@ -82,7 +88,7 @@ aggregate.groupedHyperframe <- function(
   
   ret <- do.call(
     what = cbind.hyperframe, 
-    args = c(list(xdf_ag), xhc_vector, xhc_ppp, xhc_fv)
+    args = c(list(xdf_ag), xhc_vector, xhc_lol, xhc_fv)
   ) # returns 'hyperframe', *not* 'groupedHyperframe' !!
   
   return(ret)
