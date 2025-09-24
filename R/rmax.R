@@ -15,18 +15,18 @@
 #' @keywords internal
 #' @name rmax
 #' @export
-rmax_ <- function(X, ...) UseMethod(generic = 'rmax_')
+.rmax <- function(X, ...) UseMethod(generic = '.rmax')
 
 # fv.object |> attr(, 'alim') depends on user-input `r`!!
-# use tzh's [rmax_] to get default `r` !!
+# use tzh's [.rmax] to get default `r` !!
 
 
 #' @rdname rmax
 #' @importFrom spatstat.explore rmax.rule
 #' @importFrom spatstat.geom area intensity marks.ppp is.marked.ppp is.ppp npoints.ppp unstack.ppp is.multitype.ppp handle.r.b.args ppsubset
-#' @export rmax_.ppp
+#' @export .rmax.ppp
 #' @export
-rmax_.ppp <- function(X, fun, i, j, ...) {
+.rmax.ppp <- function(X, fun, i, j, ...) {
   
   # S3 call to [area] is probably [area.owin]
   # S3 call to [intensity] is probably [intensity.ppp]
@@ -84,18 +84,18 @@ rmax_.ppp <- function(X, fun, i, j, ...) {
 
 
 #' @rdname rmax
-#' @export rmax_.ppplist
+#' @export .rmax.ppplist
 #' @export
-rmax_.ppplist <- function(X, ...) {
+.rmax.ppplist <- function(X, ...) {
   X |>
-    vapply(FUN = rmax_.ppp, ..., FUN.VALUE = NA_real_)
+    vapply(FUN = .rmax.ppp, ..., FUN.VALUE = NA_real_)
 }
 
 
 #' @rdname rmax
-#' @export rmax_.hyperframe
+#' @export .rmax.hyperframe
 #' @export
-rmax_.hyperframe <- function(X, ...) {
+.rmax.hyperframe <- function(X, ...) {
   
   # may handle multiple ppp-hypercolumns!!!
   
@@ -112,7 +112,7 @@ rmax_.hyperframe <- function(X, ...) {
   if (!length(hc_ppp)) return(invisible()) # exception handling
   
   ret <- hc[hc_ppp] |>
-    lapply(FUN = rmax_.ppplist, ...)
+    lapply(FUN = .rmax.ppplist, ...)
   
   cat('\n')
   mapply(FUN = \(r, nm) {

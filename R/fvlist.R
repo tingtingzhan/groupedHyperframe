@@ -24,7 +24,7 @@ is.fvlist <- function(X) {
   # tzh is aware that
   # ?spatstat.explore::roc.ppp returns an `'roc'` object, inherits from `'fv'`, first argument being `p` instead of `r`!!!
   # in [as.fvlist()] tzh still uses `r`
-  # because we have function [rmax_()] ...
+  # because we have function [.rmax()] ...
   
   id <- X |>
     vapply(FUN = inherits, what = 'fv', FUN.VALUE = NA)

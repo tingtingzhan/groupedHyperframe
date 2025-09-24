@@ -2,19 +2,19 @@
 % Please edit documentation in R/rmax.R
 \name{rmax}
 \alias{rmax}
-\alias{rmax_}
-\alias{rmax_.ppp}
-\alias{rmax_.ppplist}
-\alias{rmax_.hyperframe}
+\alias{.rmax}
+\alias{.rmax.ppp}
+\alias{.rmax.ppplist}
+\alias{.rmax.hyperframe}
 \title{Default \eqn{r_\text{max}} of Various Functions in Package \CRANpkg{spatstat.explore}}
 \usage{
-rmax_(X, ...)
+.rmax(X, ...)
 
-\method{rmax_}{ppp}(X, fun, i, j, ...)
+\method{.rmax}{ppp}(X, fun, i, j, ...)
 
-\method{rmax_}{ppplist}(X, ...)
+\method{.rmax}{ppplist}(X, ...)
 
-\method{rmax_}{hyperframe}(X, ...)
+\method{.rmax}{hyperframe}(X, ...)
 }
 \arguments{
 \item{X}{a \link[spatstat.geom]{ppp.object} with one \link[base]{numeric} or multi-type \link[spatstat.geom]{marks}}
