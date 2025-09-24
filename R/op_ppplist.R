@@ -27,6 +27,7 @@
 #' }
 #' 
 #' @keywords internal
+#' @importFrom spatstat.geom anylist
 #' @export
 op_ppplist <- function(
     x, 
@@ -58,7 +59,9 @@ op_ppplist <- function(
   
   # re-organize the list!!
   # `ret`: 1st mark, 2nd subject
-  ret <- .mapply(FUN = list, dots = ret0, MoreArgs = NULL)
+  #ret <- .mapply(FUN = list, dots = ret0, MoreArgs = NULL)
+  ret <- .mapply(FUN = anylist, dots = ret0, MoreArgs = NULL) # 2025-09-24
+  # using `anylist` obviously correct and better, but does it actually improve anything?
   names(ret) <- names(ret0[[1L]])
 
   mapply(

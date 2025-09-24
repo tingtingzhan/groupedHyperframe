@@ -62,7 +62,7 @@ ppp2dist <- function(x, fn, ...) {
 #' @importFrom spatstat.explore Emark Vmark markcorr markvario
 #' @importFrom spatstat.explore Kmark
 #' @importFrom spatstat.explore Gcross Jcross Kcross Lcross markconnect
-#' @importFrom spatstat.geom unstack.ppp is.multitype.ppp
+#' @importFrom spatstat.geom unstack.ppp is.multitype.ppp anylapply
 #' @export
 ppp2fv <- function(x, fn, ...) {
   
@@ -105,7 +105,8 @@ ppp2fv <- function(x, fn, ...) {
   }
   
   ret <- x.. |> 
-    lapply(FUN = fn, ...)
+    # lapply(FUN = fn, ...) # um..
+    anylapply(FUN = fn, ...) # after 2025-09-24
   
   # restore names of `fv`-hypercolumns from the result
   # attr(,'fname') is determined by `fn`

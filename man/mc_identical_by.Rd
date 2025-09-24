@@ -23,5 +23,7 @@ Check if Data Column is Identical by Grouping
 Function \link[stats]{aggregate.data.frame} does not do parallel computing.
 
 Function \code{collapse::collap} does not support \link[survival]{Surv} column.
+
+Look more into \code{nlme:::collapse.groupedData}
 }
 \keyword{internal}

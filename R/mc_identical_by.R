@@ -15,6 +15,8 @@
 #' 
 #' Function `collapse::collap` does not support \link[survival]{Surv} column.
 #' 
+#' Look more into `nlme:::collapse.groupedData`
+#' 
 #' @keywords internal
 #' @export
 mc_identical_by <- function(

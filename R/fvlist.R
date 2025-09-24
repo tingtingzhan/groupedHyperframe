@@ -84,7 +84,8 @@ is.fvlist <- function(X) {
 #' @export
 as.fvlist <- function(X, data.name) {
   
-  tmp <- is.fvlist(X)
+  tmp <- is.fvlist(X) |>
+    suppressMessages()
   if (!tmp) return(X) # exception handling
   
   attr(X, which = 'r') <- r <- attr(tmp, which = 'r', exact = TRUE)
