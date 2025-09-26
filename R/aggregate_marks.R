@@ -4,12 +4,15 @@
 #' 
 #' @param x see **Usage**
 #' 
-#' @param ... additional parameters of function \link[stats]{aggregate.data.frame}
+#' @param by,... additional parameters of function \link[stats]{aggregate.data.frame}
+#' 
+#' @param vectorize \link[base]{logical} scalar, whether to convert the return from 
+#' function \link[stats]{aggregate.data.frame} into a \link[base]{vector}. Default `FALSE`.
 #' 
 #' @keywords internal
 #' @name aggregate_marks
 #' @export
-aggregate_marks <- function(x, ...) UseMethod(generic = 'aggregate_marks')
+aggregate_marks <- function(x, by, ..., vectorize = FALSE) UseMethod(generic = 'aggregate_marks')
   
 
 #' @rdname aggregate_marks
@@ -17,29 +20,68 @@ aggregate_marks <- function(x, ...) UseMethod(generic = 'aggregate_marks')
 #' @importFrom spatstat.geom marks.ppp
 #' @export aggregate_marks.ppp
 #' @export
-aggregate_marks.ppp <- function(x, ...) {
+aggregate_marks.ppp <- function(x, by, ..., vectorize = FALSE) {
   
   if (markformat.ppp(x) != 'dataframe') stop('input must have dataframe-markformat')
   
   z <- x |> 
     marks.ppp(dfok = TRUE, drop = FALSE) |>
-    aggregate.data.frame(x = _, ...)
+    aggregate.data.frame(x = _, by = by, ...) # parameter `simplify` must be TRUE
   
-  # , and *cast* the returns using the workhorse function `reshape2::acast()`.
-  # is this the best way??
-  # ???
+  if (!vectorize) return(z)
   
-  #z |> 
-  #  reshape2::acast(data = _, formula)
+  # if (vectorize):   
+  if (!inherits(by, what = 'formula')) stop('`by` must be formula')
   
-  return(z)
+  # stupid but working :)
+  tmp <- z |>
+    split.data.frame(f = by[c(1L, 3L)]) # ?base::split.data.frame takes care of group-name !!!
   
+  tmp |>
+    lapply(FUN = \(d) { # d = tmp[[1L]] #  `d` must be nrow-1 'data.frame'
+      out0 <- d[all.vars(by[[2L]])]
+      cls <- out0 |>
+        lapply(FUN = class) |>
+        unique.default()
+      if (length(cls) != 1L) stop('shouldnt happen')
+      out <- switch(cls[[1L]][[1L]], 'matrix' = {
+        out0 |> # this is a 'data.frame' with one-'matrix'-column!!
+          lapply(FUN = as.data.frame.matrix) |>
+          unlist(recursive = TRUE, use.names = TRUE) # numeric
+      }, {
+        # atomic vector
+        out0
+      })
+      return(out)
+    }) |>
+    unlist(use.names = TRUE)
+
 }
 
 
 #' @rdname aggregate_marks
+#' @importFrom spatstat.geom anylapply
 #' @export aggregate_marks.ppplist
 #' @export
 aggregate_marks.ppplist <- function(x, ...) {
   
+  x |>
+    anylapply(FUN = \(x) {
+      aggregate_marks.ppp(x, ..., vectorize = TRUE)
+    }) |>
+    as.vectorlist(mode = 'numeric')
+  
 }
+
+
+
+#' @rdname aggregate_marks
+#' @export aggregate_marks.hyperframe
+#' @export
+aggregate_marks.hyperframe <- function(x, ...) {
+  
+  
+  
+}
+
+

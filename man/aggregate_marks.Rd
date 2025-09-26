@@ -4,18 +4,24 @@
 \alias{aggregate_marks}
 \alias{aggregate_marks.ppp}
 \alias{aggregate_marks.ppplist}
+\alias{aggregate_marks.hyperframe}
 \title{\link{aggregate_marks}}
 \usage{
-aggregate_marks(x, ...)
+aggregate_marks(x, by, ..., vectorize = FALSE)
 
-\method{aggregate_marks}{ppp}(x, ...)
+\method{aggregate_marks}{ppp}(x, by, ..., vectorize = FALSE)
 
 \method{aggregate_marks}{ppplist}(x, ...)
+
+\method{aggregate_marks}{hyperframe}(x, ...)
 }
 \arguments{
 \item{x}{see \strong{Usage}}
 
-\item{...}{additional parameters of function \link[stats]{aggregate.data.frame}}
+\item{by, ...}{additional parameters of function \link[stats]{aggregate.data.frame}}
+
+\item{vectorize}{\link[base]{logical} scalar, whether to convert the return from
+function \link[stats]{aggregate.data.frame} into a \link[base]{vector}. Default \code{FALSE}.}
 }
 \description{
 \link{aggregate_marks}
