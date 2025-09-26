@@ -3,11 +3,14 @@
 \name{aggregate_marks}
 \alias{aggregate_marks}
 \alias{aggregate_marks.ppp}
+\alias{aggregate_marks.ppplist}
 \title{\link{aggregate_marks}}
 \usage{
 aggregate_marks(x, ...)
 
 \method{aggregate_marks}{ppp}(x, ...)
+
+\method{aggregate_marks}{ppplist}(x, ...)
 }
 \arguments{
 \item{x}{see \strong{Usage}}

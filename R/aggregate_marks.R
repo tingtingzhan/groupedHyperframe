@@ -21,8 +21,25 @@ aggregate_marks.ppp <- function(x, ...) {
   
   if (markformat.ppp(x) != 'dataframe') stop('input must have dataframe-markformat')
   
-  x |> 
+  z <- x |> 
     marks.ppp(dfok = TRUE, drop = FALSE) |>
     aggregate.data.frame(x = _, ...)
+  
+  # , and *cast* the returns using the workhorse function `reshape2::acast()`.
+  # is this the best way??
+  # ???
+  
+  #z |> 
+  #  reshape2::acast(data = _, formula)
+  
+  return(z)
+  
+}
+
+
+#' @rdname aggregate_marks
+#' @export aggregate_marks.ppplist
+#' @export
+aggregate_marks.ppplist <- function(x, ...) {
   
 }
