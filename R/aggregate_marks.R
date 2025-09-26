@@ -22,6 +22,8 @@ aggregate_marks <- function(x, by, FUN, ..., vectorize = FALSE) UseMethod(generi
 #' @export
 aggregate_marks.ppp <- function(x, by, FUN, ..., vectorize = FALSE) {
   
+  fun_ <- substitute(FUN)
+  
   mf <- x |>
     markformat.ppp()
   
@@ -33,6 +35,10 @@ aggregate_marks.ppp <- function(x, by, FUN, ..., vectorize = FALSE) {
       marks.ppp() |> 
       FUN() |>
       c() # convert to vector!!!!
+    if ((length(z) == 1L) && is.symbol(fun_)) {
+      names(z) <- deparse1(fun_)
+      # this is difficult to do with `by` ..
+    }
     return(z)
   }
   
