@@ -100,7 +100,21 @@ aggregate_marks.ppplist <- function(x, ...) {
 #' @export
 aggregate_marks.hyperframe <- function(x, ...) {
   
+  hc <- unclass(x)$hypercolumns
   
+  hc_ppp <- hc |>
+    vapply(FUN = is.ppplist, FUN.VALUE = NA)
+  n_ppp <- sum(hc_ppp)
+  if (!n_ppp) return(invisible()) # exception handling
+  if (n_ppp > 1L) stop('does not allow more than 1 ppp-hypercolumn')
+  
+  z <- hc[[which(hc_ppp)]] |>
+    aggregate_marks.ppplist(...)
+  
+  return(cbind( # dispatch to \link[spatstat.geom]{cbind.hyperframe} or [cbind.groupedHyperframe()]
+    x, 
+    markstats = z
+  ))
   
 }
 
