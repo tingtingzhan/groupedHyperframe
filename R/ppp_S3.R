@@ -89,7 +89,8 @@ log1p.ppp <- function(x) {
     markformat() |>
     switch('dataframe' = {
       id <- m |>
-        vapply(FUN = is.numeric, FUN.VALUE = NA)
+        #vapply(FUN = is.numeric, FUN.VALUE = NA) # ?base::is.numeric will pass 'POSIXct'
+        vapply(FUN = inherits, what = 'numeric', FUN.VALUE = NA)
       marks(x, dfok = TRUE, drop = FALSE)[id] <- m[id] |> lapply(FUN = log1p)
     }, 'vector' = {
       if (is.numeric(m)) marks(x) <- m |> log1p()
