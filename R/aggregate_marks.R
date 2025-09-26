@@ -4,7 +4,7 @@
 #' 
 #' @param x see **Usage**
 #' 
-#' @param by,... additional parameters of function \link[stats]{aggregate.data.frame}
+#' @param by,FUN,... additional parameters of function \link[stats]{aggregate.data.frame}
 #' 
 #' @param vectorize \link[base]{logical} scalar, whether to convert the return from 
 #' function \link[stats]{aggregate.data.frame} into a \link[base]{vector}. Default `FALSE`.
@@ -12,7 +12,7 @@
 #' @keywords internal
 #' @name aggregate_marks
 #' @export
-aggregate_marks <- function(x, by, ..., vectorize = FALSE) UseMethod(generic = 'aggregate_marks')
+aggregate_marks <- function(x, by, FUN, ..., vectorize = FALSE) UseMethod(generic = 'aggregate_marks')
   
 
 #' @rdname aggregate_marks
@@ -20,13 +20,27 @@ aggregate_marks <- function(x, by, ..., vectorize = FALSE) UseMethod(generic = '
 #' @importFrom spatstat.geom marks.ppp
 #' @export aggregate_marks.ppp
 #' @export
-aggregate_marks.ppp <- function(x, by, ..., vectorize = FALSE) {
+aggregate_marks.ppp <- function(x, by, FUN, ..., vectorize = FALSE) {
   
-  if (markformat.ppp(x) != 'dataframe') stop('input must have dataframe-markformat')
+  mf <- x |>
+    markformat.ppp()
+  
+  if (mf == 'none') return(invisible())
+  
+  if (mf == 'vector') {
+    if (!missing(by)) warning('parameter `by` is ignored, for vector-markformat !')
+    z <- x |> 
+      marks.ppp() |> 
+      FUN() |>
+      c() # convert to vector!!!!
+    return(z)
+  }
+  
+  # rest: mf == 'dataframe'
   
   z <- x |> 
     marks.ppp(dfok = TRUE, drop = FALSE) |>
-    aggregate.data.frame(x = _, by = by, ...) # parameter `simplify` must be TRUE
+    aggregate.data.frame(x = _, by = by, FUN = FUN, ...) # parameter `simplify` must be TRUE
   
   if (!vectorize) return(z)
   
