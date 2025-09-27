@@ -44,6 +44,10 @@ cumvtrapz <- function(x, ...) {
 #' 
 #' @param y \link[base]{numeric} \link[base]{vector}
 #' 
+#' @param x_smooth,y_smooth \link[base]{numeric} \link[base]{vector}s,
+#' smoothed \eqn{x} and \eqn{y} values, 
+#' to beautify the \link[geomtextpath]{geom_textpath} of a \link[stats]{stepfun}
+#' 
 #' @param yname (optional) \link[base]{character} scalar, name of function
 #' 
 #' @param draw.v \link[base]{logical} scalar, whether to plot the average vertical height [vtrapz()], default `TRUE`
@@ -72,6 +76,7 @@ visualize_vtrapz <- function(x, ...) UseMethod(generic = 'visualize_vtrapz')
 #' @export
 visualize_vtrapz.numeric <- function(
     x, y,
+    x_smooth = x, y_smooth = y,
     yname,
     draw.v = TRUE,
     draw.cumv = TRUE,
@@ -97,7 +102,7 @@ visualize_vtrapz.numeric <- function(
       geom_path(mapping = aes(x = x, y = y), alpha = .3, linewidth = 1.3)
     } else {
       geom_textpath(
-        mapping = aes(x = x, y = y, label = yname),
+        mapping = aes(x = x_smooth, y = y_smooth, label = yname),
         hjust = .1, alpha = .3, linewidth = 1.3, 
         #colour = 'blue', fontface = 'bold', alpha = .7
       )
@@ -124,15 +129,27 @@ visualize_vtrapz.numeric <- function(
 #' @export 
 visualize_vtrapz.fv <- function(x, ...) {
   # ?spatstat.explore::plot.roc uses workhorse ?spatstat.explore::plot.fv
-  .x <- fvnames(x, a = '.x')
-  .y <- fvnames(x, a = '.y')
-  yname <- x |> 
+  fv <- x; x <- NULL # make code more readable
+  .x <- fvnames(fv, a = '.x')
+  .y <- fvnames(fv, a = '.y')
+  x <- fv[[.x]]
+  y <- fv[[.y]]
+  
+  is_step <- inherits(fv, what = 'roc')
+  if (is_step) {
+    l <- lowess(x = x, y = y, f = min(1, 50/nrow(fv))) # read ?stats::lowess carefully for parameter `f`
+  }
+
+  yname <- fv |> 
     attr(which = 'ylab', exact = TRUE) |> 
     deparse1()
   visualize_vtrapz.numeric(
-    x = x[[.x]], 
-    y = x[[.y]],
-    yname = if (!inherits(x, what = 'roc')) yname, # ?stats::stepfun, will be ugly 
+    x = x, y = y,
+    x_smooth = if (is_step) l$x else x, 
+    y_smooth = if (is_step) l$y else y, 
+    yname = if (is_step) {
+      yname |> sprintf(fmt = '%s (smoothed)') 
+    } else yname,
     ...
   ) + 
     labs(x = .x, y = NULL)
@@ -161,15 +178,20 @@ visualize_vtrapz.density <- function(x, ...) {
 
 #' @rdname visualize_vtrapz
 #' @importFrom ggplot2 labs
+#' @importFrom stats lowess
 #' @export visualize_vtrapz.ecdf
 #' @export
 visualize_vtrapz.ecdf <- function(x, ...) {
   fn <- x; x <- NULL # make code more readable
   ev <- environment(fn)
+  # stopifnot(stats::is.stepfun(fn)) # !!!
+  x <- get('x', envir = ev)
+  y <- get('y', envir = ev)
+  l <- lowess(x = x, y = y, f = min(1, 5/length(x))) # read ?stats::lowess carefully for parameter `f`
   visualize_vtrapz.numeric(
-    x = get('x', envir = ev),
-    y = get('y', envir = ev),
-    # yname = 'stats::ecdf', # ?stats::stepfun, will be ugly
+    x = x, y = y,
+    x_smooth = l$x, y_smooth = l$y,
+    yname = 'stats::ecdf (smoothed)',
     ...
   ) +
     labs(x = 'x', y = NULL)
