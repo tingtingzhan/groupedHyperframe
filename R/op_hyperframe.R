@@ -1,7 +1,7 @@
 
 
 
-#' @title User Interface of Operations on \link[spatstat.geom]{hyperframe} with One-and-Only-One \link[spatstat.geom]{ppp}-\link[spatstat.geom:hyperframe]{hypercolumn}
+#' @title Batch Process
 #' 
 #' @description
 #' See workhorse function [op_hyperframe()].
@@ -18,10 +18,8 @@
 #' @param ... additional parameters of user operation
 #' 
 #' @details
-#' See explanations in workhorse function [op_hyperframe()].
+#' User Interface of Operations on \link[spatstat.geom]{hyperframe} with One-and-Only-One \link[spatstat.geom]{ppp}-\link[spatstat.geom:hyperframe]{hypercolumn}
 #' 
-#' @returns 
-#' See explanations in workhorse function [op_hyperframe()].
 #' 
 #' @examples
 #' # in \CRANpkg{spatstat.data}
@@ -38,59 +36,240 @@
 #' fluM |>
 #'  nncross_(i = 'M1', j = 'M2')
 #' @keywords internal
-#' @name user_hyperframe
+#' @name batch
+#' @export
+Emark_ <- function(X, ...) UseMethod(generic = 'Emark_')
+
+#' @rdname batch
 #' @importFrom spatstat.explore Emark
+#' @export Emark_.hyperframe
 #' @export
-Emark_ <- function(X, correction = 'none', ...) X |> op_hyperframe(op = ppp2fv, fn = Emark, correction = correction, ...)
+Emark_.hyperframe <- function(X, correction = 'none', ...) {
+  X |> 
+    op_hyperframe(op = ppp2fv, fn = Emark, correction = correction, ...)
+}
 
-#' @rdname user_hyperframe
+#' @rdname batch
+#' @importFrom spatstat.explore Emark
+#' @export Emark_.ppplist
+#' @export
+Emark_.ppplist <- function(X, correction = 'none', ...) {
+  X |> 
+    op_ppplist(op = ppp2fv, fn = Emark, correction = correction, ...)
+}
+
+
+#' @rdname batch
+#' @export
+Vmark_ <- function(X, ...) UseMethod(generic = 'Vmark_')
+
+#' @rdname batch
 #' @importFrom spatstat.explore Vmark
+#' @export Vmark_.hyperframe
 #' @export
-Vmark_ <- function(X, correction = 'none', ...) X |> op_hyperframe(op = ppp2fv, fn = Vmark, correction = correction, ...)
+Vmark_.hyperframe <- function(X, correction = 'none', ...) {
+  X |> 
+    op_hyperframe(op = ppp2fv, fn = Vmark, correction = correction, ...)
+}
 
-#' @rdname user_hyperframe
+#' @rdname batch
+#' @importFrom spatstat.explore Vmark
+#' @export Vmark_.ppplist
+#' @export
+Vmark_.ppplist <- function(X, correction = 'none', ...) {
+  X |> 
+    op_ppplist(op = ppp2fv, fn = Vmark, correction = correction, ...)
+}
+
+
+
+#' @rdname batch
+#' @export
+Kmark_ <- function(X, ...) UseMethod(generic = 'Kmark_')
+
+#' @rdname batch
 #' @importFrom spatstat.explore Kmark
+#' @export Kmark_.hyperframe
 #' @export
-Kmark_ <- function(X, correction = 'none', ...) X |> op_hyperframe(op = ppp2fv, fn = Kmark, correction = correction, ...)
+Kmark_.hyperframe <- function(X, correction = 'none', ...) {
+  X |> 
+    op_hyperframe(op = ppp2fv, fn = Kmark, correction = correction, ...)
+}
+
+#' @rdname batch
+#' @importFrom spatstat.explore Kmark
+#' @export Kmark_.ppplist
+#' @export
+Kmark_.ppplist <- function(X, correction = 'none', ...) {
+  X |> 
+    op_ppplist(op = ppp2fv, fn = Kmark, correction = correction, ...)
+}
 
 
-#' @rdname user_hyperframe
+
+#' @rdname batch
+#' @export
+markcorr_ <- function(X, ...) UseMethod(generic = 'markcorr_')
+
+#' @rdname batch
 #' @importFrom spatstat.explore markcorr
+#' @export markcorr_.hyperframe
 #' @export
-markcorr_ <- function(X, correction = 'none', ...) X |> op_hyperframe(op = ppp2fv, fn = markcorr, correction = correction, ...)
+markcorr_.hyperframe <- function(X, correction = 'none', ...) {
+  X |> 
+    op_hyperframe(op = ppp2fv, fn = markcorr, correction = correction, ...)
+}
 
-#' @rdname user_hyperframe
+#' @rdname batch
+#' @importFrom spatstat.explore markcorr
+#' @export markcorr_.ppplist
+#' @export
+markcorr_.ppplist <- function(X, correction = 'none', ...) {
+  X |> 
+    op_ppplist(op = ppp2fv, fn = markcorr, correction = correction, ...)
+}
+
+
+#' @rdname batch
+#' @export
+markvario_ <- function(X, ...) UseMethod(generic = 'markvario_')
+
+#' @rdname batch
 #' @importFrom spatstat.explore markvario
+#' @export markvario_.hyperframe
 #' @export
-markvario_ <- function(X, correction = 'none', ...) X |> op_hyperframe(op = ppp2fv, fn = markvario, correction = correction, ...)
+markvario_.hyperframe <- function(X, correction = 'none', ...) {
+  X |> 
+    op_hyperframe(op = ppp2fv, fn = markvario, correction = correction, ...)
+}
+
+#' @rdname batch
+#' @importFrom spatstat.explore markvario
+#' @export markvario_.ppplist
+#' @export
+markvario_.ppplist <- function(X, correction = 'none', ...) {
+  X |> 
+    op_ppplist(op = ppp2fv, fn = markvario, correction = correction, ...)
+}
 
 
 
-#' @rdname user_hyperframe
+#' @rdname batch
+#' @export
+Gcross_ <- function(X, ...) UseMethod(generic = 'Gcross_')
+
+#' @rdname batch
 #' @importFrom spatstat.explore Gcross
+#' @export Gcross_.hyperframe
 #' @export
-Gcross_ <- function(X, correction = 'none', ...) X |> op_hyperframe(op = ppp2fv, fn = Gcross, correction = correction, ...)
+Gcross_.hyperframe <- function(X, correction = 'none', ...) {
+  X |> 
+    op_hyperframe(op = ppp2fv, fn = Gcross, correction = correction, ...)
+}
 
-#' @rdname user_hyperframe
+#' @rdname batch
+#' @importFrom spatstat.explore Gcross
+#' @export Gcross_.ppplist
+#' @export
+Gcross_.ppplist <- function(X, correction = 'none', ...) {
+  X |> 
+    op_ppplist(op = ppp2fv, fn = Gcross, correction = correction, ...)
+}
+
+
+
+#' @rdname batch
+#' @export
+Jcross_ <- function(X, ...) UseMethod(generic = 'Jcross_')
+
+#' @rdname batch
 #' @importFrom spatstat.explore Jcross
+#' @export Jcross_.hyperframe
 #' @export
-Jcross_ <- function(X, correction = 'none', ...) X |> op_hyperframe(op = ppp2fv, fn = Jcross, correction = correction, ...)
+Jcross_.hyperframe <- function(X, correction = 'none', ...) {
+  X |> 
+    op_hyperframe(op = ppp2fv, fn = Jcross, correction = correction, ...)
+}
 
-#' @rdname user_hyperframe
+#' @rdname batch
+#' @importFrom spatstat.explore Jcross
+#' @export Jcross_.ppplist
+#' @export
+Jcross_.ppplist <- function(X, correction = 'none', ...) {
+  X |> 
+    op_ppplist(op = ppp2fv, fn = Jcross, correction = correction, ...)
+}
+
+
+
+#' @rdname batch
+#' @export
+Kcross_ <- function(X, ...) UseMethod(generic = 'Kcross_')
+
+#' @rdname batch
 #' @importFrom spatstat.explore Kcross
+#' @export Kcross_.hyperframe
 #' @export
-Kcross_ <- function(X, correction = 'none', ...) X |> op_hyperframe(op = ppp2fv, fn = Kcross, correction = correction, ...)
+Kcross_.hyperframe <- function(X, correction = 'none', ...) {
+  X |> 
+    op_hyperframe(op = ppp2fv, fn = Kcross, correction = correction, ...)
+}
 
-#' @rdname user_hyperframe
+#' @rdname batch
+#' @importFrom spatstat.explore Kcross
+#' @export Kcross_.ppplist
+#' @export
+Kcross_.ppplist <- function(X, correction = 'none', ...) {
+  X |> 
+    op_ppplist(op = ppp2fv, fn = Kcross, correction = correction, ...)
+}
+
+
+
+#' @rdname batch
+#' @export
+Lcross_ <- function(X, ...) UseMethod(generic = 'Lcross_')
+
+#' @rdname batch
 #' @importFrom spatstat.explore Lcross
+#' @export Lcross_.hyperframe
 #' @export
-Lcross_ <- function(X, correction = 'none', ...) X |> op_hyperframe(op = ppp2fv, fn = Lcross, correction = correction, ...)
+Lcross_.hyperframe <- function(X, correction = 'none', ...) {
+  X |> 
+    op_hyperframe(op = ppp2fv, fn = Lcross, correction = correction, ...)
+}
 
-#' @rdname user_hyperframe
+#' @rdname batch
+#' @importFrom spatstat.explore Lcross
+#' @export Lcross_.ppplist
+#' @export
+Lcross_.ppplist <- function(X, correction = 'none', ...) {
+  X |> 
+    op_ppplist(op = ppp2fv, fn = Lcross, correction = correction, ...)
+}
+
+
+#' @rdname batch
+#' @export
+markconnect_ <- function(X, ...) UseMethod(generic = 'markconnect_')
+
+#' @rdname batch
 #' @importFrom spatstat.explore markconnect
+#' @export markconnect_.hyperframe
 #' @export
-markconnect_ <- function(X, correction = 'none', ...) X |> op_hyperframe(op = ppp2fv, fn = markconnect, correction = correction, ...)
+markconnect_.hyperframe <- function(X, correction = 'none', ...) {
+  X |> 
+    op_hyperframe(op = ppp2fv, fn = markconnect, correction = correction, ...)
+}
 
+#' @rdname batch
+#' @importFrom spatstat.explore markconnect
+#' @export markconnect_.ppplist
+#' @export
+markconnect_.ppplist <- function(X, correction = 'none', ...) {
+  X |> 
+    op_ppplist(op = ppp2fv, fn = markconnect, correction = correction, ...)
+}
 
 
 # Inside \link[spatstat.explore]{Gcross} and \link[spatstat.explore]{Kcross}
@@ -100,10 +279,25 @@ markconnect_ <- function(X, correction = 'none', ...) X |> op_hyperframe(op = pp
 # i.e., `Y` (or \emph{in}) in \link[spatstat.geom]{nncross}.
 
 
-#' @rdname user_hyperframe
+#' @rdname batch
 #' @export
-nncross_ <- function(X, ...) X |> op_hyperframe(op = ppp2dist, fn = .nncross, ...)
+nncross_ <- function(X, ...) UseMethod(generic = 'nncross_')
 
+#' @rdname batch
+#' @export nncross_.hyperframe
+#' @export
+nncross_.hyperframe <- function(X, ...) {
+  X |> 
+    op_hyperframe(op = ppp2dist, fn = .nncross, ...)
+}
+
+#' @rdname batch
+#' @export nncross_.ppplist
+#' @export
+nncross_.ppplist <- function(X, ...) {
+  X |> 
+    op_ppplist(op = ppp2dist, fn = .nncross, ...)
+}
 
 
 
