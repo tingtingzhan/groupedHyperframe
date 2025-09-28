@@ -37,9 +37,11 @@ The full vignette of R package **`groupedHyperframe`** ([CRAN](https://cran.r-pr
 
 The full vignette documents
 
--   the creation of `groupedHyperframe` object,
--   the batch processes for a `hyperframe` and/or `groupedHyperframe`, and
--   the aggregation of various statistics over (nested) grouping structure.
+-   the creation of *grouped hyper data frame*;
+-   the creation of a grouped hyper data frame with one-and-only-one point-pattern hypercolumn;
+-   the batch process on eligible marks for the one-and-only-one point-pattern hypercolumn in a (grouped) hyper data frame;
+-   the computation of various summary statistics from one or more function-value-table hypercolumn(s) of a (grouped) hyper data frame;
+-   the aggregation of summary statistics, over a (nested) grouping structure, in a grouped hyper data frame.
 
 # Prerequisite
 
@@ -59,16 +61,30 @@ Sys.info()[c('sysname', 'release', 'machine')]
 R.version
 ```
 
+## Enhancement {#sec-enhance}
+
+Package **`groupedHyperframe`** `Enhances` the **`spatstat.*`** family of packages [@spatstat15; @spatstat05].
+
+Package **`groupedHyperframe`** `Enhances` package **`spatstat.explore`** (dev v`r packageVersion('spatstat.explore')`), with
+
+-   additional `S3` method dispatches to `fv.object`;
+-   batch processes on eligible `marks` of `ppp.object`, `ppplist` and `hyperframe`.
+
+Package **`groupedHyperframe`** `Enhances` package **`spatstat.geom`** (dev v`r packageVersion('spatstat.geom')`), with
+
+-   a new `S3` class `'groupedHyperframe'` that `inherits` from the class `'hyperframe'`;
+-   additional `S3` method dispatches to `ppp.object`;
+-   additional `S3` method dispatches to the class `'tess'`;
+-   additional `S3` method dispatches to the class `'anylist'`;
+-   additional `S3` method dispatches to the class `'solist'`;
+-   additional `S3` method dispatches to the class `'ppplist'`;
+-   additional `S3` method dispatches to the class `'hyperframe'`;
+-   a new `S3` class `'vectorlist'` that `inherits` from the class `'anylist'`;
+-   a new `S3` class `'fvlist'` that `inherits` from the class `'anylist'`.
+
+
+
 ## Dependency
-
-Package **`groupedHyperframe`** `Enhances` the **`spatstat.*`** family of packages [@spatstat15; @spatstat05], specifically
-
--   **`spatstat.explore`** (dev v`r packageVersion('spatstat.explore')`), with
-    -   new methods for `fv.object`
-    -   batch processes to return a hypercolumn of `fv.object`s
--   **`spatstat.geom`** (dev v`r packageVersion('spatstat.geom')`), with
-    -   a new derived class of `hyperframe`
-    -   new methods for `ppp.object` and `hyperframe`
 
 Package **`groupedHyperframe`** `Imports` packages
 
@@ -83,7 +99,7 @@ Package **`groupedHyperframe`** `Imports` packages
 
 Package **`groupedHyperframe`** `Suggests` packages
 
--   **`rpart`** [@rpart v`r packageVersion('rpart')`], required by function `spatstat.explore::rocEngine()` as of package **`spatstat.explore`** dev v`r packageVersion('spatstat.explore')`.
+-   **`rpart`** [@rpart v`r packageVersion('rpart')`], required by function `spatstat.explore::rocEngine()` as of dev v`r packageVersion('spatstat.explore')`.
 -   `r '\U1f5dd'` **`spatstat.data`** (dev v`r packageVersion('spatstat.data')`), key suggest, for example spatial data set
 -   `r '\U1f5dd'` **`survival`** [@survival, v`r packageVersion('survival')`], key suggest.
 
@@ -93,16 +109,16 @@ Package **`groupedHyperframe`** requires the development versions of the **`spat
 
 ```{r}
 #| eval: false
-remotes::install_github('spatstat/spatstat', upgrade = 'always')
-remotes::install_github('spatstat/spatstat.data', upgrade = 'always')
-remotes::install_github('spatstat/spatstat.explore', upgrade = 'always')
-remotes::install_github('spatstat/spatstat.geom', upgrade = 'always')
-remotes::install_github('spatstat/spatstat.linnet', upgrade = 'always')
-remotes::install_github('spatstat/spatstat.model', upgrade = 'always')
-remotes::install_github('spatstat/spatstat.random', upgrade = 'always')
-remotes::install_github('spatstat/spatstat.sparse', upgrade = 'always')
-remotes::install_github('spatstat/spatstat.univar', upgrade = 'always')
-remotes::install_github('spatstat/spatstat.utils', upgrade = 'always')
+pak::pak('spatstat/spatstat')
+pak::pak('spatstat/spatstat.data')
+pak::pak('spatstat/spatstat.explore')
+pak::pak('spatstat/spatstat.geom')
+pak::pak('spatstat/spatstat.linnet')
+pak::pak('spatstat/spatstat.model')
+pak::pak('spatstat/spatstat.random')
+pak::pak('spatstat/spatstat.sparse')
+pak::pak('spatstat/spatstat.univar')
+pak::pak('spatstat/spatstat.utils')
 ```
 
 
@@ -112,7 +128,7 @@ Experimental (and maybe unstable) features of package **`groupedHyperframe`** ar
 
 ```{r}
 #| eval: false
-remotes::install_github('tingtingzhan/groupedHyperframe')
+pak::pak('tingtingzhan/groupedHyperframe')
 ```
 
 ```{r}
@@ -176,12 +192,12 @@ Ki67q |>
   head()
 ```
 
-Readers are encouraged to learn more about this application from package **`hyper.gam`** vignette ([RPubs](https://rpubs.com/tingtingzhan/hyper_gam), [CRAN](https://CRAN.R-project.org/package=hyper.gam/vignettes/applications.html)), section *Quantile Index*.
+Readers are encouraged to learn more about this application from package **`hyper.gam`** ([CRAN](https://CRAN.R-project.org/package=hyper.gam), [Github](https://github.com/tingtingzhan/hyper.gam)) [vignette](https://rpubs.com/tingtingzhan/hyper_gam), section *Quantile Index*.
 
 ```{r}
 #| code-fold: true
 #| error: true
-#| code-summary: 'Functions mentioned in @Zhan25 but later `.Deprecated` and/or `.Defunct`'
+#| code-summary: 'Functions mentioned in @Zhan25 but later deprecated'
 aggregate_quantile()
 ```
 
