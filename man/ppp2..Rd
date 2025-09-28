@@ -6,18 +6,18 @@
 \alias{ppp2fv}
 \title{Operations on \link[spatstat.geom]{ppp.object}}
 \usage{
-ppp2dist(x, fn, ...)
+ppp2dist(x, fun, ...)
 
-ppp2fv(x, fn, ...)
+ppp2fv(x, fun, ...)
 }
 \arguments{
 \item{x}{a \link[spatstat.geom]{ppp.object}}
 
-\item{fn}{a distance \link[base]{function},
+\item{fun}{a distance \link[base]{function},
 or a \link[base]{function} that returns an \link[spatstat.explore]{fv.object},
 see \strong{Details}}
 
-\item{...}{additional parameters of function \code{fn}}
+\item{...}{additional parameters of function \code{fun}}
 }
 \value{
 Function \code{\link[=ppp2fv]{ppp2fv()}} returns a \link[stats]{listof}

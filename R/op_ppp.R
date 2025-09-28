@@ -10,11 +10,11 @@
 #' 
 #' @param x a \link[spatstat.geom]{ppp.object}
 #' 
-#' @param fn a distance \link[base]{function}, 
+#' @param fun a distance \link[base]{function}, 
 #' or a \link[base]{function} that returns an \link[spatstat.explore]{fv.object}, 
 #' see **Details**
 #' 
-#' @param ... additional parameters of function `fn`
+#' @param ... additional parameters of function `fun`
 #' 
 #' @returns 
 #' Function [ppp2fv()] returns a \link[stats]{listof} 
@@ -27,7 +27,7 @@
 #' @name ppp2.
 #' @importFrom spatstat.geom unstack.ppp is.multitype.ppp
 #' @export
-ppp2dist <- function(x, fn, ...) {
+ppp2dist <- function(x, fun, ...) {
   
   x. <- unstack.ppp(x)
   if (length(x.) == 1L && !length(names(x.))) {
@@ -43,14 +43,17 @@ ppp2dist <- function(x, fn, ...) {
     nncross = '.nncross'
   )
   fn_mtp <- lapply(fn_mtp_, FUN = get)
-  id_mtp <- vapply(fn_mtp, FUN = identical, x = fn, FUN.VALUE = NA)
+  id_mtp <- vapply(fn_mtp, FUN = identical, x = fun, FUN.VALUE = NA)
   
-  if (!any(id_mtp)) stop('fn not supported')
+  if (!any(id_mtp)) stop('fun not supported')
 
-  ret <- lapply(x.[mtp], FUN = fn, ...)
+  ret <- lapply(x.[mtp], FUN = fun, ...)
   names(ret) <- paste(names(ret), names(fn_mtp_)[id_mtp], sep = '.')
   
-  return(ret[lengths(ret) > 0L])
+  id <- (lengths(ret) > 0L)
+  if (!any(id)) return(invisible())
+  
+  return(ret[id])
   
 }
 
@@ -64,7 +67,7 @@ ppp2dist <- function(x, fn, ...) {
 #' @importFrom spatstat.explore Gcross Jcross Kcross Lcross markconnect
 #' @importFrom spatstat.geom unstack.ppp is.multitype.ppp anylapply
 #' @export
-ppp2fv <- function(x, fn, ...) {
+ppp2fv <- function(x, fun, ...) {
   
   x. <- unstack.ppp(x)
   if (length(x.) == 1L && !length(names(x.))) {
@@ -81,13 +84,13 @@ ppp2fv <- function(x, fn, ...) {
     Emark, Vmark, markcorr, markvario, # using workhorse ?spatstat.explore::markcorr
     Kmark
   ) |>
-    vapply(FUN = identical, x = fn, FUN.VALUE = NA) |> 
+    vapply(FUN = identical, x = fun, FUN.VALUE = NA) |> 
     any()
   
   fn_mtp <- list(
     Gcross, Jcross, Kcross, Lcross, markconnect
   ) |>
-    vapply(FUN = identical, x = fn, FUN.VALUE = NA) |>
+    vapply(FUN = identical, x = fun, FUN.VALUE = NA) |>
     any()
   
   # functions like ?spatstat.explore::Kest
@@ -105,11 +108,11 @@ ppp2fv <- function(x, fn, ...) {
   }
   
   ret <- x.. |> 
-    # lapply(FUN = fn, ...) # um..
-    anylapply(FUN = fn, ...) # after 2025-09-24
+    # lapply(FUN = fun, ...) # um..
+    anylapply(FUN = fun, ...) # after 2025-09-24
   
   # restore names of `fv`-hypercolumns from the result
-  # attr(,'fname') is determined by `fn`
+  # attr(,'fname') is determined by `fun`
   fname1 <- attr(ret[[1L]], which = 'fname', exact = TRUE)[1L]
   names(ret) <- paste(names(ret), fname1, sep = '.')
   

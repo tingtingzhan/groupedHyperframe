@@ -46,7 +46,7 @@ Emark_ <- function(X, ...) UseMethod(generic = 'Emark_')
 #' @export
 Emark_.hyperframe <- function(X, correction = 'none', ...) {
   X |> 
-    op_hyperframe(op = ppp2fv, fn = Emark, correction = correction, ...)
+    op_hyperframe(op = ppp2fv, fun = Emark, correction = correction, ...)
 }
 
 #' @rdname batch
@@ -55,7 +55,7 @@ Emark_.hyperframe <- function(X, correction = 'none', ...) {
 #' @export
 Emark_.ppplist <- function(X, correction = 'none', ...) {
   X |> 
-    op_ppplist(op = ppp2fv, fn = Emark, correction = correction, ...)
+    op_ppplist(op = ppp2fv, fun = Emark, correction = correction, ...)
 }
 
 
@@ -69,7 +69,7 @@ Vmark_ <- function(X, ...) UseMethod(generic = 'Vmark_')
 #' @export
 Vmark_.hyperframe <- function(X, correction = 'none', ...) {
   X |> 
-    op_hyperframe(op = ppp2fv, fn = Vmark, correction = correction, ...)
+    op_hyperframe(op = ppp2fv, fun = Vmark, correction = correction, ...)
 }
 
 #' @rdname batch
@@ -78,7 +78,7 @@ Vmark_.hyperframe <- function(X, correction = 'none', ...) {
 #' @export
 Vmark_.ppplist <- function(X, correction = 'none', ...) {
   X |> 
-    op_ppplist(op = ppp2fv, fn = Vmark, correction = correction, ...)
+    op_ppplist(op = ppp2fv, fun = Vmark, correction = correction, ...)
 }
 
 
@@ -93,7 +93,7 @@ Kmark_ <- function(X, ...) UseMethod(generic = 'Kmark_')
 #' @export
 Kmark_.hyperframe <- function(X, correction = 'none', ...) {
   X |> 
-    op_hyperframe(op = ppp2fv, fn = Kmark, correction = correction, ...)
+    op_hyperframe(op = ppp2fv, fun = Kmark, correction = correction, ...)
 }
 
 #' @rdname batch
@@ -102,7 +102,7 @@ Kmark_.hyperframe <- function(X, correction = 'none', ...) {
 #' @export
 Kmark_.ppplist <- function(X, correction = 'none', ...) {
   X |> 
-    op_ppplist(op = ppp2fv, fn = Kmark, correction = correction, ...)
+    op_ppplist(op = ppp2fv, fun = Kmark, correction = correction, ...)
 }
 
 
@@ -117,7 +117,7 @@ markcorr_ <- function(X, ...) UseMethod(generic = 'markcorr_')
 #' @export
 markcorr_.hyperframe <- function(X, correction = 'none', ...) {
   X |> 
-    op_hyperframe(op = ppp2fv, fn = markcorr, correction = correction, ...)
+    op_hyperframe(op = ppp2fv, fun = markcorr, correction = correction, ...)
 }
 
 #' @rdname batch
@@ -126,7 +126,7 @@ markcorr_.hyperframe <- function(X, correction = 'none', ...) {
 #' @export
 markcorr_.ppplist <- function(X, correction = 'none', ...) {
   X |> 
-    op_ppplist(op = ppp2fv, fn = markcorr, correction = correction, ...)
+    op_ppplist(op = ppp2fv, fun = markcorr, correction = correction, ...)
 }
 
 
@@ -140,7 +140,7 @@ markvario_ <- function(X, ...) UseMethod(generic = 'markvario_')
 #' @export
 markvario_.hyperframe <- function(X, correction = 'none', ...) {
   X |> 
-    op_hyperframe(op = ppp2fv, fn = markvario, correction = correction, ...)
+    op_hyperframe(op = ppp2fv, fun = markvario, correction = correction, ...)
 }
 
 #' @rdname batch
@@ -149,7 +149,7 @@ markvario_.hyperframe <- function(X, correction = 'none', ...) {
 #' @export
 markvario_.ppplist <- function(X, correction = 'none', ...) {
   X |> 
-    op_ppplist(op = ppp2fv, fn = markvario, correction = correction, ...)
+    op_ppplist(op = ppp2fv, fun = markvario, correction = correction, ...)
 }
 
 
@@ -164,7 +164,7 @@ Gcross_ <- function(X, ...) UseMethod(generic = 'Gcross_')
 #' @export
 Gcross_.hyperframe <- function(X, correction = 'none', ...) {
   X |> 
-    op_hyperframe(op = ppp2fv, fn = Gcross, correction = correction, ...)
+    op_hyperframe(op = ppp2fv, fun = Gcross, correction = correction, ...)
 }
 
 #' @rdname batch
@@ -173,7 +173,7 @@ Gcross_.hyperframe <- function(X, correction = 'none', ...) {
 #' @export
 Gcross_.ppplist <- function(X, correction = 'none', ...) {
   X |> 
-    op_ppplist(op = ppp2fv, fn = Gcross, correction = correction, ...)
+    op_ppplist(op = ppp2fv, fun = Gcross, correction = correction, ...)
 }
 
 
@@ -188,7 +188,7 @@ Jcross_ <- function(X, ...) UseMethod(generic = 'Jcross_')
 #' @export
 Jcross_.hyperframe <- function(X, correction = 'none', ...) {
   X |> 
-    op_hyperframe(op = ppp2fv, fn = Jcross, correction = correction, ...)
+    op_hyperframe(op = ppp2fv, fun = Jcross, correction = correction, ...)
 }
 
 #' @rdname batch
@@ -197,7 +197,7 @@ Jcross_.hyperframe <- function(X, correction = 'none', ...) {
 #' @export
 Jcross_.ppplist <- function(X, correction = 'none', ...) {
   X |> 
-    op_ppplist(op = ppp2fv, fn = Jcross, correction = correction, ...)
+    op_ppplist(op = ppp2fv, fun = Jcross, correction = correction, ...)
 }
 
 
@@ -212,7 +212,7 @@ Kcross_ <- function(X, ...) UseMethod(generic = 'Kcross_')
 #' @export
 Kcross_.hyperframe <- function(X, correction = 'none', ...) {
   X |> 
-    op_hyperframe(op = ppp2fv, fn = Kcross, correction = correction, ...)
+    op_hyperframe(op = ppp2fv, fun = Kcross, correction = correction, ...)
 }
 
 #' @rdname batch
@@ -221,7 +221,7 @@ Kcross_.hyperframe <- function(X, correction = 'none', ...) {
 #' @export
 Kcross_.ppplist <- function(X, correction = 'none', ...) {
   X |> 
-    op_ppplist(op = ppp2fv, fn = Kcross, correction = correction, ...)
+    op_ppplist(op = ppp2fv, fun = Kcross, correction = correction, ...)
 }
 
 
@@ -236,7 +236,7 @@ Lcross_ <- function(X, ...) UseMethod(generic = 'Lcross_')
 #' @export
 Lcross_.hyperframe <- function(X, correction = 'none', ...) {
   X |> 
-    op_hyperframe(op = ppp2fv, fn = Lcross, correction = correction, ...)
+    op_hyperframe(op = ppp2fv, fun = Lcross, correction = correction, ...)
 }
 
 #' @rdname batch
@@ -245,7 +245,7 @@ Lcross_.hyperframe <- function(X, correction = 'none', ...) {
 #' @export
 Lcross_.ppplist <- function(X, correction = 'none', ...) {
   X |> 
-    op_ppplist(op = ppp2fv, fn = Lcross, correction = correction, ...)
+    op_ppplist(op = ppp2fv, fun = Lcross, correction = correction, ...)
 }
 
 
@@ -259,7 +259,7 @@ markconnect_ <- function(X, ...) UseMethod(generic = 'markconnect_')
 #' @export
 markconnect_.hyperframe <- function(X, correction = 'none', ...) {
   X |> 
-    op_hyperframe(op = ppp2fv, fn = markconnect, correction = correction, ...)
+    op_hyperframe(op = ppp2fv, fun = markconnect, correction = correction, ...)
 }
 
 #' @rdname batch
@@ -268,7 +268,7 @@ markconnect_.hyperframe <- function(X, correction = 'none', ...) {
 #' @export
 markconnect_.ppplist <- function(X, correction = 'none', ...) {
   X |> 
-    op_ppplist(op = ppp2fv, fn = markconnect, correction = correction, ...)
+    op_ppplist(op = ppp2fv, fun = markconnect, correction = correction, ...)
 }
 
 
@@ -288,7 +288,7 @@ nncross_ <- function(X, ...) UseMethod(generic = 'nncross_')
 #' @export
 nncross_.hyperframe <- function(X, ...) {
   X |> 
-    op_hyperframe(op = ppp2dist, fn = .nncross, ...)
+    op_hyperframe(op = ppp2dist, fun = .nncross, ...)
 }
 
 #' @rdname batch
@@ -296,7 +296,7 @@ nncross_.hyperframe <- function(X, ...) {
 #' @export
 nncross_.ppplist <- function(X, ...) {
   X |> 
-    op_ppplist(op = ppp2dist, fn = .nncross, ...)
+    op_ppplist(op = ppp2dist, fun = .nncross, ...)
 }
 
 
