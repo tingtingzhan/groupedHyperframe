@@ -5,36 +5,47 @@
 \alias{Emark_}
 \alias{Emark_.hyperframe}
 \alias{Emark_.ppplist}
+\alias{Emark_.ppp}
 \alias{Vmark_}
 \alias{Vmark_.hyperframe}
 \alias{Vmark_.ppplist}
+\alias{Vmark_.ppp}
 \alias{Kmark_}
 \alias{Kmark_.hyperframe}
 \alias{Kmark_.ppplist}
+\alias{Kmark_.ppp}
 \alias{markcorr_}
 \alias{markcorr_.hyperframe}
 \alias{markcorr_.ppplist}
+\alias{markcorr_.ppp}
 \alias{markvario_}
 \alias{markvario_.hyperframe}
 \alias{markvario_.ppplist}
+\alias{markvario_.ppp}
 \alias{Gcross_}
 \alias{Gcross_.hyperframe}
 \alias{Gcross_.ppplist}
+\alias{Gcross_.ppp}
 \alias{Jcross_}
 \alias{Jcross_.hyperframe}
 \alias{Jcross_.ppplist}
+\alias{Jcross_.ppp}
 \alias{Kcross_}
 \alias{Kcross_.hyperframe}
 \alias{Kcross_.ppplist}
+\alias{Kcross_.ppp}
 \alias{Lcross_}
 \alias{Lcross_.hyperframe}
 \alias{Lcross_.ppplist}
+\alias{Lcross_.ppp}
 \alias{markconnect_}
 \alias{markconnect_.hyperframe}
 \alias{markconnect_.ppplist}
+\alias{markconnect_.ppp}
 \alias{nncross_}
 \alias{nncross_.hyperframe}
 \alias{nncross_.ppplist}
+\alias{nncross_.ppp}
 \title{Batch Process}
 \usage{
 Emark_(X, ...)
@@ -43,11 +54,15 @@ Emark_(X, ...)
 
 \method{Emark_}{ppplist}(X, correction = "none", ...)
 
+\method{Emark_}{ppp}(X, ...)
+
 Vmark_(X, ...)
 
 \method{Vmark_}{hyperframe}(X, correction = "none", ...)
 
 \method{Vmark_}{ppplist}(X, correction = "none", ...)
+
+\method{Vmark_}{ppp}(X, ...)
 
 Kmark_(X, ...)
 
@@ -55,11 +70,15 @@ Kmark_(X, ...)
 
 \method{Kmark_}{ppplist}(X, correction = "none", ...)
 
+\method{Kmark_}{ppp}(X, ...)
+
 markcorr_(X, ...)
 
 \method{markcorr_}{hyperframe}(X, correction = "none", ...)
 
 \method{markcorr_}{ppplist}(X, correction = "none", ...)
+
+\method{markcorr_}{ppp}(X, ...)
 
 markvario_(X, ...)
 
@@ -67,11 +86,15 @@ markvario_(X, ...)
 
 \method{markvario_}{ppplist}(X, correction = "none", ...)
 
+\method{markvario_}{ppp}(X, ...)
+
 Gcross_(X, ...)
 
 \method{Gcross_}{hyperframe}(X, correction = "none", ...)
 
 \method{Gcross_}{ppplist}(X, correction = "none", ...)
+
+\method{Gcross_}{ppp}(X, ...)
 
 Jcross_(X, ...)
 
@@ -79,11 +102,15 @@ Jcross_(X, ...)
 
 \method{Jcross_}{ppplist}(X, correction = "none", ...)
 
+\method{Jcross_}{ppp}(X, ...)
+
 Kcross_(X, ...)
 
 \method{Kcross_}{hyperframe}(X, correction = "none", ...)
 
 \method{Kcross_}{ppplist}(X, correction = "none", ...)
+
+\method{Kcross_}{ppp}(X, ...)
 
 Lcross_(X, ...)
 
@@ -91,17 +118,23 @@ Lcross_(X, ...)
 
 \method{Lcross_}{ppplist}(X, correction = "none", ...)
 
+\method{Lcross_}{ppp}(X, ...)
+
 markconnect_(X, ...)
 
 \method{markconnect_}{hyperframe}(X, correction = "none", ...)
 
 \method{markconnect_}{ppplist}(X, correction = "none", ...)
 
+\method{markconnect_}{ppp}(X, ...)
+
 nncross_(X, ...)
 
 \method{nncross_}{hyperframe}(X, ...)
 
 \method{nncross_}{ppplist}(X, ...)
+
+\method{nncross_}{ppp}(X, ...)
 }
 \arguments{
 \item{X}{a \link[spatstat.geom]{hyperframe}}

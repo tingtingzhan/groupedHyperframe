@@ -58,6 +58,19 @@ Emark_.ppplist <- function(X, correction = 'none', ...) {
     op_ppplist(op = ppp2fv, fun = Emark, correction = correction, ...)
 }
 
+#' @rdname batch
+#' @importFrom spatstat.explore Emark
+#' @export Emark_.ppp
+#' @export
+Emark_.ppp <- function(X, ...) {
+  X |> 
+    ppp2fv(fun = Emark, ...)
+}
+
+
+
+
+
 
 #' @rdname batch
 #' @export
@@ -79,6 +92,15 @@ Vmark_.hyperframe <- function(X, correction = 'none', ...) {
 Vmark_.ppplist <- function(X, correction = 'none', ...) {
   X |> 
     op_ppplist(op = ppp2fv, fun = Vmark, correction = correction, ...)
+}
+
+#' @rdname batch
+#' @importFrom spatstat.explore Vmark
+#' @export Vmark_.ppp
+#' @export
+Vmark_.ppp <- function(X, ...) {
+  X |> 
+    ppp2fv(fun = Vmark, ...)
 }
 
 
@@ -105,6 +127,15 @@ Kmark_.ppplist <- function(X, correction = 'none', ...) {
     op_ppplist(op = ppp2fv, fun = Kmark, correction = correction, ...)
 }
 
+#' @rdname batch
+#' @importFrom spatstat.explore Kmark
+#' @export Kmark_.ppp
+#' @export
+Kmark_.ppp <- function(X, ...) {
+  X |> 
+    ppp2fv(fun = Kmark, ...)
+}
+
 
 
 #' @rdname batch
@@ -129,6 +160,17 @@ markcorr_.ppplist <- function(X, correction = 'none', ...) {
     op_ppplist(op = ppp2fv, fun = markcorr, correction = correction, ...)
 }
 
+#' @rdname batch
+#' @importFrom spatstat.explore markcorr
+#' @export markcorr_.ppp
+#' @export
+markcorr_.ppp <- function(X, ...) {
+  X |> 
+    ppp2fv(fun = markcorr, ...)
+}
+
+
+
 
 #' @rdname batch
 #' @export
@@ -150,6 +192,15 @@ markvario_.hyperframe <- function(X, correction = 'none', ...) {
 markvario_.ppplist <- function(X, correction = 'none', ...) {
   X |> 
     op_ppplist(op = ppp2fv, fun = markvario, correction = correction, ...)
+}
+
+#' @rdname batch
+#' @importFrom spatstat.explore markvario
+#' @export markvario_.ppp
+#' @export
+markvario_.ppp <- function(X, ...) {
+  X |> 
+    ppp2fv(fun = markvario, ...)
 }
 
 
@@ -176,6 +227,14 @@ Gcross_.ppplist <- function(X, correction = 'none', ...) {
     op_ppplist(op = ppp2fv, fun = Gcross, correction = correction, ...)
 }
 
+#' @rdname batch
+#' @importFrom spatstat.explore Gcross
+#' @export Gcross_.ppp
+#' @export
+Gcross_.ppp <- function(X, ...) {
+  X |> 
+    ppp2fv(fun = Gcross, ...)
+}
 
 
 #' @rdname batch
@@ -199,6 +258,16 @@ Jcross_.ppplist <- function(X, correction = 'none', ...) {
   X |> 
     op_ppplist(op = ppp2fv, fun = Jcross, correction = correction, ...)
 }
+
+#' @rdname batch
+#' @importFrom spatstat.explore Jcross
+#' @export Jcross_.ppp
+#' @export
+Jcross_.ppp <- function(X, ...) {
+  X |> 
+    ppp2fv(fun = Jcross, ...)
+}
+
 
 
 
@@ -224,6 +293,14 @@ Kcross_.ppplist <- function(X, correction = 'none', ...) {
     op_ppplist(op = ppp2fv, fun = Kcross, correction = correction, ...)
 }
 
+#' @rdname batch
+#' @importFrom spatstat.explore Kcross
+#' @export Kcross_.ppp
+#' @export
+Kcross_.ppp <- function(X, ...) {
+  X |> 
+    ppp2fv(fun = Kcross, ...)
+}
 
 
 #' @rdname batch
@@ -248,6 +325,17 @@ Lcross_.ppplist <- function(X, correction = 'none', ...) {
     op_ppplist(op = ppp2fv, fun = Lcross, correction = correction, ...)
 }
 
+#' @rdname batch
+#' @importFrom spatstat.explore Lcross
+#' @export Lcross_.ppp
+#' @export
+Lcross_.ppp <- function(X, ...) {
+  X |> 
+    ppp2fv(fun = Lcross, ...)
+}
+
+
+
 
 #' @rdname batch
 #' @export
@@ -269,6 +357,15 @@ markconnect_.hyperframe <- function(X, correction = 'none', ...) {
 markconnect_.ppplist <- function(X, correction = 'none', ...) {
   X |> 
     op_ppplist(op = ppp2fv, fun = markconnect, correction = correction, ...)
+}
+
+#' @rdname batch
+#' @importFrom spatstat.explore markconnect
+#' @export markconnect_.ppp
+#' @export
+markconnect_.ppp <- function(X, ...) {
+  X |> 
+    ppp2fv(fun = markconnect, ...)
 }
 
 
@@ -299,6 +396,13 @@ nncross_.ppplist <- function(X, ...) {
     op_ppplist(op = ppp2dist, fun = .nncross, ...)
 }
 
+#' @rdname batch
+#' @export nncross_.ppp
+#' @export
+nncross_.ppp <- function(X, ...) {
+  X |> 
+    ppp2dist(fun = .nncross, ...)
+}
 
 
 
