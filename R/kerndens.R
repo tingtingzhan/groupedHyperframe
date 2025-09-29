@@ -36,31 +36,19 @@ kerndens <- function(x, ...) UseMethod(generic = 'kerndens')
 kerndens.default <- function(x, ...) density.default(x, ...)$y
 
 
-
 #' @rdname kerndens
 #' @importFrom stats density.default
 #' @export kerndens.ppp
 #' @export
 kerndens.ppp <- function(x, ...) {
-  
-  m <- x |>
-    marks(dfok = TRUE, drop = FALSE)
-  
-  x |>
-    markformat() |>
-    switch('dataframe' = {
-      id <- m |>
-        vapply(FUN = is.numeric, FUN.VALUE = NA)
-      m[id] |> 
-        lapply(FUN = kerndens.default, ...)
-    }, 'vector' = {
-      if (is.numeric(m)) return(kerndens.default(m, ...))
-      return(invisible())
-    }, 'none' = {
-      return(invisible())
-    })
-  
+  d <- x |>
+    density_marks.ppp(...)
+  if (!length(d)) return(invisible())
+  if (inherits(d, what = 'density')) return(d$y)
+  d |> 
+    lapply(FUN = \(i) i$y)
 }
+
 
 
 #' @rdname kerndens
@@ -77,6 +65,7 @@ kerndens.ppplist <- function(x, ...) {
   
   ret <- z |> 
     .mapply(FUN = list, dots = _, MoreArgs = NULL)
+  if (!length(ret)) return(invisible())
   names(ret) <- nm.[[1L]]
   return(ret)
   

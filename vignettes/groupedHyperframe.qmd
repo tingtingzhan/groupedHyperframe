@@ -6,6 +6,8 @@ format:
   html:
     page-layout: full
     html-math-method: katex
+    link-external-icon: true
+    link-external-newwindow: true
 number-sections: true
 toc: true
 toc-location: left
@@ -51,7 +53,7 @@ Package **`groupedHyperframe`** requires R version 4.5.0 (released 2025-04-11) o
 
 An Integrated Development Environment (IDE), e.g., [RStudio](https://posit.co/download/rstudio-desktop/) [@RStudio] or [Positron](https://positron.posit.co/download.html), is not required, but highly recommended.
 
-This vignette is created under `r R.version$version.string` using packages **`knitr`** [@knitr, v`r packageVersion('knitr')`], **`quarto`** [@quarto, v`r packageVersion('quarto')` with [Quarto](https://quarto.org/docs/get-started/) v`r quarto::quarto_version()`] and **`rmarkdown`** [@rmarkdown, v`r packageVersion('rmarkdown')`]. Package documentation is facilitated using package **`roxygen2`** [@roxygen2, v`r packageVersion('roxygen2')`]
+This vignette is created under `r R.version$version.string` using packages **`knitr`** [@knitr, v`r packageVersion('knitr')`; @knitr15; @knitr14], **`quarto`** [@quarto, v`r packageVersion('quarto')` with [Quarto](https://quarto.org/docs/get-started/) v`r quarto::quarto_version()`] and **`rmarkdown`** [@rmarkdown, v`r packageVersion('rmarkdown')`; @rmarkdown18; @rmarkdown20]. Package documentation is facilitated using package **`roxygen2`** [@roxygen2, v`r packageVersion('roxygen2')`]
 
 ```{r}
 #| code-fold: true
