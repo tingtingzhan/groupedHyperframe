@@ -177,6 +177,8 @@ c(
 as well as @Yi25; @Yi23a; @Yi23b, was featured with a hyper data frame *`Ki67q`* with a numeric-hypercolumn *`logKi67.quantile`*. Functions in the R code-chunk below are explained in the full vignette.
 
 ```{r}
+#| code-fold: true
+#| code-summary: 'R code in @Zhan25'
 Ki67q = groupedHyperframe::Ki67 |>
   within.data.frame(expr = {
     x = y = NULL # remove x- and y-coords for non-spacial application
