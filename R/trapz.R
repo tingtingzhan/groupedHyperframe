@@ -4,8 +4,7 @@
 #' 
 #' @param x an \link[spatstat.explore]{fv.object}
 #' 
-#' @param key \link[base]{character} scalar, default value is `spatstat.explore::fvnames(x, a = '.y')`,
-#' to speed up batch processes.
+#' @param key \link[base]{character} scalar, see function [keyval.fv()]
 #' 
 #' @details
 #' Functions [trapz.fv()] and [cumtrapz.fv()] 
@@ -28,20 +27,6 @@ trapz.fv <- function(x, key = fvnames(x, a = '.y')) {
     unname()
 }
 
-#' @rdname trapz_fv
-#' @importFrom spatstat.explore fvnames
-#' @export
-vtrapz.fv <- function(x, key = fvnames(x, a = '.y')) {
-  .x <- fvnames(x, a = '.x')
-  if (key == .x) stop('first column of `x` is not the output of `fv.object`')
-  vtrapz(x = x[[.x]], y = x[[key]]) |>
-    unname()
-}
-
-
-
-
-
 
 #' @rdname trapz_fv
 #' @returns 
@@ -59,26 +44,6 @@ cumtrapz.fv <- function(x, key = fvnames(x, a = '.y')) {
   # needed! Otherwise ?pracma::cumtrapz errs
   
   ret0 <- cumtrapz(x = x[[.x]], y = x[[key]])
-  # a trapz needs two points; therefore `[-1L]`
-  ret <- c(ret0[-1L])
-  names(ret) <- x[[.x]][-1L]
-  return(ret)
-  
-}
-
-#' @rdname trapz_fv
-#' @importFrom spatstat.explore fvnames
-#' @export 
-cumvtrapz.fv <- function(x, key = fvnames(x, a = '.y')) {
-  
-  .x <- fvnames(x, a = '.x')
-  if (key == .x) stop('first column of `x` is not the output of `fv.object`')
-  
-  n <- length(x[[.x]])
-  if (n == 1L) return(invisible()) # exception handling
-  # needed! Otherwise ?pracma::cumtrapz errs
-  
-  ret0 <- cumvtrapz(x = x[[.x]], y = x[[key]])
   # a trapz needs two points; therefore `[-1L]`
   ret <- c(ret0[-1L])
   names(ret) <- x[[.x]][-1L]

@@ -3,24 +3,17 @@
 \name{trapz_fv}
 \alias{trapz_fv}
 \alias{trapz.fv}
-\alias{vtrapz.fv}
 \alias{cumtrapz.fv}
-\alias{cumvtrapz.fv}
 \title{Trapzoidal Integration of \link[spatstat.explore]{fv.object}}
 \usage{
 trapz.fv(x, key = fvnames(x, a = ".y"))
 
-vtrapz.fv(x, key = fvnames(x, a = ".y"))
-
 cumtrapz.fv(x, key = fvnames(x, a = ".y"))
-
-cumvtrapz.fv(x, key = fvnames(x, a = ".y"))
 }
 \arguments{
 \item{x}{an \link[spatstat.explore]{fv.object}}
 
-\item{key}{\link[base]{character} scalar, default value is \code{spatstat.explore::fvnames(x, a = '.y')},
-to speed up batch processes.}
+\item{key}{\link[base]{character} scalar, see function \code{\link[=keyval.fv]{keyval.fv()}}}
 }
 \value{
 Functions \code{\link[=trapz.fv]{trapz.fv()}} and \code{\link[=vtrapz.fv]{vtrapz.fv()}} return a \link[base]{numeric} scalar.

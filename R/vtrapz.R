@@ -6,6 +6,8 @@
 #' 
 #' @param x \link[base]{numeric} \link[base]{vector}
 #' 
+#' @param key \link[base]{character} scalar, see function [keyval.fv()]
+#' 
 #' @param ... additional parameters of function \link[pracma]{trapz} and \link[pracma]{cumtrapz}
 #' 
 #' @note
@@ -13,25 +15,77 @@
 #' 
 #' @keywords internal
 #' @name vtrapz
-#' @importFrom pracma trapz
 #' @export
-vtrapz <- function(x, ...) {
+vtrapz <- function(x, ...) UseMethod(generic = 'vtrapz')
+
+#' @rdname vtrapz
+#' @export
+cumvtrapz <- function(x, ...) UseMethod(generic = 'cumvtrapz')
+
+
+#' @rdname vtrapz
+#' @importFrom pracma trapz
+#' @export vtrapz.default
+#' @export
+vtrapz.default <- function(x, ...) {
   if (!is.vector(x, mode = 'numeric')) stop('`x` must be double numeric')
   if (anyDuplicated(x)) stop('`x` must not have duplicates')
   if (is.unsorted(x)) stop('`x` must be sorted')
   trapz(x, ...) / (max(x) - min(x))
 }
 
+#' @rdname vtrapz
+#' @importFrom spatstat.explore fvnames
+#' @export vtrapz.fv
+#' @export
+vtrapz.fv <- function(x, key = fvnames(x, a = '.y'), ...) {
+  .x <- fvnames(x, a = '.x')
+  if (key == .x) stop('first column of `x` is not the output of `fv.object`')
+  vtrapz.default(x = x[[.x]], y = x[[key]]) |>
+    unname()
+}
+
 
 #' @rdname vtrapz
 #' @importFrom pracma cumtrapz
+#' @export cumvtrapz.default
 #' @export
-cumvtrapz <- function(x, ...) {
+cumvtrapz.default <- function(x, ...) {
   if (!is.vector(x, mode = 'numeric')) stop('`x` must be double numeric')
   if (anyDuplicated(x)) stop('`x` must not have duplicates')
   if (is.unsorted(x)) stop('`x` must be sorted')
   cumtrapz(x, ...) / (x - min(x))
 }
+
+#' @rdname vtrapz
+#' @importFrom spatstat.explore fvnames
+#' @export cumvtrapz.fv
+#' @export 
+cumvtrapz.fv <- function(x, key = fvnames(x, a = '.y'), ...) {
+  
+  .x <- fvnames(x, a = '.x')
+  if (key == .x) stop('first column of `x` is not the output of `fv.object`')
+  
+  n <- length(x[[.x]])
+  if (n == 1L) return(invisible()) # exception handling
+  # needed! Otherwise ?pracma::cumtrapz errs
+  
+  ret0 <- cumvtrapz.default(x = x[[.x]], y = x[[key]])
+  # a trapz needs two points; therefore `[-1L]`
+  ret <- c(ret0[-1L])
+  names(ret) <- x[[.x]][-1L]
+  return(ret)
+  
+}
+
+
+
+
+
+
+
+
+
 
 
 
@@ -89,8 +143,8 @@ visualize_vtrapz.numeric <- function(
   if (anyNA(y)) stop('`y` must not have missing value(s)')
   if (any(y < 0)) stop('for visualization, force `y > 0`')
   
-  v <- vtrapz(x, y)
-  cv <- cumvtrapz(x, y)
+  v <- vtrapz.default(x, y)
+  cv <- cumvtrapz.default(x, y)
   
   xmin <- min(x)
   xmax <- max(x)

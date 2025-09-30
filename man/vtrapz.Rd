@@ -3,16 +3,30 @@
 \name{vtrapz}
 \alias{vtrapz}
 \alias{cumvtrapz}
+\alias{vtrapz.default}
+\alias{vtrapz.fv}
+\alias{cumvtrapz.default}
+\alias{cumvtrapz.fv}
 \title{(Cumulative) Average Vertical Height of Trapezoidal Integration}
 \usage{
 vtrapz(x, ...)
 
 cumvtrapz(x, ...)
+
+\method{vtrapz}{default}(x, ...)
+
+\method{vtrapz}{fv}(x, key = fvnames(x, a = ".y"), ...)
+
+\method{cumvtrapz}{default}(x, ...)
+
+\method{cumvtrapz}{fv}(x, key = fvnames(x, a = ".y"), ...)
 }
 \arguments{
 \item{x}{\link[base]{numeric} \link[base]{vector}}
 
 \item{...}{additional parameters of function \link[pracma]{trapz} and \link[pracma]{cumtrapz}}
+
+\item{key}{\link[base]{character} scalar, see function \code{\link[=keyval.fv]{keyval.fv()}}}
 }
 \description{
 (Cumulative) trapezoidal integration divided by \eqn{x}-domain.
