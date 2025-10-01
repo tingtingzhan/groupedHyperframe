@@ -4,6 +4,7 @@
 \alias{rmax}
 \alias{.rmax}
 \alias{.rmax.ppp}
+\alias{.rmax.fv}
 \alias{.rmax.ppplist}
 \alias{.rmax.hyperframe}
 \title{Default \eqn{r_\text{max}} of Various Functions in Package \CRANpkg{spatstat.explore}}
@@ -11,6 +12,8 @@
 .rmax(X, ...)
 
 \method{.rmax}{ppp}(X, fun, i, j, ...)
+
+\method{.rmax}{fv}(X, ...)
 
 \method{.rmax}{ppplist}(X, ...)
 

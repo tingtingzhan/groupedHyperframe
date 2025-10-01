@@ -84,6 +84,16 @@
 
 
 #' @rdname rmax
+#' @importFrom spatstat.explore fvnames
+#' @export .rmax.fv
+#' @export
+.rmax.fv <- function(X, ...) {
+  X[[fvnames(X = X, a = '.x')]] |>
+    max()
+}
+
+
+#' @rdname rmax
 #' @export .rmax.ppplist
 #' @export
 .rmax.ppplist <- function(X, ...) {
