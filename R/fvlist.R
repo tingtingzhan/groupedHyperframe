@@ -350,6 +350,7 @@ illegal2theo <- function(X) {
 }
 
 
+
 #' @rdname illegal2
 #' @importFrom spatstat.explore bind.fv fvnames
 #' @export

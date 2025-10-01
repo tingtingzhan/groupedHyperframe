@@ -158,7 +158,10 @@ export(get_nested)
 export(get_nested_factors)
 export(grouped_ppp)
 export(illegal2theo)
+<<<<<<< HEAD
 export(illegal2theo_1st)
+=======
+>>>>>>> 26bfce6908a2ded4f5c7183ade297a1c5ab18d5d
 export(is.fvlist)
 export(is.numeric.ppp)
 export(is.vectorlist)

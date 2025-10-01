@@ -3,12 +3,18 @@
 \name{illegal2}
 \alias{illegal2}
 \alias{illegal2theo}
+<<<<<<< HEAD
 \alias{illegal2theo_1st}
 \title{Tentative Fix for Illegal Function Value in \code{fv.object}}
 \usage{
 illegal2theo(X)
 
 illegal2theo_1st(X)
+=======
+\title{Tentative Fix for Illegal Function Value in \code{fv.object}}
+\usage{
+illegal2theo(X)
+>>>>>>> 26bfce6908a2ded4f5c7183ade297a1c5ab18d5d
 }
 \arguments{
 \item{X}{an \link[spatstat.explore]{fv.object}}
