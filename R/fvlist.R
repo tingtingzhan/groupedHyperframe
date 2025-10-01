@@ -366,7 +366,7 @@ illegal2theo_1st <- function(X) {
   
   id <- yval |>
     lastLegal()
-  sq <- id:length(y_theo)
+  sq <- id:length(yval)
   y_theo <- yval
   y_theo[sq] <- theo[sq]
   
