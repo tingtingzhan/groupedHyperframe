@@ -319,3 +319,59 @@ lastLegal <- function(v) {
   
 }
 
+
+#' @title Tentative Fix for Illegal Function Value in `fv.object`
+#' 
+#' @param X an \link[spatstat.explore]{fv.object}
+#' 
+#' @keywords internal
+#' @name illegal2
+#' @importFrom spatstat.explore bind.fv fvnames
+#' @export
+illegal2theo <- function(X) {
+  
+  key <- X |> 
+    fvnames(a = '.y')
+  
+  theo <- X$theo
+  if (is.null(theo)) stop('this fv.object does not have theo ?')
+  
+  yval <- X[[key]]
+  
+  y_theo <- ifelse(
+    test = is.finite(yval) & (abs(yval) > .Machine$double.eps),
+    yes = yval,
+    no = theo
+  )
+  
+  ret <- bind.fv(x = X, y = data.frame(y_theo = y_theo), labl = 'y_theo')
+  return(ret)
+
+}
+
+
+#' @rdname illegal2
+#' @importFrom spatstat.explore bind.fv fvnames
+#' @export
+illegal2theo_1st <- function(X) {
+  
+  key <- X |> 
+    fvnames(a = '.y')
+  
+  theo <- X$theo
+  if (is.null(theo)) stop('this fv.object does not have theo ?')
+  
+  yval <- X[[key]]
+  
+  id <- yval |>
+    lastLegal()
+  sq <- id:length(y_theo)
+  y_theo <- yval
+  y_theo[sq] <- theo[sq]
+  
+  ret <- bind.fv(x = X, y = data.frame(y_theo = y_theo), labl = 'y_theo')
+  return(ret)
+  
+}
+
+
