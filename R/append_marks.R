@@ -34,22 +34,37 @@
       eval(v, envir = _)
   } # else do nothing
 
-  if (length(v) != npoints.ppp(x)) stop('length not match')
-  
-  switch(markformat.ppp(x), none = {
-    x$markformat <- 'vector'
-    x$marks <- v
-
-  }, vector = {
-    x$markformat <- 'dataframe'
-    x$marks <- data.frame(m1 = x$marks, m2 = v)
+  npt <- npoints.ppp(x)
     
-  }, dataframe = {
-    newid <- length(x$marks) + 1L
-    x$marks <- data.frame(x$marks, v)
-    names(x$marks)[newid] <- paste0('m', newid)
+  if (!is.recursive(v)) { # 'list' is also ?base::is.vector !
+    
+    if (length(v) != npt) stop('length not match')
+    
+    switch(markformat.ppp(x), none = {
+      x$markformat <- 'vector'
+      x$marks <- v
       
-  }, stop('incorrect markformat?'))
+    }, vector = {
+      x$markformat <- 'dataframe'
+      x$marks <- data.frame(m1 = x$marks, m2 = v)
+      
+    }, dataframe = {
+      newid <- length(x$marks) + 1L
+      x$marks <- data.frame(x$marks, v)
+      names(x$marks)[newid] <- paste0('m', newid)
+      
+    }, stop('incorrect markformat?'))
+    
+    return(x)
+    
+  }
+
+  # else if (is.recursive(v));
+  if (!all(lengths(v) == npt)) stop('list `v` must have all lengths as `npt`')
+  
+  for (iv in v) {
+    append_marks(x) <- iv # lazy and beautiful!
+  }
   
   return(x)
   
