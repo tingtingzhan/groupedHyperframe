@@ -23,12 +23,11 @@
 
 #' @rdname rmax
 #' @importFrom spatstat.explore rmax.rule
-#' @importFrom spatstat.geom area intensity marks.ppp is.marked.ppp is.ppp npoints.ppp unstack.ppp is.multitype.ppp handle.r.b.args ppsubset
+#' @importFrom spatstat.geom area.owin intensity marks.ppp is.marked.ppp is.ppp npoints.ppp unstack.ppp is.multitype.ppp handle.r.b.args ppsubset
 #' @export .rmax.ppp
 #' @export
 .rmax.ppp <- function(X, fun, i, j, ...) {
-  
-  # S3 call to [area] is probably [area.owin]
+
   # S3 call to [intensity] is probably [intensity.ppp]
   
   if (!is.ppp(X)) stop('input `X` must be ppp.')
@@ -58,7 +57,7 @@
     rmaxdefault <- rmax.rule(
       fun = fun, 
       W = W, 
-      lambda = switch(fun, K =, G = sum(J)/area(W), J = intensity(X[J]))
+      lambda = switch(fun, K =, G = sum(J)/area.owin(W), J = intensity(X[J]))
     )
 
   } else if (!has_i && !has_j) {
@@ -70,7 +69,7 @@
     rmaxdefault <- rmax.rule(
       fun = fun, 
       W = W, 
-      lambda = switch(fun, K =, G = npts/area(W), J = intensity(X))
+      lambda = switch(fun, K =, G = npts/area.owin(W), J = intensity(X))
     )
     
   } else stop('wont happen')

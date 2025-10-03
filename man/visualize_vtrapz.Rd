@@ -4,6 +4,7 @@
 \alias{visualize_vtrapz}
 \alias{visualize_vtrapz.numeric}
 \alias{visualize_vtrapz.fv}
+\alias{visualize_vtrapz.fvlist}
 \alias{visualize_vtrapz.density}
 \alias{visualize_vtrapz.ecdf}
 \title{Visualize \code{\link[=vtrapz]{vtrapz()}} and \code{\link[=cumvtrapz]{cumvtrapz()}}}
@@ -23,6 +24,8 @@ visualize_vtrapz(x, ...)
 )
 
 \method{visualize_vtrapz}{fv}(x, ...)
+
+\method{visualize_vtrapz}{fvlist}(x, ...)
 
 \method{visualize_vtrapz}{density}(x, ...)
 

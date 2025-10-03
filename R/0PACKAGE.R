@@ -7,8 +7,16 @@
 #' \url{https://rpubs.com/tingtingzhan/groupedHyperframe}
 #' 
 #' @import cli
+#' @import patchwork
 '_PACKAGE'
 
+if (FALSE) {
+  # colision between
+  ?patchwork::area
+  ?spatstat.geom::area
+  # one bandage fix is to import 
+  spatstat.geom::area.owin
+}
 
 
 # citation(auto = packageDescription('groupedHyperframe'))

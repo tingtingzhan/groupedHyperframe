@@ -28,7 +28,7 @@ URL:
     http://github.com/tingtingzhan/groupedHyperframe
 Depends: R (>= 4.5)
 Imports: cli, parallel, matrixStats, pracma, GET, SpatialPack,
-    ggplot2, geomtextpath, scales,
+    ggplot2, geomtextpath, scales, patchwork,
     spatstat.explore, spatstat.geom, spatstat.random
 Suggests: knitr, quarto, rmarkdown, rpart, survival,
     spatstat.data
