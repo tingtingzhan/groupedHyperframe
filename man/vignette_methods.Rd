@@ -11,7 +11,7 @@ vignette_methods(class, package, ...)
 
 \item{package}{\link[base]{character} scalar}
 
-\item{...}{additional parameters, currently not in use}
+\item{...}{additional parameters of function \link[utils]{methods}}
 }
 \value{
 Function \code{\link[=vignette_methods]{vignette_methods()}} returns a \link[base]{data.frame}.

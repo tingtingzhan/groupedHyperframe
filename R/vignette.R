@@ -6,7 +6,7 @@
 #' 
 #' @param package \link[base]{character} scalar
 #' 
-#' @param ... additional parameters, currently not in use
+#' @param ... additional parameters of function \link[utils]{methods}
 #' 
 #' @returns 
 #' Function [vignette_methods()] returns a \link[base]{data.frame}.
@@ -15,7 +15,7 @@
 #' @importFrom utils methods
 #' @export
 vignette_methods <- function(class, package, ...) {
-  x <- methods(class = class) |> 
+  x <- methods(class = class, ...) |> 
     attr(which = 'info', exact = TRUE) |>
     subset.data.frame(subset = eval(quote(from == package))) |>
     within.data.frame(expr = {
