@@ -12,7 +12,7 @@ mc_identical_by(data, f, mc.cores = getOption("cores"), ...)
 \item{f}{\link[base]{factor}}
 
 \item{mc.cores}{\link[base]{integer} scalar, see function \link[parallel]{mclapply}.
-Default is 1L on Windows, or \link[parallel]{detectCores} on Mac.}
+Default is the return of function \link[parallel]{detectCores}.}
 
 \item{...}{additional parameters, currently not in use}
 }

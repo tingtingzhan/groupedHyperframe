@@ -10,7 +10,7 @@
 #' @param op workhorse \link[base]{function}, either [ppp2fv()] or [ppp2dist()]
 #' 
 #' @param mc.cores \link[base]{integer} scalar, see function \link[parallel]{mclapply}.
-#' Default is 1L on Windows, or \link[parallel]{detectCores} on Mac.
+#' Default is the return of function \link[parallel]{detectCores}.
 #' 
 #' @param ... additional parameters of workhorse functions 
 #' [ppp2fv()] or [ppp2dist()]
@@ -27,7 +27,8 @@
 #' }
 #' 
 #' @keywords internal
-#' @importFrom foreach `%dopar%`
+#' @importFrom foreach foreach `%dopar%`
+#' @importFrom parallel mclapply
 #' @importFrom spatstat.geom anylist
 #' @export
 op_ppplist <- function(
@@ -37,23 +38,42 @@ op_ppplist <- function(
     ...
 ) {
   
-  n <- length(x)
+  n <- length(x) # needed for progress-printing!
+  sq <- n |>
+    seq_len()
   
-  .rstudio <- identical(Sys.getenv('RSTUDIO'), '1')
-  # Sys.getenv('RSTUDIO') returns '' in both vanilla R and Positron
+  foo <- if (identical(Sys.getenv('RSTUDIO'), '1')) {
+    # Sys.getenv('RSTUDIO') # returns '' in both vanilla R and Positron
+    # parameter name must be `.i` !!
+    # [Gcross_.ppp()] carries parameter `i` in `...` !!!
+    \(.i, x, ...) {
+      sprintf(fmt = 'printf \'\r%d/%d done!    \'', .i, n) |> 
+        # echo-command does not work with '\r' (carriage return)
+        system() |> 
+        on.exit()
+      # this command 
+      # .. kills vanilla R on Mac
+      # .. does not show up in RStudio on Windows
+      x[[.i]] |> op(...)
+    }
+  } else {
+    \(.i, x, ...) {
+      x[[.i]] |> op(...)
+    }
+  }
   
-  ret0 <- n |>
-    seq_len() |>
-    mclapply(mc.cores = mc.cores, FUN = \(i) {
-    #lapply(FUN = \(i) { # when debugging
-      if (.rstudio) {
-        sprintf(fmt = 'printf \'\r%d/%d done!    \'', i, n) |> 
-          # echo-command does not work with '\r' (carriage return)
-          system() |> 
-          on.exit()
-      }
-      x[[i]] |> op(...)
-    }) # `ret0`: 1st subject, 2nd mark
+  ret0 <- switch(
+    EXPR = .Platform$OS.type, # as of R 4.5, only two responses, 'windows' or 'unix'
+    unix = {
+      sq |>
+        mclapply(mc.cores = mc.cores, FUN = foo, x = x, ...) 
+        #lapply(FUN = foo, x = x, ...) # when debugging
+    }, windows = {
+      i <- NULL # just to suppress devtools::check NOTE
+      foreach(i = sq, .options.multicore = list(cores = mc.cores)) %dopar% foo(.i = i, x = x, ...)
+    })
+  # `ret0`: 1st subject, 2nd mark
+  
   message() |> on.exit()
   
   names(ret0) <- names(x)

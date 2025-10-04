@@ -84,20 +84,24 @@ ppp2fv <- function(x, fun, ...) {
     Emark, Vmark, markcorr, markvario, # using workhorse ?spatstat.explore::markcorr
     Kmark
   ) |>
-    vapply(FUN = identical, x = fun, FUN.VALUE = NA) |> 
+    vapply(FUN = identical, x = fun, ignore.environment = TRUE, FUN.VALUE = NA) |> 
     any()
+  # `ignore.environment = TRUE` seems necessary for foreach::foreach
   
   fn_mtp <- list(
     Gcross, Jcross, Kcross, Lcross, markconnect
   ) |>
-    vapply(FUN = identical, x = fun, FUN.VALUE = NA) |>
+    vapply(FUN = identical, x = fun, ignore.environment = TRUE, FUN.VALUE = NA) |>
     any()
   
   # functions like ?spatstat.explore::Kest
   # applicable to none-mark \link[spatstat.geom]{ppp.object}
   # how to deal?
   
-  if (!xor(fn_num, fn_mtp)) stop('unknown fv-function to tzh?')
+  if (!xor(fn_num, fn_mtp)) {
+    #print(fun)
+    stop('unknown fv-function to tzh?')
+  }
   
   x.. <- if (fn_num) {
     if (!any(num)) return(invisible())

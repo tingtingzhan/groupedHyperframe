@@ -2,7 +2,7 @@ Package: groupedHyperframe
 Type: Package
 Title: Grouped Hyper Data Frame: An Extension of
      Hyper Data Frame
-Version: 0.2.5.20251004
+Version: 0.2.5.20251004.2
 Description: An S3 class 'groupedHyperframe' that
      inherits from hyper data frame. Batch
      processes on point-pattern hyper column.
@@ -27,7 +27,7 @@ Authors@R: c(person(given = 'Tingting', family =
 URL: 
     http://github.com/tingtingzhan/groupedHyperframe
 Depends: R (>= 4.5)
-Imports: cli, parallel, foreach, matrixStats, pracma, GET, SpatialPack,
+Imports: cli, parallel, doParallel, foreach, matrixStats, pracma, GET, SpatialPack,
     ggplot2, geomtextpath, scales, patchwork,
     spatstat.explore, spatstat.geom, spatstat.random
 Suggests: knitr, quarto, rmarkdown, rpart, survival,

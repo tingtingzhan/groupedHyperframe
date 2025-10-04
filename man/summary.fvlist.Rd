@@ -20,7 +20,7 @@
 \item{rmax}{(optional) \link[base]{numeric} scalar, user \eqn{r_\text{max}}}
 
 \item{mc.cores}{\link[base]{integer} scalar, see function \link[parallel]{mclapply}.
-Default is 1L on Windows, or \link[parallel]{detectCores} on Mac.}
+Default is the return of function \link[parallel]{detectCores}.}
 
 \item{...}{additional parameters, currently of no use}
 }
