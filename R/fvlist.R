@@ -217,6 +217,8 @@ print.fvlist <- function(x, ...) {
 #' @param ... additional parameters, currently of no use
 #' 
 #' @keywords internal
+#' @importFrom foreach foreach `%dopar%`
+#' @importFrom parallel mclapply
 #' @export summary.fvlist
 #' @export
 summary.fvlist <- function(
@@ -259,13 +261,33 @@ summary.fvlist <- function(
     id <- (r <= rmax)
   }
   
+  cumt <- switch(
+    EXPR = .Platform$OS.type, # as of R 4.5, only two responses, 'windows' or 'unix'
+    unix = {
+      x |> 
+        mclapply(mc.cores = mc.cores, FUN = \(i) cumtrapz.fv(i, key = .y)[id[-1L]]) # `-1L` super important!!!
+    }, windows = {
+      foo <- \(i) cumtrapz.fv(i, key = .y)[id[-1L]]
+      i <- NULL # just to suppress devtools::check NOTE
+      foreach(i = x, .options.multicore = list(cores = mc.cores)) %dopar% foo(i)
+    })
+  
+  cumvt <- switch(
+    EXPR = .Platform$OS.type, # as of R 4.5, only two responses, 'windows' or 'unix'
+    unix = {
+      x |> 
+        mclapply(mc.cores = mc.cores, FUN = \(i) cumvtrapz.fv(i, key = .y)[id[-1L]]) # `-1L` super important!!!
+    }, windows = {
+      foo <- \(i) cumvtrapz.fv(i, key = .y)[id[-1L]]
+      i <- NULL # just to suppress devtools::check NOTE
+      foreach(i = x, .options.multicore = list(cores = mc.cores)) %dopar% foo(i)
+    })
+  
   return(list(
     y = x |> 
       lapply(FUN = \(i) keyval.fv(i, key = .y)[id]),
-    cumtrapz = x |> 
-      mclapply(mc.cores = mc.cores, FUN = \(i) cumtrapz.fv(i, key = .y)[id[-1L]]), # `-1L` super important!!!
-    cumvtrapz = x |> 
-      mclapply(mc.cores = mc.cores, FUN = \(i) cumvtrapz.fv(i, key = .y)[id[-1L]]) # `-1L` super important!!!
+    cumtrapz = cumt, 
+    cumvtrapz = cumvt
   ))
   
 }
