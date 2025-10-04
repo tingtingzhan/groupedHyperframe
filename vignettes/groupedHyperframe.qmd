@@ -151,6 +151,11 @@ library(groupedHyperframe)
 library(survival)
 ```
 
+```{r}
+#| echo: false
+# options(cores = 1L) # only for CRAN
+```
+
 # Peer-Reviewed Publications
 
 Package **`groupedHyperframe`** plays a pivotal role in these peer reviewed publications from the authors.
