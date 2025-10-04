@@ -80,7 +80,7 @@ lastLegal <- function(v) {
     lastLegal()
   X[[rnm]][id] |>
     sprintf(
-      fmt = 'r=%.1f or later; replaced with %s', 
+      fmt = 'r\u2265%.1f replaced with %s', 
       'theo' |> col_red() |> style_bold()
     ) |>
     message()
@@ -116,7 +116,7 @@ lastLegal <- function(v) {
     min()
   X[[rnm]][id] |>
     sprintf(
-      fmt = 'r=%.1f or later; replaced with %s', 
+      fmt = 'r\u2265%.1f replaced with %s', 
       'theo' |> col_red() |> style_bold()
     ) |>
     message()
