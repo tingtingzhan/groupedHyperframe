@@ -68,6 +68,8 @@ lastLegal <- function(v) {
   
   key <- X |> 
     fvnames(a = '.y')
+  rnm <- X |> 
+    fvnames(a = '.x')
   
   theo <- X$theo
   if (is.null(theo)) stop('this fv.object does not have theo ?')
@@ -76,6 +78,12 @@ lastLegal <- function(v) {
   
   id <- .y |>
     lastLegal()
+  X[[rnm]][id] |>
+    sprintf(
+      fmt = 'r=%.1f or later; replaced with %s', 
+      'theo' |> col_red() |> style_bold()
+    ) |>
+    message()
   sq <- id:length(.y)
   X[[key]][sq] <- theo[sq]
   
@@ -92,6 +100,8 @@ lastLegal <- function(v) {
   
   key <- X |> 
     fvnames(a = '.y')
+  rnm <- X |> 
+    fvnames(a = '.x')
   
   theo <- X$theo
   if (is.null(theo)) stop('this fv.object does not have theo ?')
@@ -101,11 +111,15 @@ lastLegal <- function(v) {
   # in ?spatstat.explore::fv documentation
   # alim specifies the recommended range of the function argument.
   recommend_rmax <- attr(X, which = 'alim', exact = TRUE)[2L]
-  rnm <- X |> 
-    fvnames(a = '.x')
   id <- (X[[rnm]] > recommend_rmax) |> 
     which() |> 
     min()
+  X[[rnm]][id] |>
+    sprintf(
+      fmt = 'r=%.1f or later; replaced with %s', 
+      'theo' |> col_red() |> style_bold()
+    ) |>
+    message()
   sq <- id:length(.y)
   X[[key]][sq] <- theo[sq]
   
@@ -122,6 +136,7 @@ lastLegal <- function(v) {
 .illegal2theo.fvlist <- function(X, ...) {
   X |> 
     lapply(FUN = .illegal2theo.fv, ...) |>
+    suppressMessages() |>
     as.fvlist()
 }
 
@@ -131,6 +146,7 @@ lastLegal <- function(v) {
 .disrecommend2theo.fvlist <- function(X, ...) {
   X |> 
     lapply(FUN = .disrecommend2theo.fv, ...) |>
+    suppressMessages() |>
     as.fvlist()
 }
 
