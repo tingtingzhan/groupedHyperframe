@@ -51,11 +51,16 @@ lastLegal <- function(v) {
 #' @param X an \link[spatstat.explore]{fv.object}
 #' 
 #' @keywords internal
-#' @name illegal2theo
+#' @name fv2theo
 #' @export
 .illegal2theo <- function(X, ...) UseMethod(generic = '.illegal2theo')
 
-#' @rdname illegal2theo
+#' @rdname fv2theo
+#' @export
+.disrecommend2theo <- function(X, ...) UseMethod(generic = '.disrecommend2theo')
+
+
+#' @rdname fv2theo
 #' @importFrom spatstat.explore fvnames
 #' @export .illegal2theo.fv
 #' @export
@@ -78,7 +83,40 @@ lastLegal <- function(v) {
   
 }
 
-#' @rdname illegal2theo
+
+#' @rdname fv2theo
+#' @importFrom spatstat.explore fvnames
+#' @export .disrecommend2theo.fv
+#' @export
+.disrecommend2theo.fv <- function(X, ...) {
+  
+  key <- X |> 
+    fvnames(a = '.y')
+  
+  theo <- X$theo
+  if (is.null(theo)) stop('this fv.object does not have theo ?')
+  
+  .y <- X[[key]]
+  
+  # in ?spatstat.explore::fv documentation
+  # alim specifies the recommended range of the function argument.
+  recommend_rmax <- attr(X, which = 'alim', exact = TRUE)[2L]
+  rnm <- X |> 
+    fvnames(a = '.x')
+  id <- (X[[rnm]] > recommend_rmax) |> 
+    which() |> 
+    min()
+  sq <- id:length(.y)
+  X[[key]][sq] <- theo[sq]
+  
+  return(X)
+  
+}
+
+
+
+
+#' @rdname fv2theo
 #' @export .illegal2theo.fvlist
 #' @export
 .illegal2theo.fvlist <- function(X, ...) {
@@ -87,9 +125,26 @@ lastLegal <- function(v) {
     as.fvlist()
 }
 
-#' @rdname illegal2theo
+#' @rdname fv2theo
+#' @export .disrecommend2theo.fvlist
+#' @export
+.disrecommend2theo.fvlist <- function(X, ...) {
+  X |> 
+    lapply(FUN = .disrecommend2theo.fv, ...) |>
+    as.fvlist()
+}
+
+
+#' @rdname fv2theo
 #' @export .illegal2theo.hyperframe
 #' @export
 .illegal2theo.hyperframe <- function(X, ...) {
+  stop('still working')
+}
+
+#' @rdname fv2theo
+#' @export .disrecommend2theo.hyperframe
+#' @export
+.disrecommend2theo.hyperframe <- function(X, ...) {
   stop('still working')
 }
