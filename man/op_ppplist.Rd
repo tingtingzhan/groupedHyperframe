@@ -4,7 +4,7 @@
 \alias{op_ppplist}
 \title{Batch Operations of \code{'ppplist'} Object}
 \usage{
-op_ppplist(x, op, mc.cores = getOption("mc.cores"), ...)
+op_ppplist(x, op, mc.cores = getOption("cores"), ...)
 }
 \arguments{
 \item{x}{a \code{'ppplist'} object}

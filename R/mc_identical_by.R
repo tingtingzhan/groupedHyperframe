@@ -22,7 +22,7 @@
 mc_identical_by <- function(
     data, 
     f,
-    mc.cores = getOption('mc.cores'),
+    mc.cores = getOption('cores'),
     ...
 ) {
   

@@ -27,12 +27,13 @@
 #' }
 #' 
 #' @keywords internal
+#' @importFrom foreach `%dopar%`
 #' @importFrom spatstat.geom anylist
 #' @export
 op_ppplist <- function(
     x, 
     op,
-    mc.cores = getOption('mc.cores'),
+    mc.cores = getOption('cores'),
     ...
 ) {
   

@@ -8,7 +8,7 @@
   object,
   data.name = deparse1(substitute(object)),
   rmax,
-  mc.cores = getOption("mc.cores"),
+  mc.cores = getOption("cores"),
   ...
 )
 }

@@ -4,7 +4,7 @@
 \alias{mc_identical_by}
 \title{Check if Data Column is Identical by Grouping}
 \usage{
-mc_identical_by(data, f, mc.cores = getOption("mc.cores"), ...)
+mc_identical_by(data, f, mc.cores = getOption("cores"), ...)
 }
 \arguments{
 \item{data}{\link[base]{data.frame}}
