@@ -75,7 +75,7 @@ lastLegal <- function(v) {
   if (is.null(theo)) stop('this fv.object does not have theo ?')
   
   .y <- X[[key]]
-  
+
   id <- .y |>
     lastLegal()
   X[[rnm]][id] |>
@@ -114,6 +114,7 @@ lastLegal <- function(v) {
   id <- (X[[rnm]] > recommend_rmax) |> 
     which() |> 
     min()
+  
   X[[rnm]][id] |>
     sprintf(
       fmt = 'r\u2265%.1f replaced with %s', 
@@ -136,7 +137,6 @@ lastLegal <- function(v) {
 .illegal2theo.fvlist <- function(X, ...) {
   X |> 
     lapply(FUN = .illegal2theo.fv, ...) |>
-    suppressMessages() |>
     as.fvlist()
 }
 
@@ -146,7 +146,6 @@ lastLegal <- function(v) {
 .disrecommend2theo.fvlist <- function(X, ...) {
   X |> 
     lapply(FUN = .disrecommend2theo.fv, ...) |>
-    suppressMessages() |>
     as.fvlist()
 }
 
@@ -155,6 +154,7 @@ lastLegal <- function(v) {
 #' @export .illegal2theo.hyperframe
 #' @export
 .illegal2theo.hyperframe <- function(X, ...) {
+  #suppressMessages() |> only here
   stop('still working')
 }
 
@@ -162,5 +162,6 @@ lastLegal <- function(v) {
 #' @export .disrecommend2theo.hyperframe
 #' @export
 .disrecommend2theo.hyperframe <- function(X, ...) {
+  #suppressMessages() |> # only here
   stop('still working')
 }

@@ -84,6 +84,9 @@ is.fvlist <- function(X) {
 #' @export
 as.fvlist <- function(X, data.name) {
   
+  force(X) 
+  # hahahaha, must!  otherwise suppressMessage of my [.illegal2theo.fv()]!!!
+  
   tmp <- is.fvlist(X) |>
     suppressMessages()
   if (!tmp) return(X) # exception handling
