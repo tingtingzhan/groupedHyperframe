@@ -155,27 +155,13 @@ as.fvlist <- function(X, data.name) {
 #' @export  
 print.fvlist <- function(x, ...) {
   
-  x |>
-    length() |>
-    col_red () |> style_bold() |>
-    sprintf(fmt = 'An \'fvlist\' of %s fv.objects') |>
-    message()
-  
-  r_range <- x |>
-    attr(which = 'r', exact = TRUE) |>
-    range() |>
-    paste(collapse = ' ~ ') |>
-    col_magenta() |> style_bold()
-  
-  .x <- x |>
-    attr(which = '.x', exact = TRUE)
-
   fname <- x |> 
     attr(which = 'fname', exact = TRUE)
-    
-  if (length(fname) == 1L) {
-    sprintf(fmt = '%s(%s)', fname, .x) |>
-      message()
+  .x <- x |>
+    attr(which = '.x', exact = TRUE)
+  
+  ftext0 <- if (length(fname) == 1L) {
+    sprintf(fmt = '%s(%s)', fname, .x)
   } else if (length(fname) == 2L) {
     fnm2 <- fname[2L] |> str2lang() |> as.list()
     .subscript <- if (length(fnm2) == 1L) {
@@ -185,16 +171,30 @@ print.fvlist <- function(x, ...) {
         vapply(FUN = deparse1, FUN.VALUE = '') |>
         paste(collapse = ',')
     }
-    sprintf(fmt = '%s[%s](%s)', fname[1L], .subscript, .x) |>
-      message()
+    sprintf(fmt = '%s[%s](%s)', fname[1L], .subscript, .x)
   } else stop('not supported!!')
-      
-  sprintf(fmt = '%s-range: %s', .x, r_range) |>
+  ftext <- ftext0 |>
+    col_blue() |> style_bold()
+  
+  x |>
+    length() |>
+    col_red () |> style_bold() |>
+    sprintf(fmt = 'An \'fvlist\' of %s fv.objects %s', ftext) |>
+    message()
+  
+  available_rmax <- x |>
+    attr(which = 'r', exact = TRUE) |>
+    max() |>
+    col_magenta() |> style_bold()
+  
+  sprintf(fmt = 'Available %smax: %s', .x, available_rmax) |>
     message()
   
   x |>
     attr(which = 'rmax', exact = TRUE) |>
-    sprintf(fmt = 'Minimum Legal rmax: %.4g') |>
+    sprintf(fmt = '%.4g') |>
+    col_green() |> style_bold() |>
+    sprintf(fmt = 'Minimum Legal rmax: %s') |>
     message()
 
 }

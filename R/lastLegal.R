@@ -76,8 +76,9 @@ lastLegal <- function(v) {
   
   .y <- X[[key]]
 
-  id <- .y |>
+  id0 <- .y |>
     lastLegal()
+  id <- id0 + 1L # first illegal
   X[[rnm]][id] |>
     sprintf(
       fmt = 'r\u2265%.1f replaced with %s', 
