@@ -120,8 +120,17 @@ cumvtrapz.fv <- function(x, key = fvnames(x, a = '.y'), ...) {
 #' @keywords internal
 #' @name visualize_vtrapz
 #' @export
-visualize_vtrapz <- function(x, ...) UseMethod(generic = 'visualize_vtrapz')
-
+visualize_vtrapz <- function(
+    x, y,
+    x_smooth, y_smooth,
+    yname,
+    draw.v, label.v,
+    draw.cumv, label.cumv,
+    draw.rect, 
+    ...
+) { 
+  UseMethod(generic = 'visualize_vtrapz')
+}
 
 #' @rdname visualize_vtrapz
 #' @importFrom ggplot2 ggplot aes geom_path geom_rect scale_x_continuous ylim labs

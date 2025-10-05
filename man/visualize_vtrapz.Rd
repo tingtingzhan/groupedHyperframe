@@ -9,7 +9,19 @@
 \alias{visualize_vtrapz.ecdf}
 \title{Visualize \code{\link[=vtrapz]{vtrapz()}} and \code{\link[=cumvtrapz]{cumvtrapz()}}}
 \usage{
-visualize_vtrapz(x, ...)
+visualize_vtrapz(
+  x,
+  y,
+  x_smooth,
+  y_smooth,
+  yname,
+  draw.v,
+  label.v,
+  draw.cumv,
+  label.cumv,
+  draw.rect,
+  ...
+)
 
 \method{visualize_vtrapz}{numeric}(
   x,
@@ -36,8 +48,6 @@ visualize_vtrapz(x, ...)
 \arguments{
 \item{x}{see \strong{Usage}}
 
-\item{...}{additional parameters, currently of no use}
-
 \item{y}{\link[base]{numeric} \link[base]{vector}}
 
 \item{x_smooth, y_smooth}{\link[base]{numeric} \link[base]{vector}s,
@@ -53,6 +63,8 @@ to beautify the \link[geomtextpath]{geom_textpath} of a \link[stats]{stepfun}}
 \item{draw.cumv}{\link[base]{logical} scalar, whether to plot the cumulative average vertical height \code{\link[=cumvtrapz]{cumvtrapz()}}, default \code{TRUE}}
 
 \item{draw.rect}{\link[base]{logical} scalar, whether to plot the rectangle, default \code{TRUE}}
+
+\item{...}{additional parameters, currently of no use}
 }
 \value{
 The \code{S3} generic function \code{\link[=visualize_vtrapz]{visualize_vtrapz()}} returns a \link[ggplot2]{ggplot} object.
