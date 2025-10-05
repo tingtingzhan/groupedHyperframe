@@ -124,10 +124,11 @@ visualize_vtrapz <- function(x, ...) UseMethod(generic = 'visualize_vtrapz')
 
 
 #' @rdname visualize_vtrapz
-#' @importFrom ggplot2 ggplot aes geom_path geom_rect scale_x_continuous ylim
+#' @importFrom ggplot2 ggplot aes geom_path geom_rect scale_x_continuous ylim labs
 #' @importFrom geomtextpath geom_textpath
 #' @importFrom stats median.default
 #' @importFrom scales label_number
+#' @importFrom utils citation
 #' @export visualize_vtrapz.numeric
 #' @export
 visualize_vtrapz.numeric <- function(
@@ -153,6 +154,8 @@ visualize_vtrapz.numeric <- function(
   xmed <- median.default(x)
   x_lim <- c(xmin - (xmed - xmin) * .2, xmax + (xmax - xmed) * .2)
   
+  doi_pracma <- unclass(citation(package = 'pracma'))[[1L]]$doi
+  
   ggplot() + 
     (if (missing(yname) || !length(yname)) {
       geom_path(mapping = aes(x = x, y = y), alpha = .3, linewidth = 1.3)
@@ -173,7 +176,8 @@ visualize_vtrapz.numeric <- function(
       colour = 'blue', fontface = 'bold', alpha = .7
     )) +
     (if (length(x) <= 10L) scale_x_continuous(breaks = x, labels = label_number(accuracy = .1), limits = x_lim)) + 
-    (if (draw.rect) ylim(0, max(y)*1.1) else ylim(min(y)*.95, max(y)*1.05))
+    (if (draw.rect) ylim(0, max(y)*1.1) else ylim(min(y)*.95, max(y)*1.05)) +
+    labs(caption = doi_pracma |> sprintf(fmt = 'pracma::trapz() via doi:%s'))
   
 }
 
