@@ -15,11 +15,11 @@ visualize_vtrapz(
   x_smooth,
   y_smooth,
   yname,
+  draw.rect,
   draw.v,
   label.v,
   draw.cumv,
   label.cumv,
-  draw.rect,
   ...
 )
 
@@ -29,11 +29,11 @@ visualize_vtrapz(
   x_smooth = x,
   y_smooth = y,
   yname,
-  draw.v = TRUE,
+  draw.rect = TRUE,
+  draw.v = draw.rect,
   label.v = "Average Vertical Height",
   draw.cumv = TRUE,
   label.cumv = "Cumulative Average Vertical Height",
-  draw.rect = TRUE,
   ...
 )
 
@@ -56,13 +56,16 @@ to beautify the \link[geomtextpath]{geom_textpath} of a \link[stats]{stepfun}}
 
 \item{yname}{(optional) \link[base]{character} scalar, name of function}
 
-\item{draw.v}{\link[base]{logical} scalar, whether to plot the average vertical height \code{\link[=vtrapz]{vtrapz()}}, default \code{TRUE}}
+\item{draw.rect}{\link[base]{logical} scalar,
+whether to plot the rectangle, default \code{TRUE}}
+
+\item{draw.v}{\link[base]{logical} scalar,
+whether to plot the average vertical height \code{\link[=vtrapz]{vtrapz()}},
+default is determined by parameter \code{draw.rect}.}
 
 \item{label.v, label.cumv}{\link[base]{character} scalars}
 
 \item{draw.cumv}{\link[base]{logical} scalar, whether to plot the cumulative average vertical height \code{\link[=cumvtrapz]{cumvtrapz()}}, default \code{TRUE}}
-
-\item{draw.rect}{\link[base]{logical} scalar, whether to plot the rectangle, default \code{TRUE}}
 
 \item{...}{additional parameters, currently of no use}
 }

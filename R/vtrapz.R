@@ -104,13 +104,16 @@ cumvtrapz.fv <- function(x, key = fvnames(x, a = '.y'), ...) {
 #' 
 #' @param yname (optional) \link[base]{character} scalar, name of function
 #' 
-#' @param draw.v \link[base]{logical} scalar, whether to plot the average vertical height [vtrapz()], default `TRUE`
+#' @param draw.rect \link[base]{logical} scalar, 
+#' whether to plot the rectangle, default `TRUE`
+#' 
+#' @param draw.v \link[base]{logical} scalar, 
+#' whether to plot the average vertical height [vtrapz()], 
+#' default is determined by parameter `draw.rect`.
 #' 
 #' @param draw.cumv \link[base]{logical} scalar, whether to plot the cumulative average vertical height [cumvtrapz()], default `TRUE`
 #' 
 #' @param label.v,label.cumv \link[base]{character} scalars
-#' 
-#' @param draw.rect \link[base]{logical} scalar, whether to plot the rectangle, default `TRUE`
 #' 
 #' @param ... additional parameters, currently of no use
 #' 
@@ -124,9 +127,8 @@ visualize_vtrapz <- function(
     x, y,
     x_smooth, y_smooth,
     yname,
-    draw.v, label.v,
+    draw.rect, draw.v, label.v,
     draw.cumv, label.cumv,
-    draw.rect, 
     ...
 ) { 
   UseMethod(generic = 'visualize_vtrapz')
@@ -144,9 +146,8 @@ visualize_vtrapz.numeric <- function(
     x, y,
     x_smooth = x, y_smooth = y,
     yname,
-    draw.v = TRUE, label.v = 'Average Vertical Height',
+    draw.rect = TRUE, draw.v = draw.rect, label.v = 'Average Vertical Height',
     draw.cumv = TRUE, label.cumv = 'Cumulative Average Vertical Height',
-    draw.rect = TRUE, 
     ...
 ) {
   
