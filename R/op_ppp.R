@@ -17,7 +17,7 @@
 #' @param ... additional parameters of function `fun`
 #' 
 #' @returns 
-#' Function [ppp2fv()] returns a \link[stats]{listof} 
+#' Functions [ppp_numeric2fv()] and [ppp_multitype2fv()] return a \link[stats]{listof} 
 #' \link[spatstat.explore]{fv.object}s.
 #' 
 #' Function [ppp2dist()] returns a \link[stats]{listof} 
@@ -62,12 +62,9 @@ ppp2dist <- function(x, fun, ...) {
 
 
 #' @rdname ppp2.
-#' @importFrom spatstat.explore Emark Vmark markcorr markvario
-#' @importFrom spatstat.explore Kmark
-#' @importFrom spatstat.explore Gcross Jcross Kcross Lcross markconnect
 #' @importFrom spatstat.geom unstack.ppp is.multitype.ppp anylapply
 #' @export
-ppp2fv <- function(x, fun, ...) {
+ppp_numeric2fv <- function(x, fun, ...) {
   
   x. <- unstack.ppp(x)
   if (length(x.) == 1L && !length(names(x.))) {
@@ -75,43 +72,15 @@ ppp2fv <- function(x, fun, ...) {
     names(x.) <- 'm'
   }
   
-  mtp <- x. |> 
-    vapply(FUN = is.multitype.ppp, FUN.VALUE = NA)
   num <- x |>
     is.numeric.ppp()
-  
-  fn_num <- list(
-    Emark, Vmark, markcorr, markvario, # using workhorse ?spatstat.explore::markcorr
-    Kmark
-  ) |>
-    vapply(FUN = identical, x = fun, ignore.environment = TRUE, FUN.VALUE = NA) |> 
-    any()
-  # `ignore.environment = TRUE` seems necessary for foreach::foreach
-  
-  fn_mtp <- list(
-    Gcross, Jcross, Kcross, Lcross, markconnect
-  ) |>
-    vapply(FUN = identical, x = fun, ignore.environment = TRUE, FUN.VALUE = NA) |>
-    any()
+  if (!any(num)) return(invisible())
   
   # functions like ?spatstat.explore::Kest
   # applicable to none-mark \link[spatstat.geom]{ppp.object}
   # how to deal?
   
-  if (!xor(fn_num, fn_mtp)) {
-    #print(fun)
-    stop('unknown fv-function to tzh?')
-  }
-  
-  x.. <- if (fn_num) {
-    if (!any(num)) return(invisible())
-    x.[num]
-  } else if (fn_mtp) {
-    if (!any(mtp)) return(invisible())
-    x.[mtp]
-  }
-  
-  ret <- x.. |> 
+  ret <- x.[num] |> 
     # lapply(FUN = fun, ...) # um..
     anylapply(FUN = fun, ...) # after 2025-09-24
   
@@ -123,6 +92,56 @@ ppp2fv <- function(x, fun, ...) {
   return(ret)
   
 }
+
+
+
+
+
+
+#' @rdname ppp2.
+#' @importFrom spatstat.geom unstack.ppp is.multitype.ppp anylapply
+#' @export
+ppp_multitype2fv <- function(x, fun, ...) {
+  
+  x. <- unstack.ppp(x)
+  if (length(x.) == 1L && !length(names(x.))) {
+    # unstacking a 'vector' `mark`
+    names(x.) <- 'm'
+  }
+  
+  mtp <- x. |> 
+    vapply(FUN = is.multitype.ppp, FUN.VALUE = NA)
+  if (!any(mtp)) return(invisible())
+  
+  # functions like ?spatstat.explore::Kest
+  # applicable to none-mark \link[spatstat.geom]{ppp.object}
+  # how to deal?
+  
+  ret <- x.[mtp] |> 
+    # lapply(FUN = fun, ...) # um..
+    anylapply(FUN = fun, ...) # after 2025-09-24
+  
+  # restore names of `fv`-hypercolumns from the result
+  # attr(,'fname') is determined by `fun`
+  fname1 <- attr(ret[[1L]], which = 'fname', exact = TRUE)[1L]
+  names(ret) <- paste(names(ret), fname1, sep = '.')
+  
+  return(ret)
+  
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

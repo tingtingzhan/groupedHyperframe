@@ -3,12 +3,15 @@
 \name{ppp2.}
 \alias{ppp2.}
 \alias{ppp2dist}
-\alias{ppp2fv}
+\alias{ppp_numeric2fv}
+\alias{ppp_multitype2fv}
 \title{Operations on \link[spatstat.geom]{ppp.object}}
 \usage{
 ppp2dist(x, fun, ...)
 
-ppp2fv(x, fun, ...)
+ppp_numeric2fv(x, fun, ...)
+
+ppp_multitype2fv(x, fun, ...)
 }
 \arguments{
 \item{x}{a \link[spatstat.geom]{ppp.object}}
@@ -20,7 +23,7 @@ see \strong{Details}}
 \item{...}{additional parameters of function \code{fun}}
 }
 \value{
-Function \code{\link[=ppp2fv]{ppp2fv()}} returns a \link[stats]{listof}
+Functions \code{\link[=ppp_numeric2fv]{ppp_numeric2fv()}} and \code{\link[=ppp_multitype2fv]{ppp_multitype2fv()}} return a \link[stats]{listof}
 \link[spatstat.explore]{fv.object}s.
 
 Function \code{\link[=ppp2dist]{ppp2dist()}} returns a \link[stats]{listof}

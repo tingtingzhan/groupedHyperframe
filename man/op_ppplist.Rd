@@ -9,26 +9,27 @@ op_ppplist(x, op, mc.cores = getOption("cores"), ...)
 \arguments{
 \item{x}{a \code{'ppplist'} object}
 
-\item{op}{workhorse \link[base]{function}, either \code{\link[=ppp2fv]{ppp2fv()}} or \code{\link[=ppp2dist]{ppp2dist()}}}
+\item{op}{workhorse \link[base]{function}, either \code{\link[=ppp_numeric2fv]{ppp_numeric2fv()}}, \code{\link[=ppp_multitype2fv]{ppp_multitype2fv()}} or \code{\link[=ppp2dist]{ppp2dist()}}}
 
 \item{mc.cores}{\link[base]{integer} scalar, see function \link[parallel]{mclapply}.
 Default is the return of function \link[parallel]{detectCores}.}
 
 \item{...}{additional parameters of workhorse functions
-\code{\link[=ppp2fv]{ppp2fv()}} or \code{\link[=ppp2dist]{ppp2dist()}}}
+\code{\link[=ppp_numeric2fv]{ppp_numeric2fv()}}, \code{\link[=ppp_multitype2fv]{ppp_multitype2fv()}} or \code{\link[=ppp2dist]{ppp2dist()}}}
 }
 \value{
 Function \code{\link[=op_ppplist]{op_ppplist()}} returns a \link[stats]{listof}
 \itemize{
-\item function \code{\link[=ppp2fv]{ppp2fv()}} returns, if \code{op = ppp2fv}.
+\item function \code{\link[=ppp_numeric2fv]{ppp_numeric2fv()}} returns, if \code{op = ppp_numeric2fv}.
+\item function \code{\link[=ppp_multitype2fv]{ppp_multitype2fv()}} returns, if \code{op = ppp_multitype2fv}.
 \item function \code{\link[=ppp2dist]{ppp2dist()}} returns, if \code{op = ppp2dist}.
 }
 }
 \description{
-Batch operations of function \code{\link[=ppp2fv]{ppp2fv()}} or \code{\link[=ppp2dist]{ppp2dist()}}, for a \code{'ppplist'} input.
+Batch operations for a \code{'ppplist'} input.
 }
 \details{
 Function \code{\link[=op_ppplist]{op_ppplist()}} is a \pkg{parallel} batch process of
-the workhorse function \code{\link[=ppp2fv]{ppp2fv()}} or \code{\link[=ppp2dist]{ppp2dist()}}.
+the workhorse function \code{\link[=ppp_numeric2fv]{ppp_numeric2fv()}}, \code{\link[=ppp_multitype2fv]{ppp_multitype2fv()}} or \code{\link[=ppp2dist]{ppp2dist()}}.
 }
 \keyword{internal}
