@@ -18,7 +18,9 @@ visualize_vtrapz(x, ...)
   y_smooth = y,
   yname,
   draw.v = TRUE,
+  label.v = "Average Vertical Height",
   draw.cumv = TRUE,
+  label.cumv = "Cumulative Average Vertical Height",
   draw.rect = TRUE,
   ...
 )
@@ -45,6 +47,8 @@ to beautify the \link[geomtextpath]{geom_textpath} of a \link[stats]{stepfun}}
 \item{yname}{(optional) \link[base]{character} scalar, name of function}
 
 \item{draw.v}{\link[base]{logical} scalar, whether to plot the average vertical height \code{\link[=vtrapz]{vtrapz()}}, default \code{TRUE}}
+
+\item{label.v, label.cumv}{\link[base]{character} scalars}
 
 \item{draw.cumv}{\link[base]{logical} scalar, whether to plot the cumulative average vertical height \code{\link[=cumvtrapz]{cumvtrapz()}}, default \code{TRUE}}
 

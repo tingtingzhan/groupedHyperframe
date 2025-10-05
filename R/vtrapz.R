@@ -108,6 +108,8 @@ cumvtrapz.fv <- function(x, key = fvnames(x, a = '.y'), ...) {
 #' 
 #' @param draw.cumv \link[base]{logical} scalar, whether to plot the cumulative average vertical height [cumvtrapz()], default `TRUE`
 #' 
+#' @param label.v,label.cumv \link[base]{character} scalars
+#' 
 #' @param draw.rect \link[base]{logical} scalar, whether to plot the rectangle, default `TRUE`
 #' 
 #' @param ... additional parameters, currently of no use
@@ -132,8 +134,8 @@ visualize_vtrapz.numeric <- function(
     x, y,
     x_smooth = x, y_smooth = y,
     yname,
-    draw.v = TRUE,
-    draw.cumv = TRUE,
+    draw.v = TRUE, label.v = 'Average Vertical Height',
+    draw.cumv = TRUE, label.cumv = 'Cumulative Average Vertical Height',
     draw.rect = TRUE, 
     ...
 ) {
@@ -163,11 +165,11 @@ visualize_vtrapz.numeric <- function(
     }) +
     (if (draw.rect) geom_rect(mapping = aes(xmin = min(x), xmax = max(x), ymin = 0, ymax = v), alpha = .1)) +
     (if (draw.v) geom_textpath(
-      mapping = aes(x = x, y = v, label = 'Average Vertical Height'),
+      mapping = aes(x = x, y = v, label = label.v),
       hjust = .1, text_only = TRUE, colour = 'red', fontface = 'bold', alpha = .7
     )) +
     (if (draw.cumv) geom_textpath(
-      mapping = aes(x = x[-1L], y = cv[-1L], label = 'Cumulative Average Vertical Height'),
+      mapping = aes(x = x[-1L], y = cv[-1L], label = label.cumv),
       colour = 'blue', fontface = 'bold', alpha = .7
     )) +
     (if (length(x) <= 10L) scale_x_continuous(breaks = x, labels = label_number(accuracy = .1), limits = x_lim)) + 
