@@ -43,9 +43,12 @@ op_ppplist <- function(
   sq <- n |>
     seq_len()
   
-  foo <- if (identical(Sys.getenv('RSTUDIO'), '1') && (.Platform$OS.type == 'unix')) {
-    # Sys.getenv('RSTUDIO') # returns '' in both vanilla R and Positron
-    # Sys.getenv('POSITRON') # returns '' in both vanilla R and RStudio 
+  .rstudio <- identical(Sys.getenv('RSTUDIO'), '1') 
+  # Sys.getenv('RSTUDIO') # returns '' in both vanilla R and Positron
+  .positron <- identical(Sys.getenv('POSITRON'), '1')
+  # Sys.getenv('POSITRON') # returns '' in both vanilla R and RStudio 
+    
+  foo <- if ((.rstudio || .positron) && (.Platform$OS.type == 'unix')) {
     # parameter name must be `.i` !!
     # [Gcross_.ppp()] carries parameter `i` in `...` !!!
     \(.i, x, ...) {
