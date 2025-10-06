@@ -48,7 +48,7 @@ op_ppplist <- function(
   .positron <- identical(Sys.getenv('POSITRON'), '1')
   # Sys.getenv('POSITRON') # returns '' in both vanilla R and RStudio 
     
-  foo <- if ((.rstudio || .positron) && (.Platform$OS.type == 'unix')) {
+  foo <- if (.rstudio && (.Platform$OS.type == 'unix')) {
     # parameter name must be `.i` !!
     # [Gcross_.ppp()] carries parameter `i` in `...` !!!
     \(.i, x, ...) {
@@ -58,6 +58,7 @@ op_ppplist <- function(
         on.exit()
       # this command 
       # .. kills vanilla R on Mac
+      # .. kills Positron on Mac !!!
       # .. does not show up in RStudio on Windows
       x[[.i]] |> op(...)
     }
