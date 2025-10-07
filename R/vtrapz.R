@@ -292,7 +292,7 @@ visualize_vtrapz.ecdf <- function(x, ...) {
 #' @importFrom stats lowess
 #' @export visualize_vtrapz.function
 #' @export
-visualize_vtrapz.function <- function(x, ..., n = 512L) {
+visualize_vtrapz.function <- function(x, ..., n = 513L) {
   fn <- x; x <- NULL # make code more readable
   ev <- environment(fn)
 

@@ -46,7 +46,7 @@ visualize_vtrapz(
 
 \method{visualize_vtrapz}{ecdf}(x, ...)
 
-\method{visualize_vtrapz}{`function`}(x, ..., n = 512L)
+\method{visualize_vtrapz}{`function`}(x, ..., n = 513L)
 }
 \arguments{
 \item{x}{see \strong{Usage}}
