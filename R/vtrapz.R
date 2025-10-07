@@ -115,6 +115,9 @@ cumvtrapz.fv <- function(x, key = fvnames(x, a = '.y'), ...) {
 #' 
 #' @param label.v,label.cumv \link[base]{character} scalars
 #' 
+#' @param n \link[base]{integer}, number of \eqn{x}-values at which to evaluate, 
+#' only applicable when the input is the return of function \link[stats]{splinefun}.
+#' 
 #' @param ... additional parameters, currently of no use
 #' 
 #' @returns
@@ -282,5 +285,42 @@ visualize_vtrapz.ecdf <- function(x, ...) {
     labs(x = 'x', y = NULL)
 }
   
+
+
+#' @rdname visualize_vtrapz
+#' @importFrom ggplot2 labs
+#' @importFrom stats lowess
+#' @export visualize_vtrapz.function
+#' @export
+visualize_vtrapz.function <- function(x, ..., n = 512L) {
+  fn <- x; x <- NULL # make code more readable
+  ev <- environment(fn)
+
+  yname <- if (exists('yname', envir = ev)) {
+    get('yname', envir = ev)
+  } # else NULL
+  
+  if (exists('x', envir = ev, inherits = FALSE)) { # returned from ?stats::approxfun
+    x <- get('x', envir = ev)
+    y <- get('y', envir = ev) # let err
+    
+  } else if (exists('z', envir = ev, inherits = FALSE)) { # returned from ?stats::splinefun
+    z <- get('z', envir = ev)
+    x <- z$x |>
+      range() |>
+      as.list() |>
+      c(list(length.out = n)) |>
+      do.call(what = seq.int, args = _)
+    y <- fn(x)
+  } else stop('not supported')
+  
+  visualize_vtrapz.numeric(
+    x = x, y = y,
+    yname = yname,
+    ...
+  ) +
+    labs(x = 'x', y = NULL)
+  
+}
 
 

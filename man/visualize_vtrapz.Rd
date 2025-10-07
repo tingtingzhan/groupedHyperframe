@@ -7,6 +7,7 @@
 \alias{visualize_vtrapz.fvlist}
 \alias{visualize_vtrapz.density}
 \alias{visualize_vtrapz.ecdf}
+\alias{visualize_vtrapz.function}
 \title{Visualize \code{\link[=vtrapz]{vtrapz()}} and \code{\link[=cumvtrapz]{cumvtrapz()}}}
 \usage{
 visualize_vtrapz(
@@ -44,6 +45,8 @@ visualize_vtrapz(
 \method{visualize_vtrapz}{density}(x, ...)
 
 \method{visualize_vtrapz}{ecdf}(x, ...)
+
+\method{visualize_vtrapz}{`function`}(x, ..., n = 512L)
 }
 \arguments{
 \item{x}{see \strong{Usage}}
@@ -68,6 +71,9 @@ default is determined by parameter \code{draw.rect}.}
 \item{draw.cumv}{\link[base]{logical} scalar, whether to plot the cumulative average vertical height \code{\link[=cumvtrapz]{cumvtrapz()}}, default \code{TRUE}}
 
 \item{...}{additional parameters, currently of no use}
+
+\item{n}{\link[base]{integer}, number of \eqn{x}-values at which to evaluate,
+only applicable when the input is the return of function \link[stats]{splinefun}.}
 }
 \value{
 The \code{S3} generic function \code{\link[=visualize_vtrapz]{visualize_vtrapz()}} returns a \link[ggplot2]{ggplot} object.
