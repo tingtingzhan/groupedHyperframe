@@ -102,6 +102,8 @@ cumvtrapz.fv <- function(x, key = fvnames(x, a = '.y'), ...) {
 #' smoothed \eqn{x} and \eqn{y} values, 
 #' to beautify the \link[geomtextpath]{geom_textpath} of a \link[stats]{stepfun}
 #' 
+#' @param x_labels,y_labels ..
+#' 
 #' @param yname (optional) \link[base]{character} scalar, name of function
 #' 
 #' @param draw.rect \link[base]{logical} scalar, 
@@ -129,6 +131,7 @@ cumvtrapz.fv <- function(x, key = fvnames(x, a = '.y'), ...) {
 visualize_vtrapz <- function(
     x, y,
     x_smooth, y_smooth,
+    x_labels, y_labels, 
     yname,
     draw.rect, draw.v, label.v,
     draw.cumv, label.cumv,
@@ -138,7 +141,7 @@ visualize_vtrapz <- function(
 }
 
 #' @rdname visualize_vtrapz
-#' @importFrom ggplot2 ggplot aes geom_path geom_rect scale_x_continuous ylim labs
+#' @importFrom ggplot2 ggplot aes geom_path geom_rect scale_x_continuous scale_y_continuous labs
 #' @importFrom geomtextpath geom_textpath
 #' @importFrom stats median.default
 #' @importFrom scales label_number
@@ -148,6 +151,7 @@ visualize_vtrapz <- function(
 visualize_vtrapz.numeric <- function(
     x, y,
     x_smooth = x, y_smooth = y,
+    x_labels, y_labels, 
     yname,
     draw.rect = TRUE, draw.v = draw.rect, label.v = 'Average Vertical Height',
     draw.cumv = TRUE, label.cumv = 'Cumulative Average Vertical Height',
@@ -166,6 +170,7 @@ visualize_vtrapz.numeric <- function(
   xmax <- max(x)
   xmed <- median.default(x)
   x_lim <- c(xmin - (xmed - xmin) * .2, xmax + (xmax - xmed) * .2)
+  y_lim <- if (draw.rect) c(0, max(y)*1.1) else c(min(y)*.95, max(y)*1.05)
   
   doi_pracma <- unclass(citation(package = 'pracma'))[[1L]]$doi
   
@@ -188,8 +193,18 @@ visualize_vtrapz.numeric <- function(
       mapping = aes(x = x[-1L], y = cv[-1L], label = label.cumv),
       colour = 'blue', fontface = 'bold', alpha = .7
     )) +
-    (if (length(x) <= 10L) scale_x_continuous(breaks = x, labels = label_number(accuracy = .1), limits = x_lim)) + 
-    (if (draw.rect) ylim(0, max(y)*1.1) else ylim(min(y)*.95, max(y)*1.05)) +
+    (if (length(x) <= 10L) {
+      if (missing(x_labels) || !length(x_labels)) {
+        scale_x_continuous(breaks = x, labels = label_number(accuracy = .1), limits = x_lim)
+      } else scale_x_continuous(breaks = x, labels = x_labels, limits = x_lim)
+    } else {
+      if (missing(x_labels) || !length(x_labels)) {
+        # do nothing
+      } else scale_x_continuous(labels = x_labels)
+    }) + 
+    (if (missing(y_labels) || !length(y_labels)) {
+      # do nothing
+    } else scale_y_continuous(labels = y_labels)) +
     labs(caption = doi_pracma |> sprintf(fmt = 'pracma::trapz() via doi:%s'))
   
 }
@@ -198,6 +213,7 @@ visualize_vtrapz.numeric <- function(
 #' @rdname visualize_vtrapz
 #' @importFrom ggplot2 labs
 #' @importFrom spatstat.explore fvnames
+#' @importFrom scales label_percent
 #' @export visualize_vtrapz.fv
 #' @export 
 visualize_vtrapz.fv <- function(x, ...) {
@@ -216,10 +232,15 @@ visualize_vtrapz.fv <- function(x, ...) {
   yname <- fv |> 
     attr(which = 'ylab', exact = TRUE) |> 
     deparse1()
+  is_roc <- inherits(fv, what = 'roc')
+  
+  
   visualize_vtrapz.numeric(
     x = x, y = y,
     x_smooth = if (is_step) l$x else x, 
     y_smooth = if (is_step) l$y else y, 
+    x_labels = if (is_roc) label_percent(), #else NULL
+    y_labels = if (is_roc) label_percent(), #else NULL
     yname = if (is_step) {
       yname |> sprintf(fmt = '%s (smoothed)') 
     } else yname,
