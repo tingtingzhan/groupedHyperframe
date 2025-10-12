@@ -92,7 +92,7 @@ library(survival)
 
 ```{r}
 #| echo: false
-# options(cores = 1L) # only for CRAN
+options(cores = 1L) # only for CRAN
 ```
 
 # Peer-Reviewed Publications

@@ -28,8 +28,9 @@
 #' }
 #' 
 #' @keywords internal
+#' @importFrom doParallel registerDoParallel
 #' @importFrom foreach foreach `%dopar%`
-#' @importFrom parallel mclapply
+#' @importFrom parallel mclapply makeCluster stopCluster
 #' @importFrom spatstat.geom anylist
 #' @export
 op_ppplist <- function(
@@ -68,15 +69,17 @@ op_ppplist <- function(
     }
   }
   
-  ret0 <- switch(
+  switch(
     EXPR = .Platform$OS.type, # as of R 4.5, only two responses, 'windows' or 'unix'
     unix = {
-      sq |>
+      ret0 <- sq |>
         mclapply(mc.cores = mc.cores, FUN = foo, x = x, ...) 
         #lapply(FUN = foo, x = x, ...) # when debugging
     }, windows = {
       i <- NULL # just to suppress devtools::check NOTE
-      foreach(i = sq, .options.multicore = list(cores = mc.cores)) %dopar% foo(.i = i, x = x, ...)
+      registerDoParallel(cl = (cl <- makeCluster(spec = mc.cores)))
+      ret0 <- foreach(i = sq, .options.multicore = list(cores = mc.cores)) %dopar% foo(.i = i, x = x, ...)
+      stopCluster(cl)
     })
   # `ret0`: 1st subject, 2nd mark
   

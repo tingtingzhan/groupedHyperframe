@@ -217,8 +217,9 @@ print.fvlist <- function(x, ...) {
 #' @param ... additional parameters, currently of no use
 #' 
 #' @keywords internal
+#' @importFrom doParallel registerDoParallel
 #' @importFrom foreach foreach `%dopar%`
-#' @importFrom parallel mclapply
+#' @importFrom parallel mclapply makeCluster stopCluster
 #' @export summary.fvlist
 #' @export
 summary.fvlist <- function(
@@ -261,26 +262,30 @@ summary.fvlist <- function(
     id <- (r <= rmax)
   }
   
-  cumt <- switch(
+  fn_cumt <- \(i) cumtrapz.fv(i, key = .y)[id[-1L]]
+  switch(
     EXPR = .Platform$OS.type, # as of R 4.5, only two responses, 'windows' or 'unix'
     unix = {
-      x |> 
-        mclapply(mc.cores = mc.cores, FUN = \(i) cumtrapz.fv(i, key = .y)[id[-1L]]) # `-1L` super important!!!
+      cumt <- x |> 
+        mclapply(mc.cores = mc.cores, FUN = fn_cumt) # `-1L` super important!!!
     }, windows = {
-      foo <- \(i) cumtrapz.fv(i, key = .y)[id[-1L]]
       i <- NULL # just to suppress devtools::check NOTE
-      foreach(i = x, .options.multicore = list(cores = mc.cores)) %dopar% foo(i)
+      registerDoParallel(cl = (cl <- makeCluster(spec = mc.cores)))
+      cumt <- foreach(i = x, .options.multicore = list(cores = mc.cores)) %dopar% fn_cumt(i)
+      stopCluster(cl)
     })
   
-  cumvt <- switch(
+  fn_cumvt <- \(i) cumvtrapz.fv(i, key = .y)[id[-1L]]
+  switch(
     EXPR = .Platform$OS.type, # as of R 4.5, only two responses, 'windows' or 'unix'
     unix = {
-      x |> 
-        mclapply(mc.cores = mc.cores, FUN = \(i) cumvtrapz.fv(i, key = .y)[id[-1L]]) # `-1L` super important!!!
+      cumvt <- x |> 
+        mclapply(mc.cores = mc.cores, FUN = fn_cumvt) # `-1L` super important!!!
     }, windows = {
-      foo <- \(i) cumvtrapz.fv(i, key = .y)[id[-1L]]
       i <- NULL # just to suppress devtools::check NOTE
-      foreach(i = x, .options.multicore = list(cores = mc.cores)) %dopar% foo(i)
+      registerDoParallel(cl = (cl <- makeCluster(spec = mc.cores)))
+      cumvt <- foreach(i = x, .options.multicore = list(cores = mc.cores)) %dopar% fn_cumvt(i)
+      stopCluster(cl)
     })
   
   return(list(

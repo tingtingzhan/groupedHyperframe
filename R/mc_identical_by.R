@@ -18,8 +18,9 @@
 #' Look more into `nlme:::collapse.groupedData`
 #' 
 #' @keywords internal
+#' @importFrom doParallel registerDoParallel
 #' @importFrom foreach foreach `%dopar%`
-#' @importFrom parallel mclapply
+#' @importFrom parallel mclapply makeCluster stopCluster
 #' @export
 mc_identical_by <- function(
     data, 
@@ -50,7 +51,9 @@ mc_identical_by <- function(
           all(duplicated(unclass(d[i]))[-1L]) # column `d` identical within split `i`
         }
         i <- NULL # just to suppress devtools::check NOTE
+        registerDoParallel(cl = (cl <- makeCluster(spec = mc.cores)))
         tmp <- foreach(i = ids, .options.multicore = list(cores = mc.cores)) %dopar% foo1(i)
+        stopCluster(cl)
         tmp |> 
           unlist(use.names = FALSE) |>
           all()

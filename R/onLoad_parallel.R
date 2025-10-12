@@ -1,5 +1,4 @@
 
-#' @importFrom doParallel registerDoParallel
 #' @importFrom parallel detectCores
 .onLoad <- function(libname, pkgname) {
   
@@ -25,8 +24,6 @@
     # https://github.com/Rdatatable/data.table/issues/5658
     
   )
-  
-  if (.Platform$OS.type == 'windows') registerDoParallel(cores = detectCores())
   
 }
 
