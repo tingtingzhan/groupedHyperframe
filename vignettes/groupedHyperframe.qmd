@@ -25,19 +25,12 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{=html}
-<!--
-`r knitr::asis_output('\U1f5dd')`
-seems not needed
--->
-```
 
-The full vignette of R package **`groupedHyperframe`** ([CRAN](https://cran.r-project.org/package=groupedHyperframe), [Github](https://github.com/tingtingzhan/groupedHyperframe)) is too large to be hosted on CRAN.  The full vignette is located on [RPubs](https://rpubs.com) 
+The complete vignette of R package **`groupedHyperframe`** (v`r packageVersion('groupedHyperframe')`) 
 
 > <https://rpubs.com/tingtingzhan/groupedHyperframe>
 
-
-The full vignette documents
+documents
 
 -   the creation of *grouped hyper data frame*;
 -   the creation of a grouped hyper data frame with one-and-only-one point-pattern hypercolumn;
@@ -45,15 +38,18 @@ The full vignette documents
 -   the computation of various summary statistics from one or more function-value-table hypercolumn(s) of a (grouped) hyper data frame;
 -   the aggregation of summary statistics, over a (nested) grouping structure, in a grouped hyper data frame.
 
+The complete vignette exceeds the file size limit allowed on [CRAN](https://cran.r-project.org/package=groupedHyperframe).  
+
+
+
 # Prerequisite
 
 ## Environment
 
-Package **`groupedHyperframe`** requires R version 4.5.0 (released 2025-04-11) or higher ([macOS](https://cran.r-project.org/bin/macosx/), [Windows](https://cran.r-project.org/bin/windows/base/), [Linux](https://cran.r-project.org/bin/linux/)).
+Package **`groupedHyperframe`** (v`r packageVersion('groupedHyperframe')`) requires R version 4.5.0 (released 2025-04-11) or higher ([macOS](https://cran.r-project.org/bin/macosx/), [Windows](https://cran.r-project.org/bin/windows/base/), [Linux](https://cran.r-project.org/bin/linux/)).
 
 An Integrated Development Environment (IDE), e.g., [RStudio](https://posit.co/download/rstudio-desktop/) [@RStudio] or [Positron](https://positron.posit.co/download.html), is not required, but highly recommended.
 
-This vignette is created under `r R.version$version.string` using packages **`knitr`** [@knitr, v`r packageVersion('knitr')`; @knitr15; @knitr14], **`quarto`** [@quarto, v`r packageVersion('quarto')` with [Quarto](https://quarto.org/docs/get-started/) v`r quarto::quarto_version()`] and **`rmarkdown`** [@rmarkdown, v`r packageVersion('rmarkdown')`; @rmarkdown18; @rmarkdown20]. Package documentation is facilitated using package **`roxygen2`** [@roxygen2, v`r packageVersion('roxygen2')`]
 
 ```{r}
 #| code-fold: true
@@ -63,86 +59,29 @@ Sys.info()[c('sysname', 'release', 'machine')]
 R.version
 ```
 
-## Enhancement {#sec-enhance}
+## Enhancement & Dependency
 
-Package **`groupedHyperframe`** `Enhances` the **`spatstat.*`** family of packages [@spatstat15; @spatstat05].
-
-Package **`groupedHyperframe`** `Enhances` package **`spatstat.explore`** (dev v`r packageVersion('spatstat.explore')`), with
-
--   additional `S3` method dispatches to `fv.object`;
--   batch processes on eligible `marks` of `ppp.object`, `ppplist` and `hyperframe`.
-
-Package **`groupedHyperframe`** `Enhances` package **`spatstat.geom`** (dev v`r packageVersion('spatstat.geom')`), with
-
--   a new `S3` class `'groupedHyperframe'` that `inherits` from the class `'hyperframe'`;
--   additional `S3` method dispatches to `ppp.object`;
--   additional `S3` method dispatches to the class `'tess'`;
--   additional `S3` method dispatches to the class `'anylist'`;
--   additional `S3` method dispatches to the class `'solist'`;
--   additional `S3` method dispatches to the class `'ppplist'`;
--   additional `S3` method dispatches to the class `'hyperframe'`;
--   a new `S3` class `'vectorlist'` that `inherits` from the class `'anylist'`;
--   a new `S3` class `'fvlist'` that `inherits` from the class `'anylist'`.
+Package **`groupedHyperframe`** (v`r packageVersion('groupedHyperframe')`) `Enhances` the **`spatstat.*`** family of packages [@spatstat15; @spatstat05], especially **`spatstat.geom`** and **`spatstat.explore`**. Details are provided in the [complete vignette](https://rpubs.com/tingtingzhan/groupedHyperframe), Section 4.1.
 
 
+The dependencies of package **`groupedHyperframe`** are detailed in the [complete vignette](https://rpubs.com/tingtingzhan/groupedHyperframe), Section 4.1. 
 
-## Dependency
 
-Package **`groupedHyperframe`** `Imports` packages
+Package **`groupedHyperframe`** requires the *development versions* of the **`spatstat.*`** family of packages. Installation instructions are provided in the [complete vignette](https://rpubs.com/tingtingzhan/groupedHyperframe), Section 4.1. 
 
--   **`cli`** [@cli, v`r packageVersion('cli')`], for attractive command line interfaces
--   `r '\U1f5dd'` **`GET`** [@GET, v`r packageVersion('GET')`], key dependency, for global envelope test
--   **`ggplot2`** [@ggplot2, v`r packageVersion('ggplot2')`], **`geomtextpath`** [@geomtextpath, v`r packageVersion('geomtextpath')`], **`scales`** [@scales, v`r packageVersion('scales')`] for educational visualization
--   `r '\U1f5dd'` **`matrixStats`** [@matrixStats, v`r packageVersion('matrixStats')`], key dependency, for matrix arithmetic
--   **`parallel`** shipped with vanilla `r R.version$version.string`, for parallel computing
--   `r '\U1f5dd'` **`pracma`** [@pracma, v`r packageVersion('pracma')`], key dependency, for (cumulative) trapezoidal integration
--   `r '\U1f5dd'` **`SpatialPack`** [@SpatialPack, v`r packageVersion('SpatialPack')`], key dependency, for Tjøstheim's coefficient of spatial association
--   `r '\U1f5dd'` **`spatstat.explore`** (dev v`r packageVersion('spatstat.explore')`), **`spatstat.geom`** (dev v`r packageVersion('spatstat.geom')`), **`spatstat.random`** (dev v`r packageVersion('spatstat.random')`), key dependency, for spatial statistics
 
-Package **`groupedHyperframe`** `Suggests` packages
+## Installation
 
--   **`rpart`** [@rpart v`r packageVersion('rpart')`], required by function `spatstat.explore::rocEngine()` as of dev v`r packageVersion('spatstat.explore')`.
--   `r '\U1f5dd'` **`spatstat.data`** (dev v`r packageVersion('spatstat.data')`), key suggest, for example spatial data set
--   `r '\U1f5dd'` **`survival`** [@survival, v`r packageVersion('survival')`], key suggest.
-
-## **`spatstat.*`** Family
-
-Package **`groupedHyperframe`** requires the development versions of the **`spatstat.*`** family of packages.
+Package **`groupedHyperframe`** (v`r packageVersion('groupedHyperframe')`) can be installed using the following command.
 
 ```{r}
 #| eval: false
-pak::pak('spatstat/spatstat')
-pak::pak('spatstat/spatstat.data')
-pak::pak('spatstat/spatstat.explore')
-pak::pak('spatstat/spatstat.geom')
-pak::pak('spatstat/spatstat.linnet')
-pak::pak('spatstat/spatstat.model')
-pak::pak('spatstat/spatstat.random')
-pak::pak('spatstat/spatstat.sparse')
-pak::pak('spatstat/spatstat.univar')
-pak::pak('spatstat/spatstat.utils')
+utils::install.packages('groupedHyperframe')
 ```
 
+# Getting Started
 
-## Package **`groupedHyperframe`**
-
-Experimental (and maybe unstable) features of package **`groupedHyperframe`** are released *extremely frequently* to [Github](https://github.com/tingtingzhan/groupedHyperframe). [Active developers should use the Github version; suggestions and bug reports are welcome!]{style="background-color: #FFFF00"} Stable releases to [CRAN](https://CRAN.R-project.org/package=groupedHyperframe) are typically updated every 2 to 3 months, or when the authors have an upcoming manuscript in the peer-reviewing process.
-
-```{r}
-#| eval: false
-pak::pak('tingtingzhan/groupedHyperframe')
-```
-
-```{r}
-#| eval: false
-#| code-fold: true
-#| code-summary: "Developers, do NOT use the CRAN version!"
-utils::install.packages('groupedHyperframe') # Developers, do NOT use!!
-```
-
-# Getting Started {#sec-start}
-
-Examples in the full vignette require that the `search` path has
+Examples in the [complete vignette](https://rpubs.com/tingtingzhan/groupedHyperframe) require that the `search` path has
 
 ```{r}
 #| message: false
@@ -158,7 +97,7 @@ library(survival)
 
 # Peer-Reviewed Publications
 
-Package **`groupedHyperframe`** plays a pivotal role in these peer reviewed publications from the authors.
+Package **`groupedHyperframe`** (v`r packageVersion('groupedHyperframe')`) plays a pivotal role in these peer reviewed publications from the authors.
 
 ## @Zhan25
 
@@ -179,7 +118,7 @@ c(
 
 </details>
 
-as well as @Yi25; @Yi23a; @Yi23b, was featured with a hyper data frame *`Ki67q`* with a numeric-hypercolumn *`logKi67.quantile`*. Functions in the R code-chunk below are explained in the full vignette.
+as well as @Yi25; @Yi23a; @Yi23b, was featured with a hyper data frame *`Ki67q`* with a numeric-hypercolumn *`logKi67.quantile`*. Functions in the R code-chunk below are explained in the [complete vignette](https://rpubs.com/tingtingzhan/groupedHyperframe).
 
 ```{r}
 #| code-fold: true
@@ -201,14 +140,8 @@ Ki67q |>
   head()
 ```
 
-Readers are encouraged to learn more about this application from package **`hyper.gam`** ([CRAN](https://CRAN.R-project.org/package=hyper.gam), [Github](https://github.com/tingtingzhan/hyper.gam)) [vignette](https://rpubs.com/tingtingzhan/hyper_gam), section *Quantile Index*.
+Readers are encouraged to learn more about this application from package **`hyper.gam`** [@hypergam, [CRAN](https://CRAN.R-project.org/package=hyper.gam), [Github](https://github.com/tingtingzhan/hyper.gam)] [vignette](https://rpubs.com/tingtingzhan/hyper_gam), section *Quantile Index*.
 
-```{r}
-#| code-fold: true
-#| error: true
-#| code-summary: 'Functions mentioned in @Zhan25 but later deprecated'
-aggregate_quantile()
-```
 
 
 # Acknowledgement
