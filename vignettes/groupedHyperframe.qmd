@@ -101,7 +101,23 @@ Package **`groupedHyperframe`** (v`r packageVersion('groupedHyperframe')`) plays
 
 ## @Zhan25
 
-> `r citation(package = 'hyper.gam')[[1L]] |> format(style = 'text') |> gsub(pattern = '\n', replacement = ' ', x = _)`
+```{r}
+#| echo: false
+Zhan25 = bibentry(
+  bibtype = 'article',
+  title = 'Quantile Index predictors using R package `hyper.gam`',
+  author = c('Tingting Zhan', 'Misung Yi', 'Inna Chervoneva' ),
+  journal = 'Bioinformatics',
+  pages = 'btaf430',
+  year = '2025', 
+  month = '07',
+  issn = '1367-4811',
+  doi = '10.1093/bioinformatics/btaf430'
+)
+```
+
+
+> `r Zhan25 |> format(style = 'text') |> gsub(pattern = '\n', replacement = ' ', x = _)`
 
 <details>
 
@@ -111,7 +127,7 @@ Package **`groupedHyperframe`** (v`r packageVersion('groupedHyperframe')`) plays
 #| echo: false
 #| comment: ''
 c(
-  citation(package = 'hyper.gam'),
+  Zhan25,
   citation(package = 'groupedHyperframe')
 ) |> toBibtex()
 ```

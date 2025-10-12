@@ -17,7 +17,7 @@ Users are encouraged to get started with the vignettes.
 \seealso{
 Useful links:
 \itemize{
-  \item \url{http://github.com/tingtingzhan/groupedHyperframe}
+  \item \url{https://github.com/tingtingzhan/groupedHyperframe}
 }
 
 }

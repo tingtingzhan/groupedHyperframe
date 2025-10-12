@@ -21,7 +21,7 @@ cli_RPubs_ <- function(x) {
 #' @export
 cli_doi_ <- function(x) {
   # `x`: 'character' scalar of doi
-  sprintf(fmt = '{.href [doi:%s](http://doi.org/%s)}', x, x) |>
+  sprintf(fmt = '{.href [doi:%s](https://doi.org/%s)}', x, x) |>
     cli_text()
 }
 
