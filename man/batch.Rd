@@ -158,7 +158,7 @@ User Interface of Operations on \link[spatstat.geom]{hyperframe} with One-and-On
 # in \CRANpkg{spatstat.data}
 # no good example for [Emark_]
 # no hyperframe with ppp-hypercolumn with numeric marks
-
+\dontshow{options(cores = 2L)}
 library(spatstat.geom)
 fluM = spatstat.data::flu |>
  subset(subset = (stain == 'M2-M1') & (virustype == 'wt'))

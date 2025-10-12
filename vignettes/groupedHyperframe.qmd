@@ -92,7 +92,8 @@ library(survival)
 
 ```{r}
 #| echo: false
-options(cores = 1L) # only for CRAN
+#| label: CRAN_cores
+options(cores = 2L)
 ```
 
 # Peer-Reviewed Publications
@@ -108,9 +109,8 @@ Zhan25 = bibentry(
   title = 'Quantile Index predictors using R package `hyper.gam`',
   author = c('Tingting Zhan', 'Misung Yi', 'Inna Chervoneva' ),
   journal = 'Bioinformatics',
-  pages = 'btaf430',
-  year = '2025', 
-  month = '07',
+  volume = {41}, number = {8}, pages = 'btaf430',
+  year = '2025', month = '07',
   issn = '1367-4811',
   doi = '10.1093/bioinformatics/btaf430'
 )
