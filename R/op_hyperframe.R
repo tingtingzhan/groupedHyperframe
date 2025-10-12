@@ -26,13 +26,10 @@
 #' # no good example for [Emark_]
 #' # no hyperframe with ppp-hypercolumn with numeric marks
 #' \dontshow{options(cores = 2L)}
-#' library(spatstat.geom)
 #' fluM = spatstat.data::flu |>
-#'  subset(subset = (stain == 'M2-M1') & (virustype == 'wt'))
+#'  spatstat.geom::subset.hyperframe(subset = (stain == 'M2-M1') & (virustype == 'wt'))
 #' fluM
 #' r = seq.int(from = 0, to = 100, by = 5)
-#' fluM |>
-#'  Gcross_(i = 'M1', j = 'M2', r = r)
 #' fluM |>
 #'  nncross_(i = 'M1', j = 'M2')
 #' @keywords internal
