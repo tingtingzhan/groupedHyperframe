@@ -4,12 +4,20 @@
 # The text to show .. will be concatenated into a single string. 
 # Newlines are `not` preserved.
 
-#' @title Defunct Messages using Package \CRANpkg{cli}
+#' @title \link[base]{.Defunct} Messages using Package \CRANpkg{cli}
+#' 
+#' @description
+#' Internal helper functions, 
+#' to display beautiful \link[base]{.Defunct} messages using package \CRANpkg{cli}.
 #' 
 #' @param x \link[base]{character} scalar
 #' 
+#' @examples
+#' cli_RPubs_('tingtingzhan/groupedHyperframe')
+#' cli_doi_('10.1002/bimj.4710230408')
+#' 
 #' @keywords internal
-#' @name cli_defunct_
+#' @name cli_
 #' @export
 cli_RPubs_ <- function(x) {
   x |>
@@ -17,7 +25,7 @@ cli_RPubs_ <- function(x) {
     cli_text()
 }
 
-#' @rdname cli_defunct_
+#' @rdname cli_
 #' @export
 cli_doi_ <- function(x) {
   # `x`: 'character' scalar of doi
@@ -39,21 +47,16 @@ cli_doi_ <- function(x) {
 #' @export
 aggregate_quantile <- function(new = '<groupedHyperframe> |> quantile() |> aggregate()') {
   
-  'Function aggregate_quantile() described in' |>
-    message()
-  
+  match.call()[[1L]] |> deparse1() |> col_cyan() |> style_bold() |>
+    sprintf(fmt = 'Function %s described in') |> message()
   cli_doi_('10.1093/bioinformatics/btaf430')
-  
-  'has been replaced by pipeline' |> 
-    message()
+  'has been replaced by pipeline' |> message()
   
   new |>
     col_red() |> style_bold() |>
     message()
   
-  'Read vignette for details' |> 
-    message()
-  
+  'Read vignette for details' |> message()
   cli_RPubs_('tingtingzhan/groupedHyperframe')
 
   .Defunct(new = new)
@@ -65,16 +68,14 @@ aggregate_quantile <- function(new = '<groupedHyperframe> |> quantile() |> aggre
 #' @export
 aggregate_fv <- function(new = '<groupedHyperframe> |> summary_fv() |> aggregate()') {
   
-  'Function aggregate_fv() has been replaced by pipeline' |>
-    message()
+  match.call()[[1L]] |> deparse1() |> col_cyan() |> style_bold() |>
+    sprintf(fmt = 'Function %s has been replaced by pipeline') |> message()
   
   new |>
     col_red() |> style_bold() |>
     message()
   
-  'Read vignette for details' |> 
-    message()
-  
+  'Read vignette for details' |> message()
   cli_RPubs_('tingtingzhan/groupedHyperframe')
   
   .Defunct(new = new)
