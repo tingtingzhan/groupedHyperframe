@@ -6,6 +6,11 @@
 #' 
 #' @param package \link[base]{character} scalar
 #' 
+#' @param package_pattern \link[base]{character} scalar of \link[base]{regex}
+#' 
+#' @param backtick \link[base]{logical} scalar, whether to put backticks around function names.
+#' Default `TRUE` for Markdown/Quarto rendering.
+#' 
 #' @param ... additional parameters of function \link[utils]{methods}
 #' 
 #' @returns 
@@ -15,19 +20,33 @@
 #' @importFrom utils methods
 #' @importFrom knitr kable
 #' @export
-methods2kable <- function(class, package, ...) {
+methods2kable <- function(class, package, package_pattern, backtick = TRUE, ...) {
+  
+  if (!missing(package)) {
+    cl <- quote(from == package)
+    kcaption <- sprintf(fmt = '`S3` method dispatches `%s::*.%s`', package, class)
+  } else if (!missing(package_pattern)) {
+    cl <- quote(grepl(pattern = package_pattern, x = from))
+    kcaption <- NULL # lazy way out :))
+  } else stop('unspecified `package`')
+  
   x <- methods(class = class, ...) |> 
     attr(which = 'info', exact = TRUE) |>
-    subset.data.frame(subset = eval(quote(from == package))) |>
+    subset.data.frame(subset = eval(cl)) |>
     within.data.frame(expr = {
       generic = generic |> 
-        vapply(FUN = .full_generic, backtick = TRUE, FUN.VALUE = '')
+        vapply(FUN = .full_generic, backtick = backtick, FUN.VALUE = '')
     })
-  rownames(x) <- x |>
-    rownames() |> 
-    sprintf(fmt = '`%s`')
+  
+  if (backtick) {
+    rownames(x) <- x |>
+      rownames() |> 
+      sprintf(fmt = '`%s`')
+  }
+  
   x |> 
-    kable(caption = sprintf(fmt = '`S3` method dispatches `%s::*.%s`', package, class))
+    kable(caption = kcaption)
+  
 }
 
 

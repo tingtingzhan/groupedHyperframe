@@ -4,12 +4,17 @@
 \alias{methods2kable}
 \title{\code{S3} methods table in vignette}
 \usage{
-methods2kable(class, package, ...)
+methods2kable(class, package, package_pattern, backtick = TRUE, ...)
 }
 \arguments{
 \item{class}{\link[base]{character} scalar}
 
 \item{package}{\link[base]{character} scalar}
+
+\item{package_pattern}{\link[base]{character} scalar of \link[base]{regex}}
+
+\item{backtick}{\link[base]{logical} scalar, whether to put backticks around function names.
+Default \code{TRUE} for Markdown/Quarto rendering.}
 
 \item{...}{additional parameters of function \link[utils]{methods}}
 }
