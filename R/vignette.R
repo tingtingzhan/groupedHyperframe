@@ -17,14 +17,14 @@
 #' Function [methods2kable()] returns a \link[base]{data.frame}.
 #' 
 #' @keywords internal
-#' @importFrom utils methods
+#' @importFrom utils methods packageVersion
 #' @importFrom knitr kable
 #' @export
 methods2kable <- function(class, package, package_pattern, backtick = TRUE, ...) {
   
   if (!missing(package)) {
     cl <- quote(from == package)
-    kcaption <- sprintf(fmt = '`S3` method dispatches `%s::*.%s`', package, class)
+    kcaption <- sprintf(fmt = '`S3` method dispatches `%s::*.%s` (v%s)', package, class, packageVersion(package))
   } else if (!missing(package_pattern)) {
     cl <- quote(grepl(pattern = package_pattern, x = from))
     kcaption <- NULL # lazy way out :))
