@@ -323,30 +323,30 @@ visualize_vtrapz.function <- function(x, ..., n = 513L) {
   
   if (exists('x', envir = ev, inherits = FALSE)) { # returned from ?stats::approxfun
     fn_from <- 'approxfun'
-    x <- get('x', envir = ev)
-    y <- get('y', envir = ev) # let err
-    
+    x0 <- get('x', envir = ev)
+    y0 <- get('y', envir = ev)
   } else if (exists('z', envir = ev, inherits = FALSE)) { # returned from ?stats::splinefun
     fn_from <- 'splinefun'
     z <- get('z', envir = ev)
-    x <- z$x |>
-      range() |>
-      as.list() |>
-      c(list(length.out = n)) |>
-      do.call(what = seq.int, args = _)
-    y <- fn(x)
+    x0 <- z$x
+    y0 <- z$y
   } else stop('not supported')
+  
+  x <- x0 |>
+    range() |>
+    as.list() |>
+    c(list(length.out = n)) |>
+    do.call(what = seq.int, args = _)
+  y <- fn(x)
   
   visualize_vtrapz.numeric(
     x = x, y = y,
     yname = yname,
     ...
   ) +
-    geom_point(mapping = switch(fn_from, splinefun = {
-      aes(x = z$x, y = z$y)
-    }, approxfun = {
-      aes(x = x, y = y)
-    }), color = 'firebrick') +
+    switch(fn_from, splinefun =, approxfun = {
+      geom_point(mapping = aes(x = x0, y = y0), color = 'firebrick')
+    }) +
     labs(x = 'x', y = NULL)
   
 }
