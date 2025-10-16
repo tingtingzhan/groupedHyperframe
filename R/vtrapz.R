@@ -309,7 +309,7 @@ visualize_vtrapz.ecdf <- function(x, ...) {
 
 
 #' @rdname visualize_vtrapz
-#' @importFrom ggplot2 labs
+#' @importFrom ggplot2 labs geom_point aes
 #' @importFrom stats lowess
 #' @export visualize_vtrapz.function
 #' @export
@@ -322,10 +322,12 @@ visualize_vtrapz.function <- function(x, ..., n = 513L) {
   } # else NULL
   
   if (exists('x', envir = ev, inherits = FALSE)) { # returned from ?stats::approxfun
+    fn_from <- 'approxfun'
     x <- get('x', envir = ev)
     y <- get('y', envir = ev) # let err
     
   } else if (exists('z', envir = ev, inherits = FALSE)) { # returned from ?stats::splinefun
+    fn_from <- 'splinefun'
     z <- get('z', envir = ev)
     x <- z$x |>
       range() |>
@@ -340,6 +342,11 @@ visualize_vtrapz.function <- function(x, ..., n = 513L) {
     yname = yname,
     ...
   ) +
+    geom_point(mapping = switch(fn_from, splinefun = {
+      aes(x = z$x, y = z$y)
+    }, approxfun = {
+      aes(x = x, y = y)
+    }), color = 'firebrick') +
     labs(x = 'x', y = NULL)
   
 }
