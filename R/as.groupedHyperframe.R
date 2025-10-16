@@ -74,3 +74,23 @@ as.groupedHyperframe.data.frame <- function(x, group, ...) {
   return(hf)
 
 }
+
+
+#' @rdname as.groupedHyperframe
+#' @export as.groupedHyperframe.groupedData
+#' @export
+as.groupedHyperframe.groupedData <- function(x, group, ...) {
+  
+  # no need to import nlme!!
+  
+  if (missing(group)) {
+    fom <- x |> 
+      attr(which = 'formula', exact = TRUE)
+    group <- eval(call(name = '~', fom[[3L]][[3L]]))
+  }
+  
+  x |>
+    as.groupedHyperframe.data.frame(group = group, ...)
+  
+}
+  

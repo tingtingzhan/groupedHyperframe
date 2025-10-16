@@ -4,6 +4,7 @@
 \alias{as.groupedHyperframe}
 \alias{as.groupedHyperframe.hyperframe}
 \alias{as.groupedHyperframe.data.frame}
+\alias{as.groupedHyperframe.groupedData}
 \title{Creation of \code{groupedHyperframe}}
 \usage{
 as.groupedHyperframe(x, group, ...)
@@ -11,6 +12,8 @@ as.groupedHyperframe(x, group, ...)
 \method{as.groupedHyperframe}{hyperframe}(x, group, ...)
 
 \method{as.groupedHyperframe}{data.frame}(x, group, ...)
+
+\method{as.groupedHyperframe}{groupedData}(x, group, ...)
 }
 \arguments{
 \item{x}{see Usage}
