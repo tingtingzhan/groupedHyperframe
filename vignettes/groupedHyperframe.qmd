@@ -28,7 +28,7 @@ vignette: >
 
 The complete vignette of R package **`groupedHyperframe`** (v`r packageVersion('groupedHyperframe')`) 
 
-> <https://rpubs.com/tingtingzhan/groupedHyperframe>
+> <https://tingtingzhan.quarto.pub/groupedhyperframe/>
 
 documents
 
@@ -61,13 +61,13 @@ R.version
 
 ## Enhancement & Dependency
 
-Package **`groupedHyperframe`** (v`r packageVersion('groupedHyperframe')`) `Enhances` the **`spatstat.*`** family of packages [@spatstat15; @spatstat05], especially **`spatstat.geom`** and **`spatstat.explore`**. Details are provided in the [complete vignette](https://rpubs.com/tingtingzhan/groupedHyperframe), Section 4.1.
+Package **`groupedHyperframe`** (v`r packageVersion('groupedHyperframe')`) `Enhances` the **`spatstat.*`** family of packages [@spatstat15; @spatstat05], especially **`spatstat.geom`** and **`spatstat.explore`**. Details are provided in the [complete vignette](https://tingtingzhan.quarto.pub/groupedhyperframe/), Section 4.1.
 
 
-The dependencies of package **`groupedHyperframe`** are detailed in the [complete vignette](https://rpubs.com/tingtingzhan/groupedHyperframe), Section 4.1. 
+The dependencies of package **`groupedHyperframe`** are detailed in the [complete vignette](https://tingtingzhan.quarto.pub/groupedhyperframe/), Section 4.1. 
 
 
-Package **`groupedHyperframe`** requires the *development versions* of the **`spatstat.*`** family of packages. Installation instructions are provided in the [complete vignette](https://rpubs.com/tingtingzhan/groupedHyperframe), Section 4.1. 
+Package **`groupedHyperframe`** requires the *development versions* of the **`spatstat.*`** family of packages. Installation instructions are provided in the [complete vignette](https://tingtingzhan.quarto.pub/groupedhyperframe/), Section 4.1. 
 
 
 ## Installation
@@ -81,7 +81,7 @@ utils::install.packages('groupedHyperframe')
 
 # Getting Started
 
-Examples in the [complete vignette](https://rpubs.com/tingtingzhan/groupedHyperframe) require that the `search` path has
+Examples in the [complete vignette](https://tingtingzhan.quarto.pub/groupedhyperframe/) require that the `search` path has
 
 ```{r}
 #| message: false
@@ -134,7 +134,7 @@ c(
 
 </details>
 
-as well as @Yi25; @Yi23a; @Yi23b, was featured with a hyper data frame *`Ki67q`* with a numeric-hypercolumn *`logKi67.quantile`*. Functions in the R code-chunk below are explained in the [complete vignette](https://rpubs.com/tingtingzhan/groupedHyperframe).
+as well as @Yi25; @Yi23a; @Yi23b, was featured with a hyper data frame *`Ki67q`* with a numeric-hypercolumn *`logKi67.quantile`*. Functions in the R code-chunk below are explained in the [complete vignette](https://tingtingzhan.quarto.pub/groupedhyperframe/).
 
 ```{r}
 #| code-fold: true
