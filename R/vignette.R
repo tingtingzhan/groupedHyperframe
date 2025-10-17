@@ -50,29 +50,6 @@ methods2kable <- function(class, package, package_pattern, backtick = TRUE, ...)
 }
 
 
-#' @title [Namespace2methodsInfo()]
-#' 
-#' @param ns \link[base]{character} scalar, package name, e.g., `'stats'`
-#' 
-#' @param ... parameters of function \link[utils]{.S3methods}, other than `envir` and `useEnv`
-#' 
-#' @examples
-#' Namespace2methodsInfo(ns = 'stats', class = 'data.frame')
-#' 
-#' @keywords internal
-#' @importFrom utils .S3methods
-#' @export
-Namespace2methodsInfo <- function(ns, ...) {
-  ns |> 
-    getNamespace() |>
-    .S3methods(..., envir = _, useEnv = TRUE) |>
-    attr(which = 'info', exact = TRUE) |>
-    subset.data.frame(subset = eval(quote(from == 'envir'))) |>
-    within.data.frame(expr = {
-      from <- ns
-    })
-}
-
 
 
 .full_generic <- function(x, backtick = TRUE) {
