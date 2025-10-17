@@ -1,50 +1,49 @@
 
-#' @title \link[base]{split} by \link[stats]{kmeans} Clustering
-#' 
-#' @description
-#' \link[base]{split} by \link[stats]{kmeans} clustering
-#' 
-#' @param x see **Usage**
-#' 
-#' @param ... additional parameters of function \link[stats]{kmeans}
-#' 
-#' @keywords internal
-#' @name split_kmeans
-#' @export
-split_kmeans <- function(x, ...) UseMethod(generic = 'split_kmeans')
 
 
-
-#' @rdname split_kmeans
+#' @title `split.pppkm`
 #' 
-#' @note
-#' Function [split_kmeans.default()] is supposed to work with
-#' \link[spatstat.geom]{ppp.object}.
+#' @param x a `'pppkm'` object, returned from function [.kmeans.ppp()]
+#' 
+#' @param f \link[base]{factor}, default is `attr(x,'f')`
+#' 
+#' @param ... additional parameters, currently no use
+#' 
+#' @returns
+#' Function [split.pppkm()] returns a `'splitppp'` object from the
+#' workhorse function \link[spatstat.geom]{split.ppp}.
 #' 
 #' @importFrom spatstat.geom split.ppp
-#' @export split_kmeans.default
+#' @export split.pppkm
 #' @export
-split_kmeans.default <- function(x, ...) {
-  
-  # written with S3 generics on purpose!!
-  km <- x |> .kmeans(...)
-  
-  cls <- km[['cluster']]
-  attr(cls, which = 'levels') <- cls |> max() |> seq_len() |> as.character()
-  class(cls) <- 'factor'
+split.pppkm <- function(x, f = attr(x, which = 'f', exact = TRUE), ...) {
   
   x |> 
-    split(f = cls, drop = FALSE)
+    split.ppp(f = f, drop = FALSE)
   
 }
 
-#' @rdname split_kmeans
-#' @export split_kmeans.listof
+
+
+
+
+#' @title `split.pppkmlist`
+#' 
+#' @param x a `'pppkmlist'` object, returned from function [.kmeans.ppplist()]
+#' 
+#' @param ... additional parameters, currently no use
+#' 
+#' @returns
+#' Function [split.pppkmlist()] returns a `'splitppp'` object from the
+#' workhorse function \link[spatstat.geom]{split.ppp}.
+#' 
+# @importFrom spatstat.geom split.ppp
+#' @export split.pppkmlist
 #' @export
-split_kmeans.listof <- function(x, ...) {
+split.pppkmlist <- function(x, ...) {
   
   tmp <- x |>
-    lapply(FUN = split_kmeans.default, ...)
+    lapply(FUN = split.pppkm, ...)
   
   sq <- x |>
     seq_along()
@@ -55,65 +54,73 @@ split_kmeans.listof <- function(x, ...) {
   ret <- tmp |> 
     do.call(what = c)
   attr(ret, which = 'id') <- rep(sq, times = ns)
-  attr(ret, which = 'cluster') <- ns |> lapply(FUN = seq_len) |> unlist(use.names = FALSE)
+  attr(ret, which = 'cluster') <- ns |> 
+    lapply(FUN = seq_len) |> 
+    unlist(use.names = FALSE)
   return(ret)
   
 }
 
 
-#' @rdname split_kmeans
-#' @importFrom spatstat.geom is.ppp hyperframe cbind.hyperframe
-#' @export split_kmeans.hyperframe
+
+
+
+
+#' @title [split.hyperframekm()]
+#' 
+#' @param x a `'hyperframekm'`, returned from function [.kmeans.hyperframe()]
+#' 
+#' @param ... additional parameters, currently no use
+#' 
+#' @returns
+#' Function [split.hyperframekm()] returns a `'groupedHyperframe'`.
+#' 
+#' @importFrom spatstat.geom is.ppplist hyperframe cbind.hyperframe
+#' @export split.hyperframekm
 #' @export
-split_kmeans.hyperframe <- function(x, ...) {
+split.hyperframekm <- function(x, ...) {
   
   hc <- unclass(x)$hypercolumns
   x. <- unclass(x)$df
   
   hc_ppp <- hc |>
-    vapply(FUN = \(x) {
-      x |>
-        vapply(FUN = is.ppp, FUN.VALUE = NA) |>
-        all()
-    }, FUN.VALUE = NA) |>
+    vapply(FUN = is.ppplist, FUN.VALUE = NA) |>
     which()
-  n_ppp <- length(hc_ppp)
+  if (length(hc_ppp) != 1L) stop('shouldnt happen')
   
-  if (!n_ppp) {
-    # do nothing
-  } else if (n_ppp == 1L) {
+  ok <- hc[[hc_ppp]] |> 
+    vapply(FUN = inherits, what = 'pppkm', FUN.VALUE = NA)
+  if (!all(ok)) stop('shouldnt happen')
+  
+  tmp <- (hc[[hc_ppp]]) |>
+    split.pppkmlist(...)
     
-    tmp <- (hc[[hc_ppp]]) |>
-      split_kmeans.listof(...)
+  id <- tmp |> 
+    attr(which = 'id', exact = TRUE)
     
-    id <- tmp |> attr(which = 'id', exact = TRUE)
+  ret <- hyperframe(
+    tmp,
+    .id = id,
+    .cluster = tmp |> attr(which = 'cluster', exact = TRUE)
+  ) |>
+    cbind.hyperframe(x.[id, , drop = FALSE])
+  
+  names(ret)[1L] <- names(hc_ppp)
+  
+  if (inherits(x, what = 'groupedHyperframe')) {
+    # haven't tested, but should be correct; very simple anyway!
+    grp <- x |> 
+      attr(which = 'group', exact = TRUE)
     
-    ret <- hyperframe(
-      tmp,
-      .id = id,
-      .cluster = tmp |> attr(which = 'cluster', exact = TRUE)
-    ) |>
-      cbind.hyperframe(x.[id, , drop = FALSE])
+    # `.id` should be equivalent to the existing lowest cluster!!!
+    ret$.id <- NULL
     
-    names(ret)[1L] <- names(hc_ppp)
-    
-    if (inherits(x, what = 'groupedHyperframe')) {
-      # haven't tested, but should be correct; very simple anyway!
-      grp <- x |> 
-        attr(which = 'group', exact = TRUE)
-      
-      # `.id` should be equivalent to the existing lowest cluster!!!
-      ret$.id <- NULL
-      
-      grp[[2L]] <- call('/', grp[[2L]], quote(.cluster))
-      attr(ret, which = 'group') <- grp
-    } else attr(ret, which = 'group') <- '~ .id/.cluster' |> str2lang()
-    
-    class(ret) <- c('groupedHyperframe', class(ret)) |> unique.default()
-    return(ret)
-    
-  } else stop('more than one ppp-hypercolumn, ambiguity!')
+    grp[[2L]] <- call('/', grp[[2L]], quote(.cluster))
+    attr(ret, which = 'group') <- grp
+  } else attr(ret, which = 'group') <- '~ .id/.cluster' |> str2lang()
+  
+  class(ret) <- c('groupedHyperframe', class(ret)) |> unique.default()
+  return(ret)
     
 }
-
 

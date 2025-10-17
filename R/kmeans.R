@@ -24,6 +24,10 @@
 #' 
 #' @param clusterSize \link[base]{integer} scalar, number of points per cluster
 #' 
+#' @returns
+#' Function [.kmeans.ppp()] returns an object of class `'pppkm'`, 
+#' which inherits from \link[spatstat.geom]{ppp.object}.
+#' 
 #' @importFrom spatstat.geom marks.ppp markformat.ppp
 #' @export .kmeans.ppp
 #' @export
@@ -69,10 +73,101 @@
     m.[, v_m, drop = FALSE] # 'matrix'
   )
   
-  tmp |> 
+  km <- tmp |> 
     kmeans(centers = centers, ...)
+  
+  z <- x
+  attr(z, which = 'f') <- km[['cluster']] |> # 'integer'
+    factor()
+  class(z) <- c('pppkm', class(z)) |> 
+    unique.default()
+  return(z)
   
 }
 
 
+#' @rdname kmeans
+#' 
+#' @returns
+#' Function [.kmeans.ppplist()] returns an object of class `'pppkmlist'`, 
+#' which inherits from `'ppplist'`.
+#' 
+#' @importFrom spatstat.geom solapply
+#' @export .kmeans.ppplist
+#' @export
+.kmeans.ppplist <- function(x, ...) {
+  
+  z <- x |>
+    solapply(FUN = .kmeans.ppp, ...)
+  class(z) <- c('pppkmlist', class(z)) |>
+    unique.default()
+  return(z)
+  
+}
+    
+
+
+
+
+#' @rdname kmeans
+#' @importFrom spatstat.geom is.ppplist
+#' @export .kmeans.hyperframe
+#' @export
+.kmeans.hyperframe <- function(x, ...) {
+  
+  x0 <- unclass(x)
+  
+  hc <- x0$hypercolumns
+  
+  hc_ppp <- hc |>
+    vapply(FUN = is.ppplist, FUN.VALUE = NA) |>
+    which()
+  n_ppp <- length(hc_ppp)
+  
+  if (!n_ppp) {
+    
+    return(x) # exception handling
+    
+  } else if (n_ppp == 1L) {
+    
+    x0$hypercolumns[[hc_ppp]] <- (hc[[hc_ppp]]) |>
+      .kmeans.ppplist(...)
+    class(x0) <- c('hyperframekm', class(x)) |>
+      unique.default()
+    return(x0)
+    
+  } else stop('more than one ppp-hypercolumn, ambiguity!')
+  
+}
+
+
+
+
+
+  
+
+
+#' @title Print `'pppkm'` object
+#' 
+#' @param x a `'pppkm'` object, returned from function [.kmeans.ppp()]
+#' 
+#' @param ... additional parameters, currently no use
+#' 
+#' @keywords internal
+#' @export print.pppkm
+#' @export
+print.pppkm <- function(x, ...) {
+  
+  NextMethod(generic = print) # ?spatstat.geom::print.ppp
+  
+  x |> 
+    attr(which = 'f', exact = TRUE) |>
+    table() |>
+    c() |>
+    paste(collapse = ', ') |>
+    col_blue() |> style_bold() |>
+    sprintf(fmt = 'with k-means clustering of %s points') |>
+    message()
+  
+}
 

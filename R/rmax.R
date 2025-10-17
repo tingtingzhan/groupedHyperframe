@@ -102,6 +102,7 @@
 
 
 #' @rdname rmax
+#' @importFrom spatstat.geom is.ppplist
 #' @export .rmax.hyperframe
 #' @export
 .rmax.hyperframe <- function(X, ...) {
@@ -111,11 +112,7 @@
   hc <- unclass(X)$hypercolumns
   
   hc_ppp <- hc |>
-    vapply(FUN = \(x) {
-      x |>
-        vapply(FUN = is.ppp, FUN.VALUE = NA) |>
-        all()
-    }, FUN.VALUE = NA) |>
+    vapply(FUN = is.ppplist, FUN.VALUE = NA) |>
     which() 
   
   if (!length(hc_ppp)) return(invisible()) # exception handling

@@ -4,6 +4,8 @@
 \alias{kmeans}
 \alias{.kmeans}
 \alias{.kmeans.ppp}
+\alias{.kmeans.ppplist}
+\alias{.kmeans.hyperframe}
 \title{Extension of \link[stats]{kmeans}}
 \usage{
 .kmeans(x, formula, ...)
@@ -15,6 +17,10 @@
   clusterSize,
   ...
 )
+
+\method{.kmeans}{ppplist}(x, ...)
+
+\method{.kmeans}{hyperframe}(x, ...)
 }
 \arguments{
 \item{x}{see \strong{Usage}}
@@ -29,6 +35,12 @@
 }
 \value{
 Function \code{\link[=.kmeans]{.kmeans()}} returns a \link[stats]{kmeans} object.
+
+Function \code{\link[=.kmeans.ppp]{.kmeans.ppp()}} returns an object of class \code{'pppkm'},
+which inherits from \link[spatstat.geom]{ppp.object}.
+
+Function \code{\link[=.kmeans.ppplist]{.kmeans.ppplist()}} returns an object of class \code{'pppkmlist'},
+which inherits from \code{'ppplist'}.
 }
 \description{
 Extension of \link[stats]{kmeans}
