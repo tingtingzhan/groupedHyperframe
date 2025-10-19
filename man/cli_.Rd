@@ -4,21 +4,32 @@
 \alias{cli_}
 \alias{cli_RPubs_}
 \alias{cli_doi_}
+\alias{cli_QuartoPub_}
 \title{\link[base]{.Defunct} Messages using Package \CRANpkg{cli}}
 \usage{
-cli_RPubs_(x)
+cli_RPubs_(author = "tingtingzhan", pub)
 
-cli_doi_(x)
+cli_doi_(doi)
+
+cli_QuartoPub_(author = "tingtingzhan", pub, chapter)
 }
 \arguments{
-\item{x}{\link[base]{character} scalar}
+\item{author}{\link[base]{character} scalar}
+
+\item{pub}{\link[base]{character} scalar}
+
+\item{doi}{\link[base]{character} scalar}
+
+\item{chapter}{\link[base]{character} scalar}
 }
 \description{
 Internal helper functions,
 to display beautiful \link[base]{.Defunct} messages using package \CRANpkg{cli}.
 }
 \examples{
-cli_RPubs_('tingtingzhan/groupedHyperframe')
+cli_RPubs_(pub = 'groupedHyperframe')
+cli_QuartoPub_(pub = 'groupedhyperframe')
+cli_QuartoPub_(pub = 'groupedhyperframe', chapter = 'bioinformatics_btaf430')
 cli_doi_('10.1002/bimj.4710230408')
 
 }
