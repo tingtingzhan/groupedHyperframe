@@ -61,3 +61,8 @@
 
 
 
+#' @title \link[utils]{bibentry} for Quarto Book
+#' 
+#' @name bib
+'bioinformatics_btaf430'
+
