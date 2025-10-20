@@ -60,13 +60,21 @@ Math.ppp <- function(x, ...) {
     switch('dataframe' = {
       id <- m |>
         vapply(FUN = is.numeric, FUN.VALUE = NA)
-      # ?base::lapply seems not working
+      
       z <- list()
       for (i in seq_along(m[id])) {
         x <- m[id][[i]]
         z[[i]] <- NextMethod()
       }
       marks(x0, dfok = TRUE, drop = FALSE)[id] <- z
+      
+      # ?base::lapply seems not working
+      #marks(x0, dfok = TRUE, drop = FALSE)[id] <- m[id] |>
+      #  lapply(FUN = \(i) {
+      #    x <- i
+      #    NextMethod(generic = 'Math') # does not work :)))
+      #  })
+      
     }, 'vector' = {
       if (is.numeric(m)) {
         # is this the best way to do things??
