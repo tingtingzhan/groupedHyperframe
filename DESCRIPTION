@@ -27,7 +27,7 @@ Authors@R: c(person(given = 'Tingting', family =
 URL: 
     https://github.com/tingtingzhan/groupedHyperframe
 Depends: R (>= 4.5)
-Imports: cli, parallel, doParallel, foreach, matrixStats, pracma, GET, SpatialPack,
+Imports: cli, methods, parallel, doParallel, foreach, matrixStats, pracma, GET, SpatialPack,
     ggplot2, geomtextpath, scales, patchwork, knitr, 
     spatstat.explore, spatstat.geom, spatstat.random
 Suggests: quarto, rmarkdown, rpart, survival,

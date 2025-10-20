@@ -51,7 +51,7 @@ methods2kable <- function(class, package, package_pattern, backtick = TRUE, ...)
 
 
 
-
+#' @importFrom methods isGroup
 .full_generic <- function(x, backtick = TRUE) {
   # `x` is 'character' scalar; # x = 'quantile'
   
@@ -61,14 +61,16 @@ methods2kable <- function(class, package, package_pattern, backtick = TRUE, ...)
     #parse(text = _) |> eval() |> # base::parse() cannot deal with 'names<-'
     get()
   
-  if (is.primitive(fn)) nm <- 'base' else {
-    
+  if (is.primitive(fn)) {
+    nm <- 'base' 
+  } else if (isGroup(x)) { # groupGeneric
+    nm <- 'base'
+  } else {
     ev <- fn |>
       environment()
     if (!isNamespace(ev)) stop(x, 'dont support yet..')
     nm <- ev |> 
       getNamespaceName()
-    
   }
   
   z <- nm |>
