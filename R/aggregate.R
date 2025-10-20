@@ -1,23 +1,23 @@
 
-#' @title Aggregate [groupedHyperframe]
+#' @title Aggregate (Grouped) Hyper Data Frame
 #' 
-#' @param x a [groupedHyperframe]
+#' @param x a \link[spatstat.geom]{hyperframe} or [groupedHyperframe]
 #' 
 #' @param by a one-sided \link[stats]{formula}, 
-#' containing (hyper)column names of the input [groupedHyperframe] `x`
+#' containing regular-column names of the input `x`
 #' 
 #' @param ... additional parameters of function [aggregate.vectorlist()], 
 #' most importantly parameter `fun`
 #' 
 #' @returns 
-#' Function [aggregate.groupedHyperframe()] returns a \link[spatstat.geom]{hyperframe}.
+#' Function [aggregate.hyperframe()] returns a \link[spatstat.geom]{hyperframe}.
 #'  
 #' @keywords internal
 #' @importFrom stats aggregate
 #' @importFrom spatstat.geom is.ppplist is.imlist
-#' @export aggregate.groupedHyperframe
+#' @export aggregate.hyperframe
 #' @export
-aggregate.groupedHyperframe <- function(
+aggregate.hyperframe <- function(
     x, 
     by,
     ...
@@ -27,35 +27,46 @@ aggregate.groupedHyperframe <- function(
   xdf <- x0$df
   xhc <- x0$hypercolumns
   
-  group <- x |> 
-    attr(which = 'group', exact = TRUE)
-  
   if (!is.call(by) || by[[1L]] != '~' || length(by) != 2L) stop('`by` must be one-sided formula')
   if (!is.symbol(by. <- by[[2L]])) {
     new_by <- by. |>
       all.vars() |>
       vapply(FUN = \(i) deparse1(call(name = '~', as.symbol(i))), FUN.VALUE = '')
-    message('grouped structure ', paste('by =', deparse1(by)) |> col_cyan(), ' is not allowed')
-    new_by_txt <- paste('by =', new_by) |> col_magenta()
-    message('please use either one of ', paste(new_by_txt, collapse = ', '), '.')
+    by |> 
+      deparse1() |> col_cyan() |>
+      sprintf(fmt = 'grouped structure %s is not allowed') |>
+      message()
+    new_by |> 
+      col_magenta() |>
+      paste(collapse = ', ') |> 
+      sprintf(fmt = 'please use either one of %s.') |>
+      message()
     stop('`by` must be a formula and right-hand-side must be a symbol')
   }
-  # `group` 'up-to' `by.`
-  # how to do it beautifully?
-  # below is an ugly bandage fix
-  g <- all.vars(group)
-  id <- match(as.character(by.), table = g)
-  if (is.na(id)) stop('`by` must match one of the hierarchy in groupedHyperframe')
-  # end of ugly bandage fix
   
-  # grouping structure must be specified by `$df` part!!
-  f <- xdf[g[seq_len(id)]] |>
-    interaction(drop = TRUE, sep = '.', lex.order = TRUE)
+  if (inherits(x, what = 'groupedHyperframe')) {
+    group <- x |> 
+      attr(which = 'group', exact = TRUE)
+    # `group` 'up-to' `by.`
+    # how to do it beautifully?
+    # below is an ugly bandage fix
+    g <- all.vars(group)
+    id <- match(as.character(by.), table = g)
+    if (is.na(id)) stop('`by` must match one of the hierarchy in groupedHyperframe')
+    # end of ugly bandage fix
+    # grouping structure must be specified by `$df` part!!
+    f <- xdf[g[seq_len(id)]] |>
+      interaction(drop = TRUE, sep = '.', lex.order = TRUE)
+  } else {
+    # grouping structure must be specified by `$df` part!!
+    f <- xdf[[by.]] |> as.factor()
+  }
+  
   if (all(table(f) == 1L)) return(x) # exception handling
   
   xdf_ag <- xdf |> 
     mc_identical_by(f = f, ...)
-
+  
   id_vector <- xhc |>
     vapply(FUN = is.vectorlist, mode = 'numeric', FUN.VALUE = NA)
   xhc_vector <- if (any(id_vector)) {
@@ -73,7 +84,7 @@ aggregate.groupedHyperframe <- function(
     xhc[id_lol] |> 
       lapply(FUN = split.default, f = f)
   } #else NULL
-
+  
   # object-list *not* supported by spatstat family
   id_fv <- xhc |>
     vapply(FUN = is.fvlist, FUN.VALUE = NA) |>
@@ -92,6 +103,7 @@ aggregate.groupedHyperframe <- function(
   return(ret)
   
 }
+
 
 
 
