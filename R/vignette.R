@@ -64,7 +64,7 @@ methods2kable <- function(class, package, package_pattern, backtick = TRUE, ...)
   if (is.primitive(fn)) {
     nm <- 'base' 
   } else if (isGroup(x)) { # groupGeneric
-    nm <- 'base'
+    nm <- 'methods'
   } else {
     ev <- fn |>
       environment()
