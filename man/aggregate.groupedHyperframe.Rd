@@ -9,7 +9,8 @@
 \arguments{
 \item{x}{a \link{groupedHyperframe}}
 
-\item{by}{a one-sided \link[stats]{formula}}
+\item{by}{a one-sided \link[stats]{formula},
+containing (hyper)column names of the input \link{groupedHyperframe} \code{x}}
 
 \item{...}{additional parameters of function \code{\link[=aggregate.vectorlist]{aggregate.vectorlist()}},
 most importantly parameter \code{fun}}

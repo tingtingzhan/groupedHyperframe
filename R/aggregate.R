@@ -3,7 +3,8 @@
 #' 
 #' @param x a [groupedHyperframe]
 #' 
-#' @param by a one-sided \link[stats]{formula}
+#' @param by a one-sided \link[stats]{formula}, 
+#' containing (hyper)column names of the input [groupedHyperframe] `x`
 #' 
 #' @param ... additional parameters of function [aggregate.vectorlist()], 
 #' most importantly parameter `fun`
