@@ -28,31 +28,29 @@ is.numeric.ppp <- function(x) {
 
 
 
-#' @title \link[base]{log} of \link[spatstat.geom]{ppp.object}
+#' @title `Math` \link[base]{groupGeneric} of \link[spatstat.geom]{ppp.object}
 #' 
 #' @description
 #' ...
 #' 
 #' @param x a \link[spatstat.geom]{ppp.object}
 #' 
-#' @param base \link[base]{numeric} scalar
+#' @param ... additional parameters for `Math` \link[base]{groupGeneric}
 #' 
 #' @details
-#' Function [log.ppp()] takes a \link[base]{log} of continuous marks 
+#' Function [Math.ppp()] performs `Math` operations on \link[base]{numeric} \link[spatstat.geom]{marks}
 #' of a \link[spatstat.geom]{ppp.object}.
 #' 
-#' Functions [log1p.ppp()], [log10.ppp()] and [log2.ppp()] are similar.
-#' 
 #' @return 
-#' Functions [log.ppp()], [log1p.ppp()], [log10.ppp()] and [log2.ppp()] 
-#' all return a \link[spatstat.geom]{ppp.object}.
+#' Functions [Math.ppp()] returns a \link[spatstat.geom]{ppp.object}.
 #' 
 #' @keywords internal
-#' @name log_ppp
 #' @importFrom spatstat.geom markformat marks marks<-
-#' @export log.ppp
+#' @export Math.ppp
 #' @export
-log.ppp <- function(x, base = exp(1)) {
+Math.ppp <- function(x, ...) {
+  
+  x0 <- x # original `x`
   
   m <- x |>
     marks(dfok = TRUE, drop = FALSE)
@@ -62,101 +60,26 @@ log.ppp <- function(x, base = exp(1)) {
     switch('dataframe' = {
       id <- m |>
         vapply(FUN = is.numeric, FUN.VALUE = NA)
-      marks(x, dfok = TRUE, drop = FALSE)[id] <- m[id] |> lapply(FUN = log, base = base)
+      # ?base::lapply seems not working
+      z <- list()
+      for (i in seq_along(m[id])) {
+        x <- m[id][[i]]
+        z[[i]] <- NextMethod()
+      }
+      marks(x0, dfok = TRUE, drop = FALSE)[id] <- z
     }, 'vector' = {
-      if (is.numeric(m)) marks(x) <- m |> log(base = base)
-      # else do nothing
+      if (is.numeric(m)) {
+        # is this the best way to do things??
+        x <- m
+        marks(x0) <- NextMethod()
+      } # else do nothing
     }, 'none' = {
       # do nothing
     })
   
-  return(x)
+  return(x0)
   
 }
-
-
-# base::log1p is S3 generic!!
-#' @rdname log_ppp
-#' @importFrom spatstat.geom markformat marks marks<-
-#' @export log1p.ppp
-#' @export
-log1p.ppp <- function(x) {
-  
-  m <- x |>
-    marks(dfok = TRUE, drop = FALSE)
-  
-  x |>
-    markformat() |>
-    switch('dataframe' = {
-      id <- m |>
-        #vapply(FUN = is.numeric, FUN.VALUE = NA) # ?base::is.numeric will pass 'POSIXct'
-        vapply(FUN = inherits, what = 'numeric', FUN.VALUE = NA)
-      marks(x, dfok = TRUE, drop = FALSE)[id] <- m[id] |> lapply(FUN = log1p)
-    }, 'vector' = {
-      if (is.numeric(m)) marks(x) <- m |> log1p()
-      # else do nothing
-    }, 'none' = {
-      # do nothing
-    })
-  
-  return(x)
-  
-}
-
-
-#' @rdname log_ppp
-#' @importFrom spatstat.geom markformat marks marks<-
-#' @export log10.ppp
-#' @export
-log10.ppp <- function(x) {
-  
-  m <- x |>
-    marks(dfok = TRUE, drop = FALSE)
-  
-  x |>
-    markformat() |>
-    switch('dataframe' = {
-      id <- m |>
-        vapply(FUN = is.numeric, FUN.VALUE = NA)
-      marks(x, dfok = TRUE, drop = FALSE)[id] <- m[id] |> lapply(FUN = log10)
-    }, 'vector' = {
-      if (is.numeric(m)) marks(x) <- m |> log10()
-      # else do nothing
-    }, 'none' = {
-      # do nothing
-    })
-  
-  return(x)
-  
-}
-
-
-#' @rdname log_ppp
-#' @importFrom spatstat.geom markformat marks marks<-
-#' @export log2.ppp
-#' @export
-log2.ppp <- function(x) {
-  
-  m <- x |>
-    marks(dfok = TRUE, drop = FALSE)
-  
-  x |>
-    markformat() |>
-    switch('dataframe' = {
-      id <- m |>
-        vapply(FUN = is.numeric, FUN.VALUE = NA)
-      marks(x, dfok = TRUE, drop = FALSE)[id] <- m[id] |> lapply(FUN = log2)
-    }, 'vector' = {
-      if (is.numeric(m)) marks(x) <- m |> log2()
-      # else do nothing
-    }, 'none' = {
-      # do nothing
-    })
-  
-  return(x)
-  
-}
-
 
 
 
