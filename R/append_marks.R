@@ -29,6 +29,7 @@
   #v <- tryCatch(expr = eval(value., envir = parent.frame()), error = identity)
   v <- eval(value., envir = parent.frame()) # let err; `language` `eval`uate correctly.
   if (is.language(v)) {
+    .Defunct(new = 'spatstat.geom::cut.ppp')
     v <- x |> 
       marks.ppp() |>
       eval(v, envir = _)
