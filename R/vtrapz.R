@@ -310,7 +310,6 @@ visualize_vtrapz.ecdf <- function(x, ...) {
 
 #' @rdname visualize_vtrapz
 #' @importFrom ggplot2 labs geom_point aes
-#' @importFrom stats lowess
 #' @export visualize_vtrapz.function
 #' @export
 visualize_vtrapz.function <- function(x, ..., n = 513L) {
@@ -352,3 +351,23 @@ visualize_vtrapz.function <- function(x, ..., n = 513L) {
 }
 
 
+
+
+#' @rdname visualize_vtrapz
+#' @importFrom ggplot2 labs geom_point aes
+#' @export visualize_vtrapz.loess
+#' @export
+visualize_vtrapz.loess <- function(x, ...) {
+  obj <- x; x <- NULL # make code more readable
+  x <- obj$x[, 1L] # 'matrix' # what about ncol>1L ?
+  y <- obj$fitted
+  dupx <- duplicated.default(x)
+  # dupy <- duplicated.default(y) # `dupx` is subset of `dupy`, do not need to be identical!
+  visualize_vtrapz.numeric(
+    x = x[!dupx], y = y[!dupx], 
+    yname = obj$yname %||% 'stats::loess',
+    ...
+  ) +
+    geom_point(mapping = aes(x = x, y = obj$y), alpha = .1) +
+    labs(x = names(obj$x)[1L], y = NULL)
+}

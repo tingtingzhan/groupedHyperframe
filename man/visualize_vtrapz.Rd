@@ -8,6 +8,7 @@
 \alias{visualize_vtrapz.density}
 \alias{visualize_vtrapz.ecdf}
 \alias{visualize_vtrapz.function}
+\alias{visualize_vtrapz.loess}
 \title{Visualize \code{\link[=vtrapz]{vtrapz()}} and \code{\link[=cumvtrapz]{cumvtrapz()}}}
 \usage{
 visualize_vtrapz(
@@ -51,6 +52,8 @@ visualize_vtrapz(
 \method{visualize_vtrapz}{ecdf}(x, ...)
 
 \method{visualize_vtrapz}{`function`}(x, ..., n = 513L)
+
+\method{visualize_vtrapz}{loess}(x, ...)
 }
 \arguments{
 \item{x}{see \strong{Usage}}
