@@ -7,7 +7,7 @@
 \method{split}{pppkmlist}(x, ...)
 }
 \arguments{
-\item{x}{a \code{'pppkmlist'} object, returned from function \code{\link[=.kmeans.ppplist]{.kmeans.ppplist()}}}
+\item{x}{a \code{'pppkmlist'} object, returned from function \code{\link[=kmeans.ppplist]{kmeans.ppplist()}}}
 
 \item{...}{additional parameters, currently no use}
 }

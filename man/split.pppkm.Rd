@@ -7,7 +7,7 @@
 \method{split}{pppkm}(x, f = attr(x, which = "f", exact = TRUE), ...)
 }
 \arguments{
-\item{x}{a \code{'pppkm'} object, returned from function \code{\link[=.kmeans.ppp]{.kmeans.ppp()}}}
+\item{x}{a \code{'pppkm'} object, returned from function \code{\link[=kmeans.ppp]{kmeans.ppp()}}}
 
 \item{f}{\link[base]{factor}, default is \code{attr(x,'f')}}
 

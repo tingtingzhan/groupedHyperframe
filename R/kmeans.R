@@ -1,6 +1,6 @@
 
 
-#' @title Extension of \link[stats]{kmeans}
+#' @title Pseudo `S3` Methods based on \link[stats]{kmeans}
 #' 
 #' @param x see **Usage**
 #' 
@@ -8,30 +8,26 @@
 #' 
 #' @param ... additional parameters of function \link[stats]{kmeans}
 #' 
-#' @returns 
-#' Function [.kmeans()] returns a \link[stats]{kmeans} object.
-#' 
 #' @keywords internal
-#' @name kmeans
-#' @importFrom stats kmeans
-#' @export
-.kmeans <- function(x, formula, ...) UseMethod(generic = '.kmeans')
+#' @name kmeans_etc
+NULL
 
 
-#' @rdname kmeans
+
+#' @rdname kmeans_etc
 #' 
 #' @param centers \link[base]{integer} scalar, number of clusters \eqn{k}, see function \link[stats]{kmeans}
 #' 
 #' @param clusterSize \link[base]{integer} scalar, number of points per cluster
 #' 
 #' @returns
-#' Function [.kmeans.ppp()] returns an object of class `'pppkm'`, 
+#' Function [kmeans.ppp()] returns an object of class `'pppkm'`, 
 #' which inherits from \link[spatstat.geom]{ppp.object}.
 #' 
 #' @importFrom spatstat.geom marks.ppp markformat.ppp
-#' @export .kmeans.ppp
+#' @importFrom stats kmeans
 #' @export
-.kmeans.ppp <- function(
+kmeans.ppp <- function(
     x, 
     formula, 
     centers = (x[['n']]/clusterSize) |> ceiling() |> as.integer(),
@@ -86,19 +82,18 @@
 }
 
 
-#' @rdname kmeans
+#' @rdname kmeans_etc
 #' 
 #' @returns
-#' Function [.kmeans.ppplist()] returns an object of class `'pppkmlist'`, 
+#' Function [kmeans.ppplist()] returns an object of class `'pppkmlist'`, 
 #' which inherits from `'ppplist'`.
 #' 
 #' @importFrom spatstat.geom solapply
-#' @export .kmeans.ppplist
 #' @export
-.kmeans.ppplist <- function(x, ...) {
+kmeans.ppplist <- function(x, ...) {
   
   z <- x |>
-    solapply(FUN = .kmeans.ppp, ...)
+    solapply(FUN = kmeans.ppp, ...)
   class(z) <- c('pppkmlist', class(z)) |>
     unique.default()
   return(z)
@@ -109,11 +104,10 @@
 
 
 
-#' @rdname kmeans
+#' @rdname kmeans_etc
 #' @importFrom spatstat.geom is.ppplist
-#' @export .kmeans.hyperframe
 #' @export
-.kmeans.hyperframe <- function(x, ...) {
+kmeans.hyperframe <- function(x, ...) {
   
   x0 <- unclass(x)
   
@@ -131,7 +125,7 @@
   } else if (n_ppp == 1L) {
     
     x0$hypercolumns[[hc_ppp]] <- (hc[[hc_ppp]]) |>
-      .kmeans.ppplist(...)
+      kmeans.ppplist(...)
     class(x0) <- c('hyperframekm', class(x)) |>
       unique.default()
     return(x0)
@@ -149,7 +143,7 @@
 
 #' @title Print `'pppkm'` object
 #' 
-#' @param x a `'pppkm'` object, returned from function [.kmeans.ppp()]
+#' @param x a `'pppkm'` object, returned from function [kmeans.ppp()]
 #' 
 #' @param ... additional parameters, currently no use
 #' 

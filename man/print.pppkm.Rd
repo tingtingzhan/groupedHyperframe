@@ -7,7 +7,7 @@
 \method{print}{pppkm}(x, ...)
 }
 \arguments{
-\item{x}{a \code{'pppkm'} object, returned from function \code{\link[=.kmeans.ppp]{.kmeans.ppp()}}}
+\item{x}{a \code{'pppkm'} object, returned from function \code{\link[=kmeans.ppp]{kmeans.ppp()}}}
 
 \item{...}{additional parameters, currently no use}
 }

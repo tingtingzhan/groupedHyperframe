@@ -3,7 +3,7 @@
 
 #' @title `split.pppkm`
 #' 
-#' @param x a `'pppkm'` object, returned from function [.kmeans.ppp()]
+#' @param x a `'pppkm'` object, returned from function [kmeans.ppp()]
 #' 
 #' @param f \link[base]{factor}, default is `attr(x,'f')`
 #' 
@@ -29,7 +29,7 @@ split.pppkm <- function(x, f = attr(x, which = 'f', exact = TRUE), ...) {
 
 #' @title `split.pppkmlist`
 #' 
-#' @param x a `'pppkmlist'` object, returned from function [.kmeans.ppplist()]
+#' @param x a `'pppkmlist'` object, returned from function [kmeans.ppplist()]
 #' 
 #' @param ... additional parameters, currently no use
 #' 
@@ -68,7 +68,7 @@ split.pppkmlist <- function(x, ...) {
 
 #' @title [split.hyperframekm()]
 #' 
-#' @param x a `'hyperframekm'`, returned from function [.kmeans.hyperframe()]
+#' @param x a `'hyperframekm'`, returned from function [kmeans.hyperframe()]
 #' 
 #' @param ... additional parameters, currently no use
 #' 
