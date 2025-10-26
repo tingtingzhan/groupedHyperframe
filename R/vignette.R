@@ -23,7 +23,7 @@
 methods2kable <- function(class, package, package_pattern, backtick = TRUE, ...) {
   
   if (!missing(package)) {
-    cl <- quote(from == package)
+    cl <- quote(from %in% package)
     kcaption <- sprintf(fmt = '`S3` method dispatches `%s::*.%s` (v%s)', package, class, packageVersion(package))
   } else if (!missing(package_pattern)) {
     cl <- quote(grepl(pattern = package_pattern, x = from))
@@ -42,6 +42,10 @@ methods2kable <- function(class, package, package_pattern, backtick = TRUE, ...)
     rownames(x) <- x |>
       rownames() |> 
       sprintf(fmt = '`%s`')
+  }
+  
+  if (all(duplicated.default(x$from)[-1L])) {
+    x$from <- NULL
   }
   
   x |> 
