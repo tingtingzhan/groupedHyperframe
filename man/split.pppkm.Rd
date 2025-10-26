@@ -2,7 +2,7 @@
 % Please edit documentation in R/kmeans_S3.R
 \name{split.pppkm}
 \alias{split.pppkm}
-\title{\code{split.pppkm}}
+\title{Split \code{'pppkm'} object}
 \usage{
 \method{split}{pppkm}(x, f = attr(x, which = "f", exact = TRUE), ...)
 }
@@ -18,5 +18,6 @@ Function \code{\link[=split.pppkm]{split.pppkm()}} returns a \code{'splitppp'} o
 workhorse function \link[spatstat.geom]{split.ppp}.
 }
 \description{
-\code{split.pppkm}
+Split \code{'pppkm'} object
 }
+\keyword{internal}

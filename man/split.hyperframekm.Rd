@@ -17,3 +17,4 @@ Function \code{\link[=split.hyperframekm]{split.hyperframekm()}} returns a \code
 \description{
 \code{\link[=split.hyperframekm]{split.hyperframekm()}}
 }
+\keyword{internal}

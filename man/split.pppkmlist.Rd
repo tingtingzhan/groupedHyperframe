@@ -18,3 +18,4 @@ workhorse function \link[spatstat.geom]{split.ppp}.
 \description{
 \code{split.pppkmlist}
 }
+\keyword{internal}

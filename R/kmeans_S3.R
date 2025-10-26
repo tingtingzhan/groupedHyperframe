@@ -1,7 +1,32 @@
 
+#' @title Print `'pppkm'` object
+#' 
+#' @param x a `'pppkm'` object, returned from function [kmeans.ppp()]
+#' 
+#' @param ... additional parameters, currently no use
+#' 
+#' @keywords internal
+#' @export print.pppkm
+#' @export
+print.pppkm <- function(x, ...) {
+  
+  NextMethod(generic = print) # ?spatstat.geom::print.ppp
+  
+  x |> 
+    attr(which = 'f', exact = TRUE) |>
+    table() |>
+    c() |>
+    paste(collapse = ', ') |>
+    col_blue() |> style_bold() |>
+    sprintf(fmt = 'with k-means clustering of %s points') |>
+    message()
+  
+}
 
 
-#' @title `split.pppkm`
+
+
+#' @title Split `'pppkm'` object
 #' 
 #' @param x a `'pppkm'` object, returned from function [kmeans.ppp()]
 #' 
@@ -13,6 +38,7 @@
 #' Function [split.pppkm()] returns a `'splitppp'` object from the
 #' workhorse function \link[spatstat.geom]{split.ppp}.
 #' 
+#' @keywords internal
 #' @importFrom spatstat.geom split.ppp
 #' @export split.pppkm
 #' @export
@@ -21,6 +47,31 @@ split.pppkm <- function(x, f = attr(x, which = 'f', exact = TRUE), ...) {
   x |> 
     split.ppp(f = f, drop = FALSE)
   
+}
+
+
+#' @title Plot `'pppkm'` object
+#' 
+#' @param x a `'pppkm'` object, returned from function [kmeans.ppp()]
+#' 
+#' @param main,...,cols additional parameters of function \link[spatstat.geom]{plot.ppp}
+#' 
+#' @keywords internal
+#' @importFrom spatstat.geom plot.ppp
+#' @importFrom scales pal_hue
+#' @export plot.pppkm
+#' @export
+plot.pppkm <- function(
+    x, 
+    main = 'k-Means Clustering',
+    ..., 
+    cols = pal_hue()(n = length(levels(f)))
+) {
+  z <- x
+  f <- x |>
+    attr(which = 'f', exact = TRUE)
+  marks(z) <- f
+  plot.ppp(z, main = main, cols = cols, ...)
 }
 
 
@@ -37,7 +88,7 @@ split.pppkm <- function(x, f = attr(x, which = 'f', exact = TRUE), ...) {
 #' Function [split.pppkmlist()] returns a `'splitppp'` object from the
 #' workhorse function \link[spatstat.geom]{split.ppp}.
 #' 
-# @importFrom spatstat.geom split.ppp
+#' @keywords internal
 #' @export split.pppkmlist
 #' @export
 split.pppkmlist <- function(x, ...) {
@@ -75,6 +126,7 @@ split.pppkmlist <- function(x, ...) {
 #' @returns
 #' Function [split.hyperframekm()] returns a `'groupedHyperframe'`.
 #' 
+#' @keywords internal
 #' @importFrom spatstat.geom is.ppplist hyperframe cbind.hyperframe
 #' @export split.hyperframekm
 #' @export

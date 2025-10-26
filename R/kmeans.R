@@ -137,31 +137,3 @@ kmeans.hyperframe <- function(x, ...) {
 
 
 
-
-  
-
-
-#' @title Print `'pppkm'` object
-#' 
-#' @param x a `'pppkm'` object, returned from function [kmeans.ppp()]
-#' 
-#' @param ... additional parameters, currently no use
-#' 
-#' @keywords internal
-#' @export print.pppkm
-#' @export
-print.pppkm <- function(x, ...) {
-  
-  NextMethod(generic = print) # ?spatstat.geom::print.ppp
-  
-  x |> 
-    attr(which = 'f', exact = TRUE) |>
-    table() |>
-    c() |>
-    paste(collapse = ', ') |>
-    col_blue() |> style_bold() |>
-    sprintf(fmt = 'with k-means clustering of %s points') |>
-    message()
-  
-}
-
