@@ -355,19 +355,34 @@ visualize_vtrapz.function <- function(x, ..., n = 513L) {
 
 #' @rdname visualize_vtrapz
 #' @importFrom ggplot2 labs geom_point aes
+#' @importFrom stats predict
 #' @export visualize_vtrapz.loess
 #' @export
-visualize_vtrapz.loess <- function(x, ...) {
+visualize_vtrapz.loess <- function(x, ..., n = 513L) {
+
   obj <- x; x <- NULL # make code more readable
-  x <- obj$x[, 1L] # 'matrix' # what about ncol>1L ?
-  y <- obj$fitted
-  dupx <- duplicated.default(x)
-  # dupy <- duplicated.default(y) # `dupx` is subset of `dupy`, do not need to be identical!
+  if (!is.matrix(obj$x)) stop('stats-package updated?')
+  if (ncol(obj$x) != 1L) stop('one-and-only-one predictor in loess model!')
+  
+  newx <- obj$x[, 1L] |>
+    range() |>
+    c(length.out = n) |>
+    as.list() |>
+    do.call(what = seq.int)
+  newdata <- data.frame(newx)
+  names(newdata) <- colnames(obj$x)[1L]
+  newy <- obj |>
+    predict(newdata = newdata, se = FALSE) # ?stats:::predict.loess
+  
   visualize_vtrapz.numeric(
-    x = x[!dupx], y = y[!dupx], 
+    x = newx, y = newy, 
     yname = obj$yname %||% 'stats::loess',
     ...
   ) +
-    geom_point(mapping = aes(x = x, y = obj$y), alpha = .1) +
+    geom_point(mapping = aes(x = obj$x[, 1L], y = obj$y), alpha = .1) +
     labs(x = names(obj$x)[1L], y = NULL)
+  
 }
+
+
+

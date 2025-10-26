@@ -53,7 +53,7 @@ visualize_vtrapz(
 
 \method{visualize_vtrapz}{`function`}(x, ..., n = 513L)
 
-\method{visualize_vtrapz}{loess}(x, ...)
+\method{visualize_vtrapz}{loess}(x, ..., n = 513L)
 }
 \arguments{
 \item{x}{see \strong{Usage}}
