@@ -320,6 +320,9 @@ visualize_vtrapz.function <- function(x, ..., n = 513L) {
   yname <- if (exists('yname', envir = ev)) {
     get('yname', envir = ev)
   } # else NULL
+  xname <- if (exists('xname', envir = ev)) {
+    get('xname', envir = ev)
+  } # else NULL
   
   if (exists('x', envir = ev, inherits = FALSE)) { # returned from ?stats::approxfun
     fn_from <- 'approxfun'
@@ -347,7 +350,7 @@ visualize_vtrapz.function <- function(x, ..., n = 513L) {
     switch(fn_from, splinefun =, approxfun = {
       geom_point(mapping = aes(x = x0, y = y0), color = 'firebrick')
     }) +
-    labs(x = 'x', y = NULL)
+    labs(x = xname, y = NULL)
   
 }
 
@@ -365,13 +368,15 @@ visualize_vtrapz.loess <- function(x, ..., n = 513L) {
   if (!is.matrix(obj$x)) stop('stats-package updated?')
   if (ncol(obj$x) != 1L) stop('one-and-only-one predictor in loess model!')
   
+  xname <- colnames(obj$x)[1L]
+  
   newx <- obj$x[, 1L] |>
     range() |>
     c(length.out = n) |>
     as.list() |>
     do.call(what = seq.int)
   newdata <- data.frame(newx)
-  names(newdata) <- colnames(obj$x)[1L]
+  names(newdata) <- xname
   newy <- obj |>
     predict(newdata = newdata, se = FALSE) # ?stats:::predict.loess
   
@@ -381,7 +386,7 @@ visualize_vtrapz.loess <- function(x, ..., n = 513L) {
     ...
   ) +
     geom_point(mapping = aes(x = obj$x[, 1L], y = obj$y), alpha = .1) +
-    labs(x = names(obj$x)[1L], y = NULL)
+    labs(x = xname, y = NULL)
   
 }
 

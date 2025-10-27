@@ -25,6 +25,7 @@ approxfun.fv <- function(x, key = fvnames(fv, a = '.y'), ...) {
     deparse1() |>
     sprintf(fmt = '%s linear interpolation') |>
     assign(x = 'yname', value = _, envir = environment(fn))
+  assign(x = 'xname', value = .x, envir = environment(fn))
   return(fn)
 }
 
@@ -49,5 +50,6 @@ splinefun.fv <- function(x, key = fvnames(fv, a = '.y'), ...) {
     deparse1() |>
     sprintf(fmt = '%s spline interpolation') |>
     assign(x = 'yname', value = _, envir = environment(fn))
+  assign(x = 'xname', value = .x, envir = environment(fn))
   return(fn)
 }
