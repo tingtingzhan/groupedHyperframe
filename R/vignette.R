@@ -25,9 +25,9 @@ methods2kable <- function(generic.function, class, package, package_pattern, bac
   if (!missing(package)) {
     cl <- quote(from %in% package)
     kcaption <- if (!missing(generic.function)) {
-      sprintf(fmt = '`S3` method dispatches `%s::%s.*` (v%s)', package, generic.function, packageVersion(package))
+      sprintf(fmt = '`S3` methods `%s::%s.*` (v%s)', package, generic.function, packageVersion(package))
     } else if (!missing(class)) {
-      sprintf(fmt = '`S3` method dispatches `%s::*.%s` (v%s)', package, class, packageVersion(package))
+      sprintf(fmt = '`S3` methods `%s::*.%s` (v%s)', package, class, packageVersion(package))
     } else stop()
   } else if (!missing(package_pattern)) {
     cl <- quote(grepl(pattern = package_pattern, x = from))
