@@ -38,18 +38,24 @@ methods2kable <- function(generic.function, class, package, package_pattern, bac
     attr(which = 'info', exact = TRUE) |>
     subset.data.frame(subset = eval(cl)) |>
     within.data.frame(expr = {
-      generic = generic |> 
-        vapply(FUN = .full_generic, backtick = backtick, FUN.VALUE = '')
+      
+      if (all(duplicated.default(from)[-1L])) {
+        from <- NULL
+      }
+      
+      if (all(duplicated.default(generic)[-1L])) {
+        generic <- NULL
+      } else {
+        generic <- generic |> 
+          vapply(FUN = .full_generic, backtick = backtick, FUN.VALUE = '')
+      }
+      
     })
   
   if (backtick) {
     rownames(x) <- x |>
       rownames() |> 
       sprintf(fmt = '`%s`')
-  }
-  
-  if (all(duplicated.default(x$from)[-1L])) {
-    x$from <- NULL
   }
   
   x |> 
