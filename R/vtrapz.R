@@ -102,7 +102,7 @@ cumvtrapz.fv <- function(x, key = fvnames(x, a = '.y'), ...) {
 #' smoothed \eqn{x} and \eqn{y} values, 
 #' to beautify the \link[geomtextpath]{geom_textpath} of a \link[stats]{stepfun}
 #' 
-#' @param x_labels,y_labels ..
+#' @param x_labels,y_labels \link[base]{character} scalars
 #' 
 #' @param yname (optional) \link[base]{character} scalar, name of function
 #' 
@@ -117,8 +117,9 @@ cumvtrapz.fv <- function(x, key = fvnames(x, a = '.y'), ...) {
 #' 
 #' @param label.v,label.cumv \link[base]{character} scalars
 #' 
-#' @param n \link[base]{integer}, number of \eqn{x}-values at which to evaluate, 
-#' only applicable when the input is the return of function \link[stats]{splinefun}.
+#' @param n \link[base]{integer}, number of \eqn{(x,y)}-values at which to evaluate, 
+#' only applicable when the input `inherits` from the `S3` class \link[base]{function},
+#' or has an `S3` method of `predict.*()` available.
 #' 
 #' @param ... additional parameters, currently of no use
 #' 
