@@ -2,7 +2,7 @@
 
 #' @title `S3` methods table in vignette
 #' 
-#' @param class \link[base]{character} scalar
+#' @param generic.function,class see function \link[utils]{methods}
 #' 
 #' @param package \link[base]{character} scalar
 #' 
@@ -20,17 +20,21 @@
 #' @importFrom utils methods packageVersion
 #' @importFrom knitr kable
 #' @export
-methods2kable <- function(class, package, package_pattern, backtick = TRUE, ...) {
+methods2kable <- function(generic.function, class, package, package_pattern, backtick = TRUE, ...) {
   
   if (!missing(package)) {
     cl <- quote(from %in% package)
-    kcaption <- sprintf(fmt = '`S3` method dispatches `%s::*.%s` (v%s)', package, class, packageVersion(package))
+    kcaption <- if (!missing(generic.function)) {
+      sprintf(fmt = '`S3` method dispatches `%s::%s.*` (v%s)', package, generic.function, packageVersion(package))
+    } else if (!missing(class)) {
+      sprintf(fmt = '`S3` method dispatches `%s::*.%s` (v%s)', package, class, packageVersion(package))
+    } else stop()
   } else if (!missing(package_pattern)) {
     cl <- quote(grepl(pattern = package_pattern, x = from))
     kcaption <- NULL # lazy way out :))
   } else stop('unspecified `package`')
   
-  x <- methods(class = class, ...) |> 
+  x <- methods(generic.function = generic.function, class = class, ...) |> 
     attr(which = 'info', exact = TRUE) |>
     subset.data.frame(subset = eval(cl)) |>
     within.data.frame(expr = {

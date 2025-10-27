@@ -4,10 +4,17 @@
 \alias{methods2kable}
 \title{\code{S3} methods table in vignette}
 \usage{
-methods2kable(class, package, package_pattern, backtick = TRUE, ...)
+methods2kable(
+  generic.function,
+  class,
+  package,
+  package_pattern,
+  backtick = TRUE,
+  ...
+)
 }
 \arguments{
-\item{class}{\link[base]{character} scalar}
+\item{generic.function, class}{see function \link[utils]{methods}}
 
 \item{package}{\link[base]{character} scalar}
 
