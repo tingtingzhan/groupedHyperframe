@@ -2,7 +2,7 @@ Package: groupedHyperframe
 Type: Package
 Title: Grouped Hyper Data Frame: An Extension of
      Hyper Data Frame
-Version: 0.3.0.20251026
+Version: 0.3.1
 Description: An S3 class 'groupedHyperframe' that
      inherits from hyper data frame. Batch
      processes on point-pattern hyper column.
@@ -21,7 +21,7 @@ Authors@R: c(person(given = 'Tingting', family =
      'tingtingzhan@gmail.com', comment = c(ORCID
      = '0000-0001-9971-4844')), person(given =
      'Inna', family = 'Chervoneva', role =
-     c('aut'), email =
+     c('ctb'), email =
      'Inna.Chervoneva@jefferson.edu', comment =
      c(ORCID = '0000-0002-9104-4505')))
 URL: 

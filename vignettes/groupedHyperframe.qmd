@@ -26,7 +26,7 @@ vignette: >
 ---
 
 
-The complete vignette of R package **`groupedHyperframe`** (v`r packageVersion('groupedHyperframe')`) 
+A [Quarto](https://quarto.org) book of R package **`groupedHyperframe`** (v`r packageVersion('groupedHyperframe')`) 
 
 > <https://tingtingzhan.quarto.pub/groupedhyperframe/>
 
@@ -38,7 +38,7 @@ documents
 -   the computation of various summary statistics from one or more function-value-table hypercolumn(s) of a (grouped) hyper data frame;
 -   the aggregation of summary statistics, over a (nested) grouping structure, in a grouped hyper data frame.
 
-The complete vignette exceeds the file size limit allowed on [CRAN](https://cran.r-project.org/package=groupedHyperframe).  
+The complete book exceeds the file size limit allowed on [CRAN](https://cran.r-project.org/package=groupedHyperframe).  
 
 
 
@@ -61,13 +61,13 @@ R.version
 
 ## Enhancement & Dependency
 
-Package **`groupedHyperframe`** (v`r packageVersion('groupedHyperframe')`) `Enhances` the **`spatstat.*`** family of packages [@spatstat15; @spatstat05], especially **`spatstat.geom`** and **`spatstat.explore`**. Details are provided in the [complete vignette](https://tingtingzhan.quarto.pub/groupedhyperframe/), Section 4.1.
+Package **`groupedHyperframe`** (v`r packageVersion('groupedHyperframe')`) `Enhances` the **`spatstat.*`** family of packages [@spatstat15; @spatstat05], especially **`spatstat.geom`** and **`spatstat.explore`**. Details are provided in the [book](https://tingtingzhan.quarto.pub/groupedhyperframe/), Section 7.1.
 
 
-The dependencies of package **`groupedHyperframe`** are detailed in the [complete vignette](https://tingtingzhan.quarto.pub/groupedhyperframe/), Section 4.1. 
+The dependencies of package **`groupedHyperframe`** are detailed in the [book](https://tingtingzhan.quarto.pub/groupedhyperframe/), Section 7.1. 
 
 
-Package **`groupedHyperframe`** requires the *development versions* of the **`spatstat.*`** family of packages. Installation instructions are provided in the [complete vignette](https://tingtingzhan.quarto.pub/groupedhyperframe/), Section 4.1. 
+Package **`groupedHyperframe`** requires the *development versions* of the **`spatstat.*`** family of packages. Installation instructions are provided in the [book](https://tingtingzhan.quarto.pub/groupedhyperframe/), Section 7.1. 
 
 
 ## Installation
@@ -78,86 +78,6 @@ Package **`groupedHyperframe`** (v`r packageVersion('groupedHyperframe')`) can b
 #| eval: false
 utils::install.packages('groupedHyperframe')
 ```
-
-# Getting Started
-
-Examples in the [complete vignette](https://tingtingzhan.quarto.pub/groupedhyperframe/) require that the `search` path has
-
-```{r}
-#| message: false
-#| label: search
-library(groupedHyperframe)
-library(survival)
-```
-
-```{r}
-#| echo: false
-#| label: CRAN_cores
-options(cores = 2L)
-```
-
-# Peer-Reviewed Publications
-
-Package **`groupedHyperframe`** (v`r packageVersion('groupedHyperframe')`) plays a pivotal role in these peer reviewed publications from the authors.
-
-## @Zhan25
-
-```{r}
-#| echo: false
-Zhan25 = bibentry(
-  bibtype = 'article',
-  title = 'Quantile Index predictors using R package `hyper.gam`',
-  author = c('Tingting Zhan', 'Misung Yi', 'Inna Chervoneva' ),
-  journal = 'Bioinformatics',
-  volume = {41}, number = {8}, pages = 'btaf430',
-  year = '2025', month = '07',
-  issn = '1367-4811',
-  doi = '10.1093/bioinformatics/btaf430'
-)
-```
-
-
-> `r Zhan25 |> format(style = 'text') |> gsub(pattern = '\n', replacement = ' ', x = _)`
-
-<details>
-
-<summary>[BibTeX](https://ctan.org/pkg/bibtex) and/or [BibLaTeX](https://ctan.org/pkg/biblatex) entries for [LaTeX](https://www.latex-project.org) users</summary>
-
-```{r}
-#| echo: false
-#| comment: ''
-c(
-  Zhan25,
-  citation(package = 'groupedHyperframe')
-) |> toBibtex()
-```
-
-</details>
-
-as well as @Yi25; @Yi23a; @Yi23b, was featured with a hyper data frame *`Ki67q`* with a numeric-hypercolumn *`logKi67.quantile`*. Functions in the R code-chunk below are explained in the [complete vignette](https://tingtingzhan.quarto.pub/groupedhyperframe/).
-
-```{r}
-#| code-fold: true
-#| code-summary: 'R code in @Zhan25'
-Ki67q = groupedHyperframe::Ki67 |>
-  within.data.frame(expr = {
-    x = y = NULL # remove x- and y-coords for non-spacial application
-  }) |>
-  as.groupedHyperframe(group = ~ patientID/tissueID) |> 
-  quantile(probs = seq.int(from = .01, to = .99, by = .01)) |> 
-  aggregate(by = ~ patientID)
-```
-
-```{r}
-#| message: false
-#| code-fold: true
-#| code-summary: 'A `hyperframe` object *`Ki67q`*: aggregated quantiles'
-Ki67q |>
-  head()
-```
-
-Readers are encouraged to learn more about this application from package **`hyper.gam`** [@hypergam, [CRAN](https://CRAN.R-project.org/package=hyper.gam), [Github](https://github.com/tingtingzhan/hyper.gam)] [vignette](https://rpubs.com/tingtingzhan/hyper_gam), section *Quantile Index*.
-
 
 
 # Acknowledgement
