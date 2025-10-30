@@ -6,14 +6,14 @@
 \alias{cumtrapz.fv}
 \title{Trapzoidal Integration of \link[spatstat.explore]{fv.object}}
 \usage{
-trapz.fv(x, key = fvnames(x, a = ".y"))
+trapz.fv(x, key = fvnames(x, a = ".y"), .x = fvnames(x, a = ".x"))
 
-cumtrapz.fv(x, key = fvnames(x, a = ".y"))
+cumtrapz.fv(x, key = fvnames(x, a = ".y"), .x = fvnames(x, a = ".x"))
 }
 \arguments{
 \item{x}{an \link[spatstat.explore]{fv.object}}
 
-\item{key}{\link[base]{character} scalar, see function \code{\link[=keyval.fv]{keyval.fv()}}}
+\item{key, .x}{\link[base]{character} scalars}
 }
 \value{
 Functions \code{\link[=trapz.fv]{trapz.fv()}} and \code{\link[=vtrapz.fv]{vtrapz.fv()}} return a \link[base]{numeric} scalar.

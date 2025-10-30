@@ -6,7 +6,7 @@
 #' 
 #' @param x \link[base]{numeric} \link[base]{vector}
 #' 
-#' @param key \link[base]{character} scalar, see function [keyval.fv()]
+#' @param key,.x \link[base]{character} scalars
 #' 
 #' @param ... additional parameters of function \link[pracma]{trapz} and \link[pracma]{cumtrapz}
 #' 
@@ -38,8 +38,14 @@ vtrapz.default <- function(x, ...) {
 #' @importFrom spatstat.explore fvnames
 #' @export vtrapz.fv
 #' @export
-vtrapz.fv <- function(x, key = fvnames(x, a = '.y'), ...) {
-  .x <- fvnames(x, a = '.x')
+vtrapz.fv <- function(
+    x, 
+    key = fvnames(x, a = '.y'), 
+    .x = fvnames(x, a = '.x'),
+    ...
+) {
+  force(key)
+  force(.x)
   if (key == .x) stop('first column of `x` is not the output of `fv.object`')
   vtrapz.default(x = x[[.x]], y = x[[key]]) |>
     unname()
@@ -61,9 +67,15 @@ cumvtrapz.default <- function(x, ...) {
 #' @importFrom spatstat.explore fvnames
 #' @export cumvtrapz.fv
 #' @export 
-cumvtrapz.fv <- function(x, key = fvnames(x, a = '.y'), ...) {
+cumvtrapz.fv <- function(
+    x, 
+    key = fvnames(x, a = '.y'), 
+    .x = fvnames(x, a = '.x'),
+    ...
+) {
   
-  .x <- fvnames(x, a = '.x')
+  force(key)
+  force(.x)
   if (key == .x) stop('first column of `x` is not the output of `fv.object`')
   
   n <- length(x[[.x]])

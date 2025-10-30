@@ -6,14 +6,14 @@
 \alias{splinefun.fv}
 \title{\link[stats]{approxfun} of \link[spatstat.explore]{fv.object}}
 \usage{
-approxfun.fv(x, key = fvnames(fv, a = ".y"), ...)
+approxfun.fv(x, key = fvnames(fv, a = ".y"), .x = fvnames(fv, a = ".x"), ...)
 
-splinefun.fv(x, key = fvnames(fv, a = ".y"), ...)
+splinefun.fv(x, key = fvnames(fv, a = ".y"), .x = fvnames(fv, a = ".x"), ...)
 }
 \arguments{
 \item{x}{an \link[spatstat.explore]{fv.object}}
 
-\item{key}{\link[base]{character} scalar, see function \code{\link[=keyval.fv]{keyval.fv()}}}
+\item{key, .x}{\link[base]{character} scalars}
 
 \item{...}{additional parameters of functions
 \link[stats]{approxfun} and \link[stats]{splinefun}.}

@@ -16,9 +16,14 @@
 
 .disrecommend2theo(X, ...)
 
-\method{.illegal2theo}{fv}(X, ...)
+\method{.illegal2theo}{fv}(X, key = fvnames(X, a = ".y"), .x = fvnames(X, a = ".x"), ...)
 
-\method{.disrecommend2theo}{fv}(X, ...)
+\method{.disrecommend2theo}{fv}(
+  X,
+  key = fvnames(X, a = ".y"),
+  .x = fvnames(X, a = ".x"),
+  ...
+)
 
 \method{.illegal2theo}{fvlist}(X, ...)
 
@@ -30,6 +35,8 @@
 }
 \arguments{
 \item{X}{an \link[spatstat.explore]{fv.object}}
+
+\item{key, .x}{\link[base]{character} scalars}
 }
 \description{
 Tentative Fix for Illegal Function Value in \code{fv.object}

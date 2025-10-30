@@ -15,18 +15,18 @@ cumvtrapz(x, ...)
 
 \method{vtrapz}{default}(x, ...)
 
-\method{vtrapz}{fv}(x, key = fvnames(x, a = ".y"), ...)
+\method{vtrapz}{fv}(x, key = fvnames(x, a = ".y"), .x = fvnames(x, a = ".x"), ...)
 
 \method{cumvtrapz}{default}(x, ...)
 
-\method{cumvtrapz}{fv}(x, key = fvnames(x, a = ".y"), ...)
+\method{cumvtrapz}{fv}(x, key = fvnames(x, a = ".y"), .x = fvnames(x, a = ".x"), ...)
 }
 \arguments{
 \item{x}{\link[base]{numeric} \link[base]{vector}}
 
 \item{...}{additional parameters of function \link[pracma]{trapz} and \link[pracma]{cumtrapz}}
 
-\item{key}{\link[base]{character} scalar, see function \code{\link[=keyval.fv]{keyval.fv()}}}
+\item{key, .x}{\link[base]{character} scalars}
 }
 \description{
 (Cumulative) trapezoidal integration divided by \eqn{x}-domain.

@@ -50,6 +50,8 @@ lastLegal <- function(v) {
 #' 
 #' @param X an \link[spatstat.explore]{fv.object}
 #' 
+#' @param key,.x \link[base]{character} scalars
+#' 
 #' @keywords internal
 #' @name fv2theo
 #' @export
@@ -64,12 +66,16 @@ lastLegal <- function(v) {
 #' @importFrom spatstat.explore fvnames
 #' @export .illegal2theo.fv
 #' @export
-.illegal2theo.fv <- function(X, ...) {
+.illegal2theo.fv <- function(
+    X, 
+    key = fvnames(X, a = '.y'), 
+    .x = fvnames(X, a = '.x'),
+    ...
+) {
   
-  key <- X |> 
-    fvnames(a = '.y')
-  rnm <- X |> 
-    fvnames(a = '.x')
+  force(key)
+  force(.x)
+  if (key == .x) stop('first column of `x` is not the output of `fv.object`')
   
   theo <- X$theo
   if (is.null(theo)) stop('this fv.object does not have theo ?')
@@ -79,7 +85,7 @@ lastLegal <- function(v) {
   id0 <- .y |>
     lastLegal()
   id <- id0 + 1L # first illegal
-  X[[rnm]][id] |>
+  X[[.x]][id] |>
     sprintf(
       fmt = 'r\u2265%.1f replaced with %s', 
       'theo' |> col_red() |> style_bold()
@@ -97,12 +103,16 @@ lastLegal <- function(v) {
 #' @importFrom spatstat.explore fvnames
 #' @export .disrecommend2theo.fv
 #' @export
-.disrecommend2theo.fv <- function(X, ...) {
+.disrecommend2theo.fv <- function(
+    X, 
+    key = fvnames(X, a = '.y'), 
+    .x = fvnames(X, a = '.x'),
+    ...
+) {
   
-  key <- X |> 
-    fvnames(a = '.y')
-  rnm <- X |> 
-    fvnames(a = '.x')
+  force(key)
+  force(.x)
+  if (key == .x) stop('first column of `x` is not the output of `fv.object`')
   
   theo <- X$theo
   if (is.null(theo)) stop('this fv.object does not have theo ?')
@@ -112,11 +122,11 @@ lastLegal <- function(v) {
   # in ?spatstat.explore::fv documentation
   # alim specifies the recommended range of the function argument.
   recommend_rmax <- attr(X, which = 'alim', exact = TRUE)[2L]
-  id <- (X[[rnm]] > recommend_rmax) |> 
+  id <- (X[[.x]] > recommend_rmax) |> 
     which() |> 
     min()
   
-  X[[rnm]][id] |>
+  X[[.x]][id] |>
     sprintf(
       fmt = 'r\u2265%.1f replaced with %s', 
       'theo' |> col_red() |> style_bold()
@@ -136,8 +146,14 @@ lastLegal <- function(v) {
 #' @export .illegal2theo.fvlist
 #' @export
 .illegal2theo.fvlist <- function(X, ...) {
+  tmp <- X |> 
+    is.fvlist()
+  key <- tmp |>
+    attr(which = '.y', exact = TRUE)
+  .x <- tmp |>
+    attr(which = '.x', exact = TRUE)
   X |> 
-    lapply(FUN = .illegal2theo.fv, ...) |>
+    lapply(FUN = .illegal2theo.fv, key = key, .x = .x, ...) |>
     as.fvlist()
 }
 
@@ -145,8 +161,14 @@ lastLegal <- function(v) {
 #' @export .disrecommend2theo.fvlist
 #' @export
 .disrecommend2theo.fvlist <- function(X, ...) {
+  tmp <- X |> 
+    is.fvlist()
+  key <- tmp |>
+    attr(which = '.y', exact = TRUE)
+  .x <- tmp |>
+    attr(which = '.x', exact = TRUE)
   X |> 
-    lapply(FUN = .disrecommend2theo.fv, ...) |>
+    lapply(FUN = .disrecommend2theo.fv, key = key, .x = .x, ...) |>
     as.fvlist()
 }
 

@@ -4,12 +4,12 @@
 \alias{loess.fv}
 \title{\link[stats]{loess} of \link[spatstat.explore]{fv.object}}
 \usage{
-loess.fv(x, key = fvnames(fv, a = ".y"), ...)
+loess.fv(x, key = fvnames(fv, a = ".y"), .x = fvnames(fv, a = ".x"), ...)
 }
 \arguments{
 \item{x}{an \link[spatstat.explore]{fv.object}}
 
-\item{key}{\link[base]{character} scalar, see function \code{\link[=keyval.fv]{keyval.fv()}}}
+\item{key, .x}{\link[base]{character} scalars}
 
 \item{...}{additional parameters of functions
 \link[stats]{loess}, except for \code{formula} and \code{data}}
