@@ -4,13 +4,24 @@
 \alias{defunct}
 \alias{aggregate_quantile}
 \alias{aggregate_fv}
+\alias{summary_fv}
 \title{Defunct Functions}
 \usage{
-aggregate_quantile(new = "<groupedHyperframe> |> quantile() |> aggregate()")
+aggregate_quantile(
+  ...,
+  new = "<groupedHyperframe> |> quantile() |> aggregate()"
+)
 
-aggregate_fv(new = "<groupedHyperframe> |> summary_fv() |> aggregate()")
+aggregate_fv(
+  ...,
+  new = "<groupedHyperframe> |> keyval() |> cumvtrapz() |> aggregate()"
+)
+
+summary_fv(..., new = "<groupedHyperframe> |> keyval() |> cumvtrapz()")
 }
 \arguments{
+\item{...}{previous parameters}
+
 \item{new}{\link[base]{character} scalar, see function \link[base]{.Defunct}.}
 }
 \description{
