@@ -6,13 +6,15 @@
 #' 
 #' @param by,FUN,... additional parameters of function \link[stats]{aggregate.data.frame}
 #' 
+#' @param expr \link[base]{expression}, only used when `markformat(x)` is `'dataframe'` AND missing parameter `by`
+#' 
 #' @param vectorize \link[base]{logical} scalar, whether to convert the return from 
 #' function \link[stats]{aggregate.data.frame} into a \link[base]{vector}. Default `FALSE`.
 #' 
 #' @keywords internal
 #' @name aggregate_marks
 #' @export
-aggregate_marks <- function(x, by, FUN, ..., vectorize = FALSE) UseMethod(generic = 'aggregate_marks')
+aggregate_marks <- function(x, by, FUN, expr, ..., vectorize = FALSE) UseMethod(generic = 'aggregate_marks')
   
 
 #' @rdname aggregate_marks
@@ -20,7 +22,7 @@ aggregate_marks <- function(x, by, FUN, ..., vectorize = FALSE) UseMethod(generi
 #' @importFrom spatstat.geom marks.ppp
 #' @export aggregate_marks.ppp
 #' @export
-aggregate_marks.ppp <- function(x, by, FUN, ..., vectorize = FALSE) {
+aggregate_marks.ppp <- function(x, by, FUN, expr, ..., vectorize = FALSE) {
   
   fun_ <- substitute(FUN)
   
@@ -44,8 +46,18 @@ aggregate_marks.ppp <- function(x, by, FUN, ..., vectorize = FALSE) {
   
   # rest: mf == 'dataframe'
   
-  z <- x |> 
-    marks.ppp(dfok = TRUE, drop = FALSE) |>
+  mks <- x |> 
+    marks.ppp(dfok = TRUE, drop = FALSE)
+  
+  if (missing(by)) {
+    z <- substitute(expr) |>
+      eval(envir = mks) # inside ?base::with.default
+    return(z)
+  }
+  
+  # rest: (mf == 'dataframe') && !missing(by)
+  
+  z <- mks |>
     aggregate.data.frame(x = _, by = by, FUN = FUN, ...) # parameter `simplify` must be TRUE
   
   if (!vectorize) return(z)

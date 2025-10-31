@@ -7,9 +7,9 @@
 \alias{aggregate_marks.hyperframe}
 \title{\link{aggregate_marks}}
 \usage{
-aggregate_marks(x, by, FUN, ..., vectorize = FALSE)
+aggregate_marks(x, by, FUN, expr, ..., vectorize = FALSE)
 
-\method{aggregate_marks}{ppp}(x, by, FUN, ..., vectorize = FALSE)
+\method{aggregate_marks}{ppp}(x, by, FUN, expr, ..., vectorize = FALSE)
 
 \method{aggregate_marks}{ppplist}(x, ...)
 
@@ -19,6 +19,8 @@ aggregate_marks(x, by, FUN, ..., vectorize = FALSE)
 \item{x}{see \strong{Usage}}
 
 \item{by, FUN, ...}{additional parameters of function \link[stats]{aggregate.data.frame}}
+
+\item{expr}{\link[base]{expression}, only used when \code{markformat(x)} is \code{'dataframe'} AND missing parameter \code{by}}
 
 \item{vectorize}{\link[base]{logical} scalar, whether to convert the return from
 function \link[stats]{aggregate.data.frame} into a \link[base]{vector}. Default \code{FALSE}.}
