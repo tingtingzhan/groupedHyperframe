@@ -7,6 +7,8 @@
 \alias{vtrapz.fv}
 \alias{cumvtrapz.default}
 \alias{cumvtrapz.fv}
+\alias{cumvtrapz.fvlist}
+\alias{cumvtrapz.hyperframe}
 \title{(Cumulative) Average Vertical Height of Trapezoidal Integration}
 \usage{
 vtrapz(x, ...)
@@ -20,6 +22,10 @@ cumvtrapz(x, ...)
 \method{cumvtrapz}{default}(x, ...)
 
 \method{cumvtrapz}{fv}(x, key = fvnames(x, a = ".y"), .x = fvnames(x, a = ".x"), ...)
+
+\method{cumvtrapz}{fvlist}(x, mc.cores = getOption("cores"), ...)
+
+\method{cumvtrapz}{hyperframe}(x, rmax, ...)
 }
 \arguments{
 \item{x}{\link[base]{numeric} \link[base]{vector}}
@@ -27,6 +33,11 @@ cumvtrapz(x, ...)
 \item{...}{additional parameters of function \link[pracma]{trapz} and \link[pracma]{cumtrapz}}
 
 \item{key, .x}{\link[base]{character} scalars}
+
+\item{mc.cores}{\link[base]{integer} scalar, see function \link[parallel]{mclapply}.
+Default is the return of function \link[parallel]{detectCores}.}
+
+\item{rmax}{\link[base]{numeric} scalar, user-specified truncation point \eqn{r_\text{max}}}
 }
 \description{
 (Cumulative) trapezoidal integration divided by \eqn{x}-domain.

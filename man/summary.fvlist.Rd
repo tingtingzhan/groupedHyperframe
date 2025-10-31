@@ -4,25 +4,15 @@
 \alias{summary.fvlist}
 \title{Truncated Summary of \code{'fvlist'}}
 \usage{
-\method{summary}{fvlist}(
-  object,
-  data.name = deparse1(substitute(object)),
-  rmax,
-  mc.cores = getOption("cores"),
-  ...
-)
+\method{summary}{fvlist}(object, mc.cores = getOption("cores"), ...)
 }
 \arguments{
 \item{object}{an \code{'fvlist'}}
 
-\item{data.name}{\link[base]{character} scalar}
-
-\item{rmax}{(optional) \link[base]{numeric} scalar, user \eqn{r_\text{max}}}
-
 \item{mc.cores}{\link[base]{integer} scalar, see function \link[parallel]{mclapply}.
 Default is the return of function \link[parallel]{detectCores}.}
 
-\item{...}{additional parameters, currently of no use}
+\item{...}{additional parameters of (internal) function \code{trunc_id.fvlist()}}
 }
 \description{
 Truncated Summary of \code{'fvlist'}

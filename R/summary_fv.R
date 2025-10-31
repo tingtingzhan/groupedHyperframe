@@ -17,6 +17,8 @@
 #' @export
 summary_fv <- function(X, rmax, ...) {
   
+  .Defunct(msg = 'keyval.hyperframe; cumtrapz.hyperframe; cumvtrapz.hyperframe')  
+  
   if (!inherits(X, what = 'hyperframe')) stop('input must be hyperframe')
   
   if (!any(id <- (unclass(X)$vclass == 'fv'))) stop('input `X` must contain at least one `fv` column')

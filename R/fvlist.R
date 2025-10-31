@@ -207,14 +207,10 @@ print.fvlist <- function(x, ...) {
 #' 
 #' @param object an `'fvlist'`
 #' 
-#' @param data.name \link[base]{character} scalar
-#' 
-#' @param rmax (optional) \link[base]{numeric} scalar, user \eqn{r_\text{max}}
-#' 
 #' @param mc.cores \link[base]{integer} scalar, see function \link[parallel]{mclapply}.
 #' Default is the return of function \link[parallel]{detectCores}.
 #' 
-#' @param ... additional parameters, currently of no use
+#' @param ... additional parameters of (internal) function `trunc_id.fvlist()`
 #' 
 #' @keywords internal
 #' @importFrom doParallel registerDoParallel
@@ -224,45 +220,21 @@ print.fvlist <- function(x, ...) {
 #' @export
 summary.fvlist <- function(
     object, 
-    data.name = deparse1(substitute(object)),
-    rmax, 
     mc.cores = getOption('cores'), 
     ...
 ) {
+
+  .Defunct(msg = 'keyval.fvlist; cumtrapz.fvlist; cumvtrapz.fvlist')  
+
+  x <- trunc_id.fvlist(object, ...)
+  id <- x |>
+    attr(which = 'id', exact = TRUE)
+  .y <- x |>
+    attr(which = '.y', exact = TRUE)
+  .x <- x |>
+    attr(which = '.x', exact = TRUE)
   
-  x <- object |>
-    as.fvlist() |> # because ?spatstat.geom::hyperframe drops tzh's 'fvlist'
-    suppressMessages()
-  
-  r <- attr(x, which = 'r', exact = TRUE)
-  x_rmax <- attr(x, which = 'rmax', exact = TRUE)
-  .y <- attr(x, which = '.y', exact = TRUE)
-  
-  if (missing(rmax) || !length(rmax)) { # missing user `rmax`
-    # `!length(rmax)` needed in ?base::mapply (at least tzh thinks so, 2025-09-09)
-    if (x_rmax < max(r)) {
-      sprintf(fmt = 'summary.fvlist truncated at rmax(%s) = %.1f', data.name, x_rmax) |>
-        style_bold() |> bg_br_yellow() |> message()
-      id <- (r <= x_rmax)
-    } else id <- rep(TRUE, times = length(r)) # cannot just be `TRUE` (for later use..)
-    
-  } else if (rmax > x_rmax) { # user `rmax > x_rmax`
-    if (x_rmax < max(r)) {
-      sprintf(fmt = 'summary.fvlist truncated at rmax(%s) = %.1f (user rmax = %.1f ignored)', data.name, x_rmax, rmax) |>
-        style_bold() |> bg_br_yellow() |> message()
-    } else {
-      sprintf(fmt = 'summary.fvlist at maximum r(%s) = %.1f (user rmax = %.1f ignored)', data.name, x_rmax, rmax) |>
-        style_bold() |> bg_br_yellow() |> message()
-    }
-    id <- (r <= x_rmax)
-    
-  } else { # use user `rmax`
-    sprintf(fmt = 'summary.fvlist truncated at rmax = %.1f for %s', rmax, data.name) |>
-      style_bold() |> bg_br_yellow() |> message()
-    id <- (r <= rmax)
-  }
-  
-  fn_cumt <- \(i) cumtrapz.fv(i, key = .y)[id[-1L]]
+  fn_cumt <- \(i) cumtrapz.fv(i, key = .y, .x = .x)[id[-1L]]
   switch(
     EXPR = .Platform$OS.type, # as of R 4.5, only two responses, 'windows' or 'unix'
     unix = {
@@ -275,7 +247,7 @@ summary.fvlist <- function(
       stopCluster(cl)
     })
   
-  fn_cumvt <- \(i) cumvtrapz.fv(i, key = .y)[id[-1L]]
+  fn_cumvt <- \(i) cumvtrapz.fv(i, key = .y, .x = .x)[id[-1L]]
   switch(
     EXPR = .Platform$OS.type, # as of R 4.5, only two responses, 'windows' or 'unix'
     unix = {
@@ -290,15 +262,64 @@ summary.fvlist <- function(
   
   return(list(
     y = x |> 
-      lapply(FUN = \(i) keyval.fv(i, key = .y)[id]),
-    cumtrapz = cumt, 
-    cumvtrapz = cumvt
+      lapply(FUN = \(i) keyval.fv(i, key = .y, .x = .x)[id]), # to become `keyval.fvlist()`
+    cumtrapz = cumt, # to become `cumtrapz.fvlist()`
+    cumvtrapz = cumvt # to become `cumvtrapz.fvlist()`
   ))
   
 }
 
 
 
+
+# @param object an `'fvlist'`
+# @param data.name \link[base]{character} scalar
+# 
+# @param rmax (optional) \link[base]{numeric} scalar, user \eqn{r_\text{max}}
+trunc_id.fvlist <- function(
+    object, 
+    data.name = deparse1(substitute(object)),
+    rmax, 
+    ...
+) {
+ 
+  x <- object |>
+    as.fvlist() |> # because ?spatstat.geom::hyperframe drops tzh's 'fvlist'
+    suppressMessages()
+  
+  r <- attr(x, which = 'r', exact = TRUE)
+  x_rmax <- attr(x, which = 'rmax', exact = TRUE)
+  .y <- attr(x, which = '.y', exact = TRUE)
+  
+  if (missing(rmax) || !length(rmax)) { # missing user `rmax`
+    # `!length(rmax)` needed in ?base::mapply (at least tzh thinks so, 2025-09-09)
+    if (x_rmax < max(r)) {
+      sprintf(fmt = 'fvlist truncated at rmax(%s) = %.1f', data.name, x_rmax) |>
+        style_bold() |> bg_br_yellow() |> message()
+      id <- (r <= x_rmax)
+    } else id <- rep(TRUE, times = length(r)) # cannot just be `TRUE` (for later use..)
+    
+  } else if (rmax > x_rmax) { # user `rmax > x_rmax`
+    if (x_rmax < max(r)) {
+      sprintf(fmt = 'fvlist truncated at rmax(%s) = %.1f (user rmax = %.1f ignored)', data.name, x_rmax, rmax) |>
+        style_bold() |> bg_br_yellow() |> message()
+    } else {
+      sprintf(fmt = 'fvlist at maximum r(%s) = %.1f (user rmax = %.1f ignored)', data.name, x_rmax, rmax) |>
+        style_bold() |> bg_br_yellow() |> message()
+    }
+    id <- (r <= x_rmax)
+    
+  } else { # use user `rmax`
+    sprintf(fmt = 'fvlist truncated at rmax = %.1f for %s', rmax, data.name) |>
+      style_bold() |> bg_br_yellow() |> message()
+    id <- (r <= rmax)
+  }
+  
+  attr(x, which = 'id') <- id
+  
+  return(x)
+  
+}
 
 
 
