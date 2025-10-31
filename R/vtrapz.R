@@ -144,7 +144,7 @@ cumvtrapz.fvlist <- function(
 #' @param rmax \link[base]{numeric} scalar, user-specified truncation point \eqn{r_\text{max}}
 #' 
 #' @importFrom spatstat.geom names.hyperframe as.list.hyperframe
-#' @export cumtrapz.hyperframe
+#' @export cumvtrapz.hyperframe
 #' @export
 cumvtrapz.hyperframe <- function(x, rmax, ...) {
   
