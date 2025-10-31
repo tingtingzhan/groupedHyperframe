@@ -84,6 +84,9 @@ lastLegal <- function(v) {
 
   id0 <- .y |>
     lastLegal()
+  
+  if (id0 == length(.y)) return(X) # all legal; exception handling
+  
   id <- id0 + 1L # first illegal
   X[[.x]][id] |>
     sprintf(
@@ -122,9 +125,12 @@ lastLegal <- function(v) {
   # in ?spatstat.explore::fv documentation
   # alim specifies the recommended range of the function argument.
   recommend_rmax <- attr(X, which = 'alim', exact = TRUE)[2L]
-  id <- (X[[.x]] > recommend_rmax) |> 
-    which() |> 
-    min()
+  id0 <- (X[[.x]] > recommend_rmax) |> 
+    which()
+  
+  if (!length(id0)) return(X) # exception handling
+  
+  id <- min(id0)
   
   X[[.x]][id] |>
     sprintf(
@@ -174,17 +180,43 @@ lastLegal <- function(v) {
 
 
 #' @rdname fv2theo
+#' @importFrom spatstat.geom as.list.hyperframe names.hyperframe
 #' @export .illegal2theo.hyperframe
 #' @export
 .illegal2theo.hyperframe <- function(X, ...) {
-  #suppressMessages() |> only here
-  stop('still working')
+  
+  if (!any(id <- (unclass(X)$vclass == 'fv'))) stop('input `x` must contain at least one `fv` column')
+  nm <- names.hyperframe(X)[id]
+  
+  ret0 <- (as.list.hyperframe(X)[nm]) |>
+    lapply(FUN = .disrecommend2theo.fvlist) |>
+    suppressMessages()
+  
+  # to replace original fv-hypercolumn!!!
+  z <- unclass(X)
+  z$hypercolumns[nm] <- ret0
+  class(z) <- class(X)
+  return(z)
+  
 }
 
 #' @rdname fv2theo
+#' @importFrom spatstat.geom as.list.hyperframe names.hyperframe
 #' @export .disrecommend2theo.hyperframe
 #' @export
 .disrecommend2theo.hyperframe <- function(X, ...) {
-  #suppressMessages() |> # only here
-  stop('still working')
+  
+  if (!any(id <- (unclass(X)$vclass == 'fv'))) stop('input `x` must contain at least one `fv` column')
+  nm <- names.hyperframe(X)[id]
+  
+  ret0 <- (as.list.hyperframe(X)[nm]) |>
+    lapply(FUN = .disrecommend2theo.fvlist) |>
+    suppressMessages()
+  
+  # to replace original fv-hypercolumn!!!
+  z <- unclass(X)
+  z$hypercolumns[nm] <- ret0
+  class(z) <- class(X)
+  return(z)
+  
 }
