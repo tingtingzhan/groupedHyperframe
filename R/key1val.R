@@ -63,7 +63,7 @@ keyval.fvlist <- function(x, ...) {
     attr(which = '.x', exact = TRUE)
   
   x |> 
-    anylapply(FUN = \(i) keyval.fv(i, key = .y, .x = .x)[id])
+    anylapply(FUN = \(i) keyval.fv(i, key = .y, .x = .x))
   
 }
 
