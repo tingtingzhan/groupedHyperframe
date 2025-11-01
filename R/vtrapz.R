@@ -6,12 +6,20 @@
 #' 
 #' @param x \link[base]{numeric} \link[base]{vector}
 #' 
+#' @param y see function \link[pracma]{cumtrapz}
+#' 
 #' @param key,.x \link[base]{character} scalars
+#' 
+#' @param rm1 \link[base]{logical} scalar, whether to remove the first `NaN`-value from
+#' function [cumvtrapz()] return, default `TRUE`
 #' 
 #' @param ... additional parameters of function \link[pracma]{trapz} and \link[pracma]{cumtrapz}
 #' 
 #' @note
 #' This is a tentative thought: the prefix `v` stands for 'vertical'.
+#' 
+#' @returns 
+#' Function `vtrapz.*()` return a \link[base]{numeric} scalar.
 #' 
 #' @keywords internal
 #' @name vtrapz
@@ -56,12 +64,46 @@ vtrapz.fv <- function(
 #' @importFrom pracma cumtrapz
 #' @export cumvtrapz.default
 #' @export
-cumvtrapz.default <- function(x, ...) {
+cumvtrapz.default <- function(x, y, ..., rm1 = TRUE) {
   if (!is.vector(x, mode = 'numeric')) stop('`x` must be double numeric')
   if (anyDuplicated(x)) stop('`x` must not have duplicates')
   if (is.unsorted(x)) stop('`x` must be sorted')
-  cumtrapz(x, ...) / (x - min(x))
+  if (length(x) == 1L) return(invisible()) # exception handling
+  # needed! Otherwise ?pracma::cumtrapz errs
+  
+  z <- cumtrapz(x, y) / (x - min(x)) # always a 'matrix', even if ncol-1L 
+  attr(z, which = 'x') <- x
+  attr(z, which = 'method') <- 'pracma::trapz'
+  class(z) <- c('cumv', class(z)) |> 
+    unique.default()
+  
+  # a trapz needs two points; therefore `[-1L]` by default
+  if (rm1) return(z[-1L]) # `[.cumv`
+
+  return(z)
 }
+
+
+
+
+
+#' @export
+`[.cumv` <- function(x, i) {
+  z <- unclass(x)[i, , drop = FALSE] # 'matrix'
+  attr(z, which = 'x') <- attr(x, which = 'x', exact = TRUE)[i]
+  attr(z, which = 'method') <- attr(x, which = 'method', exact = TRUE)
+  class(z) <- class(x)
+  return(z)
+}
+
+
+#' @export
+print.cumv <- function(x, ...) {
+  x0 <- unclass(x)
+  attributes(x0)[c('x', 'method')] <- NULL
+  print.default(x0)
+}
+
 
 #' @rdname vtrapz
 #' @importFrom spatstat.explore fvnames
@@ -73,25 +115,11 @@ cumvtrapz.fv <- function(
     .x = fvnames(x, a = '.x'),
     ...
 ) {
-  
   force(key)
   force(.x)
   if (key == .x) stop('first column of `x` is not the output of `fv.object`')
-  
-  n <- length(x[[.x]])
-  if (n == 1L) return(invisible()) # exception handling
-  # needed! Otherwise ?pracma::cumtrapz errs
-  
-  ret0 <- cumvtrapz.default(x = x[[.x]], y = x[[key]])
-  # a trapz needs two points; therefore `[-1L]`
-  ret <- c(ret0[-1L])
-  names(ret) <- x[[.x]][-1L]
-  return(ret)
-  
+  cumvtrapz.default(x = x[[.x]], y = x[[key]], ...)
 }
-
-
-
 
 
 
@@ -112,15 +140,19 @@ cumvtrapz.fvlist <- function(
     ...
 ) {
   
-  x <- trunc_id.fvlist(x, ...)
-  id <- x |>
-    attr(which = 'id', exact = TRUE)
-  .y <- x |>
+  tmp <- x |>
+    is.fvlist()
+  .y <- tmp |>
     attr(which = '.y', exact = TRUE)
-  .x <- x |>
+  .x <- tmp |>
     attr(which = '.x', exact = TRUE)
   
-  fn <- \(i) cumvtrapz.fv(i, key = .y, .x = .x)[id[-1L]]
+  fn <- \(i, ...) {
+    z <- cumvtrapz.fv(i, key = .y, .x = .x, ...)
+    ret <- c(z)
+    names(ret) <- attr(z, which = 'x', exact = TRUE)
+    return(ret)
+  }
   switch(
     EXPR = .Platform$OS.type, # as of R 4.5, only two responses, 'windows' or 'unix'
     unix = {
@@ -129,7 +161,7 @@ cumvtrapz.fvlist <- function(
     }, windows = {
       i <- NULL # just to suppress devtools::check NOTE
       registerDoParallel(cl = (cl <- makeCluster(spec = mc.cores)))
-      cumvt <- foreach(i = x, .options.multicore = list(cores = mc.cores)) %dopar% fn(i)
+      cumvt <- foreach(i = x, .options.multicore = list(cores = mc.cores)) %dopar% fn(i, ...)
       stopCluster(cl)
     })
   
@@ -194,7 +226,7 @@ cumvtrapz.hyperframe <- function(x, rmax, ...) {
 #' smoothed \eqn{x} and \eqn{y} values, 
 #' to beautify the \link[geomtextpath]{geom_textpath} of a \link[stats]{stepfun}
 #' 
-#' @param x_labels,y_labels \link[base]{character} scalars
+#' @param xlabs,ylabs \link[base]{character} scalars
 #' 
 #' @param yname (optional) \link[base]{character} scalar, name of function
 #' 
@@ -224,7 +256,7 @@ cumvtrapz.hyperframe <- function(x, rmax, ...) {
 visualize_vtrapz <- function(
     x, y,
     x_smooth, y_smooth,
-    x_labels, y_labels, 
+    xlabs, ylabs, 
     yname,
     draw.rect, draw.v, label.v,
     draw.cumv, label.cumv,
@@ -244,7 +276,7 @@ visualize_vtrapz <- function(
 visualize_vtrapz.numeric <- function(
     x, y,
     x_smooth = x, y_smooth = y,
-    x_labels, y_labels, 
+    xlabs, ylabs, 
     yname,
     draw.rect = TRUE, draw.v = draw.rect, label.v = 'Average Vertical Height',
     draw.cumv = TRUE, label.cumv = 'Cumulative Average Vertical Height',
@@ -287,17 +319,17 @@ visualize_vtrapz.numeric <- function(
       colour = 'blue', fontface = 'bold', alpha = .7
     )) +
     (if (length(x) <= 10L) {
-      if (missing(x_labels) || !length(x_labels)) {
+      if (missing(xlabs) || !length(xlabs)) {
         scale_x_continuous(breaks = x, labels = label_number(accuracy = .1), limits = x_lim)
-      } else scale_x_continuous(breaks = x, labels = x_labels, limits = x_lim)
+      } else scale_x_continuous(breaks = x, labels = xlabs, limits = x_lim)
     } else {
-      if (missing(x_labels) || !length(x_labels)) {
+      if (missing(xlabs) || !length(xlabs)) {
         # do nothing
-      } else scale_x_continuous(labels = x_labels)
+      } else scale_x_continuous(labels = xlabs)
     }) + 
-    (if (missing(y_labels) || !length(y_labels)) {
+    (if (missing(ylabs) || !length(ylabs)) {
       # do nothing
-    } else scale_y_continuous(labels = y_labels)) +
+    } else scale_y_continuous(labels = ylabs)) +
     labs(caption = doi_pracma |> sprintf(fmt = 'pracma::trapz() via doi:%s'))
   
 }
@@ -332,8 +364,8 @@ visualize_vtrapz.fv <- function(x, ...) {
     x = x, y = y,
     x_smooth = if (is_step) l$x else x, 
     y_smooth = if (is_step) l$y else y, 
-    x_labels = if (is_roc) label_percent(), #else NULL
-    y_labels = if (is_roc) label_percent(), #else NULL
+    xlabs = if (is_roc) label_percent(), #else NULL
+    ylabs = if (is_roc) label_percent(), #else NULL
     yname = if (is_step) {
       yname |> sprintf(fmt = '%s (smoothed)') 
     } else yname,

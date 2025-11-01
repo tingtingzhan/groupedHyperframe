@@ -16,8 +16,8 @@ visualize_vtrapz(
   y,
   x_smooth,
   y_smooth,
-  x_labels,
-  y_labels,
+  xlabs,
+  ylabs,
   yname,
   draw.rect,
   draw.v,
@@ -32,8 +32,8 @@ visualize_vtrapz(
   y,
   x_smooth = x,
   y_smooth = y,
-  x_labels,
-  y_labels,
+  xlabs,
+  ylabs,
   yname,
   draw.rect = TRUE,
   draw.v = draw.rect,
@@ -64,7 +64,7 @@ visualize_vtrapz(
 smoothed \eqn{x} and \eqn{y} values,
 to beautify the \link[geomtextpath]{geom_textpath} of a \link[stats]{stepfun}}
 
-\item{x_labels, y_labels}{\link[base]{character} scalars}
+\item{xlabs, ylabs}{\link[base]{character} scalars}
 
 \item{yname}{(optional) \link[base]{character} scalar, name of function}
 

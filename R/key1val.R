@@ -52,12 +52,14 @@ keyval.fv <- function(
 #' @export
 keyval.fvlist <- function(x, ...) {
   
-  x <- trunc_id.fvlist(x, ...)
-  id <- x |>
-    attr(which = 'id', exact = TRUE)
-  .y <- x |>
+  #x <- trunc_id.fvlist(x, ...)
+  #id <- x |>
+  #  attr(which = 'id', exact = TRUE)
+  tmp <- x |>
+    is.fvlist()
+  .y <- tmp |>
     attr(which = '.y', exact = TRUE)
-  .x <- x |>
+  .x <- tmp |>
     attr(which = '.x', exact = TRUE)
   
   x |> 

@@ -19,7 +19,7 @@ cumvtrapz(x, ...)
 
 \method{vtrapz}{fv}(x, key = fvnames(x, a = ".y"), .x = fvnames(x, a = ".x"), ...)
 
-\method{cumvtrapz}{default}(x, ...)
+\method{cumvtrapz}{default}(x, y, ..., rm1 = TRUE)
 
 \method{cumvtrapz}{fv}(x, key = fvnames(x, a = ".y"), .x = fvnames(x, a = ".x"), ...)
 
@@ -34,10 +34,18 @@ cumvtrapz(x, ...)
 
 \item{key, .x}{\link[base]{character} scalars}
 
+\item{y}{see function \link[pracma]{cumtrapz}}
+
+\item{rm1}{\link[base]{logical} scalar, whether to remove the first \code{NaN}-value from
+function \code{\link[=cumvtrapz]{cumvtrapz()}} return, default \code{TRUE}}
+
 \item{mc.cores}{\link[base]{integer} scalar, see function \link[parallel]{mclapply}.
 Default is the return of function \link[parallel]{detectCores}.}
 
 \item{rmax}{\link[base]{numeric} scalar, user-specified truncation point \eqn{r_\text{max}}}
+}
+\value{
+Function \verb{vtrapz.*()} return a \link[base]{numeric} scalar.
 }
 \description{
 (Cumulative) trapezoidal integration divided by \eqn{x}-domain.
