@@ -289,7 +289,10 @@ visualize_vtrapz.numeric <- function(
   if (any(y < 0)) stop('for visualization, force `y > 0`')
   
   v <- vtrapz.default(x, y)
-  cv <- cumvtrapz.default(x, y)
+  cv <- cumvtrapz.default(x, y, rm1 = TRUE)
+  method <- attr(cv, which = 'method', exact = TRUE)
+  #label.v <- paste(label.v, method, sep = '; ')
+  #label.cumv <- paste(label.cumv, method, sep = '; ')
   
   xmin <- min(x)
   xmax <- max(x)
@@ -299,38 +302,59 @@ visualize_vtrapz.numeric <- function(
   
   doi_pracma <- unclass(citation(package = 'pracma'))[[1L]]$doi
   
-  ggplot() + 
-    (if (missing(yname) || !length(yname)) {
-      geom_path(mapping = aes(x = x, y = y), alpha = .3, linewidth = 1.3)
-    } else {
-      geom_textpath(
-        mapping = aes(x = x_smooth, y = y_smooth, label = yname),
-        hjust = .1, alpha = .3, linewidth = 1.3, 
-        #colour = 'blue', fontface = 'bold', alpha = .7
-      )
-    }) +
-    (if (draw.rect) geom_rect(mapping = aes(xmin = min(x), xmax = max(x), ymin = 0, ymax = v), alpha = .1)) +
-    (if (draw.v) geom_textpath(
+  lyr_path <- if (missing(yname) || !length(yname)) {
+    geom_path(mapping = aes(x = x, y = y), alpha = .3, linewidth = 1.3)
+  } else {
+    geom_textpath(
+      mapping = aes(x = x_smooth, y = y_smooth, label = yname),
+      hjust = .1, alpha = .3, linewidth = 1.3, 
+      #colour = 'blue', fontface = 'bold', alpha = .7
+    )
+  }
+  
+  lyr_rect <- if (draw.rect) geom_rect(mapping = aes(xmin = min(x), xmax = max(x), ymin = 0, ymax = v), alpha = .1) # else NULL
+  
+  lyr_v <- if (draw.v) {
+    geom_textpath(
       mapping = aes(x = x, y = v, label = label.v),
       hjust = .1, text_only = TRUE, colour = 'red', fontface = 'bold', alpha = .7
-    )) +
-    (if (draw.cumv) geom_textpath(
-      mapping = aes(x = x[-1L], y = cv[-1L], label = label.cumv),
+    )
+  } # else NULL
+  
+  lyr_cumv <- if (draw.cumv) {
+    geom_textpath(
+      mapping = aes(
+        x = attr(cv, which = 'x', exact = TRUE), 
+        y = c(cv), 
+        label = label.cumv
+      ),
       colour = 'blue', fontface = 'bold', alpha = .7
-    )) +
-    (if (length(x) <= 10L) {
-      if (missing(xlabs) || !length(xlabs)) {
-        scale_x_continuous(breaks = x, labels = label_number(accuracy = .1), limits = x_lim)
-      } else scale_x_continuous(breaks = x, labels = xlabs, limits = x_lim)
-    } else {
-      if (missing(xlabs) || !length(xlabs)) {
-        # do nothing
-      } else scale_x_continuous(labels = xlabs)
-    }) + 
-    (if (missing(ylabs) || !length(ylabs)) {
+    )
+  } # else NULL
+  
+  lyr_x <- if (length(x) <= 10L) {
+    if (missing(xlabs) || !length(xlabs)) {
+      scale_x_continuous(breaks = x, labels = label_number(accuracy = .1), limits = x_lim)
+    } else scale_x_continuous(breaks = x, labels = xlabs, limits = x_lim)
+  } else {
+    if (missing(xlabs) || !length(xlabs)) {
       # do nothing
-    } else scale_y_continuous(labels = ylabs)) +
-    labs(caption = doi_pracma |> sprintf(fmt = 'pracma::trapz() via doi:%s'))
+    } else scale_x_continuous(labels = xlabs)
+  }
+  
+  lyr_y <- if (missing(ylabs) || !length(ylabs)) {
+    # do nothing
+  } else scale_y_continuous(labels = ylabs)
+    
+  ggplot() + 
+    lyr_path +
+    lyr_rect +
+    lyr_v +
+    lyr_cumv +
+    lyr_x + 
+    lyr_y +
+    #labs(caption = doi_pracma |> sprintf(fmt = 'pracma::trapz() via doi:%s'))
+    labs(caption = method)
   
 }
 
