@@ -1,6 +1,5 @@
 ---
 title: "Grouped Hyper Data Frame"
-author: Tingting Zhan
 date: today
 format: 
   html:
