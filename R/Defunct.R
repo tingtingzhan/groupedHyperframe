@@ -85,24 +85,6 @@ aggregate_quantile <- function(..., new = '<groupedHyperframe> |> quantile() |> 
 }
 
 
-#' @rdname defunct
-#' @export
-aggregate_fv <- function(..., new = '<groupedHyperframe> |> keyval() |> cumvtrapz() |> aggregate()') {
-  
-  match.call()[[1L]] |> deparse1() |> col_cyan() |> style_bold() |>
-    sprintf(fmt = 'Function %s has been replaced by pipeline') |> message()
-  
-  new |>
-    col_red() |> style_bold() |>
-    message()
-  
-  'Read vignette for details' |> message()
-  cli_QuartoPub_(pub = 'groupedhyperframe')
-  
-  .Defunct(new = new)
-
-}
-
 
 #' @rdname defunct
 #' @export

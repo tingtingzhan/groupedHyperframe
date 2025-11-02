@@ -3,18 +3,12 @@
 \name{defunct}
 \alias{defunct}
 \alias{aggregate_quantile}
-\alias{aggregate_fv}
 \alias{summary_fv}
 \title{Defunct Functions}
 \usage{
 aggregate_quantile(
   ...,
   new = "<groupedHyperframe> |> quantile() |> aggregate()"
-)
-
-aggregate_fv(
-  ...,
-  new = "<groupedHyperframe> |> keyval() |> cumvtrapz() |> aggregate()"
 )
 
 summary_fv(..., new = "<groupedHyperframe> |> keyval() |> cumvtrapz()")
