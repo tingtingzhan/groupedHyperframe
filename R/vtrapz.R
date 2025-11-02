@@ -1,8 +1,41 @@
 
-#' @title (Cumulative) Average Vertical Height of Trapezoidal Integration
+
+
+#' @title Average Vertical Height of Trapezoidal Integration
 #' 
 #' @description
-#' (Cumulative) trapezoidal integration divided by \eqn{x}-domain.
+#' Trapezoidal integration divided by \eqn{x}-domain.
+#' 
+#' @param x \link[base]{numeric} \link[base]{vector}
+#' 
+#' @param ... additional parameters of function \link[pracma]{trapz}
+#' 
+#' @note
+#' This is a tentative thought: the prefix `v` stands for 'vertical'.
+#' 
+#' @returns 
+#' Function [vtrapz()] return a \link[base]{numeric} scalar.
+#' 
+#' @keywords internal
+#' @importFrom pracma trapz
+#' @export
+vtrapz <- function(x, ...) {
+  if (!is.vector(x, mode = 'numeric')) stop('`x` must be double numeric')
+  if (anyDuplicated(x)) stop('`x` must not have duplicates')
+  if (is.unsorted(x)) stop('`x` must be sorted')
+  trapz(x, ...) / (max(x) - min(x))
+}
+
+
+
+
+
+
+
+#' @title Cumulative Average Vertical Height of Trapezoidal Integration
+#' 
+#' @description
+#' Cumulative trapezoidal integration divided by \eqn{x}-domain.
 #' 
 #' @param x \link[base]{numeric} \link[base]{vector}
 #' 
@@ -22,45 +55,14 @@
 #' Function `vtrapz.*()` return a \link[base]{numeric} scalar.
 #' 
 #' @keywords internal
-#' @name vtrapz
-#' @export
-vtrapz <- function(x, ...) UseMethod(generic = 'vtrapz')
-
-#' @rdname vtrapz
+#' @name cumvtrapz
 #' @export
 cumvtrapz <- function(x, ...) UseMethod(generic = 'cumvtrapz')
 
 
-#' @rdname vtrapz
-#' @importFrom pracma trapz
-#' @export vtrapz.default
-#' @export
-vtrapz.default <- function(x, ...) {
-  if (!is.vector(x, mode = 'numeric')) stop('`x` must be double numeric')
-  if (anyDuplicated(x)) stop('`x` must not have duplicates')
-  if (is.unsorted(x)) stop('`x` must be sorted')
-  trapz(x, ...) / (max(x) - min(x))
-}
-
-#' @rdname vtrapz
-#' @importFrom spatstat.explore fvnames
-#' @export vtrapz.fv
-#' @export
-vtrapz.fv <- function(
-    x, 
-    key = fvnames(x, a = '.y'), 
-    .x = fvnames(x, a = '.x'),
-    ...
-) {
-  force(key)
-  force(.x)
-  if (key == .x) stop('first column of `x` is not the output of `fv.object`')
-  vtrapz.default(x = x[[.x]], y = x[[key]]) |>
-    unname()
-}
 
 
-#' @rdname vtrapz
+#' @rdname cumvtrapz
 #' @importFrom pracma cumtrapz
 #' @export cumvtrapz.default
 #' @export
@@ -105,7 +107,7 @@ print.cumv <- function(x, ...) {
 }
 
 
-#' @rdname vtrapz
+#' @rdname cumvtrapz
 #' @importFrom spatstat.explore fvnames
 #' @export cumvtrapz.fv
 #' @export 
@@ -123,7 +125,7 @@ cumvtrapz.fv <- function(
 
 
 
-#' @rdname vtrapz
+#' @rdname cumvtrapz
 #' 
 #' @param mc.cores \link[base]{integer} scalar, see function \link[parallel]{mclapply}.
 #' Default is the return of function \link[parallel]{detectCores}.
@@ -172,27 +174,17 @@ cumvtrapz.fvlist <- function(
 
 
 
-#' @rdname vtrapz
-#' @param rmax \link[base]{numeric} scalar, user-specified truncation point \eqn{r_\text{max}}
-#' 
+#' @rdname cumvtrapz
 #' @importFrom spatstat.geom names.hyperframe as.list.hyperframe
 #' @export cumvtrapz.hyperframe
 #' @export
-cumvtrapz.hyperframe <- function(x, rmax, ...) {
+cumvtrapz.hyperframe <- function(x, ...) {
   
   if (!any(id <- (unclass(x)$vclass == 'fv'))) stop('input `x` must contain at least one `fv` column')
   nm <- names.hyperframe(x)[id]
   
-  if (!missing(rmax)) {
-    if (!is.numeric(rmax) || length(rmax) != 1L || is.na(rmax) || (rmax <= 0)) stop('illegal user-specified `rmax`')
-  } else rmax <- numeric() # cannot use ?base::missing inside ?base::mapply
-  
   ret0 <- (as.list.hyperframe(x)[nm]) |>
-    mapply(
-      FUN = cumvtrapz.fvlist, 
-      x = _, data.name = nm, 
-      MoreArgs = list(rmax = rmax, ...), SIMPLIFY = FALSE
-    )
+    lapply(FUN = cumvtrapz.fvlist, ...)
   
   names(ret0) <- names(ret0) |>
     sprintf(fmt = '%s.cumvtrapz')
@@ -288,7 +280,7 @@ visualize_vtrapz.numeric <- function(
   if (anyNA(y)) stop('`y` must not have missing value(s)')
   if (any(y < 0)) stop('for visualization, force `y > 0`')
   
-  v <- vtrapz.default(x, y)
+  v <- vtrapz(x, y)
   cv <- cumvtrapz.default(x, y, rm1 = TRUE)
   method <- attr(cv, which = 'method', exact = TRUE)
   #label.v <- paste(label.v, method, sep = '; ')

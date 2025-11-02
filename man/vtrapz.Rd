@@ -2,53 +2,20 @@
 % Please edit documentation in R/vtrapz.R
 \name{vtrapz}
 \alias{vtrapz}
-\alias{cumvtrapz}
-\alias{vtrapz.default}
-\alias{vtrapz.fv}
-\alias{cumvtrapz.default}
-\alias{cumvtrapz.fv}
-\alias{cumvtrapz.fvlist}
-\alias{cumvtrapz.hyperframe}
-\title{(Cumulative) Average Vertical Height of Trapezoidal Integration}
+\title{Average Vertical Height of Trapezoidal Integration}
 \usage{
 vtrapz(x, ...)
-
-cumvtrapz(x, ...)
-
-\method{vtrapz}{default}(x, ...)
-
-\method{vtrapz}{fv}(x, key = fvnames(x, a = ".y"), .x = fvnames(x, a = ".x"), ...)
-
-\method{cumvtrapz}{default}(x, y, ..., rm1 = TRUE)
-
-\method{cumvtrapz}{fv}(x, key = fvnames(x, a = ".y"), .x = fvnames(x, a = ".x"), ...)
-
-\method{cumvtrapz}{fvlist}(x, mc.cores = getOption("cores"), ...)
-
-\method{cumvtrapz}{hyperframe}(x, rmax, ...)
 }
 \arguments{
 \item{x}{\link[base]{numeric} \link[base]{vector}}
 
-\item{...}{additional parameters of function \link[pracma]{trapz} and \link[pracma]{cumtrapz}}
-
-\item{key, .x}{\link[base]{character} scalars}
-
-\item{y}{see function \link[pracma]{cumtrapz}}
-
-\item{rm1}{\link[base]{logical} scalar, whether to remove the first \code{NaN}-value from
-function \code{\link[=cumvtrapz]{cumvtrapz()}} return, default \code{TRUE}}
-
-\item{mc.cores}{\link[base]{integer} scalar, see function \link[parallel]{mclapply}.
-Default is the return of function \link[parallel]{detectCores}.}
-
-\item{rmax}{\link[base]{numeric} scalar, user-specified truncation point \eqn{r_\text{max}}}
+\item{...}{additional parameters of function \link[pracma]{trapz}}
 }
 \value{
-Function \verb{vtrapz.*()} return a \link[base]{numeric} scalar.
+Function \code{\link[=vtrapz]{vtrapz()}} return a \link[base]{numeric} scalar.
 }
 \description{
-(Cumulative) trapezoidal integration divided by \eqn{x}-domain.
+Trapezoidal integration divided by \eqn{x}-domain.
 }
 \note{
 This is a tentative thought: the prefix \code{v} stands for 'vertical'.

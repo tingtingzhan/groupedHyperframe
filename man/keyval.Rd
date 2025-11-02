@@ -13,16 +13,14 @@ keyval(x, ...)
 
 \method{keyval}{fvlist}(x, ...)
 
-\method{keyval}{hyperframe}(x, rmax, ...)
+\method{keyval}{hyperframe}(x, ...)
 }
 \arguments{
 \item{x}{see \strong{Usage}}
 
-\item{...}{additional parameters of (internal) function \code{trunc_id.fvlist()}}
+\item{...}{additional parameters, currently of no use}
 
 \item{key, .x}{\link[base]{character} scalars}
-
-\item{rmax}{\link[base]{numeric} scalar, user-specified truncation point \eqn{r_\text{max}}}
 }
 \value{
 Function \code{\link[=keyval.fv]{keyval.fv()}} returns a \link[base]{numeric} \link[base]{vector}.

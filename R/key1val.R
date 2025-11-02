@@ -7,7 +7,7 @@
 #' 
 #' @param x see **Usage**
 #' 
-#' @param ... additional parameters of (internal) function `trunc_id.fvlist()`
+#' @param ... additional parameters, currently of no use
 #' 
 #' @details
 #' Function [keyval.fv()] finds the value of the (primary) outcome
@@ -52,9 +52,6 @@ keyval.fv <- function(
 #' @export
 keyval.fvlist <- function(x, ...) {
   
-  #x <- trunc_id.fvlist(x, ...)
-  #id <- x |>
-  #  attr(which = 'id', exact = TRUE)
   tmp <- x |>
     is.fvlist()
   .y <- tmp |>
@@ -70,27 +67,16 @@ keyval.fvlist <- function(x, ...) {
 
 
 #' @rdname keyval
-#' @param rmax \link[base]{numeric} scalar, user-specified truncation point \eqn{r_\text{max}}
-#' 
 #' @importFrom spatstat.geom names.hyperframe as.list.hyperframe
 #' @export keyval.hyperframe
 #' @export
-keyval.hyperframe <- function(x, rmax, ...) {
+keyval.hyperframe <- function(x, ...) {
   
   if (!any(id <- (unclass(x)$vclass == 'fv'))) stop('input `x` must contain at least one `fv` column')
   nm <- names.hyperframe(x)[id]
   
-  if (!missing(rmax)) {
-    if (!is.numeric(rmax) || length(rmax) != 1L || is.na(rmax) || (rmax <= 0)) stop('illegal user-specified `rmax`')
-  } else rmax <- numeric() # cannot use ?base::missing inside ?base::mapply
-  
   ret0 <- (as.list.hyperframe(x)[nm]) |>
-    mapply(
-      FUN = keyval.fvlist, 
-      x = _, data.name = nm, 
-      MoreArgs = list(rmax = rmax, ...), SIMPLIFY = FALSE
-    ) #|> 
-    #unlist(recursive = FALSE, use.names = TRUE) # removed!!! beautiful!!!
+    lapply(FUN = keyval.fvlist, ...)
   
   names(ret0) <- names(ret0) |>
     sprintf(fmt = '%s.y')

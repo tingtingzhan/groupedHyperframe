@@ -207,56 +207,6 @@ print.fvlist <- function(x, ...) {
 
 
 
-# @param object an `'fvlist'`
-# @param data.name \link[base]{character} scalar
-# 
-# @param rmax (optional) \link[base]{numeric} scalar, user \eqn{r_\text{max}}
-trunc_id.fvlist <- function(
-    object, 
-    data.name = deparse1(substitute(object)),
-    rmax, 
-    ...
-) {
- 
-  x <- object |>
-    as.fvlist() |> # because ?spatstat.geom::hyperframe drops tzh's 'fvlist'
-    suppressMessages()
-  
-  r <- attr(x, which = 'r', exact = TRUE)
-  x_rmax <- attr(x, which = 'rmax', exact = TRUE)
-  .y <- attr(x, which = '.y', exact = TRUE)
-  
-  if (missing(rmax) || !length(rmax)) { # missing user `rmax`
-    # `!length(rmax)` needed in ?base::mapply (at least tzh thinks so, 2025-09-09)
-    if (x_rmax < max(r)) {
-      sprintf(fmt = 'fvlist truncated at rmax(%s) = %.1f', data.name, x_rmax) |>
-        style_bold() |> bg_br_yellow() |> message()
-      id <- (r <= x_rmax)
-    } else id <- rep(TRUE, times = length(r)) # cannot just be `TRUE` (for later use..)
-    
-  } else if (rmax > x_rmax) { # user `rmax > x_rmax`
-    if (x_rmax < max(r)) {
-      sprintf(fmt = 'fvlist truncated at rmax(%s) = %.1f (user rmax = %.1f ignored)', data.name, x_rmax, rmax) |>
-        style_bold() |> bg_br_yellow() |> message()
-    } else {
-      sprintf(fmt = 'fvlist at maximum r(%s) = %.1f (user rmax = %.1f ignored)', data.name, x_rmax, rmax) |>
-        style_bold() |> bg_br_yellow() |> message()
-    }
-    id <- (r <= x_rmax)
-    
-  } else { # use user `rmax`
-    sprintf(fmt = 'fvlist truncated at rmax = %.1f for %s', rmax, data.name) |>
-      style_bold() |> bg_br_yellow() |> message()
-    id <- (r <= rmax)
-  }
-  
-  attr(x, which = 'id') <- id
-  
-  return(x)
-  
-}
-
-
 
 
 
