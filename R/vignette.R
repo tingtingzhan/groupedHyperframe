@@ -39,11 +39,11 @@ methods2kable <- function(generic.function, class, package, package_pattern, bac
     subset.data.frame(subset = eval(cl)) |>
     within.data.frame(expr = {
       
-      if (all(duplicated.default(from)[-1L])) {
+      if (length(from) > 1L & all(duplicated.default(from)[-1L])) {
         from <- NULL
       }
       
-      if (all(duplicated.default(generic)[-1L])) {
+      if (length(generic) > 1L & all(duplicated.default(generic)[-1L])) {
         generic <- NULL
       } else {
         generic <- generic |> 
