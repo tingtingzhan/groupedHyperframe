@@ -11,7 +11,7 @@ aggregate_quantile(
   new = "<groupedHyperframe> |> quantile() |> aggregate()"
 )
 
-summary_fv(..., new = "<groupedHyperframe> |> keyval() |> cumvtrapz()")
+summary_fv(..., new = "<hyperframe> |> keyval() |> cumvtrapz()")
 }
 \arguments{
 \item{...}{previous parameters}

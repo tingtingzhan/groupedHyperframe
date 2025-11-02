@@ -68,7 +68,9 @@ cli_QuartoPub_ <- function(author = 'tingtingzhan', pub, chapter) {
 #' @export
 aggregate_quantile <- function(..., new = '<groupedHyperframe> |> quantile() |> aggregate()') {
   
-  match.call()[[1L]] |> deparse1() |> col_cyan() |> style_bold() |>
+  match.call()[[1L]] |> deparse1() |> 
+    sprintf(fmt = '%s()') |>
+    col_cyan() |> style_bold() |>
     sprintf(fmt = 'Function %s described in') |> message()
   cli_doi_('10.1093/bioinformatics/btaf430')
   'has been replaced by pipeline' |> message()
@@ -88,9 +90,11 @@ aggregate_quantile <- function(..., new = '<groupedHyperframe> |> quantile() |> 
 
 #' @rdname defunct
 #' @export
-summary_fv <- function(..., new = '<groupedHyperframe> |> keyval() |> cumvtrapz()') {
+summary_fv <- function(..., new = '<hyperframe> |> keyval() |> cumvtrapz()') {
   
-  match.call()[[1L]] |> deparse1() |> col_cyan() |> style_bold() |>
+  match.call()[[1L]] |> deparse1() |> 
+    sprintf(fmt = '%s()') |>
+    col_cyan() |> style_bold() |>
     sprintf(fmt = 'Function %s has been replaced by pipeline') |> message()
   
   new |>
