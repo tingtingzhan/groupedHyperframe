@@ -275,14 +275,7 @@ visualize_vtrapz.numeric <- function(
     ...
 ) {
   
-  # since \pkg{spatstat.explore} v3.5.3.9
-  # `fvnames(, a = '.y')` column return contains some attributes
-  # and no longer `is.vector(y)`
-  # if (!is.vector(y, mode = 'numeric')) stop('`y` must be double numeric')
-  y0 <- y # original value; save just in case 
-  
-  attributes(y) <- NULL
-  if (!is.numeric(y)) stop('`y` must be numeric') # not sure if any 'fv' has 'integer' function-value..
+  if (!is.vector(y, mode = 'numeric')) stop('`y` must be double numeric')
   if (length(y) != length(x)) stop('`x` and `y` must have same length')
   if (anyNA(y)) stop('`y` must not have missing value(s)')
   if (any(y < 0)) stop('for visualization, force `y > 0`')
@@ -371,6 +364,10 @@ visualize_vtrapz.fv <- function(x, ...) {
   .y <- fvnames(fv, a = '.y')
   x <- fv[[.x]]
   y <- fv[[.y]]
+  # since \pkg{spatstat.explore} v3.5.3.9
+  # `fv[[.y]]` contains some attributes
+  # and no longer `is.vector(y)`
+  attributes(y) <- NULL
   
   is_step <- inherits(fv, what = 'roc')
   if (is_step) {
