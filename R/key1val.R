@@ -37,8 +37,8 @@ keyval.fv <- function(
   force(key)
   force(.x)
   if (key == .x) stop('first column of `x` is not the output of `fv.object`')
-  ret <- x[[key]]
-  names(ret) <- x[[.x]]
+  ret <- x[[key]] 
+  names(ret) <- x[[.x]] # additional attributes (since \pkg{spatstat.explore} v3.5.3.9) kept
   return(ret)
 }
 # read ?spatstat.explore::eval.fv more carefully!!
