@@ -25,7 +25,13 @@ methods2kable <- function(generic.function, class, package, package_pattern, bac
   if (!missing(package)) {
     cl <- quote(from %in% package)
     kcaption <- if (!missing(generic.function)) {
-      sprintf(fmt = '`S3` methods `%s::%s.*` (v%s)', package, generic.function, packageVersion(package))
+      if (length(generic.function) > 1L) {
+        sprintf(fmt = '`%s::%s.*`', package, generic.function) |>
+          paste(collapse = ', ') |>
+          sprintf(fmt = '`S3` methods %s (v%s)', . = _, packageVersion(package))
+      } else {
+        sprintf(fmt = '`S3` methods `%s::%s.*` (v%s)', package, generic.function, packageVersion(package))
+      }
     } else if (!missing(class)) {
       sprintf(fmt = '`S3` methods `%s::*.%s` (v%s)', package, class, packageVersion(package))
     } else stop()
@@ -34,8 +40,24 @@ methods2kable <- function(generic.function, class, package, package_pattern, bac
     kcaption <- NULL # lazy way out :))
   } else stop('unspecified `package`')
   
-  x <- methods(generic.function = generic.function, class = class, ...) |> 
-    attr(which = 'info', exact = TRUE) |>
+  MFinfo <- function(...) {
+    methods(...) |> 
+      attr(which = 'info', exact = TRUE)
+  }
+  
+  mf_info <- if (!missing(generic.function)) {
+    if (length(generic.function) > 1L) {
+      generic.function |>
+        lapply(FUN = MFinfo, ...) |>
+        do.call(what = rbind.data.frame, args = _)
+    } else {
+      MFinfo(generic.function = generic.function, ...)
+    }
+  } else if (!missing(class)) {
+    MFinfo(class = class, ...)
+  } else stop()
+  
+  x <- mf_info |>
     subset.data.frame(subset = eval(cl)) |>
     within.data.frame(expr = {
       
