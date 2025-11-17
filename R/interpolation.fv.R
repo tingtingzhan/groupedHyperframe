@@ -24,7 +24,7 @@ approxfun.fv <- function(
   force(key)
   force(.x)
   if (key == .x) stop('first column of `x` is not the output of `fv.object`')
-  fn <- approxfun(x = fv[[.x]], y = fv[[key]], ...)
+  fn <- approxfun(x = fv[[.x]], y = fv[[key]], ...) # no need to drop additional attributes
   fv |> 
     attr(which = 'ylab', exact = TRUE) |> 
     deparse1() |>
@@ -50,7 +50,7 @@ splinefun.fv <- function(
   force(key)
   force(.x)
   if (key == .x) stop('first column of `x` is not the output of `fv.object`')
-  fn <- splinefun(x = fv[[.x]], y = fv[[key]], ...)
+  fn <- splinefun(x = fv[[.x]], y = fv[[key]], ...) # no need to drop additional attributes
   if (FALSE) {
     # fn |> environment() |> ls(envir = _) # only 'z' !!!
     z <- fn |> environment() |> get('z', envir = _)

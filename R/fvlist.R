@@ -99,7 +99,7 @@ as.fvlist <- function(X, data.name) {
   
   id <- X |> 
     vapply(FUN = \(x) {
-      x[[.y]] |>
+      c(x[[.y]]) |> # drop attributes since \pkg{spatstat.explore} v3.5.3.9
         lastLegal()
     }, FUN.VALUE = NA_integer_)
   

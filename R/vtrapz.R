@@ -120,7 +120,10 @@ cumvtrapz.fv <- function(
   force(key)
   force(.x)
   if (key == .x) stop('first column of `x` is not the output of `fv.object`')
-  cumvtrapz.default(x = x[[.x]], y = x[[key]], ...)
+  cumvtrapz.default(
+    x = x[[.x]], 
+    y = c(x[[key]]), # drop attributes since \pkg{spatstat.explore} v3.5.3.9
+    ...)
 }
 
 
@@ -363,11 +366,7 @@ visualize_vtrapz.fv <- function(x, ...) {
   .x <- fvnames(fv, a = '.x')
   .y <- fvnames(fv, a = '.y')
   x <- fv[[.x]]
-  y <- fv[[.y]]
-  # since \pkg{spatstat.explore} v3.5.3.9
-  # `fv[[.y]]` contains some attributes
-  # and no longer `is.vector(y)`
-  attributes(y) <- NULL
+  y <- c(fv[[.y]]) # drop attributes since \pkg{spatstat.explore} v3.5.3.9
   
   is_step <- inherits(fv, what = 'roc')
   if (is_step) {

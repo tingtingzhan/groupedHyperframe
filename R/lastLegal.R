@@ -80,7 +80,7 @@ lastLegal <- function(v) {
   theo <- X$theo
   if (is.null(theo)) stop('this fv.object does not have theo ?')
   
-  .y <- X[[key]]
+  .y <- c(X[[key]]) # # drop attributes since \pkg{spatstat.explore} v3.5.3.9
 
   id0 <- .y |>
     lastLegal()
@@ -120,7 +120,7 @@ lastLegal <- function(v) {
   theo <- X$theo
   if (is.null(theo)) stop('this fv.object does not have theo ?')
   
-  .y <- X[[key]]
+  .y <- c(X[[key]]) # # drop attributes since \pkg{spatstat.explore} v3.5.3.9
   
   # in ?spatstat.explore::fv documentation
   # alim specifies the recommended range of the function argument.
