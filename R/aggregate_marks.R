@@ -50,9 +50,15 @@ aggregate_marks.ppp <- function(x, by, FUN, expr, ..., vectorize = FALSE) {
     marks.ppp(dfok = TRUE, drop = FALSE)
   
   if (missing(by)) {
+    
     z <- substitute(expr) |>
       eval(envir = mks) # inside ?base::with.default
-    return(z)
+    
+    if (!vectorize) return(z)
+    
+    # if (vectorize):
+    return(unlist(z, recursive = TRUE, use.names = TRUE))
+    
   }
   
   # rest: (mf == 'dataframe') && !missing(by)

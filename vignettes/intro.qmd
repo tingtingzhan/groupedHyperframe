@@ -25,11 +25,13 @@ vignette: >
 ---
 
 
-A [Quarto](https://quarto.org) book of R package **`groupedHyperframe`** (v`r packageVersion('groupedHyperframe')`) 
+Mirrors of the [Quarto](https://quarto.org) book of R package **`groupedHyperframe`** (v`r packageVersion('groupedHyperframe')`) 
 
 > <https://tingtingzhan.quarto.pub/groupedhyperframe/>
 
-documents
+> <https://tingtingzhan-groupedhyperframe.netlify.app>
+
+document
 
 -   the creation of *grouped hyper data frame*;
 -   the creation of a grouped hyper data frame with one-and-only-one point-pattern hypercolumn;
@@ -38,6 +40,8 @@ documents
 -   the aggregation of summary statistics, over a (nested) grouping structure, in a grouped hyper data frame.
 
 The complete book exceeds the file size limit allowed on [CRAN](https://cran.r-project.org/package=groupedHyperframe).  
+
+These free hosting services may experience occasional downtime. Please refer to the most recent version of the book.
 
 
 
@@ -81,7 +85,7 @@ utils::install.packages('groupedHyperframe')
 
 # Acknowledgement
 
-Most of this work was undertaken during Tingting Zhan’s leisure hours, with limited support from National Institutes of Health, U.S. Department of Health and Human Services grants
+Most of this work was undertaken during [Tingting Zhan](https://github.com/tingtingzhan)'s leisure hours, with limited support from National Institutes of Health, U.S. Department of Health and Human Services grants
 
 -   R01CA222847 ([I. Chervoneva](https://orcid.org/0000-0002-9104-4505), [T. Zhan](https://orcid.org/0000-0001-9971-4844), and [H. Rui](https://orcid.org/0000-0002-8778-261X))
 -   R01CA253977 (H. Rui and I. Chervoneva).
