@@ -68,7 +68,7 @@
   }
   
   vnm <- names(v)
-  if (!anyNA(vnm) && all(nzchar(vnm))) {
+  if (length(vnm) && !anyNA(vnm) && all(nzchar(vnm))) {
     nv <- length(v)
     nm <- length(x$marks)
     names(x$marks)[(nm-nv+1):nm] <- vnm
