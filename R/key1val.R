@@ -70,16 +70,24 @@ keyval.fvlist <- function(x, ...) {
 #' @importFrom spatstat.geom names.hyperframe as.list.hyperframe
 #' @export keyval.hyperframe
 #' @export
-keyval.hyperframe <- function(x, ...) {
+keyval.hyperframe <- function(
+    x, 
+    key = fvnames(x, a = '.y'),
+    ...
+) {
   
   if (!any(id <- (unclass(x)$vclass == 'fv'))) stop('input `x` must contain at least one `fv` column')
   nm <- names.hyperframe(x)[id]
   
   ret0 <- (as.list.hyperframe(x)[nm]) |>
-    lapply(FUN = keyval.fvlist, ...)
+    lapply(FUN = keyval.fvlist, key = key, ...)
   
   names(ret0) <- names(ret0) |>
-    sprintf(fmt = '%s.y')
+    sprintf(fmt = if (missing(key)) {
+      '%s.y'
+    } else {
+      paste('%s', key, sep = '.')
+    })
   
   return(do.call(
     what = cbind, # dispatch to \link[spatstat.geom]{cbind.hyperframe} or [cbind.groupedHyperframe()]

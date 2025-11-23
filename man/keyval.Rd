@@ -13,7 +13,7 @@ keyval(x, ...)
 
 \method{keyval}{fvlist}(x, ...)
 
-\method{keyval}{hyperframe}(x, ...)
+\method{keyval}{hyperframe}(x, key = fvnames(x, a = ".y"), ...)
 }
 \arguments{
 \item{x}{see \strong{Usage}}
