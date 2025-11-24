@@ -60,7 +60,8 @@ keyval.fvlist <- function(x, ...) {
     attr(which = '.x', exact = TRUE)
   
   x |> 
-    anylapply(FUN = \(i) keyval.fv(i, key = .y, .x = .x))
+    anylapply(FUN = \(i) keyval.fv(i, key = .y, .x = .x)) |>
+    as.vectorlist(mode = 'numeric')
   
 }
 
