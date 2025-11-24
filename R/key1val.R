@@ -50,18 +50,22 @@ keyval.fv <- function(
 #' @importFrom spatstat.geom anylapply
 #' @export keyval.fvlist
 #' @export
-keyval.fvlist <- function(x, ...) {
+keyval.fvlist <- function(x, key = attr(x., which = '.y', exact = TRUE), ...) {
   
-  tmp <- x |>
+  x. <- x |>
     is.fvlist()
-  .y <- tmp |>
-    attr(which = '.y', exact = TRUE)
-  .x <- tmp |>
+  
+  force(key)
+  .x <- x. |>
     attr(which = '.x', exact = TRUE)
   
-  x |> 
-    anylapply(FUN = \(i) keyval.fv(i, key = .y, .x = .x)) |>
+  out <- x |> 
+    anylapply(FUN = \(i) keyval.fv(i, key = key, .x = .x, ...)) |>
     as.vectorlist(mode = 'numeric')
+  attr(out, which = 'key') <- if (missing(key)) {
+    'y' # for [keyval.hyperframe]
+  } else key # for [keyval.hyperframe]
+  return(out)
   
 }
 
@@ -73,7 +77,6 @@ keyval.fvlist <- function(x, ...) {
 #' @export
 keyval.hyperframe <- function(
     x, 
-    key = fvnames(x, a = '.y'),
     ...
 ) {
   
@@ -81,15 +84,13 @@ keyval.hyperframe <- function(
   nm <- names.hyperframe(x)[id]
   
   ret0 <- (as.list.hyperframe(x)[nm]) |>
-    lapply(FUN = keyval.fvlist, key = key, ...)
+    lapply(FUN = keyval.fvlist, ...)
   
-  names(ret0) <- names(ret0) |>
-    sprintf(fmt = if (missing(key)) {
-      '%s.y'
-    } else {
-      paste('%s', key, sep = '.')
-    })
+  key <- ret0 |> 
+    vapply(FUN = attr, which = 'key', exact = TRUE, FUN.VALUE = '')
   
+  names(ret0) <- paste(names(ret0), key, sep = '.')
+
   return(do.call(
     what = cbind, # dispatch to \link[spatstat.geom]{cbind.hyperframe} or [cbind.groupedHyperframe()]
     args = c(list(x), ret0)

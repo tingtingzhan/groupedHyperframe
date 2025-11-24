@@ -11,9 +11,9 @@ keyval(x, ...)
 
 \method{keyval}{fv}(x, key = fvnames(x, a = ".y"), .x = fvnames(x, a = ".x"), ...)
 
-\method{keyval}{fvlist}(x, ...)
+\method{keyval}{fvlist}(x, key = attr(x., which = ".y", exact = TRUE), ...)
 
-\method{keyval}{hyperframe}(x, key = fvnames(x, a = ".y"), ...)
+\method{keyval}{hyperframe}(x, ...)
 }
 \arguments{
 \item{x}{see \strong{Usage}}
