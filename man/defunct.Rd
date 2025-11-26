@@ -3,20 +3,12 @@
 \name{defunct}
 \alias{defunct}
 \alias{aggregate_quantile}
-\alias{summary_fv}
 \title{Defunct Functions}
 \usage{
-aggregate_quantile(
-  ...,
-  new = "<groupedHyperframe> |> quantile() |> aggregate()"
-)
-
-summary_fv(..., new = "<hyperframe> |> keyval() |> cumvtrapz()")
+aggregate_quantile(...)
 }
 \arguments{
-\item{...}{previous parameters}
-
-\item{new}{\link[base]{character} scalar, see function \link[base]{.Defunct}.}
+\item{...}{Defunct parameters}
 }
 \description{
 Functions mentioned in hard-copy journals, but later \link[base]{.Defunct}.

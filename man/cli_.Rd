@@ -2,23 +2,29 @@
 % Please edit documentation in R/Defunct.R
 \name{cli_}
 \alias{cli_}
-\alias{cli_RPubs_}
 \alias{cli_doi_}
+\alias{cli_book_}
 \alias{cli_QuartoPub_}
+\alias{cli_Netlify_}
+\alias{cli_RPubs_}
 \title{\link[base]{.Defunct} Messages using Package \CRANpkg{cli}}
 \usage{
-cli_RPubs_(author = "tingtingzhan", pub)
-
 cli_doi_(doi)
 
-cli_QuartoPub_(author = "tingtingzhan", pub, chapter)
+cli_book_(fmt, author = "tingtingzhan", pub, chapter, print_chapter = TRUE)
+
+cli_QuartoPub_(...)
+
+cli_Netlify_(...)
+
+cli_RPubs_(...)
 }
 \arguments{
+\item{doi}{\link[base]{character} scalar}
+
 \item{author}{\link[base]{character} scalar}
 
 \item{pub}{\link[base]{character} scalar}
-
-\item{doi}{\link[base]{character} scalar}
 
 \item{chapter}{\link[base]{character} scalar}
 }
@@ -30,6 +36,8 @@ to display beautiful \link[base]{.Defunct} messages using package \CRANpkg{cli}.
 cli_RPubs_(pub = 'groupedHyperframe')
 cli_QuartoPub_(pub = 'groupedhyperframe')
 cli_QuartoPub_(pub = 'groupedhyperframe', chapter = 'bioinformatics_btaf430')
+cli_Netlify_(pub = 'groupedhyperframe')
+cli_Netlify_(pub = 'groupedhyperframe', chapter = 'bioinformatics_btaf430')
 cli_doi_('10.1002/bimj.4710230408')
 
 }
