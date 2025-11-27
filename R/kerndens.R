@@ -31,9 +31,9 @@ kerndens <- function(x, ...) UseMethod(generic = 'kerndens')
 
 #' @rdname kerndens
 #' @importFrom stats density.default
-#' @export kerndens.default
+#' @export kerndens.numeric
 #' @export
-kerndens.default <- function(x, ...) density.default(x, ...)$y
+kerndens.numeric <- function(x, ...) density.default(x, ...)$y
 
 
 #' @rdname kerndens
@@ -83,7 +83,7 @@ kerndens.anylist <- function(x, ...) {
   if (!all(x_num)) return(invisible()) # exception handling
   
   x |> 
-    lapply(FUN = kerndens.default, ...)
+    lapply(FUN = kerndens.numeric, ...)
   
 }
 

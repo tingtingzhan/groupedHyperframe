@@ -2,7 +2,7 @@
 % Please edit documentation in R/kerndens.R
 \name{kerndens}
 \alias{kerndens}
-\alias{kerndens.default}
+\alias{kerndens.numeric}
 \alias{kerndens.ppp}
 \alias{kerndens.ppplist}
 \alias{kerndens.anylist}
@@ -11,7 +11,7 @@
 \usage{
 kerndens(x, ...)
 
-\method{kerndens}{default}(x, ...)
+\method{kerndens}{numeric}(x, ...)
 
 \method{kerndens}{ppp}(x, ...)
 
