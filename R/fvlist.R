@@ -219,9 +219,15 @@ print.fvlist <- function(x, ...) {
 #' @export Math.fvlist
 #' @export
 Math.fvlist <- function(x, ...) {
+  
+  # this wont work, as installed-package (only works when devtools::load_all())
   x |> 
-    lapply(FUN = Math.fv, ...) |>
+    lapply(FUN = .Generic, ...) |>
     as.fvlist()
+  # end of wont work
+  
+  
+  
 }
 
 
