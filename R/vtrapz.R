@@ -87,8 +87,14 @@ cumvtrapz.numeric <- function(x, y, ..., rm1 = TRUE) {
 
 
 
-
-
+#' @title Extract Parts of `'cumv'` Object
+#' 
+#' @param x a `'cumv'` object
+#' 
+#' @param i \link[base]{integer} scalar or \link[base]{vector}; or \link[base]{logical} \link[base]{vector}
+#' 
+#' @keywords internal
+#' @export [.cumv
 #' @export
 `[.cumv` <- function(x, i) {
   z <- unclass(x)[i, , drop = FALSE] # 'matrix'
@@ -99,6 +105,14 @@ cumvtrapz.numeric <- function(x, y, ..., rm1 = TRUE) {
 }
 
 
+#' @title Print `'cumv'` Object
+#' 
+#' @param x a `'cumv'` object
+#' 
+#' @param ... additional parameters, currently of no use
+#' 
+#' @keywords internal
+#' @export print.cumv
 #' @export
 print.cumv <- function(x, ...) {
   x0 <- unclass(x)
