@@ -202,8 +202,27 @@ print.fvlist <- function(x, ...) {
 
 
 
-
-
+#' @title `Math` \link[base]{groupGeneric} of `'fvlist'`
+#' 
+#' @description
+#' ...
+#' 
+#' @param x an `'fvlist'`
+#' 
+#' @param ... additional parameters for `Math` \link[base]{groupGeneric}
+#' 
+#' @return 
+#' Functions [Math.fvlist()] returns an `'fvlist'`.
+#' 
+#' @keywords internal
+#' @importFrom spatstat.explore Math.fv
+#' @export Math.fvlist
+#' @export
+Math.fvlist <- function(x, ...) {
+  x |> 
+    lapply(FUN = Math.fv, ...) |>
+    as.fvlist()
+}
 
 
 
