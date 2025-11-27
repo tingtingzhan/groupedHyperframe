@@ -2,7 +2,7 @@
 % Please edit documentation in R/vtrapz.R
 \name{cumvtrapz}
 \alias{cumvtrapz}
-\alias{cumvtrapz.default}
+\alias{cumvtrapz.numeric}
 \alias{cumvtrapz.fv}
 \alias{cumvtrapz.fvlist}
 \alias{cumvtrapz.hyperframe}
@@ -10,7 +10,7 @@
 \usage{
 cumvtrapz(x, ...)
 
-\method{cumvtrapz}{default}(x, y, ..., rm1 = TRUE)
+\method{cumvtrapz}{numeric}(x, y, ..., rm1 = TRUE)
 
 \method{cumvtrapz}{fv}(x, key = fvnames(x, a = ".y"), .x = fvnames(x, a = ".x"), ...)
 

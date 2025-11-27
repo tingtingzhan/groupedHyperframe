@@ -64,9 +64,9 @@ cumvtrapz <- function(x, ...) UseMethod(generic = 'cumvtrapz')
 
 #' @rdname cumvtrapz
 #' @importFrom pracma cumtrapz
-#' @export cumvtrapz.default
+#' @export cumvtrapz.numeric
 #' @export
-cumvtrapz.default <- function(x, y, ..., rm1 = TRUE) {
+cumvtrapz.numeric <- function(x, y, ..., rm1 = TRUE) {
   if (!is.vector(x, mode = 'numeric')) stop('`x` must be double numeric')
   if (anyDuplicated(x)) stop('`x` must not have duplicates')
   if (is.unsorted(x)) stop('`x` must be sorted')
@@ -120,7 +120,7 @@ cumvtrapz.fv <- function(
   force(key)
   force(.x)
   if (key == .x) stop('first column of `x` is not the output of `fv.object`')
-  cumvtrapz.default(
+  cumvtrapz.numeric(
     x = x[[.x]], 
     y = c(x[[key]]), # drop attributes since \pkg{spatstat.explore} v3.5.3.9
     ...)
@@ -284,7 +284,7 @@ visualize_vtrapz.numeric <- function(
   if (any(y < 0)) stop('for visualization, force `y > 0`')
   
   v <- vtrapz(x, y)
-  cv <- cumvtrapz.default(x, y, rm1 = TRUE)
+  cv <- cumvtrapz.numeric(x, y, rm1 = TRUE)
   method <- attr(cv, which = 'method', exact = TRUE)
   #label.v <- paste(label.v, method, sep = '; ')
   #label.cumv <- paste(label.cumv, method, sep = '; ')
