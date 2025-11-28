@@ -411,16 +411,15 @@ visualize_vtrapz.fv <- function(x, ...) {
 
 
 #' @rdname visualize_vtrapz
-#' @importFrom ggplot2 labs
-#' @importFrom spatstat.explore fvnames
-#' @export visualize_vtrapz.fvlist
+#' @export visualize_vtrapz.listof
 #' @export 
-visualize_vtrapz.fvlist <- function(x, ...) {
+visualize_vtrapz.listof <- function(x, ...) {
   x |>
-    as.fvlist() |>
-    lapply(FUN = visualize_vtrapz.fv, ...) |>
+    lapply(FUN = visualize_vtrapz, ...) |> # use generic, beautiful!!
     Reduce(f = '+', x = _) # requires patchwork!!
 }
+
+
 
 
 

@@ -4,7 +4,7 @@
 \alias{visualize_vtrapz}
 \alias{visualize_vtrapz.numeric}
 \alias{visualize_vtrapz.fv}
-\alias{visualize_vtrapz.fvlist}
+\alias{visualize_vtrapz.listof}
 \alias{visualize_vtrapz.density}
 \alias{visualize_vtrapz.ecdf}
 \alias{visualize_vtrapz.function}
@@ -45,7 +45,7 @@ visualize_vtrapz(
 
 \method{visualize_vtrapz}{fv}(x, ...)
 
-\method{visualize_vtrapz}{fvlist}(x, ...)
+\method{visualize_vtrapz}{listof}(x, ...)
 
 \method{visualize_vtrapz}{density}(x, ...)
 
