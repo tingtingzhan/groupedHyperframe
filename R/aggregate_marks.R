@@ -108,7 +108,7 @@ aggregate_marks.ppplist <- function(x, ...) {
       aggregate_marks.ppp(x, ..., vectorize = TRUE)
     }) 
   
-  if (!is.vectorlist(z)) return(z)
+  if (!is.vectorlist(z, mode = 'numeric')) return(z)
   
   z |>
     as.vectorlist(mode = 'numeric')
@@ -133,7 +133,7 @@ aggregate_marks.hyperframe <- function(x, ...) {
   z <- hc[[which(hc_ppp)]] |>
     aggregate_marks.ppplist(...)
   
-  if (!is.vectorlist(z)) stop('must force `vectorlist`')
+  if (!is.vectorlist(z, mode = 'numeric')) stop('must force `vectorlist`')
   
   return(cbind( # dispatch to \link[spatstat.geom]{cbind.hyperframe} or [cbind.groupedHyperframe()]
     x, 
