@@ -6,7 +6,7 @@
 \usage{
 is.vectorlist(
   x,
-  mode = c("logical", "integer", "numeric", "double", "character")
+  mode = c("any", "logical", "integer", "numeric", "double", "character")
 )
 }
 \arguments{

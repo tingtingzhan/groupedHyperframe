@@ -11,7 +11,7 @@
 #' @export
 is.vectorlist <- function(
     x, 
-    mode = c('logical', 'integer', 'numeric', 'double', 'character')
+    mode = c('any', 'logical', 'integer', 'numeric', 'double', 'character')
 ) {
   
   mode <- match.arg(mode)
