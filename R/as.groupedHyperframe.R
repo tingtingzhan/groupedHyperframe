@@ -86,7 +86,9 @@ as.groupedHyperframe.groupedData <- function(x, group, ...) {
   if (missing(group)) {
     fom <- x |> 
       attr(which = 'formula', exact = TRUE)
-    group <- eval(call(name = '~', fom[[3L]][[3L]]))
+    #group <- eval(call(name = '~', fom[[3L]][[3L]]))
+    # do not eval! eval will attach an environment!!
+    group <- call(name = '~', fom[[3L]][[3L]])
   }
   
   x |>
