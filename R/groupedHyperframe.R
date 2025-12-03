@@ -40,11 +40,10 @@ print.groupedHyperframe <- function(x, ...) {
     rev.default() |> 
     cat(sep = ' nested in\n')
   
-  '\nPreview of first 10 (or less) rows:\n\n' |> col_magenta() |> style_bold() |> cat()
+  cat('\n')
   # see inside ?spatstat.geom::print.hyperframe
   x |>
     as.data.frame.hyperframe(discard = FALSE) |> 
-    head(n = 10L) |>
     print(...)
   
 }
