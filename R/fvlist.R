@@ -182,6 +182,13 @@ print.fvlist <- function(x, ...) {
     sprintf(fmt = 'An \'fvlist\' of %s fv.objects %s', ftext) |>
     message()
   
+  x |>
+    names() |>
+    col_cyan() |> style_bold() |>
+    paste(collapse = ', ') |>
+    sprintf(fmt = '\'fv.object\' name(s): %s') |>
+    message()
+  
   available_rmax <- x |>
     attr(which = 'r', exact = TRUE) |>
     max() |>

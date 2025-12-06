@@ -81,16 +81,18 @@ ppp_numeric2fv <- function(x, fun, ...) {
   # how to deal?
   
   ret <- x.[num] |> 
-    # lapply(FUN = fun, ...) # um..
-    anylapply(FUN = fun, ...) # after 2025-09-24
+    anylapply(FUN = fun, ...) |>
+    as.fvlist()
+  return(ret)
   
+  if (FALSE) {
   # restore names of `fv`-hypercolumns from the result
   # attr(,'fname') is determined by `fun`
   fname1 <- attr(ret[[1L]], which = 'fname', exact = TRUE)[1L]
   names(ret) <- paste(names(ret), fname1, sep = '.')
   
   return(ret)
-  
+  } # before 2025-12-05
 }
 
 
@@ -118,16 +120,18 @@ ppp_multitype2fv <- function(x, fun, ...) {
   # how to deal?
   
   ret <- x.[mtp] |> 
-    # lapply(FUN = fun, ...) # um..
-    anylapply(FUN = fun, ...) # after 2025-09-24
+    anylapply(FUN = fun, ...) |>
+    as.fvlist()
+  return(ret)
   
+  if (FALSE) {
   # restore names of `fv`-hypercolumns from the result
   # attr(,'fname') is determined by `fun`
   fname1 <- attr(ret[[1L]], which = 'fname', exact = TRUE)[1L]
   names(ret) <- paste(names(ret), fname1, sep = '.')
   
   return(ret)
-  
+  } # before 2025-12-05
 }
 
 
