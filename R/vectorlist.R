@@ -133,6 +133,7 @@ print.vectorlist <- function(x, ...) {
 #' 
 #' @keywords internal
 #' @importFrom stats setNames
+#' @importFrom spatstat.geom anylist
 #' @export t.vectorlist
 #' @export
 t.vectorlist <- function(x) {
@@ -155,10 +156,10 @@ t.vectorlist <- function(x) {
       setNames(nm = colnames(x)) # colnames-NULL compatible
   }
   
-  ret <- x |> 
+  x |> 
     do.call(what = rbind, args = _) |>
-    .clist()
-  class(ret) <- c('vectorlist', 'anylist', 'listof', 'list')
-  return(ret)
-  
+    .clist() |>
+    do.call(what = anylist, args = _) |>
+    as.vectorlist()
+
 }
