@@ -44,6 +44,7 @@ as.vectorlist <- function(x, ...) {
   
   if (!is.vectorlist(x, ...)) stop('input does not qualify as a `vectorlist`')
   
+  attr(x, which = 'mode') <- mode(x[[1L]])
   class(x) <- c('vectorlist', 'anylist', 'listof', class(x)) |> 
     unique.default()
   return(x)
@@ -51,10 +52,58 @@ as.vectorlist <- function(x, ...) {
 }
 
 
+#' @title Print a `'vectorlist'`
+#' 
+#' @param x a `'vectorlist'`
+#' 
+#' @param ... additional parameters, currently of no use
+#' 
+#' @keywords internal
+#' @export print.vectorlist
+#' @export
+print.vectorlist <- function(x, ...) {
+  
+  x |>
+    length() |>
+    col_red () |> style_bold() |>
+    sprintf(fmt = 'A \'vectorlist\' of %s vectors') |>
+    message()
+  
+  nm <- x |>
+    names()
+  if (!all(nm == seq_along(x))) {
+    nm |>
+      col_cyan() |> style_bold() |>
+      paste(collapse = ', ') |>
+      sprintf(fmt = 'Name(s): %s') |>
+      message()
+  }
+  
+  x |> 
+    attr(which = 'mode', exact = TRUE) |>
+    col_blue() |> style_bold() |>
+    sprintf(fmt = 'Storage Mode: %s') |>
+    message()
+  
+  x[[1L]] |> 
+    length() |>
+    col_magenta() |> style_bold() |>
+    sprintf(fmt = 'Individual Vector Length: %s') |>
+    message()
+  
+  x |>
+    attr(which = 'suffix', exact = TRUE) |>
+    col_yellow() |> style_bold() |>
+    sprintf(fmt = 'Suffix: %s') |>
+    message()
+  
+}
+
+
 
 #' @title Transpose a `'vectorlist'`
 #' 
-#' @param x a `'vectorlist'` of equi-\link[base]{length}
+#' @param x a `'vectorlist'`
 #' 
 #' @details
 #' tzh defines a derived class `'vectorlist'`,

@@ -7,7 +7,7 @@
 \method{t}{vectorlist}(x)
 }
 \arguments{
-\item{x}{a \code{'vectorlist'} of equi-\link[base]{length}}
+\item{x}{a \code{'vectorlist'}}
 }
 \value{
 The \code{S3} method dispatch \code{\link[=t.vectorlist]{t.vectorlist()}} returns

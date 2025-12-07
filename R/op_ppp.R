@@ -25,14 +25,13 @@
 #' 
 #' @keywords internal
 #' @name ppp2.
-#' @importFrom spatstat.geom unstack.ppp is.multitype.ppp
+#' @importFrom spatstat.geom unstack.ppp is.multitype.ppp anylapply
 #' @export
 ppp2dist <- function(x, fun, ...) {
   
   x. <- unstack.ppp(x)
   if (length(x.) == 1L && !length(names(x.))) {
     # unstacking a 'vector' `mark`
-    #stop('unstacked `x` must be named, see ?mark_names')
     names(x.) <- 'm'
   }
   
@@ -47,13 +46,18 @@ ppp2dist <- function(x, fun, ...) {
   
   if (!any(id_mtp)) stop('fun not supported')
 
-  ret <- lapply(x.[mtp], FUN = fun, ...)
-  names(ret) <- paste(names(ret), names(fn_mtp_)[id_mtp], sep = '.')
+  ret <- x.[mtp] |> 
+    anylapply(FUN = fun, ...)
+  #names(ret) <- paste(names(ret), names(fn_mtp_)[id_mtp], sep = '.')
   
   id <- (lengths(ret) > 0L)
   if (!any(id)) return(invisible())
   
-  return(ret[id])
+  #return(ret[id])
+  z <- ret[id] |>
+    as.vectorlist(mode = 'numeric')
+  attr(z, which = 'suffix') <- names(fn_mtp_)[id_mtp]
+  return(z)
   
 }
 

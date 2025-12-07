@@ -123,6 +123,7 @@ aggregate.hyperframe <- function(
 #' 
 #' @keywords internal
 #' @importFrom stats aggregate
+#' @importFrom spatstat.geom anylapply
 #' @export aggregate.vectorlist
 #' @export
 aggregate.vectorlist <- function(x, by, fun = pmean, ...) {
@@ -148,15 +149,15 @@ aggregate.vectorlist <- function(x, by, fun = pmean, ...) {
     return(invisible(x))
   } 
   
-  ret <- fid |>
-    lapply(FUN = \(i) { # (i = fid[[1L]])
+  fid |>
+    anylapply(FUN = \(i) { # (i = fid[[1L]])
       x[i] |> 
         do.call(what = fun, args = _)
-    })
-  class(ret) <- c('vectorlist', 'anylist', 'listof', class(ret)) |> 
-    unique.default()
+    }) |>
+    as.vectorlist(mode = 'numeric')
+  
   # 'vectorlist' not respected by spatstat.geom::hyperframe(), yet
-  return(ret)
+  
   
 }
 

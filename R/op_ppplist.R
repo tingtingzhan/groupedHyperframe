@@ -93,8 +93,11 @@ op_ppplist <- function(
   ret <- .mapply(FUN = anylist, dots = ret0, MoreArgs = NULL) # 2025-09-24
   # using `anylist` obviously correct and better, but does it actually improve anything?
   fname1 <- attr(ret0[[1L]], which = 'fname', exact = TRUE)[1L]
+  suffix <- attr(ret0[[1L]], which = 'suffix', exact = TRUE)[1L]
   names(ret) <- if (length(fname1)) {
     paste(names(ret0[[1L]]), fname1, sep = '.')
+  } else if (length(suffix)) {
+    paste(names(ret0[[1L]]), suffix, sep = '.')
   } else names(ret0[[1L]])
   
   mapply(
