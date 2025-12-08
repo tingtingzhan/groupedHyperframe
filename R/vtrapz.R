@@ -185,10 +185,11 @@ cumvtrapz.fvlist <- function(
       stopCluster(cl)
     })
   
-  #return(cumvt)
-  cumvt |>
+  z <- cumvt |>
     do.call(what = anylist, args = _) |>
     as.vectorlist(mode = 'numeric')
+  attr(z, which = 'suffix') <- 'cumvtrapz'
+  return(z)
   
 }
 
@@ -208,7 +209,7 @@ cumvtrapz.hyperframe <- function(x, ...) {
     lapply(FUN = cumvtrapz.fvlist, ...)
   
   names(ret0) <- names(ret0) |>
-    sprintf(fmt = '%s.cumvtrapz')
+    sprintf(fmt = '%s.cumvtrapz') # not using attr(., 'suffix')
   
   return(do.call(
     what = cbind, # dispatch to \link[spatstat.geom]{cbind.hyperframe} or [cbind.groupedHyperframe()]
