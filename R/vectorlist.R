@@ -67,7 +67,7 @@ print.vectorlist <- function(x, ...) {
     length() |>
     col_red () |> style_bold() |>
     sprintf(fmt = 'A \'vectorlist\' of %s vectors') |>
-    message()
+    cat('\n')
   
   nm <- x |>
     names()
@@ -76,26 +76,30 @@ print.vectorlist <- function(x, ...) {
       col_cyan() |> style_bold() |>
       paste(collapse = ', ') |>
       sprintf(fmt = 'Name(s): %s') |>
-      message()
+      cat('\n')
   }
   
   x |> 
     attr(which = 'mode', exact = TRUE) |>
     col_blue() |> style_bold() |>
     sprintf(fmt = 'Storage Mode: %s') |>
-    message()
+    cat('\n')
   
   x[[1L]] |> 
     length() |>
     col_magenta() |> style_bold() |>
     sprintf(fmt = 'Individual Vector Length: %s') |>
-    message()
+    cat('\n')
   
-  x |>
-    attr(which = 'suffix', exact = TRUE) |>
-    col_yellow() |> style_bold() |>
-    sprintf(fmt = 'Suffix: %s') |>
-    message()
+  suffix. <- x |>
+    attr(which = 'suffix', exact = TRUE) 
+  if (length(suffix.)) {
+    suffix. |>
+      col_yellow() |> style_bold() |>
+      sprintf(fmt = 'Suffix: %s') |>
+      cat('\n')
+  }
+  
   
 }
 

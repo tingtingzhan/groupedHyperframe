@@ -151,6 +151,7 @@ cumvtrapz.fv <- function(
 #' @importFrom doParallel registerDoParallel
 #' @importFrom foreach foreach `%dopar%`
 #' @importFrom parallel mclapply makeCluster stopCluster
+#' @importFrom spatstat.geom anylist
 #' @export cumvtrapz.fvlist
 #' @export
 cumvtrapz.fvlist <- function(
@@ -184,7 +185,10 @@ cumvtrapz.fvlist <- function(
       stopCluster(cl)
     })
   
-  return(cumvt)
+  #return(cumvt)
+  cumvt |>
+    do.call(what = anylist, args = _) |>
+    as.vectorlist(mode = 'numeric')
   
 }
 
