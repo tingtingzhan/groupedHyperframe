@@ -188,7 +188,7 @@ print.fvlist <- function(x, ...) {
     nm |>
       col_cyan() |> style_bold() |>
       paste(collapse = ', ') |> # will create `''` from NULL input!!
-      sprintf(fmt = '\'fv.object\' name(s): %s') |>
+      sprintf(fmt = 'Name(s): %s') |>
       cat('\n')
   }
   

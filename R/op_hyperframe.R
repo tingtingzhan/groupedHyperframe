@@ -438,12 +438,20 @@ op_hyperframe <- function(X, ...) {
     vapply(FUN = is.ppplist, FUN.VALUE = NA)
   if (sum(id) != 1L) stop('allow one-and-only-one ppp-hypercolumn, which may contain one or more mark(s)')
   
-  ret0 <- hc[[which(id)]] |> 
+  ret <- hc[[which(id)]] |> 
     op_ppplist(x = _, ...)
   
+  fname1 <- attr(ret[[1L]], which = 'fname', exact = TRUE)[1L]
+  suffix <- attr(ret[[1L]], which = 'suffix', exact = TRUE)[1L]
+  if (length(fname1)) {
+    names(ret) <- paste(names(ret), fname1, sep = '.')
+  } else if (length(suffix)) {
+    names(ret) <- paste(names(ret), suffix, sep = '.')
+  } #else do nothing
+
   return(do.call(
     what = cbind, # dispatch to \link[spatstat.geom]{cbind.hyperframe} or [cbind.groupedHyperframe()]
-    args = c(list(X), ret0)
+    args = c(list(X), ret)
   ))
   
 }
