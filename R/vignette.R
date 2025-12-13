@@ -30,7 +30,9 @@ methods2kable <- function(generic.function, class, package, package_pattern, bac
           paste(collapse = ', ') |>
           sprintf(fmt = '`S3` methods %s (v%s)', . = _, packageVersion(package))
       } else {
-        sprintf(fmt = '`S3` methods `%s::%s.*` (v%s)', package, generic.function, packageVersion(package))
+        generic.function |>
+          .ns_generic(backtick = TRUE, ver = TRUE) |>
+          sprintf(fmt = '`S3` methods of %s')
       }
     } else if (!missing(class)) {
       sprintf(fmt = '`S3` methods `%s::*.%s` (v%s)', package, class, packageVersion(package))
@@ -69,7 +71,7 @@ methods2kable <- function(generic.function, class, package, package_pattern, bac
         generic <- NULL
       } else {
         generic <- generic |> 
-          vapply(FUN = .full_generic, backtick = backtick, FUN.VALUE = '')
+          vapply(FUN = .ns_generic, backtick = backtick, ver = FALSE, FUN.VALUE = '')
       }
       
     })
@@ -86,35 +88,57 @@ methods2kable <- function(generic.function, class, package, package_pattern, bac
 }
 
 
-
+#' @title Generic Function with Namespace
+#' 
+#' @param x \link[base]{character} scalar
+#' 
+#' @param backtick \link[base]{logical} scalar
+#' 
+#' @param ver \link[base]{logical} scalar
+#' 
+#' @examples
+#' .ns_generic('names<-')
+#' .ns_generic('Math', ver = TRUE)
+#' .ns_generic('update')
+#' 
+#' @keywords internal
 #' @importFrom methods isGroup
-.full_generic <- function(x, backtick = TRUE) {
-  # `x` is 'character' scalar; # x = 'quantile'
+#' @importFrom utils packageVersion
+#' @export
+.ns_generic <- function(
+    x, 
+    backtick = TRUE,
+    ver = FALSE
+) {
   
-  .sugar <- endsWith(x, '<-')
+  .sugar <- endsWith(x, suffix = '<-')
   
+  # base::parse(text = _) cannot deal with syntactic sugar
   fn <- x |> 
-    #parse(text = _) |> eval() |> # base::parse() cannot deal with 'names<-'
     get()
   
   if (is.primitive(fn)) {
-    nm <- 'base' 
+    ns <- 'base' 
   } else if (isGroup(x)) { # groupGeneric
-    nm <- 'methods'
+    ns <- 'methods'
   } else {
     ev <- fn |>
       environment()
     if (!isNamespace(ev)) stop(x, 'dont support yet..')
-    nm <- ev |> 
+    ns <- ev |> 
       getNamespaceName()
   }
   
-  z <- nm |>
-    sprintf(fmt = if (.sugar) '%s::`%s`' else '%s::%s', x)
+  z <- sprintf(fmt = if (.sugar) '%s::`%s`' else '%s::%s', ns, x)
   
-  if (!backtick) return(z)
+  if (backtick) {
+    z <- sprintf(fmt = if (.sugar) '`` %s ``' else '`%s`', z)
+  }
   
-  z |>
-    sprintf(fmt = if (.sugar) '`` %s ``' else '`%s`')
+  if (ver) {
+    z <- sprintf(fmt = '%s (v%s)', z, packageVersion(ns))
+  }
+  
+  return(z)
   
 }

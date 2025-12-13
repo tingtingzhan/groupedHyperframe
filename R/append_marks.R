@@ -25,14 +25,14 @@
 `append_marks<-.ppp` <- function(x, value) {
   
   value. <- substitute(value)
-  
-  #v <- tryCatch(expr = eval(value., envir = parent.frame()), error = identity)
+
   v <- eval(value., envir = parent.frame()) # let err; `language` `eval`uate correctly.
-  if (is.language(v)) {
-    .Defunct(new = 'spatstat.geom::cut.ppp')
-    v <- x |> 
-      marks.ppp() |>
-      eval(v, envir = _)
+  if (is.call(v)) {
+    npt <- x |> 
+      npoints.ppp()
+    v <- v |> 
+      sub_lang(pattern = quote(.), replacement = npt, lang = _) |>
+      eval()
   } # else do nothing
 
   npt <- npoints.ppp(x)
@@ -77,6 +77,26 @@
   return(x)
   
 } 
+
+
+
+sub_lang <- \(pattern, replacement, lang) {
+  x <- lang |>
+    as.list.default()
+  id <- vapply(x, FUN = is.call, FUN.VALUE = NA)
+  if (any(id)) {
+    x[id] <- x[id] |>
+      lapply(FUN = \(i) {
+        sub_lang(pattern = pattern, replacement = replacement, lang = i)
+      })
+  }
+  x |>
+    lapply(FUN = \(i) {
+      if (identical(i, pattern)) return(replacement)
+      return(i)
+    }) |>
+    as.call()
+}
 
 
 
