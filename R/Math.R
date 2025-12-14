@@ -11,7 +11,7 @@
 #' @param ... additional parameters for `Math` \link[base]{groupGeneric}
 #' 
 #' @details
-#' Function [Math.ppp()] performs `Math` operations on \link[base]{numeric} \link[spatstat.geom]{marks}
+#' Function [Math.ppp()] performs `Math` operations on the \link[base]{numeric} \link[spatstat.geom]{marks}
 #' of a \link[spatstat.geom]{ppp.object}.
 #' 
 #' @return 
@@ -46,6 +46,63 @@ Math.ppp <- function(x, ...) {
     })
   
   return(x)
+  
+}
+
+
+#' @title `Math` \link[base]{groupGeneric} of \link[spatstat.geom]{tess}ellation
+#' 
+#' @description
+#' ...
+#' 
+#' @param x a \link[spatstat.geom]{tess}ellation
+#' 
+#' @param ... additional parameters for `Math` \link[base]{groupGeneric}
+#' 
+#' @details
+#' Function [Math.tess()] performs `Math` operations on the \link[base]{numeric} \link[spatstat.geom]{marks}
+#' of a \link[spatstat.geom]{tess}ellation.
+#' 
+#' @return 
+#' Functions [Math.tess()] returns a \link[spatstat.geom]{ppp.object}.
+#' 
+#' @keywords internal
+#' @importFrom spatstat.geom markformat marks.tess marks<-
+#' @export Math.tess
+#' @export
+Math.tess <- function(x, ...) {
+  
+  # see ?spatstat.geom::Math.im for programing tricks!
+  # we do not have function [markformat.tess]..  ask Dr. Baddeley?
+  
+  # ?spatstat.geom::tess
+  # parameter `marks`: Optional vector, data frame or hyperframe of marks associated with the tiles.
+
+  m <- x |>
+    marks.tess()
+  
+  if (is.data.frame(m)) {
+    id <- m |>
+      vapply(FUN = is.numeric, FUN.VALUE = NA)
+    m[id] <- m[id] |>
+      lapply(FUN = \(i) {
+        do.call(what = .Generic, args = list(x = i, ...))
+      })
+    marks(x) <- m # spatstat.geom::`marks<-.tess`
+  } else {
+    stop('not programed yet!!!')
+  }
+  
+  return(x)
+  
+}
+
+
+
+
+if (FALSE) {
+  x = spatstat.data::meningitis$kreise
+  x$marks
   
 }
 

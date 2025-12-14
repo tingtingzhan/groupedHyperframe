@@ -18,7 +18,7 @@ Functions \code{\link[=Math.ppp]{Math.ppp()}} returns a \link[spatstat.geom]{ppp
 ...
 }
 \details{
-Function \code{\link[=Math.ppp]{Math.ppp()}} performs \code{Math} operations on \link[base]{numeric} \link[spatstat.geom]{marks}
+Function \code{\link[=Math.ppp]{Math.ppp()}} performs \code{Math} operations on the \link[base]{numeric} \link[spatstat.geom]{marks}
 of a \link[spatstat.geom]{ppp.object}.
 }
 \keyword{internal}
