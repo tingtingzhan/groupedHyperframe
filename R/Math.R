@@ -67,7 +67,7 @@ Math.ppp <- function(x, ...) {
 #' Functions [Math.tess()] returns a \link[spatstat.geom]{ppp.object}.
 #' 
 #' @keywords internal
-#' @importFrom spatstat.geom markformat marks.tess marks<-
+#' @importFrom spatstat.geom is.hyperframe markformat marks.tess marks<-
 #' @export Math.tess
 #' @export
 Math.tess <- function(x, ...) {
@@ -81,7 +81,11 @@ Math.tess <- function(x, ...) {
   m <- x |>
     marks.tess()
   
-  if (is.data.frame(m)) {
+  if (!length(m)) {
+    # do nothing
+  } else if (is.vector(m)) {
+    stop('example?')
+  } else if (is.data.frame(m)) {
     id <- m |>
       vapply(FUN = is.numeric, FUN.VALUE = NA)
     m[id] <- m[id] |>
@@ -89,6 +93,8 @@ Math.tess <- function(x, ...) {
         do.call(what = .Generic, args = list(x = i, ...))
       })
     marks(x) <- m # spatstat.geom::`marks<-.tess`
+  } else if (is.hyperframe(m)) {
+    stop('example?')
   } else {
     stop('not programed yet!!!')
   }
