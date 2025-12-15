@@ -105,12 +105,29 @@ Math.tess <- function(x, ...) {
 
 
 
-
-if (FALSE) {
-  x = spatstat.data::meningitis$kreise
-  x$marks
-  
+#' @title `Math` \link[base]{groupGeneric} of \link[spatstat.geom]{psp.object}
+#' 
+#' @description
+#' ...
+#' 
+#' @param x a \link[spatstat.geom]{psp.object}
+#' 
+#' @param ... additional parameters for `Math` \link[base]{groupGeneric}
+#' 
+#' @details
+#' Function [Math.psp()] performs `Math` operations on the \link[base]{numeric} \link[spatstat.geom]{marks}
+#' of a \link[spatstat.geom]{psp.object}.
+#' 
+#' @return 
+#' Functions [Math.psp()] returns a \link[spatstat.geom]{psp.object}.
+#' 
+#' @keywords internal
+#' @export Math.psp
+#' @export
+Math.psp <- function(x, ...) {
+  .Deprecated(msg = 'still working')
 }
+  
 
 
 

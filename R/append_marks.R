@@ -79,6 +79,21 @@
 } 
 
 
+#' @rdname append_marks_set
+#' @export append_marks<-.tess
+#' @export
+`append_marks<-.tess` <- function(x, value) {
+  .Deprecated(msg = 'still working')
+}
+
+#' @rdname append_marks_set
+#' @export append_marks<-.psp
+#' @export
+`append_marks<-.psp` <- function(x, value) {
+  .Deprecated(msg = 'still working')
+}
+
+
 
 sub_lang <- \(pattern, replacement, lang) {
   x <- lang |>
@@ -104,8 +119,12 @@ sub_lang <- \(pattern, replacement, lang) {
 if (FALSE) {
   spatstat.geom::`marks<-`
   library(spatstat.geom); methods(`marks<-`)
-  spatstat.geom::`marks<-.ppp` # not *exactly* what Tingting need
-  spatstat.geom::append.psp # no
+  
+  if (FALSE) {
+    # what's the difference?!
+    spatstat.geom::append.psp
+    spatstat.geom::superimpose.psp
+  }
   base::append # not S3 generic
 }
 

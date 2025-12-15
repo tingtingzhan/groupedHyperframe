@@ -4,11 +4,17 @@
 \alias{append_marks_set}
 \alias{append_marks<-}
 \alias{append_marks<-.ppp}
+\alias{append_marks<-.tess}
+\alias{append_marks<-.psp}
 \title{Append to Existing \link[spatstat.geom]{marks}}
 \usage{
 append_marks(x) <- value
 
 \method{append_marks}{ppp}(x) <- value
+
+\method{append_marks}{tess}(x) <- value
+
+\method{append_marks}{psp}(x) <- value
 }
 \arguments{
 \item{x}{currently only \link[spatstat.geom]{ppp.object} is supported}
