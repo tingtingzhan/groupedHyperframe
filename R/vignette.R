@@ -142,3 +142,26 @@ methods2kable <- function(generic.function, class, package, package_pattern, bac
   return(z)
   
 }
+
+
+
+#' @title [rds2versiondate]
+#' 
+#' @param x \link[base]{matrix}, e.g., from \url{http://cran.r-project.org/web/packages/packages.rds}
+#' 
+#' @param pkg \link[base]{character} \link[base]{vector}
+#' 
+#' @param ... additional parameters, currently of no use
+#' 
+#' @keywords internal
+#' @export
+rds2versiondate <- function(x, pkg, ...) {
+  x |>
+    as.data.frame.matrix() |>
+    subset(subset = Package %in% pkg, select = c('Package', 'Version', 'Date')) |> # ?base::subset.data.frame
+    within(expr = {
+      Package = Package |> sprintf(fmt = '**`%s`**')
+      Version = sprintf(fmt = '%s \U0001f5d3\ufe0f %s', Version, Date)
+      Date = NULL
+    }) # ?base::within.data.frame
+}
