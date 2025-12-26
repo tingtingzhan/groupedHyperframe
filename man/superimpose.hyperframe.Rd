@@ -7,10 +7,11 @@
 \method{superimpose}{hyperframe}(...)
 }
 \arguments{
-\item{...}{one or more \link[spatstat.geom]{hyperframe}s}
+\item{...}{one or more \link[spatstat.geom]{hyperframe}s or \link{groupedHyperframe}s}
 }
 \value{
-Function \code{\link[=superimpose.hyperframe]{superimpose.hyperframe()}} returns a \link[spatstat.geom]{hyperframe}.
+Function \code{\link[=superimpose.hyperframe]{superimpose.hyperframe()}} returns a
+\link[spatstat.geom]{hyperframe} or \link{groupedHyperframe}.
 }
 \description{
 superimpose.hyperframe

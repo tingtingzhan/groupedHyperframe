@@ -2,10 +2,11 @@
 
 #' @title superimpose.hyperframe
 #' 
-#' @param ... one or more \link[spatstat.geom]{hyperframe}s
+#' @param ... one or more \link[spatstat.geom]{hyperframe}s or [groupedHyperframe]s
 #' 
 #' @returns
-#' Function [superimpose.hyperframe()] returns a \link[spatstat.geom]{hyperframe}.
+#' Function [superimpose.hyperframe()] returns a 
+#' \link[spatstat.geom]{hyperframe} or [groupedHyperframe].
 #' 
 #' @keywords internal
 #' @importFrom spatstat.geom superimpose dim.hyperframe
@@ -63,78 +64,26 @@ superimpose.hyperframe <- function(...) {
   # identical(hc_out, unclass(fluM)$hypercolumns) # no, tzh does not care why :)
   # stopifnot(identical(hc_out$pattern, fluM$pattern)) # :))
   
-  ret <- d0[[1L]]
+  ret0 <- d0[[1L]]
   # tzh does not understand `$hyperatoms` yet..
-  ret$hypercolumns <- hc_out
-  class(ret) <- class(dots[[1L]])
-  return(ret)
-
-}
-
-
-
-
-#' @title superimpose.groupedHyperframe
-#' 
-#' @param ... one or more [groupedHyperframe]s
-#' 
-#' @returns
-#' Function [superimpose.groupedHyperframe()] returns a [groupedHyperframe].
-#' 
-#' @keywords internal
-#' @importFrom spatstat.geom superimpose
-#' @export superimpose.groupedHyperframe
-#' @export
-superimpose.groupedHyperframe <- function(...) {
-  
-  dots <- list(...)
-  if (!length(dots)) return(invisible())
-  if (length(dots) == 1L) return(dots[[1L]]) 
+  ret0$hypercolumns <- hc_out
+  class(ret0) <- class(dots[[1L]])
   
   z <- dots |>
-    vapply(FUN = inherits, what = 'groupedHyperframe', FUN.VALUE = NA) |>
-    all()
-  if (!z) stop('all input must be groupedHyperframe')
+    vapply(FUN = inherits, what = 'groupedHyperframe', FUN.VALUE = NA)
+  if (!any(z)) return(ret0)
   
-  z <- dots |> 
-    lapply(FUN = attr, which = 'group')
-  if (!all(duplicated(z)[-1L])) stop('all input must have same grouping structure')
+  if (all(z)) {
+    z <- dots |> 
+      lapply(FUN = attr, which = 'group')
+    if (!all(duplicated(z)[-1L])) stop('all input must have same grouping structure')
+    return(ret0)
+  }
   
-  # NextMethod(generic = 'superimpose') # do NOT activate [superimpose.hyperframe()]; why??
-  
-  return(superimpose.hyperframe(...))
-  
-}
-  
-  
-  
+  stop('input must all-be, or all-not-be, `groupedHyperframe`s')
 
-if (FALSE) {
-  
-  hc[[1L]]$pattern |> sapply(FUN = spatstat.geom::npoints)
-  hc[[2L]]$pattern |> sapply(FUN = spatstat.geom::npoints)
-  
-  hc[[1L]]$pattern$`wt M2-M1 13`$marks # unused level dropped correctly
-  
-  # ?spatstat.geom::superimpose.ppplist **not** what we need!
-  # already documented in vignette :)
-
-  x1 = mapply(
-    FUN = spatstat.geom::superimpose.ppp,
-    hc[[1L]]$pattern, hc[[2L]]$pattern, 
-    SIMPLIFY = FALSE
-  ) # correct!!
-    
-  x2 = .mapply(
-    FUN = spatstat.geom::superimpose.ppp,
-    dots = list(hc[[1L]]$pattern, hc[[2L]]$pattern),
-    MoreArgs = NULL
-  ) # does not work!!!  names-attr dropped by .mapply !!!
-  
-  class(x1) = class(x2) = class(fluM$pattern)
-  
-  stopifnot(identical(fluM$pattern, x1))
-  identical(fluM$pattern, x2) # no!!!
-  
 }
+
+
+
 
