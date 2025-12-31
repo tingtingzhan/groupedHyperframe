@@ -161,7 +161,11 @@ rds2versiondate <- function(x, pkg, ...) {
     subset(subset = Package %in% pkg, select = c('Package', 'Version', 'Date')) |> # ?base::subset.data.frame
     within(expr = {
       Package = Package |> sprintf(fmt = '**`%s`**')
-      Version = sprintf(fmt = '%s \U0001f5d3\ufe0f %s', Version, Date)
+      Version = ifelse(
+        test = is.na(Date),
+        yes = Version,
+        no = sprintf(fmt = '%s \U0001f5d3\ufe0f %s', Version, Date)
+      )
       Date = NULL
     }) # ?base::within.data.frame
 }
