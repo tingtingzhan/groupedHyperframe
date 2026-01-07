@@ -2,7 +2,7 @@ Package: groupedHyperframe
 Type: Package
 Title: Grouped Hyper Data Frame: An Extension of
      Hyper Data Frame
-Version: 0.3.2.20260106
+Version: 0.3.2.20260107
 Description: An S3 class 'groupedHyperframe' that
      inherits from hyper data frame. Batch
      processes on point-pattern hyper column.

@@ -57,11 +57,49 @@ Math.ppp <- function(x, ...) {
 }
 
 #' @rdname groupGeneric_ppp
-#' @importFrom spatstat.geom markformat marks marks<-
+#' @importFrom spatstat.geom is.ppp markformat.ppp marks.ppp anylist
 #' @export Summary.ppp
 #' @export
 Summary.ppp <- function(..., na.rm = FALSE) {
-  stop('comming soon')
+  
+  # see ?spatstat.geom::Summary.im for programing tricks!
+  
+  argh <- list(...)
+  ppps <- vapply(argh, FUN = is.ppp, FUN.VALUE = NA)
+  
+  argh[ppps] <- argh[ppps] |>
+    lapply(FUN = \(x) {
+      m <- x |>
+        marks.ppp(dfok = TRUE, drop = FALSE)
+      x |>
+        markformat.ppp() |>
+        switch('dataframe' = {
+          id <- m |>
+            vapply(FUN = is.numeric, FUN.VALUE = NA)
+          m[id] |>
+            as.list.data.frame()
+        }, 'vector' = {
+          if (is.numeric(m)) {
+            list(m) # important for ?base::mapply
+          } # else do nothing
+        }, 'none' = {
+          # do nothing
+        })
+    })
+  
+  z <- argh |>
+    c(list(FUN = .Generic, SIMPLIFY = FALSE)) |>
+    do.call(what = mapply, args = _)
+  
+  if (!length(z)) return(invisible())
+  if (!length(names(z)) && length(z) == 1L) return(z[[1L]])
+  if (all(lengths(z) == 1L)) return(unlist(z, use.names = TRUE))
+  
+  #z |>
+  #  do.call(what = anylist, args = _) |>
+  #  as.vectorlist()
+  return(z)
+
 }
 
 
