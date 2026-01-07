@@ -1,23 +1,30 @@
 
 
 
-#' @title `Math` \link[base]{groupGeneric} of \link[spatstat.geom]{ppp.object}
+#' @title \link[base]{groupGeneric} of \link[spatstat.geom]{ppp.object}
 #' 
 #' @description
 #' ...
 #' 
 #' @param x a \link[spatstat.geom]{ppp.object}
 #' 
-#' @param ... additional parameters for `Math` \link[base]{groupGeneric}
+#' @param na.rm \link[base]{logical} scalar
+#' 
+#' @param ... additional parameters for the \link[base]{groupGeneric} functions
 #' 
 #' @details
 #' Function [Math.ppp()] performs `Math` operations on the \link[base]{numeric} \link[spatstat.geom]{marks}
 #' of a \link[spatstat.geom]{ppp.object}.
 #' 
+#' Function [Summary.ppp()] ..
+#' 
 #' @return 
-#' Functions [Math.ppp()] returns a \link[spatstat.geom]{ppp.object}.
+#' Function [Math.ppp()] returns a \link[spatstat.geom]{ppp.object}.
+#' 
+#' Function [Summary.ppp()] ..
 #' 
 #' @keywords internal
+#' @name groupGeneric_ppp
 #' @importFrom spatstat.geom markformat marks marks<-
 #' @export Math.ppp
 #' @export
@@ -49,24 +56,40 @@ Math.ppp <- function(x, ...) {
   
 }
 
+#' @rdname groupGeneric_ppp
+#' @importFrom spatstat.geom markformat marks marks<-
+#' @export Summary.ppp
+#' @export
+Summary.ppp <- function(..., na.rm = FALSE) {
+  stop('comming soon')
+}
 
-#' @title `Math` \link[base]{groupGeneric} of \link[spatstat.geom]{tess}ellation
+
+
+#' @title \link[base]{groupGeneric} of \link[spatstat.geom]{tess}ellation
 #' 
 #' @description
 #' ...
 #' 
 #' @param x a \link[spatstat.geom]{tess}ellation
 #' 
-#' @param ... additional parameters for `Math` \link[base]{groupGeneric}
+#' @param na.rm \link[base]{logical} scalar
+#' 
+#' @param ... additional parameters for the \link[base]{groupGeneric} functions
 #' 
 #' @details
 #' Function [Math.tess()] performs `Math` operations on the \link[base]{numeric} \link[spatstat.geom]{marks}
 #' of a \link[spatstat.geom]{tess}ellation.
 #' 
+#' Function [Summary.tess()] ..
+#' 
 #' @return 
-#' Functions [Math.tess()] returns a \link[spatstat.geom]{ppp.object}.
+#' Function [Math.tess()] returns a \link[spatstat.geom]{ppp.object}.
+#' 
+#' Function [Summary.tess()] ..
 #' 
 #' @keywords internal
+#' @name groupGeneric_tess
 #' @importFrom spatstat.geom is.hyperframe markformat marks.tess marks<-
 #' @export Math.tess
 #' @export
@@ -104,47 +127,76 @@ Math.tess <- function(x, ...) {
 }
 
 
+#' @rdname groupGeneric_tess
+#' @importFrom spatstat.geom markformat marks marks<-
+#' @export Summary.tess
+#' @export
+Summary.tess <- function(..., na.rm = FALSE) {
+  stop('comming soon')
+}
 
-#' @title `Math` \link[base]{groupGeneric} of \link[spatstat.geom]{psp.object}
+
+
+
+
+#' @title \link[base]{groupGeneric} of \link[spatstat.geom]{psp.object}
 #' 
 #' @description
 #' ...
 #' 
 #' @param x a \link[spatstat.geom]{psp.object}
 #' 
-#' @param ... additional parameters for `Math` \link[base]{groupGeneric}
+#' @param na.rm \link[base]{logical} scalar
+#' 
+#' @param ... additional parameters for the \link[base]{groupGeneric} functions
 #' 
 #' @details
 #' Function [Math.psp()] performs `Math` operations on the \link[base]{numeric} \link[spatstat.geom]{marks}
 #' of a \link[spatstat.geom]{psp.object}.
 #' 
+#' Function [Summary.psp()] ..
+#' 
 #' @return 
-#' Functions [Math.psp()] returns a \link[spatstat.geom]{psp.object}.
+#' Function [Math.psp()] returns a \link[spatstat.geom]{psp.object}.
+#' 
+#' Function [Summary.psp()] ..
 #' 
 #' @keywords internal
+#' @name groupGeneric_psp
 #' @export Math.psp
 #' @export
 Math.psp <- function(x, ...) {
-  .Deprecated(msg = 'still working')
+  stop('comming soon')
 }
   
+#' @rdname groupGeneric_psp
+#' @export Summary.psp
+#' @export
+Summary.psp <- function(..., na.rm = FALSE) {
+  stop('comming soon')
+}
 
 
 
 
-#' @title `Math` \link[base]{groupGeneric} of `'ppplist'`
+#' @title \link[base]{groupGeneric} of `'ppplist'`
 #' 
 #' @description
 #' ...
 #' 
 #' @param x an `'ppplist'`
 #' 
-#' @param ... additional parameters for `Math` \link[base]{groupGeneric}
+#' @param na.rm \link[base]{logical} scalar
+#' 
+#' @param ... additional parameters for the \link[base]{groupGeneric} functions
 #' 
 #' @return 
-#' Functions [Math.ppplist()] returns a `'ppplist'`.
+#' Function [Math.ppplist()] returns a `'ppplist'`.
+#' 
+#' Function [Summary.ppplist()] ...
 #' 
 #' @keywords internal
+#' @name groupGeneric_ppplist
 #' @importFrom spatstat.geom solapply
 #' @export Math.ppplist
 #' @export
@@ -153,21 +205,33 @@ Math.ppplist <- function(x, ...) {
     solapply(FUN = .Generic, ...)
 }
 
+#' @rdname groupGeneric_ppplist
+#' @importFrom spatstat.geom solapply
+#' @export Summary.ppplist
+#' @export
+Summary.ppplist <- function(..., na.rm = FALSE) {
+  stop('comming soon')
+}
 
 
-#' @title `Math` \link[base]{groupGeneric} of `'fvlist'`
+#' @title \link[base]{groupGeneric} of `'fvlist'`
 #' 
 #' @description
 #' ...
 #' 
 #' @param x an `'fvlist'`
 #' 
-#' @param ... additional parameters for `Math` \link[base]{groupGeneric}
+#' @param na.rm \link[base]{logical} scalar
+#' 
+#' @param ... additional parameters for the \link[base]{groupGeneric} functions
 #' 
 #' @return 
-#' Functions [Math.fvlist()] returns an `'fvlist'`.
+#' Function [Math.fvlist()] returns an `'fvlist'`.
+#' 
+#' Function [Summary.fvlist()] ..
 #' 
 #' @keywords internal
+#' @name groupGeneric_fvlist
 #' @importFrom spatstat.explore Math.fv
 #' @export Math.fvlist
 #' @export
@@ -177,6 +241,13 @@ Math.fvlist <- function(x, ...) {
     as.fvlist()
 }
 
+#' @rdname groupGeneric_fvlist
+#' @importFrom spatstat.explore Math.fv
+#' @export Summary.fvlist
+#' @export
+Summary.fvlist <- function(..., na.rm = FALSE) {
+  stop('comming soon')
+}
 
 
 
