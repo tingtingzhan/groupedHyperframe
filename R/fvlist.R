@@ -210,6 +210,23 @@ print.fvlist <- function(x, ...) {
 }
 
 
+#' @title [as.list.fvlist()]
+#' 
+#' @description
+#' Converts an `fvlist` to a simple \link[base]{list}
+#' 
+#' @param x `fvlist`
+#' 
+#' @param ... additional parameters, currently of no use
+#' 
+#' @keywords internal
+#' @export as.list.fvlist
+#' @export
+as.list.fvlist <- function(x, ...) {
+  class(x) <- 'list'
+  attributes(x)[c('r', '.x', '.y', 'fname', 'rmax')] <- NULL
+  return(x)
+}
 
 
 

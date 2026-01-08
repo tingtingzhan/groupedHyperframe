@@ -280,11 +280,28 @@ Math.fvlist <- function(x, ...) {
 }
 
 #' @rdname groupGeneric_fvlist
-#' @importFrom spatstat.explore Math.fv
+#' @importFrom spatstat.explore Summary.fv
+#' @importFrom spatstat.geom anylist
 #' @export Summary.fvlist
 #' @export
 Summary.fvlist <- function(..., na.rm = FALSE) {
-  stop('comming soon')
+  
+  argh <- list(...)
+  fvLs <- vapply(argh, FUN = is.fvlist, FUN.VALUE = NA)
+  argh[fvLs] <- lapply(argh[fvLs], FUN = as.list.fvlist)
+  
+  z <- argh |>
+    #.mapply(FUN = .Generic, dots = _, MoreArgs = list(na.rm = na.rm)) # drop names
+    c(list(FUN = .Generic, MoreArgs = list(na.rm = na.rm), SIMPLIFY = FALSE, USE.NAMES = TRUE)) |>
+    do.call(what = mapply, args = _)
+  
+  if (all(lengths(z) == 1L)) return(unlist(z, use.names = TRUE))
+  
+  #z |>
+  #  do.call(what = anylist, args = _) |>
+  #  as.vectorlist()
+  return(z)
+  
 }
 
 

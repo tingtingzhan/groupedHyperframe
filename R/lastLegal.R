@@ -138,6 +138,7 @@ lastLegal <- function(v) {
       'theo' |> col_red() |> style_bold()
     ) |>
     message()
+  
   sq <- id:length(.y)
   X[[key]][sq] <- theo[sq]
   
