@@ -151,16 +151,22 @@ methods2kable <- function(generic.function, class, package, package_pattern, bac
 #' 
 #' @param pkg \link[base]{character} \link[base]{vector}
 #' 
+#' @param format \link[base]{Date} format, see functions \link[base]{format.Date} and \link[base]{strptime} for detail
+#' 
 #' @param ... additional parameters, currently of no use
 #' 
 #' @keywords internal
 #' @export
-rds2versiondate <- function(x, pkg, ...) {
+rds2versiondate <- function(x, pkg, format = '%a %b %d, %Y', ...) {
   x |>
     as.data.frame.matrix() |>
     subset(subset = Package %in% pkg, select = c('Package', 'Version', 'Date')) |> # ?base::subset.data.frame
     within(expr = {
-      Package = Package |> sprintf(fmt = '**`%s`**')
+      Package = Package |> 
+        sprintf(fmt = '**`%s`**')
+      Date = Date |>
+        as.Date.character(format = '%Y-%m-%d') |>
+        format.Date(format = format)
       Version = ifelse(
         test = is.na(Date),
         yes = Version,

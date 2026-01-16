@@ -4,12 +4,14 @@
 \alias{rds2versiondate}
 \title{\link{rds2versiondate}}
 \usage{
-rds2versiondate(x, pkg, ...)
+rds2versiondate(x, pkg, format = "\%a \%b \%d, \%Y", ...)
 }
 \arguments{
 \item{x}{\link[base]{matrix}, e.g., from \url{http://cran.r-project.org/web/packages/packages.rds}}
 
 \item{pkg}{\link[base]{character} \link[base]{vector}}
+
+\item{format}{\link[base]{Date} format, see functions \link[base]{format.Date} and \link[base]{strptime} for detail}
 
 \item{...}{additional parameters, currently of no use}
 }
