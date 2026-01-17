@@ -28,7 +28,8 @@ is.vectorlist <- function(
   if (!all(id[-1L])) return(FALSE)
     
   id <- x |>
-    lapply(FUN = names) |> # NULL-name compatible
+    #lapply(FUN = names) |> # NULL-name compatible
+    lapply(FUN = attributes) |>
     duplicated.default()
   if (!all(id[-1L])) return(FALSE)
   
