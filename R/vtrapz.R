@@ -308,11 +308,11 @@ visualize_vtrapz.numeric <- function(
   #label.v <- paste(label.v, method, sep = '; ')
   #label.cumv <- paste(label.cumv, method, sep = '; ')
   
-  xmin <- min(x)
-  xmax <- max(x)
-  xmed <- median.default(x)
-  x_lim <- c(xmin - (xmed - xmin) * .2, xmax + (xmax - xmed) * .2)
-  y_lim <- if (draw.rect) c(0, max(y)*1.1) else c(min(y)*.95, max(y)*1.05)
+  #xmin <- min(x)
+  #xmax <- max(x)
+  #xmed <- median.default(x)
+  #x_lim <- c(xmin - (xmed - xmin) * .2, xmax + (xmax - xmed) * .2)
+  #y_lim <- if (draw.rect) c(0, max(y)*1.1) else c(min(y)*.95, max(y)*1.05)
   
   doi_pracma <- unclass(citation(package = 'pracma'))[[1L]]$doi
   
@@ -348,8 +348,8 @@ visualize_vtrapz.numeric <- function(
   
   lyr_x <- if (length(x) <= 10L) {
     if (missing(xlabs) || !length(xlabs)) {
-      scale_x_continuous(breaks = x, labels = label_number(accuracy = .1), limits = x_lim)
-    } else scale_x_continuous(breaks = x, labels = xlabs, limits = x_lim)
+      scale_x_continuous(breaks = x, labels = label_number(accuracy = .1)) # , limits = x_lim
+    } else scale_x_continuous(breaks = x, labels = xlabs) # , limits = x_lim
   } else {
     if (missing(xlabs) || !length(xlabs)) {
       # do nothing
