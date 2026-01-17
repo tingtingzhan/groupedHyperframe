@@ -8,6 +8,7 @@
 #' 
 #' @import cli
 #' @import patchwork
+#' @import survival
 '_PACKAGE'
 
 if (FALSE) {
