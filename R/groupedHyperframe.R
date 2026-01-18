@@ -1,4 +1,28 @@
 
+.info_groupedHyperframe <- \(x) {
+  
+  f <- x |>
+    attr(which = 'group', exact = TRUE) |> 
+    get_nested_factors(data = x)
+  ns <- f |> 
+    seq_along() |> 
+    vapply(FUN = \(i) { # (i = 1L)
+      f[seq_len(i)] |>
+        interaction(drop = TRUE, lex.order = TRUE) |>
+        levels() |>
+        length()
+    }, FUN.VALUE = NA_integer_) # names dropped by ?base::vapply
+  
+  mapply(
+    FUN = \(n, g) {
+      paste(n, g |> col_blue() |> style_bold())
+    }, n = ns, g = names(f), SIMPLIFY = TRUE
+  ) |> 
+    rev.default() |> 
+    paste(collapse = ' nested in\n')
+
+}
+
 
 #' @title Print [groupedHyperframe]
 #' 
@@ -9,44 +33,115 @@
 #' @returns 
 #' Function [print.groupedHyperframe()] does not have a returned value.
 #' 
+#' @seealso `?nlme:::print.groupedData`
+#' 
 #' @keywords internal
 #' @importFrom spatstat.geom as.data.frame.hyperframe
-#' @importFrom utils head
 #' @export print.groupedHyperframe
 #' @export
 print.groupedHyperframe <- function(x, ...) {
   
-  # @seealso `?nlme:::print.groupedData`
+  x |>
+    attr(which = 'group', exact = TRUE) |>
+    deparse1() |>
+    sprintf(fmt = 'Grouped Hyper Data Frame: %s') |>
+    cat()
   
-  'Grouped Hyperframe: ' |> cat()
-  group <- attr(x, which = 'group', exact = TRUE)
-  print(group, ...)
+  cat('\n\n')
+  x |>
+    .info_groupedHyperframe() |>
+    cat()
+  cat('\n\n')
   
-  f <- group |> 
-    get_nested_factors(data = x)
-  ns <- f |> 
-    seq_along() |> 
-    vapply(FUN = \(i) { # (i = 1L)
-      f[seq_len(i)] |>
-        interaction(drop = TRUE, lex.order = TRUE) |>
-        levels() |>
-        length()
-    }, FUN.VALUE = NA_integer_) # names dropped by ?base::vapply
-    
-  cat('\n')
-  mapply(FUN = \(n, g) {
-    paste(n, g |> col_blue() |> style_bold())
-  }, n = ns, g = names(f), SIMPLIFY = TRUE) |> 
-    rev.default() |> 
-    cat(sep = ' nested in\n')
-  
-  cat('\n')
   # see inside ?spatstat.geom::print.hyperframe
   x |>
     as.data.frame.hyperframe(discard = FALSE) |> 
     print(...)
   
 }
+
+#' @title Summary Information of [groupedHyperframe]
+#' 
+#' @param object a [groupedHyperframe]
+#' 
+#' @param ... additional parameters, currently not in use
+#' 
+#' @returns 
+#' Function [summary.groupedHyperframe()] returns an R object of class `'summary.groupedHyperframe'`.
+#' 
+#' @keywords internal
+#' @importFrom spatstat.geom summary.hyperframe
+#' @export summary.groupedHyperframe
+#' @export
+summary.groupedHyperframe <- function(object, ...) {
+  
+  z <- object |>
+    summary.hyperframe()
+  attr(z, which = 'group') <- object |>
+    attr(which = 'group', exact = TRUE)
+  attr(z, which = 'group_size') <- object |>
+    .info_groupedHyperframe()
+  class(z) <- c('summary.groupedHyperframe', class(z)) |>
+    unique.default()
+  return(z)
+  
+}
+
+
+
+
+
+
+#' @title Print Summary Information of [groupedHyperframe]
+#' 
+#' @param x a [summary.groupedHyperframe] object
+#' 
+#' @param ... additional parameters, currently not in use
+#' 
+#' @returns 
+#' Function [print.summary.groupedHyperframe()] does not have a returned value.
+#' 
+#' @keywords internal
+# @importFrom spatstat.geom print.summary.hyperframe
+#' @method print summary.groupedHyperframe
+#' @export print.summary.groupedHyperframe
+#' @export
+print.summary.groupedHyperframe <- function(x, ...) {
+
+  # see inside ?spatstat.geom::print.summary.hyperframe
+  
+  x |>
+    attr(which = 'group', exact = TRUE) |>
+    deparse1() |>
+    sprintf(fmt = 'Grouped Hyper Data Frame: %s') |>
+    cat()
+  
+  cat('\n\n')
+  x |>
+    attr(which = 'group_size', exact = TRUE) |>
+    cat()
+  cat('\n\n')
+  
+  if (any(x$storage == "dfcolumn")) {
+    x$allcols |>
+      print()
+  } else {
+    x$classes |> 
+      noquote() |>
+      print()
+  }
+  
+  return(invisible())  
+  
+}
+
+
+
+
+
+
+
+
 
 
 

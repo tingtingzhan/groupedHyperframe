@@ -17,4 +17,7 @@ Function \code{\link[=print.groupedHyperframe]{print.groupedHyperframe()}} does 
 \description{
 Print \link{groupedHyperframe}
 }
+\seealso{
+\code{?nlme:::print.groupedData}
+}
 \keyword{internal}
