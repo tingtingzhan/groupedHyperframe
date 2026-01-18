@@ -23,7 +23,16 @@ aml2 = survival::aml |>
   os = survival::Surv(time = time, event = status)
   time = status = NULL
  })
+summary(aml2$os)
 summary(aml2)
+
+heart2 = survival::heart |>
+ within.data.frame(expr = {
+  os = survival::Surv(time = start, time2 = stop, event = event)
+  start = stop = event = NULL
+ })
+summary(heart2$os)
+summary(heart2)
 
 }
 \keyword{internal}
