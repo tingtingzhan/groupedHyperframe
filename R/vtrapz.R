@@ -443,19 +443,20 @@ visualize_vtrapz.density <- function(x, ...) {
 #' @rdname visualize_vtrapz
 #' @importFrom ggplot2 labs
 #' @importFrom stats lowess
-#' @export visualize_vtrapz.ecdf
+#' @export visualize_vtrapz.stepfun
 #' @export
-visualize_vtrapz.ecdf <- function(x, ...) {
+visualize_vtrapz.stepfun <- function(x, ...) {
   fn <- x; x <- NULL # make code more readable
   ev <- environment(fn)
-  # stopifnot(stats::is.stepfun(fn)) # !!!
   x <- get('x', envir = ev)
   y <- get('y', envir = ev)
   l <- lowess(x = x, y = y, f = min(1, 5/length(x))) # read ?stats::lowess carefully for parameter `f`
   visualize_vtrapz.numeric(
     x = x, y = y,
     x_smooth = l$x, y_smooth = l$y,
-    yname = 'stats::ecdf (smoothed)',
+    yname = paste(if (inherits(fn, what = 'ecdf')) {
+      'stats::ecdf'
+    } else 'stats::stepfun', '(smoothed)'),
     ...
   ) +
     labs(x = 'x', y = NULL)
