@@ -4,20 +4,21 @@
 \name{groupedHyperframe-package}
 \alias{groupedHyperframe}
 \alias{groupedHyperframe-package}
-\title{groupedHyperframe: Grouped Hyper Data Frame: An Extension of Hyper Data Frame}
+\title{groupedHyperframe: Grouped Hyper Data Frame}
 \description{
-An S3 class 'groupedHyperframe' that inherits from hyper data frame. Batch processes on point-pattern hyper column. Aggregation of function-value-table hyper column(s) and numeric hyper column(s) over a nested grouping structure.
+An S3 class 'groupedHyperframe' that inherits from hyper data frame. Batch processes and aggregation of hyper column(s) over a nested grouping structure.
 }
 \note{
 Help files of individual functions are intentionally suppressed in the \code{pdf} manual.
 Users are encouraged to get started with the vignettes.
 
-\url{https://rpubs.com/tingtingzhan/groupedHyperframe}
+\url{https://tingtingzhan.quarto.pub/groupedhyperframe}
 }
 \seealso{
 Useful links:
 \itemize{
   \item \url{https://github.com/tingtingzhan/groupedHyperframe}
+  \item \url{https://tingtingzhan.quarto.pub/groupedhyperframe}
 }
 
 }

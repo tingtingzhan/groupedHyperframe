@@ -3,12 +3,22 @@
 
 #' @title Summary Information of \link[survival]{Surv} Object
 #' 
+#' @description
+#' The missing `S3` method of the generic function \link[base]{summary} for \link[survival]{Surv} object.
+#' 
 #' @param object a \link[survival]{Surv} object
 #' 
 #' @param ... additional parameters, currently of no use
 #' 
-#' @details
-#' Otherwise dispatch to \link[base]{summary.default}.
+#' @note
+#' Without function [summary.Surv()], 
+#' the `S3` generic function \link[base]{summary} dispatches to function \link[base]{summary.default} 
+#' if the input is a \link[survival]{Surv} object.
+#' 
+#' @returns 
+#' Function [summary.Surv()] returns a \link[base]{character} \link[base]{vector}.
+#' 
+#' @seealso \link[base]{summary.factor}
 #' 
 #' @examples
 #' aml2 = survival::aml |>

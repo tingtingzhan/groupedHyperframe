@@ -1,14 +1,8 @@
 Package: groupedHyperframe
 Type: Package
-Title: Grouped Hyper Data Frame: An Extension of
-     Hyper Data Frame
-Version: 0.3.2.20260118
-Description: An S3 class 'groupedHyperframe' that
-     inherits from hyper data frame. Batch
-     processes on point-pattern hyper column.
-     Aggregation of function-value-table hyper
-     column(s) and numeric hyper column(s) over a
-     nested grouping structure.
+Title: Grouped Hyper Data Frame
+Version: 0.3.3
+Description: An S3 class 'groupedHyperframe' that inherits from hyper data frame. Batch processes and aggregation of hyper column(s) over a nested grouping structure.
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.3
 LazyData: true
@@ -25,7 +19,8 @@ Authors@R: c(person(given = 'Tingting', family =
      'Inna.Chervoneva@jefferson.edu', comment =
      c(ORCID = '0000-0002-9104-4505')))
 URL: 
-    https://github.com/tingtingzhan/groupedHyperframe
+    https://github.com/tingtingzhan/groupedHyperframe,
+    https://tingtingzhan.quarto.pub/groupedhyperframe
 Depends: R (>= 4.5)
 Imports: cli, methods, parallel, doParallel, foreach, matrixStats, pracma, GET, SpatialPack,
     ggplot2, geomtextpath, scales, survival, patchwork, knitr, 

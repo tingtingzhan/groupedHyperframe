@@ -14,4 +14,4 @@ bioinformatics_btaf430
 \description{
 \link[utils]{bibentry} for Quarto Book
 }
-\keyword{datasets}
+\keyword{internal}

@@ -11,11 +11,16 @@
 
 \item{...}{additional parameters, currently of no use}
 }
-\description{
-Summary Information of \link[survival]{Surv} Object
+\value{
+Function \code{\link[=summary.Surv]{summary.Surv()}} returns a \link[base]{character} \link[base]{vector}.
 }
-\details{
-Otherwise dispatch to \link[base]{summary.default}.
+\description{
+The missing \code{S3} method of the generic function \link[base]{summary} for \link[survival]{Surv} object.
+}
+\note{
+Without function \code{\link[=summary.Surv]{summary.Surv()}},
+the \code{S3} generic function \link[base]{summary} dispatches to function \link[base]{summary.default}
+if the input is a \link[survival]{Surv} object.
 }
 \examples{
 aml2 = survival::aml |>
@@ -34,5 +39,8 @@ heart2 = survival::heart |>
 summary(heart2$os)
 summary(heart2)
 
+}
+\seealso{
+\link[base]{summary.factor}
 }
 \keyword{internal}
