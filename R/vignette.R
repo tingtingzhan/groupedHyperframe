@@ -147,7 +147,7 @@ methods2kable <- function(generic.function, class, package, package_pattern, bac
 
 #' @title [rds2versiondate]
 #' 
-#' @param x \link[base]{matrix}, e.g., from \url{http://cran.r-project.org/web/packages/packages.rds}
+#' @param x \link[base]{matrix}, e.g., from \url{https://cran.r-project.org/web/packages/packages.rds}
 #' 
 #' @param pkg \link[base]{character} \link[base]{vector}
 #' 

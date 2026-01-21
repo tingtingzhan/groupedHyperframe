@@ -7,7 +7,7 @@
 rds2versiondate(x, pkg, format = "\%a \%b \%d, \%Y", ...)
 }
 \arguments{
-\item{x}{\link[base]{matrix}, e.g., from \url{http://cran.r-project.org/web/packages/packages.rds}}
+\item{x}{\link[base]{matrix}, e.g., from \url{https://cran.r-project.org/web/packages/packages.rds}}
 
 \item{pkg}{\link[base]{character} \link[base]{vector}}
 
