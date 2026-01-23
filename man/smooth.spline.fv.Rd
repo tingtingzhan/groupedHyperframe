@@ -17,7 +17,7 @@ smooth.spline.fv(
 \item{key, .x}{\link[base]{character} scalars}
 
 \item{...}{additional parameters of functions
-\link[stats]{smooth.spline}, except for \code{x} and \code{y}}
+\link[stats]{smooth.spline}, except for \code{x}, \code{y} and \code{keep.data}}
 }
 \description{
 \link[stats]{smooth.spline} of \link[spatstat.explore]{fv.object}

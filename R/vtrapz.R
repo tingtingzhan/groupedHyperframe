@@ -541,7 +541,7 @@ visualize_vtrapz.loess <- function(x, ..., n = 513L) {
     ...
   ) +
     geom_point(mapping = aes(x = obj$x[, 1L], y = obj$y), alpha = .1) +
-    labs(x = xname, y = NULL)
+    labs(x = xname, y = deparse1(obj$call$formula[[2L]]))
   
 }
 
@@ -555,17 +555,19 @@ visualize_vtrapz.loess <- function(x, ..., n = 513L) {
 #' @method visualize_vtrapz smooth.spline
 #' @export visualize_vtrapz.smooth.spline
 #' @export
-visualize_vtrapz.smooth.spline <- function(x, ..., n = 513L) {
+visualize_vtrapz.smooth.spline <- function(x, ...) {
   
   obj <- x; x <- NULL # make code more readable
+  
+  if (!length(obj$data)) stop('re-run stats::smooth.spline() with `keep.data = TRUE`')
 
   visualize_vtrapz.numeric(
     x = obj$x, y = obj$y, 
     yname = obj$yname %||% 'stats::smooth.spline',
     ...
   ) +
-    geom_point(mapping = aes(x = obj$x, y = obj$y_orig), alpha = .1) +
-    labs(x = obj$xname, y = NULL)
+    geom_point(mapping = aes(x = obj$data$x, y = obj$data$y), alpha = .1) +
+    labs(x = deparse1(obj$call$x), y = deparse1(obj$call$y))
   
 }
 

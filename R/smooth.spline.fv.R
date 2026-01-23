@@ -7,7 +7,7 @@
 #' @param key,.x \link[base]{character} scalars
 #' 
 #' @param ... additional parameters of functions 
-#' \link[stats]{smooth.spline}, except for `x` and `y`
+#' \link[stats]{smooth.spline}, except for `x`, `y` and `keep.data`
 #' 
 #' @keywords internal
 #' @importFrom spatstat.explore fvnames as.data.frame.fv
@@ -26,11 +26,9 @@ smooth.spline.fv <- function(
   if (key == .x) stop('first column of `x` is not the output of `fv.object`')
   #fom <- eval(call(name = '~', as.symbol(key), as.symbol(.x)))
   #lo <- loess(formula = fom, data = as.data.frame.fv(fv), ...)
-  ss <- smooth.spline(x = fv[[.x]], y = fv[[key]], ...)
+  ss <- smooth.spline(x = fv[[.x]], y = fv[[key]], keep.data = TRUE, ...)
   ss$call$x <- as.symbol(.x)
   ss$call$y <- as.symbol(key)
-  ss$y_orig <- fv[[key]]
-  ss$xname <- .x
   ss$yname <- fv |> 
     attr(which = 'ylab', exact = TRUE) |> 
     deparse1() |>
