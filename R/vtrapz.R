@@ -547,3 +547,29 @@ visualize_vtrapz.loess <- function(x, ..., n = 513L) {
 
 
 
+
+
+#' @rdname visualize_vtrapz
+#' @importFrom ggplot2 labs geom_point aes
+#' @importFrom stats predict
+#' @method visualize_vtrapz smooth.spline
+#' @export visualize_vtrapz.smooth.spline
+#' @export
+visualize_vtrapz.smooth.spline <- function(x, ..., n = 513L) {
+  
+  obj <- x; x <- NULL # make code more readable
+
+  visualize_vtrapz.numeric(
+    x = obj$x, y = obj$y, 
+    yname = obj$yname %||% 'stats::smooth.spline',
+    ...
+  ) +
+    geom_point(mapping = aes(x = obj$x, y = obj$y_orig), alpha = .1) +
+    labs(x = obj$xname, y = NULL)
+  
+}
+
+
+
+
+
