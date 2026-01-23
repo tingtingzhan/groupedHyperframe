@@ -555,14 +555,23 @@ visualize_vtrapz.loess <- function(x, ..., n = 513L) {
 #' @method visualize_vtrapz smooth.spline
 #' @export visualize_vtrapz.smooth.spline
 #' @export
-visualize_vtrapz.smooth.spline <- function(x, ...) {
+visualize_vtrapz.smooth.spline <- function(x, ..., n = 513L) {
   
   obj <- x; x <- NULL # make code more readable
   
   if (!length(obj$data)) stop('re-run stats::smooth.spline() with `keep.data = TRUE`')
 
+  pred <- obj$x |>
+    range() |>
+    c(length.out = n) |>
+    as.list() |>
+    do.call(what = seq.int) |>
+    predict(object = obj, x = _) 
+  # ?stats:::predict.smooth.spline does *not* use parameter name `newdata` !!!
+  # `pred` is a list with elements `$x` and `$y`
+  
   visualize_vtrapz.numeric(
-    x = obj$x, y = obj$y, 
+    x = pred$x, y = pred$y, 
     yname = obj$yname %||% 'stats::smooth.spline',
     ...
   ) +
