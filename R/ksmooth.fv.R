@@ -27,9 +27,9 @@ ksmooth.fv <- function(
   #fom <- eval(call(name = '~', as.symbol(key), as.symbol(.x)))
   ks <- ksmooth(x = fv[[.x]], y = fv[[key]], ...)
   attr(ks, which = 'x') <- fv[[.x]]
-  attr(ks, which = 'xnm') <- .x
+  attr(ks, which = 'xlab') <- .x
   attr(ks, which = 'y') <- fv[[key]]
-  attr(ks, which = 'ynm') <- key
+  attr(ks, which = 'ylab') <- key
   attr(ks, which = 'yname') <- fv |> 
     attr(which = 'ylab', exact = TRUE) |> 
     deparse1() |>

@@ -30,7 +30,8 @@ approxfun.fv <- function(
     deparse1() |>
     sprintf(fmt = '%s linear interpolation') |>
     assign(x = 'yname', value = _, envir = environment(fn))
-  assign(x = 'xname', value = .x, envir = environment(fn))
+  assign(x = 'xlab', value = .x, envir = environment(fn))
+  assign(x = 'ylab', value = key, envir = environment(fn))
   return(fn)
 }
 
@@ -60,6 +61,7 @@ splinefun.fv <- function(
     deparse1() |>
     sprintf(fmt = '%s spline interpolation') |>
     assign(x = 'yname', value = _, envir = environment(fn))
-  assign(x = 'xname', value = .x, envir = environment(fn))
+  assign(x = 'xlab', value = .x, envir = environment(fn))
+  assign(x = 'ylab', value = key, envir = environment(fn))
   return(fn)
 }

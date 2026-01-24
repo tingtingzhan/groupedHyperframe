@@ -240,7 +240,7 @@ cumvtrapz.hyperframe <- function(x, ...) {
 #' smoothed \eqn{x} and \eqn{y} values, 
 #' to beautify the \link[geomtextpath]{geom_textpath} of a \link[stats]{stepfun}
 #' 
-#' @param xlabs,ylabs \link[base]{character} scalars
+#' @param xlabs,ylabs \link[base]{function}s
 #' 
 #' @param yname (optional) \link[base]{character} scalar, name of function
 #' 
@@ -475,8 +475,11 @@ visualize_vtrapz.function <- function(x, ..., n = 513L) {
   yname <- if (exists('yname', envir = ev)) {
     get('yname', envir = ev)
   } # else NULL
-  xname <- if (exists('xname', envir = ev)) {
-    get('xname', envir = ev)
+  xlab <- if (exists('xlab', envir = ev)) {
+    get('xlab', envir = ev)
+  } # else NULL
+  ylab <- if (exists('ylab', envir = ev)) {
+    get('ylab', envir = ev)
   } # else NULL
   
   if (exists('x', envir = ev, inherits = FALSE)) { # returned from ?stats::approxfun
@@ -505,7 +508,7 @@ visualize_vtrapz.function <- function(x, ..., n = 513L) {
     switch(fn_from, splinefun =, approxfun = {
       geom_point(mapping = aes(x = x0, y = y0), color = 'firebrick')
     }) +
-    labs(x = xname, y = NULL)
+    labs(x = xlab, y = ylab)
   
 }
 
@@ -523,7 +526,7 @@ visualize_vtrapz.loess <- function(x, ..., n = 513L) {
   if (!is.matrix(obj$x)) stop('stats-package updated?')
   if (ncol(obj$x) != 1L) stop('one-and-only-one predictor in loess model!')
   
-  xname <- colnames(obj$x)[1L]
+  xlab <- colnames(obj$x)[1L]
   
   newx <- obj$x[, 1L] |>
     range() |>
@@ -531,7 +534,7 @@ visualize_vtrapz.loess <- function(x, ..., n = 513L) {
     as.list() |>
     do.call(what = seq.int)
   newdata <- data.frame(newx)
-  names(newdata) <- xname
+  names(newdata) <- xlab
   newy <- obj |>
     predict(newdata = newdata, se = FALSE) # ?stats:::predict.loess
   
@@ -541,7 +544,7 @@ visualize_vtrapz.loess <- function(x, ..., n = 513L) {
     ...
   ) +
     geom_point(mapping = aes(x = obj$x[, 1L], y = obj$y), alpha = .1) +
-    labs(x = xname, y = deparse1(obj$call$formula[[2L]]))
+    labs(x = xlab, y = deparse1(obj$call$formula[[2L]]))
   
 }
 
@@ -593,10 +596,10 @@ visualize_vtrapz.ksmooth <- function(x, ...) {
     attr(which = 'x', exact = TRUE)
   y <- obj |>
     attr(which = 'y', exact = TRUE)
-  xnm <- obj |>
-    attr(which = 'xnm', exact = TRUE)
-  ynm <- obj |>
-    attr(which = 'ynm', exact = TRUE)
+  xlab <- obj |>
+    attr(which = 'xlab', exact = TRUE)
+  ylab <- obj |>
+    attr(which = 'ylab', exact = TRUE)
   yname <- obj |>
     attr(which = 'yname', exact = TRUE)
   
@@ -606,7 +609,7 @@ visualize_vtrapz.ksmooth <- function(x, ...) {
     ...
   ) +
     geom_point(mapping = aes(x = x, y = y), alpha = .1) +
-    labs(x = xnm, y = ynm)
+    labs(x = xlab, y = ylab)
   
 }
 

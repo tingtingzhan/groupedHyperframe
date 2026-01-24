@@ -70,7 +70,7 @@ visualize_vtrapz(
 smoothed \eqn{x} and \eqn{y} values,
 to beautify the \link[geomtextpath]{geom_textpath} of a \link[stats]{stepfun}}
 
-\item{xlabs, ylabs}{\link[base]{character} scalars}
+\item{xlabs, ylabs}{\link[base]{function}s}
 
 \item{yname}{(optional) \link[base]{character} scalar, name of function}
 
