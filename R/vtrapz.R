@@ -402,7 +402,7 @@ visualize_vtrapz.fv <- function(x, ...) {
     } else yname,
     ...
   ) + 
-    labs(x = .x, y = NULL)
+    labs(x = .x, y = .y)
 }
 
 
