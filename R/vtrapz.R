@@ -582,5 +582,31 @@ visualize_vtrapz.smooth.spline <- function(x, ..., n = 513L) {
 
 
 
-
+#' @rdname visualize_vtrapz
+#' @export visualize_vtrapz.ksmooth
+#' @export
+visualize_vtrapz.ksmooth <- function(x, ...) {
+  
+  obj <- x; x <- NULL # make code more readable
+  
+  x <- obj |>
+    attr(which = 'x', exact = TRUE)
+  y <- obj |>
+    attr(which = 'y', exact = TRUE)
+  xnm <- obj |>
+    attr(which = 'xnm', exact = TRUE)
+  ynm <- obj |>
+    attr(which = 'ynm', exact = TRUE)
+  yname <- obj |>
+    attr(which = 'yname', exact = TRUE)
+  
+  visualize_vtrapz.numeric(
+    x = obj$x, y = obj$y, 
+    yname = obj$yname %||% 'stats::ksmooth',
+    ...
+  ) +
+    geom_point(mapping = aes(x = x, y = y), alpha = .1) +
+    labs(x = xnm, y = ynm)
+  
+}
 

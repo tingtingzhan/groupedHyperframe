@@ -10,6 +10,7 @@
 \alias{visualize_vtrapz.function}
 \alias{visualize_vtrapz.loess}
 \alias{visualize_vtrapz.smooth.spline}
+\alias{visualize_vtrapz.ksmooth}
 \title{Visualize \code{\link[=vtrapz]{vtrapz()}} and \code{\link[=cumvtrapz]{cumvtrapz()}}}
 \usage{
 visualize_vtrapz(
@@ -57,6 +58,8 @@ visualize_vtrapz(
 \method{visualize_vtrapz}{loess}(x, ..., n = 513L)
 
 \method{visualize_vtrapz}{smooth.spline}(x, ..., n = 513L)
+
+\method{visualize_vtrapz}{ksmooth}(x, ...)
 }
 \arguments{
 \item{x}{see \strong{Usage}}
