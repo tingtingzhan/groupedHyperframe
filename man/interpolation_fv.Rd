@@ -4,11 +4,19 @@
 \alias{interpolation_fv}
 \alias{approxfun.fv}
 \alias{splinefun.fv}
-\title{\link[stats]{approxfun} of \link[spatstat.explore]{fv.object}}
+\alias{interpSpline_.fv}
+\title{Interpolation of \link[spatstat.explore]{fv.object}}
 \usage{
 approxfun.fv(x, key = fvnames(fv, a = ".y"), .x = fvnames(fv, a = ".x"), ...)
 
 splinefun.fv(x, key = fvnames(fv, a = ".y"), .x = fvnames(fv, a = ".x"), ...)
+
+interpSpline_.fv(
+  x,
+  key = fvnames(fv, a = ".y"),
+  .x = fvnames(fv, a = ".x"),
+  ...
+)
 }
 \arguments{
 \item{x}{an \link[spatstat.explore]{fv.object}}
@@ -16,9 +24,9 @@ splinefun.fv(x, key = fvnames(fv, a = ".y"), .x = fvnames(fv, a = ".x"), ...)
 \item{key, .x}{\link[base]{character} scalars}
 
 \item{...}{additional parameters of functions
-\link[stats]{approxfun} and \link[stats]{splinefun}.}
+\link[stats]{approxfun}, \link[stats]{splinefun} and \link[splines]{interpSpline}}
 }
 \description{
-\link[stats]{approxfun} of \link[spatstat.explore]{fv.object}
+Interpolation of \link[spatstat.explore]{fv.object}
 }
 \keyword{internal}

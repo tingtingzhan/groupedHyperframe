@@ -613,3 +613,55 @@ visualize_vtrapz.ksmooth <- function(x, ...) {
   
 }
 
+
+#' @rdname visualize_vtrapz
+#' @export visualize_vtrapz.spline
+#' @export
+visualize_vtrapz.spline <- function(x, ..., n = 513L) {
+  
+  obj <- x; x <- NULL # make code more readable
+  
+  x <- obj |>
+    attr(which = 'x', exact = TRUE)
+  y <- obj |>
+    attr(which = 'y', exact = TRUE)
+  xlab <- obj |>
+    attr(which = 'xlab', exact = TRUE)
+  ylab <- obj |>
+    attr(which = 'ylab', exact = TRUE)
+  yname <- obj |>
+    attr(which = 'yname', exact = TRUE)
+  
+  obj$knots |>
+    range() |>
+    c(length.out = n) |>
+    as.list() |>
+    do.call(what = seq.int) |>
+    predict(object = obj, x = _) |> #an 'xyVector' object
+    # ?stats::predict dispatch to sub-classes of 'spline'
+    # ?splines:::predict.npolySpline does *not* use parameter name `newdata` !!!
+    visualize_vtrapz.xyVector(yname = yname, ...) +
+    geom_point(mapping = aes(x = x, y = y), color = 'firebrick') +
+    labs(x = xlab, y = ylab)
+  
+}
+
+
+# splines::xyVector
+#' @rdname visualize_vtrapz
+#' @export visualize_vtrapz.xyVector
+#' @export
+visualize_vtrapz.xyVector <- function(x, ...) {
+  
+  obj <- x; x <- NULL # make code more readable
+  
+  visualize_vtrapz.numeric(
+    x = obj$x, y = obj$y,
+    ...
+  )
+  
+}
+
+
+
+

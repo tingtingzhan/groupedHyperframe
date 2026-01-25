@@ -24,7 +24,7 @@ URL:
 Depends: R (>= 4.5)
 Imports: cli, methods, parallel, doParallel, foreach, matrixStats, pracma, GET, SpatialPack,
     ggplot2, geomtextpath, scales, survival, patchwork, knitr, 
-    spatstat.explore, spatstat.geom, spatstat.random
+    spatstat.explore, spatstat.geom, spatstat.random, splines
 Suggests: quarto, rmarkdown, rpart,
     spatstat.data
 VignetteBuilder: quarto
