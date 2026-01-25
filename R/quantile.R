@@ -68,6 +68,7 @@ quantile.ppplist <- function(x, ...) {
 #' 
 #' @keywords internal
 #' @importFrom stats quantile
+#' @importFrom spatstat.geom anylist
 #' @export quantile.anylist
 #' @export
 quantile.anylist <- function(x, ...) {
@@ -77,7 +78,9 @@ quantile.anylist <- function(x, ...) {
   if (!all(x_num)) return(invisible()) # exception handling
   
   x |> 
-    lapply(FUN = quantile, ...)
+    lapply(FUN = quantile, ...) |> # stats:::quantile.default
+    do.call(what = anylist, args = _) |>
+    as.vectorlist(mode = 'numeric')
   
 }
 

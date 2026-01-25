@@ -74,6 +74,7 @@ kerndens.ppplist <- function(x, ...) {
 
 
 #' @rdname kerndens
+#' @importFrom spatstat.geom anylist
 #' @export kerndens.anylist
 #' @export
 kerndens.anylist <- function(x, ...) {
@@ -83,7 +84,9 @@ kerndens.anylist <- function(x, ...) {
   if (!all(x_num)) return(invisible()) # exception handling
   
   x |> 
-    lapply(FUN = kerndens.numeric, ...)
+    lapply(FUN = kerndens.numeric, ...) |>
+    do.call(what = anylist, args = _) |>
+    as.vectorlist(mode = 'numeric')
   
 }
 

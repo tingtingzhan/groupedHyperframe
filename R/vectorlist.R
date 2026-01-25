@@ -45,8 +45,12 @@ is.vectorlist <- function(
 #' @param ... additional parameters of function [is.vectorlist()]
 #' 
 #' @keywords internal
+#' @importFrom spatstat.geom anylist
 #' @export
 as.vectorlist <- function(x, ...) {
+  
+  x <- x |> 
+    do.call(what = anylist, args = _)
   
   if (!is.vectorlist(x, ...)) stop('input does not qualify as a `vectorlist`')
   
