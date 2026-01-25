@@ -632,12 +632,14 @@ visualize_vtrapz.spline <- function(x, ..., n = 513L) {
   yname <- obj |>
     attr(which = 'yname', exact = TRUE)
   
-  obj$knots |>
+  # obj$knots |> 
+  # for some sub-class of 'spline', `obj$knots` is wider than input `x`-vector
+  x |>
     range() |>
     c(length.out = n) |>
     as.list() |>
     do.call(what = seq.int) |>
-    predict(object = obj, x = _) |> #an 'xyVector' object
+    predict(object = obj, x = _) |> # an 'xyVector' object
     # ?stats::predict dispatch to sub-classes of 'spline'
     # ?splines:::predict.npolySpline does *not* use parameter name `newdata` !!!
     visualize_vtrapz.xyVector(yname = yname, ...) +

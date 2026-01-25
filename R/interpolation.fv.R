@@ -93,7 +93,11 @@ interpSpline_.fv <- function(
   attr(fn, which = 'yname') <- fv |> 
     attr(which = 'ylab', exact = TRUE) |> 
     deparse1() |>
-    sprintf(fmt = '%s spline interpolation')
+    sprintf(
+      fmt = '%s %s interpolation',
+      .x = _, 
+      if (inherits(fn, what = 'bSpline')) 'B-spline' else 'piecewise polynomial'
+    )
   attr(fn, which = 'x') <- fv[[.x]]
   attr(fn, which = 'y') <- fv[[key]]
   attr(fn, which = 'xlab') <- .x
