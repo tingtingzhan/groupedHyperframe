@@ -83,27 +83,27 @@ interpSpline_.fv <- function(
   force(key)
   force(.x)
   if (key == .x) stop('first column of `x` is not the output of `fv.object`')
-  fn <- interpSpline(obj1 = fv[[.x]], obj2 = fv[[key]], ...)
+  sp <- interpSpline(obj1 = fv[[.x]], obj2 = fv[[key]], ...)
   
   # overwrite existing
-  attr(fn, which = 'formula') <- call(name = '~', as.symbol(key), as.symbol(.x)) |> 
+  attr(sp, which = 'formula') <- call(name = '~', as.symbol(key), as.symbol(.x)) |> 
     eval()
     
   # additional
-  attr(fn, which = 'yname') <- fv |> 
+  attr(sp, which = 'yname') <- fv |> 
     attr(which = 'ylab', exact = TRUE) |> 
     deparse1() |>
     sprintf(
       fmt = '%s %s interpolation',
       .x = _, 
-      if (inherits(fn, what = 'bSpline')) 'B-spline' else 'piecewise polynomial'
+      if (inherits(sp, what = 'bSpline')) 'B-spline' else 'piecewise polynomial'
     )
-  attr(fn, which = 'x') <- fv[[.x]]
-  attr(fn, which = 'y') <- fv[[key]]
-  attr(fn, which = 'xlab') <- .x
-  attr(fn, which = 'ylab') <- key
+  attr(sp, which = 'x') <- fv[[.x]]
+  attr(sp, which = 'y') <- fv[[key]]
+  attr(sp, which = 'xlab') <- .x
+  attr(sp, which = 'ylab') <- key
   
-  return(fn)
+  return(sp)
   
 }
 

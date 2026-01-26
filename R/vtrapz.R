@@ -641,7 +641,10 @@ visualize_vtrapz.spline <- function(x, ..., n = 513L) {
     do.call(what = seq.int) |>
     predict(object = obj, x = _) |> # an 'xyVector' object
     # ?stats::predict dispatch to sub-classes of 'spline'
-    # ?splines:::predict.npolySpline does *not* use parameter name `newdata` !!!
+    # ?splines:::predict.npolySpline 
+    # ?splines:::predict.nbSpline
+    # both do *not* use parameter name `newdata` !!!
+    # but why 'npolySpline' and 'nbSpline' returns have all.equal.numeric predicted values ??
     visualize_vtrapz.xyVector(yname = yname, ...) +
     geom_point(mapping = aes(x = x, y = y), color = 'firebrick') +
     labs(x = xlab, y = ylab)
