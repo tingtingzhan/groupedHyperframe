@@ -108,6 +108,4 @@ interpSpline_.fv <- function(
 }
 
 
-
-
-
+# @importFrom splines periodicSpline # wont work :)
