@@ -69,7 +69,7 @@ Package **`groupedHyperframe`** (v`r packageVersion('groupedHyperframe')`) `Enha
 
 ## Dependency
 
-The dependencies of package **`groupedHyperframe`** are detailed in the [book chapter](https://tingtingzhan.quarto.pub/groupedhyperframe/appendix/about.html#groupedhyperframe-1).
+The dependencies of package **`groupedHyperframe`** are detailed in the [book chapter](https://tingtingzhan.quarto.pub/groupedhyperframe/appendix/about.html#groupedhyperframe.random-1).
 
 Package **`groupedHyperframe`** requires the *development versions* of the **`spatstat.*`** family of packages. Installation instructions are provided in the [book chapter](https://tingtingzhan.quarto.pub/groupedhyperframe/appendix/dev.html).
 
