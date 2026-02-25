@@ -29,7 +29,7 @@ mc_identical_by <- function(
     ...
 ) {
   
-  nr <- .row_names_info(data, type = 2L)
+  nr <- nrow(data)
   if (nr != length(f)) stop('`data` and `f` different length')
   
   ids <- nr |> seq_len() |> split.default(f = f)

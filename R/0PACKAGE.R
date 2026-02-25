@@ -1,20 +1,16 @@
 
 
-#' @note
-#' Help files of individual functions are intentionally suppressed in the `pdf` manual.
-#' Users are encouraged to get started with the vignettes.
-#' 
-#' \url{https://tingtingzhan.quarto.pub/groupedhyperframe}
-#' 
 #' @import cli
 #' @import patchwork
 #' @import survival
 '_PACKAGE'
 
 if (FALSE) {
-  # colision between
+  # collision between
   ?patchwork::area
   ?spatstat.geom::area
+  # and we even have
+  ?MASS::area
   # one bandage fix is to import 
   spatstat.geom::area.owin
 }

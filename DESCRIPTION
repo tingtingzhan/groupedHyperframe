@@ -1,7 +1,7 @@
 Package: groupedHyperframe
 Type: Package
 Title: Grouped Hyper Data Frame
-Version: 0.3.4
+Version: 0.3.5
 Description: An S3 class 'groupedHyperframe' that inherits from hyper data frame. Batch processes and aggregation of hyper column(s) over a nested grouping structure.
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.3
@@ -17,10 +17,10 @@ Authors@R: c(person(given = 'Tingting', family =
 URL: 
     https://github.com/tingtingzhan/groupedHyperframe,
     https://tingtingzhan.quarto.pub/groupedhyperframe
+    https://tingtingzhan-groupedhyperframe.netlify.app
 Depends: R (>= 4.5)
 Imports: cli, methods, parallel, doParallel, foreach, matrixStats, pracma, GET, SpatialPack,
     ggplot2, geomtextpath, scales, survival, patchwork, knitr, 
     spatstat.explore, spatstat.geom, spatstat.random, splines
-Suggests: quarto, rmarkdown, rpart,
-    spatstat.data
-VignetteBuilder: quarto
+Suggests: spatstat.data
+
