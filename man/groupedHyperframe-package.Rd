@@ -12,7 +12,8 @@ An S3 class 'groupedHyperframe' that inherits from the hyper data frame class fr
 Useful links:
 \itemize{
   \item \url{https://github.com/tingtingzhan/groupedHyperframe}
-  \item \url{https://tingtingzhan.quarto.pub/groupedhyperframe https://tingtingzhan-groupedhyperframe.netlify.app}
+  \item \url{https://tingtingzhan.quarto.pub/groupedhyperframe}
+  \item \url{https://tingtingzhan-groupedhyperframe.netlify.app}
 }
 
 }
