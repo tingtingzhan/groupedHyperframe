@@ -12,7 +12,7 @@
 \item{...}{additional parameters, currently no use}
 }
 \value{
-Function \code{\link[=split.hyperframekm]{split.hyperframekm()}} returns a \code{'groupedHyperframe'}.
+The function \code{\link[=split.hyperframekm]{split.hyperframekm()}} returns a \code{'groupedHyperframe'}.
 }
 \description{
 \code{\link[=split.hyperframekm]{split.hyperframekm()}}

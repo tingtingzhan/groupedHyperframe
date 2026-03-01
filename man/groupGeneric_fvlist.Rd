@@ -18,11 +18,14 @@
 \item{na.rm}{\link[base]{logical} scalar}
 }
 \value{
-Function \code{\link[=Math.fvlist]{Math.fvlist()}} returns an \code{'fvlist'}.
+The function \code{\link[=Math.fvlist]{Math.fvlist()}} returns an \code{'fvlist'}.
 
-Function \code{\link[=Summary.fvlist]{Summary.fvlist()}} ..
+The function \code{\link[=Summary.fvlist]{Summary.fvlist()}} ..
 }
 \description{
 ...
+}
+\references{
+\url{https://tingtingzhan.quarto.pub/groupedhyperframe/topics.html}
 }
 \keyword{internal}

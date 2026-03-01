@@ -11,10 +11,10 @@
 #' @param backtick \link[base]{logical} scalar, whether to put backticks around function names.
 #' Default `TRUE` for Markdown/Quarto rendering.
 #' 
-#' @param ... additional parameters of function \link[utils]{methods}
+#' @param ... additional parameters of the function \link[utils]{methods}
 #' 
 #' @returns 
-#' Function [methods2kable()] returns a \link[base]{data.frame}.
+#' The function [methods2kable()] returns a \link[base]{data.frame}.
 #' 
 #' @keywords internal
 #' @importFrom utils methods packageVersion

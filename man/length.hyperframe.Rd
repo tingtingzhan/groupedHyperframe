@@ -12,6 +12,9 @@
 \description{
 \code{S3} method dispatch of \link[base]{length} on \link[spatstat.geom]{hyperframe}
 }
+\references{
+\url{https://tingtingzhan.quarto.pub/groupedhyperframe/topics.html}
+}
 \seealso{
 \link[spatstat.geom]{dim.hyperframe}
 }

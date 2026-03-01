@@ -10,10 +10,13 @@
 \item{...}{one or more \link[spatstat.geom]{hyperframe}s or \link{groupedHyperframe}s}
 }
 \value{
-Function \code{\link[=superimpose.hyperframe]{superimpose.hyperframe()}} returns a
+The function \code{\link[=superimpose.hyperframe]{superimpose.hyperframe()}} returns a
 \link[spatstat.geom]{hyperframe} or \link{groupedHyperframe}.
 }
 \description{
 superimpose.hyperframe
+}
+\references{
+\url{https://tingtingzhan.quarto.pub/groupedhyperframe/topics.html}
 }
 \keyword{internal}

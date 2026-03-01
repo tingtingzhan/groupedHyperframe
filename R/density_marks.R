@@ -6,18 +6,21 @@
 #' 
 #' @param x a \link[spatstat.geom]{ppp.object}, or `'ppplist'`
 #' 
-#' @param ... additional parameters of function \link[stats]{density.default}
+#' @param ... additional parameters of the function \link[stats]{density.default}
 #' 
 #' @note
-#' Function `spatstat.explore::density.ppp()` is for \eqn{x}- and \eqn{y}-\link[spatstat.geom]{coords} only!
+#' The function `spatstat.explore::density.ppp()` is for \eqn{x}- and \eqn{y}-\link[spatstat.geom]{coords} only!
 #' 
 #' @details
-#' Function [density_marks()] finds 
+#' The function [density_marks()] finds 
 #' the kernel density of the \link[spatstat.geom]{marks}.
 #' 
 #' @returns 
-#' Function [density_marks()] returns
+#' The function [density_marks()] returns
 #' a \link[base]{numeric} \link[base]{vector}.
+#' 
+#' @references
+#' \url{https://tingtingzhan.quarto.pub/groupedhyperframe/topics.html}
 #' 
 #' @keywords internal
 #' @name density_marks
@@ -26,7 +29,6 @@ density_marks <- function(x, ...) UseMethod(generic = 'density_marks')
 
 
 #' @rdname density_marks
-#' @importFrom stats density.default
 #' @export density_marks.ppp
 #' @export
 density_marks.ppp <- function(x, ...) {

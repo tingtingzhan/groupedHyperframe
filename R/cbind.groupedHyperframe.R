@@ -3,8 +3,11 @@
 
 #' @title `cbind.groupedHyperframe()`
 #' 
-#' @param ... see function \link[spatstat.geom]{cbind.hyperframe}, 
+#' @param ... see the function \link[spatstat.geom]{cbind.hyperframe}, 
 #' the first element must be `'groupedHyperframe'`
+#' 
+#' @references
+#' \url{https://tingtingzhan.quarto.pub/groupedhyperframe/topics.html}
 #' 
 #' @keywords internal
 #' @importFrom spatstat.geom cbind.hyperframe

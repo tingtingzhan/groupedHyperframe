@@ -35,7 +35,10 @@ The motivation of
 the derived class \code{'vectorlist'} and
 the method dispatch \code{\link[=t.vectorlist]{t.vectorlist()}}
 is that
-function \link[spatstat.geom]{with.hyperframe}
+The function \link[spatstat.geom]{with.hyperframe}
 could be slow in a batch process.
+}
+\references{
+\url{https://tingtingzhan.quarto.pub/groupedhyperframe/topics.html}
 }
 \keyword{internal}

@@ -15,20 +15,23 @@ density_marks(x, ...)
 \arguments{
 \item{x}{a \link[spatstat.geom]{ppp.object}, or \code{'ppplist'}}
 
-\item{...}{additional parameters of function \link[stats]{density.default}}
+\item{...}{additional parameters of the function \link[stats]{density.default}}
 }
 \value{
-Function \code{\link[=density_marks]{density_marks()}} returns
+The function \code{\link[=density_marks]{density_marks()}} returns
 a \link[base]{numeric} \link[base]{vector}.
 }
 \description{
 Kernel \link[stats]{density} of \link[spatstat.geom]{marks}.
 }
 \details{
-Function \code{\link[=density_marks]{density_marks()}} finds
+The function \code{\link[=density_marks]{density_marks()}} finds
 the kernel density of the \link[spatstat.geom]{marks}.
 }
 \note{
-Function \code{spatstat.explore::density.ppp()} is for \eqn{x}- and \eqn{y}-\link[spatstat.geom]{coords} only!
+The function \code{spatstat.explore::density.ppp()} is for \eqn{x}- and \eqn{y}-\link[spatstat.geom]{coords} only!
+}
+\references{
+\url{https://tingtingzhan.quarto.pub/groupedhyperframe/topics.html}
 }
 \keyword{internal}

@@ -6,13 +6,15 @@
 #' 
 #' @param key,.x \link[base]{character} scalars
 #' 
-#' @param ... additional parameters of functions 
+#' @param ... additional parameters of the functions 
 #' \link[stats]{approxfun}, \link[stats]{splinefun} and \link[splines]{interpSpline}
+#' 
+#' @references
+#' \url{https://tingtingzhan.quarto.pub/groupedhyperframe/topics.html}
 #' 
 #' @keywords internal
 #' @name interpolation_fv
 #' @importFrom spatstat.explore fvnames
-#' @importFrom stats approxfun
 #' @export
 approxfun.fv <- function(
     x, 
@@ -39,7 +41,6 @@ approxfun.fv <- function(
 
 #' @rdname interpolation_fv
 #' @importFrom spatstat.explore fvnames
-#' @importFrom stats splinefun
 #' @export
 splinefun.fv <- function(
     x, 

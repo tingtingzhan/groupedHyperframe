@@ -2,7 +2,7 @@
 #' @title Alternative Interface of \link[spatstat.geom]{nncross.ppp}
 #' 
 #' @description
-#' An alternative interface of function \link[spatstat.geom]{nncross.ppp}.
+#' An alternative interface of the function \link[spatstat.geom]{nncross.ppp}.
 #' 
 #' @param X see **Details**
 #' 
@@ -12,8 +12,8 @@
 #' @param ... additional parameters of \link[spatstat.geom]{nncross.ppp}
 #' 
 #' @details
-#' Function [.nncross()] creates an interface similar to 
-#' functions \link[spatstat.explore]{Gcross}, etc.,
+#' The function [.nncross()] creates an interface similar to 
+#' The functions \link[spatstat.explore]{Gcross}, etc.,
 #' which takes an \link[spatstat.geom]{is.multitype} \link[spatstat.geom]{ppp.object}
 #' and two mark values `i` and `j`, 
 #' then calls the workhorse function 
@@ -22,10 +22,13 @@
 #' a `NULL` value will be returned.
 #' 
 #' @returns
-#' Function [.nncross()] returns
+#' The function [.nncross()] returns
 #' a \link[base]{numeric} \link[base]{vector} 
 #' if `i` and `j` are valid mark values of \link[spatstat.geom]{ppp.object} `X`;
 #' otherwise returns a `NULL` value.
+#' 
+#' @references
+#' \url{https://tingtingzhan.quarto.pub/groupedhyperframe/topics.html}
 #' 
 #' @keywords internal
 #' @importFrom spatstat.geom nncross.ppp is.marked.ppp is.multitype.ppp marks.ppp split.ppp

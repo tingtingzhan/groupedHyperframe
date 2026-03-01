@@ -15,22 +15,25 @@ See functions \link[spatstat.explore]{Gcross}, etc. for more details}
 \item{...}{additional parameters of \link[spatstat.geom]{nncross.ppp}}
 }
 \value{
-Function \code{\link[=.nncross]{.nncross()}} returns
+The function \code{\link[=.nncross]{.nncross()}} returns
 a \link[base]{numeric} \link[base]{vector}
 if \code{i} and \code{j} are valid mark values of \link[spatstat.geom]{ppp.object} \code{X};
 otherwise returns a \code{NULL} value.
 }
 \description{
-An alternative interface of function \link[spatstat.geom]{nncross.ppp}.
+An alternative interface of the function \link[spatstat.geom]{nncross.ppp}.
 }
 \details{
-Function \code{\link[=.nncross]{.nncross()}} creates an interface similar to
-functions \link[spatstat.explore]{Gcross}, etc.,
+The function \code{\link[=.nncross]{.nncross()}} creates an interface similar to
+The functions \link[spatstat.explore]{Gcross}, etc.,
 which takes an \link[spatstat.geom]{is.multitype} \link[spatstat.geom]{ppp.object}
 and two mark values \code{i} and \code{j},
 then calls the workhorse function
 \link[spatstat.geom]{nncross.ppp} with parameter \code{what = 'dist'}.
 If mark values \code{i} and \code{j} does not exist in the \link[spatstat.geom]{ppp.object},
 a \code{NULL} value will be returned.
+}
+\references{
+\url{https://tingtingzhan.quarto.pub/groupedhyperframe/topics.html}
 }
 \keyword{internal}

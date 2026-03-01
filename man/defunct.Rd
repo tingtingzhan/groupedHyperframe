@@ -11,6 +11,6 @@ aggregate_quantile(...)
 \item{...}{Defunct parameters}
 }
 \description{
-Functions mentioned in hard-copy journals, but later \link[base]{.Defunct}.
+The functions mentioned in hard-copy journals, but later \link[base]{.Defunct}.
 }
 \keyword{internal}

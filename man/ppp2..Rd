@@ -20,13 +20,13 @@ ppp_multitype2fv(x, fun, ...)
 or a \link[base]{function} that returns an \link[spatstat.explore]{fv.object},
 see \strong{Details}}
 
-\item{...}{additional parameters of function \code{fun}}
+\item{...}{additional parameters of the function \code{fun}}
 }
 \value{
-Functions \code{\link[=ppp_numeric2fv]{ppp_numeric2fv()}} and \code{\link[=ppp_multitype2fv]{ppp_multitype2fv()}} return a \link[stats]{listof}
+The functions \code{\link[=ppp_numeric2fv]{ppp_numeric2fv()}} and \code{\link[=ppp_multitype2fv]{ppp_multitype2fv()}} return a \link[stats]{listof}
 \link[spatstat.explore]{fv.object}s.
 
-Function \code{\link[=ppp2dist]{ppp2dist()}} returns a \link[stats]{listof}
+The function \code{\link[=ppp2dist]{ppp2dist()}} returns a \link[stats]{listof}
 \link[base]{double} \link[base]{vector}s.
 }
 \description{
@@ -35,5 +35,8 @@ Create
 or
 distances
 from a \link[spatstat.geom]{ppp.object}.
+}
+\references{
+\url{https://tingtingzhan.quarto.pub/groupedhyperframe/topics.html}
 }
 \keyword{internal}

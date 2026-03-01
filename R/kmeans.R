@@ -6,7 +6,10 @@
 #' 
 #' @param formula \link[stats]{formula}
 #' 
-#' @param ... additional parameters of function \link[stats]{kmeans}
+#' @param ... additional parameters of the function \link[stats]{kmeans}
+#' 
+#' @references
+#' \url{https://tingtingzhan.quarto.pub/groupedhyperframe/topics.html}
 #' 
 #' @keywords internal
 #' @name kmeans_etc
@@ -21,11 +24,10 @@ NULL
 #' @param clusterSize \link[base]{integer} scalar, number of points per cluster
 #' 
 #' @returns
-#' Function [kmeans.ppp()] returns an object of class `'pppkm'`, 
+#' The function [kmeans.ppp()] returns an object of class `'pppkm'`, 
 #' which inherits from \link[spatstat.geom]{ppp.object}.
 #' 
 #' @importFrom spatstat.geom marks.ppp markformat.ppp
-#' @importFrom stats kmeans
 #' @export
 kmeans.ppp <- function(
     x, 
@@ -85,7 +87,7 @@ kmeans.ppp <- function(
 #' @rdname kmeans_etc
 #' 
 #' @returns
-#' Function [kmeans.ppplist()] returns an object of class `'pppkmlist'`, 
+#' The function [kmeans.ppplist()] returns an object of class `'pppkmlist'`, 
 #' which inherits from `'ppplist'`.
 #' 
 #' @importFrom spatstat.geom solapply

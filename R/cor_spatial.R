@@ -10,7 +10,10 @@
 #' Workhorse function \link[SpatialPack]{cor.spatial}.
 #' 
 #' @returns 
-#' Function [pairwise_cor_spatial()] returns a \link[stats]{dist} object.
+#' The function [pairwise_cor_spatial()] returns a \link[stats]{dist} object.
+#' 
+#' @references
+#' \url{https://tingtingzhan.quarto.pub/groupedhyperframe/topics.html}
 #' 
 #' @keywords internal
 #' @name pairwise_cor_spatial
@@ -73,7 +76,7 @@ pairwise_cor_spatial.ppplist <- function(x, ...) {
 #' @param ... additional parameters, currently not in use
 #' 
 #' @returns 
-#' Function [as.matrix.pairwise_cor_spatial()] returns a \link[base]{matrix}.
+#' The function [as.matrix.pairwise_cor_spatial()] returns a \link[base]{matrix}.
 #' 
 #' @keywords internal
 #' @method as.matrix pairwise_cor_spatial

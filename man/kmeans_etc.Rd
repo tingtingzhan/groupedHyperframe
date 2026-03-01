@@ -28,16 +28,19 @@ kmeans.hyperframe(x, ...)
 
 \item{clusterSize}{\link[base]{integer} scalar, number of points per cluster}
 
-\item{...}{additional parameters of function \link[stats]{kmeans}}
+\item{...}{additional parameters of the function \link[stats]{kmeans}}
 }
 \value{
-Function \code{\link[=kmeans.ppp]{kmeans.ppp()}} returns an object of class \code{'pppkm'},
+The function \code{\link[=kmeans.ppp]{kmeans.ppp()}} returns an object of class \code{'pppkm'},
 which inherits from \link[spatstat.geom]{ppp.object}.
 
-Function \code{\link[=kmeans.ppplist]{kmeans.ppplist()}} returns an object of class \code{'pppkmlist'},
+The function \code{\link[=kmeans.ppplist]{kmeans.ppplist()}} returns an object of class \code{'pppkmlist'},
 which inherits from \code{'ppplist'}.
 }
 \description{
 Pseudo \code{S3} Methods based on \link[stats]{kmeans}
+}
+\references{
+\url{https://tingtingzhan.quarto.pub/groupedhyperframe/topics.html}
 }
 \keyword{internal}

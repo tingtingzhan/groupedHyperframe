@@ -12,7 +12,7 @@
 \item{...}{additional parameters, currently not in use}
 }
 \value{
-Function \code{\link[=print.groupedHyperframe]{print.groupedHyperframe()}} does not have a returned value.
+The function \code{\link[=print.groupedHyperframe]{print.groupedHyperframe()}} does not have a returned value.
 }
 \description{
 Print \link{groupedHyperframe}

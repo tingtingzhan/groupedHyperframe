@@ -12,7 +12,7 @@ mc_identical_by(data, f, mc.cores = getOption("cores"), ...)
 \item{f}{\link[base]{factor}}
 
 \item{mc.cores}{\link[base]{integer} scalar, see function \link[parallel]{mclapply}.
-Default is the return of function \link[parallel]{detectCores}.}
+Default is the return of the function \link[parallel]{detectCores}.}
 
 \item{...}{additional parameters, currently not in use}
 }
@@ -20,9 +20,9 @@ Default is the return of function \link[parallel]{detectCores}.}
 Check if Data Column is Identical by Grouping
 }
 \note{
-Function \link[stats]{aggregate.data.frame} does not do parallel computing.
+The function \link[stats]{aggregate.data.frame} does not do parallel computing.
 
-Function \code{collapse::collap} does not support \link[survival]{Surv} column.
+The function \code{collapse::collap} does not support \link[survival]{Surv} column.
 
 Look more into \code{nlme:::collapse.groupedData}
 }

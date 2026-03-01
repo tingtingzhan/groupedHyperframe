@@ -10,7 +10,7 @@ is.fvlist(X)
 \item{X}{a \link[stats]{listof} \link[spatstat.explore]{fv.object}s}
 }
 \value{
-Function \code{\link[=is.fvlist]{is.fvlist()}} returns a \link[base]{logical} scalar with \link[base]{attributes}
+The function \code{\link[=is.fvlist]{is.fvlist()}} returns a \link[base]{logical} scalar with \link[base]{attributes}
 \describe{
 \item{\code{attr(,'r')}}{\eqn{x}-axis, or the \eqn{r}-values}
 \item{\code{attr(,'fname')}}{see explanation of this \link[base]{attributes} in function \link[spatstat.explore]{fv}}
@@ -20,5 +20,8 @@ Function \code{\link[=is.fvlist]{is.fvlist()}} returns a \link[base]{logical} sc
 }
 \description{
 A helper function to check the validity of a \link[stats]{listof} \link[spatstat.explore]{fv.object}s.
+}
+\references{
+\url{https://tingtingzhan.quarto.pub/groupedhyperframe/topics.html}
 }
 \keyword{internal}

@@ -23,10 +23,10 @@ methods2kable(
 \item{backtick}{\link[base]{logical} scalar, whether to put backticks around function names.
 Default \code{TRUE} for Markdown/Quarto rendering.}
 
-\item{...}{additional parameters of function \link[utils]{methods}}
+\item{...}{additional parameters of the function \link[utils]{methods}}
 }
 \value{
-Function \code{\link[=methods2kable]{methods2kable()}} returns a \link[base]{data.frame}.
+The function \code{\link[=methods2kable]{methods2kable()}} returns a \link[base]{data.frame}.
 }
 \description{
 \code{S3} methods table in vignette

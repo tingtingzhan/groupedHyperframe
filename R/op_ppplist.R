@@ -10,22 +10,25 @@
 #' @param op workhorse \link[base]{function}, either [ppp_numeric2fv()], [ppp_multitype2fv()] or [ppp2dist()]
 #' 
 #' @param mc.cores \link[base]{integer} scalar, see function \link[parallel]{mclapply}.
-#' Default is the return of function \link[parallel]{detectCores}.
+#' Default is the return of the function \link[parallel]{detectCores}.
 #' 
 #' @param ... additional parameters of workhorse functions 
 #' [ppp_numeric2fv()], [ppp_multitype2fv()] or [ppp2dist()]
 #' 
 #' @details
-#' Function [op_ppplist()] is a \pkg{parallel} batch process of 
+#' The function [op_ppplist()] is a \pkg{parallel} batch process of 
 #' the workhorse function [ppp_numeric2fv()], [ppp_multitype2fv()] or [ppp2dist()].
 #' 
 #' @returns 
-#' Function [op_ppplist()] returns a \link[stats]{listof} 
+#' The function [op_ppplist()] returns a \link[stats]{listof} 
 #' \itemize{
 #' \item function [ppp_numeric2fv()] returns, if `op = ppp_numeric2fv`.
 #' \item function [ppp_multitype2fv()] returns, if `op = ppp_multitype2fv`.
 #' \item function [ppp2dist()] returns, if `op = ppp2dist`.
 #' }
+#' 
+#' @references
+#' \url{https://tingtingzhan.quarto.pub/groupedhyperframe/topics.html}
 #' 
 #' @keywords internal
 #' @importFrom doParallel registerDoParallel

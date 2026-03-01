@@ -24,13 +24,15 @@
 #' @param ... additional parameters, currently not in use
 #' 
 #' @returns
-#' Function [grouped_ppp()] returns a [groupedHyperframe]
+#' The function [grouped_ppp()] returns a [groupedHyperframe]
 #' with ***one-and-only-one*** 
 #' \link[spatstat.geom]{ppp}-\link[spatstat.geom:hyperframe]{hypercolumn}.
 #' 
+#' @references
+#' \url{https://tingtingzhan.quarto.pub/groupedhyperframe/nonS3/grouped_ppp_appx.html}
+#' 
 #' @keywords internal
 #' @importFrom spatstat.geom owin ppp as.hyperframe.data.frame split.ppp
-#' @importFrom stats runif
 #' @export
 grouped_ppp <- function(
     formula, 

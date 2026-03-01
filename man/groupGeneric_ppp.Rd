@@ -18,17 +18,17 @@
 \item{na.rm}{\link[base]{logical} scalar}
 }
 \value{
-Function \code{\link[=Math.ppp]{Math.ppp()}} returns a \link[spatstat.geom]{ppp.object}.
+The function \code{\link[=Math.ppp]{Math.ppp()}} returns a \link[spatstat.geom]{ppp.object}.
 
-Function \code{\link[=Summary.ppp]{Summary.ppp()}} ..
+The function \code{\link[=Summary.ppp]{Summary.ppp()}} ..
 }
 \description{
 ...
 }
 \details{
-Function \code{\link[=Math.ppp]{Math.ppp()}} performs \code{Math} operations on the \link[base]{numeric} \link[spatstat.geom]{marks}
+The function \code{\link[=Math.ppp]{Math.ppp()}} performs \code{Math} operations on the \link[base]{numeric} \link[spatstat.geom]{marks}
 of a \link[spatstat.geom]{ppp.object}.
 
-Function \code{\link[=Summary.ppp]{Summary.ppp()}} ..
+The function \code{\link[=Summary.ppp]{Summary.ppp()}} ..
 }
 \keyword{internal}

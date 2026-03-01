@@ -6,6 +6,9 @@
 #' @details
 #' Legal, meaning not `0`, not `NaN` and not `Inf`.
 #' 
+#' @references
+#' \url{https://tingtingzhan.quarto.pub/groupedhyperframe/nonS3/lastLegal.html}
+#' 
 #' @keywords internal
 #' @export
 lastLegal <- function(v) {

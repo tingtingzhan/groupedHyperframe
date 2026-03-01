@@ -12,7 +12,7 @@
 \item{...}{additional parameters, currently of no use}
 }
 \value{
-Function \code{\link[=summary.Surv]{summary.Surv()}} returns a \link[base]{character} \link[base]{vector}.
+The function \code{\link[=summary.Surv]{summary.Surv()}} returns a \link[base]{character} \link[base]{vector}.
 }
 \description{
 The missing \code{S3} method of the generic function \link[base]{summary} for \link[survival]{Surv} object.

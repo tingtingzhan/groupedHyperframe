@@ -18,7 +18,7 @@ rlabelRes(x, ...)
 \arguments{
 \item{x}{see \strong{Usage}}
 
-\item{...}{arguments of function \link[spatstat.explore]{envelope.ppp},
+\item{...}{arguments of the function \link[spatstat.explore]{envelope.ppp},
 other than parameters \code{simulate},
 \code{savefuns} and \code{verbose}}
 }
@@ -42,5 +42,8 @@ set.seed(52); spatstat.data::anemones |>
 set.seed(12); res_ants = spatstat.data::ants |>
   rlabelRes(fun = spatstat.explore::Gcross)
 
+}
+\references{
+\url{https://tingtingzhan.quarto.pub/groupedhyperframe/topics.html}
 }
 \keyword{internal}

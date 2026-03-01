@@ -6,7 +6,7 @@
 \alias{groupedHyperframe-package}
 \title{groupedHyperframe: Grouped Hyper Data Frame}
 \description{
-An S3 class 'groupedHyperframe' that inherits from hyper data frame. Batch processes and aggregation of hyper column(s) over a nested grouping structure.
+An S3 class 'groupedHyperframe' that inherits from the hyper data frame class from the spatstat packages. Batch process and aggregation of the hyper column(s) over a nested grouping structure.
 }
 \seealso{
 Useful links:

@@ -1,19 +1,21 @@
 
-#' @title Aggregate (Grouped) Hyper Data Frame
+#' @title Aggregate Hyper Data Frame
 #' 
-#' @param x a \link[spatstat.geom]{hyperframe} or [groupedHyperframe]
+#' @param x a \link[spatstat.geom]{hyperframe}
 #' 
 #' @param by a one-sided \link[stats]{formula}, 
 #' containing regular-column names of the input `x`
 #' 
-#' @param ... additional parameters of function [aggregate.vectorlist()], 
-#' most importantly parameter `fun`
+#' @param ... additional parameters of the function [aggregate.vectorlist()], 
+#' most importantly the parameter `fun`
 #' 
 #' @returns 
-#' Function [aggregate.hyperframe()] returns a \link[spatstat.geom]{hyperframe}.
+#' The function [aggregate.hyperframe()] returns a \link[spatstat.geom]{hyperframe}.
 #'  
+#' @references
+#' \url{https://tingtingzhan.quarto.pub/groupedhyperframe/topics.html}
+#' 
 #' @keywords internal
-#' @importFrom stats aggregate
 #' @importFrom spatstat.geom is.ppplist is.imlist
 #' @export aggregate.hyperframe
 #' @export
@@ -122,7 +124,6 @@ aggregate.hyperframe <- function(
 #' @param ... additional parameters, currently of no use
 #' 
 #' @keywords internal
-#' @importFrom stats aggregate
 #' @importFrom spatstat.geom anylapply
 #' @export aggregate.vectorlist
 #' @export

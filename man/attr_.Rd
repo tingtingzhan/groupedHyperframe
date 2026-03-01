@@ -4,7 +4,7 @@
 \alias{attr_}
 \alias{attr_.anylist}
 \alias{attr_.hyperframe}
-\title{\link{attr_}}
+\title{A Batch Process of \link[base]{attr}}
 \usage{
 attr_(x, which, exact = TRUE)
 
@@ -15,9 +15,12 @@ attr_(x, which, exact = TRUE)
 \arguments{
 \item{x}{see \strong{Usage}}
 
-\item{which, exact}{parameters of function \link[base]{attr}}
+\item{which, exact}{parameters of the function \link[base]{attr}}
 }
 \description{
-\link{attr_}
+A Batch Process of \link[base]{attr}
+}
+\references{
+\url{https://tingtingzhan.quarto.pub/groupedhyperframe/topics.html}
 }
 \keyword{internal}

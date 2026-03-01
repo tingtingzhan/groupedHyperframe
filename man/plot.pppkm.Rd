@@ -14,7 +14,7 @@
 \arguments{
 \item{x}{a \code{'pppkm'} object, returned from function \code{\link[=kmeans.ppp]{kmeans.ppp()}}}
 
-\item{main, ..., cols}{additional parameters of function \link[spatstat.geom]{plot.ppp}}
+\item{main, ..., cols}{additional parameters of the function \link[spatstat.geom]{plot.ppp}}
 }
 \description{
 Plot \code{'pppkm'} object

@@ -9,7 +9,7 @@ as.vectorlist(x, ...)
 \arguments{
 \item{x}{an \link[spatstat.geom]{anylist}}
 
-\item{...}{additional parameters of function \code{\link[=is.vectorlist]{is.vectorlist()}}}
+\item{...}{additional parameters of the function \code{\link[=is.vectorlist]{is.vectorlist()}}}
 }
 \description{
 \link{as.vectorlist}

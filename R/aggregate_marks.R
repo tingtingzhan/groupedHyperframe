@@ -1,15 +1,28 @@
 
 
-#' @title [aggregate_marks]
+#' @title \link[stats]{aggregate} the \link[spatstat.geom]{marks} of \link[spatstat.geom]{ppp}-Related Object
+#' 
+#' @description
+#' To \link[stats]{aggregate} the \link[spatstat.geom]{marks} of a \link[spatstat.geom]{ppp}-related object, e.g.,
+#' \itemize{
+#' \item{\link[spatstat.geom]{ppp.object}}
+#' \item{a `ppplist`}
+#' \item{the \link[spatstat.geom]{ppp}-hypercolumn of a \link[spatstat.geom]{hyperframe}}
+#' }
+#' 
 #' 
 #' @param x see **Usage**
 #' 
-#' @param by,FUN,... additional parameters of function \link[stats]{aggregate.data.frame}
+#' @param by,FUN,... additional parameters of the function \link[stats]{aggregate.data.frame}
 #' 
-#' @param expr \link[base]{expression}, only used when `markformat(x)` is `'dataframe'` AND missing parameter `by`
+#' @param expr \link[base]{expression}, only used when `markformat.ppp(x)` is `'dataframe'` 
+#' **and** the parameter `by` is missing 
 #' 
-#' @param vectorize \link[base]{logical} scalar, whether to convert the return from 
-#' function \link[stats]{aggregate.data.frame} into a \link[base]{vector}. Default `FALSE`.
+#' @param vectorize \link[base]{logical} scalar (default value `FALSE`), whether to convert the return from 
+#' The function \link[stats]{aggregate.data.frame} into a \link[base]{vector}
+#' 
+#' @references
+#' \url{https://tingtingzhan.quarto.pub/groupedhyperframe/topics.html}
 #' 
 #' @keywords internal
 #' @name aggregate_marks
@@ -18,7 +31,6 @@ aggregate_marks <- function(x, by, FUN, expr, ..., vectorize = FALSE) UseMethod(
   
 
 #' @rdname aggregate_marks
-#' @importFrom stats aggregate.data.frame
 #' @importFrom spatstat.geom marks.ppp
 #' @export aggregate_marks.ppp
 #' @export

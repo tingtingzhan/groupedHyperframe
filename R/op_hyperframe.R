@@ -32,6 +32,11 @@
 #' r = seq.int(from = 0, to = 100, by = 5)
 #' fluM |>
 #'  nncross_(i = 'M1', j = 'M2')
+#'  
+#'  
+#' @references
+#' \url{https://tingtingzhan.quarto.pub/groupedhyperframe/topics.html}
+#'  
 #' @keywords internal
 #' @name batch
 #' @export
@@ -423,10 +428,10 @@ nncross_.ppp <- function(X, ...) {
 #' 
 #' @param X a \link[spatstat.geom]{hyperframe}, containing ***one-and-only-one*** \link[spatstat.geom]{ppp}-\link[spatstat.geom:hyperframe]{hypercolumn}
 #' 
-#' @param ... additional parameters of function [op_ppplist()]
+#' @param ... additional parameters of the function [op_ppplist()]
 #' 
 #' @returns
-#' Function [op_hyperframe()] returns a \link[spatstat.geom]{hyperframe}.
+#' The function [op_hyperframe()] returns a \link[spatstat.geom]{hyperframe}.
 #' 
 #' @keywords internal
 #' @importFrom spatstat.geom is.ppplist cbind.hyperframe

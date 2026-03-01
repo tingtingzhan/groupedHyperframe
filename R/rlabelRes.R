@@ -11,7 +11,7 @@
 #' 
 #' @param x see **Usage**
 #' 
-#' @param ... arguments of function \link[spatstat.explore]{envelope.ppp}, 
+#' @param ... arguments of the function \link[spatstat.explore]{envelope.ppp}, 
 #' other than parameters `simulate`, 
 #' `savefuns` and `verbose`
 #' 
@@ -32,6 +32,9 @@
 #' set.seed(12); res_ants = spatstat.data::ants |>
 #'   rlabelRes(fun = spatstat.explore::Gcross)
 #' 
+#' @references
+#' \url{https://tingtingzhan.quarto.pub/groupedhyperframe/topics.html}
+#' 
 #' @keywords internal
 #' @name rlabelRes
 #' @export
@@ -42,7 +45,7 @@ rlabelRes <- function(x, ...) UseMethod(generic = 'rlabelRes')
 #' 
 #' @param x see **Usage**
 #' 
-#' @param ... parameters (except the first) of function \link[GET]{global_envelope_test}
+#' @param ... parameters (except the first) of the function \link[GET]{global_envelope_test}
 #' 
 #' @name global_envelope_test_
 #' @keywords internal

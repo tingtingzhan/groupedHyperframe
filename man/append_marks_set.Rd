@@ -27,4 +27,7 @@ The \code{S3} method dispatch \code{\link{append_marks<-.ppp}} returns a \link[s
 \description{
 Append an additional \code{mark} to existing \link[spatstat.geom]{marks}.
 }
+\references{
+\url{https://tingtingzhan.quarto.pub/groupedhyperframe/topics.html}
+}
 \keyword{internal}

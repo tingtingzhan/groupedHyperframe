@@ -24,21 +24,24 @@ kerndens(x, ...)
 \arguments{
 \item{x}{see \strong{Usage}}
 
-\item{...}{additional parameters of function \link[stats]{density.default}}
+\item{...}{additional parameters of the function \link[stats]{density.default}}
 }
 \value{
-Function \code{\link[=kerndens]{kerndens()}} returns
+The function \code{\link[=kerndens]{kerndens()}} returns
 a \link[base]{numeric} \link[base]{vector}.
 }
 \description{
 Kernel density estimates only.
 }
 \details{
-Function \code{\link[=kerndens]{kerndens()}} finds
+The function \code{\link[=kerndens]{kerndens()}} finds
 the estimated density values,
-i.e., element \verb{$y} of function \link[stats]{density.default} return.
+i.e., element \verb{$y} of the function \link[stats]{density.default} return.
 }
 \note{
 Do \emph{not} overwrite function \code{spatstat.explore::density.ppp()} !!
+}
+\references{
+\url{https://tingtingzhan.quarto.pub/groupedhyperframe/topics.html}
 }
 \keyword{internal}

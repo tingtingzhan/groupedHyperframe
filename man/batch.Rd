@@ -165,5 +165,10 @@ fluM
 r = seq.int(from = 0, to = 100, by = 5)
 fluM |>
  nncross_(i = 'M1', j = 'M2')
+ 
+ 
+}
+\references{
+\url{https://tingtingzhan.quarto.pub/groupedhyperframe/topics.html}
 }
 \keyword{internal}

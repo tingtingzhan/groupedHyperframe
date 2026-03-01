@@ -10,19 +10,22 @@
 #' 
 #' @param x see **Usage**
 #' 
-#' @param ... additional parameters of function \link[stats]{density.default}
+#' @param ... additional parameters of the function \link[stats]{density.default}
 #' 
 #' @note
 #' Do *not* overwrite function `spatstat.explore::density.ppp()` !!
 #' 
 #' @details
-#' Function [kerndens()] finds 
+#' The function [kerndens()] finds 
 #' the estimated density values,
-#' i.e., element `$y` of function \link[stats]{density.default} return.
+#' i.e., element `$y` of the function \link[stats]{density.default} return.
 #' 
 #' @returns 
-#' Function [kerndens()] returns
+#' The function [kerndens()] returns
 #' a \link[base]{numeric} \link[base]{vector}.
+#' 
+#' @references
+#' \url{https://tingtingzhan.quarto.pub/groupedhyperframe/topics.html}
 #' 
 #' @keywords internal
 #' @name kerndens
@@ -30,14 +33,12 @@
 kerndens <- function(x, ...) UseMethod(generic = 'kerndens')
 
 #' @rdname kerndens
-#' @importFrom stats density.default
 #' @export kerndens.numeric
 #' @export
 kerndens.numeric <- function(x, ...) density.default(x, ...)$y
 
 
 #' @rdname kerndens
-#' @importFrom stats density.default
 #' @export kerndens.ppp
 #' @export
 kerndens.ppp <- function(x, ...) {

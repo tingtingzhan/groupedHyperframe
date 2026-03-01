@@ -17,7 +17,7 @@
 #' @param clip ..
 #' 
 #' @returns
-#' Function `` `[.ppp_tzh` `` returns a \link[spatstat.geom]{ppp.object},
+#' The function `` `[.ppp_tzh` `` returns a \link[spatstat.geom]{ppp.object},
 #' **not** an object of class `'ppp_tzh'`.
 #' 
 #' @keywords internal

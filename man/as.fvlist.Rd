@@ -12,7 +12,7 @@ as.fvlist(X, data.name)
 \item{data.name}{\link[base]{character} scalar, name of \code{X}, for console message output}
 }
 \value{
-Function \code{\link[=as.fvlist]{as.fvlist()}} returns an \link[base]{invisible} \link[base]{list}.
+The function \code{\link[=as.fvlist]{as.fvlist()}} returns an \link[base]{invisible} \link[base]{list}.
 }
 \description{
 Convert a \link[stats]{listof} \link[spatstat.explore]{fv.object}s into \code{'fvlist'}

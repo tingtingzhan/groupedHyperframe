@@ -11,7 +11,10 @@
 #' @param ... additional parameters
 #' 
 #' @returns
-#' Function [as.groupedHyperframe()] returns a `groupedHyperframe`.
+#' The function [as.groupedHyperframe()] returns a `groupedHyperframe`.
+#' 
+#' @references
+#' \url{https://tingtingzhan.quarto.pub/groupedhyperframe/topics.html}
 #' 
 #' @keywords internal
 #' @name as.groupedHyperframe

@@ -6,12 +6,14 @@
 #' 
 #' @param key,.x \link[base]{character} scalars
 #' 
-#' @param ... additional parameters of functions 
+#' @param ... additional parameters of the functions 
 #' \link[stats]{smooth.spline}, except for `x`, `y` and `keep.data`
+#' 
+#' @references
+#' \url{https://tingtingzhan.quarto.pub/groupedhyperframe/topics.html}
 #' 
 #' @keywords internal
 #' @importFrom spatstat.explore fvnames as.data.frame.fv
-#' @importFrom stats smooth.spline
 #' @export
 smooth.spline.fv <- function(
     x, 

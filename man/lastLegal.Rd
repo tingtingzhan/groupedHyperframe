@@ -15,4 +15,7 @@ Last Legal Index
 \details{
 Legal, meaning not \code{0}, not \code{NaN} and not \code{Inf}.
 }
+\references{
+\url{https://tingtingzhan.quarto.pub/groupedhyperframe/nonS3/lastLegal.html}
+}
 \keyword{internal}

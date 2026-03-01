@@ -18,17 +18,20 @@
 \item{na.rm}{\link[base]{logical} scalar}
 }
 \value{
-Function \code{\link[=Math.psp]{Math.psp()}} returns a \link[spatstat.geom]{psp.object}.
+The function \code{\link[=Math.psp]{Math.psp()}} returns a \link[spatstat.geom]{psp.object}.
 
-Function \code{\link[=Summary.psp]{Summary.psp()}} ..
+The function \code{\link[=Summary.psp]{Summary.psp()}} ..
 }
 \description{
 ...
 }
 \details{
-Function \code{\link[=Math.psp]{Math.psp()}} performs \code{Math} operations on the \link[base]{numeric} \link[spatstat.geom]{marks}
+The function \code{\link[=Math.psp]{Math.psp()}} performs \code{Math} operations on the \link[base]{numeric} \link[spatstat.geom]{marks}
 of a \link[spatstat.geom]{psp.object}.
 
-Function \code{\link[=Summary.psp]{Summary.psp()}} ..
+The function \code{\link[=Summary.psp]{Summary.psp()}} ..
+}
+\references{
+\url{https://tingtingzhan.quarto.pub/groupedhyperframe/topics.html}
 }
 \keyword{internal}

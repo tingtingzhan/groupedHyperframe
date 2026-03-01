@@ -12,6 +12,9 @@
 #' @returns 
 #' The `S3` method dispatch [`append_marks<-.ppp`] returns a \link[spatstat.geom]{ppp.object}.
 #' 
+#' @references
+#' \url{https://tingtingzhan.quarto.pub/groupedhyperframe/topics.html}
+#' 
 #' @keywords internal
 #' @name append_marks_set
 #' @export

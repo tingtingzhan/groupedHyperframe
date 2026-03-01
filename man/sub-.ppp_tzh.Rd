@@ -19,7 +19,7 @@ a derived class from \link[spatstat.geom]{ppp.object}}
 \item{clip}{..}
 }
 \value{
-Function \code{`[.ppp_tzh`} returns a \link[spatstat.geom]{ppp.object},
+The function \code{`[.ppp_tzh`} returns a \link[spatstat.geom]{ppp.object},
 \strong{not} an object of class \code{'ppp_tzh'}.
 }
 \description{

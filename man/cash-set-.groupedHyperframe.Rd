@@ -18,6 +18,9 @@ Syntactic sugar \code{\link[=$<-.groupedHyperframe]{$<-.groupedHyperframe()}} re
 Syntactic Sugar for \link{groupedHyperframe} Object
 }
 \note{
-Function \link[spatstat.geom]{$<-.hyperframe} drops \link[base]{attributes}.
+The function \link[spatstat.geom]{$<-.hyperframe} drops \link[base]{attributes}.
+}
+\references{
+\url{https://tingtingzhan.quarto.pub/groupedhyperframe/topics.html}
 }
 \keyword{internal}

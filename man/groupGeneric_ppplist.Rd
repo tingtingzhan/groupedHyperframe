@@ -18,11 +18,14 @@
 \item{na.rm}{\link[base]{logical} scalar}
 }
 \value{
-Function \code{\link[=Math.ppplist]{Math.ppplist()}} returns a \code{'ppplist'}.
+The function \code{\link[=Math.ppplist]{Math.ppplist()}} returns a \code{'ppplist'}.
 
-Function \code{\link[=Summary.ppplist]{Summary.ppplist()}} ...
+The function \code{\link[=Summary.ppplist]{Summary.ppplist()}} ...
 }
 \description{
 ...
+}
+\references{
+\url{https://tingtingzhan.quarto.pub/groupedhyperframe/topics.html}
 }
 \keyword{internal}

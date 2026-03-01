@@ -4,10 +4,12 @@
 #' 
 #' @param x a \link[spatstat.geom]{ppp.object}
 #' 
-#' @param ... additional parameters of function `stats:::quantile.default()`
+#' @param ... additional parameters of the function `stats:::quantile.default()`
+#' 
+#' @references
+#' \url{https://tingtingzhan.quarto.pub/groupedhyperframe/topics.html}
 #' 
 #' @keywords internal
-#' @importFrom stats quantile
 #' @export quantile.ppp
 #' @export
 quantile.ppp <- function(x, ...) {
@@ -37,10 +39,12 @@ quantile.ppp <- function(x, ...) {
 #' 
 #' @param x a `'ppplist'`
 #' 
-#' @param ... additional parameters of function `stats:::quantile.default()`
+#' @param ... additional parameters of the function `stats:::quantile.default()`
+#' 
+#' @references
+#' \url{https://tingtingzhan.quarto.pub/groupedhyperframe/topics.html}
 #' 
 #' @keywords internal
-#' @importFrom stats quantile
 #' @export quantile.ppplist
 #' @export
 quantile.ppplist <- function(x, ...) {
@@ -64,10 +68,9 @@ quantile.ppplist <- function(x, ...) {
 #' 
 #' @param x an \link[spatstat.geom]{anylist}
 #' 
-#' @param ... additional parameters of function `stats:::quantile.default()`
+#' @param ... additional parameters of the function `stats:::quantile.default()`
 #' 
 #' @keywords internal
-#' @importFrom stats quantile
 #' @importFrom spatstat.geom anylist
 #' @export quantile.anylist
 #' @export
@@ -91,10 +94,9 @@ quantile.anylist <- function(x, ...) {
 #' 
 #' @param x a \link[spatstat.geom]{hyperframe}
 #' 
-#' @param ... additional parameters of function `stats:::quantile.default()`
+#' @param ... additional parameters of the function `stats:::quantile.default()`
 #' 
 #' @keywords internal
-#' @importFrom stats quantile
 #' @export quantile.hyperframe
 #' @export
 quantile.hyperframe <- function(x, ...) {

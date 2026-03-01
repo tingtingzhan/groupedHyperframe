@@ -16,10 +16,13 @@ smooth.spline.fv(
 
 \item{key, .x}{\link[base]{character} scalars}
 
-\item{...}{additional parameters of functions
+\item{...}{additional parameters of the functions
 \link[stats]{smooth.spline}, except for \code{x}, \code{y} and \code{keep.data}}
 }
 \description{
 \link[stats]{smooth.spline} of \link[spatstat.explore]{fv.object}
+}
+\references{
+\url{https://tingtingzhan.quarto.pub/groupedhyperframe/topics.html}
 }
 \keyword{internal}

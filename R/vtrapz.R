@@ -8,13 +8,13 @@
 #' 
 #' @param x \link[base]{numeric} \link[base]{vector}
 #' 
-#' @param ... additional parameters of function \link[pracma]{trapz}
+#' @param ... additional parameters of the function \link[pracma]{trapz}
 #' 
 #' @note
 #' This is a tentative thought: the prefix `v` stands for 'vertical'.
 #' 
 #' @returns 
-#' Function [vtrapz()] return a \link[base]{numeric} scalar.
+#' The function [vtrapz()] return a \link[base]{numeric} scalar.
 #' 
 #' @keywords internal
 #' @importFrom pracma trapz
@@ -44,15 +44,18 @@ vtrapz <- function(x, ...) {
 #' @param key,.x \link[base]{character} scalars
 #' 
 #' @param rm1 \link[base]{logical} scalar, whether to remove the first `NaN`-value from
-#' function [cumvtrapz()] return, default `TRUE`
+#' The function [cumvtrapz()] return, default `TRUE`
 #' 
-#' @param ... additional parameters of function \link[pracma]{trapz} and \link[pracma]{cumtrapz}
+#' @param ... additional parameters of the function \link[pracma]{trapz} and \link[pracma]{cumtrapz}
 #' 
 #' @note
 #' This is a tentative thought: the prefix `v` stands for 'vertical'.
 #' 
 #' @returns 
-#' Function `vtrapz.*()` return a \link[base]{numeric} scalar.
+#' The function `vtrapz.*()` return a \link[base]{numeric} scalar.
+#' 
+#' @references
+#' \url{https://tingtingzhan.quarto.pub/groupedhyperframe/topics.html}
 #' 
 #' @keywords internal
 #' @name cumvtrapz
@@ -145,7 +148,7 @@ cumvtrapz.fv <- function(
 #' @rdname cumvtrapz
 #' 
 #' @param mc.cores \link[base]{integer} scalar, see function \link[parallel]{mclapply}.
-#' Default is the return of function \link[parallel]{detectCores}.
+#' Default is the return of the function \link[parallel]{detectCores}.
 #' 
 #' @keywords internal
 #' @importFrom doParallel registerDoParallel
@@ -242,7 +245,7 @@ cumvtrapz.hyperframe <- function(x, ...) {
 #' 
 #' @param xlabs,ylabs \link[base]{function}s
 #' 
-#' @param yname (optional) \link[base]{character} scalar, name of function
+#' @param yname (optional) \link[base]{character} scalar, name of the function
 #' 
 #' @param draw.rect \link[base]{logical} scalar, 
 #' whether to plot the rectangle, default `TRUE`
@@ -282,7 +285,6 @@ visualize_vtrapz <- function(
 #' @rdname visualize_vtrapz
 #' @importFrom ggplot2 ggplot aes geom_path geom_rect scale_x_continuous scale_y_continuous labs
 #' @importFrom geomtextpath geom_textpath
-#' @importFrom stats median.default
 #' @importFrom scales label_number
 #' @importFrom utils citation
 #' @export visualize_vtrapz.numeric
@@ -442,7 +444,6 @@ visualize_vtrapz.density <- function(x, ...) {
 
 #' @rdname visualize_vtrapz
 #' @importFrom ggplot2 labs
-#' @importFrom stats lowess
 #' @export visualize_vtrapz.stepfun
 #' @export
 visualize_vtrapz.stepfun <- function(x, ...) {
@@ -517,7 +518,6 @@ visualize_vtrapz.function <- function(x, ..., n = 513L) {
 
 #' @rdname visualize_vtrapz
 #' @importFrom ggplot2 labs geom_point aes
-#' @importFrom stats predict
 #' @export visualize_vtrapz.loess
 #' @export
 visualize_vtrapz.loess <- function(x, ..., n = 513L) {
@@ -554,7 +554,6 @@ visualize_vtrapz.loess <- function(x, ..., n = 513L) {
 
 #' @rdname visualize_vtrapz
 #' @importFrom ggplot2 labs geom_point aes
-#' @importFrom stats predict
 #' @method visualize_vtrapz smooth.spline
 #' @export visualize_vtrapz.smooth.spline
 #' @export

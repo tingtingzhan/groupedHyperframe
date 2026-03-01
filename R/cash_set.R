@@ -7,10 +7,13 @@
 #' @param name,value see function \link[spatstat.geom]{$<-.hyperframe}
 #' 
 #' @note
-#' Function \link[spatstat.geom]{$<-.hyperframe} drops \link[base]{attributes}.
+#' The function \link[spatstat.geom]{$<-.hyperframe} drops \link[base]{attributes}.
 #' 
 #' @returns 
 #' Syntactic sugar [$<-.groupedHyperframe()] returns a [groupedHyperframe].
+#' 
+#' @references
+#' \url{https://tingtingzhan.quarto.pub/groupedhyperframe/topics.html}
 #' 
 #' @keywords internal
 #' @importFrom spatstat.geom $<-.hyperframe

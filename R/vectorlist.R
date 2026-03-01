@@ -42,7 +42,7 @@ is.vectorlist <- function(
 #' 
 #' @param x an \link[spatstat.geom]{anylist}
 #' 
-#' @param ... additional parameters of function [is.vectorlist()]
+#' @param ... additional parameters of the function [is.vectorlist()]
 #' 
 #' @keywords internal
 #' @importFrom spatstat.geom anylist
@@ -138,15 +138,17 @@ print.vectorlist <- function(x, ...) {
 #' the derived class `'vectorlist'` and 
 #' the method dispatch [t.vectorlist()] 
 #' is that 
-#' function \link[spatstat.geom]{with.hyperframe}
+#' The function \link[spatstat.geom]{with.hyperframe}
 #' could be slow in a batch process.
 #' 
 #' @returns
 #' The `S3` method dispatch [t.vectorlist()] returns
 #' a `'vectorlist'` of equi-\link[base]{length}.
 #' 
+#' @references
+#' \url{https://tingtingzhan.quarto.pub/groupedhyperframe/topics.html}
+#' 
 #' @keywords internal
-#' @importFrom stats setNames
 #' @importFrom spatstat.geom anylist
 #' @export t.vectorlist
 #' @export

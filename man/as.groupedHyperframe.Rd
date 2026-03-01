@@ -23,9 +23,12 @@ as.groupedHyperframe(x, group, ...)
 \item{...}{additional parameters}
 }
 \value{
-Function \code{\link[=as.groupedHyperframe]{as.groupedHyperframe()}} returns a \code{groupedHyperframe}.
+The function \code{\link[=as.groupedHyperframe]{as.groupedHyperframe()}} returns a \code{groupedHyperframe}.
 }
 \description{
 To create a \code{groupedHyperframe} object
+}
+\references{
+\url{https://tingtingzhan.quarto.pub/groupedhyperframe/topics.html}
 }
 \keyword{internal}

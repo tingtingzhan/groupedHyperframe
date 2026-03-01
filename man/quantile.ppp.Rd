@@ -9,9 +9,12 @@
 \arguments{
 \item{x}{a \link[spatstat.geom]{ppp.object}}
 
-\item{...}{additional parameters of function \code{stats:::quantile.default()}}
+\item{...}{additional parameters of the function \code{stats:::quantile.default()}}
 }
 \description{
 Quantiles of \link[base]{numeric} \link[spatstat.geom]{marks} in \link[spatstat.geom]{ppp.object}
+}
+\references{
+\url{https://tingtingzhan.quarto.pub/groupedhyperframe/topics.html}
 }
 \keyword{internal}

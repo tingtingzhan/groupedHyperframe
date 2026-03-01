@@ -6,12 +6,11 @@
 #' 
 #' @param key,.x \link[base]{character} scalars
 #' 
-#' @param ... additional parameters of functions 
+#' @param ... additional parameters of the functions 
 #' \link[stats]{ksmooth}, except for `x` and `y`
 #' 
 #' @keywords internal
 #' @importFrom spatstat.explore fvnames as.data.frame.fv
-#' @importFrom stats ksmooth
 #' @export
 ksmooth.fv <- function(
     x, 

@@ -5,8 +5,11 @@
 #' @param ... one or more \link[spatstat.geom]{hyperframe}s or [groupedHyperframe]s
 #' 
 #' @returns
-#' Function [superimpose.hyperframe()] returns a 
+#' The function [superimpose.hyperframe()] returns a 
 #' \link[spatstat.geom]{hyperframe} or [groupedHyperframe].
+#' 
+#' @references
+#' \url{https://tingtingzhan.quarto.pub/groupedhyperframe/topics.html}
 #' 
 #' @keywords internal
 #' @importFrom spatstat.geom superimpose dim.hyperframe

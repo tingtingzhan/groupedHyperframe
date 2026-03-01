@@ -11,10 +11,13 @@ loess.fv(x, key = fvnames(fv, a = ".y"), .x = fvnames(fv, a = ".x"), ...)
 
 \item{key, .x}{\link[base]{character} scalars}
 
-\item{...}{additional parameters of functions
+\item{...}{additional parameters of the functions
 \link[stats]{loess}, except for \code{formula} and \code{data}}
 }
 \description{
 \link[stats]{loess} of \link[spatstat.explore]{fv.object}
+}
+\references{
+\url{https://tingtingzhan.quarto.pub/groupedhyperframe/topics.html}
 }
 \keyword{internal}

@@ -9,10 +9,10 @@ op_hyperframe(X, ...)
 \arguments{
 \item{X}{a \link[spatstat.geom]{hyperframe}, containing \emph{\strong{one-and-only-one}} \link[spatstat.geom]{ppp}-\link[spatstat.geom:hyperframe]{hypercolumn}}
 
-\item{...}{additional parameters of function \code{\link[=op_ppplist]{op_ppplist()}}}
+\item{...}{additional parameters of the function \code{\link[=op_ppplist]{op_ppplist()}}}
 }
 \value{
-Function \code{\link[=op_hyperframe]{op_hyperframe()}} returns a \link[spatstat.geom]{hyperframe}.
+The function \code{\link[=op_hyperframe]{op_hyperframe()}} returns a \link[spatstat.geom]{hyperframe}.
 }
 \description{
 Create hypercolumn(s) of

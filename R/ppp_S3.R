@@ -38,18 +38,20 @@ is.numeric.ppp <- function(x) {
 #' @param ... additional parameters, currently not in use
 #' 
 #' @details
-#' Function [na.omit.ppp()] omits missing \link[spatstat.geom]{marks} in a \link[spatstat.geom]{ppp.object}.
+#' The function [na.omit.ppp()] omits missing \link[spatstat.geom]{marks} in a \link[spatstat.geom]{ppp.object}.
 #' 
 #' @returns
-#' Function [na.omit.ppp()] returns a \link[spatstat.geom]{ppp.object}.
+#' The function [na.omit.ppp()] returns a \link[spatstat.geom]{ppp.object}.
 #' 
 #' @note
 #' tzh suppose missing `$x` and `$y` are 
 #' forbidden in \link[spatstat.geom]{ppp.object} anyway.
 #' 
+#' @references
+#' \url{https://tingtingzhan.quarto.pub/groupedhyperframe/topics.html}
+#' 
 #' @keywords internal
 #' @name na_fail_ppp
-#' @importFrom stats na.omit
 #' @importFrom spatstat.geom subset.ppp markformat.ppp
 #' @method na.omit ppp
 #' @export na.omit.ppp
@@ -79,7 +81,6 @@ na.omit.ppp <- function(object, ...) {
 
 
 #' @name na_fail_ppp
-#' @importFrom stats na.exclude
 #' @importFrom spatstat.geom subset.ppp markformat.ppp
 #' @method na.exclude ppp
 #' @export na.exclude.ppp

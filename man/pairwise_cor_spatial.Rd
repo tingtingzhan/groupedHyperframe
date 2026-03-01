@@ -18,12 +18,15 @@ pairwise_cor_spatial(x, ...)
 \item{...}{additional parameters, currently not in use}
 }
 \value{
-Function \code{\link[=pairwise_cor_spatial]{pairwise_cor_spatial()}} returns a \link[stats]{dist} object.
+The function \code{\link[=pairwise_cor_spatial]{pairwise_cor_spatial()}} returns a \link[stats]{dist} object.
 }
 \description{
 Pairwise Tjostheim's Coefficient
 }
 \details{
 Workhorse function \link[SpatialPack]{cor.spatial}.
+}
+\references{
+\url{https://tingtingzhan.quarto.pub/groupedhyperframe/topics.html}
 }
 \keyword{internal}

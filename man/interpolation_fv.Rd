@@ -23,10 +23,13 @@ interpSpline_.fv(
 
 \item{key, .x}{\link[base]{character} scalars}
 
-\item{...}{additional parameters of functions
+\item{...}{additional parameters of the functions
 \link[stats]{approxfun}, \link[stats]{splinefun} and \link[splines]{interpSpline}}
 }
 \description{
 Interpolation of \link[spatstat.explore]{fv.object}
+}
+\references{
+\url{https://tingtingzhan.quarto.pub/groupedhyperframe/topics.html}
 }
 \keyword{internal}

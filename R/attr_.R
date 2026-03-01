@@ -1,15 +1,20 @@
 
 
-#' @title [attr_]
+#' @title A Batch Process of \link[base]{attr}
 #' 
 #' @param x see **Usage**
 #' 
-#' @param which,exact parameters of function \link[base]{attr}
+#' @param which,exact parameters of the function \link[base]{attr}
+#' 
+#' @references
+#' \url{https://tingtingzhan.quarto.pub/groupedhyperframe/topics.html}
 #' 
 #' @name attr_
 #' @keywords internal
 #' @export
 attr_ <- function(x, which, exact = TRUE) UseMethod(generic = 'attr_')
+
+
 
 #' @rdname attr_
 #' @export attr_.anylist

@@ -31,7 +31,7 @@
 #' @param ... additional parameters, currently not in use
 #' 
 #' @returns 
-#' Function [print.groupedHyperframe()] does not have a returned value.
+#' The function [print.groupedHyperframe()] does not have a returned value.
 #' 
 #' @seealso `?nlme:::print.groupedData`
 #' 
@@ -67,7 +67,7 @@ print.groupedHyperframe <- function(x, ...) {
 #' @param ... additional parameters, currently not in use
 #' 
 #' @returns 
-#' Function [summary.groupedHyperframe()] returns an R object of class `'summary.groupedHyperframe'`.
+#' The function [summary.groupedHyperframe()] returns an R object of class `'summary.groupedHyperframe'`.
 #' 
 #' @keywords internal
 #' @importFrom spatstat.geom summary.hyperframe
@@ -99,7 +99,7 @@ summary.groupedHyperframe <- function(object, ...) {
 #' @param ... additional parameters, currently not in use
 #' 
 #' @returns 
-#' Function [print.summary.groupedHyperframe()] does not have a returned value.
+#' The function [print.summary.groupedHyperframe()] does not have a returned value.
 #' 
 #' @keywords internal
 # @importFrom spatstat.geom print.summary.hyperframe
@@ -157,7 +157,7 @@ print.summary.groupedHyperframe <- function(x, ...) {
 #' @param ... additional parameters of \link[spatstat.geom]{[.hyperframe}
 #' 
 #' @returns
-#' Function \link{[.groupedHyperframe} returns a [groupedHyperframe] or a \link[spatstat.geom]{hyperframe}.
+#' The function \link{[.groupedHyperframe} returns a [groupedHyperframe] or a \link[spatstat.geom]{hyperframe}.
 #' 
 #' @keywords internal
 #' @importFrom spatstat.geom [.hyperframe

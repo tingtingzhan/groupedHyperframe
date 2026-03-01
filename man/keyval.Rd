@@ -23,14 +23,17 @@ keyval(x, ...)
 \item{key, .x}{\link[base]{character} scalars}
 }
 \value{
-Function \code{\link[=keyval.fv]{keyval.fv()}} returns a \link[base]{numeric} \link[base]{vector}.
+The function \code{\link[=keyval.fv]{keyval.fv()}} returns a \link[base]{numeric} \link[base]{vector}.
 }
 \description{
 Name and value of the \emph{black solid curve} as shown in \link[spatstat.explore]{plot.fv},
 i.e., the primary outcome of an \link[spatstat.explore]{fv.object}.
 }
 \details{
-Function \code{\link[=keyval.fv]{keyval.fv()}} finds the value of the (primary) outcome
+The function \code{\link[=keyval.fv]{keyval.fv()}} finds the value of the (primary) outcome
 of an \link[spatstat.explore]{fv.object}.
+}
+\references{
+\url{https://tingtingzhan.quarto.pub/groupedhyperframe/topics.html}
 }
 \keyword{internal}

@@ -5,6 +5,9 @@
 #' 
 #' @param ... additional parameters, currently no use
 #' 
+#' @references
+#' \url{https://tingtingzhan.quarto.pub/groupedhyperframe/topics.html}
+#' 
 #' @keywords internal
 #' @export print.pppkm
 #' @export
@@ -35,7 +38,7 @@ print.pppkm <- function(x, ...) {
 #' @param ... additional parameters, currently no use
 #' 
 #' @returns
-#' Function [split.pppkm()] returns a `'splitppp'` object from the
+#' The function [split.pppkm()] returns a `'splitppp'` object from the
 #' workhorse function \link[spatstat.geom]{split.ppp}.
 #' 
 #' @keywords internal
@@ -54,7 +57,7 @@ split.pppkm <- function(x, f = attr(x, which = 'f', exact = TRUE), ...) {
 #' 
 #' @param x a `'pppkm'` object, returned from function [kmeans.ppp()]
 #' 
-#' @param main,...,cols additional parameters of function \link[spatstat.geom]{plot.ppp}
+#' @param main,...,cols additional parameters of the function \link[spatstat.geom]{plot.ppp}
 #' 
 #' @keywords internal
 #' @importFrom spatstat.geom plot.ppp
@@ -85,7 +88,7 @@ plot.pppkm <- function(
 #' @param ... additional parameters, currently no use
 #' 
 #' @returns
-#' Function [split.pppkmlist()] returns a `'splitppp'` object from the
+#' The function [split.pppkmlist()] returns a `'splitppp'` object from the
 #' workhorse function \link[spatstat.geom]{split.ppp}.
 #' 
 #' @keywords internal
@@ -124,7 +127,7 @@ split.pppkmlist <- function(x, ...) {
 #' @param ... additional parameters, currently no use
 #' 
 #' @returns
-#' Function [split.hyperframekm()] returns a `'groupedHyperframe'`.
+#' The function [split.hyperframekm()] returns a `'groupedHyperframe'`.
 #' 
 #' @keywords internal
 #' @importFrom spatstat.geom is.ppplist hyperframe cbind.hyperframe

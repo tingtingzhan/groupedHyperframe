@@ -11,7 +11,7 @@ ksmooth.fv(x, key = fvnames(fv, a = ".y"), .x = fvnames(fv, a = ".x"), ...)
 
 \item{key, .x}{\link[base]{character} scalars}
 
-\item{...}{additional parameters of functions
+\item{...}{additional parameters of the functions
 \link[stats]{ksmooth}, except for \code{x} and \code{y}}
 }
 \description{

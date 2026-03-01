@@ -34,4 +34,7 @@
 \description{
 Default \eqn{r_\text{max}} of Various Functions in Package \CRANpkg{spatstat.explore}
 }
+\references{
+\url{https://tingtingzhan.quarto.pub/groupedhyperframe/topics.html}
+}
 \keyword{internal}

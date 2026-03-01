@@ -12,6 +12,9 @@
 #' 
 #' @param ... additional parameters, currently of no use
 #' 
+#' @references
+#' \url{https://tingtingzhan.quarto.pub/groupedhyperframe/topics.html}
+#' 
 #' @keywords internal
 #' @name rmax
 #' @export

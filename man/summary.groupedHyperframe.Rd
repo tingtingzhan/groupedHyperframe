@@ -12,7 +12,7 @@
 \item{...}{additional parameters, currently not in use}
 }
 \value{
-Function \code{\link[=summary.groupedHyperframe]{summary.groupedHyperframe()}} returns an R object of class \code{'summary.groupedHyperframe'}.
+The function \code{\link[=summary.groupedHyperframe]{summary.groupedHyperframe()}} returns an R object of class \code{'summary.groupedHyperframe'}.
 }
 \description{
 Summary Information of \link{groupedHyperframe}

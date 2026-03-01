@@ -12,13 +12,13 @@ op_ppplist(x, op, mc.cores = getOption("cores"), ...)
 \item{op}{workhorse \link[base]{function}, either \code{\link[=ppp_numeric2fv]{ppp_numeric2fv()}}, \code{\link[=ppp_multitype2fv]{ppp_multitype2fv()}} or \code{\link[=ppp2dist]{ppp2dist()}}}
 
 \item{mc.cores}{\link[base]{integer} scalar, see function \link[parallel]{mclapply}.
-Default is the return of function \link[parallel]{detectCores}.}
+Default is the return of the function \link[parallel]{detectCores}.}
 
 \item{...}{additional parameters of workhorse functions
 \code{\link[=ppp_numeric2fv]{ppp_numeric2fv()}}, \code{\link[=ppp_multitype2fv]{ppp_multitype2fv()}} or \code{\link[=ppp2dist]{ppp2dist()}}}
 }
 \value{
-Function \code{\link[=op_ppplist]{op_ppplist()}} returns a \link[stats]{listof}
+The function \code{\link[=op_ppplist]{op_ppplist()}} returns a \link[stats]{listof}
 \itemize{
 \item function \code{\link[=ppp_numeric2fv]{ppp_numeric2fv()}} returns, if \code{op = ppp_numeric2fv}.
 \item function \code{\link[=ppp_multitype2fv]{ppp_multitype2fv()}} returns, if \code{op = ppp_multitype2fv}.
@@ -29,7 +29,10 @@ Function \code{\link[=op_ppplist]{op_ppplist()}} returns a \link[stats]{listof}
 Batch operations for a \code{'ppplist'} input.
 }
 \details{
-Function \code{\link[=op_ppplist]{op_ppplist()}} is a \pkg{parallel} batch process of
+The function \code{\link[=op_ppplist]{op_ppplist()}} is a \pkg{parallel} batch process of
 the workhorse function \code{\link[=ppp_numeric2fv]{ppp_numeric2fv()}}, \code{\link[=ppp_multitype2fv]{ppp_multitype2fv()}} or \code{\link[=ppp2dist]{ppp2dist()}}.
+}
+\references{
+\url{https://tingtingzhan.quarto.pub/groupedhyperframe/topics.html}
 }
 \keyword{internal}

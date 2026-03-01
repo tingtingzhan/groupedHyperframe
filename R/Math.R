@@ -13,15 +13,15 @@
 #' @param ... additional parameters for the \link[base]{groupGeneric} functions
 #' 
 #' @details
-#' Function [Math.ppp()] performs `Math` operations on the \link[base]{numeric} \link[spatstat.geom]{marks}
+#' The function [Math.ppp()] performs `Math` operations on the \link[base]{numeric} \link[spatstat.geom]{marks}
 #' of a \link[spatstat.geom]{ppp.object}.
 #' 
-#' Function [Summary.ppp()] ..
+#' The function [Summary.ppp()] ..
 #' 
 #' @return 
-#' Function [Math.ppp()] returns a \link[spatstat.geom]{ppp.object}.
+#' The function [Math.ppp()] returns a \link[spatstat.geom]{ppp.object}.
 #' 
-#' Function [Summary.ppp()] ..
+#' The function [Summary.ppp()] ..
 #' 
 #' @keywords internal
 #' @name groupGeneric_ppp
@@ -116,15 +116,15 @@ Summary.ppp <- function(..., na.rm = FALSE) {
 #' @param ... additional parameters for the \link[base]{groupGeneric} functions
 #' 
 #' @details
-#' Function [Math.tess()] performs `Math` operations on the \link[base]{numeric} \link[spatstat.geom]{marks}
+#' The function [Math.tess()] performs `Math` operations on the \link[base]{numeric} \link[spatstat.geom]{marks}
 #' of a \link[spatstat.geom]{tess}ellation.
 #' 
-#' Function [Summary.tess()] ..
+#' The function [Summary.tess()] ..
 #' 
 #' @return 
-#' Function [Math.tess()] returns a \link[spatstat.geom]{ppp.object}.
+#' The function [Math.tess()] returns a \link[spatstat.geom]{ppp.object}.
 #' 
-#' Function [Summary.tess()] ..
+#' The function [Summary.tess()] ..
 #' 
 #' @keywords internal
 #' @name groupGeneric_tess
@@ -189,15 +189,18 @@ Summary.tess <- function(..., na.rm = FALSE) {
 #' @param ... additional parameters for the \link[base]{groupGeneric} functions
 #' 
 #' @details
-#' Function [Math.psp()] performs `Math` operations on the \link[base]{numeric} \link[spatstat.geom]{marks}
+#' The function [Math.psp()] performs `Math` operations on the \link[base]{numeric} \link[spatstat.geom]{marks}
 #' of a \link[spatstat.geom]{psp.object}.
 #' 
-#' Function [Summary.psp()] ..
+#' The function [Summary.psp()] ..
 #' 
 #' @return 
-#' Function [Math.psp()] returns a \link[spatstat.geom]{psp.object}.
+#' The function [Math.psp()] returns a \link[spatstat.geom]{psp.object}.
 #' 
-#' Function [Summary.psp()] ..
+#' The function [Summary.psp()] ..
+#' 
+#' @references
+#' \url{https://tingtingzhan.quarto.pub/groupedhyperframe/topics.html}
 #' 
 #' @keywords internal
 #' @name groupGeneric_psp
@@ -229,9 +232,12 @@ Summary.psp <- function(..., na.rm = FALSE) {
 #' @param ... additional parameters for the \link[base]{groupGeneric} functions
 #' 
 #' @return 
-#' Function [Math.ppplist()] returns a `'ppplist'`.
+#' The function [Math.ppplist()] returns a `'ppplist'`.
 #' 
-#' Function [Summary.ppplist()] ...
+#' The function [Summary.ppplist()] ...
+#' 
+#' @references
+#' \url{https://tingtingzhan.quarto.pub/groupedhyperframe/topics.html}
 #' 
 #' @keywords internal
 #' @name groupGeneric_ppplist
@@ -264,9 +270,12 @@ Summary.ppplist <- function(..., na.rm = FALSE) {
 #' @param ... additional parameters for the \link[base]{groupGeneric} functions
 #' 
 #' @return 
-#' Function [Math.fvlist()] returns an `'fvlist'`.
+#' The function [Math.fvlist()] returns an `'fvlist'`.
 #' 
-#' Function [Summary.fvlist()] ..
+#' The function [Summary.fvlist()] ..
+#' 
+#' @references
+#' \url{https://tingtingzhan.quarto.pub/groupedhyperframe/topics.html}
 #' 
 #' @keywords internal
 #' @name groupGeneric_fvlist

@@ -16,16 +16,19 @@
 \item{...}{additional parameters, currently not in use}
 }
 \value{
-Function \code{\link[=na.omit.ppp]{na.omit.ppp()}} returns a \link[spatstat.geom]{ppp.object}.
+The function \code{\link[=na.omit.ppp]{na.omit.ppp()}} returns a \link[spatstat.geom]{ppp.object}.
 }
 \description{
 Handle Missing \link[spatstat.geom]{marks} in \link[spatstat.geom]{ppp.object}.
 }
 \details{
-Function \code{\link[=na.omit.ppp]{na.omit.ppp()}} omits missing \link[spatstat.geom]{marks} in a \link[spatstat.geom]{ppp.object}.
+The function \code{\link[=na.omit.ppp]{na.omit.ppp()}} omits missing \link[spatstat.geom]{marks} in a \link[spatstat.geom]{ppp.object}.
 }
 \note{
 tzh suppose missing \verb{$x} and \verb{$y} are
 forbidden in \link[spatstat.geom]{ppp.object} anyway.
+}
+\references{
+\url{https://tingtingzhan.quarto.pub/groupedhyperframe/topics.html}
 }
 \keyword{internal}

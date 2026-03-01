@@ -14,14 +14,17 @@
 #' or a \link[base]{function} that returns an \link[spatstat.explore]{fv.object}, 
 #' see **Details**
 #' 
-#' @param ... additional parameters of function `fun`
+#' @param ... additional parameters of the function `fun`
 #' 
 #' @returns 
-#' Functions [ppp_numeric2fv()] and [ppp_multitype2fv()] return a \link[stats]{listof} 
+#' The functions [ppp_numeric2fv()] and [ppp_multitype2fv()] return a \link[stats]{listof} 
 #' \link[spatstat.explore]{fv.object}s.
 #' 
-#' Function [ppp2dist()] returns a \link[stats]{listof} 
+#' The function [ppp2dist()] returns a \link[stats]{listof} 
 #' \link[base]{double} \link[base]{vector}s.
+#' 
+#' @references
+#' \url{https://tingtingzhan.quarto.pub/groupedhyperframe/topics.html}
 #' 
 #' @keywords internal
 #' @name ppp2.

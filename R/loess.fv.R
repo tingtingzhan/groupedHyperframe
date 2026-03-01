@@ -6,12 +6,14 @@
 #' 
 #' @param key,.x \link[base]{character} scalars
 #' 
-#' @param ... additional parameters of functions 
+#' @param ... additional parameters of the functions 
 #' \link[stats]{loess}, except for `formula` and `data`
+#' 
+#' @references
+#' \url{https://tingtingzhan.quarto.pub/groupedhyperframe/topics.html}
 #' 
 #' @keywords internal
 #' @importFrom spatstat.explore fvnames as.data.frame.fv
-#' @importFrom stats loess
 #' @export
 loess.fv <- function(
     x, 

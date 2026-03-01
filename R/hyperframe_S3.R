@@ -4,6 +4,9 @@
 #' 
 #' @param x a \link[spatstat.geom]{hyperframe}
 #' 
+#' @references
+#' \url{https://tingtingzhan.quarto.pub/groupedhyperframe/topics.html}
+#' 
 #' @seealso \link[spatstat.geom]{dim.hyperframe}
 #' 
 #' @keywords internal

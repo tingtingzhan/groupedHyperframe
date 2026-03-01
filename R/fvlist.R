@@ -8,13 +8,16 @@
 #' @param X a \link[stats]{listof} \link[spatstat.explore]{fv.object}s
 #' 
 #' @returns 
-#' Function [is.fvlist()] returns a \link[base]{logical} scalar with \link[base]{attributes}
+#' The function [is.fvlist()] returns a \link[base]{logical} scalar with \link[base]{attributes}
 #' \describe{
 #' \item{`attr(,'r')`}{\eqn{x}-axis, or the \eqn{r}-values}
 #' \item{`attr(,'fname')`}{see explanation of this \link[base]{attributes} in function \link[spatstat.explore]{fv}}
 #' \item{`attr(,'.x')`}{`spatstat.explore::fvnames(x, a = '.x')` returns}
 #' \item{`attr(,'.y')`}{`spatstat.explore::fvnames(x, a = '.y')` returns}
 #' }
+#' 
+#' @references
+#' \url{https://tingtingzhan.quarto.pub/groupedhyperframe/topics.html}
 #' 
 #' @keywords internal
 #' @importFrom spatstat.explore fvnames
@@ -77,7 +80,7 @@ is.fvlist <- function(X) {
 #' @param data.name \link[base]{character} scalar, name of `X`, for console message output
 #' 
 #' @returns 
-#' Function [as.fvlist()] returns an \link[base]{invisible} \link[base]{list}.
+#' The function [as.fvlist()] returns an \link[base]{invisible} \link[base]{list}.
 #' 
 #' @keywords internal
 #' @importFrom spatstat.explore fvnames

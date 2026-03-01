@@ -2,6 +2,8 @@
 
 #' @import cli
 #' @import patchwork
+#' 
+#' @import stats
 #' @import survival
 '_PACKAGE'
 

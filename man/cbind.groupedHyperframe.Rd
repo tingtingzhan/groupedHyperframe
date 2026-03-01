@@ -7,10 +7,13 @@
 \method{cbind}{groupedHyperframe}(...)
 }
 \arguments{
-\item{...}{see function \link[spatstat.geom]{cbind.hyperframe},
+\item{...}{see the function \link[spatstat.geom]{cbind.hyperframe},
 the first element must be \code{'groupedHyperframe'}}
 }
 \description{
 \code{cbind.groupedHyperframe()}
+}
+\references{
+\url{https://tingtingzhan.quarto.pub/groupedhyperframe/topics.html}
 }
 \keyword{internal}

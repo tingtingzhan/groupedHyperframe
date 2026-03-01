@@ -8,12 +8,15 @@
 #' 
 #' 
 #' @note
-#' Functions [pmean()] and [pmedian()] mimic functions \link[base]{pmax.int} and \link[base]{pmin.int}.
+#' The functions [pmean()] and [pmedian()] mimic functions \link[base]{pmax.int} and \link[base]{pmin.int}.
 #' They are written in a very naive way.
 #' The pipeline `cbind() |> rowMeans()` is extremely slow.
 #' 
 #' @returns
-#' Functions [pmean()] and [pmedian()] return a \link[base]{numeric} \link[base]{vector}.
+#' The functions [pmean()] and [pmedian()] return a \link[base]{numeric} \link[base]{vector}.
+#' 
+#' @references
+#' \url{https://tingtingzhan.quarto.pub/groupedhyperframe/nonS3/pmean.html}
 #' 
 #' @examples
 #' pmean(1:3, c(11, 12, 14), c(21, 22, 25))

@@ -73,7 +73,7 @@ cli_RPubs_ <- function(...) cli_book_(fmt = '{.url https://rpubs.com/%s/%s}', ..
 #' @title Defunct Functions
 #' 
 #' @description
-#' Functions mentioned in hard-copy journals, but later \link[base]{.Defunct}.
+#' The functions mentioned in hard-copy journals, but later \link[base]{.Defunct}.
 #' 
 #' @param ... Defunct parameters
 #' 

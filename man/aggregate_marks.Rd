@@ -5,7 +5,7 @@
 \alias{aggregate_marks.ppp}
 \alias{aggregate_marks.ppplist}
 \alias{aggregate_marks.hyperframe}
-\title{\link{aggregate_marks}}
+\title{\link[stats]{aggregate} the \link[spatstat.geom]{marks} of \link[spatstat.geom]{ppp}-Related Object}
 \usage{
 aggregate_marks(x, by, FUN, expr, ..., vectorize = FALSE)
 
@@ -18,14 +18,23 @@ aggregate_marks(x, by, FUN, expr, ..., vectorize = FALSE)
 \arguments{
 \item{x}{see \strong{Usage}}
 
-\item{by, FUN, ...}{additional parameters of function \link[stats]{aggregate.data.frame}}
+\item{by, FUN, ...}{additional parameters of the function \link[stats]{aggregate.data.frame}}
 
-\item{expr}{\link[base]{expression}, only used when \code{markformat(x)} is \code{'dataframe'} AND missing parameter \code{by}}
+\item{expr}{\link[base]{expression}, only used when \code{markformat.ppp(x)} is \code{'dataframe'}
+\strong{and} the parameter \code{by} is missing}
 
-\item{vectorize}{\link[base]{logical} scalar, whether to convert the return from
-function \link[stats]{aggregate.data.frame} into a \link[base]{vector}. Default \code{FALSE}.}
+\item{vectorize}{\link[base]{logical} scalar (default value \code{FALSE}), whether to convert the return from
+The function \link[stats]{aggregate.data.frame} into a \link[base]{vector}}
 }
 \description{
-\link{aggregate_marks}
+To \link[stats]{aggregate} the \link[spatstat.geom]{marks} of a \link[spatstat.geom]{ppp}-related object, e.g.,
+\itemize{
+\item{\link[spatstat.geom]{ppp.object}}
+\item{a \code{ppplist}}
+\item{the \link[spatstat.geom]{ppp}-hypercolumn of a \link[spatstat.geom]{hyperframe}}
+}
+}
+\references{
+\url{https://tingtingzhan.quarto.pub/groupedhyperframe/topics.html}
 }
 \keyword{internal}

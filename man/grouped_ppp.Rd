@@ -31,11 +31,14 @@ default is the \eqn{x}- and \eqn{y}-span of \code{coords} in \code{data}.}
 \item{...}{additional parameters, currently not in use}
 }
 \value{
-Function \code{\link[=grouped_ppp]{grouped_ppp()}} returns a \link{groupedHyperframe}
+The function \code{\link[=grouped_ppp]{grouped_ppp()}} returns a \link{groupedHyperframe}
 with \emph{\strong{one-and-only-one}}
 \link[spatstat.geom]{ppp}-\link[spatstat.geom:hyperframe]{hypercolumn}.
 }
 \description{
 ..
+}
+\references{
+\url{https://tingtingzhan.quarto.pub/groupedhyperframe/nonS3/grouped_ppp_appx.html}
 }
 \keyword{internal}

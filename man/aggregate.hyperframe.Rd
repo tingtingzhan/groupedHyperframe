@@ -2,23 +2,26 @@
 % Please edit documentation in R/aggregate.R
 \name{aggregate.hyperframe}
 \alias{aggregate.hyperframe}
-\title{Aggregate (Grouped) Hyper Data Frame}
+\title{Aggregate Hyper Data Frame}
 \usage{
 \method{aggregate}{hyperframe}(x, by, ...)
 }
 \arguments{
-\item{x}{a \link[spatstat.geom]{hyperframe} or \link{groupedHyperframe}}
+\item{x}{a \link[spatstat.geom]{hyperframe}}
 
 \item{by}{a one-sided \link[stats]{formula},
 containing regular-column names of the input \code{x}}
 
-\item{...}{additional parameters of function \code{\link[=aggregate.vectorlist]{aggregate.vectorlist()}},
-most importantly parameter \code{fun}}
+\item{...}{additional parameters of the function \code{\link[=aggregate.vectorlist]{aggregate.vectorlist()}},
+most importantly the parameter \code{fun}}
 }
 \value{
-Function \code{\link[=aggregate.hyperframe]{aggregate.hyperframe()}} returns a \link[spatstat.geom]{hyperframe}.
+The function \code{\link[=aggregate.hyperframe]{aggregate.hyperframe()}} returns a \link[spatstat.geom]{hyperframe}.
 }
 \description{
-Aggregate (Grouped) Hyper Data Frame
+Aggregate Hyper Data Frame
+}
+\references{
+\url{https://tingtingzhan.quarto.pub/groupedhyperframe/topics.html}
 }
 \keyword{internal}

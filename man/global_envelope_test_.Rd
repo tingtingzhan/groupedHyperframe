@@ -15,7 +15,7 @@ global_envelope_test_(x, ...)
 \arguments{
 \item{x}{see \strong{Usage}}
 
-\item{...}{parameters (except the first) of function \link[GET]{global_envelope_test}}
+\item{...}{parameters (except the first) of the function \link[GET]{global_envelope_test}}
 }
 \description{
 Global Envelope Test in Bath Process

@@ -9,7 +9,7 @@
 \arguments{
 \item{x}{a \link[spatstat.geom]{hyperframe}}
 
-\item{...}{additional parameters of function \code{stats:::quantile.default()}}
+\item{...}{additional parameters of the function \code{stats:::quantile.default()}}
 }
 \description{
 Quantiles of \link[base]{numeric} elements in \link[spatstat.geom]{hyperframe}

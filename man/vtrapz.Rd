@@ -9,10 +9,10 @@ vtrapz(x, ...)
 \arguments{
 \item{x}{\link[base]{numeric} \link[base]{vector}}
 
-\item{...}{additional parameters of function \link[pracma]{trapz}}
+\item{...}{additional parameters of the function \link[pracma]{trapz}}
 }
 \value{
-Function \code{\link[=vtrapz]{vtrapz()}} return a \link[base]{numeric} scalar.
+The function \code{\link[=vtrapz]{vtrapz()}} return a \link[base]{numeric} scalar.
 }
 \description{
 Trapezoidal integration divided by \eqn{x}-domain.

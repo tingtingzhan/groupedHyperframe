@@ -6,14 +6,14 @@
 #' @param f \link[base]{factor}
 #' 
 #' @param mc.cores \link[base]{integer} scalar, see function \link[parallel]{mclapply}.
-#' Default is the return of function \link[parallel]{detectCores}.
+#' Default is the return of the function \link[parallel]{detectCores}.
 #' 
 #' @param ... additional parameters, currently not in use
 #' 
 #' @note
-#' Function \link[stats]{aggregate.data.frame} does not do parallel computing.
+#' The function \link[stats]{aggregate.data.frame} does not do parallel computing.
 #' 
-#' Function `collapse::collap` does not support \link[survival]{Surv} column.
+#' The function `collapse::collap` does not support \link[survival]{Surv} column.
 #' 
 #' Look more into `nlme:::collapse.groupedData`
 #' 

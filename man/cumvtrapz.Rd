@@ -21,25 +21,28 @@ cumvtrapz(x, ...)
 \arguments{
 \item{x}{\link[base]{numeric} \link[base]{vector}}
 
-\item{...}{additional parameters of function \link[pracma]{trapz} and \link[pracma]{cumtrapz}}
+\item{...}{additional parameters of the function \link[pracma]{trapz} and \link[pracma]{cumtrapz}}
 
 \item{y}{see function \link[pracma]{cumtrapz}}
 
 \item{rm1}{\link[base]{logical} scalar, whether to remove the first \code{NaN}-value from
-function \code{\link[=cumvtrapz]{cumvtrapz()}} return, default \code{TRUE}}
+The function \code{\link[=cumvtrapz]{cumvtrapz()}} return, default \code{TRUE}}
 
 \item{key, .x}{\link[base]{character} scalars}
 
 \item{mc.cores}{\link[base]{integer} scalar, see function \link[parallel]{mclapply}.
-Default is the return of function \link[parallel]{detectCores}.}
+Default is the return of the function \link[parallel]{detectCores}.}
 }
 \value{
-Function \verb{vtrapz.*()} return a \link[base]{numeric} scalar.
+The function \verb{vtrapz.*()} return a \link[base]{numeric} scalar.
 }
 \description{
 Cumulative trapezoidal integration divided by \eqn{x}-domain.
 }
 \note{
 This is a tentative thought: the prefix \code{v} stands for 'vertical'.
+}
+\references{
+\url{https://tingtingzhan.quarto.pub/groupedhyperframe/topics.html}
 }
 \keyword{internal}
