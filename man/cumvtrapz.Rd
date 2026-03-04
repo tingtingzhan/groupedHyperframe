@@ -14,7 +14,7 @@ cumvtrapz(x, ...)
 
 \method{cumvtrapz}{fv}(x, key = fvnames(x, a = ".y"), .x = fvnames(x, a = ".x"), ...)
 
-\method{cumvtrapz}{fvlist}(x, mc.cores = getOption("cores"), ...)
+\method{cumvtrapz}{fvlist}(x, mc.cores = detectCores(), ...)
 
 \method{cumvtrapz}{hyperframe}(x, ...)
 }

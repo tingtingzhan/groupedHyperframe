@@ -20,12 +20,12 @@
 #' @keywords internal
 #' @importFrom doParallel registerDoParallel
 #' @importFrom foreach foreach `%dopar%`
-#' @importFrom parallel mclapply makeCluster stopCluster
+#' @importFrom parallel detectCores mclapply makeCluster stopCluster
 #' @export
 mc_identical_by <- function(
     data, 
     f,
-    mc.cores = getOption('cores'),
+    mc.cores = detectCores(), #getOption('cores'),
     ...
 ) {
   

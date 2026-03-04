@@ -153,13 +153,13 @@ cumvtrapz.fv <- function(
 #' @keywords internal
 #' @importFrom doParallel registerDoParallel
 #' @importFrom foreach foreach `%dopar%`
-#' @importFrom parallel mclapply makeCluster stopCluster
+#' @importFrom parallel detectCores mclapply makeCluster stopCluster
 #' @importFrom spatstat.geom anylist
 #' @export cumvtrapz.fvlist
 #' @export
 cumvtrapz.fvlist <- function(
     x, 
-    mc.cores = getOption('cores'), 
+    mc.cores = detectCores(), #getOption('cores'), 
     ...
 ) {
   
