@@ -25,7 +25,7 @@
 mc_identical_by <- function(
     data, 
     f,
-    mc.cores = detectCores(), #getOption('cores'),
+    mc.cores = detectCores(),
     ...
 ) {
   

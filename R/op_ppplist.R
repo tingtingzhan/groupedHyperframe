@@ -39,7 +39,7 @@
 op_ppplist <- function(
     x, 
     op,
-    mc.cores = detectCores(), #getOption('cores'),
+    mc.cores = detectCores(),
     ...
 ) {
   

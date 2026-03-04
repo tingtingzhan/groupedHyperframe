@@ -159,7 +159,7 @@ cumvtrapz.fv <- function(
 #' @export
 cumvtrapz.fvlist <- function(
     x, 
-    mc.cores = detectCores(), #getOption('cores'), 
+    mc.cores = detectCores(),
     ...
 ) {
   
