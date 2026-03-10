@@ -25,13 +25,12 @@
 #' # in \CRANpkg{spatstat.data}
 #' # no good example for [Emark_]
 #' # no hyperframe with ppp-hypercolumn with numeric marks
-#' \dontshow{options(cores = 2L)}
 #' fluM = spatstat.data::flu |>
 #'  spatstat.geom::subset.hyperframe(subset = (stain == 'M2-M1') & (virustype == 'wt'))
 #' fluM
 #' r = seq.int(from = 0, to = 100, by = 5)
 #' fluM |>
-#'  nncross_(i = 'M1', j = 'M2')
+#'  nncross_(i = 'M1', j = 'M2', mc.cores = 2L)
 #'  
 #'  
 #' @references
