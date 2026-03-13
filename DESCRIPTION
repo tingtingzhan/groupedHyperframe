@@ -1,8 +1,8 @@
 Package: groupedHyperframe
 Type: Package
 Title: Grouped Hyper Data Frame
-Version: 0.3.6
-Date: 2026-03-10
+Version: 0.3.7
+Date: 2026-03-20
 Description: An S3 class 'groupedHyperframe' that inherits from 
     the hyper data frame class from the 'spatstat' packages. 
     Batch process and aggregation of the hyper column(s) 
@@ -23,8 +23,8 @@ URL:
     https://tingtingzhan.quarto.pub/groupedhyperframe,
     https://tingtingzhan-groupedhyperframe.netlify.app
 Depends: R (>= 4.5)
-Imports: cli, methods, parallel, doParallel, foreach, matrixStats, pracma, GET, SpatialPack,
-    ggplot2, geomtextpath, scales, survival, patchwork, knitr, 
+Imports: cli, parallel, doParallel, foreach, matrixStats, pracma, GET, SpatialPack,
+    ggplot2, geomtextpath, scales, survival, patchwork, 
     spatstat.explore, spatstat.geom, spatstat.random, splines
 Suggests: spatstat.data
 
