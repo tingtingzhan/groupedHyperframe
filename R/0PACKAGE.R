@@ -54,34 +54,43 @@ if (FALSE) {
       cli_inform(class = 'packageStartupMessage')
   }
   
+  '\n' |>
+    cli_inform(class = 'packageStartupMessage')
+
   sprintf(
-    fmt = 'by {.href [%s](https://github.com/tingtingzhan/groupedHyperframe)}',
+    fmt = 'Created by {.href [%s](https://github.com/tingtingzhan/groupedHyperframe)}',
     'Tingting Zhan' |> 
       col_red() |> 
       style_bold()
   ) |>
     cli_inform(class = 'packageStartupMessage')
   
+  # '\n' |>
+  #  cli_inform(class = 'packageStartupMessage')
+
+  sprintf(
+    fmt = 'For technical details, see the {.href [%s](https://tingtingzhan.quarto.pub/groupedhyperframe/)}',
+    'vignettes' |> 
+      col_blue() |> 
+      style_bold()
+  ) |>
+    # style_italic() |>
+    cli_inform(class = 'packageStartupMessage')
+  
   '\n' |>
     cli_inform(class = 'packageStartupMessage')
-
+  
   'To cite this package in publications please use:' |>
     cli_inform(class = 'packageStartupMessage')
     
+  '\n' |>
+    cli_inform(class = 'packageStartupMessage')
+  
   'groupedHyperframe' |>
     citation() |>
     format(style = 'text') |> # utils:::format.citation
     col_green() |>
     style_bold() |>
-    cli_inform(class = 'packageStartupMessage')
-  
-  '\n' |>
-    cli_inform(class = 'packageStartupMessage')
-  
-  sprintf(
-    fmt = 'Technical details are in the {.href [%s](https://tingtingzhan.quarto.pub/groupedhyperframe/)}.',
-    'vignettes' |> col_blue() |> style_bold()
-  ) |>
     cli_inform(class = 'packageStartupMessage')
   
   '\n' |>
