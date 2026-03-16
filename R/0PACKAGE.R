@@ -22,7 +22,7 @@ if (FALSE) {
 # requires installed package from CRAN..
 # ?utils::citation does *not* need to Imports the package!!
 
-#' @importFrom utils packageVersion packageDate packageDescription
+#' @importFrom utils citation packageVersion packageDate packageDescription
 .onAttach <- function(libname, pkgname) {
   
   '\n' |>
@@ -64,9 +64,22 @@ if (FALSE) {
   
   '\n' |>
     cli_inform(class = 'packageStartupMessage')
+
+  'To cite this package in publications please use:' |>
+    cli_inform(class = 'packageStartupMessage')
+    
+  'groupedHyperframe' |>
+    citation() |>
+    format(style = 'text') |> # utils:::format.citation
+    col_green() |>
+    style_bold() |>
+    cli_inform(class = 'packageStartupMessage')
+  
+  '\n' |>
+    cli_inform(class = 'packageStartupMessage')
   
   sprintf(
-    fmt = 'Please read the {.href [%s](https://tingtingzhan.quarto.pub/groupedhyperframe/)} for details.',
+    fmt = 'Technical details are in the {.href [%s](https://tingtingzhan.quarto.pub/groupedhyperframe/)}.',
     'vignettes' |> col_blue() |> style_bold()
   ) |>
     cli_inform(class = 'packageStartupMessage')
