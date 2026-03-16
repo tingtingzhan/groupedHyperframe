@@ -99,6 +99,7 @@ if (FALSE) {
   'Active development of this R package is temporarily suspended. Until further notice, it should not be used as a basis for research grant applications or cited as an actively maintained tool.' |>
     col_magenta() |>
     style_bold() |>
+    style_underline() |>
     cli_inform(class = 'packageStartupMessage')
   
   '\n' |>
