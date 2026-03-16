@@ -28,20 +28,32 @@ if (FALSE) {
   '\n' |>
     cli_inform(class = 'packageStartupMessage')
   
-  'Welcome to Package {.href [groupedHyperframe](https://cran.r-project.org/package=groupedHyperframe)}' |>
+  'Welcome to R Package {.href [groupedHyperframe](https://cran.r-project.org/package=groupedHyperframe)}' |>
     cli_inform(class = 'packageStartupMessage')
   
   sprintf(
     fmt = 'version %s (%s) -- %s',
     'groupedHyperframe' |> packageVersion(),
     'groupedHyperframe' |> packageDate(),
-    packageDescription('groupedHyperframe')[['Nickname']] |> 
+    'groupedHyperframe' |> 
+      packageDescription() |> 
+      getElement(name = 'Nickname') |>
       dQuote() |>
-      style_bold() |>
+      #style_bold() |>
       bg_br_yellow()
   ) |>
     cli_inform(class = 'packageStartupMessage')
 
+  if (FALSE) {
+    'groupedHyperframe' |> 
+      packageDescription() |> 
+      getElement(name = 'Authors@R') |>
+      str2lang() |>
+      eval() |>
+      format() |> # ?utils:::format.person; ORCID logo does *not* show
+      cli_inform(class = 'packageStartupMessage')
+  }
+  
   sprintf(
     fmt = 'by {.href [%s](https://github.com/tingtingzhan/groupedHyperframe)}',
     'Tingting Zhan' |> 
