@@ -35,9 +35,10 @@ if (FALSE) {
     fmt = 'version %s (%s) -- %s',
     'groupedHyperframe' |> packageVersion(),
     'groupedHyperframe' |> packageDate(),
-    'groupedHyperframe' |> 
-      packageDescription() |> 
-      getElement(name = 'Nickname') |>
+    # 'groupedHyperframe' |> 
+    #  packageDescription() |> 
+    #  getElement(name = 'Nickname') |> # "Nickname" field not allowed on CRAN
+    'Entertaining-but-Useless' |> 
       dQuote() |>
       #style_bold() |>
       bg_br_yellow()
@@ -96,7 +97,7 @@ if (FALSE) {
   '\n' |>
     cli_inform(class = 'packageStartupMessage')
   
-  'Active development of this R package is temporarily suspended. Until further notice, it should not be used as a basis for research grant applications or cited as an actively maintained tool.' |>
+  'Active development of this R package is temporarily suspended. Until further notice, it should not be used as a basis for research grant applications or cited as an actively maintained tool, nor should it be used to support or fulfill requirements for pursuing an academic degree.' |>
     col_magenta() |>
     style_bold() |>
     style_underline() |>
