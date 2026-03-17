@@ -97,12 +97,21 @@ if (FALSE) {
   '\n' |>
     cli_inform(class = 'packageStartupMessage')
   
-  'Active development of this R package is temporarily suspended. Until further notice, it should not be used as a basis for research grant applications or cited as an actively maintained tool, nor should it be used to support or fulfill requirements for pursuing an academic degree.' |>
+  'Active development of this R package is temporarily suspended. Until further notice, it should **not** be used as a basis for research grant applications or cited as an actively maintained tool, **nor** should it be used to support or fulfill requirements for pursuing an academic degree.' |>
     col_magenta() |>
     style_bold() |>
-    style_underline() |>
+    #style_underline() |>
     cli_inform(class = 'packageStartupMessage')
   
+  '\n' |>
+    cli_inform(class = 'packageStartupMessage')
+  
+  'Furthermore, a person\'s ability to use these packages does not necessarily indicate an understanding of their underlying mechanisms. Accordingly, demonstration of their use **alone** should **not** be considered sufficient evidence of expertise, nor should it be credited as a basis for academic promotion or advancement.' |>
+    col_magenta() |>
+    style_bold() |>
+    #style_underline() |>
+    cli_inform(class = 'packageStartupMessage')
+
   '\n' |>
     cli_inform(class = 'packageStartupMessage')
   
