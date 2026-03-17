@@ -109,10 +109,11 @@ if (FALSE) {
     cli_inform(class = 'packageStartupMessage')
   
   sprintf(
-    fmt = 'Furthermore, a person\'s %s these packages does not necessarily indicate an understanding of their underlying mechanisms. Accordingly, demonstration of their use %s should %s be considered sufficient evidence of expertise, nor should it be credited as a basis for academic promotion or advancement.',
+    fmt = 'Furthermore, a person\'s %s these packages does not necessarily indicate an understanding of their underlying mechanisms. Accordingly, demonstration of their use %s should %s be considered sufficient evidence of expertise, %s should it be credited as a basis for academic promotion or advancement.',
     'ability to use' |> style_bold() |> style_underline() |> bg_br_yellow(),
     'alone' |> style_bold() |> style_underline() |> bg_br_yellow(),
-    'not' |> style_bold() |> style_underline() |> bg_br_yellow()
+    'not' |> style_bold() |> style_underline() |> bg_br_yellow(),
+    'nor' |> style_bold() |> style_underline() |> bg_br_yellow()
   ) |>
     col_grey() |>
     cli_inform(class = 'packageStartupMessage')
