@@ -109,9 +109,20 @@ if (FALSE) {
     cli_inform(class = 'packageStartupMessage')
   
   sprintf(
+    fmt = 'In addition, work %s based on this package should %s be presented at academic conferences or similar scholarly venues.',
+    'primarily' |> style_bold() |> style_underline(),
+    'not' |> style_bold() |> style_underline() |> bg_br_yellow()
+  ) |>
+    col_grey() |>
+    cli_inform(class = 'packageStartupMessage')
+
+  '\n' |>
+    cli_inform(class = 'packageStartupMessage')
+  
+  sprintf(
     fmt = 'Furthermore, a person\'s %s these packages does not necessarily indicate an understanding of their underlying mechanisms. Accordingly, demonstration of their use %s should %s be considered sufficient evidence of expertise, %s should it be credited as a basis for academic promotion or advancement.',
-    'ability to use' |> style_bold() |> style_underline() |> bg_br_yellow(),
-    'alone' |> style_bold() |> style_underline() |> bg_br_yellow(),
+    'ability to use' |> style_bold() |> style_underline(),
+    'alone' |> style_bold() |> style_underline(),
     'not' |> style_bold() |> style_underline() |> bg_br_yellow(),
     'nor' |> style_bold() |> style_underline() |> bg_br_yellow()
   ) |>
