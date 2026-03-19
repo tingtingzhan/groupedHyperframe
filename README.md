@@ -20,3 +20,7 @@ necessarily indicate an understanding of their underlying mechanisms.
 Accordingly, demonstration of their use **alone** should **not** be
 considered sufficient evidence of expertise, **nor** should it be
 credited as a basis for academic promotion or advancement.
+
+*These statements are advisory in nature and do not modify or restrict
+the rights granted under the GNU General Public License
+<https://www.r-project.org/Licenses/>.*
