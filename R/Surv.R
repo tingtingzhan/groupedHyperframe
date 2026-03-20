@@ -38,7 +38,6 @@
 #' summary(heart2)
 #' 
 #' @keywords internal
-#' @export summary.Surv
 #' @export
 summary.Surv <- function(object, ...) {
   

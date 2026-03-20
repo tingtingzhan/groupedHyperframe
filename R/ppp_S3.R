@@ -5,7 +5,6 @@
 #' @param x a \link[spatstat.geom]{ppp.object}
 #' 
 #' @keywords internal
-#' @export is.numeric.ppp
 #' @export
 is.numeric.ppp <- function(x) {
   
@@ -54,7 +53,6 @@ is.numeric.ppp <- function(x) {
 #' @name na_fail_ppp
 #' @importFrom spatstat.geom subset.ppp markformat.ppp
 #' @method na.omit ppp
-#' @export na.omit.ppp
 #' @export
 na.omit.ppp <- function(object, ...) {
 
@@ -83,7 +81,6 @@ na.omit.ppp <- function(object, ...) {
 #' @name na_fail_ppp
 #' @importFrom spatstat.geom subset.ppp markformat.ppp
 #' @method na.exclude ppp
-#' @export na.exclude.ppp
 #' @export
 na.exclude.ppp <- function(object, ...) {
   

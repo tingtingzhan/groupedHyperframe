@@ -33,13 +33,11 @@
 kerndens <- function(x, ...) UseMethod(generic = 'kerndens')
 
 #' @rdname kerndens
-#' @export kerndens.numeric
 #' @export
 kerndens.numeric <- function(x, ...) density.default(x, ...)$y
 
 
 #' @rdname kerndens
-#' @export kerndens.ppp
 #' @export
 kerndens.ppp <- function(x, ...) {
   d <- x |>
@@ -53,7 +51,6 @@ kerndens.ppp <- function(x, ...) {
 
 
 #' @rdname kerndens
-#' @export kerndens.ppplist
 #' @export
 kerndens.ppplist <- function(x, ...) {
   
@@ -76,7 +73,6 @@ kerndens.ppplist <- function(x, ...) {
 
 #' @rdname kerndens
 #' @importFrom spatstat.geom anylist
-#' @export kerndens.anylist
 #' @export
 kerndens.anylist <- function(x, ...) {
   
@@ -94,7 +90,6 @@ kerndens.anylist <- function(x, ...) {
 
 
 #' @rdname kerndens
-#' @export kerndens.hyperframe
 #' @export
 kerndens.hyperframe <- function(x, ...) {
   

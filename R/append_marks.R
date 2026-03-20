@@ -23,7 +23,6 @@
   
 #' @rdname append_marks_set
 #' @importFrom spatstat.geom markformat.ppp npoints.ppp
-#' @export append_marks<-.ppp
 #' @export
 `append_marks<-.ppp` <- function(x, value) {
   
@@ -83,14 +82,12 @@
 
 
 #' @rdname append_marks_set
-#' @export append_marks<-.tess
 #' @export
 `append_marks<-.tess` <- function(x, value) {
   .Deprecated(msg = 'still working')
 }
 
 #' @rdname append_marks_set
-#' @export append_marks<-.psp
 #' @export
 `append_marks<-.psp` <- function(x, value) {
   .Deprecated(msg = 'still working')

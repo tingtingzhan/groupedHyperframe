@@ -69,7 +69,6 @@ as.vectorlist <- function(x, ...) {
 #' @param ... additional parameters, currently of no use
 #' 
 #' @keywords internal
-#' @export print.vectorlist
 #' @export
 print.vectorlist <- function(x, ...) {
   
@@ -150,7 +149,6 @@ print.vectorlist <- function(x, ...) {
 #' 
 #' @keywords internal
 #' @importFrom spatstat.geom anylist
-#' @export t.vectorlist
 #' @export
 t.vectorlist <- function(x) {
   

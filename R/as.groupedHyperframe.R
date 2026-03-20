@@ -2,7 +2,7 @@
 #' @title Creation of `groupedHyperframe`
 #' 
 #' @description
-#' To create a `groupedHyperframe` object
+#' To create a `groupedHyperframe` object.
 #' 
 #' @param x see Usage
 #' 
@@ -24,7 +24,6 @@ as.groupedHyperframe <- function(x, group, ...) UseMethod(generic = 'as.groupedH
 
 #' @rdname as.groupedHyperframe
 #' @importFrom spatstat.geom names.hyperframe
-#' @export as.groupedHyperframe.hyperframe
 #' @export
 as.groupedHyperframe.hyperframe <- function(x, group, ...) {
   
@@ -43,7 +42,6 @@ as.groupedHyperframe.hyperframe <- function(x, group, ...) {
 
 #' @rdname as.groupedHyperframe
 #' @importFrom spatstat.geom hyperframe cbind.hyperframe
-#' @export as.groupedHyperframe.data.frame
 #' @export
 as.groupedHyperframe.data.frame <- function(x, group, ...) {
   
@@ -80,7 +78,6 @@ as.groupedHyperframe.data.frame <- function(x, group, ...) {
 
 
 #' @rdname as.groupedHyperframe
-#' @export as.groupedHyperframe.groupedData
 #' @export
 as.groupedHyperframe.groupedData <- function(x, group, ...) {
   

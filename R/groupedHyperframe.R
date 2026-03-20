@@ -37,7 +37,6 @@
 #' 
 #' @keywords internal
 #' @importFrom spatstat.geom as.data.frame.hyperframe
-#' @export print.groupedHyperframe
 #' @export
 print.groupedHyperframe <- function(x, ...) {
   
@@ -71,7 +70,6 @@ print.groupedHyperframe <- function(x, ...) {
 #' 
 #' @keywords internal
 #' @importFrom spatstat.geom summary.hyperframe
-#' @export summary.groupedHyperframe
 #' @export
 summary.groupedHyperframe <- function(object, ...) {
   
@@ -104,7 +102,6 @@ summary.groupedHyperframe <- function(object, ...) {
 #' @keywords internal
 # @importFrom spatstat.geom print.summary.hyperframe
 #' @method print summary.groupedHyperframe
-#' @export print.summary.groupedHyperframe
 #' @export
 print.summary.groupedHyperframe <- function(x, ...) {
 
@@ -161,7 +158,6 @@ print.summary.groupedHyperframe <- function(x, ...) {
 #' 
 #' @keywords internal
 #' @importFrom spatstat.geom [.hyperframe
-#' @export [.groupedHyperframe
 #' @export
 `[.groupedHyperframe` <- function(x, ...) {
   
@@ -195,7 +191,6 @@ print.summary.groupedHyperframe <- function(x, ...) {
 # tzh mask this for now, does not want to import(nlme) only for this
 # @keywords internal
 # @importFrom nlme getGroupsFormula
-# @export getGroupsFormula.groupedHyperframe
 # @export
 #getGroupsFormula.groupedHyperframe <- function(object, asList, sep) {
 #  attr(object, which = 'group', exact = TRUE)

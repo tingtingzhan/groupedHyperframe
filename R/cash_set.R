@@ -10,14 +10,13 @@
 #' The function \link[spatstat.geom]{$<-.hyperframe} drops \link[base]{attributes}.
 #' 
 #' @returns 
-#' Syntactic sugar [$<-.groupedHyperframe()] returns a [groupedHyperframe].
+#' The `S3` syntactic sugar [$<-.groupedHyperframe()] returns a [groupedHyperframe].
 #' 
 #' @references
 #' \url{https://tingtingzhan.quarto.pub/groupedhyperframe/topics.html}
 #' 
 #' @keywords internal
 #' @importFrom spatstat.geom $<-.hyperframe
-#' @export $<-.groupedHyperframe
 #' @export
 `$<-.groupedHyperframe` <- function(x, name, value) {
   

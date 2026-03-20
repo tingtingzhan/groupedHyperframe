@@ -11,7 +11,6 @@
 #' 
 #' @keywords internal
 #' @importFrom spatstat.geom cbind.hyperframe
-#' @export cbind.groupedHyperframe
 #' @export
 cbind.groupedHyperframe <- function(...) {
   

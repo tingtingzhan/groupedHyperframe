@@ -16,10 +16,11 @@ containing regular-column names of the input \code{x}}
 most importantly the parameter \code{fun}}
 }
 \value{
-The function \code{\link[=aggregate.hyperframe]{aggregate.hyperframe()}} returns a \link[spatstat.geom]{hyperframe}.
+The \code{S3} method \code{\link[=aggregate.hyperframe]{aggregate.hyperframe()}} returns a \link[spatstat.geom]{hyperframe}.
 }
 \description{
-Aggregate Hyper Data Frame
+To aggregate the aggregatable hypercolumns of a
+\link[spatstat.geom]{hyperframe}.
 }
 \references{
 \url{https://tingtingzhan.quarto.pub/groupedhyperframe/topics.html}

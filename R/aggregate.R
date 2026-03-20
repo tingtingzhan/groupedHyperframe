@@ -1,6 +1,11 @@
 
 #' @title Aggregate Hyper Data Frame
 #' 
+#' @description
+#' To aggregate the aggregatable hypercolumns of a 
+#' \link[spatstat.geom]{hyperframe}.
+#' 
+#' 
 #' @param x a \link[spatstat.geom]{hyperframe}
 #' 
 #' @param by a one-sided \link[stats]{formula}, 
@@ -10,14 +15,13 @@
 #' most importantly the parameter `fun`
 #' 
 #' @returns 
-#' The function [aggregate.hyperframe()] returns a \link[spatstat.geom]{hyperframe}.
+#' The `S3` method [aggregate.hyperframe()] returns a \link[spatstat.geom]{hyperframe}.
 #'  
 #' @references
 #' \url{https://tingtingzhan.quarto.pub/groupedhyperframe/topics.html}
 #' 
 #' @keywords internal
 #' @importFrom spatstat.geom is.ppplist is.imlist
-#' @export aggregate.hyperframe
 #' @export
 aggregate.hyperframe <- function(
     x, 
@@ -123,9 +127,11 @@ aggregate.hyperframe <- function(
 #' 
 #' @param ... additional parameters, currently of no use
 #' 
+#' @returns
+#' The `S3` method [aggregate.vectorlist()] returns a `vectorlist`.
+#' 
 #' @keywords internal
 #' @importFrom spatstat.geom anylapply
-#' @export aggregate.vectorlist
 #' @export
 aggregate.vectorlist <- function(x, by, fun = pmean, ...) {
   

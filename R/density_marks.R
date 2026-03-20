@@ -29,7 +29,6 @@ density_marks <- function(x, ...) UseMethod(generic = 'density_marks')
 
 
 #' @rdname density_marks
-#' @export density_marks.ppp
 #' @export
 density_marks.ppp <- function(x, ...) {
   
@@ -64,7 +63,6 @@ density_marks.ppp <- function(x, ...) {
 
 
 #' @rdname density_marks
-#' @export density_marks.ppplist
 #' @export
 density_marks.ppplist <- function(x, ...) {
   

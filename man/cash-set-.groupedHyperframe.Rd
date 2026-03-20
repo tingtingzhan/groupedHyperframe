@@ -12,7 +12,7 @@
 \item{name, value}{see function \link[spatstat.geom]{$<-.hyperframe}}
 }
 \value{
-Syntactic sugar \code{\link[=$<-.groupedHyperframe]{$<-.groupedHyperframe()}} returns a \link{groupedHyperframe}.
+The \code{S3} syntactic sugar \code{\link[=$<-.groupedHyperframe]{$<-.groupedHyperframe()}} returns a \link{groupedHyperframe}.
 }
 \description{
 Syntactic Sugar for \link{groupedHyperframe} Object

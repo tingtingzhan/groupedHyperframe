@@ -26,7 +26,6 @@
 #' @keywords internal
 #' @name groupGeneric_ppp
 #' @importFrom spatstat.geom markformat marks marks<-
-#' @export Math.ppp
 #' @export
 Math.ppp <- function(x, ...) {
   
@@ -58,7 +57,6 @@ Math.ppp <- function(x, ...) {
 
 #' @rdname groupGeneric_ppp
 #' @importFrom spatstat.geom is.ppp markformat.ppp marks.ppp anylist
-#' @export Summary.ppp
 #' @export
 Summary.ppp <- function(..., na.rm = FALSE) {
   
@@ -129,7 +127,6 @@ Summary.ppp <- function(..., na.rm = FALSE) {
 #' @keywords internal
 #' @name groupGeneric_tess
 #' @importFrom spatstat.geom is.hyperframe markformat marks.tess marks<-
-#' @export Math.tess
 #' @export
 Math.tess <- function(x, ...) {
   
@@ -167,7 +164,6 @@ Math.tess <- function(x, ...) {
 
 #' @rdname groupGeneric_tess
 #' @importFrom spatstat.geom markformat marks marks<-
-#' @export Summary.tess
 #' @export
 Summary.tess <- function(..., na.rm = FALSE) {
   stop('comming soon')
@@ -204,14 +200,12 @@ Summary.tess <- function(..., na.rm = FALSE) {
 #' 
 #' @keywords internal
 #' @name groupGeneric_psp
-#' @export Math.psp
 #' @export
 Math.psp <- function(x, ...) {
   stop('comming soon')
 }
   
 #' @rdname groupGeneric_psp
-#' @export Summary.psp
 #' @export
 Summary.psp <- function(..., na.rm = FALSE) {
   stop('comming soon')
@@ -242,7 +236,6 @@ Summary.psp <- function(..., na.rm = FALSE) {
 #' @keywords internal
 #' @name groupGeneric_ppplist
 #' @importFrom spatstat.geom solapply
-#' @export Math.ppplist
 #' @export
 Math.ppplist <- function(x, ...) {
   x |> 
@@ -251,7 +244,6 @@ Math.ppplist <- function(x, ...) {
 
 #' @rdname groupGeneric_ppplist
 #' @importFrom spatstat.geom solapply
-#' @export Summary.ppplist
 #' @export
 Summary.ppplist <- function(..., na.rm = FALSE) {
   stop('comming soon')
@@ -280,7 +272,6 @@ Summary.ppplist <- function(..., na.rm = FALSE) {
 #' @keywords internal
 #' @name groupGeneric_fvlist
 #' @importFrom spatstat.explore Math.fv
-#' @export Math.fvlist
 #' @export
 Math.fvlist <- function(x, ...) {
   x |> 
@@ -291,7 +282,6 @@ Math.fvlist <- function(x, ...) {
 #' @rdname groupGeneric_fvlist
 #' @importFrom spatstat.explore Summary.fv
 #' @importFrom spatstat.geom anylist
-#' @export Summary.fvlist
 #' @export
 Summary.fvlist <- function(..., na.rm = FALSE) {
   

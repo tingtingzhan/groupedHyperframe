@@ -17,6 +17,9 @@ currently supports functions
 
 \item{...}{additional parameters, currently of no use}
 }
+\value{
+The \code{S3} method \code{\link[=aggregate.vectorlist]{aggregate.vectorlist()}} returns a \code{vectorlist}.
+}
 \description{
 Aggregate \code{vectorlist}
 }

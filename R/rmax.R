@@ -27,7 +27,6 @@
 #' @rdname rmax
 #' @importFrom spatstat.explore rmax.rule
 #' @importFrom spatstat.geom area.owin intensity marks.ppp is.marked.ppp is.ppp npoints.ppp unstack.ppp is.multitype.ppp handle.r.b.args ppsubset
-#' @export .rmax.ppp
 #' @export
 .rmax.ppp <- function(X, fun, i, j, ...) {
 
@@ -87,7 +86,6 @@
 
 #' @rdname rmax
 #' @importFrom spatstat.explore fvnames
-#' @export .rmax.fv
 #' @export
 .rmax.fv <- function(X, ...) {
   X[[fvnames(X = X, a = '.x')]] |>
@@ -96,7 +94,6 @@
 
 
 #' @rdname rmax
-#' @export .rmax.ppplist
 #' @export
 .rmax.ppplist <- function(X, ...) {
   X |>
@@ -106,7 +103,6 @@
 
 #' @rdname rmax
 #' @importFrom spatstat.geom is.ppplist
-#' @export .rmax.hyperframe
 #' @export
 .rmax.hyperframe <- function(X, ...) {
   

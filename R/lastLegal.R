@@ -67,7 +67,6 @@ lastLegal <- function(v) {
 
 #' @rdname fv2theo
 #' @importFrom spatstat.explore fvnames
-#' @export .illegal2theo.fv
 #' @export
 .illegal2theo.fv <- function(
     X, 
@@ -107,7 +106,6 @@ lastLegal <- function(v) {
 
 #' @rdname fv2theo
 #' @importFrom spatstat.explore fvnames
-#' @export .disrecommend2theo.fv
 #' @export
 .disrecommend2theo.fv <- function(
     X, 
@@ -153,7 +151,6 @@ lastLegal <- function(v) {
 
 
 #' @rdname fv2theo
-#' @export .illegal2theo.fvlist
 #' @export
 .illegal2theo.fvlist <- function(X, ...) {
   tmp <- X |> 
@@ -168,7 +165,6 @@ lastLegal <- function(v) {
 }
 
 #' @rdname fv2theo
-#' @export .disrecommend2theo.fvlist
 #' @export
 .disrecommend2theo.fvlist <- function(X, ...) {
   tmp <- X |> 
@@ -185,7 +181,6 @@ lastLegal <- function(v) {
 
 #' @rdname fv2theo
 #' @importFrom spatstat.geom as.list.hyperframe names.hyperframe
-#' @export .illegal2theo.hyperframe
 #' @export
 .illegal2theo.hyperframe <- function(X, ...) {
   
@@ -206,7 +201,6 @@ lastLegal <- function(v) {
 
 #' @rdname fv2theo
 #' @importFrom spatstat.geom as.list.hyperframe names.hyperframe
-#' @export .disrecommend2theo.hyperframe
 #' @export
 .disrecommend2theo.hyperframe <- function(X, ...) {
   

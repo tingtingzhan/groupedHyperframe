@@ -9,7 +9,6 @@
 #' \url{https://tingtingzhan.quarto.pub/groupedhyperframe/topics.html}
 #' 
 #' @keywords internal
-#' @export print.pppkm
 #' @export
 print.pppkm <- function(x, ...) {
   
@@ -43,7 +42,6 @@ print.pppkm <- function(x, ...) {
 #' 
 #' @keywords internal
 #' @importFrom spatstat.geom split.ppp
-#' @export split.pppkm
 #' @export
 split.pppkm <- function(x, f = attr(x, which = 'f', exact = TRUE), ...) {
   
@@ -62,7 +60,6 @@ split.pppkm <- function(x, f = attr(x, which = 'f', exact = TRUE), ...) {
 #' @keywords internal
 #' @importFrom spatstat.geom plot.ppp
 #' @importFrom scales pal_hue
-#' @export plot.pppkm
 #' @export
 plot.pppkm <- function(
     x, 
@@ -92,7 +89,6 @@ plot.pppkm <- function(
 #' workhorse function \link[spatstat.geom]{split.ppp}.
 #' 
 #' @keywords internal
-#' @export split.pppkmlist
 #' @export
 split.pppkmlist <- function(x, ...) {
   
@@ -131,7 +127,6 @@ split.pppkmlist <- function(x, ...) {
 #' 
 #' @keywords internal
 #' @importFrom spatstat.geom is.ppplist hyperframe cbind.hyperframe
-#' @export split.hyperframekm
 #' @export
 split.hyperframekm <- function(x, ...) {
   

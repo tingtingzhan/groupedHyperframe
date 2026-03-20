@@ -43,7 +43,6 @@ Emark_ <- function(X, ...) UseMethod(generic = 'Emark_')
 
 #' @rdname batch
 #' @importFrom spatstat.explore Emark
-#' @export Emark_.hyperframe
 #' @export
 Emark_.hyperframe <- function(X, correction = 'none', ...) {
   X |> 
@@ -52,7 +51,6 @@ Emark_.hyperframe <- function(X, correction = 'none', ...) {
 
 #' @rdname batch
 #' @importFrom spatstat.explore Emark
-#' @export Emark_.ppplist
 #' @export
 Emark_.ppplist <- function(X, correction = 'none', ...) {
   X |> 
@@ -62,7 +60,6 @@ Emark_.ppplist <- function(X, correction = 'none', ...) {
 
 #' @rdname batch
 #' @importFrom spatstat.explore Emark
-#' @export Emark_.ppp
 #' @export
 Emark_.ppp <- function(X, ...) {
   X |> 
@@ -80,7 +77,6 @@ Vmark_ <- function(X, ...) UseMethod(generic = 'Vmark_')
 
 #' @rdname batch
 #' @importFrom spatstat.explore Vmark
-#' @export Vmark_.hyperframe
 #' @export
 Vmark_.hyperframe <- function(X, correction = 'none', ...) {
   X |> 
@@ -89,7 +85,6 @@ Vmark_.hyperframe <- function(X, correction = 'none', ...) {
 
 #' @rdname batch
 #' @importFrom spatstat.explore Vmark
-#' @export Vmark_.ppplist
 #' @export
 Vmark_.ppplist <- function(X, correction = 'none', ...) {
   X |> 
@@ -98,7 +93,6 @@ Vmark_.ppplist <- function(X, correction = 'none', ...) {
 
 #' @rdname batch
 #' @importFrom spatstat.explore Vmark
-#' @export Vmark_.ppp
 #' @export
 Vmark_.ppp <- function(X, ...) {
   X |> 
@@ -113,7 +107,6 @@ Kmark_ <- function(X, ...) UseMethod(generic = 'Kmark_')
 
 #' @rdname batch
 #' @importFrom spatstat.explore Kmark
-#' @export Kmark_.hyperframe
 #' @export
 Kmark_.hyperframe <- function(X, correction = 'none', ...) {
   X |> 
@@ -122,7 +115,6 @@ Kmark_.hyperframe <- function(X, correction = 'none', ...) {
 
 #' @rdname batch
 #' @importFrom spatstat.explore Kmark
-#' @export Kmark_.ppplist
 #' @export
 Kmark_.ppplist <- function(X, correction = 'none', ...) {
   X |> 
@@ -131,7 +123,6 @@ Kmark_.ppplist <- function(X, correction = 'none', ...) {
 
 #' @rdname batch
 #' @importFrom spatstat.explore Kmark
-#' @export Kmark_.ppp
 #' @export
 Kmark_.ppp <- function(X, ...) {
   X |> 
@@ -146,7 +137,6 @@ markcorr_ <- function(X, ...) UseMethod(generic = 'markcorr_')
 
 #' @rdname batch
 #' @importFrom spatstat.explore markcorr
-#' @export markcorr_.hyperframe
 #' @export
 markcorr_.hyperframe <- function(X, correction = 'none', ...) {
   X |> 
@@ -155,7 +145,6 @@ markcorr_.hyperframe <- function(X, correction = 'none', ...) {
 
 #' @rdname batch
 #' @importFrom spatstat.explore markcorr
-#' @export markcorr_.ppplist
 #' @export
 markcorr_.ppplist <- function(X, correction = 'none', ...) {
   X |> 
@@ -164,7 +153,6 @@ markcorr_.ppplist <- function(X, correction = 'none', ...) {
 
 #' @rdname batch
 #' @importFrom spatstat.explore markcorr
-#' @export markcorr_.ppp
 #' @export
 markcorr_.ppp <- function(X, ...) {
   X |> 
@@ -180,7 +168,6 @@ markvario_ <- function(X, ...) UseMethod(generic = 'markvario_')
 
 #' @rdname batch
 #' @importFrom spatstat.explore markvario
-#' @export markvario_.hyperframe
 #' @export
 markvario_.hyperframe <- function(X, correction = 'none', ...) {
   X |> 
@@ -189,7 +176,6 @@ markvario_.hyperframe <- function(X, correction = 'none', ...) {
 
 #' @rdname batch
 #' @importFrom spatstat.explore markvario
-#' @export markvario_.ppplist
 #' @export
 markvario_.ppplist <- function(X, correction = 'none', ...) {
   X |> 
@@ -198,7 +184,6 @@ markvario_.ppplist <- function(X, correction = 'none', ...) {
 
 #' @rdname batch
 #' @importFrom spatstat.explore markvario
-#' @export markvario_.ppp
 #' @export
 markvario_.ppp <- function(X, ...) {
   X |> 
@@ -213,7 +198,6 @@ Gcross_ <- function(X, ...) UseMethod(generic = 'Gcross_')
 
 #' @rdname batch
 #' @importFrom spatstat.explore Gcross
-#' @export Gcross_.hyperframe
 #' @export
 Gcross_.hyperframe <- function(X, correction = 'none', ...) {
   X |> 
@@ -223,7 +207,6 @@ Gcross_.hyperframe <- function(X, correction = 'none', ...) {
 
 #' @rdname batch
 #' @importFrom spatstat.explore Gcross
-#' @export Gcross_.ppplist
 #' @export
 Gcross_.ppplist <- function(X, correction = 'none', ...) {
   X |> 
@@ -232,7 +215,6 @@ Gcross_.ppplist <- function(X, correction = 'none', ...) {
 
 #' @rdname batch
 #' @importFrom spatstat.explore Gcross
-#' @export Gcross_.ppp
 #' @export
 Gcross_.ppp <- function(X, ...) {
   X |> 
@@ -246,7 +228,6 @@ Jcross_ <- function(X, ...) UseMethod(generic = 'Jcross_')
 
 #' @rdname batch
 #' @importFrom spatstat.explore Jcross
-#' @export Jcross_.hyperframe
 #' @export
 Jcross_.hyperframe <- function(X, correction = 'none', ...) {
   X |> 
@@ -255,7 +236,6 @@ Jcross_.hyperframe <- function(X, correction = 'none', ...) {
 
 #' @rdname batch
 #' @importFrom spatstat.explore Jcross
-#' @export Jcross_.ppplist
 #' @export
 Jcross_.ppplist <- function(X, correction = 'none', ...) {
   X |> 
@@ -264,7 +244,6 @@ Jcross_.ppplist <- function(X, correction = 'none', ...) {
 
 #' @rdname batch
 #' @importFrom spatstat.explore Jcross
-#' @export Jcross_.ppp
 #' @export
 Jcross_.ppp <- function(X, ...) {
   X |> 
@@ -280,7 +259,6 @@ Kcross_ <- function(X, ...) UseMethod(generic = 'Kcross_')
 
 #' @rdname batch
 #' @importFrom spatstat.explore Kcross
-#' @export Kcross_.hyperframe
 #' @export
 Kcross_.hyperframe <- function(X, correction = 'none', ...) {
   X |> 
@@ -289,7 +267,6 @@ Kcross_.hyperframe <- function(X, correction = 'none', ...) {
 
 #' @rdname batch
 #' @importFrom spatstat.explore Kcross
-#' @export Kcross_.ppplist
 #' @export
 Kcross_.ppplist <- function(X, correction = 'none', ...) {
   X |> 
@@ -298,7 +275,6 @@ Kcross_.ppplist <- function(X, correction = 'none', ...) {
 
 #' @rdname batch
 #' @importFrom spatstat.explore Kcross
-#' @export Kcross_.ppp
 #' @export
 Kcross_.ppp <- function(X, ...) {
   X |> 
@@ -312,7 +288,6 @@ Lcross_ <- function(X, ...) UseMethod(generic = 'Lcross_')
 
 #' @rdname batch
 #' @importFrom spatstat.explore Lcross
-#' @export Lcross_.hyperframe
 #' @export
 Lcross_.hyperframe <- function(X, correction = 'none', ...) {
   X |> 
@@ -321,7 +296,6 @@ Lcross_.hyperframe <- function(X, correction = 'none', ...) {
 
 #' @rdname batch
 #' @importFrom spatstat.explore Lcross
-#' @export Lcross_.ppplist
 #' @export
 Lcross_.ppplist <- function(X, correction = 'none', ...) {
   X |> 
@@ -330,7 +304,6 @@ Lcross_.ppplist <- function(X, correction = 'none', ...) {
 
 #' @rdname batch
 #' @importFrom spatstat.explore Lcross
-#' @export Lcross_.ppp
 #' @export
 Lcross_.ppp <- function(X, ...) {
   X |> 
@@ -346,7 +319,6 @@ markconnect_ <- function(X, ...) UseMethod(generic = 'markconnect_')
 
 #' @rdname batch
 #' @importFrom spatstat.explore markconnect
-#' @export markconnect_.hyperframe
 #' @export
 markconnect_.hyperframe <- function(X, correction = 'none', ...) {
   X |> 
@@ -355,7 +327,6 @@ markconnect_.hyperframe <- function(X, correction = 'none', ...) {
 
 #' @rdname batch
 #' @importFrom spatstat.explore markconnect
-#' @export markconnect_.ppplist
 #' @export
 markconnect_.ppplist <- function(X, correction = 'none', ...) {
   X |> 
@@ -364,7 +335,6 @@ markconnect_.ppplist <- function(X, correction = 'none', ...) {
 
 #' @rdname batch
 #' @importFrom spatstat.explore markconnect
-#' @export markconnect_.ppp
 #' @export
 markconnect_.ppp <- function(X, ...) {
   X |> 
@@ -384,7 +354,6 @@ markconnect_.ppp <- function(X, ...) {
 nncross_ <- function(X, ...) UseMethod(generic = 'nncross_')
 
 #' @rdname batch
-#' @export nncross_.hyperframe
 #' @export
 nncross_.hyperframe <- function(X, ...) {
   X |> 
@@ -392,7 +361,6 @@ nncross_.hyperframe <- function(X, ...) {
 }
 
 #' @rdname batch
-#' @export nncross_.ppplist
 #' @export
 nncross_.ppplist <- function(X, ...) {
   X |> 
@@ -400,7 +368,6 @@ nncross_.ppplist <- function(X, ...) {
 }
 
 #' @rdname batch
-#' @export nncross_.ppp
 #' @export
 nncross_.ppp <- function(X, ...) {
   X |> 

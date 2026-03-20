@@ -1,9 +1,9 @@
 
 
-#' @title \link[stats]{aggregate} the \link[spatstat.geom]{marks} of \link[spatstat.geom]{ppp}-Related Object
+#' @title \link[stats]{aggregate} the \link[spatstat.geom]{marks}
 #' 
 #' @description
-#' To \link[stats]{aggregate} the \link[spatstat.geom]{marks} of a \link[spatstat.geom]{ppp}-related object, e.g.,
+#' To \link[stats]{aggregate} the \link[spatstat.geom]{marks} of
 #' \itemize{
 #' \item{\link[spatstat.geom]{ppp.object}}
 #' \item{a `ppplist`}
@@ -32,7 +32,6 @@ aggregate_marks <- function(x, by, FUN, expr, ..., vectorize = FALSE) UseMethod(
 
 #' @rdname aggregate_marks
 #' @importFrom spatstat.geom marks.ppp
-#' @export aggregate_marks.ppp
 #' @export
 aggregate_marks.ppp <- function(x, by, FUN, expr, ..., vectorize = FALSE) {
   
@@ -111,7 +110,6 @@ aggregate_marks.ppp <- function(x, by, FUN, expr, ..., vectorize = FALSE) {
 
 #' @rdname aggregate_marks
 #' @importFrom spatstat.geom anylapply
-#' @export aggregate_marks.ppplist
 #' @export
 aggregate_marks.ppplist <- function(x, ...) {
   
@@ -130,7 +128,6 @@ aggregate_marks.ppplist <- function(x, ...) {
 
 
 #' @rdname aggregate_marks
-#' @export aggregate_marks.hyperframe
 #' @export
 aggregate_marks.hyperframe <- function(x, ...) {
   

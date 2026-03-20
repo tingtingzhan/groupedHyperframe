@@ -60,7 +60,6 @@ global_envelope_test_ <- function(x, ...) UseMethod(generic = 'global_envelope_t
 #' @importFrom spatstat.explore envelope.ppp
 #' @importFrom spatstat.random rlabel
 #' @importFrom GET residual
-#' @export rlabelRes.ppp
 #' @export
 rlabelRes.ppp <- function(x, ...) {
   x |>
@@ -79,7 +78,6 @@ rlabelRes.ppp <- function(x, ...) {
 
 #' @rdname rlabelRes
 #' @importFrom spatstat.geom anylapply
-#' @export rlabelRes.ppplist
 #' @export
 rlabelRes.ppplist <- function(x, ...) {
   x |>
@@ -90,7 +88,6 @@ rlabelRes.ppplist <- function(x, ...) {
 
 #' @rdname global_envelope_test_
 #' @importFrom GET global_envelope_test
-#' @export global_envelope_test_.anylist
 #' @export
 global_envelope_test_.anylist <- function(x, ...) {
   id <- x |>
@@ -102,7 +99,6 @@ global_envelope_test_.anylist <- function(x, ...) {
 
 
 #' @rdname rlabelRes
-#' @export rlabelRes.hyperframe
 #' @export
 rlabelRes.hyperframe <- function(x, ...) {
   
@@ -129,7 +125,6 @@ rlabelRes.hyperframe <- function(x, ...) {
 
 #' @rdname global_envelope_test_
 #' @importFrom spatstat.geom names.hyperframe names<-.hyperframe
-#' @export global_envelope_test_.hyperframe
 #' @export
 global_envelope_test_.hyperframe <- function(x, ...) {
   

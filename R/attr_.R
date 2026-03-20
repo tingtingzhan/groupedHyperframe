@@ -17,7 +17,6 @@ attr_ <- function(x, which, exact = TRUE) UseMethod(generic = 'attr_')
 
 
 #' @rdname attr_
-#' @export attr_.anylist
 #' @export
 attr_.anylist <- function(x, which, exact = TRUE) {
   z <- x |>
@@ -31,7 +30,6 @@ attr_.anylist <- function(x, which, exact = TRUE) {
 
 #' @rdname attr_
 #' @importFrom spatstat.geom hyperframe
-#' @export attr_.hyperframe
 #' @export
 attr_.hyperframe <- function(x, which, exact = TRUE) {
   

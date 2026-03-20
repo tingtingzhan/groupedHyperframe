@@ -26,7 +26,7 @@ as.groupedHyperframe(x, group, ...)
 The function \code{\link[=as.groupedHyperframe]{as.groupedHyperframe()}} returns a \code{groupedHyperframe}.
 }
 \description{
-To create a \code{groupedHyperframe} object
+To create a \code{groupedHyperframe} object.
 }
 \references{
 \url{https://tingtingzhan.quarto.pub/groupedhyperframe/topics.html}

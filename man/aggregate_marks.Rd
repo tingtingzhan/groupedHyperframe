@@ -5,7 +5,7 @@
 \alias{aggregate_marks.ppp}
 \alias{aggregate_marks.ppplist}
 \alias{aggregate_marks.hyperframe}
-\title{\link[stats]{aggregate} the \link[spatstat.geom]{marks} of \link[spatstat.geom]{ppp}-Related Object}
+\title{\link[stats]{aggregate} the \link[spatstat.geom]{marks}}
 \usage{
 aggregate_marks(x, by, FUN, expr, ..., vectorize = FALSE)
 
@@ -27,7 +27,7 @@ aggregate_marks(x, by, FUN, expr, ..., vectorize = FALSE)
 The function \link[stats]{aggregate.data.frame} into a \link[base]{vector}}
 }
 \description{
-To \link[stats]{aggregate} the \link[spatstat.geom]{marks} of a \link[spatstat.geom]{ppp}-related object, e.g.,
+To \link[stats]{aggregate} the \link[spatstat.geom]{marks} of
 \itemize{
 \item{\link[spatstat.geom]{ppp.object}}
 \item{a \code{ppplist}}

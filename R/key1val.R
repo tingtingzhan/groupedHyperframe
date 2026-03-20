@@ -29,7 +29,6 @@ keyval <- function(x, ...) UseMethod(generic = 'keyval')
 #' @param key,.x \link[base]{character} scalars
 #' 
 #' @importFrom spatstat.explore fvnames
-#' @export keyval.fv
 #' @export
 keyval.fv <- function(
     x, 
@@ -49,9 +48,7 @@ keyval.fv <- function(
 
 
 #' @rdname keyval
-#' 
 #' @importFrom spatstat.geom anylapply
-#' @export keyval.fvlist
 #' @export
 keyval.fvlist <- function(x, key = attr(x., which = '.y', exact = TRUE), ...) {
   
@@ -76,7 +73,6 @@ keyval.fvlist <- function(x, key = attr(x., which = '.y', exact = TRUE), ...) {
 
 #' @rdname keyval
 #' @importFrom spatstat.geom names.hyperframe as.list.hyperframe
-#' @export keyval.hyperframe
 #' @export
 keyval.hyperframe <- function(
     x, 

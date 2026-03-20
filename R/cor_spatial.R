@@ -25,7 +25,6 @@ pairwise_cor_spatial <- function(x, ...) UseMethod(generic = 'pairwise_cor_spati
 #' @rdname pairwise_cor_spatial
 #' @importFrom SpatialPack cor.spatial
 #' @importFrom spatstat.geom marks
-#' @export pairwise_cor_spatial.ppp
 #' @export
 pairwise_cor_spatial.ppp <- function(x, ...) {
   
@@ -58,7 +57,6 @@ pairwise_cor_spatial.ppp <- function(x, ...) {
 
 
 #' @rdname pairwise_cor_spatial
-#' @export pairwise_cor_spatial.ppplist
 #' @export
 pairwise_cor_spatial.ppplist <- function(x, ...) {
   x |>
@@ -80,7 +78,6 @@ pairwise_cor_spatial.ppplist <- function(x, ...) {
 #' 
 #' @keywords internal
 #' @method as.matrix pairwise_cor_spatial
-#' @export as.matrix.pairwise_cor_spatial
 #' @export
 as.matrix.pairwise_cor_spatial <- function(x, ...) {
   ret <- NextMethod(generic = 'as.matrix') # invokes ?stats:::as.matrix.dist

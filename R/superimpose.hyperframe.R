@@ -14,7 +14,6 @@
 #' @keywords internal
 #' @importFrom spatstat.geom superimpose dim.hyperframe
 #' @method superimpose hyperframe
-#' @export superimpose.hyperframe
 #' @export
 superimpose.hyperframe <- function(...) {
   

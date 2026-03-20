@@ -67,7 +67,6 @@ cumvtrapz <- function(x, ...) UseMethod(generic = 'cumvtrapz')
 
 #' @rdname cumvtrapz
 #' @importFrom pracma cumtrapz
-#' @export cumvtrapz.numeric
 #' @export
 cumvtrapz.numeric <- function(x, y, ..., rm1 = TRUE) {
   if (!is.vector(x, mode = 'numeric')) stop('`x` must be double numeric')
@@ -97,7 +96,6 @@ cumvtrapz.numeric <- function(x, y, ..., rm1 = TRUE) {
 #' @param i \link[base]{integer} scalar or \link[base]{vector}; or \link[base]{logical} \link[base]{vector}
 #' 
 #' @keywords internal
-#' @export [.cumv
 #' @export
 `[.cumv` <- function(x, i) {
   z <- unclass(x)[i, , drop = FALSE] # 'matrix'
@@ -115,7 +113,6 @@ cumvtrapz.numeric <- function(x, y, ..., rm1 = TRUE) {
 #' @param ... additional parameters, currently of no use
 #' 
 #' @keywords internal
-#' @export print.cumv
 #' @export
 print.cumv <- function(x, ...) {
   x0 <- unclass(x)
@@ -126,8 +123,7 @@ print.cumv <- function(x, ...) {
 
 #' @rdname cumvtrapz
 #' @importFrom spatstat.explore fvnames
-#' @export cumvtrapz.fv
-#' @export 
+#' @export
 cumvtrapz.fv <- function(
     x, 
     key = fvnames(x, a = '.y'), 
@@ -155,7 +151,6 @@ cumvtrapz.fv <- function(
 #' @importFrom foreach foreach `%dopar%`
 #' @importFrom parallel detectCores mclapply makeCluster stopCluster
 #' @importFrom spatstat.geom anylist
-#' @export cumvtrapz.fvlist
 #' @export
 cumvtrapz.fvlist <- function(
     x, 
@@ -201,7 +196,6 @@ cumvtrapz.fvlist <- function(
 
 #' @rdname cumvtrapz
 #' @importFrom spatstat.geom names.hyperframe as.list.hyperframe
-#' @export cumvtrapz.hyperframe
 #' @export
 cumvtrapz.hyperframe <- function(x, ...) {
   
@@ -287,7 +281,6 @@ visualize_vtrapz <- function(
 #' @importFrom geomtextpath geom_textpath
 #' @importFrom scales label_number
 #' @importFrom utils citation
-#' @export visualize_vtrapz.numeric
 #' @export
 visualize_vtrapz.numeric <- function(
     x, y,
@@ -373,8 +366,7 @@ visualize_vtrapz.numeric <- function(
 #' @importFrom ggplot2 labs
 #' @importFrom spatstat.explore fvnames
 #' @importFrom scales label_percent
-#' @export visualize_vtrapz.fv
-#' @export 
+#' @export
 visualize_vtrapz.fv <- function(x, ...) {
   # ?spatstat.explore::plot.roc uses workhorse ?spatstat.explore::plot.fv
   fv <- x; x <- NULL # make code more readable
@@ -412,8 +404,7 @@ visualize_vtrapz.fv <- function(x, ...) {
 
 
 #' @rdname visualize_vtrapz
-#' @export visualize_vtrapz.listof
-#' @export 
+#' @export
 visualize_vtrapz.listof <- function(x, ...) {
   x |>
     lapply(FUN = visualize_vtrapz, ...) |> # use generic, beautiful!!
@@ -429,7 +420,6 @@ visualize_vtrapz.listof <- function(x, ...) {
 
 #' @rdname visualize_vtrapz
 #' @importFrom ggplot2 labs
-#' @export visualize_vtrapz.density
 #' @export
 visualize_vtrapz.density <- function(x, ...) {
   visualize_vtrapz.numeric(
@@ -444,7 +434,6 @@ visualize_vtrapz.density <- function(x, ...) {
 
 #' @rdname visualize_vtrapz
 #' @importFrom ggplot2 labs
-#' @export visualize_vtrapz.stepfun
 #' @export
 visualize_vtrapz.stepfun <- function(x, ...) {
   fn <- x; x <- NULL # make code more readable
@@ -467,7 +456,6 @@ visualize_vtrapz.stepfun <- function(x, ...) {
 
 #' @rdname visualize_vtrapz
 #' @importFrom ggplot2 labs geom_point aes
-#' @export visualize_vtrapz.function
 #' @export
 visualize_vtrapz.function <- function(x, ..., n = 513L) {
   fn <- x; x <- NULL # make code more readable
@@ -518,7 +506,6 @@ visualize_vtrapz.function <- function(x, ..., n = 513L) {
 
 #' @rdname visualize_vtrapz
 #' @importFrom ggplot2 labs geom_point aes
-#' @export visualize_vtrapz.loess
 #' @export
 visualize_vtrapz.loess <- function(x, ..., n = 513L) {
 
@@ -555,7 +542,6 @@ visualize_vtrapz.loess <- function(x, ..., n = 513L) {
 #' @rdname visualize_vtrapz
 #' @importFrom ggplot2 labs geom_point aes
 #' @method visualize_vtrapz smooth.spline
-#' @export visualize_vtrapz.smooth.spline
 #' @export
 visualize_vtrapz.smooth.spline <- function(x, ..., n = 513L) {
   
@@ -585,7 +571,6 @@ visualize_vtrapz.smooth.spline <- function(x, ..., n = 513L) {
 
 
 #' @rdname visualize_vtrapz
-#' @export visualize_vtrapz.ksmooth
 #' @export
 visualize_vtrapz.ksmooth <- function(x, ...) {
   
@@ -614,7 +599,6 @@ visualize_vtrapz.ksmooth <- function(x, ...) {
 
 
 #' @rdname visualize_vtrapz
-#' @export visualize_vtrapz.spline
 #' @export
 visualize_vtrapz.spline <- function(x, ..., n = 513L) {
   
@@ -653,7 +637,6 @@ visualize_vtrapz.spline <- function(x, ..., n = 513L) {
 
 # splines::xyVector
 #' @rdname visualize_vtrapz
-#' @export visualize_vtrapz.xyVector
 #' @export
 visualize_vtrapz.xyVector <- function(x, ...) {
   
