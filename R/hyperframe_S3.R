@@ -10,6 +10,7 @@
 #' @seealso \link[spatstat.geom]{dim.hyperframe}
 #' 
 #' @keywords internal
+#' @method length hyperframe
 #' @export
 length.hyperframe <- function(x) {
   unclass(x)$nvars
