@@ -29,6 +29,7 @@ if (FALSE) {
     cli_inform(class = 'packageStartupMessage')
   
   'Welcome to R Package {.href [groupedHyperframe](https://cran.r-project.org/package=groupedHyperframe)}' |>
+    # cli_rule(center = _) |> # um, has issue
     cli_inform(class = 'packageStartupMessage')
   
   sprintf(
