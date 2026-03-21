@@ -3,17 +3,11 @@
 \name{aggregate_marks}
 \alias{aggregate_marks}
 \alias{aggregate_marks.ppp}
-\alias{aggregate_marks.ppplist}
-\alias{aggregate_marks.hyperframe}
 \title{\link[stats]{aggregate} the \link[spatstat.geom]{marks}}
 \usage{
 aggregate_marks(x, by, FUN, expr, ..., vectorize = FALSE)
 
 \method{aggregate_marks}{ppp}(x, by, FUN, expr, ..., vectorize = FALSE)
-
-\method{aggregate_marks}{ppplist}(x, ...)
-
-\method{aggregate_marks}{hyperframe}(x, ...)
 }
 \arguments{
 \item{x}{see \strong{Usage}}
