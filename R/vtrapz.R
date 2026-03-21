@@ -45,6 +45,10 @@ vtrapz <- function(x, ...) {
 #' 
 #' @param rm1 \link[base]{logical} scalar, whether to remove the first `NaN`-value from
 #' The function [cumvtrapz()] return, default `TRUE`
+#'
+#' @param drop \link[base]{logical} scalar (default value is `FALSE`),
+#' whether to return a \link[base]{numeric} \link[base]{vector}
+#' instead of an \link[base]{ncol}-`1L` \link[base]{matrix}
 #' 
 #' @param ... additional parameters of the function \link[pracma]{trapz} and \link[pracma]{cumtrapz}
 #' 
@@ -128,15 +132,25 @@ cumvtrapz.fv <- function(
     x, 
     key = fvnames(x, a = '.y'), 
     .x = fvnames(x, a = '.x'),
+    drop = FALSE,
     ...
 ) {
+  
   force(key)
   force(.x)
   if (key == .x) stop('first column of `x` is not the output of `fv.object`')
-  cumvtrapz.numeric(
+  
+  z <- cumvtrapz.numeric(
     x = x[[.x]], 
     y = c(x[[key]]), # drop attributes since \pkg{spatstat.explore} v3.5.3.9
     ...)
+  
+  if (!drop) return(z)
+  
+  z2 <- c(z)
+  names(z2) <- attr(z, which = 'x', exact = TRUE)
+  return(z2)
+
 }
 
 
@@ -230,18 +244,17 @@ if (FALSE) {
     .disrecommend2theo()
   
   oldz = out |>
-    keyval() #|>
-  #cumvtrapz()
+    cumvtrapz()
   
-  debug(within.hyperframe); 
+  #debug(within.hyperframe); 
   newz = out |>
     within(expr = {
-      hladr.Ey = keyval(hladr.E)
-      phenotype.Gy = keyval(phenotype.G)
+      hladr.E.cumv = cumvtrapz(hladr.E, drop = TRUE)
+      phenotype.G.cumv = cumvtrapz(phenotype.G, drop = TRUE)
     })
   stopifnot(
-    identical(newz$hladr.Ey, oldz$hladr.E.y),
-    identical(newz$phenotype.Gy, oldz$phenotype.G.y)
+    identical(newz$hladr.E.cumv, oldz$hladr.E.cumvtrapz),
+    identical(newz$phenotype.G.cumv, oldz$phenotype.G.cumvtrapz)
   )
   
 }

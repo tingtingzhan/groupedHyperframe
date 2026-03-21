@@ -24,7 +24,8 @@ within.hyperframe <- function(
     call(name = '$', quote(data), cl[[2L]]) |>
       call(
         name = '<-', . = _, 
-        call(name = 'with.hyperframe', data = quote(data), expr = cl[[3L]], simplify = FALSE)
+        #call(name = 'with.hyperframe', data = quote(data), expr = cl[[3L]], simplify = FALSE)
+        call(name = 'with_hyperframe_mc', data = quote(data), expr = cl[[3L]], simplify = FALSE)
         ) |>
       eval()
     

@@ -12,7 +12,13 @@ cumvtrapz(x, ...)
 
 \method{cumvtrapz}{numeric}(x, y, ..., rm1 = TRUE)
 
-\method{cumvtrapz}{fv}(x, key = fvnames(x, a = ".y"), .x = fvnames(x, a = ".x"), ...)
+\method{cumvtrapz}{fv}(
+  x,
+  key = fvnames(x, a = ".y"),
+  .x = fvnames(x, a = ".x"),
+  drop = FALSE,
+  ...
+)
 
 \method{cumvtrapz}{fvlist}(x, mc.cores = detectCores(), ...)
 
@@ -29,6 +35,10 @@ cumvtrapz(x, ...)
 The function \code{\link[=cumvtrapz]{cumvtrapz()}} return, default \code{TRUE}}
 
 \item{key, .x}{\link[base]{character} scalars}
+
+\item{drop}{\link[base]{logical} scalar (default value is \code{FALSE}),
+whether to return a \link[base]{numeric} \link[base]{vector}
+instead of an \link[base]{ncol}-\code{1L} \link[base]{matrix}}
 
 \item{mc.cores}{\link[base]{integer} scalar, see function \link[parallel]{mclapply}.
 Default is the return of the function \link[parallel]{detectCores}.}
