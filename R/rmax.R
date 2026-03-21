@@ -93,59 +93,6 @@
 }
 
 
-#' @rdname rmax
-#' @export
-.rmax.ppplist <- function(X, ...) {
-  X |>
-    vapply(FUN = .rmax.ppp, ..., FUN.VALUE = NA_real_)
-}
-
-
-#' @rdname rmax
-#' @importFrom spatstat.geom is.ppplist
-#' @export
-.rmax.hyperframe <- function(X, ...) {
-  
-  # may handle multiple ppp-hypercolumns!!!
-  
-  hc <- unclass(X)$hypercolumns
-  
-  hc_ppp <- hc |>
-    vapply(FUN = is.ppplist, FUN.VALUE = NA) |>
-    which() 
-  
-  if (!length(hc_ppp)) return(invisible()) # exception handling
-  
-  ret <- hc[hc_ppp] |>
-    lapply(FUN = .rmax.ppplist, ...)
-  
-  cat('\n')
-  mapply(FUN = \(r, nm) {
-    tb <- table(r)
-    r0 <- r |> unique.default() |> sort.int()
-    prt <- if (length(r0) == length(r)) {
-      r0 |> 
-        range.default() |>
-        sprintf(fmt = '%.2f') |>
-        paste(collapse = ' ~ ')
-    } else {
-      sprintf(fmt = '%d\u2a2f ', tb) |> col_br_magenta() |> style_bold() |>
-        paste0(sprintf(fmt = '%.2f', r0), collapse = '; ')
-    }
-    paste(
-      'Default', 
-      'rmax' |> col_magenta() |> style_bold(),
-      'for hypercolumn', 
-      nm |> col_blue() |> style_bold(),
-      'are',
-      prt
-    ) |> message()
-  }, r = ret, nm = names(ret))
-  
-  return(invisible(ret))
-  
-}
-
 
 
 

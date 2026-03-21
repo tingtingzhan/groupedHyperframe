@@ -5,8 +5,6 @@
 \alias{.rmax}
 \alias{.rmax.ppp}
 \alias{.rmax.fv}
-\alias{.rmax.ppplist}
-\alias{.rmax.hyperframe}
 \title{Default \eqn{r_\text{max}} of Various Functions in Package \CRANpkg{spatstat.explore}}
 \usage{
 .rmax(X, ...)
@@ -14,10 +12,6 @@
 \method{.rmax}{ppp}(X, fun, i, j, ...)
 
 \method{.rmax}{fv}(X, ...)
-
-\method{.rmax}{ppplist}(X, ...)
-
-\method{.rmax}{hyperframe}(X, ...)
 }
 \arguments{
 \item{X}{a \link[spatstat.geom]{ppp.object} with one \link[base]{numeric} or multi-type \link[spatstat.geom]{marks}}
