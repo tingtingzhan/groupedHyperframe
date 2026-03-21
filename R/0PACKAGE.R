@@ -133,7 +133,9 @@ if (FALSE) {
   '\n' |>
     cli_inform(class = 'packageStartupMessage')
   
-  'These statements do not apply to the contributors to these packages with respect to their specific contributions.' |>
+  'do not apply' |>
+    style_underline() |>
+    sprintf(fmt = 'These statements %s to the contributors to these packages with respect to their specific contributions.') |>
     style_italic() |>
     col_grey() |>
     cli_inform(class = 'packageStartupMessage')
@@ -141,7 +143,9 @@ if (FALSE) {
   '\n' |>
     cli_inform(class = 'packageStartupMessage')
   
-  'These statements are advisory in nature and do not modify or restrict the rights granted under the GNU General Public License {.href [www.r-project.org/Licenses/](https://www.r-project.org/Licenses/)}.' |>
+  'do not' |>
+    style_underline() |>
+    sprintf(fmt = 'These statements are advisory in nature and %s modify or restrict the rights granted under the GNU General Public License {.href [www.r-project.org/Licenses/](https://www.r-project.org/Licenses/)}.') |>
     style_italic() |>
     col_grey() |>
     cli_inform(class = 'packageStartupMessage')

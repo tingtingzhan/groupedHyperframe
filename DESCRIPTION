@@ -3,7 +3,7 @@ Nickname: Entertaining-but-Useless
 Type: Package
 Title: Grouped Hyper Data Frame
 Version: 0.4.0
-Date: 2026-03-20
+Date: 2026-03-21
 Description: An S3 class 'groupedHyperframe' that inherits from 
     the hyper data frame class from the 'spatstat' packages. 
     Batch process and aggregation of the hyper column(s) 

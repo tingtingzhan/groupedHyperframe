@@ -149,31 +149,3 @@
 
 
 
-if (FALSE) {
-  s = wrobel_lung |>
-    grouped_ppp(formula = hladr + phenotype ~ OS + gender + age | patient_id/image_id, data = _, coords = ~ x + y)
-  r = seq.int(from = 0, to = 250, by = 10)
-  out = s |>
-    Emark_(r = r, correction = 'none') |>
-    Gcross_(i = 'CK+.CD8-', j = 'CK-.CD8+', r = r, correction = 'none') |>
-    nncross_(i = 'CK+.CD8-', j = 'CK-.CD8+', correction = 'none')
-  
-  oldz = out |>
-    .disrecommend2theo()
-  
-  #debug(within.hyperframe); 
-  newz = out |>
-    within(expr = {
-      hladr.E = .disrecommend2theo(hladr.E)
-      phenotype.G = .disrecommend2theo(phenotype.G)
-    })
-  stopifnot(
-    identical(newz$hladr.E, oldz$hladr.E),
-    identical(newz$phenotype.G, oldz$phenotype.G)
-  )
-  
-  
-  s |> .rmax(fun = 'K')
-  
-}
-
