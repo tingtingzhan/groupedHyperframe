@@ -3,17 +3,11 @@
 \name{rlabelRes}
 \alias{rlabelRes}
 \alias{rlabelRes.ppp}
-\alias{rlabelRes.ppplist}
-\alias{rlabelRes.hyperframe}
 \title{Random Re-Labelling Envelope Residual}
 \usage{
 rlabelRes(x, ...)
 
 \method{rlabelRes}{ppp}(x, ...)
-
-\method{rlabelRes}{ppplist}(x, ...)
-
-\method{rlabelRes}{hyperframe}(x, ...)
 }
 \arguments{
 \item{x}{see \strong{Usage}}
