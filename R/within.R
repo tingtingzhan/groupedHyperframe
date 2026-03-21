@@ -1,8 +1,6 @@
 
 # very experimental!!
 
-
-
 #' @importFrom spatstat.geom with.hyperframe
 #' @export
 within.hyperframe <- function(
