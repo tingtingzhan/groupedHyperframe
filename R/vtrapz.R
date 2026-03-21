@@ -86,12 +86,14 @@ cumvtrapz.numeric <- function(x, y, ..., rm1 = TRUE, drop = FALSE) {
     unique.default()
   
   # a trapz needs two points; therefore `[-1L]` by default
-  if (rm1) return(z[-1L, ]) # `[.cumv`
+  if (rm1) {
+    z <- z[-1L] # `[.cumv`
+  }
 
   if (!drop) return(z)
   
   z2 <- c(z)
-  names(z2) <- x
+  names(z2) <- attr(z, which = 'x', exact = TRUE) # `z` after `rm1`
   return(z2)
   
 }
