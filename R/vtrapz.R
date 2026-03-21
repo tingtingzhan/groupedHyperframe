@@ -72,7 +72,7 @@ cumvtrapz <- function(x, ...) UseMethod(generic = 'cumvtrapz')
 #' @rdname cumvtrapz
 #' @importFrom pracma cumtrapz
 #' @export
-cumvtrapz.numeric <- function(x, y, ..., rm1 = TRUE) {
+cumvtrapz.numeric <- function(x, y, ..., rm1 = TRUE, drop = FALSE) {
   if (!is.vector(x, mode = 'numeric')) stop('`x` must be double numeric')
   if (anyDuplicated(x)) stop('`x` must not have duplicates')
   if (is.unsorted(x)) stop('`x` must be sorted')
@@ -86,9 +86,14 @@ cumvtrapz.numeric <- function(x, y, ..., rm1 = TRUE) {
     unique.default()
   
   # a trapz needs two points; therefore `[-1L]` by default
-  if (rm1) return(z[-1L]) # `[.cumv`
+  if (rm1) return(z[-1L, ]) # `[.cumv`
 
-  return(z)
+  if (!drop) return(z)
+  
+  z2 <- c(z)
+  names(z2) <- x
+  return(z2)
+  
 }
 
 
@@ -132,7 +137,6 @@ cumvtrapz.fv <- function(
     x, 
     key = fvnames(x, a = '.y'), 
     .x = fvnames(x, a = '.x'),
-    drop = FALSE,
     ...
 ) {
   
@@ -140,17 +144,11 @@ cumvtrapz.fv <- function(
   force(.x)
   if (key == .x) stop('first column of `x` is not the output of `fv.object`')
   
-  z <- cumvtrapz.numeric(
+  cumvtrapz.numeric(
     x = x[[.x]], 
     y = c(x[[key]]), # drop attributes since \pkg{spatstat.explore} v3.5.3.9
     ...)
   
-  if (!drop) return(z)
-  
-  z2 <- c(z)
-  names(z2) <- attr(z, which = 'x', exact = TRUE)
-  return(z2)
-
 }
 
 

@@ -8,15 +8,9 @@
 \usage{
 cumvtrapz(x, ...)
 
-\method{cumvtrapz}{numeric}(x, y, ..., rm1 = TRUE)
+\method{cumvtrapz}{numeric}(x, y, ..., rm1 = TRUE, drop = FALSE)
 
-\method{cumvtrapz}{fv}(
-  x,
-  key = fvnames(x, a = ".y"),
-  .x = fvnames(x, a = ".x"),
-  drop = FALSE,
-  ...
-)
+\method{cumvtrapz}{fv}(x, key = fvnames(x, a = ".y"), .x = fvnames(x, a = ".x"), ...)
 }
 \arguments{
 \item{x}{\link[base]{numeric} \link[base]{vector}}
@@ -28,11 +22,11 @@ cumvtrapz(x, ...)
 \item{rm1}{\link[base]{logical} scalar, whether to remove the first \code{NaN}-value from
 The function \code{\link[=cumvtrapz]{cumvtrapz()}} return, default \code{TRUE}}
 
-\item{key, .x}{\link[base]{character} scalars}
-
 \item{drop}{\link[base]{logical} scalar (default value is \code{FALSE}),
 whether to return a \link[base]{numeric} \link[base]{vector}
 instead of an \link[base]{ncol}-\code{1L} \link[base]{matrix}}
+
+\item{key, .x}{\link[base]{character} scalars}
 }
 \value{
 The function \verb{vtrapz.*()} return a \link[base]{numeric} scalar.
