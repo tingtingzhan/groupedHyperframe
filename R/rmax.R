@@ -156,21 +156,20 @@ if (FALSE) {
   out = s |>
     Emark_(r = r, correction = 'none') |>
     Gcross_(i = 'CK+.CD8-', j = 'CK-.CD8+', r = r, correction = 'none') |>
-    nncross_(i = 'CK+.CD8-', j = 'CK-.CD8+', correction = 'none') |>
-    .disrecommend2theo()
+    nncross_(i = 'CK+.CD8-', j = 'CK-.CD8+', correction = 'none')
   
   oldz = out |>
-    cumvtrapz()
+    .disrecommend2theo()
   
   #debug(within.hyperframe); 
   newz = out |>
     within(expr = {
-      hladr.E.cumv = cumvtrapz(hladr.E, drop = TRUE)
-      phenotype.G.cumv = cumvtrapz(phenotype.G, drop = TRUE)
+      hladr.E = .disrecommend2theo(hladr.E)
+      phenotype.G = .disrecommend2theo(phenotype.G)
     })
   stopifnot(
-    identical(newz$hladr.E.cumv, oldz$hladr.E.cumvtrapz),
-    identical(newz$phenotype.G.cumv, oldz$phenotype.G.cumvtrapz)
+    identical(newz$hladr.E, oldz$hladr.E),
+    identical(newz$phenotype.G, oldz$phenotype.G)
   )
   
   

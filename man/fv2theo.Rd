@@ -6,10 +6,6 @@
 \alias{.disrecommend2theo}
 \alias{.illegal2theo.fv}
 \alias{.disrecommend2theo.fv}
-\alias{.illegal2theo.fvlist}
-\alias{.disrecommend2theo.fvlist}
-\alias{.illegal2theo.hyperframe}
-\alias{.disrecommend2theo.hyperframe}
 \title{Tentative Fix for Illegal Function Value in \code{fv.object}}
 \usage{
 .illegal2theo(X, ...)
@@ -24,14 +20,6 @@
   .x = fvnames(X, a = ".x"),
   ...
 )
-
-\method{.illegal2theo}{fvlist}(X, ...)
-
-\method{.disrecommend2theo}{fvlist}(X, ...)
-
-\method{.illegal2theo}{hyperframe}(X, ...)
-
-\method{.disrecommend2theo}{hyperframe}(X, ...)
 }
 \arguments{
 \item{X}{an \link[spatstat.explore]{fv.object}}
