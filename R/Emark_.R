@@ -187,45 +187,4 @@ nncross_.ppp <- function(X, ...) {
 
 
 
-if (FALSE) {
-  s = wrobel_lung |>
-    grouped_ppp(formula = hladr + phenotype ~ OS + gender + age | patient_id/image_id, data = _, coords = ~ x + y)
-  r = seq.int(from = 0, to = 250, by = 10)
-  out = s |>
-    nncross_(i = 'CK+.CD8-', j = 'CK-.CD8+', correction = 'none')
-  
-  #oldz = out |>
-  #  .disrecommend2theo()
-  
-  #debug(within.hyperframe); 
-  newz = s |>
-    within(expr = {
-      phenotype.nnc = ppp. |>
-        nncross_(i = 'CK+.CD8-', j = 'CK-.CD8+', correction = 'none') |>
-        getElement(name = 'phenotype')
-    })
-  stopifnot(
-    identical(newz$phenotype.nnc, out$phenotype.nncross)#,
-    #identical(newz$phenotype.G, oldz$phenotype.G)
-  )
-  
-  
-  s |> .rmax(fun = 'K')
-  
-}
-
-
-
-
-
-
-# ?spatstat.geom::hyperframe drops derived classes from 'anylist'
-# tzh thinks it's in `if (any(hypercolumns))`;
-# .. |> lapply(FUN = as.solist)
-# tzh will think if it's worth while to write to Dr. Baddeley
-# best solution might be add an exception call in ?spatstat.geom::as.solist
-# if (x is a-derived-class-of-anylist-other-than-solist) return(x)
-
-
-
 

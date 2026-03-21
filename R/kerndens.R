@@ -49,11 +49,3 @@ kerndens.ppp <- function(x, ...) {
     lapply(FUN = \(i) i$y)
 }
 
-
-
-
-
-
-
-
-
