@@ -98,8 +98,15 @@ if (FALSE) {
   '\n' |>
     cli_inform(class = 'packageStartupMessage')
   
+  'This package is a one-person project undergoing rapid evolution. {.href [Backward compatibility](https://en.wikipedia.org/wiki/Backward_compatibility)} is provided as a courtesy rather than a guarantee.' |>
+    col_grey() |>
+    cli_inform(class = 'packageStartupMessage')  
+  
+  '\n' |>
+    cli_inform(class = 'packageStartupMessage')
+  
   sprintf(
-    fmt = 'Active development of this R package is temporarily suspended. Until further notice, it should %s be used as a basis for research grant applications or cited as an actively maintained tool, %s should it be used to support or fulfill requirements for pursuing an academic degree.',
+    fmt = 'Until further notice, it should %s be used as a basis for research grant applications or cited as an actively maintained tool in a peer-reviewed manuscript, %s should it be used to support or fulfill requirements for pursuing an academic degree.',
     'not' |> style_bold() |> style_underline() |> bg_br_yellow(),
     'nor' |> style_bold() |> style_underline() |> bg_br_yellow()
   ) |>

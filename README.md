@@ -5,8 +5,11 @@
 
 ## Disclaimer
 
-Active development of these R packages is temporarily suspended. Until
-further notice, these packages should
+This package is a one-person project undergoing rapid evolution.
+[Backward
+compatibility](https://en.wikipedia.org/wiki/Backward_compatibility) is
+provided as a courtesy rather than a guarantee. Until further notice,
+these packages should
 
 - **not** be used as a basis for research grant applications,
 - **not** be cited as an actively maintained tool in a peer-reviewed
