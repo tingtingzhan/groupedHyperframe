@@ -4,8 +4,6 @@
 \alias{cumvtrapz}
 \alias{cumvtrapz.numeric}
 \alias{cumvtrapz.fv}
-\alias{cumvtrapz.fvlist}
-\alias{cumvtrapz.hyperframe}
 \title{Cumulative Average Vertical Height of Trapezoidal Integration}
 \usage{
 cumvtrapz(x, ...)
@@ -19,10 +17,6 @@ cumvtrapz(x, ...)
   drop = FALSE,
   ...
 )
-
-\method{cumvtrapz}{fvlist}(x, mc.cores = detectCores(), ...)
-
-\method{cumvtrapz}{hyperframe}(x, ...)
 }
 \arguments{
 \item{x}{\link[base]{numeric} \link[base]{vector}}
@@ -39,9 +33,6 @@ The function \code{\link[=cumvtrapz]{cumvtrapz()}} return, default \code{TRUE}}
 \item{drop}{\link[base]{logical} scalar (default value is \code{FALSE}),
 whether to return a \link[base]{numeric} \link[base]{vector}
 instead of an \link[base]{ncol}-\code{1L} \link[base]{matrix}}
-
-\item{mc.cores}{\link[base]{integer} scalar, see function \link[parallel]{mclapply}.
-Default is the return of the function \link[parallel]{detectCores}.}
 }
 \value{
 The function \verb{vtrapz.*()} return a \link[base]{numeric} scalar.
