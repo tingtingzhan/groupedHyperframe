@@ -84,58 +84,6 @@ kmeans.ppp <- function(
 }
 
 
-#' @rdname kmeans_etc
-#' 
-#' @returns
-#' The function [kmeans.ppplist()] returns an object of class `'pppkmlist'`, 
-#' which inherits from `'ppplist'`.
-#' 
-#' @importFrom spatstat.geom solapply
-#' @export
-kmeans.ppplist <- function(x, ...) {
-  
-  z <- x |>
-    solapply(FUN = kmeans.ppp, ...)
-  class(z) <- c('pppkmlist', class(z)) |>
-    unique.default()
-  return(z)
-  
-}
-    
-
-
-
-
-#' @rdname kmeans_etc
-#' @importFrom spatstat.geom is.ppplist
-#' @export
-kmeans.hyperframe <- function(x, ...) {
-  
-  x0 <- unclass(x)
-  
-  hc <- x0$hypercolumns
-  
-  hc_ppp <- hc |>
-    vapply(FUN = is.ppplist, FUN.VALUE = NA) |>
-    which()
-  n_ppp <- length(hc_ppp)
-  
-  if (!n_ppp) {
-    
-    return(x) # exception handling
-    
-  } else if (n_ppp == 1L) {
-    
-    x0$hypercolumns[[hc_ppp]] <- (hc[[hc_ppp]]) |>
-      kmeans.ppplist(...)
-    class(x0) <- c('hyperframekm', class(x)) |>
-      unique.default()
-    return(x0)
-    
-  } else stop('more than one ppp-hypercolumn, ambiguity!')
-  
-}
-
 
 
 

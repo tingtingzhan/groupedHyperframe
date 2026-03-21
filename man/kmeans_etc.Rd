@@ -3,8 +3,6 @@
 \name{kmeans_etc}
 \alias{kmeans_etc}
 \alias{kmeans.ppp}
-\alias{kmeans.ppplist}
-\alias{kmeans.hyperframe}
 \title{Pseudo \code{S3} Methods based on \link[stats]{kmeans}}
 \usage{
 kmeans.ppp(
@@ -14,10 +12,6 @@ kmeans.ppp(
   clusterSize,
   ...
 )
-
-kmeans.ppplist(x, ...)
-
-kmeans.hyperframe(x, ...)
 }
 \arguments{
 \item{x}{see \strong{Usage}}
@@ -33,9 +27,6 @@ kmeans.hyperframe(x, ...)
 \value{
 The function \code{\link[=kmeans.ppp]{kmeans.ppp()}} returns an object of class \code{'pppkm'},
 which inherits from \link[spatstat.geom]{ppp.object}.
-
-The function \code{\link[=kmeans.ppplist]{kmeans.ppplist()}} returns an object of class \code{'pppkmlist'},
-which inherits from \code{'ppplist'}.
 }
 \description{
 Pseudo \code{S3} Methods based on \link[stats]{kmeans}

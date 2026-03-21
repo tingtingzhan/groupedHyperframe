@@ -7,7 +7,7 @@
 \method{split}{hyperframekm}(x, ...)
 }
 \arguments{
-\item{x}{a \code{'hyperframekm'}, returned from function \code{\link[=kmeans.hyperframe]{kmeans.hyperframe()}}}
+\item{x}{a hypothetical \code{'hyperframekm'}}
 
 \item{...}{additional parameters, currently no use}
 }

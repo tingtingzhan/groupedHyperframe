@@ -77,20 +77,9 @@ plot.pppkm <- function(
 
 
 
-
-#' @title `split.pppkmlist`
-#' 
-#' @param x a `'pppkmlist'` object, returned from function [kmeans.ppplist()]
-#' 
-#' @param ... additional parameters, currently no use
-#' 
-#' @returns
-#' The function [split.pppkmlist()] returns a `'splitppp'` object from the
-#' workhorse function \link[spatstat.geom]{split.ppp}.
-#' 
-#' @keywords internal
-#' @export
-split.pppkmlist <- function(x, ...) {
+# no longer S3!!  
+# Just a utility function
+split_pppkmlist <- \(x, ...) {
   
   tmp <- x |>
     lapply(FUN = split.pppkm, ...)
@@ -118,7 +107,7 @@ split.pppkmlist <- function(x, ...) {
 
 #' @title [split.hyperframekm()]
 #' 
-#' @param x a `'hyperframekm'`, returned from function [kmeans.hyperframe()]
+#' @param x a hypothetical `'hyperframekm'`
 #' 
 #' @param ... additional parameters, currently no use
 #' 
@@ -143,7 +132,7 @@ split.hyperframekm <- function(x, ...) {
   if (!all(ok)) stop('shouldnt happen')
   
   tmp <- (hc[[hc_ppp]]) |>
-    split.pppkmlist(...)
+    split_pppkmlist(...)
     
   id <- tmp |> 
     attr(which = 'id', exact = TRUE)
