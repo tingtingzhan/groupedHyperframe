@@ -24,8 +24,6 @@ The function \link[stats]{aggregate.data.frame} into a \link[base]{vector}}
 To \link[stats]{aggregate} the \link[spatstat.geom]{marks} of
 \itemize{
 \item{\link[spatstat.geom]{ppp.object}}
-\item{a \code{ppplist}}
-\item{the \link[spatstat.geom]{ppp}-hypercolumn of a \link[spatstat.geom]{hyperframe}}
 }
 }
 \references{

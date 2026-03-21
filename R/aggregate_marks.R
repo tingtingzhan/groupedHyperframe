@@ -6,8 +6,6 @@
 #' To \link[stats]{aggregate} the \link[spatstat.geom]{marks} of
 #' \itemize{
 #' \item{\link[spatstat.geom]{ppp.object}}
-#' \item{a `ppplist`}
-#' \item{the \link[spatstat.geom]{ppp}-hypercolumn of a \link[spatstat.geom]{hyperframe}}
 #' }
 #' 
 #' 
@@ -108,25 +106,3 @@ aggregate_marks.ppp <- function(x, by, FUN, expr, ..., vectorize = FALSE) {
 }
 
 
-
-if (FALSE) {
-  fluM = spatstat.data::flu |>
-    spatstat.geom::subset.hyperframe(
-      subset = (stain == 'M2-M1') & (virustype == 'wt'),
-      select = c('pattern', 'frameid')
-    )
-  
-  oldz = fluM |> 
-    aggregate_marks(FUN = \(z) table(z)/length(z))
-  
-  
-  newz = fluM |>
-    within(expr = {
-      markstats = pattern |>
-        aggregate_marks(FUN = \(z) table(z)/length(z))
-    })
-  
-  identical(oldz$markstats, newz$markstats)
-  
-  
-}
