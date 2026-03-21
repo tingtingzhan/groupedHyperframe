@@ -62,15 +62,4 @@ density_marks.ppp <- function(x, ...) {
 }
 
 
-#' @rdname density_marks
-#' @export
-density_marks.ppplist <- function(x, ...) {
-  
-  x |>
-    lapply(FUN = density_marks.ppp, ...)
-  
-}
-
-
-
 

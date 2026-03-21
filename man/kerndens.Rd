@@ -4,9 +4,6 @@
 \alias{kerndens}
 \alias{kerndens.numeric}
 \alias{kerndens.ppp}
-\alias{kerndens.ppplist}
-\alias{kerndens.anylist}
-\alias{kerndens.hyperframe}
 \title{Kernel Density via \link[stats]{density.default}}
 \usage{
 kerndens(x, ...)
@@ -14,12 +11,6 @@ kerndens(x, ...)
 \method{kerndens}{numeric}(x, ...)
 
 \method{kerndens}{ppp}(x, ...)
-
-\method{kerndens}{ppplist}(x, ...)
-
-\method{kerndens}{anylist}(x, ...)
-
-\method{kerndens}{hyperframe}(x, ...)
 }
 \arguments{
 \item{x}{see \strong{Usage}}

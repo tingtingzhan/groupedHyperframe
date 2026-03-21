@@ -3,14 +3,11 @@
 \name{density_marks}
 \alias{density_marks}
 \alias{density_marks.ppp}
-\alias{density_marks.ppplist}
 \title{Kernel \link[stats]{density} of \link[spatstat.geom]{marks}}
 \usage{
 density_marks(x, ...)
 
 \method{density_marks}{ppp}(x, ...)
-
-\method{density_marks}{ppplist}(x, ...)
 }
 \arguments{
 \item{x}{a \link[spatstat.geom]{ppp.object}, or \code{'ppplist'}}
