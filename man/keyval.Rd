@@ -3,17 +3,11 @@
 \name{keyval}
 \alias{keyval}
 \alias{keyval.fv}
-\alias{keyval.fvlist}
-\alias{keyval.hyperframe}
 \title{Black-Solid-Curve in \link[spatstat.explore]{plot.fv}}
 \usage{
 keyval(x, ...)
 
 \method{keyval}{fv}(x, key = fvnames(x, a = ".y"), .x = fvnames(x, a = ".x"), ...)
-
-\method{keyval}{fvlist}(x, key = attr(x., which = ".y", exact = TRUE), ...)
-
-\method{keyval}{hyperframe}(x, ...)
 }
 \arguments{
 \item{x}{see \strong{Usage}}

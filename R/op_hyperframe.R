@@ -67,30 +67,7 @@ Emark_.ppp <- function(X, ...) {
 }
 
 
-if (FALSE) {
-  s = wrobel_lung |>
-    grouped_ppp(formula = hladr + phenotype ~ OS + gender + age | patient_id/image_id, data = _, coords = ~ x + y)
-  r = seq.int(from = 0, to = 250, by = 10)
-  out = s |>
-    Emark_(r = r, correction = 'none') |>
-    Gcross_(i = 'CK+.CD8-', j = 'CK-.CD8+', r = r, correction = 'none') |>
-    nncross_(i = 'CK+.CD8-', j = 'CK-.CD8+', correction = 'none') |>
-    .disrecommend2theo()
-  out_q = out |>
-    quantile(probs = seq.int(from = 0, to = 1, by = .1))
-  out_q
-  
-  debug(within.hyperframe); 
-  newz = out |>
-    within.hyperframe(expr = {
-      # haha
-    })
-  stopifnot(
-    identical(newz$a1, out_q$hladr.quantile),
-    identical(newz$a2, out_q$phenotype.nncross.quantile)
-  )
-  
-}
+
 
 
 

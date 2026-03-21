@@ -219,6 +219,46 @@ cumvtrapz.hyperframe <- function(x, ...) {
 
 
 
+if (FALSE) {
+  s = wrobel_lung |>
+    grouped_ppp(formula = hladr + phenotype ~ OS + gender + age | patient_id/image_id, data = _, coords = ~ x + y)
+  r = seq.int(from = 0, to = 250, by = 10)
+  out = s |>
+    Emark_(r = r, correction = 'none') |>
+    Gcross_(i = 'CK+.CD8-', j = 'CK-.CD8+', r = r, correction = 'none') |>
+    nncross_(i = 'CK+.CD8-', j = 'CK-.CD8+', correction = 'none') |>
+    .disrecommend2theo()
+  
+  oldz = out |>
+    keyval() #|>
+  #cumvtrapz()
+  
+  debug(within.hyperframe); 
+  newz = out |>
+    within(expr = {
+      hladr.Ey = keyval(hladr.E)
+      phenotype.Gy = keyval(phenotype.G)
+    })
+  stopifnot(
+    identical(newz$hladr.Ey, oldz$hladr.E.y),
+    identical(newz$phenotype.Gy, oldz$phenotype.G.y)
+  )
+  
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
