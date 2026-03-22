@@ -100,16 +100,6 @@ print.vectorlist <- function(x, ...) {
     sprintf(fmt = 'Individual Vector Length: %s') |>
     cat('\n')
   
-  suffix. <- x |>
-    attr(which = 'suffix', exact = TRUE) 
-  if (length(suffix.)) {
-    suffix. |>
-      col_yellow() |> style_bold() |>
-      sprintf(fmt = 'Suffix: %s') |>
-      cat('\n')
-  }
-  
-  
 }
 
 

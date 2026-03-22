@@ -26,12 +26,8 @@ ppp2dist <- \(x, fun, ...) {
   id <- (lengths(ret) > 0L)
   if (!any(id)) return(invisible())
   
-  #return(ret[id])
-  z <- ret[id] |>
-    as.vectorlist(mode = 'numeric')
-  attr(z, which = 'suffix') <- names(fn_mtp_)[id_mtp]
-  return(z)
-  
+  return(ret[id])
+
 }
 
 
@@ -88,28 +84,5 @@ ppp_multitype2fv <- \(x, fun, ...) {
 }
 
 
-if (FALSE) {
-  s = wrobel_lung |>
-    grouped_ppp(formula = hladr + phenotype ~ OS + gender + age | patient_id/image_id, data = _, coords = ~ x + y)
-  r = seq.int(from = 0, to = 250, by = 10)
-  oldz = s |>
-    within(expr = {
-      hladr.E = ppp. |> 
-        Emark_(r = r, correction = 'none') |>
-        getElement(name = 'hladr') |>
-        .disrecommend2theo()
-    })
-  
-  
-  newz = s |>
-    within(expr = {
-      hladr.E = ppp. |> 
-        Emark_(r = r, correction = 'none') |>
-        getElement(name = 'hladr') |>
-        .disrecommend2theo()
-    })
-  
-
-}
 
 
