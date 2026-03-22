@@ -1,36 +1,6 @@
 
-#' @title Operations on \link[spatstat.geom]{ppp.object}
-#' 
-#' @description
-#' Create
-#' \link[spatstat.explore]{fv.object}s
-#' or 
-#' distances
-#' from a \link[spatstat.geom]{ppp.object}.
-#' 
-#' @param x a \link[spatstat.geom]{ppp.object}
-#' 
-#' @param fun a distance \link[base]{function}, 
-#' or a \link[base]{function} that returns an \link[spatstat.explore]{fv.object}, 
-#' see **Details**
-#' 
-#' @param ... additional parameters of the function `fun`
-#' 
-#' @returns 
-#' The functions [ppp_numeric2fv()] and [ppp_multitype2fv()] return a \link[stats]{listof} 
-#' \link[spatstat.explore]{fv.object}s.
-#' 
-#' The function [ppp2dist()] returns a \link[stats]{listof} 
-#' \link[base]{double} \link[base]{vector}s.
-#' 
-#' @references
-#' \url{https://tingtingzhan.quarto.pub/groupedhyperframe/topics.html}
-#' 
-#' @keywords internal
-#' @name ppp2.
 #' @importFrom spatstat.geom unstack.ppp is.multitype.ppp anylapply
-#' @export
-ppp2dist <- function(x, fun, ...) {
+ppp2dist <- \(x, fun, ...) {
   
   x. <- unstack.ppp(x)
   if (length(x.) == 1L && !length(names(x.))) {
@@ -68,10 +38,8 @@ ppp2dist <- function(x, fun, ...) {
 
 
 
-#' @rdname ppp2.
 #' @importFrom spatstat.geom unstack.ppp is.multitype.ppp anylapply
-#' @export
-ppp_numeric2fv <- function(x, fun, ...) {
+ppp_numeric2fv <- \(x, fun, ...) {
   
   x. <- unstack.ppp(x)
   if (length(x.) == 1L && !length(names(x.))) {
@@ -87,19 +55,9 @@ ppp_numeric2fv <- function(x, fun, ...) {
   # applicable to none-mark \link[spatstat.geom]{ppp.object}
   # how to deal?
   
-  ret <- x.[num] |> 
-    anylapply(FUN = fun, ...) |>
-    as.fvlist()
-  return(ret)
+  x.[num] |> 
+    anylapply(FUN = fun, ...)
   
-  if (FALSE) {
-  # restore names of `fv`-hypercolumns from the result
-  # attr(,'fname') is determined by `fun`
-  fname1 <- attr(ret[[1L]], which = 'fname', exact = TRUE)[1L]
-  names(ret) <- paste(names(ret), fname1, sep = '.')
-  
-  return(ret)
-  } # before 2025-12-05
 }
 
 
@@ -107,10 +65,8 @@ ppp_numeric2fv <- function(x, fun, ...) {
 
 
 
-#' @rdname ppp2.
 #' @importFrom spatstat.geom unstack.ppp is.multitype.ppp anylapply
-#' @export
-ppp_multitype2fv <- function(x, fun, ...) {
+ppp_multitype2fv <- \(x, fun, ...) {
   
   x. <- unstack.ppp(x)
   if (length(x.) == 1L && !length(names(x.))) {
@@ -126,35 +82,34 @@ ppp_multitype2fv <- function(x, fun, ...) {
   # applicable to none-mark \link[spatstat.geom]{ppp.object}
   # how to deal?
   
-  ret <- x.[mtp] |> 
-    anylapply(FUN = fun, ...) |>
-    as.fvlist()
-  return(ret)
+  x.[mtp] |> 
+    anylapply(FUN = fun, ...)
   
-  if (FALSE) {
-  # restore names of `fv`-hypercolumns from the result
-  # attr(,'fname') is determined by `fun`
-  fname1 <- attr(ret[[1L]], which = 'fname', exact = TRUE)[1L]
-  names(ret) <- paste(names(ret), fname1, sep = '.')
-  
-  return(ret)
-  } # before 2025-12-05
 }
 
 
+if (FALSE) {
+  s = wrobel_lung |>
+    grouped_ppp(formula = hladr + phenotype ~ OS + gender + age | patient_id/image_id, data = _, coords = ~ x + y)
+  r = seq.int(from = 0, to = 250, by = 10)
+  oldz = s |>
+    within(expr = {
+      hladr.E = ppp. |> 
+        Emark_(r = r, correction = 'none') |>
+        getElement(name = 'hladr') |>
+        .disrecommend2theo()
+    })
+  
+  
+  newz = s |>
+    within(expr = {
+      hladr.E = ppp. |> 
+        Emark_(r = r, correction = 'none') |>
+        getElement(name = 'hladr') |>
+        .disrecommend2theo()
+    })
+  
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+}
 
 
