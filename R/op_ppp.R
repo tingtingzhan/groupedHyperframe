@@ -29,7 +29,7 @@ ppp2dist <- \(x, fun, unlist1 = TRUE, ...) {
   
   z <- ret[id]
   
-  if (n == 1L && unlist1) return(z[[1L]]) # to mimic spatstat.explore::Emark, etc.
+  if (length(z) == 1L && unlist1) return(z[[1L]]) # to mimic spatstat.explore::Emark, etc.
   return(z)
 
 }
@@ -59,7 +59,7 @@ ppp_numeric2fv <- \(x, fun, unlist1 = TRUE, ...) {
   z <- x.[num] |> 
     anylapply(FUN = fun, ...)
   
-  if (n == 1L && unlist1) return(z[[1L]]) # to mimic spatstat.explore::Emark, etc.
+  if (length(z) == 1L && unlist1) return(z[[1L]]) # to mimic spatstat.explore::Emark, etc.
   return(z)
   
 }
@@ -90,7 +90,7 @@ ppp_multitype2fv <- \(x, fun, unlist1 = TRUE, ...) {
   z <- x.[mtp] |> 
     anylapply(FUN = fun, ...)
   
-  if (n == 1L && unlist1) return(z[[1L]]) # to mimic spatstat.explore::Emark, etc.
+  if (length(z) == 1L && unlist1) return(z[[1L]]) # to mimic spatstat.explore::Emark, etc.
   return(z)
   
 }
