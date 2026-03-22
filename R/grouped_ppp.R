@@ -74,15 +74,12 @@ grouped_ppp <- function(
   if (!length(.y <- data[[y]]) || anyNA(.y)) stop('Do not allow missingness in y-coordinates')
   
   force(window)
-  
-  tmp <- ppp(x = .x, y = .y, window = window, marks = data[all.vars(formula[[2L]])], checkdup = FALSE, drop = FALSE) # `drop = FALSE` important!!!
-  class(tmp) <- c('ppp_tzh', class(tmp))
-  hf$ppp. <- tmp |> 
+  hf$ppp. <- ppp(x = .x, y = .y, window = window, marks = data[all.vars(formula[[2L]])], checkdup = FALSE, drop = FALSE) |> # `drop = FALSE` important!!!
     split.ppp(f = fg, drop = FALSE)
   
   # additional attributes to mimic ?nlme::groupedData
   # also see example 'groupedData's from package datasets
-  attr(hf, which = 'group') <- call('~', group) # for ?nlme::getGroupsFormula
+  attr(hf, which = 'group') <- call(name = '~', group) # for ?nlme::getGroupsFormula
   # let `attr(,'group')` be ?base::call instead of ?stats::formula
   # formula's environment is very annoying!!
   # end of additional attributes

@@ -1,9 +1,10 @@
 
 #' @importFrom spatstat.geom unstack.ppp is.multitype.ppp anylapply
-ppp2dist <- \(x, fun, ...) {
+ppp2dist <- \(x, fun, unlist1 = TRUE, ...) {
   
   x. <- unstack.ppp(x)
-  if (length(x.) == 1L && !length(names(x.))) {
+  n <- length(x.)
+  if (n == 1L && !unlist1 && !length(names(x.))) {
     # unstacking a 'vector' `mark`
     names(x.) <- 'm'
   }
@@ -26,7 +27,10 @@ ppp2dist <- \(x, fun, ...) {
   id <- (lengths(ret) > 0L)
   if (!any(id)) return(invisible())
   
-  return(ret[id])
+  z <- ret[id]
+  
+  if (n == 1L && unlist1) return(z[[1L]]) # to mimic spatstat.explore::Emark, etc.
+  return(z)
 
 }
 
@@ -35,10 +39,11 @@ ppp2dist <- \(x, fun, ...) {
 
 
 #' @importFrom spatstat.geom unstack.ppp is.multitype.ppp anylapply
-ppp_numeric2fv <- \(x, fun, ...) {
+ppp_numeric2fv <- \(x, fun, unlist1 = TRUE, ...) {
   
   x. <- unstack.ppp(x)
-  if (length(x.) == 1L && !length(names(x.))) {
+  n <- length(x.) 
+  if (n == 1L && !unlist1 && !length(names(x.))) {
     # unstacking a 'vector' `mark`
     names(x.) <- 'm'
   }
@@ -51,8 +56,11 @@ ppp_numeric2fv <- \(x, fun, ...) {
   # applicable to none-mark \link[spatstat.geom]{ppp.object}
   # how to deal?
   
-  x.[num] |> 
+  z <- x.[num] |> 
     anylapply(FUN = fun, ...)
+  
+  if (n == 1L && unlist1) return(z[[1L]]) # to mimic spatstat.explore::Emark, etc.
+  return(z)
   
 }
 
@@ -62,10 +70,11 @@ ppp_numeric2fv <- \(x, fun, ...) {
 
 
 #' @importFrom spatstat.geom unstack.ppp is.multitype.ppp anylapply
-ppp_multitype2fv <- \(x, fun, ...) {
+ppp_multitype2fv <- \(x, fun, unlist1 = TRUE, ...) {
   
   x. <- unstack.ppp(x)
-  if (length(x.) == 1L && !length(names(x.))) {
+  n <- length(x.)
+  if (n == 1L && !unlist1 && !length(names(x.))) {
     # unstacking a 'vector' `mark`
     names(x.) <- 'm'
   }
@@ -78,11 +87,27 @@ ppp_multitype2fv <- \(x, fun, ...) {
   # applicable to none-mark \link[spatstat.geom]{ppp.object}
   # how to deal?
   
-  x.[mtp] |> 
+  z <- x.[mtp] |> 
     anylapply(FUN = fun, ...)
+  
+  if (n == 1L && unlist1) return(z[[1L]]) # to mimic spatstat.explore::Emark, etc.
+  return(z)
   
 }
 
 
-
-
+if (FALSE) {
+  s = wrobel_lung |>
+    grouped_ppp(formula = hladr ~ OS + gender + age | patient_id/image_id, data = _, coords = ~ x + y)
+  r = seq.int(from = 0, to = 250, by = 10)
+  out = s |>
+    within(expr = {
+      hladr.E = ppp. |> 
+        Emark_(r = r, correction = 'none') |>
+        .disrecommend2theo()
+    })
+  out
+  
+  
+}
+ 
