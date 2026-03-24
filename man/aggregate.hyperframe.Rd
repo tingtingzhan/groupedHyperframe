@@ -19,7 +19,7 @@ most importantly the parameter \code{fun}}
 The \code{S3} method \code{\link[=aggregate.hyperframe]{aggregate.hyperframe()}} returns a \link[spatstat.geom]{hyperframe}.
 }
 \description{
-To aggregate the aggregatable hypercolumns of a
+To aggregate the aggregatable hyper columns of a
 \link[spatstat.geom]{hyperframe}.
 }
 \references{

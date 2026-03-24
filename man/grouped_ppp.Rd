@@ -2,10 +2,11 @@
 % Please edit documentation in R/grouped_ppp.R
 \name{grouped_ppp}
 \alias{grouped_ppp}
-\title{\link{groupedHyperframe} with One-and-Only-One \link[spatstat.geom]{ppp}-\link[spatstat.geom:hyperframe]{hypercolumn}}
+\title{Hyper Data Frame with One-and-Only-One \link[spatstat.geom]{ppp}-Hyper Column}
 \usage{
 grouped_ppp(
   formula,
+  by,
   data,
   coords = ~x + y,
   window = owin(xrange = range(.x), yrange = range(.y)),
@@ -14,29 +15,33 @@ grouped_ppp(
 }
 \arguments{
 \item{formula}{\link[stats]{formula} in the format of
-\code{m1+m2 ~ y+x1+x2 | g1/g2},
-where \eqn{m_i}'s are one or more \link[spatstat.geom]{marks},
-\eqn{y} and \eqn{x_j}'s are the endpoint and predictor(s) for downstream analysis,
-and \eqn{g_k} are one or more nested grouping structure}
+\code{m1+m2 ~ .},
+where
+\describe{
+\item{\eqn{m_i}}{one or more \link[spatstat.geom]{marks}}
+\item{\code{.}}{the endpoint and predictor(s) for downstream analysis}
+}}
 
-\item{data}{\link[base]{data.frame}}
+\item{by}{\link[stats]{formula}, see function \code{\link[=aggregate2hyper]{aggregate2hyper()}}}
+
+\item{data}{a \link[base]{data.frame}}
 
 \item{coords}{\link[stats]{formula}, variable names
-of \eqn{x}- and \eqn{y}-coordinates in \code{data}.
+of the \eqn{x}- and \eqn{y}-coordinates in \code{data}.
 Default value is \code{~x+y}.}
 
 \item{window}{an observation window \link[spatstat.geom]{owin},
-default is the \eqn{x}- and \eqn{y}-span of \code{coords} in \code{data}.}
+default value is the \eqn{x}- and \eqn{y}-span of \code{coords} in \code{data}.}
 
 \item{...}{additional parameters, currently not in use}
 }
 \value{
-The function \code{\link[=grouped_ppp]{grouped_ppp()}} returns a \link{groupedHyperframe}
-with \emph{\strong{one-and-only-one}}
-\link[spatstat.geom]{ppp}-\link[spatstat.geom:hyperframe]{hypercolumn}.
+The function \code{\link[=grouped_ppp]{grouped_ppp()}} returns a (grouped) hyper data frame
+with \emph{one-and-only-one}
+\link[spatstat.geom]{ppp}-hyper column.
 }
 \description{
-..
+To create a (grouped) hyper data frame with one-and-only-one \link[spatstat.geom]{ppp}-hyper column.
 }
 \references{
 \url{https://tingtingzhan.quarto.pub/groupedhyperframe/nonS3/grouped_ppp_appx.html}

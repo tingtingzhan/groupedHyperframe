@@ -2,7 +2,7 @@
 #' @title Aggregate Hyper Data Frame
 #' 
 #' @description
-#' To aggregate the aggregatable hypercolumns of a 
+#' To aggregate the aggregatable hyper columns of a 
 #' \link[spatstat.geom]{hyperframe}.
 #' 
 #' 

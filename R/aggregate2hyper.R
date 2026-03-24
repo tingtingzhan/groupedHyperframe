@@ -34,22 +34,30 @@ aggregate2hyper.data.frame <- function(x, by, ...) {
   tmp_class <- tmp |> lapply(FUN = class)
   id <- which(!mapply(FUN = identical, orig_class, tmp_class)) # columns to be turned into hypercolumns
   
-  id |>
-    names() |>
-    col_magenta() |> style_bold() |>
-    paste(collapse = ', ') |>
-    sprintf(fmt = 'Hypercolumn(s) %s created!') |>
-    message()
-  
-  tmp2 <- x[id] |>
-    aggregate.data.frame(by = by., FUN = c, simplify = FALSE, drop = TRUE)
-  tmp2 <- tmp2[- by_seq]
-  
-  hf <- cbind.hyperframe(
-    as.hyperframe.data.frame(tmp[-id]), # data.frame part
-    as.hyperframe.data.frame(tmp2)
-  )
-  
+  if (!length(id)) {
+    
+    hf <- as.hyperframe.data.frame(tmp)
+      
+  } else {
+    
+    id |>
+      names() |>
+      col_magenta() |> style_bold() |>
+      paste(collapse = ', ') |>
+      sprintf(fmt = 'Hypercolumn(s) %s created!') |>
+      message()
+    
+    tmp2 <- x[id] |>
+      aggregate.data.frame(by = by., FUN = c, simplify = FALSE, drop = TRUE)
+    tmp2 <- tmp2[- by_seq]
+    
+    hf <- cbind.hyperframe(
+      as.hyperframe.data.frame(tmp[-id]), # data.frame part
+      as.hyperframe.data.frame(tmp2)
+    )
+    
+  }
+
   by0 <- by |>
     drop_lowest_nested()
   if (length(by0)) {
