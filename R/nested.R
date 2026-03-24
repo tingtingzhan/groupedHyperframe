@@ -16,6 +16,33 @@ nested_ <- \(g) {
 }
 
 
+#' @title Drop Lowest Nested Level
+#' 
+#' @param g an R \link[base]{language} object
+#' 
+#' @examples
+#' drop_lowest_nested(~ g1/g2a:g2b/g3a:g3b:g3c)
+#' drop_lowest_nested(~ g1)
+#' drop_lowest_nested(~ g1:g2)
+#' 
+#' @keywords internal
+#' @export
+drop_lowest_nested <- \(g) {
+  if (is.symbol(g)) return(invisible()) # dropped!!
+  if (g[[1L]] == ':') return(invisible()) # dropped!!
+  if (g[[1L]] == '/') return(as.list(g)[[2L]]) # beautiful!!!
+  if (g[[1L]] == '~') { # recursive!!
+    if (length(g) != 2L) stop('only accept one-sided formula')
+    g0 <- g[[2L]] |>
+      drop_lowest_nested()
+    if (!length(g0)) return(invisible())
+    g[[2L]] <- g0
+    return(g)
+  }
+  stop('should not come here')
+}
+
+
 
 #' @title Get Nested Groups
 #' 
