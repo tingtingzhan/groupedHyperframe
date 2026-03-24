@@ -75,14 +75,17 @@ grouped_ppp <- function(
   hf$ppp. <- ppp(x = .x, y = .y, window = window, marks = data[all.vars(formula[[2L]])], checkdup = FALSE, drop = FALSE) |> # `drop = FALSE` important!!!
     split.ppp(f = fg, drop = FALSE)
   
-  # additional attributes to mimic ?nlme::groupedData
-  # also see example 'groupedData's from package datasets
-  attr(hf, which = 'group') <- call(name = '~', formula[[3L]][[3L]]) # for ?nlme::getGroupsFormula
-  # let `attr(,'group')` be ?base::call instead of ?stats::formula
+  g <- call(name = '~', formula[[3L]][[3L]]) |>
+    drop_lowest_nested()
+  # let this be ?base::call instead of ?stats::formula
   # formula's environment is very annoying!!
   # end of additional attributes
   
-  class(hf) <- c('groupedHyperframe', class(hf)) |> unique.default()
+  if (length(g)) {
+    attr(hf, which = 'group') <- g
+    class(hf) <- c('groupedHyperframe', class(hf)) |> unique.default()
+  }
+  
   return(hf)
   
 }
