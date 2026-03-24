@@ -17,7 +17,7 @@ nested_ <- \(g) {
 
 
 
-#' @title Get Nested Levels
+#' @title Get Nested Groups
 #' 
 #' @param by an R \link[base]{language} object, (nested) grouping structure
 #' 
@@ -35,7 +35,6 @@ nested_ <- \(g) {
 #'  get_nested()
 #' 
 #' @keywords internal
-#' @name get_nested
 #' @export
 get_nested <- function(by) {
   
@@ -61,7 +60,9 @@ get_nested <- function(by) {
 #' 
 #' @returns
 #' The `S3` generic function [get_nested_factor()] returns 
-#' a \link[base]{list} of \link[base]{factor}s.
+#' a \link[base]{list} of \link[base]{factor}s, 
+#' ready to be passed into the parameter `by` of the function
+#' \link[stats]{aggregate.data.frame}.
 #' 
 #' @examples
 #' nlme::Wafer |>
@@ -70,6 +71,7 @@ get_nested <- function(by) {
 #' spatstat.data::osteo |>
 #'  get_nested_factor(by = ~ id/brick)
 #' 
+#' @keywords internal
 #' @export
 get_nested_factor <- function(data, by) UseMethod(generic = 'get_nested_factor')
 

@@ -13,7 +13,9 @@ get_nested_factor(data, by)
 }
 \value{
 The \code{S3} generic function \code{\link[=get_nested_factor]{get_nested_factor()}} returns
-a \link[base]{list} of \link[base]{factor}s.
+a \link[base]{list} of \link[base]{factor}s,
+ready to be passed into the parameter \code{by} of the function
+\link[stats]{aggregate.data.frame}.
 }
 \description{
 Get Nested Factors
@@ -26,3 +28,4 @@ spatstat.data::osteo |>
  get_nested_factor(by = ~ id/brick)
 
 }
+\keyword{internal}

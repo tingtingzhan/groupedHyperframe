@@ -2,7 +2,7 @@
 % Please edit documentation in R/nested.R
 \name{get_nested}
 \alias{get_nested}
-\title{Get Nested Levels}
+\title{Get Nested Groups}
 \usage{
 get_nested(by)
 }
@@ -13,7 +13,7 @@ get_nested(by)
 The function \code{\link[=get_nested]{get_nested()}} returns a \link[base]{list} of \link[base]{language} object(s).
 }
 \description{
-Get Nested Levels
+Get Nested Groups
 }
 \examples{
 get_nested(~ g1)
