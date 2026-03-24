@@ -1,4 +1,37 @@
 
+if (FALSE) {
+  library(spatstat.mc)
+  s = wrobel_lung |>
+    grouped_ppp(
+      formula = hladr + phenotype ~ OS + gender + age,
+      by = ~ patient_id/image_id
+    )
+  r = seq.int(from = 0, to = 250, by = 10)
+  out = s |>
+    within(expr = {
+      hladr.E = ppp. |> 
+        Emark_(r = r, correction = 'none') |>
+        .disrecommend2theo()
+      phenotype.G = ppp. |> 
+        Gcross_(i = 'CK+.CD8-', j = 'CK-.CD8+', r = r, correction = 'none') |>
+        .disrecommend2theo()
+      phenotype.nnc = ppp. |>
+        nncross_(i = 'CK+.CD8-', j = 'CK-.CD8+', correction = 'none')
+    })
+  out_fv = out |>
+    within(expr = {
+      hladr.Ey = keyval(hladr.E)
+      phenotype.Gy = keyval(phenotype.G)
+      hladr.E.cumv = cumvtrapz(hladr.E, drop = TRUE)
+      phenotype.G.cumv = cumvtrapz(phenotype.G, drop = TRUE)
+    })
+  out_fv |>
+    aggregate(fun = pmean)
+  
+  
+}
+
+
 #' @title Aggregate Hyper Data Frame
 #' 
 #' @description
@@ -44,8 +77,20 @@ aggregate.hyperframe <- function(
     as.factor()
   if (all(table(f) == 1L)) return(x) # exception handling
   
-  xdf_ag <- xdf |> 
-    mc_identical_by(f = f, ...)
+  xdf_ag <- xdf |>
+    aggregate.data.frame(by = list(f), FUN = unique, simplify = TRUE, drop = TRUE)
+  xdf_ag <- xdf_ag[-1L]
+  orig_class <- xdf |> lapply(FUN = class)
+  ag_class <- xdf_ag |> lapply(FUN = class)
+  id <- which(!mapply(FUN = identical, orig_class, ag_class)) # columns to be turned into hypercolumns
+  if (length(id)) {
+    names(id) |>
+      col_magenta() |> style_bold() |>
+      paste(collapse = ', ') |>
+      sprintf(fmt = 'Variable(s) %s removed from aggregation') |>
+      message()
+    xdf_ag[id] <- NULL 
+  }
   
   id_vector <- xhc |>
     vapply(FUN = is.vectorlist, mode = 'numeric', FUN.VALUE = NA)
