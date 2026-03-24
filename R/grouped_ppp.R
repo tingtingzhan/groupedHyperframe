@@ -16,7 +16,7 @@
 #' 
 #' @param coords \link[stats]{formula}, variable names
 #' of \eqn{x}- and \eqn{y}-coordinates in `data`.
-#' Default `~x+y`.  
+#' Default value is `~x+y`.  
 #' 
 #' @param window an observation window \link[spatstat.geom]{owin}, 
 #' default is the \eqn{x}- and \eqn{y}-span of `coords` in `data`.
@@ -44,10 +44,8 @@ grouped_ppp <- function(
   
   # Step 1: grouped hyperframe (may consider writing into a function)
   
-  group <- formula[[3L]][[3L]]
-  
-  fg <- group |> 
-    get_nested_factors(data = data) |>
+  fg <- (formula[[3L]][[3L]]) |> 
+    get_nested_factor(data = data) |>
     interaction(drop = TRUE, sep = '.', lex.order = TRUE) # one or more hierarchy
 
   fom3var <- all.vars(formula[[3L]])
@@ -79,7 +77,7 @@ grouped_ppp <- function(
   
   # additional attributes to mimic ?nlme::groupedData
   # also see example 'groupedData's from package datasets
-  attr(hf, which = 'group') <- call(name = '~', group) # for ?nlme::getGroupsFormula
+  attr(hf, which = 'group') <- call(name = '~', formula[[3L]][[3L]]) # for ?nlme::getGroupsFormula
   # let `attr(,'group')` be ?base::call instead of ?stats::formula
   # formula's environment is very annoying!!
   # end of additional attributes
@@ -88,67 +86,6 @@ grouped_ppp <- function(
   return(hf)
   
 }
-
-
-#' @title Get Nested Levels
-#' 
-#' @param group a \link[base]{language} object, (nested) grouping structure
-#' 
-#' @keywords internal
-#' @name get_nested
-#' @export
-get_nested <- function(group) {
-  
-  nested_ <- \(g) {
-    if (is.symbol(g)) return(g)
-    if (g[[1L]] == ':') return(g)
-    if (g[[1L]] == '~') {
-      if (length(g) == 2L) return(nested_(g[[-1L]]))
-      stop('only accept one-sided formula')
-    }
-    if (g[[1L]] == '/') return(lapply(as.list(g)[-1L], FUN = nested_))
-    stop('should not come here')
-  }
-  
-  ret <- group |>
-    nested_() |> 
-    unlist()
-  if (!is.list(ret)) ret <- list(ret)
-  
-  names(ret) <- ret |>
-    vapply(FUN = deparse1, FUN.VALUE = NA_character_)
-  
-  return(ret)
-  
-}
-
-
-#' @rdname get_nested
-#' 
-#' @param data \link[base]{data.frame} or \link[spatstat.geom]{hyperframe}
-#' 
-#' @export
-get_nested_factors <- \(group, data) {
-  group |>
-    get_nested() |>
-    lapply(FUN = \(g) {
-      if (is.symbol(g)) {
-        z <- data[[g]]
-        if (is.factor(z)) return(factor(z)) # drop empty levels!!
-        return(factor(z, levels = unique(z)))
-      }
-      gv <- all.vars(g)
-      tmp <- if (inherits(data, what = 'hyperframe')) {
-        unclass(data)$df[gv]
-      } else if (inherits(data, what = 'data.frame')) {
-        data[gv]
-      } else stop('unsupported')
-      z <- tmp |>
-        interaction(drop = TRUE, sep = '.', lex.order = TRUE) # must be 'factor'
-      return(z)
-    })
-}
-
 
 
 

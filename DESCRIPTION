@@ -3,7 +3,7 @@ Nickname: Entertaining-but-Useless
 Type: Package
 Title: Grouped Hyper Data Frame
 Version: 0.4.0
-Date: 2026-03-21
+Date: 2026-03-24
 Description: An S3 class 'groupedHyperframe' that inherits from 
     the hyper data frame class from the 'spatstat' packages. 
     Batch process and aggregation of the hyper column(s) 
@@ -28,7 +28,7 @@ URL:
     https://tingtingzhan-groupedhyperframe.netlify.app
 Depends: R (>= 4.5)
 Imports: cli, parallel, doParallel, foreach, matrixStats, pracma, GET, SpatialPack,
-    ggplot2, geomtextpath, scales, survival, patchwork, 
+    ggplot2, geomtextpath, nlme, scales, survival, patchwork, 
     spatstat.explore, spatstat.geom, spatstat.random, splines
 Suggests: spatstat.data
 

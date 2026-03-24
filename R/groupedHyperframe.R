@@ -1,28 +1,4 @@
 
-.info_groupedHyperframe <- \(x) {
-  
-  f <- x |>
-    attr(which = 'group', exact = TRUE) |> 
-    get_nested_factors(data = x)
-  ns <- f |> 
-    seq_along() |> 
-    vapply(FUN = \(i) { # (i = 1L)
-      f[seq_len(i)] |>
-        interaction(drop = TRUE, lex.order = TRUE) |>
-        levels() |>
-        length()
-    }, FUN.VALUE = NA_integer_) # names dropped by ?base::vapply
-  
-  mapply(
-    FUN = \(n, g) {
-      paste(n, g |> col_blue() |> style_bold())
-    }, n = ns, g = names(f), SIMPLIFY = TRUE
-  ) |> 
-    rev.default() |> 
-    paste(collapse = ' nested in\n')
-
-}
-
 
 #' @title Print [groupedHyperframe]
 #' 
@@ -48,8 +24,8 @@ print.groupedHyperframe <- function(x, ...) {
   
   cat('\n\n')
   x |>
-    .info_groupedHyperframe() |>
-    cat()
+    get_nested_factor.groupedHyperframe() |>
+    print.nested_factor()
   cat('\n\n')
   
   # see inside ?spatstat.geom::print.hyperframe
@@ -78,7 +54,7 @@ summary.groupedHyperframe <- function(object, ...) {
   attr(z, which = 'group') <- object |>
     attr(which = 'group', exact = TRUE)
   attr(z, which = 'group_size') <- object |>
-    .info_groupedHyperframe()
+    get_nested_factor.groupedHyperframe()
   class(z) <- c('summary.groupedHyperframe', class(z)) |>
     unique.default()
   return(z)
@@ -116,7 +92,7 @@ print.summary.groupedHyperframe <- function(x, ...) {
   cat('\n\n')
   x |>
     attr(which = 'group_size', exact = TRUE) |>
-    cat()
+    print.nested_factor()
   cat('\n\n')
   
   if (any(x$storage == "dfcolumn")) {
@@ -181,18 +157,24 @@ print.summary.groupedHyperframe <- function(x, ...) {
 
 
 
-# @title Extract Grouping Formula from [groupedHyperframe]
-# @description ..
-# @param object a [groupedHyperframe]
-# @param asList,sep place holders for S3 generic \link[nlme]{getGroupsFormula}
-# @returns 
-# Function [getGroupsFormula.groupedHyperframe()] returns a one-sided \link[stats]{formula}
-# @note
-# tzh mask this for now, does not want to import(nlme) only for this
-# @keywords internal
-# @importFrom nlme getGroupsFormula
-# @export
-#getGroupsFormula.groupedHyperframe <- function(object, asList, sep) {
-#  attr(object, which = 'group', exact = TRUE)
-#}
+#' @title Extract Grouping Formula from [groupedHyperframe]
+#' 
+#' @description ..
+#' 
+#' @param object a [groupedHyperframe]
+#' 
+#' @param asList,sep place holders for the `S3` generic function \link[nlme]{getGroupsFormula}.
+#' Ignored in this `S3` method 
+#' 
+#' 
+#' @returns 
+#' The `S3` method `getGroupsFormula.groupedHyperframe()` returns a one-sided \link[stats]{formula}.
+#' 
+#' @keywords internal
+#' @importFrom nlme getGroupsFormula
+#' @export getGroupsFormula.groupedHyperframe
+#' @export
+getGroupsFormula.groupedHyperframe <- function(object, asList, sep) {
+  attr(object, which = 'group', exact = TRUE)
+}
 

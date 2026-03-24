@@ -40,27 +40,38 @@ as.groupedHyperframe.hyperframe <- function(x, group, ...) {
 }
 
 
+# [as.groupedHyperframe.data.frame()] and
+# [as.groupedHyperframe.groupedData()]
+# should **not** use the generic function [as.groupedHyperframe()]
+# because their workhorse is ?stats::aggregate.data.frame
+
+
 #' @rdname as.groupedHyperframe
 #' @importFrom spatstat.geom hyperframe cbind.hyperframe
 #' @export
 as.groupedHyperframe.data.frame <- function(x, group, ...) {
   
-  # copie as much as possible from [grouped_ppp()]
+  # copy as much as possible from [grouped_ppp()]
   
   g <- all.vars(group)
-  x[g] <- lapply(x[g], FUN = \(i) {
-    if (is.factor(i)) return(factor(i)) # drop empty levels!!
-    factor(i, levels = unique(i))
-  }) 
+  x[g] <- x[g] |>
+    lapply(FUN = \(i) {
+      if (is.factor(i)) return(factor(i)) # drop empty levels!!
+      factor(i, levels = unique(i))
+    }) 
   
-  fg <- interaction(x[g], drop = TRUE, sep = '.', lex.order = TRUE) # one or more hierarchy
+  fg <- x[g] |>
+    interaction(drop = TRUE, sep = '.', lex.order = TRUE) # one or more hierarchy
   
-  suppressMessages(x1 <- x |> mc_identical_by(f = fg, ...))
+  x1 <- x |> 
+    mc_identical_by(f = fg, ...) |>
+    suppressMessages()
   
   hf <- x1 |>
     as.hyperframe.data.frame()
   
-  nm <- x1 |> attr(which = 'non_identical', exact = TRUE)
+  nm <- x1 |> 
+    attr(which = 'non_identical', exact = TRUE)
   if (length(nm)) {
     hf <- x[nm] |> 
       split.data.frame(f = fg) |>
@@ -71,7 +82,8 @@ as.groupedHyperframe.data.frame <- function(x, group, ...) {
   }
   
   attr(hf, which = 'group') <- group # for ?nlme::getGroupsFormula
-  class(hf) <- c('groupedHyperframe', class(hf)) |> unique.default()
+  class(hf) <- c('groupedHyperframe', class(hf)) |> 
+    unique.default()
   return(hf)
 
 }

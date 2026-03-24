@@ -15,7 +15,7 @@
 #' 
 #' The function `collapse::collap` does not support \link[survival]{Surv} column.
 #' 
-#' Look more into `nlme:::collapse.groupedData`
+#' Look more into the `S3` generic function `nlme::collapse` and method `nlme:::collapse.groupedData`
 #' 
 #' @keywords internal
 #' @importFrom doParallel registerDoParallel
@@ -32,7 +32,9 @@ mc_identical_by <- function(
   nr <- nrow(data)
   if (nr != length(f)) stop('`data` and `f` different length')
   
-  ids <- nr |> seq_len() |> split.default(f = f)
+  ids <- nr |> 
+    seq_len() |> 
+    split.default(f = f)
   
   foo2 <- switch(
     EXPR = .Platform$OS.type, # as of R 4.5, only two responses, 'windows' or 'unix'

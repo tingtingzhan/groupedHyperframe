@@ -23,7 +23,7 @@ and \eqn{g_k} are one or more nested grouping structure}
 
 \item{coords}{\link[stats]{formula}, variable names
 of \eqn{x}- and \eqn{y}-coordinates in \code{data}.
-Default \code{~x+y}.}
+Default value is \code{~x+y}.}
 
 \item{window}{an observation window \link[spatstat.geom]{owin},
 default is the \eqn{x}- and \eqn{y}-span of \code{coords} in \code{data}.}
