@@ -4,7 +4,7 @@
 \alias{aggregate.hyperframe}
 \title{Aggregate Hyper Data Frame}
 \usage{
-\method{aggregate}{hyperframe}(x, by, ...)
+\method{aggregate}{hyperframe}(x, by = getGroupsFormula(x), ...)
 }
 \arguments{
 \item{x}{a \link[spatstat.geom]{hyperframe}}

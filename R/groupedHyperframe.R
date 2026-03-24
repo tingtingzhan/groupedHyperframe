@@ -178,3 +178,7 @@ getGroupsFormula.groupedHyperframe <- function(object, asList, sep) {
   attr(object, which = 'group', exact = TRUE)
 }
 
+
+# nlme::getGroupsFormula(datasets::Formaldehyde) # returns NULL
+#' @export
+getGroupsFormula.hyperframe <- function(object, asList, sep) invisible()

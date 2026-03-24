@@ -22,16 +22,19 @@
 #' 
 #' @keywords internal
 #' @importFrom spatstat.geom is.ppplist is.imlist
+#' @importFrom nlme getGroupsFormula
 #' @export
 aggregate.hyperframe <- function(
     x, 
-    by,
+    by = getGroupsFormula(x),
     ...
 ) {
   
   x0 <- unclass(x)
   xdf <- x0$df
   xhc <- x0$hypercolumns
+  
+  if (!length(by)) stop('must provide valid `by`')
   
   if (!is.call(by) || by[[1L]] != '~' || length(by) != 2L) stop('`by` must be one-sided formula')
   if (!is.symbol(by. <- by[[2L]])) {
