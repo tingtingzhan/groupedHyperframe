@@ -96,18 +96,5 @@ ppp_multitype2fv <- \(x, fun, unlist1 = TRUE, ...) {
 }
 
 
-if (FALSE) {
-  s = wrobel_lung |>
-    grouped_ppp(formula = hladr ~ OS + gender + age | patient_id/image_id, data = _, coords = ~ x + y)
-  r = seq.int(from = 0, to = 250, by = 10)
-  out = s |>
-    within(expr = {
-      hladr.E = ppp. |> 
-        Emark_(r = r, correction = 'none') |>
-        .disrecommend2theo()
-    })
-  out
-  
-  
-}
+
  
