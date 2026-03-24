@@ -37,40 +37,11 @@ aggregate.hyperframe <- function(
   if (!length(by)) stop('must provide valid `by`')
   
   if (!is.call(by) || by[[1L]] != '~' || length(by) != 2L) stop('`by` must be one-sided formula')
-  if (!is.symbol(by. <- by[[2L]])) {
-    new_by <- by. |>
-      all.vars() |>
-      vapply(FUN = \(i) deparse1(call(name = '~', as.symbol(i))), FUN.VALUE = '')
-    by |> 
-      deparse1() |> col_cyan() |>
-      sprintf(fmt = 'grouped structure %s is not allowed') |>
-      message()
-    new_by |> 
-      col_magenta() |>
-      paste(collapse = ', ') |> 
-      sprintf(fmt = 'please use either one of %s.') |>
-      message()
-    stop('`by` must be a formula and right-hand-side must be a symbol')
-  }
+  if (!is.symbol(by. <- by[[2L]])) stop('right-hand-side of `by` must be a symbol')
+  if (!(as.character(by.) %in% names(xdf))) stop('`.by` must be a column, not a hypercolumn')
   
-  if (inherits(x, what = 'groupedHyperframe')) {
-    group <- x |> 
-      attr(which = 'group', exact = TRUE)
-    # `group` 'up-to' `by.`
-    # how to do it beautifully?
-    # below is an ugly bandage fix
-    g <- all.vars(group)
-    id <- match(as.character(by.), table = g)
-    if (is.na(id)) stop('`by` must match one of the hierarchy in groupedHyperframe')
-    # end of ugly bandage fix
-    # grouping structure must be specified by `$df` part!!
-    f <- xdf[g[seq_len(id)]] |>
-      interaction(drop = TRUE, sep = '.', lex.order = TRUE)
-  } else {
-    # grouping structure must be specified by `$df` part!!
-    f <- xdf[[by.]] |> as.factor()
-  }
-  
+  f <- xdf[[by.]] |> 
+    as.factor()
   if (all(table(f) == 1L)) return(x) # exception handling
   
   xdf_ag <- xdf |> 
