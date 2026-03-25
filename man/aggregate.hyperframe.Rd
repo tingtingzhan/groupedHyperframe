@@ -12,8 +12,7 @@
 \item{by}{a one-sided \link[stats]{formula},
 containing regular-column names of the input \code{x}}
 
-\item{...}{additional parameters of the function \code{\link[=aggregate.vectorlist]{aggregate.vectorlist()}},
-most importantly the parameter \code{fun}}
+\item{...}{additional parameters, currently not in use}
 }
 \value{
 The \code{S3} method \code{\link[=aggregate.hyperframe]{aggregate.hyperframe()}} returns a \link[spatstat.geom]{hyperframe}.
