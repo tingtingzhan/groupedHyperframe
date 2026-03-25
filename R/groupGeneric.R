@@ -13,15 +13,15 @@
 #' @param ... additional parameters for the \link[base]{groupGeneric} functions
 #' 
 #' @details
-#' The function [Math.ppp()] performs `Math` operations on the \link[base]{numeric} \link[spatstat.geom]{marks}
+#' The `S3` method [Math.ppp()] performs `Math` operations on the \link[base]{numeric} \link[spatstat.geom]{marks}
 #' of a \link[spatstat.geom]{ppp.object}.
 #' 
-#' The function [Summary.ppp()] ..
+#' The `S3` method [Summary.ppp()] ..
 #' 
 #' @return 
-#' The function [Math.ppp()] returns a \link[spatstat.geom]{ppp.object}.
+#' The `S3` method [Math.ppp()] returns a \link[spatstat.geom]{ppp.object}.
 #' 
-#' The function [Summary.ppp()] ..
+#' The `S3` method [Summary.ppp()] ..
 #' 
 #' @keywords internal
 #' @name groupGeneric_ppp
@@ -114,15 +114,15 @@ Summary.ppp <- function(..., na.rm = FALSE) {
 #' @param ... additional parameters for the \link[base]{groupGeneric} functions
 #' 
 #' @details
-#' The function [Math.tess()] performs `Math` operations on the \link[base]{numeric} \link[spatstat.geom]{marks}
+#' The group generic function [Math.tess()] performs `Math` operations on the \link[base]{numeric} \link[spatstat.geom]{marks}
 #' of a \link[spatstat.geom]{tess}ellation.
 #' 
-#' The function [Summary.tess()] ..
+#' The `S3` method [Summary.tess()] ..
 #' 
 #' @return 
-#' The function [Math.tess()] returns a \link[spatstat.geom]{ppp.object}.
+#' The `S3` method [Math.tess()] returns a \link[spatstat.geom]{ppp.object}.
 #' 
-#' The function [Summary.tess()] ..
+#' The `S3` method [Summary.tess()] ..
 #' 
 #' @keywords internal
 #' @name groupGeneric_tess
@@ -185,15 +185,15 @@ Summary.tess <- function(..., na.rm = FALSE) {
 #' @param ... additional parameters for the \link[base]{groupGeneric} functions
 #' 
 #' @details
-#' The function [Math.psp()] performs `Math` operations on the \link[base]{numeric} \link[spatstat.geom]{marks}
+#' The `S3` method [Math.psp()] performs `Math` operations on the \link[base]{numeric} \link[spatstat.geom]{marks}
 #' of a \link[spatstat.geom]{psp.object}.
 #' 
-#' The function [Summary.psp()] ..
+#' The `S3` method [Summary.psp()] ..
 #' 
 #' @return 
-#' The function [Math.psp()] returns a \link[spatstat.geom]{psp.object}.
+#' The `S3` method [Math.psp()] returns a \link[spatstat.geom]{psp.object}.
 #' 
-#' The function [Summary.psp()] ..
+#' The `S3` method [Summary.psp()] ..
 #' 
 #' @references
 #' \url{https://tingtingzhan.quarto.pub/groupedhyperframe/topics.html}

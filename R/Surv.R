@@ -16,7 +16,7 @@
 #' if the input is a \link[survival]{Surv} object.
 #' 
 #' @returns 
-#' The function [summary.Surv()] returns a \link[base]{character} \link[base]{vector}.
+#' The `S3` method [summary.Surv()] returns a \link[base]{character} \link[base]{vector}.
 #' 
 #' @seealso \link[base]{summary.factor}
 #' 

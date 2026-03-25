@@ -10,7 +10,7 @@
 #' Workhorse function \link[SpatialPack]{cor.spatial}.
 #' 
 #' @returns 
-#' The function [pairwise_cor_spatial()] returns a \link[stats]{dist} object.
+#' The `S3` generic function [pairwise_cor_spatial()] returns a \link[stats]{dist} object.
 #' 
 #' @references
 #' \url{https://tingtingzhan.quarto.pub/groupedhyperframe/topics.html}

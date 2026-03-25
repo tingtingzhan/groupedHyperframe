@@ -20,7 +20,7 @@ cumvtrapz(x, ...)
 \item{y}{see function \link[pracma]{cumtrapz}}
 
 \item{rm1}{\link[base]{logical} scalar, whether to remove the first \code{NaN}-value from
-The function \code{\link[=cumvtrapz]{cumvtrapz()}} return, default \code{TRUE}}
+the \code{S3} generic function \code{\link[=cumvtrapz]{cumvtrapz()}} return, default \code{TRUE}}
 
 \item{drop}{\link[base]{logical} scalar (default value is \code{FALSE}),
 whether to return a \link[base]{numeric} \link[base]{vector}
@@ -29,7 +29,7 @@ instead of an \link[base]{ncol}-\code{1L} \link[base]{matrix}}
 \item{key, .x}{\link[base]{character} scalars}
 }
 \value{
-The function \verb{vtrapz.*()} return a \link[base]{numeric} scalar.
+The \code{S3} generic function \code{\link[=cumvtrapz]{cumvtrapz()}} return a \link[base]{numeric} scalar.
 }
 \description{
 Cumulative trapezoidal integration divided by \eqn{x}-domain.

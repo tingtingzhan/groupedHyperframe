@@ -9,14 +9,14 @@
 #' @param ... additional parameters of the function \link[stats]{density.default}
 #' 
 #' @note
-#' The function `spatstat.explore::density.ppp()` is for \eqn{x}- and \eqn{y}-\link[spatstat.geom]{coords} only!
+#' The `S3` method `spatstat.explore::density.ppp()` is for \eqn{x}- and \eqn{y}-\link[spatstat.geom]{coords} only!
 #' 
 #' @details
-#' The function [density_marks()] finds 
+#' The `S3` generic function [density_marks()] finds 
 #' the kernel density of the \link[spatstat.geom]{marks}.
 #' 
 #' @returns 
-#' The function [density_marks()] returns
+#' The `S3` generic function [density_marks()] returns
 #' a \link[base]{numeric} \link[base]{vector}.
 #' 
 #' @references

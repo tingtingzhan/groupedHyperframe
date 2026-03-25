@@ -1,17 +1,6 @@
 
 
-#' @title Print [groupedHyperframe]
-#' 
-#' @param x a [groupedHyperframe]
-#' 
-#' @param ... additional parameters, currently not in use
-#' 
-#' @returns 
-#' The function [print.groupedHyperframe()] does not have a returned value.
-#' 
-#' @seealso `?nlme:::print.groupedData`
-#' 
-#' @keywords internal
+# @seealso `?nlme:::print.groupedData`
 #' @importFrom spatstat.geom as.data.frame.hyperframe
 #' @export
 print.groupedHyperframe <- function(x, ...) {
@@ -35,16 +24,9 @@ print.groupedHyperframe <- function(x, ...) {
   
 }
 
-#' @title Summary Information of [groupedHyperframe]
-#' 
-#' @param object a [groupedHyperframe]
-#' 
-#' @param ... additional parameters, currently not in use
-#' 
-#' @returns 
-#' The function [summary.groupedHyperframe()] returns an R object of class `'summary.groupedHyperframe'`.
-#' 
-#' @keywords internal
+
+
+
 #' @importFrom spatstat.geom summary.hyperframe
 #' @export
 summary.groupedHyperframe <- function(object, ...) {
@@ -63,19 +45,6 @@ summary.groupedHyperframe <- function(object, ...) {
 
 
 
-
-
-
-#' @title Print Summary Information of [groupedHyperframe]
-#' 
-#' @param x a [summary.groupedHyperframe] object
-#' 
-#' @param ... additional parameters, currently not in use
-#' 
-#' @returns 
-#' The function [print.summary.groupedHyperframe()] does not have a returned value.
-#' 
-#' @keywords internal
 # @importFrom spatstat.geom print.summary.hyperframe
 #' @method print summary.groupedHyperframe
 #' @export
@@ -114,25 +83,6 @@ print.summary.groupedHyperframe <- function(x, ...) {
 
 
 
-
-
-
-
-
-
-
-
-
-#' @title Extract Subset of [groupedHyperframe]
-#' 
-#' @param x a [groupedHyperframe]
-#' 
-#' @param ... additional parameters of \link[spatstat.geom]{[.hyperframe}
-#' 
-#' @returns
-#' The function \link{[.groupedHyperframe} returns a [groupedHyperframe] or a \link[spatstat.geom]{hyperframe}.
-#' 
-#' @keywords internal
 #' @importFrom spatstat.geom [.hyperframe
 #' @export
 `[.groupedHyperframe` <- function(x, ...) {
@@ -157,22 +107,7 @@ print.summary.groupedHyperframe <- function(x, ...) {
 
 
 
-#' @title Extract Grouping Formula from [groupedHyperframe]
-#' 
-#' @description ..
-#' 
-#' @param object a [groupedHyperframe]
-#' 
-#' @param asList,sep place holders for the `S3` generic function \link[nlme]{getGroupsFormula}.
-#' Ignored in this `S3` method 
-#' 
-#' 
-#' @returns 
-#' The `S3` method `getGroupsFormula.groupedHyperframe()` returns a one-sided \link[stats]{formula}.
-#' 
-#' @keywords internal
 #' @importFrom nlme getGroupsFormula
-#' @export getGroupsFormula.groupedHyperframe
 #' @export
 getGroupsFormula.groupedHyperframe <- function(object, asList, sep) {
   attr(object, which = 'group', exact = TRUE)

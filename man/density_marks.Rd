@@ -15,18 +15,18 @@ density_marks(x, ...)
 \item{...}{additional parameters of the function \link[stats]{density.default}}
 }
 \value{
-The function \code{\link[=density_marks]{density_marks()}} returns
+The \code{S3} generic function \code{\link[=density_marks]{density_marks()}} returns
 a \link[base]{numeric} \link[base]{vector}.
 }
 \description{
 Kernel \link[stats]{density} of \link[spatstat.geom]{marks}.
 }
 \details{
-The function \code{\link[=density_marks]{density_marks()}} finds
+The \code{S3} generic function \code{\link[=density_marks]{density_marks()}} finds
 the kernel density of the \link[spatstat.geom]{marks}.
 }
 \note{
-The function \code{spatstat.explore::density.ppp()} is for \eqn{x}- and \eqn{y}-\link[spatstat.geom]{coords} only!
+The \code{S3} method \code{spatstat.explore::density.ppp()} is for \eqn{x}- and \eqn{y}-\link[spatstat.geom]{coords} only!
 }
 \references{
 \url{https://tingtingzhan.quarto.pub/groupedhyperframe/topics.html}

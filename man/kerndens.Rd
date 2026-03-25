@@ -18,14 +18,14 @@ kerndens(x, ...)
 \item{...}{additional parameters of the function \link[stats]{density.default}}
 }
 \value{
-The function \code{\link[=kerndens]{kerndens()}} returns
+The \code{S3} generic function \code{\link[=kerndens]{kerndens()}} returns
 a \link[base]{numeric} \link[base]{vector}.
 }
 \description{
 Kernel density estimates only.
 }
 \details{
-The function \code{\link[=kerndens]{kerndens()}} finds
+The \code{S3} generic function \code{\link[=kerndens]{kerndens()}} finds
 the estimated density values,
 i.e., element \verb{$y} of the function \link[stats]{density.default} return.
 }

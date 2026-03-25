@@ -17,7 +17,7 @@ as.groupedHyperframe(x, group, ...)
 \item{...}{additional parameters}
 }
 \value{
-The function \code{\link[=as.groupedHyperframe]{as.groupedHyperframe()}} returns a \code{groupedHyperframe}.
+The \code{S3} generic function \code{\link[=as.groupedHyperframe]{as.groupedHyperframe()}} returns a \code{groupedHyperframe}.
 }
 \description{
 To create a \code{groupedHyperframe} object.

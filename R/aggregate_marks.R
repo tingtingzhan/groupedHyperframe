@@ -17,7 +17,7 @@
 #' **and** the parameter `by` is missing 
 #' 
 #' @param vectorize \link[base]{logical} scalar (default value `FALSE`), whether to convert the return from 
-#' The function \link[stats]{aggregate.data.frame} into a \link[base]{vector}
+#' the `S3` method \link[stats]{aggregate.data.frame} into a \link[base]{vector}
 #' 
 #' @references
 #' \url{https://tingtingzhan.quarto.pub/groupedhyperframe/topics.html}

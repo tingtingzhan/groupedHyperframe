@@ -7,7 +7,7 @@
 #' @param name,value see function \link[spatstat.geom]{$<-.hyperframe}
 #' 
 #' @note
-#' The function \link[spatstat.geom]{$<-.hyperframe} drops \link[base]{attributes}.
+#' The `S3` syntactic sugar \link[spatstat.geom]{$<-.hyperframe} drops \link[base]{attributes}.
 #' 
 #' @returns 
 #' The `S3` syntactic sugar [$<-.groupedHyperframe()] returns a [groupedHyperframe].

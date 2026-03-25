@@ -18,17 +18,17 @@
 \item{na.rm}{\link[base]{logical} scalar}
 }
 \value{
-The function \code{\link[=Math.tess]{Math.tess()}} returns a \link[spatstat.geom]{ppp.object}.
+The \code{S3} method \code{\link[=Math.tess]{Math.tess()}} returns a \link[spatstat.geom]{ppp.object}.
 
-The function \code{\link[=Summary.tess]{Summary.tess()}} ..
+The \code{S3} method \code{\link[=Summary.tess]{Summary.tess()}} ..
 }
 \description{
 ...
 }
 \details{
-The function \code{\link[=Math.tess]{Math.tess()}} performs \code{Math} operations on the \link[base]{numeric} \link[spatstat.geom]{marks}
+The group generic function \code{\link[=Math.tess]{Math.tess()}} performs \code{Math} operations on the \link[base]{numeric} \link[spatstat.geom]{marks}
 of a \link[spatstat.geom]{tess}ellation.
 
-The function \code{\link[=Summary.tess]{Summary.tess()}} ..
+The \code{S3} method \code{\link[=Summary.tess]{Summary.tess()}} ..
 }
 \keyword{internal}

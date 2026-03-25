@@ -37,7 +37,7 @@ print.pppkm <- function(x, ...) {
 #' @param ... additional parameters, currently no use
 #' 
 #' @returns
-#' The function [split.pppkm()] returns a `'splitppp'` object from the
+#' The `S3` method [split.pppkm()] returns a `'splitppp'` object from the
 #' workhorse function \link[spatstat.geom]{split.ppp}.
 #' 
 #' @keywords internal
@@ -112,7 +112,7 @@ split_pppkmlist <- \(x, ...) {
 #' @param ... additional parameters, currently no use
 #' 
 #' @returns
-#' The function [split.hyperframekm()] returns a `'groupedHyperframe'`.
+#' The `S3` method [split.hyperframekm()] returns a `'groupedHyperframe'`.
 #' 
 #' @keywords internal
 #' @importFrom spatstat.geom is.ppplist hyperframe cbind.hyperframe

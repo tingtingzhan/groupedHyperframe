@@ -1,10 +1,5 @@
 
-
-#' @title Is \link[spatstat.geom]{marks} of \link[spatstat.geom]{ppp.object} \link[base]{numeric} ?
-#' 
-#' @param x a \link[spatstat.geom]{ppp.object}
-#' 
-#' @keywords internal
+#' @method is.numeric ppp
 #' @export
 is.numeric.ppp <- function(x) {
   
@@ -30,27 +25,16 @@ is.numeric.ppp <- function(x) {
 
 
 
-#' @title Handle Missing \link[spatstat.geom]{marks} in \link[spatstat.geom]{ppp.object}.
-#' 
-#' @param object a \link[spatstat.geom]{ppp.object}
-#' 
-#' @param ... additional parameters, currently not in use
-#' 
-#' @details
-#' The function [na.omit.ppp()] omits missing \link[spatstat.geom]{marks} in a \link[spatstat.geom]{ppp.object}.
-#' 
-#' @returns
-#' The function [na.omit.ppp()] returns a \link[spatstat.geom]{ppp.object}.
-#' 
-#' @note
-#' tzh suppose missing `$x` and `$y` are 
-#' forbidden in \link[spatstat.geom]{ppp.object} anyway.
-#' 
-#' @references
-#' \url{https://tingtingzhan.quarto.pub/groupedhyperframe/topics.html}
-#' 
-#' @keywords internal
-#' @name na_fail_ppp
+# @details
+# The `S3` method [na.omit.ppp()] omits missing \link[spatstat.geom]{marks} in a \link[spatstat.geom]{ppp.object}.
+# 
+# @returns
+# The `S3` method [na.omit.ppp()] returns a \link[spatstat.geom]{ppp.object}.
+# 
+# @note
+# tzh suppose missing `$x` and `$y` are 
+# forbidden in \link[spatstat.geom]{ppp.object} anyway.
+
 #' @importFrom spatstat.geom subset.ppp markformat.ppp
 #' @method na.omit ppp
 #' @export
@@ -78,7 +62,6 @@ na.omit.ppp <- function(object, ...) {
 }
 
 
-#' @name na_fail_ppp
 #' @importFrom spatstat.geom subset.ppp markformat.ppp
 #' @method na.exclude ppp
 #' @export

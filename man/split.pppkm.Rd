@@ -14,7 +14,7 @@
 \item{...}{additional parameters, currently no use}
 }
 \value{
-The function \code{\link[=split.pppkm]{split.pppkm()}} returns a \code{'splitppp'} object from the
+The \code{S3} method \code{\link[=split.pppkm]{split.pppkm()}} returns a \code{'splitppp'} object from the
 workhorse function \link[spatstat.geom]{split.ppp}.
 }
 \description{

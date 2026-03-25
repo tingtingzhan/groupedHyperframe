@@ -44,7 +44,7 @@ vtrapz <- function(x, ...) {
 #' @param key,.x \link[base]{character} scalars
 #' 
 #' @param rm1 \link[base]{logical} scalar, whether to remove the first `NaN`-value from
-#' The function [cumvtrapz()] return, default `TRUE`
+#' the `S3` generic function [cumvtrapz()] return, default `TRUE`
 #'
 #' @param drop \link[base]{logical} scalar (default value is `FALSE`),
 #' whether to return a \link[base]{numeric} \link[base]{vector}
@@ -56,7 +56,7 @@ vtrapz <- function(x, ...) {
 #' This is a tentative thought: the prefix `v` stands for 'vertical'.
 #' 
 #' @returns 
-#' The function `vtrapz.*()` return a \link[base]{numeric} scalar.
+#' The `S3` generic function [cumvtrapz()] return a \link[base]{numeric} scalar.
 #' 
 #' @references
 #' \url{https://tingtingzhan.quarto.pub/groupedhyperframe/topics.html}

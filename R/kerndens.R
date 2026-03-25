@@ -16,12 +16,12 @@
 #' Do *not* overwrite function `spatstat.explore::density.ppp()` !!
 #' 
 #' @details
-#' The function [kerndens()] finds 
+#' The `S3` generic function [kerndens()] finds 
 #' the estimated density values,
 #' i.e., element `$y` of the function \link[stats]{density.default} return.
 #' 
 #' @returns 
-#' The function [kerndens()] returns
+#' The `S3` generic function [kerndens()] returns
 #' a \link[base]{numeric} \link[base]{vector}.
 #' 
 #' @references

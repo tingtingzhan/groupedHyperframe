@@ -11,7 +11,7 @@
 #' @param ... additional parameters
 #' 
 #' @returns
-#' The function [as.groupedHyperframe()] returns a `groupedHyperframe`.
+#' The `S3` generic function [as.groupedHyperframe()] returns a `groupedHyperframe`.
 #' 
 #' @references
 #' \url{https://tingtingzhan.quarto.pub/groupedhyperframe/topics.html}

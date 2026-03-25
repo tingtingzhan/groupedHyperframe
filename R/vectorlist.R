@@ -127,7 +127,7 @@ print.vectorlist <- function(x, ...) {
 #' the derived class `'vectorlist'` and 
 #' the method dispatch [t.vectorlist()] 
 #' is that 
-#' The function \link[spatstat.geom]{with.hyperframe}
+#' The `S3` method \link[spatstat.geom]{with.hyperframe}
 #' could be slow in a batch process.
 #' 
 #' @returns

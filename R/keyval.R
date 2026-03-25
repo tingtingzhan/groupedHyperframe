@@ -10,11 +10,11 @@
 #' @param ... additional parameters, currently of no use
 #' 
 #' @details
-#' The function [keyval.fv()] finds the value of the (primary) outcome
+#' The `S3` method [keyval.fv()] finds the value of the (primary) outcome
 #' of an \link[spatstat.explore]{fv.object}.
 #' 
 #' @returns
-#' The function [keyval.fv()] returns a \link[base]{numeric} \link[base]{vector}.
+#' The `S3` method [keyval.fv()] returns a \link[base]{numeric} \link[base]{vector}.
 #' 
 #' @references
 #' \url{https://tingtingzhan.quarto.pub/groupedhyperframe/topics.html}

@@ -1,31 +1,21 @@
 
 
 
-#' @title Batch Process
+#' @title On Eligible \link[spatstat.geom]{marks}
 #' 
 #' @param X see **Usage**
 #' 
 #' @param ... additional parameters of user operation
 #' 
-#' @details
-#' User Interface of Operations on \link[spatstat.geom]{hyperframe} with One-and-Only-One \link[spatstat.geom]{ppp}-\link[spatstat.geom:hyperframe]{hypercolumn}
-#' 
-#' 
-#' @examples
-#' # in \CRANpkg{spatstat.data}
-#' # no good example for [Emark_]
-#' # no hyperframe with ppp-hypercolumn with numeric marks
-#' fluM = spatstat.data::flu |>
-#'  spatstat.geom::subset.hyperframe(subset = (stain == 'M2-M1') & (virustype == 'wt'))
 #' @references
 #' \url{https://tingtingzhan.quarto.pub/groupedhyperframe/topics.html}
 #'  
 #' @keywords internal
-#' @name batch
+#' @name elig_marks
 #' @export
 Emark_ <- function(X, ...) UseMethod(generic = 'Emark_')
 
-#' @rdname batch
+#' @rdname elig_marks
 #' @importFrom spatstat.explore Emark
 #' @export
 Emark_.ppp <- function(X, ...) {
@@ -38,11 +28,11 @@ Emark_.ppp <- function(X, ...) {
 
 
 
-#' @rdname batch
+#' @rdname elig_marks
 #' @export
 Vmark_ <- function(X, ...) UseMethod(generic = 'Vmark_')
 
-#' @rdname batch
+#' @rdname elig_marks
 #' @importFrom spatstat.explore Vmark
 #' @export
 Vmark_.ppp <- function(X, ...) {
@@ -52,11 +42,11 @@ Vmark_.ppp <- function(X, ...) {
 
 
 
-#' @rdname batch
+#' @rdname elig_marks
 #' @export
 Kmark_ <- function(X, ...) UseMethod(generic = 'Kmark_')
 
-#' @rdname batch
+#' @rdname elig_marks
 #' @importFrom spatstat.explore Kmark
 #' @export
 Kmark_.ppp <- function(X, ...) {
@@ -66,12 +56,12 @@ Kmark_.ppp <- function(X, ...) {
 
 
 
-#' @rdname batch
+#' @rdname elig_marks
 #' @export
 markcorr_ <- function(X, ...) UseMethod(generic = 'markcorr_')
 
 
-#' @rdname batch
+#' @rdname elig_marks
 #' @importFrom spatstat.explore markcorr
 #' @export
 markcorr_.ppp <- function(X, ...) {
@@ -82,11 +72,11 @@ markcorr_.ppp <- function(X, ...) {
 
 
 
-#' @rdname batch
+#' @rdname elig_marks
 #' @export
 markvario_ <- function(X, ...) UseMethod(generic = 'markvario_')
 
-#' @rdname batch
+#' @rdname elig_marks
 #' @importFrom spatstat.explore markvario
 #' @export
 markvario_.ppp <- function(X, ...) {
@@ -96,11 +86,11 @@ markvario_.ppp <- function(X, ...) {
 
 
 
-#' @rdname batch
+#' @rdname elig_marks
 #' @export
 Gcross_ <- function(X, ...) UseMethod(generic = 'Gcross_')
 
-#' @rdname batch
+#' @rdname elig_marks
 #' @importFrom spatstat.explore Gcross
 #' @export
 Gcross_.ppp <- function(X, ...) {
@@ -109,11 +99,11 @@ Gcross_.ppp <- function(X, ...) {
 }
 
 
-#' @rdname batch
+#' @rdname elig_marks
 #' @export
 Jcross_ <- function(X, ...) UseMethod(generic = 'Jcross_')
 
-#' @rdname batch
+#' @rdname elig_marks
 #' @importFrom spatstat.explore Jcross
 #' @export
 Jcross_.ppp <- function(X, ...) {
@@ -124,12 +114,12 @@ Jcross_.ppp <- function(X, ...) {
 
 
 
-#' @rdname batch
+#' @rdname elig_marks
 #' @export
 Kcross_ <- function(X, ...) UseMethod(generic = 'Kcross_')
 
 
-#' @rdname batch
+#' @rdname elig_marks
 #' @importFrom spatstat.explore Kcross
 #' @export
 Kcross_.ppp <- function(X, ...) {
@@ -138,11 +128,11 @@ Kcross_.ppp <- function(X, ...) {
 }
 
 
-#' @rdname batch
+#' @rdname elig_marks
 #' @export
 Lcross_ <- function(X, ...) UseMethod(generic = 'Lcross_')
 
-#' @rdname batch
+#' @rdname elig_marks
 #' @importFrom spatstat.explore Lcross
 #' @export
 Lcross_.ppp <- function(X, ...) {
@@ -153,11 +143,11 @@ Lcross_.ppp <- function(X, ...) {
 
 
 
-#' @rdname batch
+#' @rdname elig_marks
 #' @export
 markconnect_ <- function(X, ...) UseMethod(generic = 'markconnect_')
 
-#' @rdname batch
+#' @rdname elig_marks
 #' @importFrom spatstat.explore markconnect
 #' @export
 markconnect_.ppp <- function(X, ...) {
@@ -173,12 +163,12 @@ markconnect_.ppp <- function(X, ...) {
 # i.e., `Y` (or \emph{in}) in \link[spatstat.geom]{nncross}.
 
 
-#' @rdname batch
+#' @rdname elig_marks
 #' @export
 nncross_ <- function(X, ...) UseMethod(generic = 'nncross_')
 
 
-#' @rdname batch
+#' @rdname elig_marks
 #' @export
 nncross_.ppp <- function(X, ...) {
   X |> 

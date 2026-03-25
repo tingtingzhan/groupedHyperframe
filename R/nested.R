@@ -133,9 +133,10 @@ get_nested_factor.hyperframe <- function(data, by) {
   get_nested_factor.data.frame(data = unclass(data)$df, by = by)
 }
 
-
+#' @importFrom nlme getGroupsFormula
 #' @export
-get_nested_factor.groupedHyperframe <- function(data, by = getGroupsFormula.groupedHyperframe(data)) {
+get_nested_factor.groupedHyperframe <- function(data, by = getGroupsFormula(data)) {
+  # tzh's un-exported [getGroupsFormula.groupedHyperframe()]
   get_nested_factor.hyperframe(data = data, by = by)
 }
 

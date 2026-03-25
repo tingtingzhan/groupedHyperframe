@@ -18,7 +18,7 @@ aggregate_marks(x, by, FUN, expr, ..., vectorize = FALSE)
 \strong{and} the parameter \code{by} is missing}
 
 \item{vectorize}{\link[base]{logical} scalar (default value \code{FALSE}), whether to convert the return from
-The function \link[stats]{aggregate.data.frame} into a \link[base]{vector}}
+the \code{S3} method \link[stats]{aggregate.data.frame} into a \link[base]{vector}}
 }
 \description{
 To \link[stats]{aggregate} the \link[spatstat.geom]{marks} of
