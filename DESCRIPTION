@@ -27,8 +27,6 @@ URL:
     https://tingtingzhan.quarto.pub/groupedhyperframe,
     https://tingtingzhan-groupedhyperframe.netlify.app
 Depends: R (>= 4.5)
-Imports: cli, matrixStats, pracma, SpatialPack,
-    ggplot2, geomtextpath, nlme, scales, survival, patchwork, 
-    spatstat.explore, spatstat.geom, splines
+Imports: cli, nlme, spatstat.geom
 Suggests: spatstat.data
 
