@@ -23,7 +23,6 @@ as.groupedHyperframe <- function(x, group, ...) UseMethod(generic = 'as.groupedH
 
 
 #' @rdname as.groupedHyperframe
-#' @importFrom spatstat.geom names.hyperframe
 #' @export
 as.groupedHyperframe.hyperframe <- function(x, group, ...) {
   
@@ -31,10 +30,11 @@ as.groupedHyperframe.hyperframe <- function(x, group, ...) {
   
   if (length(group) != 2L) stop('`group` must be one-sided formula')
   
-  if (!all(all.vars(group) %in% names.hyperframe(x))) stop('`group` contains unknown variable')
+  if (!all(all.vars(group) %in% names(unclass(x)$df))) stop('`group` must contain only column-names')
   
   attr(x, which = 'group') <- group
-  class(x) <- c('groupedHyperframe', class(x)) |> unique.default()
+  class(x) <- c('groupedHyperframe', class(x)) |> 
+    unique.default()
   return(x)
   
 }
