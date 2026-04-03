@@ -1,4 +1,11 @@
 
+# stop('Is aggregate() |> hyperframe() already supported?  If not, suggest to Adrian')
+
+# stop('write aggregate.groupedData() to pkg{ranef.tzh}')
+
+
+
+
 #' @title Aggregate to (Grouped) Hyper Data Frame
 #' 
 #' @param x see **Usage**

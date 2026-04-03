@@ -103,7 +103,7 @@ if (FALSE) {
     cli_inform(class = 'packageStartupMessage')
   
   sprintf(
-    fmt = 'Until further notice, it should %s be used as the basis for research grant applications, referenced in final research progress reports, or cited as an actively maintained tool in a peer-reviewed manuscript, %s should it be used to support or fulfill requirements for pursuing an academic degree.',
+    fmt = 'Until further notice, this package, in its current state, should %s be used as the basis for research grant applications, referenced in final research progress reports, or cited as an actively maintained tool in a peer-reviewed manuscript, %s should it be used to support or fulfill requirements for pursuing an academic degree.',
     'not' |> style_bold() |> style_underline() |> bg_br_yellow(),
     'nor' |> style_bold() |> style_underline() |> bg_br_yellow()
   ) |>
@@ -114,7 +114,7 @@ if (FALSE) {
     cli_inform(class = 'packageStartupMessage')
   
   sprintf(
-    fmt = 'In addition, work %s based on this package should %s be presented at academic conferences or similar scholarly venues.',
+    fmt = 'In addition, work %s based on this package, in its current state, should %s be presented at academic conferences or similar scholarly venues.',
     'primarily' |> style_bold() |> style_underline(),
     'not' |> style_bold() |> style_underline() |> bg_br_yellow()
   ) |>
@@ -125,7 +125,7 @@ if (FALSE) {
     cli_inform(class = 'packageStartupMessage')
   
   sprintf(
-    fmt = 'Furthermore, a person\'s %s these packages does not necessarily indicate an understanding of their underlying mechanisms. Accordingly, demonstration of their use %s should %s be considered sufficient evidence of expertise, %s should it be credited as a basis for academic promotion or advancement.',
+    fmt = 'Furthermore, a person\'s %s this package, in its current state, does not necessarily indicate an understanding of its underlying mechanisms. Accordingly, demonstration of its use %s should %s be considered sufficient evidence of expertise, %s should it be credited as a basis for academic promotion or advancement.',
     'ability to use' |> style_bold() |> style_underline(),
     'alone' |> style_bold() |> style_underline(),
     'not' |> style_bold() |> style_underline() |> bg_br_yellow(),
@@ -139,7 +139,7 @@ if (FALSE) {
   
   'do not apply' |>
     style_underline() |>
-    sprintf(fmt = 'These statements %s to the contributors to these packages with respect to their specific contributions.') |>
+    sprintf(fmt = 'These statements %s to the contributors to this package with respect to their specific contributions.') |>
     style_italic() |>
     col_grey() |>
     cli_inform(class = 'packageStartupMessage')
