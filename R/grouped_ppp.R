@@ -55,6 +55,7 @@ if (FALSE) {
 #' \url{https://tingtingzhan.quarto.pub/groupedhyperframe/nonS3/grouped_ppp_appx.html}
 #' 
 #' @keywords internal
+#' @importFrom nlme getGroups
 #' @importFrom spatstat.geom owin ppp as.hyperframe.data.frame split.ppp
 #' @export
 grouped_ppp <- function(
@@ -94,7 +95,9 @@ grouped_ppp <- function(
   hf$ppp. <- ppp(x = .x, y = .y, window = window, marks = data[all.vars(formula[[2L]])], checkdup = FALSE, drop = FALSE) |> # `drop = FALSE` important!!!
     split.ppp(
       f = by |> 
-        get_nested_factor.data.frame(data = data, by = _) |> 
+        #get_nested_factor.data.frame(data = data, by = _) |> 
+        getGroups_df_(object = data, form = _) |>
+        as.list.data.frame() |>
         interaction(drop = TRUE, sep = '.', lex.order = TRUE), # one or more hierarchy
       drop = FALSE
     )

@@ -11,20 +11,23 @@
 #' @param ... additional parameters
 #' 
 #' @returns
-#' The `S3` generic function [as.groupedHyperframe()] returns a `groupedHyperframe`.
+#' The `S3` generic function [setGroups()] returns an object of derived class `'grouped*'`.
 #' 
 #' @references
 #' \url{https://tingtingzhan.quarto.pub/groupedhyperframe/topics.html}
 #' 
 #' @keywords internal
-#' @name as.groupedHyperframe
+# @name as.groupedHyperframe
+#' @name setGroups
 #' @export
-as.groupedHyperframe <- function(x, group, ...) UseMethod(generic = 'as.groupedHyperframe')
+#as.groupedHyperframe <- function(x, group, ...) UseMethod(generic = 'as.groupedHyperframe')
+setGroups <- function(x, group, ...) UseMethod(generic = 'setGroups')
 
-
-#' @rdname as.groupedHyperframe
+# @rdname as.groupedHyperframe
+#' @rdname setGroups
 #' @export
-as.groupedHyperframe.hyperframe <- function(x, group, ...) {
+#as.groupedHyperframe.hyperframe <- function(x, group, ...) {
+setGroups.hyperframe <- function(x, group, ...) {
   
   if (!is.language(group) || group[[1L]] != '~') stop('`group` must be a formula')
   

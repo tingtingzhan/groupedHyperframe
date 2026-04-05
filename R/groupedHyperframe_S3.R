@@ -5,16 +5,12 @@
 #' @export
 print.groupedHyperframe <- function(x, ...) {
   
-  x |>
-    attr(which = 'group', exact = TRUE) |>
-    deparse1() |>
-    sprintf(fmt = 'Grouped Hyper Data Frame: %s') |>
-    cat()
+  cat('Grouped Hyper Data Frame:')
   
   cat('\n\n')
   x |>
-    get_nested_factor.groupedHyperframe() |>
-    print.nested_factor()
+    getGroups.hyperframe() |>
+    print.getGroups()
   cat('\n\n')
   
   # see inside ?spatstat.geom::print.hyperframe
@@ -35,8 +31,8 @@ summary.groupedHyperframe <- function(object, ...) {
     summary.hyperframe()
   attr(z, which = 'group') <- object |>
     attr(which = 'group', exact = TRUE)
-  attr(z, which = 'group_size') <- object |>
-    get_nested_factor.groupedHyperframe()
+  attr(z, which = 'getGroups') <- object |>
+    getGroups.hyperframe()
   class(z) <- c('summary.groupedHyperframe', class(z)) |>
     unique.default()
   return(z)
@@ -52,16 +48,12 @@ print.summary.groupedHyperframe <- function(x, ...) {
 
   # see inside ?spatstat.geom::print.summary.hyperframe
   
-  x |>
-    attr(which = 'group', exact = TRUE) |>
-    deparse1() |>
-    sprintf(fmt = 'Grouped Hyper Data Frame: %s') |>
-    cat()
+  cat('Grouped Hyper Data Frame:')
   
   cat('\n\n')
   x |>
-    attr(which = 'group_size', exact = TRUE) |>
-    print.nested_factor()
+    attr(which = 'getGroups', exact = TRUE) |>
+    print.getGroups()
   cat('\n\n')
   
   if (any(x$storage == "dfcolumn")) {

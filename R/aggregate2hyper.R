@@ -20,10 +20,14 @@ aggregate2hyper <- function(x, by, ...) UseMethod(generic = 'aggregate2hyper')
 
 
 #' @importFrom spatstat.geom as.hyperframe.data.frame hyperframe cbind.hyperframe
+#' @importFrom nlme getGroups
 #' @export
 aggregate2hyper.data.frame <- function(x, by, ...) {
   
-  by. <- get_nested_factor(data = x, by = by)
+  #by. <- get_nested_factor(data = x, by = by)
+  by. <- getGroups_df_(object = x, form = by) |>
+    as.list.data.frame()
+    
   by_seq <- seq_along(by.)
   
   # drop unused factor levels in all columns of `x`
