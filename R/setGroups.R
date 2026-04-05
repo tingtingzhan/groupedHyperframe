@@ -17,16 +17,12 @@
 #' \url{https://tingtingzhan.quarto.pub/groupedhyperframe/topics.html}
 #' 
 #' @keywords internal
-# @name as.groupedHyperframe
 #' @name setGroups
 #' @export
-#as.groupedHyperframe <- function(x, group, ...) UseMethod(generic = 'as.groupedHyperframe')
 setGroups <- function(x, group, ...) UseMethod(generic = 'setGroups')
 
-# @rdname as.groupedHyperframe
 #' @rdname setGroups
 #' @export
-#as.groupedHyperframe.hyperframe <- function(x, group, ...) {
 setGroups.hyperframe <- function(x, group, ...) {
   
   if (!is.language(group) || group[[1L]] != '~') stop('`group` must be a formula')

@@ -22,11 +22,19 @@ getGroups_df_ <- \(object, form, ...) {
 
 
 
+# nlme::getGroupsFormula(datasets::Formaldehyde) # returns NULL
+#' @importFrom nlme getGroupsFormula
+#' @export
+getGroupsFormula.hyperframe <- function(object, asList, sep) {
+  attr(object, which = 'group', exact = TRUE) # NULL is okay
+}
+
+
 #' @importFrom nlme getGroups getGroupsFormula
 #' @export
 getGroups.hyperframe <- function(
     object, 
-    form = getGroupsFormula(object), # tzh's un-exported [getGroupsFormula.groupedHyperframe()]
+    form = getGroupsFormula(object), # tzh's un-exported [getGroupsFormula.hyperframe()]
     level, 
     data, 
     sep = '/'
@@ -36,8 +44,6 @@ getGroups.hyperframe <- function(
       object = _, form = form, level = level, sep = sep
     )
 }
-
-
 
 
 #' @export

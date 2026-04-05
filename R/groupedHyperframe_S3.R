@@ -5,9 +5,8 @@
 #' @export
 print.groupedHyperframe <- function(x, ...) {
   
-  cat('Grouped Hyper Data Frame:')
+  cat('Grouped Hyper Data Frame:\n\n')
   
-  cat('\n\n')
   x |>
     getGroups.hyperframe() |>
     print.getGroups()
@@ -48,9 +47,8 @@ print.summary.groupedHyperframe <- function(x, ...) {
 
   # see inside ?spatstat.geom::print.summary.hyperframe
   
-  cat('Grouped Hyper Data Frame:')
+  cat('Grouped Hyper Data Frame:\n\n')
   
-  cat('\n\n')
   x |>
     attr(which = 'getGroups', exact = TRUE) |>
     print.getGroups()
@@ -79,12 +77,6 @@ print.summary.groupedHyperframe <- function(x, ...) {
 #' @export
 `[.groupedHyperframe` <- function(x, ...) {
   
-  # a super genius fix! 
-  # working on the lowest function `[` :))
-  # no longer needed to write
-  # .. [subset.groupedHyperframe()]
-  # .. probably [split.groupedHyperframe()]
-  
   ret <- `[.hyperframe`(x, ...)
   
   # a bandage fix hahaha
@@ -99,13 +91,18 @@ print.summary.groupedHyperframe <- function(x, ...) {
 
 
 
-#' @importFrom nlme getGroupsFormula
+#' @importFrom spatstat.geom $<-.hyperframe
 #' @export
-getGroupsFormula.groupedHyperframe <- function(object, asList, sep) {
-  attr(object, which = 'group', exact = TRUE)
+`$<-.groupedHyperframe` <- function(x, name, value) {
+  
+  group <- attr(x, which = 'group', exact = TRUE)
+  if (name %in% all.vars(group)) stop('do not allow changing variables in grouping structure')
+  
+  ret <- `$<-.hyperframe`(x, name, value)
+  attr(ret, which = 'group') <- group
+  class(ret) <- c('groupedHyperframe', class(ret)) |> 
+    unique.default()
+  return(ret)
+  
 }
 
-
-# nlme::getGroupsFormula(datasets::Formaldehyde) # returns NULL
-#' @export
-getGroupsFormula.hyperframe <- function(object, asList, sep) invisible()
