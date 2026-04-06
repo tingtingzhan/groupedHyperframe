@@ -1,12 +1,10 @@
 
-# stop('Is aggregate() |> hyperframe() already supported?  If not, suggest to Adrian')
+# stop('Is aggregate() |> hyperframe() already supported?  YES!!!')
 
-# stop('write aggregate.groupedData() to pkg{ranef.tzh}')
 
 
 if (FALSE) {
-  # as of # packageDate('nlme') # 2026-03-27
-  # ?aggregate.groupedData not in \pkg{nlme}
+
   d = data(package = 'nlme') |> 
     packageIQR::dataFrom()
   
@@ -14,21 +12,27 @@ if (FALSE) {
     sapply(FUN = nrow) |>
     sort()
   
+  nlme::Rail
+  nlme::Rail$Rail |>
+    levels()
+  
   nlme::Rail |>
     aggregate.data.frame(
-      by = list(Rail = nlme::Rail$Rail), 
+      by = list(Rail = nlme::Rail$Rail), # bad!!! base::levels messed up!!
       FUN = unique,
       simplify = FALSE
     )
   
   x = nlme::Rail |>
-    aggregate(x = travel ~ Rail, data = _, FUN = unique, simplify = FALSE)
+    aggregate(x = . ~ Rail, data = _, FUN = unique, simplify = FALSE)
   x
   x$travel |> class() # 'list'
   
   suppressPackageStartupMessages(library(spatstat))
   x |>
     spatstat.geom::as.hyperframe.data.frame() # wow!!!!!
+  
+  
   
 }
 
@@ -96,14 +100,6 @@ aggregate2hyper.data.frame <- function(x, by, ...) {
     
   }
 
-  #by0 <- by |>
-  #  drop_lowest_nested()
-  #if (length(by0)) {
-  #  attr(hf, which = 'group') <- by0
-  #  class(hf) <- c('groupedHyperframe', class(hf)) |> 
-  #    unique.default()
-  #}
-  
   return(hf)
   
 }

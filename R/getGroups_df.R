@@ -4,6 +4,11 @@
 # get_nested_factor.data.frame()
 # back, and remove @import nlme
 
+# The `S3` generic function [get_nested_factor()] returns 
+# a \link[base]{list} of \link[base]{factor}s, 
+# ready to be passed into the parameter `by` of the function
+# \link[stats]{aggregate.data.frame}.
+# 
 
 #' @importFrom nlme getGroups
 getGroups_df_ <- \(object, form, ...) {
@@ -24,6 +29,26 @@ getGroups_df_ <- \(object, form, ...) {
   return(z)
   
 }
+
+
+
+
+
+
+if (FALSE) {
+  
+  x1 = nlme::Wafer |>
+    nlme:::getGroups.data.frame(form = ~Wafer/Site)
+  x2 = nlme::Wafer |> 
+    nlme::getGroups()
+  stopifnot(identical(x1, x2))
+  
+  nlme::Wafer |>
+    nlme::getGroups() |>
+    head()
+  
+}
+
 
 
 

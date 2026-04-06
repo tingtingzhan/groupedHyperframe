@@ -100,13 +100,6 @@ grouped_ppp <- function(
       drop = FALSE
     )
   
-  #g <- by |>
-  #  drop_lowest_nested()
-  #if (length(g)) {
-  #  attr(hf, which = 'group') <- g
-  #  class(hf) <- c('groupedHyperframe', class(hf)) |> unique.default()
-  #}
-  
   return(hf)
   
 }
