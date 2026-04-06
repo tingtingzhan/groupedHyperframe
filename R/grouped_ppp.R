@@ -95,19 +95,18 @@ grouped_ppp <- function(
   hf$ppp. <- ppp(x = .x, y = .y, window = window, marks = data[all.vars(formula[[2L]])], checkdup = FALSE, drop = FALSE) |> # `drop = FALSE` important!!!
     split.ppp(
       f = by |> 
-        #get_nested_factor.data.frame(data = data, by = _) |> 
         getGroups_df_(object = data, form = _) |>
         as.list.data.frame() |>
         interaction(drop = TRUE, sep = '.', lex.order = TRUE), # one or more hierarchy
       drop = FALSE
     )
   
-  g <- by |>
-    drop_lowest_nested()
-  if (length(g)) {
-    attr(hf, which = 'group') <- g
-    class(hf) <- c('groupedHyperframe', class(hf)) |> unique.default()
-  }
+  #g <- by |>
+  #  drop_lowest_nested()
+  #if (length(g)) {
+  #  attr(hf, which = 'group') <- g
+  #  class(hf) <- c('groupedHyperframe', class(hf)) |> unique.default()
+  #}
   
   return(hf)
   

@@ -69,13 +69,13 @@ aggregate2hyper.data.frame <- function(x, by, ...) {
     
   }
 
-  by0 <- by |>
-    drop_lowest_nested()
-  if (length(by0)) {
-    attr(hf, which = 'group') <- by0
-    class(hf) <- c('groupedHyperframe', class(hf)) |> 
-      unique.default()
-  }
+  #by0 <- by |>
+  #  drop_lowest_nested()
+  #if (length(by0)) {
+  #  attr(hf, which = 'group') <- by0
+  #  class(hf) <- c('groupedHyperframe', class(hf)) |> 
+  #    unique.default()
+  #}
   
   return(hf)
   

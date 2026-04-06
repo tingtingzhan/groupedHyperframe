@@ -59,7 +59,7 @@ cli_RPubs_ <- \(...) cli_book_(fmt = '{.url https://rpubs.com/%s/%s}', ..., prin
 #' @export
 aggregate_quantile <- function(...) {
   
-  new. <- '<groupedHyperframe> |> within(expr = quantile) |> aggregate()'
+  new. <- '<hyperframe> |> within(expr = quantile) |> aggregate()'
   
   match.call()[[1L]] |> deparse1() |> 
     sprintf(fmt = '%s()') |>

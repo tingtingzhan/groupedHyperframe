@@ -28,8 +28,4 @@ Ki67
 \description{
 Ki67 cell data containing 622 patients.
 }
-\details{
-The \link{groupedHyperframe} \code{Ki67} is the complete data, to be used in examples of downstream packages
-\pkg{maxEff} and \pkg{hyper.gam}.
-}
 \keyword{internal}
