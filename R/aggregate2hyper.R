@@ -4,6 +4,35 @@
 # stop('write aggregate.groupedData() to pkg{ranef.tzh}')
 
 
+if (FALSE) {
+  # as of # packageDate('nlme') # 2026-03-27
+  # ?aggregate.groupedData not in \pkg{nlme}
+  d = data(package = 'nlme') |> 
+    packageIQR::dataFrom()
+  
+  d |> 
+    sapply(FUN = nrow) |>
+    sort()
+  
+  nlme::Rail |>
+    aggregate.data.frame(
+      by = list(Rail = nlme::Rail$Rail), 
+      FUN = unique,
+      simplify = FALSE
+    )
+  
+  x = nlme::Rail |>
+    aggregate(x = travel ~ Rail, data = _, FUN = unique, simplify = FALSE)
+  x
+  x$travel |> class() # 'list'
+  
+  suppressPackageStartupMessages(library(spatstat))
+  x |>
+    spatstat.geom::as.hyperframe.data.frame() # wow!!!!!
+  
+}
+
+
 
 
 #' @title Aggregate to (Grouped) Hyper Data Frame
@@ -83,5 +112,6 @@ aggregate2hyper.data.frame <- function(x, by, ...) {
 #' @importFrom nlme getGroupsFormula
 #' @export
 aggregate2hyper.groupedData <- function(x, by = getGroupsFormula(x), ...) {
+  .Defunct(msg = 'remove this example')
   aggregate2hyper.data.frame(x = x, by = by, ...)
 }

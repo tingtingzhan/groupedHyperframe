@@ -1,6 +1,5 @@
 
 
-
 #' @title Aggregate Hyper Data Frame
 #' 
 #' @description
