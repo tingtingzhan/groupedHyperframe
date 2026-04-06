@@ -109,9 +109,3 @@ aggregate2hyper.data.frame <- function(x, by, ...) {
 }
 
 
-#' @importFrom nlme getGroupsFormula
-#' @export
-aggregate2hyper.groupedData <- function(x, by = getGroupsFormula(x), ...) {
-  .Defunct(msg = 'remove this example')
-  aggregate2hyper.data.frame(x = x, by = by, ...)
-}
