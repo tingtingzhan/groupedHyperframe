@@ -55,7 +55,6 @@ if (FALSE) {
 #' \url{https://tingtingzhan.quarto.pub/groupedhyperframe/nonS3/grouped_ppp_appx.html}
 #' 
 #' @keywords internal
-#' @importFrom nlme getGroups
 #' @importFrom spatstat.geom owin ppp as.hyperframe.data.frame split.ppp
 #' @export
 grouped_ppp <- function(

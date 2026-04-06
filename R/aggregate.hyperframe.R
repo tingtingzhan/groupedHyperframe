@@ -22,11 +22,10 @@
 #' 
 #' @keywords internal
 #' @importFrom spatstat.geom cbind.hyperframe
-# @importFrom nlme getGroupsFormula
 #' @export
 aggregate.hyperframe <- function(
     x, 
-    by, # = getGroupsFormula(x),
+    by,
     ...
 ) {
   
