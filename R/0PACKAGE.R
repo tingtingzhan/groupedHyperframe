@@ -1,17 +1,13 @@
 
 
 #' @import cli
-# @import stats
 '_PACKAGE'
 
 if (FALSE) {
   # collision between
   ?patchwork::area
   ?spatstat.geom::area
-  # and we even have
   ?MASS::area
-  # one bandage fix is to import 
-  spatstat.geom::area.owin
 }
 
 
