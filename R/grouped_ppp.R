@@ -98,7 +98,7 @@ grouped_ppp <- function(
   hf$ppp. <- ppp(x = .x, y = .y, window = window, marks = data[all.vars(marks)], checkdup = FALSE, drop = FALSE) |> # `drop = FALSE` important!!!
     split.ppp(
       f = by[[3L]] |> 
-        call(name = '~') |>
+        call(name = '~', . = _) |>
         model.frame(formula = _, data = data) |>
         as.list.data.frame() |>
         interaction(drop = TRUE, sep = '.', lex.order = TRUE), # one or more hierarchy
