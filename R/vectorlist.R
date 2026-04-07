@@ -104,40 +104,18 @@ print.vectorlist <- function(x, ...) {
 
 
 
-#' @title Transpose a `'vectorlist'`
+# @note
+# The motivation of 
+# the derived class `'vectorlist'` and 
+# the method dispatch [t.vectorlist()] 
+# is that 
+# the `S3` method \link[spatstat.geom]{with.hyperframe}
+# could be slow in a batch process.
 #' 
-#' @param x a `'vectorlist'`
-#' 
-#' @details
-#' tzh defines a derived class `'vectorlist'`,
-#' i.e., a \link[stats]{listof} \link[base]{vector}s,
-#' which \link[base]{inherits} from 
-#' \link[spatstat.geom]{anylist}. 
-#' The implementation of `'vectorlist'` is 
-#' inspired by class \link[spatstat.geom]{solist}.
-#' 
-#' The `S3` method dispatch [t.vectorlist()], 
-#' of the generic function \link[base]{t},
-#' transposes a `'vectorlist'` of equi-\link[base]{length}.
-#' We illustrate this concept using data set 
-#' \link[spatstat.data]{Kovesi} in **Examples**.
-#' 
-#' @note
-#' The motivation of 
-#' the derived class `'vectorlist'` and 
-#' the method dispatch [t.vectorlist()] 
-#' is that 
-#' The `S3` method \link[spatstat.geom]{with.hyperframe}
-#' could be slow in a batch process.
-#' 
-#' @returns
-#' The `S3` method dispatch [t.vectorlist()] returns
-#' a `'vectorlist'` of equi-\link[base]{length}.
-#' 
-#' @references
-#' \url{https://tingtingzhan.quarto.pub/groupedhyperframe/topics.html}
-#' 
-#' @keywords internal
+# @returns
+# The `S3` method dispatch [t.vectorlist()] returns
+# a `'vectorlist'` of equi-\link[base]{length}.
+
 #' @importFrom spatstat.geom anylist
 #' @importFrom stats setNames
 #' @export
