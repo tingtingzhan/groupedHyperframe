@@ -6,7 +6,7 @@
 \alias{groupedHyperframe-package}
 \title{groupedHyperframe: Grouped Hyper Data Frame}
 \description{
-An S3 class 'groupedHyperframe' that inherits from the hyper data frame class from the 'spatstat' packages. Batch process and aggregation of the hyper column(s) over a nested grouping structure. Active development of this R package is temporarily suspended. Until further notice, it should not be used as a basis for research grant applications or cited as an actively maintained tool.
+This package is being absorbed into package spatstat.geom.
 }
 \seealso{
 Useful links:

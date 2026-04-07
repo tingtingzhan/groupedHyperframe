@@ -1,8 +1,8 @@
 
-#' @title Aggregate, An Alternative Way
+#' @title Aggregate, an Alternative \link[stats]{formula}-Interface
 #' 
 #' @description
-#' An alternative aggregation function, 
+#' An alternative aggregation function with a \link[stats]{formula}-interface, 
 #' to avoid the \link[base]{cbind}-operation in the function \link[stats]{aggregate.formula}.
 #' 
 #' @param x a \link[base]{data.frame}
@@ -11,11 +11,29 @@
 #' 
 #' @param ... additional parameters of the function \link[stats]{aggregate.data.frame}
 #' 
+#' @details
+#' The \link[base]{cbind}-operation in the function \link[stats]{aggregate.formula} 
+#' messes up with column(s) that are 
+#' \describe{
+#' \item{\link[base]{factor}}{and treat them as \link[base]{integer}}
+#' \item{\link[survival]{Surv}}{and treat them as \link[base]{matrix}}
+#' }
+#' 
+#' The function \link[stats]{aggregate.data.frame} only accepts 
+#' a \link[base]{list} of \link[base]{factor}s for the parameter `by`.
+#' 
+#' Therefore, the function [aggregate2()] is created to take care of 
+#' the \link[base]{factor} and \link[survival]{Surv} columns of the input,
+#' with a \link[stats]{formula}-interface.
+#' 
+#' @returns 
+#' The function [aggregate2()] returns a \link[base]{data.frame}.
+#' 
 #' @note
 #' The function \link[stats]{aggregate.data.frame} is the workhorse of 
 #' the function \link[stats]{aggregate.formula}.
 #' 
-#' The function \link[spatstat.geom]{as.hyperframe.data.frame} 
+#' The function \link[spatstat.geom]{as.hyperframe.data.frame}
 #' is **designed** to handle the \link[base]{list}-columns 
 #' returned by the function \link[stats]{aggregate}.
 #' 

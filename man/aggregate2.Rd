@@ -2,7 +2,7 @@
 % Please edit documentation in R/aggregate2.R
 \name{aggregate2}
 \alias{aggregate2}
-\title{Aggregate, An Alternative Way}
+\title{Aggregate, an Alternative \link[stats]{formula}-Interface}
 \usage{
 aggregate2(x, by, ...)
 }
@@ -13,9 +13,27 @@ aggregate2(x, by, ...)
 
 \item{...}{additional parameters of the function \link[stats]{aggregate.data.frame}}
 }
+\value{
+The function \code{\link[=aggregate2]{aggregate2()}} returns a \link[base]{data.frame}.
+}
 \description{
-An alternative aggregation function,
+An alternative aggregation function with a \link[stats]{formula}-interface,
 to avoid the \link[base]{cbind}-operation in the function \link[stats]{aggregate.formula}.
+}
+\details{
+The \link[base]{cbind}-operation in the function \link[stats]{aggregate.formula}
+messes up with column(s) that are
+\describe{
+\item{\link[base]{factor}}{and treat them as \link[base]{integer}}
+\item{\link[survival]{Surv}}{and treat them as \link[base]{matrix}}
+}
+
+The function \link[stats]{aggregate.data.frame} only accepts
+a \link[base]{list} of \link[base]{factor}s for the parameter \code{by}.
+
+Therefore, the function \code{\link[=aggregate2]{aggregate2()}} is created to take care of
+the \link[base]{factor} and \link[survival]{Surv} columns of the input,
+with a \link[stats]{formula}-interface.
 }
 \note{
 The function \link[stats]{aggregate.data.frame} is the workhorse of
