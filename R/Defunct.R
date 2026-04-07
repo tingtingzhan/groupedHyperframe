@@ -59,24 +59,19 @@ cli_RPubs_ <- \(...) cli_book_(fmt = '{.url https://rpubs.com/%s/%s}', ..., prin
 #' @export
 aggregate_quantile <- function(...) {
   
-  new. <- '<hyperframe> |> within(expr = quantile) |> aggregate()'
-  
-  match.call()[[1L]] |> deparse1() |> 
+  match.call()[[1L]] |> 
+    deparse1() |> 
     sprintf(fmt = '%s()') |>
     col_cyan() |> style_bold() |>
-    sprintf(fmt = 'Function %s described in') |> message()
+    sprintf(fmt = 'Function %s in') |> message()
   cli_doi_('10.1093/bioinformatics/btaf430')
-  'has been replaced by pipeline' |> message()
-  
-  new. |>
-    col_red() |> style_bold() |>
-    message()
+  'has been defunct.\n' |> message()
   
   'Read vignette (mirrors) for details' |> message()
   cli_QuartoPub_(pub = 'groupedhyperframe', chapter = 'bioinformatics_btaf430')
   cli_Netlify_(pub = 'groupedhyperframe', chapter = 'bioinformatics_btaf430')
 
-  .Defunct(new = new.)
+  .Defunct(new = 'vignette')
   
 }
 
