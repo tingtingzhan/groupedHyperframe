@@ -1,10 +1,10 @@
 
+# re-write this function and contribute to Adrian!!!
 
 #' @title Aggregate Hyper Data Frame
 #' 
 #' @description
-#' To aggregate the aggregatable hyper columns of a 
-#' \link[spatstat.geom]{hyperframe}.
+#' To \link[stats]{aggregate} a \link[spatstat.geom]{hyperframe}.
 #' 
 #' @param x a \link[spatstat.geom]{hyperframe}
 #' 
@@ -16,10 +16,6 @@
 #' @returns 
 #' The `S3` method [aggregate.hyperframe()] returns a \link[spatstat.geom]{hyperframe}.
 #'  
-#' @references
-#' \url{https://tingtingzhan.quarto.pub/groupedhyperframe/topics.html}
-#' 
-#' @keywords internal
 #' @importFrom spatstat.geom cbind.hyperframe
 #' @importFrom stats aggregate aggregate.data.frame
 #' @export

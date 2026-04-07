@@ -18,10 +18,5 @@ containing regular-column names of the input \code{x}}
 The \code{S3} method \code{\link[=aggregate.hyperframe]{aggregate.hyperframe()}} returns a \link[spatstat.geom]{hyperframe}.
 }
 \description{
-To aggregate the aggregatable hyper columns of a
-\link[spatstat.geom]{hyperframe}.
+To \link[stats]{aggregate} a \link[spatstat.geom]{hyperframe}.
 }
-\references{
-\url{https://tingtingzhan.quarto.pub/groupedhyperframe/topics.html}
-}
-\keyword{internal}
