@@ -21,6 +21,7 @@
 #' 
 #' @keywords internal
 #' @importFrom spatstat.geom cbind.hyperframe
+#' @importFrom stats aggregate aggregate.data.frame
 #' @export
 aggregate.hyperframe <- function(
     x, 

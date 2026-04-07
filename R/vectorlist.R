@@ -139,6 +139,7 @@ print.vectorlist <- function(x, ...) {
 #' 
 #' @keywords internal
 #' @importFrom spatstat.geom anylist
+#' @importFrom stats setNames
 #' @export
 t.vectorlist <- function(x) {
   

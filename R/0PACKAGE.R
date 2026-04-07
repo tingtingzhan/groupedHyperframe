@@ -1,7 +1,7 @@
 
 
 #' @import cli
-#' @import stats
+# @import stats
 '_PACKAGE'
 
 if (FALSE) {

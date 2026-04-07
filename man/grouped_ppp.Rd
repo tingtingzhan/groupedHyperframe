@@ -5,30 +5,26 @@
 \title{Hyper Data Frame with One-and-Only-One \link[spatstat.geom]{ppp}-Hyper Column}
 \usage{
 grouped_ppp(
-  formula,
+  marks,
+  coords = ~x + y,
   by,
   data,
-  coords = ~x + y,
   window = owin(xrange = range(.x), yrange = range(.y)),
   ...
 )
 }
 \arguments{
-\item{formula}{\link[stats]{formula} in the format of
-\code{m1+m2 ~ .},
-where
-\describe{
-\item{\eqn{m_i}}{one or more \link[spatstat.geom]{marks}}
-\item{\code{.}}{the endpoint and predictor(s) for downstream analysis}
-}}
-
-\item{by}{\link[stats]{formula}, see function \code{\link[=aggregate2hyper]{aggregate2hyper()}}}
-
-\item{data}{a \link[base]{data.frame}}
+\item{marks}{a one-sided \link[stats]{formula} in the format of
+\code{~ m1+m2},
+where \eqn{m_i}'s are one or more \link[spatstat.geom]{marks}}
 
 \item{coords}{\link[stats]{formula}, variable names
 of the \eqn{x}- and \eqn{y}-coordinates in \code{data}.
 Default value is \code{~x+y}.}
+
+\item{by}{a two-sided \link[stats]{formula}, see function \code{\link[=aggregate2]{aggregate2()}}}
+
+\item{data}{a \link[base]{data.frame}}
 
 \item{window}{an observation window \link[spatstat.geom]{owin},
 default value is the \eqn{x}- and \eqn{y}-span of \code{coords} in \code{data}.}
