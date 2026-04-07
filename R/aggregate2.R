@@ -52,19 +52,26 @@ aggregate2 <- function(x, by, ...) {
   if (!is.call(by) || (by[[1L]] != '~') || (length(by) != 3L)) stop('`by` must be two-sided formula')
   
   if (by[[2L]] == '.') {
-    vars <- setdiff(x = names(x), y = all.vars(by[[3L]]))
+    #vars <- setdiff(x = names(x), y = all.vars(by[[3L]]))
+    vars <- names(x)
   } else {
-    vars <- all.vars(by[[2L]])
+    #vars <- all.vars(by[[2L]])
+    vars <- all.vars(by)
   }
   
-  call(name = '~', by[[3L]]) |>
+  z <- by[[3L]] |>
+    call(name = '~', . = _) |>
     model.frame(formula = _, data = x) |>
     as.list.data.frame() |>
-    lapply(FUN = \(i) {
-      if (is.factor(i)) return(i)
-      return(factor(i, levels = unique(i)))
-    }) |>
+    #lapply(FUN = \(i) {
+    #  if (is.factor(i)) return(i)
+    #  return(factor(i, levels = unique(i)))
+    #}) |>
+    interaction(drop = TRUE, lex.order = TRUE) |>
+    list(.f = _) |>
     aggregate.data.frame(x = x[vars], by = _, ...)
+  z$.f <- NULL
+  return(z)
   
 }
 

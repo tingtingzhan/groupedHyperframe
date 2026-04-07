@@ -1,24 +1,5 @@
 
-if (FALSE) {
-  old1 = wrobel_lung |>
-    grouped_ppp_OLD(formula = hladr + phenotype ~ OS + gender + age | patient_id/image_id, data = _, coords = ~ x + y)
-  old1
-  
-  old2 = wrobel_lung |>
-    grouped_ppp_OLD(formula = hladr + phenotype ~ . | patient_id/image_id)
-  old2 
-  
-  new1 = wrobel_lung |>
-    grouped_ppp(formula = hladr + phenotype ~ OS + gender + age,
-                    by = ~ patient_id/image_id)
-  new1
-  
-  new2 = wrobel_lung |>
-    grouped_ppp(formula = hladr + phenotype ~ .,
-                    by = ~ patient_id/image_id)
-  new2
-  
-}
+
 
 #' @title Hyper Data Frame with One-and-Only-One \link[spatstat.geom]{ppp}-Hyper Column
 #' 
@@ -51,8 +32,8 @@ if (FALSE) {
 #' \url{https://tingtingzhan.quarto.pub/groupedhyperframe/nonS3/grouped_ppp_appx.html}
 #' 
 #' @keywords internal
-#' @importFrom spatstat.geom owin ppp as.hyperframe.data.frame split.ppp
-#' @importFrom stats model.frame
+#' @importFrom spatstat.geom owin ppp as.hyperframe.data.frame split.ppp solapply
+#' @importFrom stats model.frame aggregate.data.frame
 #' @export
 grouped_ppp <- function(
     marks,
@@ -62,6 +43,13 @@ grouped_ppp <- function(
     window = owin(xrange = range(.x), yrange = range(.y)),
     ...
 ) {	
+  
+  # drop unused factor levels in all columns of `x`
+  data[] <- data |>
+    lapply(FUN = \(i) {
+      if (!is.factor(i)) return(i)
+      factor(i) # drop empty levels!!
+    })
   
   if (by[[2L]] == '.') {
     by2var <- names(data) |>
@@ -83,9 +71,17 @@ grouped_ppp <- function(
     return(x)
   }
   
-  hf <- data[c(by2var, all.vars(by[[3L]]))] |>
-    aggregate2(by = by, FUN = unique_or_identity, simplify = TRUE, drop = TRUE) |>
+  f <- by[[3L]] |> 
+    call(name = '~', . = _) |>
+    model.frame(formula = _, data = data) |>
+    as.list.data.frame() |>
+    interaction(drop = TRUE, lex.order = TRUE) # one or more hierarchy
+  
+  hf <- data[c(all.vars(by[[3L]]), by2var)] |>
+    #aggregate2(by = by, FUN = unique_or_identity, simplify = TRUE, drop = TRUE) |>
+    aggregate.data.frame(by = list(.f = f), FUN = unique_or_identity, simplify = TRUE, drop = TRUE) |>
     as.hyperframe.data.frame()
+  hf$.f <- NULL
   
   xy_ <- as.list.default(coords[[2L]])
   if ((xy_[[1L]] != '+') || (length(xy_) != 3L)) stop('Specify x and y coordinates names as ~x+y')
@@ -96,15 +92,12 @@ grouped_ppp <- function(
   
   force(window)
   hf$ppp. <- ppp(x = .x, y = .y, window = window, marks = data[all.vars(marks)], checkdup = FALSE, drop = FALSE) |> # `drop = FALSE` important!!!
-    split.ppp(
-      f = by[[3L]] |> 
-        call(name = '~', . = _) |>
-        model.frame(formula = _, data = data) |>
-        as.list.data.frame() |>
-        interaction(drop = TRUE, sep = '.', lex.order = TRUE), # one or more hierarchy
-      drop = FALSE
-    )
-  
+    split.ppp(f = f, drop = FALSE) |>
+    solapply(FUN = \(i) {
+      rownames(i$marks) <- NULL # from spatstat.geom::split.ppp
+      return(i)
+    })
+
   return(hf)
   
 }
