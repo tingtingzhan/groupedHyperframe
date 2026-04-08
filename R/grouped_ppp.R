@@ -14,7 +14,7 @@
 #' of the \eqn{x}- and \eqn{y}-coordinates in `data`.
 #' Default value is `~x+y`.  
 #' 
-#' @param by a two-sided \link[stats]{formula}, see function [aggregate2()]
+#' @param by a two-sided \link[stats]{formula}
 #' 
 #' @param data a \link[base]{data.frame}
 #' 
@@ -82,7 +82,6 @@ grouped_ppp <- function(
     interaction(drop = TRUE, lex.order = TRUE) # one or more hierarchy
   
   hf <- data[unique(c(all.vars(by[[3L]]), vars))] |> # grouping structure as the first column(s)
-    #aggregate2(by = by, FUN = unique_or_identity, simplify = TRUE, drop = TRUE) |>
     aggregate.data.frame(by = list(.f = f), FUN = unique_or_identity, simplify = TRUE, drop = TRUE) |>
     as.hyperframe.data.frame()
   hf$.f <- NULL

@@ -72,7 +72,7 @@ aggregate2 <- function(data, by, ...) {
     as.list.data.frame() |>
     interaction(drop = TRUE, lex.order = TRUE) |>
     list(.f = _) |>
-    aggregate.data.frame(x = data[vars], by = _, ...)
+    aggregate.data.frame(x = data[unique(c(all.vars(by[[3L]]), vars))], by = _, ...) # grouping structure as the first column(s)
   z$.f <- NULL
   return(z)
   

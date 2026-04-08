@@ -22,7 +22,7 @@ where \eqn{m_i}'s are one or more \link[spatstat.geom]{marks}}
 of the \eqn{x}- and \eqn{y}-coordinates in \code{data}.
 Default value is \code{~x+y}.}
 
-\item{by}{a two-sided \link[stats]{formula}, see function \code{\link[=aggregate2]{aggregate2()}}}
+\item{by}{a two-sided \link[stats]{formula}}
 
 \item{data}{a \link[base]{data.frame}}
 
