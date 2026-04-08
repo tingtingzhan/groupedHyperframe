@@ -14,5 +14,6 @@ unique_or_identity(x)
 The function \code{\link[=unique_or_identity]{unique_or_identity()}} returns an R object.
 }
 \description{
-Handy \code{FUN}ctions for \link[stats]{aggregate}
+Handy functions to be passed to the parameter \code{FUN} of the function \link[stats]{aggregate}
+and/or \code{\link[=aggregate2]{aggregate2()}}.
 }

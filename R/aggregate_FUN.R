@@ -1,6 +1,11 @@
 
 #' @title Handy `FUN`ctions for \link[stats]{aggregate}
 #' 
+#' @description
+#' 
+#' Handy functions to be passed to the parameter `FUN` of the function \link[stats]{aggregate}
+#' and/or [aggregate2()].
+#' 
 #' @param x an R object
 #' 
 #' @returns

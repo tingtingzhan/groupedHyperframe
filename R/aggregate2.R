@@ -38,7 +38,7 @@
 #' returned by the function \link[stats]{aggregate}.
 #' 
 #' @keywords internal
-#' @importFrom stats aggregate.data.frame model.frame update.formula
+#' @importFrom stats aggregate.data.frame model.frame.default update.formula
 #' @export
 aggregate2 <- function(data, by, ...) {
   
@@ -68,7 +68,7 @@ aggregate2 <- function(data, by, ...) {
   
   z <- by[[3L]] |>
     call(name = '~', . = _) |>
-    model.frame(formula = _, data = data) |>
+    model.frame.default(formula = _, data = data) |>
     as.list.data.frame() |>
     interaction(drop = TRUE, lex.order = TRUE) |>
     list(.f = _) |>
@@ -77,8 +77,4 @@ aggregate2 <- function(data, by, ...) {
   return(z)
   
 }
-
-
-
-
 

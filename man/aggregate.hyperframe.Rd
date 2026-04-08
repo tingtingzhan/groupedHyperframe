@@ -4,13 +4,15 @@
 \alias{aggregate.hyperframe}
 \title{Aggregate Hyper Data Frame}
 \usage{
-\method{aggregate}{hyperframe}(x, by, ...)
+\method{aggregate}{hyperframe}(x, by, FUN, ...)
 }
 \arguments{
-\item{x}{a \link[spatstat.geom]{hyperframe}}
+\item{x}{\link[spatstat.geom]{hyperframe}}
 
-\item{by}{a one-sided \link[stats]{formula},
-containing regular-column names of the input \code{x}}
+\item{by}{two-sided \link[stats]{formula},
+whose right-hand-side contains only the regular-column names of the input \code{x}}
+
+\item{FUN}{\link[base]{function}}
 
 \item{...}{additional parameters, currently not in use}
 }

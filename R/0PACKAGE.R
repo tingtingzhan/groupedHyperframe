@@ -1,14 +1,6 @@
 
-
 #' @import cli
 '_PACKAGE'
-
-if (FALSE) {
-  # collision between
-  ?patchwork::area
-  ?spatstat.geom::area
-  ?MASS::area
-}
 
 
 # citation(auto = packageDescription('groupedHyperframe'))

@@ -14,32 +14,32 @@ grouped_ppp(
 )
 }
 \arguments{
-\item{marks}{a one-sided \link[stats]{formula} in the format of
+\item{marks}{one-sided \link[stats]{formula}, e.g.,
 \code{~ m1+m2},
 where \eqn{m_i}'s are one or more \link[spatstat.geom]{marks}}
 
-\item{coords}{\link[stats]{formula}, variable names
+\item{coords}{one-sided \link[stats]{formula}, variable names
 of the \eqn{x}- and \eqn{y}-coordinates in \code{data}.
 Default value is \code{~x+y}.}
 
-\item{by}{a two-sided \link[stats]{formula}}
+\item{by}{two-sided \link[stats]{formula}}
 
-\item{data}{a \link[base]{data.frame}}
+\item{data}{\link[base]{data.frame}}
 
-\item{window}{an observation window \link[spatstat.geom]{owin},
+\item{window}{observation window \link[spatstat.geom]{owin},
 default value is the \eqn{x}- and \eqn{y}-span of \code{coords} in \code{data}.}
 
 \item{...}{additional parameters, currently not in use}
 }
 \value{
-The function \code{\link[=grouped_ppp]{grouped_ppp()}} returns a (grouped) hyper data frame
-with \emph{one-and-only-one}
+The function \code{\link[=grouped_ppp]{grouped_ppp()}} returns a hyper data frame
+with one-and-only-one
 \link[spatstat.geom]{ppp}-hyper column.
 }
 \description{
-To create a (grouped) hyper data frame with one-and-only-one \link[spatstat.geom]{ppp}-hyper column.
+To create a hyper data frame with one-and-only-one \link[spatstat.geom]{ppp}-hyper column.
 }
 \references{
-\url{https://tingtingzhan.quarto.pub/groupedhyperframe/nonS3/grouped_ppp_appx.html}
+\url{https://tingtingzhan.quarto.pub/groupedhyperframe/grouped_ppp.html}
 }
 \keyword{internal}

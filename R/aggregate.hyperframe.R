@@ -6,10 +6,12 @@
 #' @description
 #' To \link[stats]{aggregate} a \link[spatstat.geom]{hyperframe}.
 #' 
-#' @param x a \link[spatstat.geom]{hyperframe}
+#' @param x \link[spatstat.geom]{hyperframe}
 #' 
-#' @param by a one-sided \link[stats]{formula}, 
-#' containing regular-column names of the input `x`
+#' @param by two-sided \link[stats]{formula}, 
+#' whose right-hand-side contains only the regular-column names of the input `x`
+#' 
+#' @param FUN \link[base]{function}
 #' 
 #' @param ... additional parameters, currently not in use
 #' 
@@ -22,28 +24,27 @@
 aggregate.hyperframe <- function(
     x, 
     by,
+    FUN, 
     ...
 ) {
   
   x0 <- unclass(x)
-  xdf <- x0$df
-  xhc <- x0$hypercolumns
   
-  if (!is.call(by) || by[[1L]] != '~' || length(by) != 2L) stop('`by` must be one-sided formula')
-  if (!is.symbol(by. <- by[[2L]])) stop('right-hand-side of `by` must be a symbol')
-  if (!(as.character(by.) %in% names(xdf))) stop('`.by` must be a column, not a hypercolumn')
+  if (!is.call(by) || by[[1L]] != '~' || length(by) != 3L) stop('`by` must be two-sided formula')
+  if (!is.symbol(by. <- by[[3L]])) stop('right-hand-side of `by` must be a symbol')
+  if (!(as.character(by.) %in% names(x0$df))) stop('Variables in `.by` must be a column, not a hypercolumn')
   
-  f <- xdf[[by.]] |> 
+  f <- x0$df[[by.]] |> 
     as.factor()
-  if (all(table(f) == 1L)) return(x) # exception handling
+  if (all(table(f) == 1L)) return(x) # exception handling (no need to aggregate)
   
-  xdf_ag <- xdf |>
+  xdf_ag <- x0$df |>
     aggregate.data.frame(
       by = list(f), 
-      FUN = unique, # hard-coded!!!!
+      FUN = FUN,
       simplify = TRUE, drop = TRUE)
   xdf_ag <- xdf_ag[-1L]
-  orig_class <- xdf |> lapply(FUN = class)
+  orig_class <- x0$df |> lapply(FUN = class)
   ag_class <- xdf_ag |> lapply(FUN = class)
   id <- which(!mapply(FUN = identical, orig_class, ag_class)) # columns to be turned into hypercolumns
   if (length(id)) {
@@ -55,7 +56,7 @@ aggregate.hyperframe <- function(
     xdf_ag[id] <- NULL 
   }
   
-  xhc_ag <- xhc |>
+  xhc_ag <- x0$hypercolumns |>
     lapply(FUN = split.default, f = f)
   
   ret <- xdf_ag |>

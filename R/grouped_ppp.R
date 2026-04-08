@@ -1,39 +1,37 @@
 
-
-
 #' @title Hyper Data Frame with One-and-Only-One \link[spatstat.geom]{ppp}-Hyper Column
 #' 
 #' @description
-#' To create a (grouped) hyper data frame with one-and-only-one \link[spatstat.geom]{ppp}-hyper column.
+#' To create a hyper data frame with one-and-only-one \link[spatstat.geom]{ppp}-hyper column.
 #' 
-#' @param marks a one-sided \link[stats]{formula} in the format of 
+#' @param marks one-sided \link[stats]{formula}, e.g., 
 #' `~ m1+m2`,
 #' where \eqn{m_i}'s are one or more \link[spatstat.geom]{marks}
 #' 
-#' @param coords \link[stats]{formula}, variable names
+#' @param coords one-sided \link[stats]{formula}, variable names
 #' of the \eqn{x}- and \eqn{y}-coordinates in `data`.
 #' Default value is `~x+y`.  
 #' 
-#' @param by a two-sided \link[stats]{formula}
+#' @param by two-sided \link[stats]{formula}
 #' 
-#' @param data a \link[base]{data.frame}
+#' @param data \link[base]{data.frame}
 #' 
-#' @param window an observation window \link[spatstat.geom]{owin}, 
+#' @param window observation window \link[spatstat.geom]{owin}, 
 #' default value is the \eqn{x}- and \eqn{y}-span of `coords` in `data`.
 #' 
 #' @param ... additional parameters, currently not in use
 #' 
 #' @returns
-#' The function [grouped_ppp()] returns a (grouped) hyper data frame
-#' with *one-and-only-one*
+#' The function [grouped_ppp()] returns a hyper data frame
+#' with one-and-only-one
 #' \link[spatstat.geom]{ppp}-hyper column.
 #' 
 #' @references
-#' \url{https://tingtingzhan.quarto.pub/groupedhyperframe/nonS3/grouped_ppp_appx.html}
+#' \url{https://tingtingzhan.quarto.pub/groupedhyperframe/grouped_ppp.html}
 #' 
 #' @keywords internal
 #' @importFrom spatstat.geom owin ppp as.hyperframe.data.frame split.ppp solapply
-#' @importFrom stats model.frame aggregate.data.frame
+#' @importFrom stats model.frame.default aggregate.data.frame
 #' @export
 grouped_ppp <- function(
     marks,
@@ -69,11 +67,9 @@ grouped_ppp <- function(
     vars <- all.vars(by)
   }
   
-  
-  
   f <- by[[3L]] |> 
     call(name = '~', . = _) |>
-    model.frame(formula = _, data = data) |>
+    model.frame.default(formula = _, data = data) |>
     as.list.data.frame() |>
     interaction(drop = TRUE, lex.order = TRUE) # one or more hierarchy
   
