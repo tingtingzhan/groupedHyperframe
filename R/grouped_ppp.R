@@ -69,11 +69,7 @@ grouped_ppp <- function(
     vars <- all.vars(by)
   }
   
-  unique_or_identity <- \(x) {
-    u = unique(x)
-    if (length(u) == 1L) return(u)
-    return(x)
-  }
+  
   
   f <- by[[3L]] |> 
     call(name = '~', . = _) |>
