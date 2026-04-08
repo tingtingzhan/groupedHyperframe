@@ -51,18 +51,22 @@ grouped_ppp <- function(
       factor(i) # drop empty levels!!
     })
   
-  if (by[[2L]] == '.') {
-    by2var <- names(data) |>
-      setdiff(y = c(
-        all.vars(marks),
-        all.vars(coords),
-        all.vars(by[[3L]])
-      ))
+  if (is.symbol(by[[2L]]) && (by[[2L]] == '.')) {
+    # old name `by2var`
+    vars <- names(data) |>
+      setdiff(y = c(all.vars(marks), all.vars(coords)))
+  } else if (is.call(by[[2L]]) && (by[[2L]][[1L]] == '-')) {
+    # e.g. `by = . - x1 - x2 ~ subj_id/image_id`
+    vars <- names(data) |>
+      setdiff(y = c(all.vars(marks), all.vars(coords))) |>
+      lapply(FUN = as.symbol) |>
+      Reduce(f = \(e1, e2) call(name = '+', e1, e2)) |>
+      call(name = '~', . = _) |>
+      eval() |>
+      update.formula(new = call(name = '~', by[[2L]])) |>
+      all.vars()
   } else {
-    if ('.' %in% all.vars(by[[2L]])) stop('do not allow')
-    by2var <- by[[2L]] |>
-      all.vars() |>
-      unique.default() # just to be double sure
+    vars <- all.vars(by)
   }
   
   unique_or_identity <- \(x) {
@@ -77,7 +81,7 @@ grouped_ppp <- function(
     as.list.data.frame() |>
     interaction(drop = TRUE, lex.order = TRUE) # one or more hierarchy
   
-  hf <- data[c(all.vars(by[[3L]]), by2var)] |>
+  hf <- data[unique(c(all.vars(by[[3L]]), vars))] |> # grouping structure as the first column(s)
     #aggregate2(by = by, FUN = unique_or_identity, simplify = TRUE, drop = TRUE) |>
     aggregate.data.frame(by = list(.f = f), FUN = unique_or_identity, simplify = TRUE, drop = TRUE) |>
     as.hyperframe.data.frame()

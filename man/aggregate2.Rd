@@ -4,10 +4,10 @@
 \alias{aggregate2}
 \title{Aggregate, an Alternative \link[stats]{formula}-Interface}
 \usage{
-aggregate2(x, by, ...)
+aggregate2(data, by, ...)
 }
 \arguments{
-\item{x}{a \link[base]{data.frame}}
+\item{data}{a \link[base]{data.frame}}
 
 \item{by}{a two-sided \link[stats]{formula}}
 

@@ -5,7 +5,7 @@
 #' An alternative aggregation function with a \link[stats]{formula}-interface, 
 #' to avoid the \link[base]{cbind}-operation in the function \link[stats]{aggregate.formula}.
 #' 
-#' @param x a \link[base]{data.frame}
+#' @param data a \link[base]{data.frame}
 #' 
 #' @param by a two-sided \link[stats]{formula}
 #' 
@@ -38,12 +38,12 @@
 #' returned by the function \link[stats]{aggregate}.
 #' 
 #' @keywords internal
-#' @importFrom stats aggregate.data.frame model.frame
+#' @importFrom stats aggregate.data.frame model.frame update.formula
 #' @export
-aggregate2 <- function(x, by, ...) {
+aggregate2 <- function(data, by, ...) {
   
-  # drop unused factor levels in all columns of `x`
-  x[] <- x |>
+  # drop unused factor levels in all columns of `data`
+  data[] <- data |>
     lapply(FUN = \(i) {
       if (!is.factor(i)) return(i)
       factor(i) # drop empty levels!!
@@ -51,25 +51,28 @@ aggregate2 <- function(x, by, ...) {
   
   if (!is.call(by) || (by[[1L]] != '~') || (length(by) != 3L)) stop('`by` must be two-sided formula')
   
-  if (by[[2L]] == '.') {
-    #vars <- setdiff(x = names(x), y = all.vars(by[[3L]]))
-    vars <- names(x)
+  if (is.symbol(by[[2L]]) && (by[[2L]] == '.')) {
+    vars <- names(data)
+  } else if (is.call(by[[2L]]) && (by[[2L]][[1L]] == '-')) {
+    # e.g. `by = . - x1 - x2 ~ subj_id/image_id`
+    vars <- names(data) |>
+      lapply(FUN = as.symbol) |>
+      Reduce(f = \(e1, e2) call(name = '+', e1, e2)) |>
+      call(name = '~', . = _) |>
+      eval() |>
+      update.formula(new = call(name = '~', by[[2L]])) |>
+      all.vars()
   } else {
-    #vars <- all.vars(by[[2L]])
     vars <- all.vars(by)
   }
   
   z <- by[[3L]] |>
     call(name = '~', . = _) |>
-    model.frame(formula = _, data = x) |>
+    model.frame(formula = _, data = data) |>
     as.list.data.frame() |>
-    #lapply(FUN = \(i) {
-    #  if (is.factor(i)) return(i)
-    #  return(factor(i, levels = unique(i)))
-    #}) |>
     interaction(drop = TRUE, lex.order = TRUE) |>
     list(.f = _) |>
-    aggregate.data.frame(x = x[vars], by = _, ...)
+    aggregate.data.frame(x = data[vars], by = _, ...)
   z$.f <- NULL
   return(z)
   
