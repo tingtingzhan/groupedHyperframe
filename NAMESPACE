@@ -3,7 +3,7 @@
 S3method(aggregate,hyperframe)
 export(aggregate2)
 export(aggregate_quantile)
-export(grouped_ppp)
+export(pppBy)
 export(unique_or_identity)
 import(cli)
 importFrom(spatstat.geom,as.hyperframe.data.frame)

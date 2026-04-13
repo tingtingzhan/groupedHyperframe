@@ -22,7 +22,7 @@
 #' @param ... additional parameters, currently not in use
 #' 
 #' @returns
-#' The function [grouped_ppp()] returns a hyper data frame
+#' The function [pppBy()] returns a hyper data frame
 #' with one-and-only-one
 #' \link[spatstat.geom]{ppp}-hyper column.
 #' 
@@ -33,7 +33,7 @@
 #' @importFrom spatstat.geom owin ppp as.hyperframe.data.frame split.ppp solapply
 #' @importFrom stats model.frame.default aggregate.data.frame
 #' @export
-grouped_ppp <- function(
+pppBy <- function(
     marks,
     coords = ~ x + y, 
     by,
@@ -50,7 +50,6 @@ grouped_ppp <- function(
     })
   
   if (is.symbol(by[[2L]]) && (by[[2L]] == '.')) {
-    # old name `by2var`
     vars <- names(data) |>
       setdiff(y = c(all.vars(marks), all.vars(coords)))
   } else if (is.call(by[[2L]]) && (by[[2L]][[1L]] == '-')) {
