@@ -19,7 +19,7 @@
 #' @param window observation window \link[spatstat.geom]{owin}, 
 #' default value is the \eqn{x}- and \eqn{y}-span of `coords` in `data`.
 #' 
-#' @param ... additional parameters, currently not in use
+#' @param ... additional parameters of the function \link[spatstat.geom]{ppp}
 #' 
 #' @returns
 #' The function [pppBy()] returns a hyper data frame
@@ -27,10 +27,10 @@
 #' \link[spatstat.geom]{ppp}-hyper column.
 #' 
 #' @references
-#' \url{https://tingtingzhan.quarto.pub/groupedhyperframe/grouped_ppp.html}
+#' \url{https://tingtingzhan.quarto.pub/groupedhyperframe/pppBy.html}
 #' 
 #' @keywords internal
-#' @importFrom spatstat.geom owin ppp as.hyperframe.data.frame split.ppp solapply
+#' @importFrom spatstat.geom owin ppp as.hyperframe.data.frame split.ppp
 #' @importFrom stats model.frame.default aggregate.data.frame
 #' @export
 pppBy <- function(
@@ -85,12 +85,9 @@ pppBy <- function(
   if (!length(.y <- data[[y]]) || anyNA(.y)) stop('Do not allow missingness in y-coordinates')
   
   force(window)
-  hf$ppp. <- ppp(x = .x, y = .y, window = window, marks = data[all.vars(marks)], checkdup = FALSE, drop = FALSE) |> # `drop = FALSE` important!!!
-    split.ppp(f = f, drop = FALSE) |>
-    solapply(FUN = \(i) {
-      rownames(i$marks) <- NULL # from spatstat.geom::split.ppp
-      return(i)
-    })
+  hf$ppp. <- data[all.vars(marks)] |> # future: use stats::model.frame
+    ppp(x = .x, y = .y, window = window, marks = _, ...) |>
+    split.ppp(f = f)
 
   return(hf)
   

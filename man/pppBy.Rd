@@ -29,7 +29,7 @@ Default value is \code{~x+y}.}
 \item{window}{observation window \link[spatstat.geom]{owin},
 default value is the \eqn{x}- and \eqn{y}-span of \code{coords} in \code{data}.}
 
-\item{...}{additional parameters, currently not in use}
+\item{...}{additional parameters of the function \link[spatstat.geom]{ppp}}
 }
 \value{
 The function \code{\link[=pppBy]{pppBy()}} returns a hyper data frame
@@ -40,6 +40,6 @@ with one-and-only-one
 To create a hyper data frame with one-and-only-one \link[spatstat.geom]{ppp}-hyper column.
 }
 \references{
-\url{https://tingtingzhan.quarto.pub/groupedhyperframe/grouped_ppp.html}
+\url{https://tingtingzhan.quarto.pub/groupedhyperframe/pppBy.html}
 }
 \keyword{internal}
