@@ -64,6 +64,7 @@ pppBy <- function(
       all.vars()
   } else {
     vars <- all.vars(by)
+    if (!all(vars %in% names(data))) stop()
   }
   
   f <- by[[3L]] |> 
@@ -71,11 +72,15 @@ pppBy <- function(
     model.frame.default(formula = _, data = data) |>
     as.list.data.frame() |>
     interaction(drop = TRUE, lex.order = TRUE) # one or more hierarchy
+  if (all(table(f) == 1L)) stop('shouldnt happen')
   
-  hf <- data[unique(c(all.vars(by[[3L]]), vars))] |> # grouping structure as the first column(s)
-    aggregate.data.frame(by = list(.f = f), FUN = unique_or_identity, simplify = TRUE, drop = TRUE) |>
+  d_ag <- data[unique(c(all.vars(by[[3L]]), vars))] |> # grouping structure as the first column(s)
+    aggregate.data.frame(by = list(.f = f), FUN = unique_or_identity, simplify = FALSE, drop = TRUE) 
+  d_ag[] <- d_ag |>
+    lapply(FUN = manual_simplify)
+  hf <- d_ag |>
     as.hyperframe.data.frame()
-  hf$.f <- NULL
+  hf <- hf[-1L]
   
   xy_ <- as.list.default(coords[[2L]])
   if ((xy_[[1L]] != '+') || (length(xy_) != 3L)) stop('Specify x and y coordinates names as ~x+y')

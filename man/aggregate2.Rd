@@ -11,7 +11,8 @@ aggregate2(data, by, ...)
 
 \item{by}{a two-sided \link[stats]{formula}}
 
-\item{...}{additional parameters of the function \link[stats]{aggregate.data.frame}}
+\item{...}{additional parameters of the function \link[stats]{aggregate.data.frame},
+\emph{except for} \code{simplify}}
 }
 \value{
 The function \code{\link[=aggregate2]{aggregate2()}} returns a \link[base]{data.frame}.

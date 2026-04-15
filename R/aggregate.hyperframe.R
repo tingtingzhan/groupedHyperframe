@@ -1,6 +1,4 @@
 
-# re-write this function and contribute to Adrian!!!
-
 #' @title Aggregate Hyper Data Frame
 #' 
 #' @description
@@ -11,57 +9,70 @@
 #' @param by two-sided \link[stats]{formula}, 
 #' whose right-hand-side contains only the regular-column names of the input `x`
 #' 
-#' @param FUN \link[base]{function}
-#' 
-#' @param ... additional parameters, currently not in use
+#' @param ... additional parameters of the function \link[stats]{aggregate.data.frame},
+#' *except for* `simplify`
 #' 
 #' @returns 
 #' The `S3` method [aggregate.hyperframe()] returns a \link[spatstat.geom]{hyperframe}.
 #'  
-#' @importFrom spatstat.geom cbind.hyperframe
+#' @importFrom spatstat.geom as.hyperframe.data.frame cbind.hyperframe names.hyperframe subset.hyperframe
 #' @importFrom stats aggregate aggregate.data.frame
 #' @export
 aggregate.hyperframe <- function(
     x, 
     by,
-    FUN, 
     ...
 ) {
   
-  x0 <- unclass(x)
-  
   if (!is.call(by) || by[[1L]] != '~' || length(by) != 3L) stop('`by` must be two-sided formula')
-  if (!is.symbol(by. <- by[[3L]])) stop('right-hand-side of `by` must be a symbol')
-  if (!(as.character(by.) %in% names(x0$df))) stop('Variables in `.by` must be a column, not a hypercolumn')
+  if (!all(all.vars(by[[3L]]) %in% names(unclass(x)$df))) stop('Variables in right-hand-side of `by` must be columns, not hypercolumns')
   
-  f <- x0$df[[by.]] |> 
-    as.factor()
+  f <- by[[3L]] |>
+    call(name = '~', . = _) |>
+    model.frame.default(formula = _, data = unclass(x)$df) |>
+    as.list.data.frame() |>
+    interaction(drop = TRUE, lex.order = TRUE)
   if (all(table(f) == 1L)) return(x) # exception handling (no need to aggregate)
   
-  xdf_ag <- x0$df |>
-    aggregate.data.frame(
-      by = list(f), 
-      FUN = FUN,
-      simplify = TRUE, drop = TRUE)
-  xdf_ag <- xdf_ag[-1L]
-  orig_class <- x0$df |> lapply(FUN = class)
-  ag_class <- xdf_ag |> lapply(FUN = class)
-  id <- which(!mapply(FUN = identical, orig_class, ag_class)) # columns to be turned into hypercolumns
-  if (length(id)) {
-    names(id) |>
-      col_blue() |> style_bold() |>
-      paste(collapse = ', ') |>
-      sprintf(fmt = 'Variable(s) %s removed from aggregation') |>
-      message()
-    xdf_ag[id] <- NULL 
+  if (is.symbol(by[[2L]]) && (by[[2L]] == '.')) {
+    vars <- names.hyperframe(x)
+  } else if (is.call(by[[2L]]) && (by[[2L]][[1L]] == '-')) {
+    # e.g. `by = . - x1 - x2 ~ subj_id/image_id`
+    vars <- names.hyperframe(x) |>
+      lapply(FUN = as.symbol) |>
+      Reduce(f = \(e1, e2) call(name = '+', e1, e2)) |>
+      call(name = '~', . = _) |>
+      eval() |>
+      update.formula(new = call(name = '~', by[[2L]])) |>
+      all.vars()
+  } else {
+    vars <- all.vars(by)
+    if (!all(vars %in% names.hyperframe(x))) stop()
   }
   
-  xhc_ag <- x0$hypercolumns |>
+  x. <- x |> 
+    subset.hyperframe(
+      select = c(all.vars(by[[3L]]), vars) |> 
+        unique.default()
+    )
+  # ?spatstat.geom::`[.hyperframe` # may have bugs..
+  # ?spatstat.geom::subset.hyperframe # seems more reliable
+
+  x0 <- unclass(x.)
+  
+  odf <- x0$df |>
+    aggregate.data.frame(x = _, by = list(.f = f), ..., simplify = FALSE)
+  odf[] <- odf |> 
+    lapply(FUN = manual_simplify)
+  odf <- odf[-1L]
+  
+  ohc <- x0$hypercolumns |>
     lapply(FUN = split.default, f = f)
   
-  ret <- xdf_ag |>
+  ret <- odf |>
+    as.hyperframe.data.frame() |>
     list() |>
-    c(xhc_ag) |>
+    c(ohc) |>
     do.call(
       what = cbind.hyperframe, 
       args = _
@@ -70,9 +81,5 @@ aggregate.hyperframe <- function(
   return(ret)
   
 }
-
-
-
-
 
 

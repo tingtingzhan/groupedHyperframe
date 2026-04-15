@@ -19,3 +19,11 @@ unique_or_identity <- \(x) {
   return(x)
 }
 
+
+
+
+manual_simplify <- \(x) {
+  if (!is.list(x)) return(x)
+  if (all(lengths(x) == 1L)) return(unlist(x))
+  return(x)
+}

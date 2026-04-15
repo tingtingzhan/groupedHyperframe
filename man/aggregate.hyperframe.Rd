@@ -4,7 +4,7 @@
 \alias{aggregate.hyperframe}
 \title{Aggregate Hyper Data Frame}
 \usage{
-\method{aggregate}{hyperframe}(x, by, FUN, ...)
+\method{aggregate}{hyperframe}(x, by, ...)
 }
 \arguments{
 \item{x}{\link[spatstat.geom]{hyperframe}}
@@ -12,9 +12,8 @@
 \item{by}{two-sided \link[stats]{formula},
 whose right-hand-side contains only the regular-column names of the input \code{x}}
 
-\item{FUN}{\link[base]{function}}
-
-\item{...}{additional parameters, currently not in use}
+\item{...}{additional parameters of the function \link[stats]{aggregate.data.frame},
+\emph{except for} \code{simplify}}
 }
 \value{
 The \code{S3} method \code{\link[=aggregate.hyperframe]{aggregate.hyperframe()}} returns a \link[spatstat.geom]{hyperframe}.

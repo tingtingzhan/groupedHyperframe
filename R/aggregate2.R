@@ -9,7 +9,8 @@
 #' 
 #' @param by a two-sided \link[stats]{formula}
 #' 
-#' @param ... additional parameters of the function \link[stats]{aggregate.data.frame}
+#' @param ... additional parameters of the function \link[stats]{aggregate.data.frame},
+#' *except for* `simplify`
 #' 
 #' @details
 #' The \link[base]{cbind}-operation in the function \link[stats]{aggregate.formula} 
@@ -64,16 +65,23 @@ aggregate2 <- function(data, by, ...) {
       all.vars()
   } else {
     vars <- all.vars(by)
+    if (!all(vars %in% names(data))) stop()
   }
   
-  z <- by[[3L]] |>
+  out <- data[unique(c(all.vars(by[[3L]]), vars))]
+  
+  f <- by[[3L]] |>
     call(name = '~', . = _) |>
     model.frame.default(formula = _, data = data) |>
     as.list.data.frame() |>
-    interaction(drop = TRUE, lex.order = TRUE) |>
-    list(.f = _) |>
-    aggregate.data.frame(x = data[unique(c(all.vars(by[[3L]]), vars))], by = _, ...) # grouping structure as the first column(s)
-  z$.f <- NULL
+    interaction(drop = TRUE, lex.order = TRUE)
+  if (all(table(f) == 1L)) return(out) # exception handling, no aggregation needed!!
+  
+  z <- out |>
+    aggregate.data.frame(x = _, by = list(.f = f), simplify = FALSE, ...)
+  z[] <- z |> 
+    lapply(FUN = manual_simplify)
+  z <- z[-1L] # grouping structure as the first column(s)
   return(z)
   
 }
