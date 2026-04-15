@@ -75,12 +75,13 @@ pppBy <- function(
   if (all(table(f) == 1L)) stop('shouldnt happen')
   
   d_ag <- data[unique(c(all.vars(by[[3L]]), vars))] |> # grouping structure as the first column(s)
-    aggregate.data.frame(by = list(.f = f), FUN = unique_or_identity, simplify = FALSE, drop = TRUE) 
-  d_ag[] <- d_ag |>
-    lapply(FUN = manual_simplify)
+    aggregate.data.frame(by = list(.f = f), FUN = unique_or_identity, simplify = TRUE, drop = TRUE) 
+  # must use `simplify = TRUE` for `Surv`-column!!
+  d_ag[] <- d_ag |> 
+    lapply(FUN = unsimplify)
   hf <- d_ag |>
     as.hyperframe.data.frame()
-  hf <- hf[-1L]
+  hf <- hf[-1L] # grouping structure on the 1st column removed
   
   xy_ <- as.list.default(coords[[2L]])
   if ((xy_[[1L]] != '+') || (length(xy_) != 3L)) stop('Specify x and y coordinates names as ~x+y')

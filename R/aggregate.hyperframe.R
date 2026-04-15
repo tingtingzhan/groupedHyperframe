@@ -61,10 +61,11 @@ aggregate.hyperframe <- function(
   x0 <- unclass(x.)
   
   odf <- x0$df |>
-    aggregate.data.frame(x = _, by = list(.f = f), ..., simplify = FALSE)
+    aggregate.data.frame(x = _, by = list(.f = f), ..., simplify = TRUE)
+  # must use `simplify = TRUE` for `Surv`-column!!
   odf[] <- odf |> 
-    lapply(FUN = manual_simplify)
-  odf <- odf[-1L]
+    lapply(FUN = unsimplify)
+  odf <- odf[-1L] # grouping structure on the 1st column removed
   
   ohc <- x0$hypercolumns |>
     lapply(FUN = split.default, f = f)

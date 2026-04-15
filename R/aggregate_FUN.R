@@ -22,8 +22,12 @@ unique_or_identity <- \(x) {
 
 
 
-manual_simplify <- \(x) {
-  if (!is.list(x)) return(x)
-  if (all(lengths(x) == 1L)) return(unlist(x))
-  return(x)
+unsimplify <- \(x) {
+  # Surv is.matrix
+  # Surv does not inherits from matrix :)
+  if (!inherits(x, what = 'matrix')) return(x)
+  x |> 
+    asplit(MARGIN = 1L, drop = TRUE)
+  # i.e., `simplify = TRUE` for Surv column,
+  # but un-simplify for 'matrix'
 }
