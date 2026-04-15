@@ -58,16 +58,17 @@ aggregate.hyperframe <- function(
   # ?spatstat.geom::`[.hyperframe` # may have bugs..
   # ?spatstat.geom::subset.hyperframe # seems more reliable
 
-  x0 <- unclass(x.)
-  
-  odf <- x0$df |>
-    aggregate.data.frame(x = _, by = list(.f = f), ..., simplify = TRUE)
-  # must use `simplify = TRUE` for `Surv`-column!!
+  odf <- unclass(x.)$df |>
+    aggregate.data.frame(
+      x = _, 
+      by = list(.f = f), ..., 
+      simplify = TRUE # must!! for `Surv`-column!!
+    )
   odf[] <- odf |> 
     lapply(FUN = unsimplify)
   odf <- odf[-1L] # grouping structure on the 1st column removed
   
-  ohc <- x0$hypercolumns |>
+  ohc <- unclass(x.)$hypercolumns |>
     lapply(FUN = split.default, f = f)
   
   ret <- odf |>

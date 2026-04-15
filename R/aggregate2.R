@@ -78,8 +78,11 @@ aggregate2 <- function(data, by, ...) {
   if (all(table(f) == 1L)) return(out) # exception handling, no aggregation needed!!
   
   z <- out |>
-    aggregate.data.frame(x = _, by = list(.f = f), simplify = TRUE, ...)
-  # must use `simplify = TRUE` for `Surv`-column!!
+    aggregate.data.frame(
+      x = _, 
+      by = list(.f = f), ...,
+      simplify = TRUE # must!! for `Surv`-column!!
+    )
   z[] <- z |> 
     lapply(FUN = unsimplify)
   z <- z[-1L] # grouping structure on the 1st column removed

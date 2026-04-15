@@ -14,7 +14,7 @@
 #' @name aggregate_FUN
 #' @export
 unique_or_identity <- \(x) {
-  u = unique(x)
+  u <- unique(x)
   if (length(u) == 1L) return(u)
   return(x)
 }
