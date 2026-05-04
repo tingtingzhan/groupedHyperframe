@@ -20,6 +20,6 @@ URL:
     https://tingtingzhan-groupedhyperframe.netlify.app
 Depends: R (>= 4.5)
 Imports: cli, spatstat.geom
-Suggests: survival
+Suggests: survival, spatstat.data
 Config/roxygen2/version: 8.0.0
 Config/roxygen2/markdown: TRUE
