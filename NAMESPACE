@@ -3,6 +3,7 @@
 S3method(aggregate,hyperframe)
 S3method(aug4gam,data.frame)
 S3method(aug4gam,hyperframe)
+S3method(aug4gam,vectorlist)
 S3method(print,vectorlist)
 S3method(t,vectorlist)
 export(aggregate2)

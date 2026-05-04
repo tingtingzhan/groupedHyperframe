@@ -4,24 +4,25 @@
 \alias{aug4gam}
 \alias{aug4gam.data.frame}
 \alias{aug4gam.hyperframe}
+\alias{aug4gam.vectorlist}
 \title{Augment Hypercolumn(s) for \link[mgcv]{gam}}
 \usage{
-aug4gam(data, ...)
+aug4gam(x, ...)
 
-\method{aug4gam}{data.frame}(data, ...)
+\method{aug4gam}{data.frame}(x, ...)
 
-\method{aug4gam}{hyperframe}(data, ...)
+\method{aug4gam}{hyperframe}(x, ...)
+
+\method{aug4gam}{vectorlist}(x, ...)
 }
 \arguments{
-\item{data}{\link[spatstat.geom]{hyperframe}}
+\item{x}{see \strong{Usage}}
 
 \item{...}{additional parameters, currently of no use}
 }
 \description{
-Augment Hypercolumn(s) for \link[mgcv]{gam}
-}
-\details{
-All \link[base]{numeric} \link[base]{vector} hypercolumns will be augmented.
+Augment \emph{all} \link[base]{numeric} \link[base]{vector} hypercolumns in a \link[spatstat.geom]{hyperframe}
+for \link[mgcv]{gam}.
 }
 \author{
 Tingting Zhan, Erjia Cui
