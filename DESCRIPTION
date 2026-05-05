@@ -3,7 +3,7 @@ Nickname: Entertaining-but-Useless
 Type: Package
 Title: Grouped Hyper Data Frame
 Version: 0.4.0
-Date: 2026-04-08
+Date: 2026-05-04
 Description: This package is being absorbed into package spatstat.geom.
 LazyData: true
 LazyDataCompression: xz
@@ -18,7 +18,7 @@ URL:
     https://github.com/tingtingzhan/groupedHyperframe,
     https://tingtingzhan.quarto.pub/groupedhyperframe,
     https://tingtingzhan-groupedhyperframe.netlify.app
-Depends: R (>= 4.5)
+Depends: R (>= 4.6)
 Imports: cli, spatstat.geom
 Suggests: survival, spatstat.data
 Config/roxygen2/version: 8.0.0
