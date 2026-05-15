@@ -12,8 +12,6 @@ This package is being absorbed into package spatstat.geom.
 Useful links:
 \itemize{
   \item \url{https://github.com/tingtingzhan/groupedHyperframe}
-  \item \url{https://tingtingzhan.quarto.pub/groupedhyperframe}
-  \item \url{https://tingtingzhan-groupedhyperframe.netlify.app}
 }
 
 }
