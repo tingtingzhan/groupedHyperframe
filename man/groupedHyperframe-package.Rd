@@ -6,7 +6,7 @@
 \alias{groupedHyperframe-package}
 \title{groupedHyperframe: Grouped Hyper Data Frame}
 \description{
-This package is being absorbed into package spatstat.geom.
+Some tiny but critical patches that are being absorbed into package spatstat.geom.
 }
 \seealso{
 Useful links:
