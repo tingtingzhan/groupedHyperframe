@@ -1,7 +1,7 @@
 Package: groupedHyperframe
 Type: Package
 Title: Grouped Hyper Data Frame
-Version: 0.4.0
+Version: 0.4.1
 Date: 2026-05-14
 Description: This package is being absorbed into package spatstat.geom.
 LazyData: true
