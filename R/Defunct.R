@@ -54,7 +54,9 @@ cli_RPubs_ <- \(...) cli_book_(fmt = '{.url https://rpubs.com/%s/%s}', ..., prin
 #' 
 #' @param ... Defunct parameters
 #' 
-#' @keywords internal
+#' @returns 
+#' The \link[base]{.Defunct} functions do not have a returned value.
+#' 
 #' @name defunct
 #' @export
 aggregate_quantile <- function(...) {

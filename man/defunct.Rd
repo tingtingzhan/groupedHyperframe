@@ -10,7 +10,9 @@ aggregate_quantile(...)
 \arguments{
 \item{...}{Defunct parameters}
 }
+\value{
+The \link[base]{.Defunct} functions do not have a returned value.
+}
 \description{
 The functions mentioned in hard-copy journals, but later \link[base]{.Defunct}.
 }
-\keyword{internal}

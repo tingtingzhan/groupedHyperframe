@@ -20,6 +20,9 @@ aug4gam(x, ...)
 
 \item{...}{additional parameters, currently of no use}
 }
+\value{
+The \code{S3} generic function \code{\link[=aug4gam]{aug4gam()}} returns a \link[base]{data.frame}.
+}
 \description{
 Augment \emph{all} \link[base]{numeric} \link[base]{vector} hypercolumns in a \link[spatstat.geom]{hyperframe}
 for \link[mgcv]{gam}.

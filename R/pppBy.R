@@ -26,7 +26,6 @@
 #' with one-and-only-one
 #' \link[spatstat.geom]{ppp}-hyper column.
 #' 
-#' @keywords internal
 #' @importFrom spatstat.geom owin ppp as.hyperframe.data.frame split.ppp
 #' @importFrom stats model.frame.default aggregate.data.frame
 #' @export

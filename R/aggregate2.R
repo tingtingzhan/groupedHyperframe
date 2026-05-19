@@ -38,7 +38,6 @@
 #' is **designed** to handle the \link[base]{list}-columns 
 #' returned by the function \link[stats]{aggregate}.
 #' 
-#' @keywords internal
 #' @importFrom stats aggregate.data.frame model.frame.default update.formula
 #' @export
 aggregate2 <- function(data, by, ...) {

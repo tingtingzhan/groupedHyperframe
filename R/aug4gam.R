@@ -5,11 +5,12 @@
 #' Augment *all* \link[base]{numeric} \link[base]{vector} hypercolumns in a \link[spatstat.geom]{hyperframe} 
 #' for \link[mgcv]{gam}.
 #' 
-#' 
-#' 
 #' @param x see **Usage**
 #' 
 #' @param ... additional parameters, currently of no use
+#' 
+#' @returns
+#' The `S3` generic function [aug4gam()] returns a \link[base]{data.frame}.
 #' 
 #' @author 
 #' Tingting Zhan, Erjia Cui

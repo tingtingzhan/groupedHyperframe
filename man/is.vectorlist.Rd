@@ -2,7 +2,7 @@
 % Please edit documentation in R/vectorlist.R
 \name{is.vectorlist}
 \alias{is.vectorlist}
-\title{\link{is.vectorlist}}
+\title{Vector-List}
 \usage{
 is.vectorlist(
   x,
@@ -13,10 +13,17 @@ is.vectorlist(
 \item{x}{a \link[stats]{listof}}
 
 \item{mode}{\link[base]{character} scalar other than \code{'any'}, \code{'complex'} and '\code{raw}',
-see function \link[base]{is.vector}}
+see the function \link[base]{is.vector}}
+}
+\value{
+The function \code{\link[=is.vectorlist]{is.vectorlist()}} returns a \link[base]{logical} scalar.
 }
 \description{
-\link{is.vectorlist}
+To determine if an R object is a \link[base]{list} of
+\link[base]{vector}s with the same
+\link[base]{storage.mode},
+\link[base]{length} and
+\link[base]{attributes}.
 }
 \examples{
 spatstat.data::Kovesi$values |>
@@ -25,4 +32,3 @@ spatstat.data::Kovesi$values |>
 spatstat.data::Kovesi$values |>
  is.vectorlist(mode = 'numeric')
 }
-\keyword{internal}

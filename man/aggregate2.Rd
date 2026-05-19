@@ -44,4 +44,3 @@ The function \link[spatstat.geom]{as.hyperframe.data.frame}
 is \strong{designed} to handle the \link[base]{list}-columns
 returned by the function \link[stats]{aggregate}.
 }
-\keyword{internal}

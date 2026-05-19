@@ -39,4 +39,3 @@ with one-and-only-one
 \description{
 To create a hyper data frame with one-and-only-one \link[spatstat.geom]{ppp}-hyper column.
 }
-\keyword{internal}

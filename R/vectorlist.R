@@ -1,11 +1,22 @@
 
 
-#' @title [is.vectorlist]
+#' @title Vector-List
+#' 
+#' @description
+#' To determine if an R object is a \link[base]{list} of 
+#' \link[base]{vector}s with the same 
+#' \link[base]{storage.mode},
+#' \link[base]{length} and
+#' \link[base]{attributes}.
+#' 
 #' 
 #' @param x a \link[stats]{listof}
 #' 
 #' @param mode \link[base]{character} scalar other than `'any'`, `'complex'` and '`raw`',
-#' see function \link[base]{is.vector}
+#' see the function \link[base]{is.vector}
+#' 
+#' @returns
+#' The function [is.vectorlist()] returns a \link[base]{logical} scalar.
 #' 
 #' @examples
 #' spatstat.data::Kovesi$values |>
@@ -13,7 +24,6 @@
 #'  stopifnot()
 #' spatstat.data::Kovesi$values |>
 #'  is.vectorlist(mode = 'numeric')
-#' @keywords internal
 #' @export
 is.vectorlist <- function(
     x, 
@@ -50,17 +60,19 @@ is.vectorlist <- function(
 }
 
 
-#' @title [as.vectorlist]
+#' @title Convert R Object to `vectorlist`
 #' 
 #' @param x a \link[base]{list}
 #' 
 #' @param ... additional parameters of the function [is.vectorlist()]
 #' 
+#' @returns
+#' The function [as.vectorlist()] returns an R object of `S3` class `'vectorlist'`.
+#' 
 #' @examples
 #' list(rnorm(6L), rnorm(6L)) |>
 #'  as.vectorlist()
 #' 
-#' @keywords internal
 #' @export
 as.vectorlist <- function(x, ...) {
   if (!is.vectorlist(x, ...)) stop('input does not qualify as a `vectorlist`')
