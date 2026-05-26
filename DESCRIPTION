@@ -2,7 +2,7 @@ Package: groupedHyperframe
 Type: Package
 Title: Grouped Hyper Data Frame
 Version: 0.4.1
-Date: 2026-05-19
+Date: 2026-05-25
 Description: To aggregate a hyper data frame, defined in the package 'spatstat.geom', according to a grouping structure.  To facilitate downstream analysis based on a "grouped" hyper data frame.
 LazyData: true
 LazyDataCompression: xz
