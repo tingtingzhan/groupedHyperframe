@@ -14,7 +14,17 @@
 #' 
 #' @returns 
 #' The `S3` method [aggregate.hyperframe()] returns a \link[spatstat.geom]{hyperframe}.
+#'
+#' @examples
+#' spatstat.data::demohyper |>
+#'  aggregate(by = . ~ Group, FUN = unique_or_identity)
+#' 
+#' spatstat.data::flu |>
+#'  aggregate(by = . - frameid ~ virustype:stain, FUN = unique_or_identity)
 #'  
+#' spatstat.data::osteo |>
+#'  aggregate(by = . - brick ~ shortid, FUN = unique_or_identity)
+#'   
 #' @importFrom spatstat.geom as.hyperframe.data.frame cbind.hyperframe names.hyperframe subset.hyperframe
 #' @importFrom stats aggregate aggregate.data.frame
 #' @export

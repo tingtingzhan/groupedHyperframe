@@ -8,7 +8,7 @@
 unique_or_identity(x)
 }
 \arguments{
-\item{x}{an R object}
+\item{x}{a column in a \link[base]{data.frame}, i.e., a \link[base]{vector}, a \link[survival]{Surv} object, etc.}
 }
 \value{
 The function \code{\link[=unique_or_identity]{unique_or_identity()}} returns an R object.

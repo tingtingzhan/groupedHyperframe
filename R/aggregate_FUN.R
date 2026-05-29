@@ -6,7 +6,7 @@
 #' Handy functions to be passed to the parameter `FUN` of the function \link[stats]{aggregate}
 #' and/or [aggregate2()].
 #' 
-#' @param x an R object
+#' @param x a column in a \link[base]{data.frame}, i.e., a \link[base]{vector}, a \link[survival]{Surv} object, etc.
 #' 
 #' @returns
 #' The function [unique_or_identity()] returns an R object.
@@ -23,8 +23,8 @@ unique_or_identity <- \(x) {
 
 
 unsimplify <- \(x) {
-  # Surv is.matrix
-  # Surv does not inherits from matrix :)
+  # survival::Surv is.matrix
+  # survival::Surv does **not** inherits from matrix :)
   if (!inherits(x, what = 'matrix')) return(x)
   x |> 
     asplit(MARGIN = 1L, drop = TRUE)

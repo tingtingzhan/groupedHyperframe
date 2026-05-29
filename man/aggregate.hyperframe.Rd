@@ -21,3 +21,14 @@ The \code{S3} method \code{\link[=aggregate.hyperframe]{aggregate.hyperframe()}}
 \description{
 To \link[stats]{aggregate} a \link[spatstat.geom]{hyperframe}.
 }
+\examples{
+spatstat.data::demohyper |>
+ aggregate(by = . ~ Group, FUN = unique_or_identity)
+
+spatstat.data::flu |>
+ aggregate(by = . - frameid ~ virustype:stain, FUN = unique_or_identity)
+ 
+spatstat.data::osteo |>
+ aggregate(by = . - brick ~ shortid, FUN = unique_or_identity)
+  
+}
