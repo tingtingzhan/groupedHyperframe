@@ -28,11 +28,7 @@
 #' @importFrom spatstat.geom as.hyperframe.data.frame cbind.hyperframe names.hyperframe subset.hyperframe
 #' @importFrom stats aggregate aggregate.data.frame
 #' @export
-aggregate.hyperframe <- function(
-    x, 
-    by,
-    ...
-) {
+aggregate.hyperframe <- function(x, by, ...) {
   
   if (!is.call(by) || by[[1L]] != '~' || length(by) != 3L) stop('`by` must be two-sided formula')
   if (!all(all.vars(by[[3L]]) %in% names(unclass(x)$df))) stop('Variables in right-hand-side of `by` must be columns, not hypercolumns')
