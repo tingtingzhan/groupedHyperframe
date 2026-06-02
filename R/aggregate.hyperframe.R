@@ -17,13 +17,13 @@
 #'
 #' @examples
 #' spatstat.data::demohyper |>
-#'  aggregate(by = . ~ Group, FUN = unique_or_identity)
+#'  aggregate(by = . ~ Group, FUN = unique)
 #' 
 #' spatstat.data::flu |>
-#'  aggregate(by = . - frameid ~ virustype:stain, FUN = unique_or_identity)
+#'  aggregate(by = . - frameid ~ virustype:stain, FUN = unique)
 #'  
 #' spatstat.data::osteo |>
-#'  aggregate(by = . - brick ~ shortid, FUN = unique_or_identity)
+#'  aggregate(by = . - brick ~ shortid, FUN = unique)
 #'   
 #' @importFrom spatstat.geom as.hyperframe.data.frame cbind.hyperframe names.hyperframe subset.hyperframe
 #' @importFrom stats aggregate aggregate.data.frame

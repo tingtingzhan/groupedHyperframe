@@ -74,7 +74,7 @@ pppBy <- function(
     aggregate.data.frame(
       x = _,
       by = list(.f = f), 
-      FUN = unique_or_identity, 
+      FUN = unique, 
       simplify = TRUE # must!! for `Surv`-column!!
     )
   d_ag[] <- d_ag |> 

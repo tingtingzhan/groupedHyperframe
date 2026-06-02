@@ -23,12 +23,12 @@ To \link[stats]{aggregate} a \link[spatstat.geom]{hyperframe}.
 }
 \examples{
 spatstat.data::demohyper |>
- aggregate(by = . ~ Group, FUN = unique_or_identity)
+ aggregate(by = . ~ Group, FUN = unique)
 
 spatstat.data::flu |>
- aggregate(by = . - frameid ~ virustype:stain, FUN = unique_or_identity)
+ aggregate(by = . - frameid ~ virustype:stain, FUN = unique)
  
 spatstat.data::osteo |>
- aggregate(by = . - brick ~ shortid, FUN = unique_or_identity)
+ aggregate(by = . - brick ~ shortid, FUN = unique)
   
 }
