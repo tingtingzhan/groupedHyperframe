@@ -16,17 +16,12 @@
 
 
 
-#' @importFrom cli col_red col_green style_bold cli_text
+#' @importFrom cli col_red col_grey col_blue style_bold cli_text
 
 .onAttach <- \(libname, pkgname) {
   
-  'Author of this R package has retired from academia.' |>
-    col_blue() |>
-    style_bold() |>
-    packageStartupMessage()
-  
   'Backward compatibility with user-code published in' |>
-    col_green() |>
+    col_blue() |>
     style_bold() |>
     packageStartupMessage()
   
@@ -40,9 +35,8 @@
     style_bold() |>
     packageStartupMessage()
   
-  'Author(s) of those publications are the appropriate contacts for reproducibility inquiries.' |>
-    col_green() |>
-    style_bold() |>
+  'The author of this package has retired from academic life and bears no ongoing obligation to any research program, institution, or funding agency. This package is no longer actively maintained as a research tool. Users are strongly advised against relying on this package for academic research, manuscript preparation, or grant applications. Reproducibility inquiries regarding previously published work citing this package should be directed to the authors of those publications.' |>
+    col_grey() |>
     packageStartupMessage()
   
 }
