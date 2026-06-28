@@ -16,7 +16,7 @@
 
 
 
-#' @importFrom cli col_red col_grey col_blue style_bold cli_text
+#' @importFrom cli col_red make_ansi_style col_blue style_bold cli_text
 
 .onAttach <- \(libname, pkgname) {
   
@@ -36,7 +36,7 @@
     packageStartupMessage()
   
   'The author of this package has retired from academic life and bears no ongoing obligation to any research program, institution, or funding agency. This package is no longer actively maintained as a research tool. Users are strongly advised against relying on this package for academic research, manuscript preparation, or grant applications. Reproducibility inquiries regarding previously published work citing this package should be directed to the authors of those publications.' |>
-    col_grey() |>
+    make_ansi_style('grey70')() |>
     packageStartupMessage()
   
 }
