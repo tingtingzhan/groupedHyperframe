@@ -91,7 +91,7 @@ if (FALSE) {
 
 
 
-
+#' @importFrom cli col_br_red col_cyan col_green col_magenta
 #' @export
 print.vectorlist <- function(x, ...) {
   

@@ -10,8 +10,6 @@
 #' 
 #' \doi{10.1093/bioinformatics/btaf430}
 #' 
-#' 
-#' @import cli
 '_PACKAGE'
 
 

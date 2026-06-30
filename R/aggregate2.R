@@ -46,7 +46,7 @@ aggregate2 <- function(data, by, ...) {
   data[] <- data |>
     lapply(FUN = \(i) {
       if (!is.factor(i)) return(i)
-      factor(i) # drop empty levels!!
+      factor(i) # drop empty levels
     })
   
   if (!is.call(by) || (by[[1L]] != '~') || (length(by) != 3L)) stop('`by` must be two-sided formula')
