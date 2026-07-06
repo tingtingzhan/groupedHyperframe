@@ -28,7 +28,7 @@
     style_bold() |>
     packageStartupMessage()
   
-  'is not maintained in versions >= 0.4.0 of this package.' |>
+  'is not maintained in versions >= 0.4.0 (June 2026) of this package.' |>
     col_blue() |>
     style_bold() |>
     packageStartupMessage()
