@@ -15,7 +15,6 @@
 
 
 #' @importFrom cli col_red make_ansi_style col_blue style_bold cli_text
-
 .onAttach <- \(libname, pkgname) {
   
   'Backward compatibility with user-code published in' |>
