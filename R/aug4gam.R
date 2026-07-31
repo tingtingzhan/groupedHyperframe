@@ -21,12 +21,12 @@ aug4gam <- function(x, ...) UseMethod(generic = 'aug4gam')
 
 #' @rdname aug4gam
 #' @export
-aug4gam.data.frame <- function(x, ...) return(x)
+aug4gam.data.frame <- \(x, ...) return(x)
 
 
 #' @rdname aug4gam
 #' @export
-aug4gam.hyperframe <- function(x, ...) {
+aug4gam.hyperframe <- \(x, ...) {
   
   hc <- unclass(x)$hypercolumns
   
@@ -54,7 +54,7 @@ aug4gam.hyperframe <- function(x, ...) {
 
 #' @rdname aug4gam
 #' @export
-aug4gam.vectorlist <- function(x, ...) {
+aug4gam.vectorlist <- \(x, ...) {
   
   Y <- x |> 
     do.call(what = rbind)
